@@ -9,11 +9,11 @@ public class AccountRowMapper {
     public Account mapRowOne(ResultSet rs) {
         Account account = new Account();
         try {
-            while (rs.next()) {
+           if (rs.next()) {
                 account.setUsername(rs.getString("username"));
                 account.setPassword(rs.getString("password"));
-                return account;
             }
+            return account;
         } catch (SQLException e) {
             e.printStackTrace();
         }
