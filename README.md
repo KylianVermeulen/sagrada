@@ -7,7 +7,7 @@ Avans Informatica project 42IN04SOp
 Kylian Vermeulen  
 Peter Romijn  
 Ian Hendriks  
-Tim Kearts  
+Tim Kaerts  
 Leon Niekus  
 Jelles Duin
 
