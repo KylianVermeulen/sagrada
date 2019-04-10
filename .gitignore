@@ -228,9 +228,9 @@ Temporary Items
 
 ### Windows ###
 # Windows thumbnail cache files
-Thumbs.dbConnection
-ehthumbs.dbConnection
-ehthumbs_vista.dbConnection
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
 
 # Dump file
 *.stackdump
