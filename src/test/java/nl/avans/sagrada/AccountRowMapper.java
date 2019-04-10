@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountRowMapper {
+
     public Account mapRowOne(ResultSet rs) {
         Account account = new Account();
         try {
