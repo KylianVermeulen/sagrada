@@ -29,16 +29,20 @@ public class DatabaseTest {
 //            }
 //        }
 
+        // DAO with the sql queries
         AccountDAO accountDAO = new AccountDAO();
 
+        // Get account from db
         Account account = accountDAO.getAccountByUsername("kylian");
         System.out.println(account.getUsername() + "   " + account.getPassword());
 
         System.out.println();
 
+        // Change account password and update db
         account.setPassword("new_password");
         accountDAO.updateAccount(account);
 
+        // Get all accounts from db
         List<Account> list = accountDAO.getAllAccounts();
         for (Account acc : list) {
             System.out.println(acc.getUsername() + "   " + acc.getPassword());
