@@ -7,5 +7,8 @@ public class Main {
         AccountDAO accountDAO = new AccountDAO();
         Account account = accountDAO.getAccountByUsername("kylian");
         System.out.println(account.getUsername());
+
+        account.setPassword("password");
+        accountDAO.updateAccount(account);
     }
 }

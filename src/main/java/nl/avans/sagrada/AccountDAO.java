@@ -17,4 +17,12 @@ public class AccountDAO {
         db.close();
         return account;
     }
+
+    public void updateAccount(Account account) {
+        db.open();
+        String sql = "UPDATE account SET password='"+account.getPassword()+"' WHERE username='"+account.getUsername()+"'";
+        db.executeUpdate(sql);
+
+        db.close();
+    }
 }
