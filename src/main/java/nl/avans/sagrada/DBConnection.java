@@ -16,6 +16,12 @@ public class DBConnection {
     private List<HelperQuery> errorQueries = new ArrayList<>();
     private List<HelperQuery> executedQueries = new ArrayList<>();
 
+    /**
+     * Full constructor
+     *
+     * @param jdbc jdbc url
+     * @param properties Map<String, String> sqlProperties
+     */
     public DBConnection(String jdbc, Map<String, String> properties) {
         this.jdbc = jdbc;
         for (Map.Entry<String, String> entry : properties.entrySet()) {
@@ -23,11 +29,24 @@ public class DBConnection {
         }
     }
 
+    /**
+     * Full constructor
+     *
+     * @param jdbc jdbc url
+     * @param properties Properties sqlProperties
+     */
     public DBConnection(String jdbc, Properties properties) {
         this.jdbc = jdbc;
         this.connectionProperties = properties;
     }
 
+
+    /**
+     * Returns a open connection, make a new connection when conn == null or isClosed
+     *
+     * @return new Connection
+     * @throws SQLException
+     */
     public Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(jdbc, getConnectionProperties());
@@ -36,22 +55,56 @@ public class DBConnection {
         return connection;
     }
 
+    /**
+     * Executes the given HelperQuery on this connection
+     * based on HelperQuery sql and HelperQuery first QueryParameter
+     *
+     * @param helperQuery HelperQuery
+     * @return ResultSet
+     * @throws SQLException SQLException
+     */
     public ResultSet executeQuery(HelperQuery helperQuery) throws SQLException {
         return executeQuery(helperQuery, 0);
     }
 
+    /**
+     * Executes the given HelperQuery on this connection
+     * based on HelperQuery sql and given QueryParameters
+     *
+     * @param helperQuery HelperQuery
+     * @param parameters QueryParameter...
+     * @return ResultSet
+     * @throws SQLException SQLException
+     */
     public ResultSet executeQuery(HelperQuery helperQuery, QueryParameter... parameters) throws SQLException {
         PreparedStatement pstmt = prepareStatement(helperQuery.getSql());
         fillStatement(pstmt, parameters);
         return executeQueryHelper(helperQuery, pstmt);
     }
 
+    /**
+     * Executes the given HelperQuery on this connection
+     * based on HelperQuery sql and HelperQuery QueryParameter on pos
+     *
+     * @param helperQuery HelperQuery
+     * @param pos QueryParameter array position in HelperQuery
+     * @return ResultSet
+     * @throws SQLException SQLException
+     */
     public ResultSet executeQuery(HelperQuery helperQuery, int pos) throws SQLException {
         PreparedStatement pstmt = prepareStatement(helperQuery.getSql());
         fillStatement(pstmt, helperQuery.getParametersList().get(pos));
         return executeQueryHelper(helperQuery, pstmt);
     }
 
+    /**
+     * Used as dependency for the executeQuery methods
+     *
+     * @param helperQuery HelperQuery
+     * @param pstmt PreparedStatement
+     * @return ResultSet
+     * @throws SQLException SQLException
+     */
     private ResultSet executeQueryHelper(HelperQuery helperQuery, PreparedStatement pstmt) throws SQLException {
         ResultSet rs = null;
         try {
@@ -70,17 +123,37 @@ public class DBConnection {
         return rs;
     }
 
+    /**
+     * Executes the given statement (select) and returns result set
+     *
+     * @param pstmt PreparedStatement
+     * @return ResultSet
+     * @throws SQLException SQLException
+     */
     public ResultSet executeStatement(PreparedStatement pstmt) throws SQLException {
         ResultSet rs = pstmt.executeQuery();
         connection.commit();
         return rs;
     }
 
+    /**
+     * Executes the given update statement (insert, update, delete)
+     *
+     * @param pstmt PreparedStatement
+     * @throws SQLException SQLException
+     */
     public void executeUpdateStatement(PreparedStatement pstmt) throws SQLException {
         pstmt.executeUpdate();
         connection.commit();
     }
 
+    /**
+     * Apply QueryParameters to PreparedStatement
+     *
+     * @param pstmt PreparedStatement
+     * @param params QueryParameter...
+     * @throws SQLException SQLException
+     */
     public void fillStatement(PreparedStatement pstmt, QueryParameter... params) throws SQLException {
         for (int i = 1; i <= params.length; i++) {
             QueryParameter param = params[i - 1];
@@ -114,6 +187,13 @@ public class DBConnection {
         }
     }
 
+    /**
+     * Gets (and creates) a connection and returns a PreparedStatement
+     *
+     * @param query sql
+     * @return PreparedStatement
+     * @throws SQLException SQLException
+     */
     public PreparedStatement prepareStatement(String query) throws SQLException {
         return getConnection().prepareStatement(query);
     }
@@ -134,6 +214,11 @@ public class DBConnection {
         return returnList;
     }
 
+    /**
+     * Add a HelperQuery to execute queue
+     *
+     * @param helperQuery HelperQuery
+     */
     public void addQueryToQueue(HelperQuery helperQuery) {
         queuedQueries.add(helperQuery);
     }

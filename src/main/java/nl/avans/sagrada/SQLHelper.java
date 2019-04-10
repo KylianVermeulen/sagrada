@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
+/**
+ * Standalone class for fast query to db
+ */
 public class SQLHelper {
 
     public static ResultSet executeQuery(String jdbc, Map<String, String> properties, String query, String type, QueryParameter... params) throws SQLException {

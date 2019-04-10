@@ -6,7 +6,13 @@ public class QueryParameter {
     private int type = UNSET;
     private Object value = null;
 
-    public QueryParameter(int type, String value) {
+    /**
+     * Constructor
+     *
+     * @param type parameter type
+     * @param value parameter value
+     */
+    public QueryParameter(int type, Object value) {
         this.type = type;
         this.value = value;
     }

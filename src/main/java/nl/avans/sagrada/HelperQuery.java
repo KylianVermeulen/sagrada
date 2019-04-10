@@ -10,6 +10,13 @@ public class HelperQuery {
     private List<QueryParameter[]> parametersList;
     private ResultSet resultSet;
 
+    /**
+     * Partial constructor
+     *
+     * @param sql query
+     * @param type "query" or "update" (insert, update, delete)
+     * @param parameters QueryParameter...
+     */
     public HelperQuery(String sql, String type, QueryParameter... parameters) {
         this.sql = sql;
         this.type = type;
@@ -17,6 +24,13 @@ public class HelperQuery {
         parametersList.add(parameters);
     }
 
+    /**
+     * Full constructor
+     *
+     * @param sql query
+     * @param type "query" (select) or "update" (insert, update, delete)
+     * @param parametersList List<QueryParameter[]>
+     */
     public HelperQuery(String sql, String type, List<QueryParameter[]> parametersList) {
         this.sql = sql;
         this.type = type;
