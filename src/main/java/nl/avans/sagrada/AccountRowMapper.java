@@ -24,7 +24,10 @@ public class AccountRowMapper {
         List<Account> list = new ArrayList<>();
         try {
             while (rs.next()) {
-                list.add(mapRowOne(rs));
+                Account account = new Account();
+                account.setUsername(rs.getString("username"));
+                account.setPassword(rs.getString("password"));
+                list.add(account);
             }
         } catch (SQLException e) {
             e.printStackTrace();
