@@ -12,9 +12,9 @@ public class DBConnection {
     private Connection connection = null;
     private String jdbc = null;
     private Properties connectionProperties = null;
-    private List<HelperQuery> queuedQueries = new java.util.ArrayList<>();
-    private List<HelperQuery> errorQueries = new java.util.ArrayList<>();
-    private List<HelperQuery> executedQueries = new java.util.ArrayList<>();
+    private List<HelperQuery> queuedQueries = new ArrayList<>();
+    private List<HelperQuery> errorQueries = new ArrayList<>();
+    private List<HelperQuery> executedQueries = new ArrayList<>();
 
     public DBConnection(String jdbc, Map<String, String> properties) {
         this.jdbc = jdbc;
@@ -90,7 +90,7 @@ public class DBConnection {
                     pstmt.setBoolean(i, (boolean) value);
                     break;
                 case QueryParameter.DATE:
-                    pstmt.setDate(i, (java.sql.Date) value);
+                    pstmt.setDate(i, (Date) value);
                     break;
                 case QueryParameter.DOUBLE:
                     pstmt.setDouble(i, (double) value);
