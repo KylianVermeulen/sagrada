@@ -3,6 +3,7 @@ package nl.avans.sagrada;
 public class Account {
     private String username;
     private String password;
+    private boolean active;
 
     public String getUsername() {
         return username;
@@ -18,5 +19,13 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

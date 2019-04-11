@@ -28,18 +28,19 @@ public class DatabaseTest {
 
         // Get account from db
         Account account = accountDAO.getAccountByUsername("kylian");
-        System.out.println(account.getUsername() + "   " + account.getPassword());
+        System.out.println(account.getUsername() + "   " + account.getPassword() + "   " + account.isActive());
 
         System.out.println();
 
         // Change account password and update db
         account.setPassword("new_password");
+        account.setActive(true);
         accountDAO.updateAccount(account);
 
         // Get all accounts from db
         List<Account> list = accountDAO.getAllAccounts();
         for (Account acc : list) {
-            System.out.println(acc.getUsername() + "   " + acc.getPassword());
+            System.out.println(acc.getUsername() + "   " + acc.getPassword() + "   " + acc.isActive());
         }
     }
 }

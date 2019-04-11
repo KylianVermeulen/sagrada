@@ -40,8 +40,9 @@ public class AccountDAO {
         DBConnection dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new HelperQuery("UPDATE account SET password=? WHERE username=?", "update"),
+                    new HelperQuery("UPDATE account SET password=?, active=? WHERE username=?", "update"),
                     new QueryParameter(QueryParameter.STRING, account.getPassword()),
+                    new QueryParameter(QueryParameter.BOOLEAN, account.isActive()),
                     new QueryParameter(QueryParameter.STRING, account.getUsername()));
         } catch (SQLException e) {
             e.printStackTrace();

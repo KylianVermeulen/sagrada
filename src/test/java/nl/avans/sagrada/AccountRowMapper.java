@@ -12,6 +12,7 @@ public class AccountRowMapper {
         if (rs.next()) {
             account.setUsername(rs.getString("username"));
             account.setPassword(rs.getString("password"));
+            account.setActive(rs.getBoolean("active"));
         }
         return account;
     }
@@ -22,6 +23,7 @@ public class AccountRowMapper {
             Account account = new Account();
             account.setUsername(rs.getString("username"));
             account.setPassword(rs.getString("password"));
+            account.setActive(rs.getBoolean("active"));
             list.add(account);
         }
         return list;
