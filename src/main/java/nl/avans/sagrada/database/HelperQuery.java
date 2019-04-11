@@ -1,4 +1,4 @@
-package nl.avans.sagrada;
+package nl.avans.sagrada.database;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

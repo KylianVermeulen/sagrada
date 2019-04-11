@@ -1,43 +1,29 @@
-package nl.avans.sagrada;
+package nl.avans.sagrada.database;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DBConnection {
     private static Connection connection = null;
-    private String jdbc = null;
-    private Properties connectionProperties = null;
+    private static String devDatabaseUrl = "jdbc:mysql://sagrada.samebestserver.nl:100/kylian.sagrada?serverTimezone=Europe/Amsterdam";
+    private static String dbPassword = "sagrada";
+    private static String dbUser = "sagrada";
+    private Properties connectionProperties;
     private List<HelperQuery> queuedQueries = new ArrayList<>();
     private List<HelperQuery> errorQueries = new ArrayList<>();
     private List<HelperQuery> executedQueries = new ArrayList<>();
 
     /**
-     * Full constructor
-     *
-     * @param jdbc jdbc url
-     * @param properties Map<String, String> sqlProperties
+     * Empty  constructor
      */
-    public DBConnection(String jdbc, Map<String, String> properties) {
-        this.jdbc = jdbc;
-        for (Map.Entry<String, String> entry : properties.entrySet()) {
-            this.connectionProperties.put(entry.getKey(), entry.getValue());
-        }
-    }
-
-    /**
-     * Full constructor
-     *
-     * @param jdbc jdbc url
-     * @param properties Properties sqlProperties
-     */
-    public DBConnection(String jdbc, Properties properties) {
-        this.jdbc = jdbc;
-        this.connectionProperties = properties;
+    public DBConnection() {
+        connectionProperties = new Properties();
+        connectionProperties.put("user", dbUser);
+        connectionProperties.put("password", dbPassword);
     }
 
 
@@ -49,7 +35,7 @@ public class DBConnection {
      */
     public Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(jdbc, getConnectionProperties());
+            connection = DriverManager.getConnection(devDatabaseUrl, getConnectionProperties());
             connection.setAutoCommit(false);
         }
         return connection;
@@ -223,12 +209,28 @@ public class DBConnection {
         queuedQueries.add(helperQuery);
     }
 
-    public String getJdbc() {
-        return jdbc;
+    public static String getDevDatabaseUrl() {
+        return devDatabaseUrl;
     }
 
-    public void setJdbc(String jdbc) {
-        this.jdbc = jdbc;
+    public static void setDevDatabaseUrl(String devDatabaseUrl) {
+        DBConnection.devDatabaseUrl = devDatabaseUrl;
+    }
+
+    public static String getDbPassword() {
+        return dbPassword;
+    }
+
+    public static void setDbPassword(String dbPassword) {
+        DBConnection.dbPassword = dbPassword;
+    }
+
+    public static String getDbUser() {
+        return dbUser;
+    }
+
+    public static void setDbUser(String dbUser) {
+        DBConnection.dbUser = dbUser;
     }
 
     public List<HelperQuery> getQueuedQueries() {

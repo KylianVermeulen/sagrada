@@ -1,4 +1,4 @@
-package nl.avans.sagrada;
+package nl.avans.sagrada.database;
 
 public class QueryParameter {
     public static final int BOOLEAN = 100, DATE = 101, DOUBLE = 102, FLOAT = 103,
