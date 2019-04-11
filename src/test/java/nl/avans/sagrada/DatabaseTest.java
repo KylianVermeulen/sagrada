@@ -9,11 +9,11 @@ public class DatabaseTest {
 
     public static void main(String[] args) {
 //        DBConnection db =  new DBConnection(devDatabaseUrl, sqlProperties);
-//        db.addQueryToQueue(new HelperQuery("select * from account"));
-//        db.addQueryToQueue(new HelperQuery("select * from account where username=?", new QueryParameter(123, "kylian")));
-//        List<HelperQuery> executeQueue = db.executeQueue();
+//        db.addQueryToQueue(new Query("select * from account"));
+//        db.addQueryToQueue(new Query("select * from account where username=?", new QueryParameter(123, "kylian")));
+//        List<Query> executeQueue = db.executeQueue();
 //        for (int i = 0; i < executeQueue.size(); i++) {
-//            HelperQuery executedQuery = executeQueue.get(i);
+//            Query executedQuery = executeQueue.get(i);
 //            try {
 //                while (executedQuery.getResultSet().next()) {
 //                    System.out.println(executedQuery.getResultSet().getString("username"));

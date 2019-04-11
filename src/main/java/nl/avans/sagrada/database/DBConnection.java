@@ -13,9 +13,9 @@ public class DBConnection {
     private static String dbPassword = "sagrada";
     private static String dbUser = "sagrada";
     private Properties connectionProperties;
-    private List<HelperQuery> queuedQueries = new ArrayList<>();
-    private List<HelperQuery> errorQueries = new ArrayList<>();
-    private List<HelperQuery> executedQueries = new ArrayList<>();
+    private List<Query> queuedQueries = new ArrayList<>();
+    private List<Query> errorQueries = new ArrayList<>();
+    private List<Query> executedQueries = new ArrayList<>();
 
     /**
      * Empty  constructor
@@ -42,68 +42,68 @@ public class DBConnection {
     }
 
     /**
-     * Executes the given HelperQuery on this connection
-     * based on HelperQuery sql and HelperQuery first QueryParameter
+     * Executes the given Query on this connection
+     * based on Query sql and Query first QueryParameter
      *
-     * @param helperQuery HelperQuery
+     * @param query Query
      * @return ResultSet
      * @throws SQLException SQLException
      */
-    public ResultSet executeQuery(HelperQuery helperQuery) throws SQLException {
-        return executeQuery(helperQuery, 0);
+    public ResultSet executeQuery(Query query) throws SQLException {
+        return executeQuery(query, 0);
     }
 
     /**
-     * Executes the given HelperQuery on this connection
-     * based on HelperQuery sql and given QueryParameters
+     * Executes the given Query on this connection
+     * based on Query sql and given QueryParameters
      *
-     * @param helperQuery HelperQuery
+     * @param query Query
      * @param parameters QueryParameter...
      * @return ResultSet
      * @throws SQLException SQLException
      */
-    public ResultSet executeQuery(HelperQuery helperQuery, QueryParameter... parameters) throws SQLException {
-        PreparedStatement pstmt = prepareStatement(helperQuery.getSql());
+    public ResultSet executeQuery(Query query, QueryParameter... parameters) throws SQLException {
+        PreparedStatement pstmt = prepareStatement(query.getSql());
         fillStatement(pstmt, parameters);
-        return executeQueryHelper(helperQuery, pstmt);
+        return executeQueryHelper(query, pstmt);
     }
 
     /**
-     * Executes the given HelperQuery on this connection
-     * based on HelperQuery sql and HelperQuery QueryParameter on pos
+     * Executes the given Query on this connection
+     * based on Query sql and Query QueryParameter on pos
      *
-     * @param helperQuery HelperQuery
-     * @param pos QueryParameter array position in HelperQuery
+     * @param query Query
+     * @param pos QueryParameter array position in Query
      * @return ResultSet
      * @throws SQLException SQLException
      */
-    public ResultSet executeQuery(HelperQuery helperQuery, int pos) throws SQLException {
-        PreparedStatement pstmt = prepareStatement(helperQuery.getSql());
-        fillStatement(pstmt, helperQuery.getParametersList().get(pos));
-        return executeQueryHelper(helperQuery, pstmt);
+    public ResultSet executeQuery(Query query, int pos) throws SQLException {
+        PreparedStatement pstmt = prepareStatement(query.getSql());
+        fillStatement(pstmt, query.getParametersList().get(pos));
+        return executeQueryHelper(query, pstmt);
     }
 
     /**
      * Used as dependency for the executeQuery methods
      *
-     * @param helperQuery HelperQuery
+     * @param query Query
      * @param pstmt PreparedStatement
      * @return ResultSet
      * @throws SQLException SQLException
      */
-    private ResultSet executeQueryHelper(HelperQuery helperQuery, PreparedStatement pstmt) throws SQLException {
+    private ResultSet executeQueryHelper(Query query, PreparedStatement pstmt) throws SQLException {
         ResultSet rs = null;
         try {
-            if (helperQuery.getType().equals("update")) {
+            if (query.getType().equals("update")) {
                 executeUpdateStatement(pstmt);
             } else {
                 rs = executeStatement(pstmt);
-                helperQuery.setResultSet(rs);
+                query.setResultSet(rs);
             }
-            queuedQueries.remove(helperQuery);
-            executedQueries.add(helperQuery);
+            queuedQueries.remove(query);
+            executedQueries.add(query);
         } catch (SQLException e) {
-            errorQueries.add(helperQuery);
+            errorQueries.add(query);
             throw e;
         }
         return rs;
@@ -184,14 +184,14 @@ public class DBConnection {
         return getConnection().prepareStatement(query);
     }
 
-    public List<HelperQuery> executeQueue() {
-        List<HelperQuery> returnList = new ArrayList<>(queuedQueries.size());
+    public List<Query> executeQueue() {
+        List<Query> returnList = new ArrayList<>(queuedQueries.size());
         int i = 0;
         while (i < queuedQueries.size()) {
-            HelperQuery helperQuery = queuedQueries.get(i);
+            Query query = queuedQueries.get(i);
             try {
-                executeQuery(helperQuery);
-                returnList.add(helperQuery);
+                executeQuery(query);
+                returnList.add(query);
             } catch (SQLException e) {
                 i++; //If there's a failure move forward in the queue. If not, the query that ran will no longer be in the list.
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
@@ -201,12 +201,12 @@ public class DBConnection {
     }
 
     /**
-     * Add a HelperQuery to execute queue
+     * Add a Query to execute queue
      *
-     * @param helperQuery HelperQuery
+     * @param query Query
      */
-    public void addQueryToQueue(HelperQuery helperQuery) {
-        queuedQueries.add(helperQuery);
+    public void addQueryToQueue(Query query) {
+        queuedQueries.add(query);
     }
 
     public static String getDevDatabaseUrl() {
@@ -233,27 +233,27 @@ public class DBConnection {
         DBConnection.dbUser = dbUser;
     }
 
-    public List<HelperQuery> getQueuedQueries() {
+    public List<Query> getQueuedQueries() {
         return queuedQueries;
     }
 
-    public void setQueuedQueries(List<HelperQuery> queuedQueries) {
+    public void setQueuedQueries(List<Query> queuedQueries) {
         this.queuedQueries = queuedQueries;
     }
 
-    public List<HelperQuery> getErrorQueries() {
+    public List<Query> getErrorQueries() {
         return errorQueries;
     }
 
-    public void setErrorQueries(List<HelperQuery> errorQueries) {
+    public void setErrorQueries(List<Query> errorQueries) {
         this.errorQueries = errorQueries;
     }
 
-    public List<HelperQuery> getExecutedQueries() {
+    public List<Query> getExecutedQueries() {
         return executedQueries;
     }
 
-    public void setExecutedQueries(List<HelperQuery> executedQueries) {
+    public void setExecutedQueries(List<Query> executedQueries) {
         this.executedQueries = executedQueries;
     }
 

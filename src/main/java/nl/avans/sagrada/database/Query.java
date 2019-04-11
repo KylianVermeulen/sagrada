@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HelperQuery {
+public class Query {
     private String type;
     private String sql;
     private List<QueryParameter[]> parametersList;
@@ -17,7 +17,7 @@ public class HelperQuery {
      * @param type "query" or "update" (insert, update, delete)
      * @param parameters QueryParameter...
      */
-    public HelperQuery(String sql, String type, QueryParameter... parameters) {
+    public Query(String sql, String type, QueryParameter... parameters) {
         this.sql = sql;
         this.type = type;
         parametersList = new ArrayList<>();
@@ -31,7 +31,7 @@ public class HelperQuery {
      * @param type "query" (select) or "update" (insert, update, delete)
      * @param parametersList List<QueryParameter[]>
      */
-    public HelperQuery(String sql, String type, List<QueryParameter[]> parametersList) {
+    public Query(String sql, String type, List<QueryParameter[]> parametersList) {
         this.sql = sql;
         this.type = type;
         this.parametersList = parametersList;

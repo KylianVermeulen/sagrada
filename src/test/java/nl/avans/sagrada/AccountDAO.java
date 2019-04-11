@@ -1,7 +1,7 @@
 package nl.avans.sagrada;
 
 import nl.avans.sagrada.database.DBConnection;
-import nl.avans.sagrada.database.HelperQuery;
+import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 
 import java.sql.ResultSet;
@@ -14,7 +14,7 @@ public class AccountDAO {
         DBConnection dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new HelperQuery("select * from account where username=?", "query",
+                    new Query("select * from account where username=?", "query",
                             new QueryParameter(QueryParameter.STRING, username)));
             Account account = new AccountRowMapper().mapRowOne(rs);
             return account;
@@ -27,7 +27,7 @@ public class AccountDAO {
     public List<Account> getAllAccounts() {
         DBConnection dbConnection = new DBConnection();
         try {
-            ResultSet rs = dbConnection.executeQuery(new HelperQuery("select * from account", "query"));
+            ResultSet rs = dbConnection.executeQuery(new Query("select * from account", "query"));
             List<Account> list = new AccountRowMapper().mapRowList(rs);
             return list;
         } catch (SQLException e) {
@@ -40,7 +40,7 @@ public class AccountDAO {
         DBConnection dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new HelperQuery("UPDATE account SET password=?, active=? WHERE username=?", "update"),
+                    new Query("UPDATE account SET password=?, active=? WHERE username=?", "update"),
                     new QueryParameter(QueryParameter.STRING, account.getPassword()),
                     new QueryParameter(QueryParameter.BOOLEAN, account.isActive()),
                     new QueryParameter(QueryParameter.STRING, account.getUsername()));
@@ -53,7 +53,7 @@ public class AccountDAO {
         DBConnection dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new HelperQuery("INSERT INTO account (username, password, active) VALUES (?, ?, ?)", "update"),
+                    new Query("INSERT INTO account (username, password, active) VALUES (?, ?, ?)", "update"),
                     new QueryParameter(QueryParameter.STRING, account.getUsername()),
                     new QueryParameter(QueryParameter.STRING, account.getPassword()),
                     new QueryParameter(QueryParameter.BOOLEAN, account.isActive()));
