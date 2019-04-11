@@ -37,6 +37,12 @@ public class DatabaseTest {
         account.setActive(true);
         accountDAO.updateAccount(account);
 
+        Account new_account = new Account();
+        new_account.setUsername("insert into");
+        new_account.setPassword("password");
+        new_account.setActive(true);
+        accountDAO.addAccount(new_account);
+
         // Get all accounts from db
         List<Account> list = accountDAO.getAllAccounts();
         for (Account acc : list) {

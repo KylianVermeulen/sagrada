@@ -48,4 +48,17 @@ public class AccountDAO {
             e.printStackTrace();
         }
     }
+
+    public void addAccount(Account account) {
+        DBConnection dbConnection = new DBConnection();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new HelperQuery("INSERT INTO account (username, password, active) VALUES (?, ?, ?)", "update"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername()),
+                    new QueryParameter(QueryParameter.STRING, account.getPassword()),
+                    new QueryParameter(QueryParameter.BOOLEAN, account.isActive()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
