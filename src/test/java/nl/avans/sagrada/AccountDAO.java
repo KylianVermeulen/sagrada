@@ -50,6 +50,7 @@ public class AccountDAO {
     }
 
     public void addAccount(Account account) {
+        if (accountExists(account)) return;
         DBConnection dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -60,5 +61,26 @@ public class AccountDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean accountExists(Account account) {
+        DBConnection dbConnection = new DBConnection();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT count(*) as count FROM account WHERE username=?", "query"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername())
+            );
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                if (count > 0) {
+                    return  true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

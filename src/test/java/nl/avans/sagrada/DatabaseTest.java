@@ -38,7 +38,7 @@ public class DatabaseTest {
         accountDAO.updateAccount(account);
 
         Account new_account = new Account();
-        new_account.setUsername("insert into");
+        new_account.setUsername("insert into_2");
         new_account.setPassword("password");
         new_account.setActive(true);
         accountDAO.addAccount(new_account);
