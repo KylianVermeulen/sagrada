@@ -50,7 +50,7 @@ public class AccountDAO {
     }
 
     public void addAccount(Account account) {
-        if (accountExists(account)) return;
+        if (accountExists(account)) {System.out.println("Account already exists"); return;}
         DBConnection dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
