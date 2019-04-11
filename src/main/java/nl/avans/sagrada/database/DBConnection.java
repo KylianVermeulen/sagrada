@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DBConnection {
-    private Connection connection = null;
+    private static Connection connection = null;
     private String jdbc = null;
     private Properties connectionProperties = null;
     private List<HelperQuery> queuedQueries = new ArrayList<>();

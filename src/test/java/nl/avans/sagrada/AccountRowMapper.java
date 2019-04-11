@@ -7,31 +7,22 @@ import java.util.List;
 
 public class AccountRowMapper {
 
-    public Account mapRowOne(ResultSet rs) {
+    public Account mapRowOne(ResultSet rs) throws SQLException {
         Account account = new Account();
-        try {
-           if (rs.next()) {
-                account.setUsername(rs.getString("username"));
-                account.setPassword(rs.getString("password"));
-            }
-            return account;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (rs.next()) {
+            account.setUsername(rs.getString("username"));
+            account.setPassword(rs.getString("password"));
         }
-        return null;
+        return account;
     }
 
-    public List<Account> mapRowList(ResultSet rs) {
+    public List<Account> mapRowList(ResultSet rs) throws SQLException {
         List<Account> list = new ArrayList<>();
-        try {
-            while (rs.next()) {
-                Account account = new Account();
-                account.setUsername(rs.getString("username"));
-                account.setPassword(rs.getString("password"));
-                list.add(account);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        while (rs.next()) {
+            Account account = new Account();
+            account.setUsername(rs.getString("username"));
+            account.setPassword(rs.getString("password"));
+            list.add(account);
         }
         return list;
     }

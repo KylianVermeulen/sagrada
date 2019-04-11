@@ -1,19 +1,13 @@
 package nl.avans.sagrada;
 
 import java.util.List;
-import java.util.Properties;
 
+/**
+ * Test file to test db conn, query and update
+ */
 public class DatabaseTest {
-    public static String devDatabaseUrl = "jdbc:mysql://sagrada.samebestserver.nl:100/kylian.sagrada?serverTimezone=Europe/Amsterdam";
-    public static String dbPassword = "sagrada";
-    public static String dbUser = "sagrada";
-    public static Properties sqlProperties;
 
     public static void main(String[] args) {
-        sqlProperties = new Properties();
-        sqlProperties.put("user", dbUser);
-        sqlProperties.put("password", dbPassword);
-
 //        DBConnection db =  new DBConnection(devDatabaseUrl, sqlProperties);
 //        db.addQueryToQueue(new HelperQuery("select * from account"));
 //        db.addQueryToQueue(new HelperQuery("select * from account where username=?", new QueryParameter(123, "kylian")));
