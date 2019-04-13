@@ -14,7 +14,7 @@ public class PatterncardDAO {
 		return(null);
 	}
 	
-	public PatternCard[] getOptionalPatterncardOfPlayer(Player player) {
+	public ArrayList<PatternCard> getOptionalPatterncardOfPlayer(Player player) {
 		return(null);
 	}
 	public void savePatterncardOfPlayer(PatternCard patterncard, Player player) {

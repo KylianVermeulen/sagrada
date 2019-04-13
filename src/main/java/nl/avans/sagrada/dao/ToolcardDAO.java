@@ -7,11 +7,11 @@ import nl.avans.sagrada.model.Toolcard;
 public class ToolcardDAO {
 	private DBConnection dbConnection;
 	
-	public Toolcard[] getToolcardsOfGame(Game game) {
+	public <ArrayList>Toolcard getToolcardsOfGame(Game game) {
 		return(null);
 	}
 	
-	public Toolcard[] getAllToolcards() {
+	public ArrayList<Toolcard> getAllToolcards() {
 		return(null);
 	}
 }
