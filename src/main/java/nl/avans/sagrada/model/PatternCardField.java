@@ -9,6 +9,6 @@ public class PatternCardField {
 	private PatternCard patternCard;
 	
 	public boolean canPlaceDieOnField(GameDie die) {
-		return(false);
+		return false;
 	}
 }

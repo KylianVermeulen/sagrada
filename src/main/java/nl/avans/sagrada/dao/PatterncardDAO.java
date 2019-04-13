@@ -11,7 +11,7 @@ public class PatterncardDAO {
 	private DBConnection dbConnection;
 	
 	public PatternCard getPatterncardOfPlayer(Player player) {
-		return(null);
+		return null;
 	}
 	
 	public ArrayList<PatternCard> getOptionalPatterncardOfPlayer(Player player) {

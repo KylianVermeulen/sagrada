@@ -7,7 +7,7 @@ public class PatternCard {
 	private PatternCardField[] patterncardFields;
 	
 	public PatternCardField getBestLocationForDice(GameDie die) {
-		return(null);
+		return null;
 	}
 	
 	public void generateRandomCard() {
