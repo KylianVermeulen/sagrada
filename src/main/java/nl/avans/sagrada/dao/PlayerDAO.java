@@ -11,7 +11,7 @@ public class PlayerDAO {
 	private DBConnection dbConnection;
 	
 	public ArrayList<Player> getPlayersOfAccount(Account account) {
-		return(null);
+		return null;
 	}
 	public void createNewPlayer(Player player, Game game) {
 		

@@ -14,6 +14,6 @@ public class ChatlineDAO {
 	}
 	
 	public ArrayList<Chatline> getChatlinesOfGame(Game game) {
-		return(null);
+		return null;
 	}
 }

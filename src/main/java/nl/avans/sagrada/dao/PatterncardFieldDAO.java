@@ -10,7 +10,7 @@ public class PatterncardFieldDAO {
 	private DBConnection dbConnection;
 	
 	public ArrayList<PatternCardField> getPatterncardFieldsOfPatterncard() {
-		return(null);
+		return null;
 	}
 	
 	public void addPatterncardField(PatternCardField patterncardField, PatternCard patterncard) {

@@ -15,7 +15,7 @@ public class PatterncardDAO {
 	}
 	
 	public ArrayList<PatternCard> getOptionalPatterncardOfPlayer(Player player) {
-		return(null);
+		return null;
 	}
 	public void savePatterncardOfPlayer(PatternCard patterncard, Player player) {
 		
@@ -26,7 +26,7 @@ public class PatterncardDAO {
 	}
 	
 	public ArrayList<PatternCard> getAllPatterncards() {
-		return(null);
+		return null;
 	}
 	
 }

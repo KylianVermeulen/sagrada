@@ -9,7 +9,7 @@ public class GameDieDAO {
 	private DBConnection dbConnection;
 	
 	public ArrayList<GameDie> getAllNotPlacesDies() {
-		return(null);
+		return null;
 	}
 	
 	public void updateDie(GameDie gameDie) {

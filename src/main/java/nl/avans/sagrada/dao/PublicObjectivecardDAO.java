@@ -10,10 +10,10 @@ public class PublicObjectivecardDAO {
 	private DBConnection dbConnection;
 	
 	public ArrayList<PublicObjectiveCard> getAllPublicObjectiveCards() {
-		return(null);
+		return null;
 	}
 	
 	public ArrayList<PublicObjectiveCard> getAllPublicObjectiveCardsOfGame(Game game) {
-		return(null);
+		return null;
 	}
 }

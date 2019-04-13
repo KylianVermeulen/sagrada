@@ -10,10 +10,10 @@ public class ToolcardDAO {
 	private DBConnection dbConnection;
 	
 	public <ArrayList>Toolcard getToolcardsOfGame(Game game) {
-		return(null);
+		return null;
 	}
 	
 	public ArrayList<Toolcard> getAllToolcards() {
-		return(null);
+		return null;
 	}
 }

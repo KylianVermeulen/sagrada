@@ -7,7 +7,7 @@ public class AccountDAO {
 	private DBConnection dbConnection;
 	
 	public Account getAccountByUsername(String username) {
-		return(null);
+		return null;
 	}
 	
 	public void updateAccount(Account account) {

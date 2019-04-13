@@ -7,7 +7,7 @@ public class GameDAO {
 	private DBConnection dbConnection;
 	
 	public Game getGameById(int gameId) {
-		return(null);
+		return null;
 	}
 	public void updateGame(Game game) {
 		

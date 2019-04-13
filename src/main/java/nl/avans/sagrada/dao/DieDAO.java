@@ -9,6 +9,6 @@ public class DieDAO {
 	private DBConnection dbConnection;
 	
 	public ArrayList<Die> getAllDies() {
-		return(null);
+		return null;
 	}
 }
