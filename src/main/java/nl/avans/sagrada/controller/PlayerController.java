@@ -1,7 +1,7 @@
 package nl.avans.sagrada.controller;
 
 import nl.avans.sagrada.model.GameDie;
-import nl.avans.sagrada.model.PatterncardField;
+import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.Toolcard;
 
@@ -31,7 +31,7 @@ public class PlayerController {
 		
 	}
 	
-	public void placeDie(GameDie die, PatterncardField patterncardField) {
+	public void placeDie(GameDie die, PatternCardField patterncardField) {
 		
 	}
 	
