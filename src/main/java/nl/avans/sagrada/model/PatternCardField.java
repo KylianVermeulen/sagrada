@@ -6,6 +6,7 @@ public class PatternCardField {
 	private int positionY;
 	private String color;
 	private int value;
+	private PatternCard patternCard;
 	
 	public boolean canPlaceDieOnField(GameDie die) {
 		return(false);
