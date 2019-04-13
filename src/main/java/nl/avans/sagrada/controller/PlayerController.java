@@ -1,4 +1,4 @@
-package controller;
+package nl.avans.sagrada.controller;
 
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatterncardField;
