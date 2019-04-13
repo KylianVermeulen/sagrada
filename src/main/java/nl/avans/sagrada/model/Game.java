@@ -5,4 +5,6 @@ public class Game {
 	private Player turnPlayer;
 	private Player[] players;
 	private FavorToken[] favorTokens;
+	private GameDie[] gameDie;
+	private PublicObjectiveCard[] publicObjectiveCards;
 }
