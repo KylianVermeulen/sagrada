@@ -1,6 +1,6 @@
 package nl.avans.sagrada.model;
 
-public class GameFavorToken {
+public class FavorToken {
 	private Player player;
 	private Toolcard toolcard;
 }

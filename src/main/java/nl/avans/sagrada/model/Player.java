@@ -8,9 +8,9 @@ public class Player {
 	private int seqnr;
 	private boolean currentPlayer;
 	private String privateObjectivecardColor;
-	private Patterncard patterncard;
-	private Patterncard[] optionalPatterncards;
+	private PatternCard patterncard;
+	private PatternCard[] optionalPatterncards;
 	private Game game;
-	private ArrayList<GameFavorToken> favorTokens;
+	private ArrayList<FavorToken> favorTokens;
 	private boolean cheatmode;
 }

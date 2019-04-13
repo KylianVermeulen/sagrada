@@ -1,12 +1,12 @@
 package nl.avans.sagrada.model;
 
-public class Patterncard {
+public class PatternCard {
 	private int id;
 	private int difficult;
 	private boolean standard;
-	private PatterncardField[] patterncardFields;
+	private PatternCardField[] patterncardFields;
 	
-	public PatterncardField getBestLocationForDice(GameDie die) {
+	public PatternCardField getBestLocationForDice(GameDie die) {
 		return(null);
 	}
 	

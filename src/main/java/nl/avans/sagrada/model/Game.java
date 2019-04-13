@@ -4,5 +4,5 @@ public class Game {
 	private int id;
 	private Player turnPlayer;
 	private Player[] players;
-	private GameFavorToken[] gameFavorTokens;
+	private FavorToken[] favorTokens;
 }
