@@ -5,8 +5,8 @@ import javafx.scene.layout.Pane;
 
 public class MyScene extends Scene {
 
-	public MyScene() {
-		super(new Pane());
-	}
+    public MyScene() {
+        super(new Pane());
+    }
 
 }

@@ -8,25 +8,25 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 
 public class PatterncardDAO {
-	private DBConnection dbConnection;
-	
-	public PatternCard getPatterncardOfPlayer(Player player) {
-		return null;
-	}
-	
-	public ArrayList<PatternCard> getOptionalPatterncardOfPlayer(Player player) {
-		return null;
-	}
-	public void savePatterncardOfPlayer(PatternCard patterncard, Player player) {
-		
-	}
-	
-	public void createPatterncard(PatternCard patterncard, Player player, Game game) {
-		
-	}
-	
-	public ArrayList<PatternCard> getAllPatterncards() {
-		return null;
-	}
-	
+    private DBConnection dbConnection;
+
+    public PatternCard getPatterncardOfPlayer(Player player) {
+        return null;
+    }
+
+    public ArrayList<PatternCard> getOptionalPatterncardOfPlayer(Player player) {
+        return null;
+    }
+    public void savePatterncardOfPlayer(PatternCard patterncard, Player player) {
+
+    }
+
+    public void createPatterncard(PatternCard patterncard, Player player, Game game) {
+
+    }
+
+    public ArrayList<PatternCard> getAllPatterncards() {
+        return null;
+    }
+
 }
