@@ -1,5 +1,7 @@
 package nl.avans.sagrada.model;
 
+import nl.avans.sagrada.dao.GameDAO;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class Player {
     public Player(ResultSet rs, Account account) throws SQLException {
         setId(rs.getInt("idplayer"));
         setAccount(account);
+        setGame(new GameDAO().getGameById(rs.getInt("game_idgame")));
     }
 
     public int getId() {
