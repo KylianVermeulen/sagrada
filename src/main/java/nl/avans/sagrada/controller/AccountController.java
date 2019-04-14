@@ -1,5 +1,6 @@
 package nl.avans.sagrada.controller;
 
+import nl.avans.sagrada.dao.AccountDAO;
 import nl.avans.sagrada.model.Account;
 
 public class AccountController {

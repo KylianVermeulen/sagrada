@@ -34,12 +34,43 @@ public class AccountDAO {
         return null;
 	}
 	
+    public void addAccount(Account account) {
+        if (accountExists(account)) {System.out.println("Account already exists"); return;}
+        DBConnection dbConnection = new DBConnection();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("INSERT INTO account (username, password) VALUES (?, ?, ?)", "update"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername()),
+                    new QueryParameter(QueryParameter.STRING, account.getPassword()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public boolean accountExists(Account account) {
+        DBConnection dbConnection = new DBConnection();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT count(*) as count FROM account WHERE username=?", "query"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername())
+            );
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                if (count > 0) {
+                    return  true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+	
 	public void updateAccount(Account account) {
 		
 	}
 	
-	public void addAccount(Account account) {
-		
-	}
 
 }
