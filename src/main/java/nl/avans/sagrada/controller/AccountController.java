@@ -1,9 +1,15 @@
 package nl.avans.sagrada.controller;
 
 import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.view.MyScene;
 
 public class AccountController {
     private Account account;
+    private MyScene myScene;
+    
+    public AccountController(MyScene myScene) {
+        this.myScene = myScene;
+    }
 
     public void login() {
 

@@ -4,9 +4,15 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.Toolcard;
+import nl.avans.sagrada.view.MyScene;
 
 public class PlayerController {
     private Player player;
+    private MyScene myScene;
+    
+    public PlayerController(MyScene myScene) {
+        this.myScene = myScene;
+    }
 
     public void seeToolcards() {
 
