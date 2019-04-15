@@ -24,16 +24,27 @@ public class PatternCardView extends TilePane {
         makeCard();
     }
 
-    public void addColor(int x, int y){
+    public void addColor(int x, int y) {
         card[x][y].addColor();
     }
 
-    public void addEyes(int x, int y){
+    public void addEyes(int x, int y) {
         card[x][y].addEyes();
     }
 
-    public void setEyes(int eyes, int x, int y){
+    public void yolo() {
+        for (int c = 0; c < cardHeight; c++) {
+            System.out.println();
+            for (int v = 0; v < cardWidth; v++) {
+                System.out.print(Integer.toString(card[v][c].getPatternCardField().getEyes()));
+            }
+        }
+        System.out.println();
+    }
+
+    public void setEyes(int eyes, int x, int y) {
         card[x][y].setEyes(eyes);
+        yolo();
 
     }
 

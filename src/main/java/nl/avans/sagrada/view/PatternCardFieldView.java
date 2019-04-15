@@ -21,6 +21,7 @@ public class PatternCardFieldView extends StackPane {
     private int y;
     private PatternCardField patternCardField;
     private ArrayList<Image> images;
+    private Text text;
 
     public PatternCardFieldView(PatternCard patternCard) {
         images = new ArrayList<Image>();
@@ -28,6 +29,7 @@ public class PatternCardFieldView extends StackPane {
         diceEyesArray();
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         patternCardField = patternCard.getPatternCardField(x, y);
+
     }
 
     private void diceEyesArray(){
@@ -65,5 +67,17 @@ public class PatternCardFieldView extends StackPane {
 
     public boolean hasAttributes() {
         return patternCardField.hasAttributes();
+    }
+
+    public PatternCardField getPatternCardField(){
+        return this.patternCardField;
+    }
+
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
     }
 }
