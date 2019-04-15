@@ -28,6 +28,18 @@ public class PatternCardField {
         return true;
     }
 
+    public void setColor(String color){
+        this.color = color;
+    }
+
+    public void setEyes(int eyes){
+        this.value = eyes;
+    }
+
+    public int getEyes(){
+        return this.value;
+    }
+
     public Color getColor(){
         return Color.valueOf(color);
     }

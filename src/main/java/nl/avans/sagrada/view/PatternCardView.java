@@ -16,7 +16,7 @@ public class PatternCardView extends TilePane {
     public PatternCardView(){
         setPadding(new Insets(10,0,0,10));
         setPrefSize(310,230);
-        setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+        setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 
         patternCard = new PatternCard();
         card = new PatternCardFieldView[cardWidth][cardHeight];
