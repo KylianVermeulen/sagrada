@@ -52,4 +52,8 @@ public class PatternCardField {
         }
         return false;
     }
+
+    public void addDie() {
+
+    }
 }

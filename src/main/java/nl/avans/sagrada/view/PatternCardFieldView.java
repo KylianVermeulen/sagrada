@@ -53,6 +53,10 @@ public class PatternCardFieldView extends StackPane {
         setBackground(new Background(new BackgroundFill(patternCardField.getColor(), null, null)));
     }
 
+    public void addDie(){
+
+    }
+
     public void setY(int y) {
         this.y = y;
     }
@@ -71,9 +75,5 @@ public class PatternCardFieldView extends StackPane {
 
     public boolean hasAttributes() {
         return patternCardField.hasAttributes();
-    }
-
-    public PatternCardField getPatternCardField() {
-        return this.patternCardField;
     }
 }

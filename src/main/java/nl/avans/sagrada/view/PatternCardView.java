@@ -58,6 +58,14 @@ public class PatternCardView extends TilePane {
         }
     }
 
+    public void setDice(){
+        // PLACE DICE METHOD HERE
+    }
+
+    public void addDie(int x, int y){
+        card[x][y].addDie();
+    }
+
     public boolean hasFieldAttributes(int x, int y) {
         return card[x][y].hasAttributes();
     }
