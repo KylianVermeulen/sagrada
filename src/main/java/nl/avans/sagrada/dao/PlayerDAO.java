@@ -8,7 +8,6 @@ import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Account;
-import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 
 public class PlayerDAO {
@@ -37,7 +36,6 @@ public class PlayerDAO {
        return null;
     }
 
-    public void createNewPlayer(Player player, Game game) {
-
+    public void createNewPlayer(Player player) {
     }
 }

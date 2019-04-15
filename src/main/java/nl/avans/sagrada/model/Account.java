@@ -1,5 +1,6 @@
 package nl.avans.sagrada.model;
 
+import nl.avans.sagrada.dao.AccountDAO;
 import nl.avans.sagrada.dao.PlayerDAO;
 
 import java.util.ArrayList;
@@ -12,6 +13,11 @@ public class Account {
     public Account(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public void save() {
+        AccountDAO accountDAO = new AccountDAO();
+        accountDAO.addAccount(this);
     }
 
     public String getUsername() {

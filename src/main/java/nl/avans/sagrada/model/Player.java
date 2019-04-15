@@ -1,7 +1,6 @@
 package nl.avans.sagrada.model;
 
-import nl.avans.sagrada.dao.AccountDAO;
-import nl.avans.sagrada.dao.GameDAO;
+import nl.avans.sagrada.dao.*;
 
 import java.util.ArrayList;
 
@@ -19,7 +18,7 @@ public class Player {
     private Account account;
     private Game game;
     private PatternCard patterncard;
-    private PatternCard[] optionalPatterncards;
+    private ArrayList<PatternCard> optionalPatterncards;
     private ArrayList<FavorToken> favorTokens;
     private boolean cheatmode;
 
@@ -34,6 +33,11 @@ public class Player {
         this.idPatterncard = idPatterncard;
         this.score = score;
         this.account = account;
+    }
+
+    public void save() {
+        PlayerDAO playerDAO = new PlayerDAO();
+        playerDAO.createNewPlayer(this);
     }
 
     public int getId() {
@@ -142,12 +146,22 @@ public class Player {
         this.patterncard = patterncard;
     }
 
-    public PatternCard[] getOptionalPatterncards() {
+    public void setPatterncard() {
+        PatterncardDAO patterncardDAO = new PatterncardDAO();
+        this.patterncard = patterncardDAO.getPatterncardOfPlayer(this);
+    }
+
+    public ArrayList<PatternCard> getOptionalPatterncards() {
         return optionalPatterncards;
     }
 
-    public void setOptionalPatterncards(PatternCard[] optionalPatterncards) {
+    public void setOptionalPatterncards(ArrayList<PatternCard> optionalPatterncards) {
         this.optionalPatterncards = optionalPatterncards;
+    }
+
+    public void setOptionalPatterncards() {
+        PatterncardDAO patterncardDAO = new PatterncardDAO();
+        this.optionalPatterncards = patterncardDAO.getOptionalPatterncardOfPlayer(this);
     }
 
     public ArrayList<FavorToken> getFavorTokens() {
@@ -156,6 +170,11 @@ public class Player {
 
     public void setFavorTokens(ArrayList<FavorToken> favorTokens) {
         this.favorTokens = favorTokens;
+    }
+
+    public void setFavorToken() {
+        FavorTokenDAO favorTokenDAO = new FavorTokenDAO();
+        this.favorTokens = favorTokenDAO.getFavortokensOfPlayer(this);
     }
 
     public boolean isCheatmode() {

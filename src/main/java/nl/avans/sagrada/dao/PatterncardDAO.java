@@ -17,12 +17,14 @@ public class PatterncardDAO {
     public ArrayList<PatternCard> getOptionalPatterncardOfPlayer(Player player) {
         return null;
     }
-    public void savePatterncardOfPlayer(PatternCard patterncard, Player player) {
 
+    public void savePatterncardOfPlayer(PatternCard patterncard, Player player) {
     }
 
-    public void createPatterncard(PatternCard patterncard, Player player, Game game) {
+    public void saveOptionalPatterncardOfPlayer(ArrayList<PatternCard> optionalPatterncards, Player player) {
+    }
 
+    public void createPatterncard(PatternCard patterncard) {
     }
 
     public ArrayList<PatternCard> getAllPatterncards() {
