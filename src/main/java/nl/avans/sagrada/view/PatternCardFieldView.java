@@ -20,25 +20,29 @@ public class PatternCardFieldView extends StackPane {
     private int x;
     private int y;
     private PatternCardField patternCardField;
+    private PatternCard patternCard;
     private ArrayList<Image> images;
     private Text text;
 
     public PatternCardFieldView(PatternCard patternCard) {
+        this.patternCard = patternCard;
         images = new ArrayList<Image>();
         setPrefSize(50, 50);
         diceEyesArray();
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        patternCardField = patternCard.getPatternCardField(x, y);
-
     }
 
-    private void diceEyesArray(){
+    private void diceEyesArray() {
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/1.png")));
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/2.png")));
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/3.png")));
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/4.png")));
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/5.png")));
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/6.png")));
+    }
+
+    public void initPatternCardField() {
+        patternCardField = patternCard.getPatternCardField(x, y);
     }
 
     public void addEyes() {
@@ -69,15 +73,7 @@ public class PatternCardFieldView extends StackPane {
         return patternCardField.hasAttributes();
     }
 
-    public PatternCardField getPatternCardField(){
+    public PatternCardField getPatternCardField() {
         return this.patternCardField;
-    }
-
-    public int getX(){
-        return this.x;
-    }
-
-    public int getY(){
-        return this.y;
     }
 }

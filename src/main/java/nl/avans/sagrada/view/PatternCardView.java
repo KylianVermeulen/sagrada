@@ -32,20 +32,9 @@ public class PatternCardView extends TilePane {
         card[x][y].addEyes();
     }
 
-    public void yolo() {
-        for (int c = 0; c < cardHeight; c++) {
-            System.out.println();
-            for (int v = 0; v < cardWidth; v++) {
-                System.out.print(Integer.toString(card[v][c].getPatternCardField().getEyes()));
-            }
-        }
-        System.out.println();
-    }
 
     public void setEyes(int eyes, int x, int y) {
         card[x][y].setEyes(eyes);
-        yolo();
-
     }
 
     public void setColor(String color, int x, int y) {
@@ -60,7 +49,7 @@ public class PatternCardView extends TilePane {
                 card[x][y] = patternCardFieldView;
                 patternCardFieldView.setY(y);
                 patternCardFieldView.setX(x);
-
+                patternCardFieldView.initPatternCardField();
                 Pane paddingPane = new Pane();
                 paddingPane.setPadding(new Insets(5, 5, 5, 5));
                 paddingPane.getChildren().add(patternCardFieldView);

@@ -47,12 +47,9 @@ public class PatternCardField {
     }
 
     public boolean hasAttributes() {
-        if(hasColor() == true){
+        if (hasColor() || hasEyes()) {
             return true;
-        } else if(hasEyes() == true){
-            return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

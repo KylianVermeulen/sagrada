@@ -4,6 +4,8 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
+import java.util.ArrayList;
+
 public class PatternCard {
     private final int cardWidth = 5;
     private final int cardHeight = 4;
@@ -24,6 +26,7 @@ public class PatternCard {
     public void generateRandomCard() {
 
     }
+
 
     private void makeCard() {
         for (int y = 0; y < cardHeight; y++) {
