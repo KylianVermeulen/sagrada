@@ -188,36 +188,72 @@ public class Player {
         this.idPatternCard = this.patternCard.getId();
     }
 
+    /**
+     * Get optional PatternCards from Player
+     *
+     * @return ArrayList<PatternCard>
+     */
     public ArrayList<PatternCard> getOptionalPatternCards() {
         return optionalPatternCards;
     }
 
+    /**
+     * Set optional PatternCards to Player
+     *
+     * @param optionalPatterncards ArrayList<PatternCard>
+     */
     public void setOptionalPatternCards(ArrayList<PatternCard> optionalPatterncards) {
         this.optionalPatternCards = optionalPatterncards;
     }
 
+    /**
+     * Set optional PatterCards to Player from database
+     */
     public void setOptionalPatternCards() {
         PatterncardDAO patterncardDAO = new PatterncardDAO();
         this.optionalPatternCards = patterncardDAO.getOptionalPatterncardOfPlayer(this);
     }
 
+    /**
+     * Get FavorTokens from Player
+     *
+     * @return ArrayList<FavorToken>
+     */
     public ArrayList<FavorToken> getFavorTokens() {
         return favorTokens;
     }
 
+    /**
+     * Set FavorTokens to Player
+     *
+     * @param favorTokens ArrayList<FavorToken>
+     */
     public void setFavorTokens(ArrayList<FavorToken> favorTokens) {
         this.favorTokens = favorTokens;
     }
 
+    /**
+     * Set FavorTokens to Player from database
+     */
     public void setFavorToken() {
         FavorTokenDAO favorTokenDAO = new FavorTokenDAO();
         this.favorTokens = favorTokenDAO.getFavortokensOfPlayer(this);
     }
 
+    /**
+     * Get cheatmode
+     *
+     * @return boolean true when enabled
+     */
     public boolean isCheatmode() {
         return cheatmode;
     }
 
+    /**
+     * Set cheatmode
+     *
+     * @param cheatmode boolean
+     */
     public void setCheatmode(boolean cheatmode) {
         this.cheatmode = cheatmode;
     }
