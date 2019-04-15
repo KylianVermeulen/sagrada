@@ -19,8 +19,11 @@ public class AccountDAO {
                     new Query("SELECT * FROM account WHERE username=?", "query",
                     new QueryParameter(QueryParameter.STRING, username))
             );
-            Account account = new Account(rs.getString("username"), rs.getString("password"));
-            return account;
+            if (rs.next()) {
+                Account account = new Account(rs.getString("username"), rs.getString("password"));
+                return account;
+            }
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +60,6 @@ public class AccountDAO {
     }
 
     public void addAccount(Account account) {
-        if (accountExists(account)) {System.out.println("Account already exists"); return;} //TODO: Needs to be replaced to controller
         dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(

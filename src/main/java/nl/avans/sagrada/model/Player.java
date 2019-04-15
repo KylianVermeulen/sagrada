@@ -7,12 +7,12 @@ import java.util.ArrayList;
 public class Player {
     private int id;
     private String username;
-    private int idGame;
+    private int idgame;
     private String playerStatus;
     private int seqnr;
     private boolean currentPlayer;
     private String privateObjectivecardColor;
-    private String idPatterncard;
+    private int idPatterncard;
     private int score;
 
     private Account account;
@@ -22,10 +22,13 @@ public class Player {
     private ArrayList<FavorToken> favorTokens;
     private boolean cheatmode;
 
-    public Player(int id, String username, int idGame, String playerStatus, int seqnr, boolean currentPlayer, String privateObjectivecardColor, String idPatterncard, int score, Account account) {
+    public Player() {
+    }
+
+    public Player(int id, String username, int idgame, String playerStatus, int seqnr, boolean currentPlayer, String privateObjectivecardColor, int idPatterncard, int score, Account account) {
         this.id = id;
         this.username = username;
-        this.idGame = idGame;
+        this.idgame = idgame;
         this.playerStatus = playerStatus;
         this.seqnr = seqnr;
         this.currentPlayer = currentPlayer;
@@ -35,9 +38,14 @@ public class Player {
         this.account = account;
     }
 
+    public void add() {
+        PlayerDAO playerDAO = new PlayerDAO();
+        playerDAO.addPlayer(this);
+    }
+
     public void save() {
         PlayerDAO playerDAO = new PlayerDAO();
-        playerDAO.createNewPlayer(this);
+        playerDAO.updatePlayer(this);
     }
 
     public int getId() {
@@ -56,12 +64,12 @@ public class Player {
         this.username = username;
     }
 
-    public int getIdGame() {
-        return idGame;
+    public int getIdgame() {
+        return idgame;
     }
 
-    public void setIdGame(int idGame) {
-        this.idGame = idGame;
+    public void setIdgame(int idGame) {
+        this.idgame = idGame;
     }
 
     public String getPlayerStatus() {
@@ -96,11 +104,11 @@ public class Player {
         this.privateObjectivecardColor = privateObjectivecardColor;
     }
 
-    public String getIdPatterncard() {
+    public int getIdPatterncard() {
         return idPatterncard;
     }
 
-    public void setIdPatterncard(String idPatterncard) {
+    public void setIdPatterncard(int idPatterncard) {
         this.idPatterncard = idPatterncard;
     }
 
@@ -118,11 +126,13 @@ public class Player {
 
     public void setAccount(Account account) {
         this.account = account;
+        this.username = this.account.getUsername();
     }
 
     public void setAccount() {
         AccountDAO accountDAO = new AccountDAO();
         this.account = accountDAO.getAccountByUsername(this.username);
+        this.username = this.account.getUsername();
     }
 
     public Game getGame() {
@@ -131,11 +141,13 @@ public class Player {
 
     public void setGame(Game game) {
         this.game = game;
+        this.idgame = this.game.getId();
     }
 
     public void setGame() {
         GameDAO gameDAO = new GameDAO();
-        this.game = gameDAO.getGameById(this.idGame);
+        this.game = gameDAO.getGameById(this.idgame);
+        this.idgame = this.game.getId();
     }
 
     public PatternCard getPatterncard() {
@@ -144,11 +156,13 @@ public class Player {
 
     public void setPatterncard(PatternCard patterncard) {
         this.patterncard = patterncard;
+        this.idPatterncard = this.patterncard.getId();
     }
 
     public void setPatterncard() {
         PatterncardDAO patterncardDAO = new PatterncardDAO();
         this.patterncard = patterncardDAO.getPatterncardOfPlayer(this);
+        this.idPatterncard = this.patterncard.getId();
     }
 
     public ArrayList<PatternCard> getOptionalPatterncards() {

@@ -10,14 +10,22 @@ public class Account {
     private String password;
     private ArrayList<Player> players;
 
+    public Account() {
+    }
+
     public Account(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public void save() {
+    public void add() {
         AccountDAO accountDAO = new AccountDAO();
         accountDAO.addAccount(this);
+    }
+
+    public void save() {
+        AccountDAO accountDAO = new AccountDAO();
+        accountDAO.updateAccount(this);
     }
 
     public String getUsername() {
