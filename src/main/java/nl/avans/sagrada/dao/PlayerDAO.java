@@ -128,6 +128,6 @@ public class PlayerDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
+        return false;
     }
 }

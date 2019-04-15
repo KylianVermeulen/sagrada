@@ -28,8 +28,7 @@ public class FavorTokenDAO {
                             new QueryParameter(QueryParameter.INT, player.getId()))
             );
             while (rs.next()) {
-                FavorToken favorToken = new FavorToken(rs.getInt("idfavortoken"), rs.getInt("idgame"),
-                        rs.getInt("idplayer"), rs.getInt("gametoolcard"));
+                FavorToken favorToken = new FavorToken(rs.getInt("idfavortoken"), rs.getInt("gametoolcard"), player);
                 list.add(favorToken);
             }
         } catch (SQLException e) {
