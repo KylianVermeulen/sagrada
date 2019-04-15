@@ -65,12 +65,10 @@ public class PatternCardField {
             return true;
         }
         // Dubble check
-        if (pcd.hasColor()) {
-            if (pcd.getColor().equals(color)) {
-                return false;
-            }
+        if (pcd.hasColor() && pcd.getColor().equals(color)) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     private boolean checkSouth(String color) {
@@ -84,7 +82,7 @@ public class PatternCardField {
 
     private boolean checkNorth(String color) {
         // yPos + 1
-        if(yPos == CARD_HEIGHT - 1){
+        if (yPos == 3) {
             return true;
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
@@ -93,7 +91,7 @@ public class PatternCardField {
 
     private boolean checkEast(String color) {
         // xPos + 1
-        if(xPos == CARD_WIDTH - 1){
+        if (xPos == 4) {
             return true;
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
@@ -102,7 +100,7 @@ public class PatternCardField {
 
     private boolean checkWest(String color) {
         // xPos - 1
-        if(xPos == 0){
+        if (xPos == 0) {
             return true;
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);

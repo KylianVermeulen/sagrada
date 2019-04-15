@@ -24,39 +24,45 @@ public class MyScene extends Scene {
         setRoot(rootPane);
     }
 
-
+//patternCardView.getPatternCard().getDifficulty() * 2
     public void generateRandomCard() {
-        for (int i = 0; i < patternCardView.getPatternCard().getDifficulty() * 2; i++) {
+        for (int i = 0; i < 10; i++) {
             generateRandomPatternCardField();
         }
     }
 
     private void generateRandomPatternCardField() {
-        ArrayList<String> colors = new ArrayList<String>();
-        colors.add("blue");
-        colors.add("green");
-        colors.add("purple");
-        colors.add("yellow");
-        colors.add("orange");
+        if (rnd.nextBoolean()) {
+            addRandomEyes();
+        } else {
+            addRandomColor();
+        }
+    }
+
+    private void addRandomEyes() {
         int xPos = rnd.nextInt(5);
         int yPos = rnd.nextInt(4);
         int eyes = rnd.nextInt(6) + 1;
-        String color = colors.get(rnd.nextInt(5));
-
-        if (rnd.nextBoolean()) {
-            if (!patternCardView.hasFieldAttributes(xPos, yPos)) {
-                patternCardView.setEyes(eyes, xPos, yPos);
-                patternCardView.addEyes(xPos, yPos);
-            } else {
-                generateRandomPatternCardField();
-            }
+        if (!patternCardView.hasFieldAttributes(xPos, yPos)) {
+            patternCardView.setEyes(eyes, xPos, yPos);
+            patternCardView.addEyes(xPos, yPos);
         } else {
-            if (!patternCardView.hasFieldAttributes(xPos, yPos) && patternCardView.checkSides(xPos, yPos, color)) {
-                patternCardView.setColor(color, xPos, yPos);
-                patternCardView.addColor(xPos, yPos);
-            } else {
-                generateRandomPatternCardField();
-            }
+            addRandomEyes();
+        }
+    }
+
+    private void addRandomColor() {
+        ArrayList<String> colors = new ArrayList<String>();
+        colors.add("blue");
+
+        int xPos = rnd.nextInt(5);
+        int yPos = rnd.nextInt(4);
+        String color = colors.get(rnd.nextInt(colors.size()));
+        if (!patternCardView.hasFieldAttributes(xPos, yPos) && patternCardView.checkSides(xPos, yPos, color)) {
+            patternCardView.setColor(color, xPos, yPos);
+            patternCardView.addColor(xPos, yPos);
+        } else {
+            addRandomColor();
         }
     }
 }
