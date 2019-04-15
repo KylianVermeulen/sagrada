@@ -24,10 +24,12 @@ public class MyScene extends Scene {
             vBox.getChildren().add(label);
 
             account.setPlayers();
-            for (Player player : account.getPlayers()) {
-                player.setGame();
-                Label labelPlayer = new Label("Player: " + player.getId() + " - Game: " + player.getGame().getId());
-                vBox.getChildren().add(labelPlayer);
+            if (account.getPlayers() != null) {
+                for (Player player : account.getPlayers()) {
+                    player.setGame();
+                    Label labelPlayer = new Label("Player: " + player.getId() + " - Game: " + player.getGame().getId());
+                    vBox.getChildren().add(labelPlayer);
+                }
             }
         }
         setRoot(vBox);

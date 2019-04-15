@@ -1,7 +1,5 @@
 package nl.avans.sagrada.model;
 
-import nl.avans.sagrada.dao.GameDAO;
-
 public class Game {
     private int id;
     private int turnIdPlayer;
@@ -15,11 +13,6 @@ public class Game {
     public Game(int id, int turnIdPlayer) {
         this.id = id;
         this.turnIdPlayer = turnIdPlayer;
-    }
-
-    public void save() {
-        GameDAO gameDAO = new GameDAO();
-        gameDAO.addGame(this);
     }
 
     public int getId() {

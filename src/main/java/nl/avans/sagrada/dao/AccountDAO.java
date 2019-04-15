@@ -12,6 +12,12 @@ import java.util.ArrayList;
 public class AccountDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Get account by username
+     *
+     * @param username String
+     * @return Account when record
+     */
     public Account getAccountByUsername(String username) {
         dbConnection = new DBConnection();
         try {
@@ -23,6 +29,7 @@ public class AccountDAO {
                 Account account = new Account(rs.getString("username"), rs.getString("password"));
                 return account;
             }
+            System.out.println("No record for account with username: " + username);
             return null;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -30,6 +37,11 @@ public class AccountDAO {
         return null;
     }
 
+    /**
+     * Get all accounts
+     *
+     * @return ArrayList<Account> when record(s)
+     */
     public ArrayList<Account> getAllAccounts() {
         DBConnection dbConnection = new DBConnection();
         try {
@@ -39,39 +51,67 @@ public class AccountDAO {
                 Account account = new Account(rs.getString("username"), rs.getString("password"));
                 list.add(account);
             }
-            return list;
+            if (list.size() > 0) {
+                return list;
+            }
+            System.out.println("No records for account");
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    /**
+     * Update account
+     *
+     * @param account Account
+     */
     public void updateAccount(Account account) {
         dbConnection = new DBConnection();
-        try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("UPDATE account SET password=? WHERE username=?", "update"),
-                    new QueryParameter(QueryParameter.STRING, account.getPassword()),
-                    new QueryParameter(QueryParameter.STRING, account.getUsername())
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (accountExists(account)) {
+            try {
+                ResultSet rs = dbConnection.executeQuery(
+                        new Query("UPDATE account SET password=? WHERE username=?", "update"),
+                        new QueryParameter(QueryParameter.STRING, account.getPassword()),
+                        new QueryParameter(QueryParameter.STRING, account.getUsername())
+                );
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Can't update non existing account");
         }
     }
 
+    /**
+     * Add account
+     *
+     * @param account Account
+     */
     public void addAccount(Account account) {
         dbConnection = new DBConnection();
-        try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("INSERT INTO account (username, password) VALUES (?, ?)", "update"),
-                    new QueryParameter(QueryParameter.STRING, account.getUsername()),
-                    new QueryParameter(QueryParameter.STRING, account.getPassword())
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (!accountExists(account)) {
+            try {
+                ResultSet rs = dbConnection.executeQuery(
+                        new Query("INSERT INTO account (username, password) VALUES (?, ?)", "update"),
+                        new QueryParameter(QueryParameter.STRING, account.getUsername()),
+                        new QueryParameter(QueryParameter.STRING, account.getPassword())
+                );
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Can't create a new account, already exists");
         }
     }
 
+    /**
+     * Check if account exists
+     *
+     * @param account Account
+     * @return boolean true when exists
+     */
     public boolean accountExists(Account account) {
         dbConnection = new DBConnection();
         try {

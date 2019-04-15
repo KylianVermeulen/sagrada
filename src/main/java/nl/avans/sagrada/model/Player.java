@@ -22,9 +22,26 @@ public class Player {
     private ArrayList<FavorToken> favorTokens;
     private boolean cheatmode;
 
+    /**
+     * Empty constructor
+     */
     public Player() {
     }
 
+    /**
+     * Full constructor
+     *
+     * @param id int
+     * @param username String
+     * @param idgame int
+     * @param playerStatus String
+     * @param seqnr int
+     * @param currentPlayer boolean
+     * @param privateObjectivecardColor String
+     * @param idPatterncard int
+     * @param score int
+     * @param account Account
+     */
     public Player(int id, String username, int idgame, String playerStatus, int seqnr, boolean currentPlayer, String privateObjectivecardColor, int idPatterncard, int score, Account account) {
         this.id = id;
         this.username = username;
@@ -38,11 +55,17 @@ public class Player {
         this.account = account;
     }
 
+    /**
+     * Add object to databasee
+     */
     public void add() {
         PlayerDAO playerDAO = new PlayerDAO();
         playerDAO.addPlayer(this);
     }
 
+    /**
+     * Update object in database
+     */
     public void save() {
         PlayerDAO playerDAO = new PlayerDAO();
         playerDAO.updatePlayer(this);
@@ -120,45 +143,84 @@ public class Player {
         this.score = score;
     }
 
+    /**
+     * Get Account from Player
+     *
+     * @return Account
+     */
     public Account getAccount() {
         return account;
     }
 
+    /**
+     * Set Account to Player
+     *
+     * @param account Account
+     */
     public void setAccount(Account account) {
         this.account = account;
         this.username = this.account.getUsername();
     }
 
+    /**
+     * Get Account from database using username and set to Player
+     */
     public void setAccount() {
         AccountDAO accountDAO = new AccountDAO();
         this.account = accountDAO.getAccountByUsername(this.username);
         this.username = this.account.getUsername();
     }
 
+    /**
+     * Get Game from Player
+     *
+     * @return Game
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * Set Game to Player
+     *
+     * @param game Game
+     */
     public void setGame(Game game) {
         this.game = game;
         this.idgame = this.game.getId();
     }
 
+    /**
+     * Get Game from database using idgame and set to Player
+     */
     public void setGame() {
         GameDAO gameDAO = new GameDAO();
         this.game = gameDAO.getGameById(this.idgame);
         this.idgame = this.game.getId();
     }
 
+    /**
+     * Get PatternCard from Player
+     *
+     * @return PatternCard
+     */
     public PatternCard getPatterncard() {
         return patterncard;
     }
 
+    /**
+     * Set PatternCard to Player
+     *
+     * @param patterncard PatternCard
+     */
     public void setPatterncard(PatternCard patterncard) {
         this.patterncard = patterncard;
         this.idPatterncard = this.patterncard.getId();
     }
 
+    /**
+     * Get PatternCard from database using this and set to Player
+     */
     public void setPatterncard() {
         PatterncardDAO patterncardDAO = new PatterncardDAO();
         this.patterncard = patterncardDAO.getPatterncardOfPlayer(this);

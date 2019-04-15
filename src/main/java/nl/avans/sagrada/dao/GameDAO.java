@@ -22,6 +22,8 @@ public class GameDAO {
                 Game game = new Game(rs.getInt("idgame"), rs.getInt("turn_idplayer"));
                 return game;
             }
+            System.out.println("No record for game with gameid: " + gameId);
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -29,10 +31,8 @@ public class GameDAO {
     }
 
     public void updateGame(Game game) {
-
     }
 
     public void addGame(Game game) {
-
     }
 }
