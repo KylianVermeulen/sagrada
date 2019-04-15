@@ -13,23 +13,28 @@ import java.util.ArrayList;
 public class FavorTokenDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Get Favortokens by Player
+     *
+     * @param player Player
+     * @return ArrayList<FavorToken>
+     */
     public ArrayList<FavorToken> getFavortokensOfPlayer(Player player) {
         dbConnection = new DBConnection();
+        ArrayList<FavorToken> list = new ArrayList<FavorToken>();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamefavortoken WHERE idplayer=?", "query",
                             new QueryParameter(QueryParameter.INT, player.getId()))
             );
-            ArrayList<FavorToken> list = new ArrayList<FavorToken>();
             while (rs.next()) {
                 FavorToken favorToken = new FavorToken(rs.getInt("idfavortoken"), rs.getInt("idgame"),
                         rs.getInt("idplayer"), rs.getInt("gametoolcard"));
                 list.add(favorToken);
             }
-            return list;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return list;
     }
 }
