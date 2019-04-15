@@ -11,6 +11,12 @@ import java.sql.SQLException;
 public class GameDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Get game by gameid
+     *
+     * @param gameId int
+     * @return Game when record
+     */
     public Game getGameById(int gameId) {
         dbConnection = new DBConnection();
         try {
