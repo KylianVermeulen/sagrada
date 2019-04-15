@@ -2,6 +2,7 @@ package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
@@ -38,6 +39,7 @@ public class InviteOverviewView extends VBox {
             Account sendedAccount = sendedPlayer.getAccount();
             Pane pane = new HBox();
             Label label = new Label("Invite van: " + sendedAccount.getUsername());
+            label.setPadding(new Insets(4, 4, 4, 4));
             pane.getChildren().add(label);
             
             Button acceptButton = buildButtonToAcceptInvite(invite);
