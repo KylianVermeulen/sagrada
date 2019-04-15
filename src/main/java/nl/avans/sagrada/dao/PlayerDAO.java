@@ -21,29 +21,30 @@ public class PlayerDAO {
      */
     public ArrayList<Player> getPlayersOfAccount(Account account) {
        dbConnection = new DBConnection();
+       ArrayList<Player> list = new ArrayList<Player>();
        try {
            ResultSet rs = dbConnection.executeQuery(
                    new Query("SELECT * FROM player WHERE username=?", "query",
                    new QueryParameter(QueryParameter.STRING, account.getUsername()))
            );
-           ArrayList<Player> list = new ArrayList<Player>();
            while (rs.next()) {
-               Player player = new Player(rs.getInt("idplayer"), rs.getString("username"),
-                       rs.getInt("game_idgame"), rs.getString("playstatus_playstatus"),
-                       rs.getInt("seqnr"), rs.getBoolean("isCurrentPlayer"),
-                       rs.getString("private_objectivecard_color"), rs.getInt("patterncard_idpatterncard"),
-                       rs.getInt("score"), account);
+               Player player = new Player();
+               player.setId(rs.getInt("idplayer"));
+               player.setUsername(rs.getString("username"));
+               player.setIdgame(rs.getInt("game_idgame"));
+               player.setPlayerStatus(rs.getString("playstatus_playstatus"));
+               player.setSeqnr(rs.getInt("seqnr"));
+               player.setCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
+               player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));
+               player.setIdPatterncard(rs.getInt("patterncard_idpatterncard"));
+               player.setScore(rs.getInt("score"));
+               player.setAccount(account);
                list.add(player);
-           }
-           if (list.size() > 1) {
-               return list;
-           } else {
-               System.out.println("No records for player with account username: " + account.getUsername());
            }
        } catch (SQLException e) {
            e.printStackTrace();
        }
-       return null;
+       return list;
     }
 
     /**

@@ -29,33 +29,6 @@ public class Player {
     }
 
     /**
-     * Full constructor
-     *
-     * @param id int
-     * @param username String
-     * @param idgame int
-     * @param playerStatus String
-     * @param seqnr int
-     * @param currentPlayer boolean
-     * @param privateObjectivecardColor String
-     * @param idPatterncard int
-     * @param score int
-     * @param account Account
-     */
-    public Player(int id, String username, int idgame, String playerStatus, int seqnr, boolean currentPlayer, String privateObjectivecardColor, int idPatterncard, int score, Account account) {
-        this.id = id;
-        this.username = username;
-        this.idgame = idgame;
-        this.playerStatus = playerStatus;
-        this.seqnr = seqnr;
-        this.currentPlayer = currentPlayer;
-        this.privateObjectivecardColor = privateObjectivecardColor;
-        this.idPatterncard = idPatterncard;
-        this.score = score;
-        this.account = account;
-    }
-
-    /**
      * Add object to databasee
      */
     public void add() {
