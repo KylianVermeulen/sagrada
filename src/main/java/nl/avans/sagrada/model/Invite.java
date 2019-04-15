@@ -40,4 +40,7 @@ public class Invite {
             return false;
         }
     }
+    public Player getSendedPlayer() {
+        return sendedPlayer;
+    }
 }

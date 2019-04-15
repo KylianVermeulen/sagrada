@@ -35,6 +35,7 @@ public class PlayerDAO {
                 player.setPlayerStatus(rs.getString("playstatus_playstatus"));
                 player.setSeqnr(rs.getInt("seqnr"));
                 player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
+                player.setAccount(new Account(rs.getString("username")));
             }
         } catch (Exception e) {
             // TODO: handle exception

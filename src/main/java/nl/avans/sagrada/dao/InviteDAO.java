@@ -26,7 +26,8 @@ public class InviteDAO {
             );
             while (rs.next()) {
                 Invite invite = new Invite();
-                invite.setSendedPlayer(new Player(rs.getInt("idplayer")));
+                Player player = new Player(rs.getInt("idplayer"));
+                invite.setSendedPlayer(player);
                 invite.setAccount(new Account(rs.getString("username")));
                 String inviteStatus = rs.getString("playstatus_playstatus");
                 if (inviteStatus.equals("accepted")) {

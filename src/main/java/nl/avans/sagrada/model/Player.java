@@ -15,6 +15,7 @@ public class Player {
     private Game game;
     private ArrayList<FavorToken> favorTokens;
     private boolean cheatmode = false;
+    private Account account;
     
     public Player() {
         
@@ -23,6 +24,7 @@ public class Player {
     public Player(int playerId) {
         PlayerDAO playerDAO = new PlayerDAO();
         Player player = playerDAO.getPlayerById(playerId);
+        
         id = player.getId();
         playerStatus = player.getPlayerStatus();
         seqnr = player.getSeqnr();
@@ -42,6 +44,9 @@ public class Player {
     public void setIsCurrentPlayer(boolean isCurrentPlayer) {
         this.isCurrentPlayer = isCurrentPlayer;
     }
+    public void setAccount(Account account) {
+        this.account = account;
+    }
     public int getId() {
         return id;
     }
@@ -53,5 +58,8 @@ public class Player {
     }
     public boolean getIsCurrentPlayer() {
         return isCurrentPlayer;
+    }
+    public Account getAccount() {
+        return(account);
     }
 }

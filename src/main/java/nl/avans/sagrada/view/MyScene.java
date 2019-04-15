@@ -15,9 +15,15 @@ public class MyScene extends Scene {
         super(new Pane());
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
-        
         rootPane = new Pane();
         setRoot(rootPane);
+        
+        accountController.inviteOverview();
+    }
+    
+    public void setRootPane(Pane pane) {
+        rootPane.getChildren().clear();
+        rootPane.getChildren().add(pane);
     }
 
 }
