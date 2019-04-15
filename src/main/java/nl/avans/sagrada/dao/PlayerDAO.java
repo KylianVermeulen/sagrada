@@ -23,7 +23,16 @@ public class PlayerDAO {
            );
            ArrayList<Player> list = new ArrayList<Player>();
            while (rs.next()) {
-               Player player = new Player(rs, account);
+               Player player = new Player();
+               player.setId(rs.getInt("idplayer"));
+               player.setUsername(rs.getString("username"));
+               player.setIdGame(rs.getInt("game_idgame"));
+               player.setPlayerStatus(rs.getString("playstatus_playstatus"));
+               player.setSeqnr(rs.getInt("seqnr"));
+               player.setCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
+               player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));
+               player.setIdPatterncard(rs.getString("patterncard_idpatterncard"));
+               player.setScore(rs.getInt("score"));
                list.add(player);
            }
            return list;

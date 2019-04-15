@@ -20,6 +20,8 @@ public class GameDAO {
             );
             if (rs.next()) {
                 Game game = new Game();
+                game.setId(rs.getInt("idgame"));
+                game.setTurnIdPlayer(rs.getInt("turn_idplayer"));
                 return game;
             }
         } catch (SQLException e) {

@@ -2,36 +2,25 @@ package nl.avans.sagrada.model;
 
 import nl.avans.sagrada.dao.GameDAO;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Player {
     private int id;
-    private Account account;
-    private Game game;
+    private String username;
+    private int idGame;
     private String playerStatus;
     private int seqnr;
     private boolean currentPlayer;
     private String privateObjectivecardColor;
-    private PatternCard patterncard;
+    private String idPatterncard;
     private int score;
 
+    private Account account;
+    private Game game;
+    private PatternCard patterncard;
     private PatternCard[] optionalPatterncards;
     private ArrayList<FavorToken> favorTokens;
     private boolean cheatmode;
-
-    /**
-     * Constructor
-     *
-     * @param rs ResultSet from DAO
-     * @param account Account from DAO param
-     */
-    public Player(ResultSet rs, Account account) throws SQLException {
-        setId(rs.getInt("idplayer"));
-        setAccount(account);
-        setGame(new GameDAO().getGameById(rs.getInt("game_idgame")));
-    }
 
     public int getId() {
         return id;
@@ -41,20 +30,20 @@ public class Player {
         this.id = id;
     }
 
-    public Account getAccount() {
-        return account;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public Game getGame() {
-        return game;
+    public int getIdGame() {
+        return idGame;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setIdGame(int idGame) {
+        this.idGame = idGame;
     }
 
     public String getPlayerStatus() {
@@ -89,12 +78,12 @@ public class Player {
         this.privateObjectivecardColor = privateObjectivecardColor;
     }
 
-    public PatternCard getPatterncard() {
-        return patterncard;
+    public String getIdPatterncard() {
+        return idPatterncard;
     }
 
-    public void setPatterncard(PatternCard patterncard) {
-        this.patterncard = patterncard;
+    public void setIdPatterncard(String idPatterncard) {
+        this.idPatterncard = idPatterncard;
     }
 
     public int getScore() {
@@ -103,6 +92,35 @@ public class Player {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public void setGame() {
+        GameDAO gameDAO = new GameDAO();
+        this.game = gameDAO.getGameById(this.idGame);
+    }
+
+    public PatternCard getPatterncard() {
+        return patterncard;
+    }
+
+    public void setPatterncard(PatternCard patterncard) {
+        this.patterncard = patterncard;
     }
 
     public PatternCard[] getOptionalPatterncards() {
