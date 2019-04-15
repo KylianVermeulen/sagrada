@@ -1,27 +1,41 @@
 package nl.avans.sagrada.view;
 
 import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import nl.avans.sagrada.model.PatternCard;
 
-public class PatternCardView extends TilePane {
+public class PatternCardView extends BorderPane {
     private final int cardWidth = 5;
     private final int cardHeight = 4;
     private PatternCard patternCard;
     private PatternCardFieldView[][] card;
-
+    private TilePane patternCardField;
+    private HBox difficultyBar;
     public PatternCardView() {
         setPadding(new Insets(10, 0, 0, 10));
         setPrefSize(310, 230);
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-
+        difficultyBar = new HBox();
+        patternCardField = new TilePane();
+        difficultyBar.setPadding(new Insets(5,0,5,5));
         patternCard = new PatternCard();
         card = new PatternCardFieldView[cardWidth][cardHeight];
         makeCard();
+        showDifficulty();
+        setCenter(patternCardField);
+    }
+
+    private void showDifficulty() {
+        for(int i = 0; i < patternCard.getDifficulty(); i++){
+            Pane pane = new Pane();
+            pane.setPadding(new Insets(0,5,0,0));
+            Circle circle = new Circle(5,Color.WHITE);
+            pane.getChildren().add(circle);
+            difficultyBar.getChildren().add(pane);
+        }
+        setBottom(difficultyBar);
     }
 
     public void addColor(int x, int y) {
@@ -53,7 +67,7 @@ public class PatternCardView extends TilePane {
                 Pane paddingPane = new Pane();
                 paddingPane.setPadding(new Insets(5, 5, 5, 5));
                 paddingPane.getChildren().add(patternCardFieldView);
-                getChildren().add(paddingPane);
+                patternCardField.getChildren().add(paddingPane);
             }
         }
     }
