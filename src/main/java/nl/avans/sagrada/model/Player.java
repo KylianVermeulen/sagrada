@@ -6,19 +6,17 @@ import java.util.ArrayList;
 
 public class Player {
     private int id;
-    private String username;
-    private int idgame;
+    private Account account;
+    private Game game;
     private String playerStatus;
     private int seqnr;
     private boolean currentPlayer;
     private String privateObjectivecardColor;
-    private int idPatterncard;
+    private int idPatternCard;
+    private PatternCard patternCard;
     private int score;
 
-    private Account account;
-    private Game game;
-    private PatternCard patterncard;
-    private ArrayList<PatternCard> optionalPatterncards;
+    private ArrayList<PatternCard> optionalPatternCards;
     private ArrayList<FavorToken> favorTokens;
     private boolean cheatmode;
 
@@ -50,22 +48,6 @@ public class Player {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getIdgame() {
-        return idgame;
-    }
-
-    public void setIdgame(int idGame) {
-        this.idgame = idGame;
     }
 
     public String getPlayerStatus() {
@@ -100,14 +82,6 @@ public class Player {
         this.privateObjectivecardColor = privateObjectivecardColor;
     }
 
-    public int getIdPatterncard() {
-        return idPatterncard;
-    }
-
-    public void setIdPatterncard(int idPatterncard) {
-        this.idPatterncard = idPatterncard;
-    }
-
     public int getScore() {
         return score;
     }
@@ -132,7 +106,6 @@ public class Player {
      */
     public void setAccount(Account account) {
         this.account = account;
-        this.username = this.account.getUsername();
     }
 
     /**
@@ -140,8 +113,7 @@ public class Player {
      */
     public void setAccount() {
         AccountDAO accountDAO = new AccountDAO();
-        this.account = accountDAO.getAccountByUsername(this.username);
-        this.username = this.account.getUsername();
+        this.account = accountDAO.getAccountByUsername(this.account.getUsername());
     }
 
     /**
@@ -160,7 +132,6 @@ public class Player {
      */
     public void setGame(Game game) {
         this.game = game;
-        this.idgame = this.game.getId();
     }
 
     /**
@@ -168,8 +139,25 @@ public class Player {
      */
     public void setGame() {
         GameDAO gameDAO = new GameDAO();
-        this.game = gameDAO.getGameById(this.idgame);
-        this.idgame = this.game.getId();
+        this.game = gameDAO.getGameById(this.game.getId());
+    }
+
+    /**
+     * Get idPatternCard from Player
+     *
+     * @return int
+     */
+    public int getIdPatternCard() {
+        return idPatternCard;
+    }
+
+    /**
+     * Set idPatternCard to Player
+     *
+     * @param idPatternCard int
+     */
+    public void setIdPatternCard(int idPatternCard) {
+        this.idPatternCard = idPatternCard;
     }
 
     /**
@@ -177,8 +165,8 @@ public class Player {
      *
      * @return PatternCard
      */
-    public PatternCard getPatterncard() {
-        return patterncard;
+    public PatternCard getPatternCard() {
+        return patternCard;
     }
 
     /**
@@ -186,31 +174,31 @@ public class Player {
      *
      * @param patterncard PatternCard
      */
-    public void setPatterncard(PatternCard patterncard) {
-        this.patterncard = patterncard;
-        this.idPatterncard = this.patterncard.getId();
+    public void setPatternCard(PatternCard patterncard) {
+        this.patternCard = patterncard;
+        this.idPatternCard = this.patternCard.getId();
     }
 
     /**
      * Get PatternCard from database using this and set to Player
      */
-    public void setPatterncard() {
+    public void setPatternCard() {
         PatterncardDAO patterncardDAO = new PatterncardDAO();
-        this.patterncard = patterncardDAO.getPatterncardOfPlayer(this);
-        this.idPatterncard = this.patterncard.getId();
+        this.patternCard = patterncardDAO.getPatterncardOfPlayer(this);
+        this.idPatternCard = this.patternCard.getId();
     }
 
-    public ArrayList<PatternCard> getOptionalPatterncards() {
-        return optionalPatterncards;
+    public ArrayList<PatternCard> getOptionalPatternCards() {
+        return optionalPatternCards;
     }
 
-    public void setOptionalPatterncards(ArrayList<PatternCard> optionalPatterncards) {
-        this.optionalPatterncards = optionalPatterncards;
+    public void setOptionalPatternCards(ArrayList<PatternCard> optionalPatterncards) {
+        this.optionalPatternCards = optionalPatterncards;
     }
 
-    public void setOptionalPatterncards() {
+    public void setOptionalPatternCards() {
         PatterncardDAO patterncardDAO = new PatterncardDAO();
-        this.optionalPatterncards = patterncardDAO.getOptionalPatterncardOfPlayer(this);
+        this.optionalPatternCards = patterncardDAO.getOptionalPatterncardOfPlayer(this);
     }
 
     public ArrayList<FavorToken> getFavorTokens() {

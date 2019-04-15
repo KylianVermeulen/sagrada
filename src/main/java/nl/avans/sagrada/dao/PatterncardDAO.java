@@ -18,7 +18,7 @@ public class PatterncardDAO {
         try  {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM patterncard INNER JOIN player p on patterncard.idpatterncard = p.patterncard_idpatterncard WHERE p.username=?", "query"),
-                    new QueryParameter(QueryParameter.STRING, player.getUsername())
+                    new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername())
             );
             if (rs.next()) {
                 PatternCard patternCard = new PatternCard(rs.getInt("idpatterncard"), rs.getInt("difficulty"), rs.getBoolean("standard"));
