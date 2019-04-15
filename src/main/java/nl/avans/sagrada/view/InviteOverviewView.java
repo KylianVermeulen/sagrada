@@ -18,7 +18,7 @@ import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 
 public class InviteOverviewView extends VBox {
-    private static final int PANE_WIDTH = 300;
+    private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
     private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2;
     private ArrayList<Invite> invites;
     private AccountController accountController;
@@ -26,7 +26,6 @@ public class InviteOverviewView extends VBox {
     public InviteOverviewView(AccountController accountController) {
         this.accountController = accountController;
         setPrefSize(PANE_WIDTH, PANE_HEIGHT);
-        setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
     }
     
     public void setInvites(ArrayList<Invite> invites) {
@@ -39,7 +38,7 @@ public class InviteOverviewView extends VBox {
             Account sendedAccount = sendedPlayer.getAccount();
             Pane pane = new HBox();
             Label label = new Label("Invite van: " + sendedAccount.getUsername());
-            label.setPadding(new Insets(4, 4, 4, 4));
+            label.setPadding(new Insets(5, 4, 5, 4));
             pane.getChildren().add(label);
             
             Button acceptButton = buildButtonToAcceptInvite(invite);
