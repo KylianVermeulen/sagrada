@@ -2,6 +2,7 @@ package nl.avans.sagrada.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
@@ -9,46 +10,70 @@ import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Account;
 
 public class AccountDAO {
-	private DBConnection dbConnection;
-	
-	
-    public Account mapRowOne(ResultSet rs) throws SQLException {
-        Account account = new Account();
-        if (rs.next()) {
-            account.setUsername(rs.getString("username"));
-            account.setPassword(rs.getString("password"));
-        }
-        return account;
-    }
-    
-	public Account getAccountByUsername(String username) {
+    private DBConnection dbConnection;
+
+    public Account getAccountByUsername(String username) {
+        dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("select * from account where username=?", "query",
-                            new QueryParameter(QueryParameter.STRING, username)));
-            Account account = mapRowOne(rs);
-            return account;
+                    new Query("SELECT * FROM account WHERE username=?", "query",
+                    new QueryParameter(QueryParameter.STRING, username))
+            );
+            if (rs.next()) {
+                Account account = new Account(rs.getString("username"), rs.getString("password"));
+                return account;
+            }
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
-	}
-	
-    public void addAccount(Account account) {
-        if (accountExists(account)) {System.out.println("Account already exists"); return;}
+    }
+
+    public ArrayList<Account> getAllAccounts() {
         DBConnection dbConnection = new DBConnection();
         try {
+            ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM account", "query"));
+            ArrayList<Account> list = new ArrayList<Account>();
+            while (rs.next()) {
+                Account account = new Account(rs.getString("username"), rs.getString("password"));
+                list.add(account);
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateAccount(Account account) {
+        dbConnection = new DBConnection();
+        try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("INSERT INTO account (username, password) VALUES (?, ?, ?)", "update"),
-                    new QueryParameter(QueryParameter.STRING, account.getUsername()),
-                    new QueryParameter(QueryParameter.STRING, account.getPassword()));
+                    new Query("UPDATE account SET password=? WHERE username=?", "update"),
+                    new QueryParameter(QueryParameter.STRING, account.getPassword()),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername())
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
+    public void addAccount(Account account) {
+        dbConnection = new DBConnection();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("INSERT INTO account (username, password) VALUES (?, ?)", "update"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername()),
+                    new QueryParameter(QueryParameter.STRING, account.getPassword())
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean accountExists(Account account) {
-        DBConnection dbConnection = new DBConnection();
+        dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT count(*) as count FROM account WHERE username=?", "query"),
@@ -67,10 +92,6 @@ public class AccountDAO {
         }
         return true;
     }
-	
-	public void updateAccount(Account account) {
-		
-	}
 	
 
 }
