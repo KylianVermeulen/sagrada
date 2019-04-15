@@ -26,7 +26,7 @@ public class MyScene extends Scene {
 
 
     public void generateRandomCard() {
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < patternCardView.getPatternCard().getDifficulty() * 2; i++) {
             generateRandomPatternCardField();
         }
     }
@@ -41,6 +41,7 @@ public class MyScene extends Scene {
         int xPos = rnd.nextInt(5);
         int yPos = rnd.nextInt(4);
         int eyes = rnd.nextInt(6) + 1;
+        String color = colors.get(rnd.nextInt(5));
 
         if (rnd.nextBoolean()) {
             if (!patternCardView.hasFieldAttributes(xPos, yPos)) {
@@ -50,8 +51,8 @@ public class MyScene extends Scene {
                 generateRandomPatternCardField();
             }
         } else {
-            if (!patternCardView.hasFieldAttributes(xPos, yPos)) {
-                patternCardView.setColor(colors.get(rnd.nextInt(5)), xPos, yPos);
+            if (!patternCardView.hasFieldAttributes(xPos, yPos) && patternCardView.checkSides(xPos, yPos, color)) {
+                patternCardView.setColor(color, xPos, yPos);
                 patternCardView.addColor(xPos, yPos);
             } else {
                 generateRandomPatternCardField();

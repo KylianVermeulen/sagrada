@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PatternCardFieldView extends StackPane {
-    private int x;
+    private int xPos;
     private int y;
     private PatternCardField patternCardField;
     private PatternCard patternCard;
@@ -42,7 +42,7 @@ public class PatternCardFieldView extends StackPane {
     }
 
     public void initPatternCardField() {
-        patternCardField = patternCard.getPatternCardField(x, y);
+        patternCardField = patternCard.getPatternCardField(xPos, y);
     }
 
     public void addEyes() {
@@ -62,7 +62,7 @@ public class PatternCardFieldView extends StackPane {
     }
 
     public void setX(int x) {
-        this.x = x;
+        this.xPos = x;
     }
 
     public void setColor(String color) {
@@ -75,5 +75,9 @@ public class PatternCardFieldView extends StackPane {
 
     public boolean hasAttributes() {
         return patternCardField.hasAttributes();
+    }
+
+    public boolean checkSides(String color) {
+        return patternCardField.checkSides(color);
     }
 }

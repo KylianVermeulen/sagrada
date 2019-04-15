@@ -1,14 +1,16 @@
 package nl.avans.sagrada.view;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import nl.avans.sagrada.model.PatternCard;
 
+import static nl.avans.sagrada.Main.CARD_HEIGHT;
+import static nl.avans.sagrada.Main.CARD_WIDTH;
+
 public class PatternCardView extends BorderPane {
-    private final int cardWidth = 5;
-    private final int cardHeight = 4;
     private PatternCard patternCard;
     private PatternCardFieldView[][] card;
     private TilePane patternCardField;
@@ -21,7 +23,7 @@ public class PatternCardView extends BorderPane {
         patternCardField = new TilePane();
         difficultyBar.setPadding(new Insets(5,0,5,5));
         patternCard = new PatternCard();
-        card = new PatternCardFieldView[cardWidth][cardHeight];
+        card = new PatternCardFieldView[CARD_WIDTH][CARD_HEIGHT];
         makeCard();
         showDifficulty();
         setCenter(patternCardField);
@@ -35,7 +37,10 @@ public class PatternCardView extends BorderPane {
             pane.getChildren().add(circle);
             difficultyBar.getChildren().add(pane);
         }
-        setBottom(difficultyBar);
+        GridPane test = new GridPane();
+        test.getChildren().add(difficultyBar);
+        test.setAlignment(Pos.BOTTOM_RIGHT);
+        setBottom(test);
     }
 
     public void addColor(int x, int y) {
@@ -57,8 +62,8 @@ public class PatternCardView extends BorderPane {
     }
 
     private void makeCard() {
-        for (int y = 0; y < cardHeight; y++) {
-            for (int x = 0; x < cardWidth; x++) {
+        for (int y = 0; y < CARD_HEIGHT; y++) {
+            for (int x = 0; x < CARD_WIDTH; x++) {
                 PatternCardFieldView patternCardFieldView = new PatternCardFieldView(patternCard);
                 card[x][y] = patternCardFieldView;
                 patternCardFieldView.setY(y);
@@ -82,5 +87,13 @@ public class PatternCardView extends BorderPane {
 
     public boolean hasFieldAttributes(int x, int y) {
         return card[x][y].hasAttributes();
+    }
+
+    public PatternCard getPatternCard() {
+        return this.patternCard;
+    }
+
+    public boolean checkSides(int x, int y, String color) {
+        return card[x][y].checkSides(color);
     }
 }
