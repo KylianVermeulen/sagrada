@@ -1,5 +1,6 @@
 package nl.avans.sagrada;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import nl.avans.sagrada.view.MyScene;
 
@@ -18,6 +19,7 @@ public class Main extends Application {
         primaryStage.setWidth(SCREEN_WIDTH);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Sagrada groep P");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
         buildGui(primaryStage);
         primaryStage.show();
     }
