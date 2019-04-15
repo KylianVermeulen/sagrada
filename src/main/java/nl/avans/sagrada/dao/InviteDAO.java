@@ -26,7 +26,6 @@ public class InviteDAO {
             );
             while (rs.next()) {
                 Invite invite = new Invite();
-                System.out.println(rs.getInt("idplayer"));
                 Player player = new Player(rs.getInt("idplayer"));
                 invite.setSendedPlayer(player);
                 invite.setAccount(account);
