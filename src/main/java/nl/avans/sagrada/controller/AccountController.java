@@ -31,12 +31,12 @@ public class AccountController {
     public void register() {
 
     }
-    public void acceptInvite() {
-
+    public void acceptInvite(Invite invite) {
+        invite.acceptInvite();
     }
 
-    public void denyInvite() {
-
+    public void denyInvite(Invite invite) {
+        invite.denyInvite();
     }
 
     public void gameOverview() {
@@ -54,14 +54,13 @@ public class AccountController {
     public void inviteOverview() {
         Pane pane = new Pane();
         account = accountDao.getAccountByUsername("test1");
-        ArrayList<Invite> pendingInvites = inviteDao.getAllPendingInvitesOfAccount(account);
-        InviteOverviewView inviteOverview = new InviteOverviewView();
+        ArrayList<Invite> pendingInvites = account.getInvites();
+        
+        InviteOverviewView inviteOverview = new InviteOverviewView(this);
         inviteOverview.setInvites(pendingInvites);
         inviteOverview.render();
-        
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(inviteOverview);
         myScene.setRootPane(pane);
-        System.out.println("Root");
     }
 }

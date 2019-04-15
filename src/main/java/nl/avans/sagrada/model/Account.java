@@ -15,17 +15,20 @@ public class Account {
     
     public Account(String username) {
         AccountDAO accountDao = new AccountDAO();
-        InviteDAO inviteDao = new InviteDAO();
         Account account = accountDao.getAccountByUsername(username);
         this.username = account.getUsername();
         password = account.getPassword();
-        
-        pendingInvites = inviteDao.getAllPendingInvitesOfAccount(this);
     }
     
     public Account(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+    
+    public ArrayList<Invite> getInvites() {
+        InviteDAO inviteDao = new InviteDAO();
+        pendingInvites = inviteDao.getAllPendingInvitesOfAccount(this);
+        return pendingInvites;
     }
     
     public String getUsername() {

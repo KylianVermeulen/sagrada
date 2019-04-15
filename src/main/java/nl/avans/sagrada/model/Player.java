@@ -24,11 +24,11 @@ public class Player {
     public Player(int playerId) {
         PlayerDAO playerDAO = new PlayerDAO();
         Player player = playerDAO.getPlayerById(playerId);
-        
         id = player.getId();
         playerStatus = player.getPlayerStatus();
         seqnr = player.getSeqnr();
         isCurrentPlayer = player.getIsCurrentPlayer();
+        account = player.getAccount();
     }
     
     public void setId(int id) {
