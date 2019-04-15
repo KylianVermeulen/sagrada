@@ -30,15 +30,6 @@ public class PatternCardFieldView extends StackPane {
         patternCardField = patternCard.getPatternCardField(x, y);
     }
 
-    private void updateField(){
-        if (patternCardField.hasColor()) {
-            addColor();
-        }
-        if (patternCardField.hasEyes()) {
-            addEyes();
-        }
-    }
-
     private void diceEyesArray(){
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/1.png")));
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/2.png")));
@@ -48,11 +39,11 @@ public class PatternCardFieldView extends StackPane {
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/6.png")));
     }
 
-    private void addEyes() {
+    public void addEyes() {
         getChildren().add(new ImageView(images.get(patternCardField.getEyes() - 1)));
     }
 
-    private void addColor() {
+    public void addColor() {
         setBackground(new Background(new BackgroundFill(patternCardField.getColor(), null, null)));
     }
 
@@ -66,11 +57,13 @@ public class PatternCardFieldView extends StackPane {
 
     public void setColor(String color) {
         patternCardField.setColor(color);
-        updateField();
     }
 
     public void setEyes(int eyes) {
         patternCardField.setEyes(eyes);
-        updateField();
+    }
+
+    public boolean hasAttributes() {
+        return patternCardField.hasAttributes();
     }
 }

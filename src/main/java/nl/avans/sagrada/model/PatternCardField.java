@@ -14,33 +14,45 @@ public class PatternCardField {
         return false;
     }
 
-    public boolean hasColor(){
-        if(color == null){
+    public boolean hasColor() {
+        if (color == null) {
             return false;
         }
         return true;
     }
 
-    public boolean hasEyes(){
-        if(value == 0){
+    public boolean hasEyes() {
+        if (value == 0) {
             return false;
         }
         return true;
     }
 
-    public void setColor(String color){
-        this.color = color;
-    }
-
-    public void setEyes(int eyes){
-        this.value = eyes;
-    }
-
-    public int getEyes(){
+    public int getEyes() {
         return this.value;
     }
 
-    public Color getColor(){
+    public void setEyes(int eyes) {
+        this.value = eyes;
+
+    }
+
+    public Color getColor() {
         return Color.valueOf(color);
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+
+    }
+
+    public boolean hasAttributes() {
+        if(hasColor() == true){
+            return true;
+        } else if(hasEyes() == true){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -24,6 +24,14 @@ public class PatternCardView extends TilePane {
         makeCard();
     }
 
+    public void addColor(int x, int y){
+        card[x][y].addColor();
+    }
+
+    public void addEyes(int x, int y){
+        card[x][y].addEyes();
+    }
+
     public void setEyes(int eyes, int x, int y){
         card[x][y].setEyes(eyes);
 
@@ -48,5 +56,9 @@ public class PatternCardView extends TilePane {
                 getChildren().add(paddingPane);
             }
         }
+    }
+
+    public boolean hasFieldAttributes(int x, int y) {
+        return card[x][y].hasAttributes();
     }
 }
