@@ -13,9 +13,10 @@ public class PatternCardView extends TilePane {
     private final int cardHeight = 4;
     private PatternCard patternCard;
     private PatternCardFieldView[][] card;
-    public PatternCardView(){
-        setPadding(new Insets(10,0,0,10));
-        setPrefSize(310,230);
+
+    public PatternCardView() {
+        setPadding(new Insets(10, 0, 0, 10));
+        setPrefSize(310, 230);
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 
         patternCard = new PatternCard();
@@ -23,16 +24,26 @@ public class PatternCardView extends TilePane {
         makeCard();
     }
 
+    public void setEyes(int eyes, int x, int y){
+        card[x][y].setEyes(eyes);
+
+    }
+
+    public void setColor(String color, int x, int y) {
+        card[x][y].setColor(color);
+
+    }
+
     private void makeCard() {
-        for(int y = 0; y < cardHeight; y++){
-            for(int x = 0; x < cardWidth; x++){
+        for (int y = 0; y < cardHeight; y++) {
+            for (int x = 0; x < cardWidth; x++) {
                 PatternCardFieldView patternCardFieldView = new PatternCardFieldView(patternCard);
                 card[x][y] = patternCardFieldView;
                 patternCardFieldView.setY(y);
                 patternCardFieldView.setX(x);
 
                 Pane paddingPane = new Pane();
-                paddingPane.setPadding(new Insets(5,5,5,5));
+                paddingPane.setPadding(new Insets(5, 5, 5, 5));
                 paddingPane.getChildren().add(patternCardFieldView);
                 getChildren().add(paddingPane);
             }

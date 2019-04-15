@@ -28,6 +28,9 @@ public class PatternCardFieldView extends StackPane {
         diceEyesArray();
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         patternCardField = patternCard.getPatternCardField(x, y);
+    }
+
+    private void updateField(){
         if (patternCardField.hasColor()) {
             addColor();
         }
@@ -37,19 +40,12 @@ public class PatternCardFieldView extends StackPane {
     }
 
     private void diceEyesArray(){
-        Image eyes1 = new Image(getClass().getResourceAsStream("/images/dice eyes/1.png"));
-        Image eyes2 = new Image(getClass().getResourceAsStream("/images/dice eyes/2.png"));
-        Image eyes3 = new Image(getClass().getResourceAsStream("/images/dice eyes/3.png"));
-        Image eyes4 = new Image(getClass().getResourceAsStream("/images/dice eyes/4.png"));
-        Image eyes5 = new Image(getClass().getResourceAsStream("/images/dice eyes/5.png"));
-        Image eyes6 = new Image(getClass().getResourceAsStream("/images/dice eyes/6.png"));
-
-        images.add(eyes1);
-        images.add(eyes2);
-        images.add(eyes3);
-        images.add(eyes4);
-        images.add(eyes5);
-        images.add(eyes6);
+        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/1.png")));
+        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/2.png")));
+        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/3.png")));
+        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/4.png")));
+        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/5.png")));
+        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/6.png")));
     }
 
     private void addEyes() {
@@ -66,5 +62,15 @@ public class PatternCardFieldView extends StackPane {
 
     public void setX(int x) {
         this.x = x;
+    }
+
+    public void setColor(String color) {
+        patternCardField.setColor(color);
+        updateField();
+    }
+
+    public void setEyes(int eyes) {
+        patternCardField.setEyes(eyes);
+        updateField();
     }
 }
