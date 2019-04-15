@@ -2,6 +2,7 @@ package nl.avans.sagrada;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import nl.avans.sagrada.view.MyScene;
 
 public class Main extends Application {
     public static final int SCREEN_HEIGHT = 800;

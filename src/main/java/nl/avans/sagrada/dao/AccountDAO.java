@@ -19,9 +19,7 @@ public class AccountDAO {
                     new Query("SELECT * FROM account WHERE username=?", "query",
                     new QueryParameter(QueryParameter.STRING, username))
             );
-            Account account = new Account();
-            account.setUsername(rs.getString("username"));
-            account.setPassword(rs.getString("password"));
+            Account account = new Account(rs.getString("username"), rs.getString("password"));
             return account;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -35,9 +33,7 @@ public class AccountDAO {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM account", "query"));
             ArrayList<Account> list = new ArrayList<Account>();
             while (rs.next()) {
-                Account account = new Account();
-                account.setUsername(rs.getString("username"));
-                account.setPassword(rs.getString("password"));
+                Account account = new Account(rs.getString("username"), rs.getString("password"));
                 list.add(account);
             }
             return list;

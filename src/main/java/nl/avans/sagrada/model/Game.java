@@ -10,6 +10,11 @@ public class Game {
     private GameDie[] gameDie;
     private PublicObjectiveCard[] publicObjectiveCards;
 
+    public Game(int id, int turnIdPlayer) {
+        this.id = id;
+        this.turnIdPlayer = turnIdPlayer;
+    }
+
     public int getId() {
         return id;
     }

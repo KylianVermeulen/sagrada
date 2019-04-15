@@ -19,9 +19,7 @@ public class GameDAO {
                     new QueryParameter(QueryParameter.INT, gameId)
             );
             if (rs.next()) {
-                Game game = new Game();
-                game.setId(rs.getInt("idgame"));
-                game.setTurnIdPlayer(rs.getInt("turn_idplayer"));
+                Game game = new Game(rs.getInt("idgame"), rs.getInt("turn_idplayer"));
                 return game;
             }
         } catch (SQLException e) {

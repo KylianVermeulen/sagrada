@@ -1,5 +1,6 @@
 package nl.avans.sagrada.model;
 
+import nl.avans.sagrada.dao.AccountDAO;
 import nl.avans.sagrada.dao.GameDAO;
 
 import java.util.ArrayList;
@@ -21,6 +22,19 @@ public class Player {
     private PatternCard[] optionalPatterncards;
     private ArrayList<FavorToken> favorTokens;
     private boolean cheatmode;
+
+    public Player(int id, String username, int idGame, String playerStatus, int seqnr, boolean currentPlayer, String privateObjectivecardColor, String idPatterncard, int score, Account account) {
+        this.id = id;
+        this.username = username;
+        this.idGame = idGame;
+        this.playerStatus = playerStatus;
+        this.seqnr = seqnr;
+        this.currentPlayer = currentPlayer;
+        this.privateObjectivecardColor = privateObjectivecardColor;
+        this.idPatterncard = idPatterncard;
+        this.score = score;
+        this.account = account;
+    }
 
     public int getId() {
         return id;
@@ -100,6 +114,11 @@ public class Player {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public void setAccount() {
+        AccountDAO accountDAO = new AccountDAO();
+        this.account = accountDAO.getAccountByUsername(this.username);
     }
 
     public Game getGame() {
