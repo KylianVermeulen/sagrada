@@ -13,6 +13,7 @@ import java.util.Random;
 public class MyScene extends Scene {
     private Random rnd;
     private PatternCardView patternCardView;
+    ArrayList<String> colors;
 
     public MyScene() {
         super(new Pane());
@@ -26,9 +27,15 @@ public class MyScene extends Scene {
 
 //patternCardView.getPatternCard().getDifficulty() * 2
     public void generateRandomCard() {
+        makeColors();
         for (int i = 0; i < 10; i++) {
             generateRandomPatternCardField();
         }
+    }
+
+    private void makeColors() {
+        colors = new ArrayList<String>();
+        colors.add("blue");
     }
 
     private void generateRandomPatternCardField() {
@@ -52,8 +59,6 @@ public class MyScene extends Scene {
     }
 
     private void addRandomColor() {
-        ArrayList<String> colors = new ArrayList<String>();
-        colors.add("blue");
 
         int xPos = rnd.nextInt(5);
         int yPos = rnd.nextInt(4);
