@@ -28,11 +28,19 @@ public class InviteOverviewView extends VBox {
         setPrefSize(PANE_WIDTH, PANE_HEIGHT);
     }
     
+    /**
+     * Sets the invites that the view needs to show
+     * @param invites
+     */
     public void setInvites(ArrayList<Invite> invites) {
         this.invites = invites;
     }
     
+    /**
+     * Renders the view with all the information
+     */
     public void render() {
+        getChildren().clear();
         for (Invite invite: invites) {
             Player sendedPlayer = invite.getSendedPlayer();
             Account sendedAccount = sendedPlayer.getAccount();
@@ -49,11 +57,22 @@ public class InviteOverviewView extends VBox {
         }
     }
     
+    /**
+     * Builds a button to accept the invite
+     * @param invite
+     * @return Button
+     */
     private Button buildButtonToAcceptInvite(Invite invite) {
         Button button = new Button("+");
         button.setOnAction(e->accountController.acceptInvite(invite));
         return(button);
     }
+    
+    /**
+     * Builds a button to deny the invite
+     * @param invite
+     * @return Button
+     */
     private Button buildButtonToDenyInvite(Invite invite) {
         Button button = new Button("x");
         button.setOnAction(e->accountController.denyInvite(invite));

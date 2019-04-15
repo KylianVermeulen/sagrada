@@ -19,6 +19,10 @@ public class MyScene extends Scene {
         setRoot(rootPane);
     }
     
+    /**
+     * Set the rootpane of the pane that we have as root from the scene
+     * @param pane
+     */
     public void setRootPane(Pane pane) {
         rootPane.getChildren().clear();
         rootPane.getChildren().add(pane);

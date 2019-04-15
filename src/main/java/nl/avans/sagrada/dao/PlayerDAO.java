@@ -24,6 +24,12 @@ public class PlayerDAO {
 
     }
     
+    /**
+     * Gets a player by the Id of the player
+     * When no player has found it will return null
+     * @param id the id of the player
+     * @return Player
+     */
     public Player getPlayerById(int id) {
         Player player = new Player();
         try {
@@ -39,6 +45,7 @@ public class PlayerDAO {
             }
         } catch (Exception e) {
             // TODO: handle exception
+            player = null;
         }
         return player;
     }

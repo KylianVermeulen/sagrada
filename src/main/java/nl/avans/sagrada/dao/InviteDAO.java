@@ -17,6 +17,11 @@ public class InviteDAO {
         dbConnection = new DBConnection();
     }
 
+    /**
+     * get all the invites from a account
+     * @param account
+     * @return ArrayList containing all the invites
+     */
     public ArrayList<Invite> getInvitesOfAccount(Account account) {
         ArrayList<Invite> invites = new ArrayList<>();
         try {
@@ -28,7 +33,7 @@ public class InviteDAO {
                 Invite invite = new Invite();
                 Player player = new Player(rs.getInt("idplayer"));
                 invite.setSendedPlayer(player);
-                invite.setAccount(account);
+                invite.setInvitedAccount(account);
                 String inviteStatus = rs.getString("playstatus_playstatus");
                 if (inviteStatus.equals("accepted")) {
                     invite.acceptInvite();
@@ -45,6 +50,13 @@ public class InviteDAO {
         }
         return invites;
     }
+    
+    /**
+     * Get all invites that are pending
+     * So the invites that are still waiting for a response
+     * @param account
+     * @return ArrayList with all the invites
+     */
     public ArrayList<Invite> getAllPendingInvitesOfAccount(Account account) {
         ArrayList<Invite> inviteList = getInvitesOfAccount(account);
         ArrayList<Invite> pendingInvites = new ArrayList<>();

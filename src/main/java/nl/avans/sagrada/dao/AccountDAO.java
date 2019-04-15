@@ -14,6 +14,12 @@ public class AccountDAO {
         dbConnection = new DBConnection();
     }
 
+    /**
+     * Gets a account by the username
+     * When there was no account found it will return null
+     * @param username
+     * @return Account model
+     */
     public Account getAccountByUsername(String username) {
         Account account = null;
         try {

@@ -54,7 +54,7 @@ public class AccountController {
     public void inviteOverview() {
         Pane pane = new Pane();
         account = accountDao.getAccountByUsername("test1");
-        ArrayList<Invite> pendingInvites = account.getInvites();
+        ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
         
         InviteOverviewView inviteOverview = new InviteOverviewView(this);
         inviteOverview.setInvites(pendingInvites);
