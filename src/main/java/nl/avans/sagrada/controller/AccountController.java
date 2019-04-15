@@ -61,6 +61,7 @@ public class AccountController {
         inviteOverview.render();
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(inviteOverview);
+        
         myScene.setRootPane(pane);
     }
 }

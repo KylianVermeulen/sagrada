@@ -36,14 +36,26 @@ public class InviteOverviewView extends VBox {
         for (Invite invite: invites) {
             Player sendedPlayer = invite.getSendedPlayer();
             Account sendedAccount = sendedPlayer.getAccount();
-            Pane pane = new Pane();
+            Pane pane = new HBox();
             Label label = new Label("Invite van: " + sendedAccount.getUsername());
             pane.getChildren().add(label);
+            
+            Button acceptButton = buildButtonToAcceptInvite(invite);
+            Button denyButton = buildButtonToDenyInvite(invite);
+            
+            pane.getChildren().addAll(acceptButton, denyButton);
             getChildren().add(pane);
         }
     }
     
-    private Button buildButtonToAcceptInvite() {
-        Button button = new Button();
+    private Button buildButtonToAcceptInvite(Invite invite) {
+        Button button = new Button("+");
+        button.setOnAction(e->accountController.acceptInvite(invite));
+        return(button);
+    }
+    private Button buildButtonToDenyInvite(Invite invite) {
+        Button button = new Button("x");
+        button.setOnAction(e->accountController.denyInvite(invite));
+        return(button);  
     }
 }
