@@ -43,18 +43,38 @@ public class Account {
         accountDAO.updateAccount(this);
     }
 
+    /**
+     * Get username from Account
+     *
+     * @return String
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Set username to Player
+     *
+     * @param username String
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Get password from Player
+     *
+     * @return String
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Set password to player
+     *
+     * @param password String
+     */
     public void setPassword(String password) {
         this.password = password;
     }
