@@ -16,12 +16,13 @@ package nl.avans.sagrada.view;
 	        accountController = new AccountController(this);
 	        playerController = new PlayerController(this);
 	        rootPane = new Pane();
-	        setRoot(rootPane);	        
+	        setRoot(rootPane);
+	        accountController.gameOverview();
 	    }
 	
 	    /**
 	     * Set the rootpane of the pane that we have as root from the scene
-	     * @param pane
+	     * @param pane Pane
 	     */
 	    public void setRootPane(Pane pane) {
 	        rootPane.getChildren().clear();

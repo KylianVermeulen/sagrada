@@ -100,23 +100,8 @@ public class Account {
      * @return ArrayList<Player>
      */
     public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    /**
-     * Set Players to Account
-     *
-     * @param players ArrayList<Player>
-     */
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
-
-    /**
-     * Get Players from database using Account and set to Account
-     */
-    public void setPlayers() {
         PlayerDAO playerDAO = new PlayerDAO();
-        this.players = playerDAO.getPlayersOfAccount(this);
+        players = playerDAO.getPlayersOfAccount(this);
+        return players;
     }
 }
