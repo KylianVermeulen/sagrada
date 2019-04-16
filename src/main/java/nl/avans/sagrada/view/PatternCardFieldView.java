@@ -17,10 +17,6 @@ public class PatternCardFieldView extends StackPane {
 
     private ArrayList<Image> images;
 
-    public PatternCardFieldView(PatternCard patternCard) {
-        this.patternCard = patternCard;
-    }
-
     public PatternCardFieldView(PatternCard patternCard, PatternCardField patternCardField) {
         this.patternCard = patternCard;
         this.patternCardField = patternCardField;
