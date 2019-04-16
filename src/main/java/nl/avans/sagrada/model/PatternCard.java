@@ -5,9 +5,6 @@ import nl.avans.sagrada.view.PatternCardView;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static nl.avans.sagrada.Main.CARD_HEIGHT;
-import static nl.avans.sagrada.Main.CARD_WIDTH;
-
 public class PatternCard {
     private int id;
     private int difficulty;
@@ -16,6 +13,9 @@ public class PatternCard {
     private PatternCardField[][] patterncardFields;
     private Random rnd;
     private PatternCardView randomPatternCardView;
+
+    public static final int CARD_WIDTH = 5;
+    public static final int CARD_HEIGHT = 4;;
 
     /**
      * Empty constructor

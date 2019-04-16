@@ -2,9 +2,6 @@ package nl.avans.sagrada.model;
 
 import javafx.scene.paint.Color;
 
-import static nl.avans.sagrada.Main.CARD_HEIGHT;
-import static nl.avans.sagrada.Main.CARD_WIDTH;
-
 public class PatternCardField {
     private GameDie die;
     private int xPos;

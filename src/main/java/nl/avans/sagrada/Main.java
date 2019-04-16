@@ -7,8 +7,6 @@ import nl.avans.sagrada.view.MyScene;
 public class Main extends Application {
     public static final int SCREEN_HEIGHT = 800;
     public static final int SCREEN_WIDTH = 1280;
-    public static final int CARD_WIDTH = 5;
-    public static final int CARD_HEIGHT = 4;
 
     private MyScene rootScene;
 

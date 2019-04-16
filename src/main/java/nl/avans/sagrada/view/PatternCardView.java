@@ -7,8 +7,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import nl.avans.sagrada.model.PatternCard;
 
-import static nl.avans.sagrada.Main.CARD_HEIGHT;
-import static nl.avans.sagrada.Main.CARD_WIDTH;
+import static nl.avans.sagrada.model.PatternCard.CARD_HEIGHT;
+import static nl.avans.sagrada.model.PatternCard.CARD_WIDTH;
 
 public class PatternCardView extends BorderPane {
     private PatternCard patternCard;
