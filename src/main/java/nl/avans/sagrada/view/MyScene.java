@@ -24,7 +24,7 @@ public class MyScene extends Scene {
 
         testPatterncardView();
     }
-	
+
     /**
      * Set the rootpane of the pane that we have as root from the scene
      * @param pane
@@ -36,7 +36,6 @@ public class MyScene extends Scene {
 
     public void testPatterncardView() {
         Account account = new AccountDAO().getAccountByUsername("test2");
-        account.setPlayers();
         Player player = new PlayerDAO().getPlayerById(account.getPlayers().get(0).getId());
         playerController.seePatterncardOfPlayer(player);
     }
