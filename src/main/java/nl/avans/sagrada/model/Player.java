@@ -12,7 +12,6 @@ public class Player {
     private int seqnr;
     private boolean currentPlayer;
     private String privateObjectivecardColor;
-    private int idPatternCard;
     private PatternCard patternCard;
     private int score;
 
@@ -143,24 +142,6 @@ public class Player {
     }
 
     /**
-     * Get idPatternCard from Player
-     *
-     * @return int
-     */
-    public int getIdPatternCard() {
-        return idPatternCard;
-    }
-
-    /**
-     * Set idPatternCard to Player
-     *
-     * @param idPatternCard int
-     */
-    public void setIdPatternCard(int idPatternCard) {
-        this.idPatternCard = idPatternCard;
-    }
-
-    /**
      * Get PatternCard from Player
      *
      * @return PatternCard
@@ -176,7 +157,6 @@ public class Player {
      */
     public void setPatternCard(PatternCard patterncard) {
         this.patternCard = patterncard;
-        this.idPatternCard = this.patternCard.getId();
     }
 
     /**
@@ -185,7 +165,6 @@ public class Player {
     public void setPatternCard() {
         PatterncardDAO patterncardDAO = new PatterncardDAO();
         this.patternCard = patterncardDAO.getPatterncardOfPlayer(this);
-        this.idPatternCard = this.patternCard.getId();
     }
 
     /**

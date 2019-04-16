@@ -2,22 +2,18 @@ package nl.avans.sagrada.model;
 
 public class FavorToken {
     private int id;
-    private int idToolcard;
-
     private Game game;
     private Player player;
     private Toolcard toolcard;
 
     /**
-     * Full constructor for getFavortokensOfPlayer
+     * Partial constructor for getFavortokensOfPlayer
      *
      * @param id int
-     * @param idToolcard int
      * @param player Player
      */
-    public FavorToken(int id, int idToolcard, Player player) {
+    public FavorToken(int id, Player player) {
         this.id = id;
-        this.idToolcard = idToolcard;
         this.player = player;
         this.game = player.getGame();
     }
@@ -31,14 +27,6 @@ public class FavorToken {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getIdToolcard() {
-        return idToolcard;
-    }
-
-    public void setIdToolcard(int idToolcard) {
-        this.idToolcard = idToolcard;
     }
 
     public Game getGame() {

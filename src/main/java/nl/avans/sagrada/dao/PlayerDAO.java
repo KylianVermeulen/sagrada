@@ -36,7 +36,7 @@ public class PlayerDAO {
                player.setSeqnr(rs.getInt("seqnr"));
                player.setCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
                player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));
-               player.setIdPatternCard(rs.getInt("patterncard_idpatterncard"));
+               player.setPatternCard(new PatterncardDAO().getPatterncardOfPlayer(player));
                player.setScore(rs.getInt("score"));
                list.add(player);
            }
@@ -56,14 +56,13 @@ public class PlayerDAO {
         if (playerExists(player)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
-                        new Query("UPDATE player SET username=?, game_idgame=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, patterncard_idpatterncard=?, score=? WHERE idplayer=?", "update"),
+                        new Query("UPDATE player SET username=?, game_idgame=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?", "update"),
                         new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
                         new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                         new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
                         new QueryParameter(QueryParameter.INT, player.getSeqnr()),
                         new QueryParameter(QueryParameter.BOOLEAN, player.isCurrentPlayer()),
                         new QueryParameter(QueryParameter.STRING, player.getPrivateObjectivecardColor()),
-                        new QueryParameter(QueryParameter.STRING, player.getIdPatternCard()),
                         new QueryParameter(QueryParameter.INT, player.getScore()),
                         new QueryParameter(QueryParameter.INT, player.getId())
                 );
@@ -85,14 +84,13 @@ public class PlayerDAO {
         if (!playerExists(player)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
-                        new Query("INSERT INTO player (username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, patterncard_idpatterncard, score) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "update"),
+                        new Query("INSERT INTO player (username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?, ?, ?, ?, ?, ?, ?)", "update"),
                         new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
                         new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                         new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
                         new QueryParameter(QueryParameter.INT, player.getSeqnr()),
                         new QueryParameter(QueryParameter.BOOLEAN, player.isCurrentPlayer()),
                         new QueryParameter(QueryParameter.STRING, player.getPrivateObjectivecardColor()),
-                        new QueryParameter(QueryParameter.STRING, player.getIdPatternCard()),
                         new QueryParameter(QueryParameter.INT, player.getScore())
                 );
             } catch (SQLException e) {

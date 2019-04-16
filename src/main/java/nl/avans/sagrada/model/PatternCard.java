@@ -9,16 +9,29 @@ public class PatternCard {
 
     private PatternCardField[] patterncardFields;
 
+    /**
+     * Empty constructor
+     */
     public PatternCard() {
     }
 
+    /**
+     * Full constructor
+     *
+     * @param id int
+     * @param difficult int
+     * @param standard boolean
+     */
     public PatternCard(int id, int difficult, boolean standard) {
         this.id = id;
         this.difficult = difficult;
         this.standard = standard;
     }
 
-    public void save() {
+    /**
+     *
+     */
+    public void add() {
         PatterncardDAO patterncardDAO = new PatterncardDAO();
         patterncardDAO.createPatterncard(this);
     }
