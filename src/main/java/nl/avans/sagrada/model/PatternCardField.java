@@ -74,8 +74,9 @@ public class PatternCardField {
                 return Color.GREEN;
             case "paars":
                 return Color.PURPLE;
+            default:
+                return Color.WHITE;
         }
-        return Color.valueOf(color);
     }
 
     public void setColor(String color) {
