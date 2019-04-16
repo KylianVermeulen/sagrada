@@ -17,7 +17,6 @@ package nl.avans.sagrada.view;
 	        playerController = new PlayerController(this);
 	        rootPane = new Pane();
 	        setRoot(rootPane);
-	        accountController.gameOverview();
 	    }
 	
 	    /**
