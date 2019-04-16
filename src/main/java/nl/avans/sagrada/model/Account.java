@@ -1,5 +1,8 @@
 package nl.avans.sagrada.model;
 
+import nl.avans.sagrada.dao.AccountDAO;
+import nl.avans.sagrada.dao.PlayerDAO;
+
 import java.util.ArrayList;
 
 import nl.avans.sagrada.dao.AccountDAO;
@@ -11,12 +14,11 @@ public class Account {
     private ArrayList<Player> players;
     private ArrayList<Invite> pendingInvites;
     
-    public Account() {}
     
     /**
-     * Gets a user from the database by the username 
-     * and fills them in the current Account object
+     * Fills in the username and password from the object
      * @param username
+     * @param password
      */
     public Account(String username) {
         AccountDAO accountDao = new AccountDAO();
@@ -25,10 +27,19 @@ public class Account {
         password = account.getPassword();
     }
     
+
+
     /**
-     * Fills in the username and password from the object
-     * @param username
-     * @param password
+     * Empty constructor
+     */
+    public Account() {
+    }
+
+    /**
+     * Full constructor
+     *
+     * @param username String
+     * @param password String
      */
     public Account(String username, String password) {
         this.username = username;
@@ -44,20 +55,82 @@ public class Account {
         pendingInvites = inviteDao.getAllPendingInvitesOfAccount(this);
         return pendingInvites;
     }
-    
+
     /**
-     * Get the username from the object
-     * @return String with the username
+     * Add object to database
+     */
+    public void add() {
+        AccountDAO accountDAO = new AccountDAO();
+        accountDAO.addAccount(this);
+    }
+
+    /**
+     * Update object in database
+     */
+    public void save() {
+        AccountDAO accountDAO = new AccountDAO();
+        accountDAO.updateAccount(this);
+    }
+
+    /**
+     * Get username from Account
+     *
+     * @return String
      */
     public String getUsername() {
         return username;
     }
-    
+
     /**
-     * Gets the password from the object
-     * @return String with the password
+     * Set username to Player
+     *
+     * @param username String
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * Get password from Player
+     *
+     * @return String
      */
     public String getPassword() {
         return password;
+    }
+
+    /**
+     * Set password to player
+     *
+     * @param password String
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * Get Players from Account
+     *
+     * @return ArrayList<Player>
+     */
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    /**
+     * Set Players to Account
+     *
+     * @param players ArrayList<Player>
+     */
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    /**
+     * Get Players from database using Account and set to Account
+     */
+    public void setPlayers() {
+        PlayerDAO playerDAO = new PlayerDAO();
+        this.players = playerDAO.getPlayersOfAccount(this);
     }
 }
