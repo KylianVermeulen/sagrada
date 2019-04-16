@@ -58,7 +58,7 @@ public class Invite {
      * @return boolean
      */
     public boolean isPending() {
-        if (accepted == false && denied == false) {
+        if (!accepted && !denied) {
             return true;
         }
         else {
