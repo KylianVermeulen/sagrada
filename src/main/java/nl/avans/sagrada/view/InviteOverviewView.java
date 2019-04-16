@@ -5,17 +5,13 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Invite;
-import nl.avans.sagrada.model.Player;
 
 public class InviteOverviewView extends VBox {
     private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
@@ -42,8 +38,7 @@ public class InviteOverviewView extends VBox {
     public void render() {
         getChildren().clear();
         for (Invite invite: invites) {
-            Player sendedPlayer = invite.getSendedPlayer();
-            Account sendedAccount = sendedPlayer.getAccount();
+            Account sendedAccount = invite.getSendedPlayer().getAccount();
             Pane pane = new HBox();
             Label label = new Label("Invite van: " + sendedAccount.getUsername());
             label.setPadding(new Insets(5, 4, 5, 4));
