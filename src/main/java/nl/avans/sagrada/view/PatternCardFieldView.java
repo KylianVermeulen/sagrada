@@ -29,8 +29,20 @@ public class PatternCardFieldView extends StackPane {
         images = new ArrayList<Image>();
         setPrefSize(50, 50);
         diceEyesArray();
+
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         this.setOnMouseClicked(e -> onClick());
+
+        render();
+    }
+
+    public void render() {
+        if (patternCardField.hasColor()) {
+            addColor();
+        }
+        if (patternCardField.hasEyes()) {
+            addEyes();
+        }
     }
 
     /**

@@ -19,7 +19,7 @@ public class PatternCardView extends BorderPane {
     private TilePane patternCardField;
     private HBox difficultyBar;
 
-    public PatternCardView(PlayerController playerController){
+    public PatternCardView(PlayerController playerController) {
         this.playerController = playerController;
         setPrefSize(310, 230);
 

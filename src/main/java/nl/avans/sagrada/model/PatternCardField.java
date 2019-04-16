@@ -63,6 +63,18 @@ public class PatternCardField {
     }
 
     public Color getColor() {
+        switch (color) {
+            case "red":
+                return Color.RED;
+            case "blauw":
+                return Color.BLUE;
+            case "geel":
+                return Color.YELLOW;
+            case "groen":
+                return Color.GREEN;
+            case "paars":
+                return Color.PURPLE;
+        }
         return Color.valueOf(color);
     }
 
