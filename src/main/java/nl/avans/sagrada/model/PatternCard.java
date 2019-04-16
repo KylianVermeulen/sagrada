@@ -30,7 +30,7 @@ public class PatternCard {
         return null;
     }
 
-    public PatternCardView getRandomPatternCardView(){
+    public PatternCardView getRandomPatternCardView() {
         return this.randomPatternCardView;
     }
 
@@ -54,7 +54,7 @@ public class PatternCard {
         int xPos = rnd.nextInt(5);
         int yPos = rnd.nextInt(4);
         int eyes = rnd.nextInt(6) + 1;
-        if (!randomPatternCardView.hasFieldAttributes(xPos, yPos)) {
+        if (!randomPatternCardView.hasFieldAttributes(xPos, yPos) && randomPatternCardView.checkSidesEyes(xPos, yPos, eyes)) {
             randomPatternCardView.setEyes(eyes, xPos, yPos);
             randomPatternCardView.addEyes(xPos, yPos);
         } else {
@@ -66,7 +66,7 @@ public class PatternCard {
         int xPos = rnd.nextInt(5);
         int yPos = rnd.nextInt(4);
         String color = colors.get(rnd.nextInt(colors.size()));
-        if (!randomPatternCardView.hasFieldAttributes(xPos, yPos) && randomPatternCardView.checkSides(xPos, yPos, color)) {
+        if (!randomPatternCardView.hasFieldAttributes(xPos, yPos) && randomPatternCardView.checkSidesColor(xPos, yPos, color)) {
             randomPatternCardView.setColor(color, xPos, yPos);
             randomPatternCardView.addColor(xPos, yPos);
         } else {
@@ -107,36 +107,67 @@ public class PatternCard {
         return card[x][y];
     }
 
-    public boolean checkSides(int xPos, int yPos, String color) {
-        return checkSouth(xPos, yPos, color) && checkEast(xPos, yPos, color) && checkNorth(xPos, yPos, color) && checkWest(xPos, yPos, color);
+    public boolean checkSidesColor(int xPos, int yPos, String color) {
+        return checkSouthColor(xPos, yPos, color) && checkEastColor(xPos, yPos, color) && checkNorthColor(xPos, yPos, color) && checkWestColor(xPos, yPos, color);
     }
 
-    public boolean checkSouth(int xPos, int yPos, String color) {
+    private boolean checkSouthColor(int xPos, int yPos, String color) {
         if (yPos == 3) return true;
         PatternCardField pcd = card[xPos][yPos + 1];
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
         return true;
     }
 
-    public boolean checkNorth(int xPos, int yPos, String color) {
+    private boolean checkNorthColor(int xPos, int yPos, String color) {
         if (yPos == 0) return true;
         PatternCardField pcd = card[xPos][yPos - 1];
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
         return true;
     }
 
-    public boolean checkEast(int xPos, int yPos, String color) {
+    private boolean checkEastColor(int xPos, int yPos, String color) {
         if (xPos == 4) return true;
         PatternCardField pcd = card[xPos + 1][yPos];
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
         return true;
     }
 
-    public boolean checkWest(int xPos, int yPos, String color) {
+    private boolean checkWestColor(int xPos, int yPos, String color) {
         if (xPos == 0) return true;
         PatternCardField pcd = card[xPos - 1][yPos];
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
         return true;
     }
 
+    public boolean checkSidesEyes(int xPos, int yPos, int eyes) {
+        return checkSouthEyes(xPos, yPos, eyes) && checkEastEyes(xPos, yPos, eyes) && checkNorthEyes(xPos, yPos, eyes) && checkWestEyes(xPos, yPos, eyes);
+    }
+
+    private boolean checkSouthEyes(int xPos, int yPos, int eyes) {
+        if (yPos == 3) return true;
+        PatternCardField pcd = card[xPos][yPos + 1];
+        if (pcd.hasEyes()) return !(pcd.getEyes() == eyes);
+        return true;
+    }
+
+    private boolean checkNorthEyes(int xPos, int yPos, int eyes) {
+        if (yPos == 0) return true;
+        PatternCardField pcd = card[xPos][yPos - 1];
+        if (pcd.hasEyes()) return !(pcd.getEyes() == eyes);
+        return true;
+    }
+
+    private boolean checkEastEyes(int xPos, int yPos, int eyes) {
+        if (xPos == 4) return true;
+        PatternCardField pcd = card[xPos + 1][yPos];
+        if (pcd.hasEyes()) return !(pcd.getEyes() == eyes);
+        return true;
+    }
+
+    private boolean checkWestEyes(int xPos, int yPos, int eyes) {
+        if (xPos == 0) return true;
+        PatternCardField pcd = card[xPos - 1][yPos];
+        if (pcd.hasEyes()) return !(pcd.getEyes() == eyes);
+        return true;
+    }
 }

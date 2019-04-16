@@ -24,6 +24,7 @@ public class PatternCardField {
         return false;
     }
 
+
     public boolean hasColor() {
         if (color == null) {
             return false;

@@ -29,6 +29,9 @@ public class PatternCardView extends BorderPane {
         setCenter(patternCardField);
     }
 
+    /**
+     * Shows difficulty view
+     */
     private void showDifficulty() {
         for(int i = 0; i < patternCard.getDifficulty(); i++){
             Pane pane = new Pane();
@@ -43,10 +46,22 @@ public class PatternCardView extends BorderPane {
         setBottom(test);
     }
 
+    /**
+     *Adds color to PatternCardField
+     *
+     * @param x int
+     * @param y int
+     */
     public void addColor(int x, int y) {
         card[x][y].addColor();
     }
 
+    /**
+     * Adds eyes to PatternCardField
+     *
+     * @param x int
+     * @param y int
+     */
     public void addEyes(int x, int y) {
         card[x][y].addEyes();
     }
@@ -93,10 +108,19 @@ public class PatternCardView extends BorderPane {
         }
     }
 
+    /**
+     * Add dice view to PatternCardField
+     */
     public void setDice(){
         // PLACE DICE METHOD HERE
     }
 
+    /**
+     * Add dice to PatternCardField
+     *
+     * @param x int
+     * @param y int
+     */
     public void addDie(int x, int y){
         card[x][y].addDie();
     }
@@ -128,7 +152,11 @@ public class PatternCardView extends BorderPane {
      * @param color String
      * @return boolean
      */
-    public boolean checkSides(int xPos, int yPos, String color) {
-        return patternCard.checkSides(xPos,yPos,color);
+    public boolean checkSidesColor(int xPos, int yPos, String color) {
+        return patternCard.checkSidesColor(xPos,yPos,color);
+    }
+
+    public boolean checkSidesEyes(int xPos, int yPos, int eyes) {
+        return patternCard.checkSidesEyes(xPos,yPos,eyes);
     }
 }
