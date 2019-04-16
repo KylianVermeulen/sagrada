@@ -1,8 +1,5 @@
 package nl.avans.sagrada.model;
 
-import javafx.geometry.Insets;
-import javafx.scene.layout.Pane;
-import nl.avans.sagrada.view.PatternCardFieldView;
 import nl.avans.sagrada.view.PatternCardView;
 
 import java.util.ArrayList;
@@ -20,13 +17,107 @@ public class PatternCard {
     private Random rnd;
     private PatternCardView randomPatternCardView;
 
+    /**
+     * Empty constructor
+     */
     public PatternCard() {
         rnd = new Random();
         card = new PatternCardField[CARD_WIDTH][CARD_HEIGHT];
         makeCard();
     }
 
-    public PatternCardField getBestLocationForDice(GameDie die) {
+    /**
+     * Full constructor
+     *
+     * @param id int
+     * @param difficulty int
+     * @param standard boolean
+     */
+    public PatternCard(int id, int difficulty, boolean standard) {
+        this.id = id;
+        this.difficulty = difficulty;
+        this.standard = standard;
+    }
+
+    /**
+     * Get id from PatternCard
+     *
+     * @return int
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Set id to PatternCard
+     *
+     * @param id int
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Get difficulty from PatternCard
+     *
+     * @return int
+     */
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    /**
+     * Set difficulty to PatternCard
+     *
+     * @param difficult int
+     */
+    public void setDifficulty(int difficult) {
+        this.difficulty = difficult;
+    }
+
+    /**
+     * Get standard from PatternCard
+     *
+     * @return boolean true when standard
+     */
+    public boolean isStandard() {
+        return standard;
+    }
+
+    /**
+     * Set standard to PatternCard
+     *
+     * @param standard boolean
+     */
+    public void setStandard(boolean standard) {
+        this.standard = standard;
+    }
+
+    /**
+     * Get patternCardFields from PatternCard
+     *
+     * @return PatternCardField[]
+     */
+    public PatternCardField[] getPatterncardFields() {
+        return patterncardFields;
+    }
+
+    /**
+     * Set patternCardFields to PatternCard
+     *
+     * @param patterncardFields PatternCardField[]
+     */
+    public void setPatterncardFields(PatternCardField[] patterncardFields) {
+        this.patterncardFields = patterncardFields;
+    }
+
+    /**
+     * Get best location for a die
+     *
+     * @param die GameDie
+     * @return PatternCardField
+     */
+    public PatternCardField getBestLocationForDie(GameDie die) {
         return null;
     }
 
@@ -81,14 +172,6 @@ public class PatternCard {
         colors.add("yellow");
         colors.add("purple");
         colors.add("red");
-    }
-
-    public int getDifficulty() {
-        return this.difficulty;
-    }
-
-    public void setDifficulty(int i) {
-        this.difficulty = i;
     }
 
     private void makeCard() {

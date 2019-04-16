@@ -9,6 +9,7 @@ public class Main extends Application {
     public static final int SCREEN_WIDTH = 1280;
     public static final int CARD_WIDTH = 5;
     public static final int CARD_HEIGHT = 4;
+
     private MyScene rootScene;
 
     public static void main(String[] args) {
