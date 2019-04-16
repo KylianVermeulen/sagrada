@@ -13,20 +13,6 @@ public class Account {
     private String password;
     private ArrayList<Player> players;
     private ArrayList<Invite> pendingInvites;
-    
-    
-    /**
-     * Fills in the username and password from the object
-     * @param username
-     * @param password
-     */
-    public Account(String username) {
-        AccountDAO accountDao = new AccountDAO();
-        Account account = accountDao.getAccountByUsername(username);
-        this.username = account.getUsername();
-        password = account.getPassword();
-    }
-    
 
 
     /**
