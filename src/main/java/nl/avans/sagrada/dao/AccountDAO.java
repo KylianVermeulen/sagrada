@@ -40,26 +40,21 @@ public class AccountDAO {
     /**
      * Get all accounts
      *
-     * @return ArrayList<Account> when record(s)
+     * @return ArrayList<Account>
      */
     public ArrayList<Account> getAllAccounts() {
         DBConnection dbConnection = new DBConnection();
+        ArrayList<Account> list = new ArrayList<Account>();
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM account", "query"));
-            ArrayList<Account> list = new ArrayList<Account>();
             while (rs.next()) {
                 Account account = new Account(rs.getString("username"), rs.getString("password"));
                 list.add(account);
             }
-            if (list.size() > 0) {
-                return list;
-            }
-            System.out.println("No records for account");
-            return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return list;
     }
 
     /**
@@ -130,6 +125,6 @@ public class AccountDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
+        return false;
     }
 }
