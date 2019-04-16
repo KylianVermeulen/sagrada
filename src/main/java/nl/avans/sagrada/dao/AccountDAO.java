@@ -1,40 +1,44 @@
 package nl.avans.sagrada.dao;
 
+import java.sql.ResultSet;
+
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Account;
-
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AccountDAO {
     private DBConnection dbConnection;
+    
+    public AccountDAO() {
+        dbConnection = new DBConnection();
+    }
 
     /**
-     * Get account by username
-     *
-     * @param username String
-     * @return Account when record
+     * Gets a account by the username
+     * When there was no account found it will return null
+     * @param username
+     * @return Account model
      */
     public Account getAccountByUsername(String username) {
-        dbConnection = new DBConnection();
+        Account account = null;
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM account WHERE username=?", "query",
-                    new QueryParameter(QueryParameter.STRING, username))
+                            new QueryParameter(QueryParameter.STRING, username)
+                    )
             );
             if (rs.next()) {
-                Account account = new Account(rs.getString("username"), rs.getString("password"));
-                return account;
+                String accountUsername = rs.getString("username");
+                String accountPassword = rs.getString("password");
+                account = new Account(accountUsername, accountPassword);
             }
-            System.out.println("No record for account with username: " + username);
-            return null;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO: handle exception
         }
-        return null;
+        return account;
     }
 
     /**
@@ -63,7 +67,6 @@ public class AccountDAO {
      * @param account Account
      */
     public void updateAccount(Account account) {
-        dbConnection = new DBConnection();
         if (accountExists(account)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
@@ -85,7 +88,6 @@ public class AccountDAO {
      * @param account Account
      */
     public void addAccount(Account account) {
-        dbConnection = new DBConnection();
         if (!accountExists(account)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
@@ -108,7 +110,6 @@ public class AccountDAO {
      * @return boolean true when exists
      */
     public boolean accountExists(Account account) {
-        dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT count(*) as count FROM account WHERE username=?", "query"),

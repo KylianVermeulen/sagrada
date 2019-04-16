@@ -10,6 +10,10 @@ import java.sql.SQLException;
 
 public class GameDAO {
     private DBConnection dbConnection;
+    
+    public GameDAO() {
+        dbConnection = new DBConnection();
+    }
 
     /**
      * Get game by gameid
@@ -18,7 +22,6 @@ public class GameDAO {
      * @return Game when record
      */
     public Game getGameById(int gameId) {
-        dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM game WHERE idgame=?", "query"),

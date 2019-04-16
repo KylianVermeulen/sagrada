@@ -6,8 +6,12 @@ import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.PublicObjectiveCard;
 
-public class PublicObjectivecardDAO {
+public class PublicObjectiveCardDAO {
     private DBConnection dbConnection;
+    
+    public PublicObjectiveCardDAO() {
+        dbConnection = new DBConnection();
+    }
 
     public ArrayList<PublicObjectiveCard> getAllPublicObjectiveCards() {
         return null;

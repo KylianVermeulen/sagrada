@@ -12,6 +12,10 @@ import nl.avans.sagrada.model.Player;
 
 public class PlayerDAO {
     private DBConnection dbConnection;
+    
+    public PlayerDAO() {
+        dbConnection = new DBConnection();
+    }
 
     /**
      * Get all players with account.username
@@ -20,7 +24,6 @@ public class PlayerDAO {
      * @return ArrayList<Player> when record(s)
      */
     public ArrayList<Player> getPlayersOfAccount(Account account) {
-       dbConnection = new DBConnection();
        ArrayList<Player> list = new ArrayList<Player>();
        try {
            ResultSet rs = dbConnection.executeQuery(
@@ -36,7 +39,7 @@ public class PlayerDAO {
                player.setSeqnr(rs.getInt("seqnr"));
                player.setCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
                player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));
-               player.setPatternCard(new PatterncardDAO().getPatterncardOfPlayer(player));
+               player.setPatternCard(new PatternCardDAO().getPatterncardOfPlayer(player));
                player.setScore(rs.getInt("score"));
                list.add(player);
            }
@@ -52,7 +55,6 @@ public class PlayerDAO {
      * @param player Player
      */
     public void updatePlayer(Player player) {
-        dbConnection = new DBConnection();
         if (playerExists(player)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
@@ -80,7 +82,6 @@ public class PlayerDAO {
      * @param player Player
      */
     public void addPlayer(Player player) {
-        dbConnection = new DBConnection();
         if (!playerExists(player)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
@@ -108,7 +109,6 @@ public class PlayerDAO {
      * @return boolean true when exists
      */
     public boolean playerExists(Player player) {
-        dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT count(*) as count FROM player WHERE idplayer=?", "query"),
@@ -126,5 +126,33 @@ public class PlayerDAO {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    /**
+     * Gets a player by the Id of the player
+     * When no player has found it will return null
+     * @param id the id of the player
+     * @return Player
+     */
+    public Player getPlayerById(int id) {
+        Player player = new Player();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM player WHERE idplayer=?", "query",
+                            new QueryParameter(QueryParameter.INT, id)));
+            if (rs.next()) {
+                AccountDAO accountDao = new AccountDAO();
+                Account account = accountDao.getAccountByUsername(rs.getString("username"));
+                player.setId(rs.getInt("idplayer"));
+                player.setPlayerStatus(rs.getString("playstatus_playstatus"));
+                player.setSeqnr(rs.getInt("seqnr"));
+                player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
+                player.setAccount(account);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            player = null;
+        }
+        return player;
     }
 }

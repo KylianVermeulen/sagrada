@@ -1,6 +1,5 @@
 package nl.avans.sagrada.model;
 
-import nl.avans.sagrada.dao.PatterncardDAO;
 
 public class PatternCard {
     private int id;

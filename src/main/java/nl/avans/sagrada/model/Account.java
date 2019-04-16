@@ -5,10 +5,15 @@ import nl.avans.sagrada.dao.PlayerDAO;
 
 import java.util.ArrayList;
 
+import nl.avans.sagrada.dao.AccountDAO;
+import nl.avans.sagrada.dao.InviteDAO;
+
 public class Account {
     private String username;
     private String password;
     private ArrayList<Player> players;
+    private ArrayList<Invite> pendingInvites;
+
 
     /**
      * Empty constructor
@@ -25,6 +30,16 @@ public class Account {
     public Account(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+    
+    /**
+     * Get all the pending invites from the user
+     * @return ArrayList with all invites
+     */
+    public ArrayList<Invite> getAllPendingInvites() {
+        InviteDAO inviteDao = new InviteDAO();
+        pendingInvites = inviteDao.getAllPendingInvitesOfAccount(this);
+        return pendingInvites;
     }
 
     /**

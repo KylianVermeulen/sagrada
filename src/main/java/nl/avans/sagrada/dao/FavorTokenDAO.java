@@ -12,6 +12,10 @@ import java.util.ArrayList;
 
 public class FavorTokenDAO {
     private DBConnection dbConnection;
+    
+    public FavorTokenDAO() {
+        dbConnection = new DBConnection();
+    }
 
     /**
      * Get Favortokens by Player
@@ -20,7 +24,6 @@ public class FavorTokenDAO {
      * @return ArrayList<FavorToken>
      */
     public ArrayList<FavorToken> getFavortokensOfPlayer(Player player) {
-        dbConnection = new DBConnection();
         ArrayList<FavorToken> list = new ArrayList<FavorToken>();
         try {
             ResultSet rs = dbConnection.executeQuery(

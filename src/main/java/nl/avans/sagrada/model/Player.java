@@ -1,8 +1,12 @@
 package nl.avans.sagrada.model;
 
-import nl.avans.sagrada.dao.*;
-
 import java.util.ArrayList;
+
+import nl.avans.sagrada.dao.AccountDAO;
+import nl.avans.sagrada.dao.FavorTokenDAO;
+import nl.avans.sagrada.dao.GameDAO;
+import nl.avans.sagrada.dao.PatternCardDAO;
+import nl.avans.sagrada.dao.PlayerDAO;
 
 public class Player {
     private int id;
@@ -10,14 +14,14 @@ public class Player {
     private Game game;
     private String playerStatus;
     private int seqnr;
-    private boolean currentPlayer;
+    private boolean isCurrentPlayer;
     private String privateObjectivecardColor;
     private PatternCard patternCard;
-    private int score;
-
     private ArrayList<PatternCard> optionalPatternCards;
     private ArrayList<FavorToken> favorTokens;
-    private boolean cheatmode;
+    private int score;
+    private boolean cheatmode = false;
+    
 
     /**
      * Empty constructor
@@ -58,6 +62,7 @@ public class Player {
     public void setId(int id) {
         this.id = id;
     }
+    
 
     /**
      * Get playerstatus from Player
@@ -87,21 +92,38 @@ public class Player {
     }
 
     /**
-     * Set seqnr to Player
+     * Set seqnr of Player
      *
      * @param seqnr int
      */
     public void setSeqnr(int seqnr) {
         this.seqnr = seqnr;
     }
-
+    
+    /**
+     * Set if the player is the currentPlayer
+     * @param isCurrentPlayer
+     */
+    public void setIsCurrentPlayer(boolean isCurrentPlayer) {
+        this.isCurrentPlayer = isCurrentPlayer;
+    }
+    
+    /**
+     * Returns if the currentPlayer is the current player 
+     * who's turn it is
+     * @return
+     */
+    public boolean getIsCurrentPlayer() {
+        return isCurrentPlayer;
+    }
+    
     /**
      * Get current player from Player
      *
      * @return boolean true when current player
      */
     public boolean isCurrentPlayer() {
-        return currentPlayer;
+        return isCurrentPlayer;
     }
 
     /**
@@ -110,7 +132,7 @@ public class Player {
      * @param currentPlayer boolean
      */
     public void setCurrentPlayer(boolean currentPlayer) {
-        this.currentPlayer = currentPlayer;
+        isCurrentPlayer = currentPlayer;
     }
 
     /**
@@ -223,8 +245,8 @@ public class Player {
      * Get PatternCard from database using this and set to Player
      */
     public void setPatternCard() {
-        PatterncardDAO patterncardDAO = new PatterncardDAO();
-        this.patternCard = patterncardDAO.getPatterncardOfPlayer(this);
+        PatternCardDAO PatternCardDAO = new PatternCardDAO();
+        this.patternCard = PatternCardDAO.getPatterncardOfPlayer(this);
     }
 
     /**
@@ -249,8 +271,8 @@ public class Player {
      * Set optional PatterCards to Player from database
      */
     public void setOptionalPatternCards() {
-        PatterncardDAO patterncardDAO = new PatterncardDAO();
-        this.optionalPatternCards = patterncardDAO.getOptionalPatterncardOfPlayer(this);
+        PatternCardDAO PatternCardDAO = new PatternCardDAO();
+        this.optionalPatternCards = PatternCardDAO.getOptionalPatterncardOfPlayer(this);
     }
 
     /**
