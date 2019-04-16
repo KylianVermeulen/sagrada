@@ -55,12 +55,12 @@ public class PatternCardFieldView extends StackPane {
      * Adds dice eye images to the image array
      */
     private void diceEyesArray() {
-        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/1.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/2.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/3.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/4.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/5.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/6.png")));
+        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/1.png")));
+        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/2.png")));
+        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/3.png")));
+        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/4.png")));
+        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/5.png")));
+        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/6.png")));
     }
 
     /**
