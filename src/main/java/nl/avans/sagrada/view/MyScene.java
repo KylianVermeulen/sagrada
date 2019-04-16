@@ -16,9 +16,7 @@ package nl.avans.sagrada.view;
 	        accountController = new AccountController(this);
 	        playerController = new PlayerController(this);
 	        rootPane = new Pane();
-	        setRoot(rootPane);
-	        
-	        accountController.inviteOverview();
+	        setRoot(rootPane);	        
 	    }
 	
 	    /**
