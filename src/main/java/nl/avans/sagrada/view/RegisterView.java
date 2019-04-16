@@ -27,14 +27,13 @@ public class RegisterView extends VBox {
         Label registerText = new Label("Register");
         Label usernameText = new Label("Username:");
         Label passwordText = new Label("Password:");
-        Button backButton = new Button("<-");
+        Button backButton = new Button();
         
         registerText.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));   
         usernameText.setPadding(new Insets(10, 20, 10, 20));
         passwordText.setPadding(new Insets(10, 20, 10, 20));
-        backButton.setMaxSize(backButtonWidth, backButtonHeight);
-        backButton.setStyle("-fx-background-image: url('/images/ARROW_LEFT.png'); -fx-background-size: " + (backButtonWidth-10) + "px " + (backButtonHeight-5) + "px; -fx-background-repeat: no-repeat; -fx-background-position: center;");
-        //backButton.setGraphic(ImageView.new(image(src/main/resources/images/ARROW_LEFT.png)));
+        backButton.setPrefSize(backButtonWidth, backButtonHeight);
+        backButton.setStyle("-fx-background-image: url('/images/ARROW_LEFT.png'); -fx-background-size: " + backButtonWidth + "px " + backButtonHeight + "px; -fx-background-repeat: no-repeat; -fx-background-position: center;");
         backButton.setOnAction(e -> ac.gotoLogin());
         
         button1.setOnAction(e -> ac.register(usernameInput.getText(), passwordInput.getText()));

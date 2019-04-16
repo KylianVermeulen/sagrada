@@ -12,8 +12,10 @@ public class MyScene extends Scene {
         //rootPane = new RootPane();
         RegisterView regView = new RegisterView();
         //setRoot(rootPane);
-        setRoot(regView);
-        //add login screen as standard "fill" for rootpane.
+        
+        setRoot(regView); //alleen voor deze branch! zo kan deze window getest worden. 
+                          //later moet dit niet naar regView gezet worden, maar naar een rootpane.
+        
     }
     
 //    public void setRootPane(RootPane rootPane) {
