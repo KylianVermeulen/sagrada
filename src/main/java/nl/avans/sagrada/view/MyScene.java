@@ -4,6 +4,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.AccountDAO;
+import nl.avans.sagrada.dao.PlayerDAO;
+import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Player;
+
+import java.util.ArrayList;
 
 public class MyScene extends Scene {
     private Pane rootPane;
@@ -17,6 +23,8 @@ public class MyScene extends Scene {
         playerController = new PlayerController(this);
         rootPane = new Pane();
         setRoot(rootPane);
+
+        testPatterncardView();
     }
 	
     /**
@@ -26,5 +34,12 @@ public class MyScene extends Scene {
     public void setRootPane(Pane pane) {
         rootPane.getChildren().clear();
         rootPane.getChildren().add(pane);
+    }
+
+    public void testPatterncardView() {
+        Account account = new AccountDAO().getAccountByUsername("test2");
+        account.setPlayers();
+        Player player = new PlayerDAO().getPlayerById(account.getPlayers().get(0).getId());
+        playerController.seePatterncardOfPlayer(player);
     }
 }

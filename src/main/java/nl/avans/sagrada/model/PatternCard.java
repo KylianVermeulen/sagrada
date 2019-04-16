@@ -21,9 +21,6 @@ public class PatternCard {
      * Empty constructor
      */
     public PatternCard() {
-        rnd = new Random();
-        patterncardFields = new PatternCardField[CARD_WIDTH][CARD_HEIGHT];
-        makeCard();
     }
 
     /**
@@ -37,6 +34,10 @@ public class PatternCard {
         this.id = id;
         this.difficulty = difficulty;
         this.standard = standard;
+
+        rnd = new Random();
+        patterncardFields = new PatternCardField[CARD_WIDTH][CARD_HEIGHT];
+        makeCard();
     }
 
     /**

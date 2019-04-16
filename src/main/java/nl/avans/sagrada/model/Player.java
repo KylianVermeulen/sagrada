@@ -229,6 +229,8 @@ public class Player {
      * @return PatternCard
      */
     public PatternCard getPatternCard() {
+        PatternCardDAO PatternCardDAO = new PatternCardDAO();
+        patternCard = PatternCardDAO.getPatterncardOfPlayer(this);
         return patternCard;
     }
 
@@ -239,14 +241,6 @@ public class Player {
      */
     public void setPatternCard(PatternCard patterncard) {
         this.patternCard = patterncard;
-    }
-
-    /**
-     * Get PatternCard from database using this and set to Player
-     */
-    public void setPatternCard() {
-        PatternCardDAO PatternCardDAO = new PatternCardDAO();
-        this.patternCard = PatternCardDAO.getPatterncardOfPlayer(this);
     }
 
     /**
