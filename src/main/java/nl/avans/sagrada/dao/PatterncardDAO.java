@@ -13,6 +13,12 @@ import nl.avans.sagrada.model.Player;
 public class PatterncardDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Get PatternCard by Player
+     *
+     * @param player Player
+     * @return PatternCard
+     */
     public PatternCard getPatterncardOfPlayer(Player player) {
         dbConnection = new DBConnection();
         try  {
