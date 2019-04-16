@@ -1,12 +1,10 @@
 package nl.avans.sagrada.model;
 
 import nl.avans.sagrada.dao.AccountDAO;
+import nl.avans.sagrada.dao.InviteDAO;
 import nl.avans.sagrada.dao.PlayerDAO;
 
 import java.util.ArrayList;
-
-import nl.avans.sagrada.dao.AccountDAO;
-import nl.avans.sagrada.dao.InviteDAO;
 
 public class Account {
     private String username;
