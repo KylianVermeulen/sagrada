@@ -25,7 +25,7 @@ public class GameDAO {
                     new QueryParameter(QueryParameter.INT, gameId)
             );
             if (rs.next()) {
-                Game game = new Game(rs.getInt("idgame"), rs.getInt("turn_idplayer"));
+                Game game = new Game(rs.getInt("idgame"));
                 return game;
             }
             System.out.println("No record for game with gameid: " + gameId);
