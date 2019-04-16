@@ -69,7 +69,6 @@ public class AccountDAO {
      * @param account Account
      */
     public void updateAccount(Account account) {
-        dbConnection = new DBConnection();
         if (accountExists(account)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
@@ -91,7 +90,6 @@ public class AccountDAO {
      * @param account Account
      */
     public void addAccount(Account account) {
-        dbConnection = new DBConnection();
         if (!accountExists(account)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
@@ -114,7 +112,6 @@ public class AccountDAO {
      * @return boolean true when exists
      */
     public boolean accountExists(Account account) {
-        dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT count(*) as count FROM account WHERE username=?", "query"),

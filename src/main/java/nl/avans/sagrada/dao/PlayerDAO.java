@@ -24,7 +24,6 @@ public class PlayerDAO {
      * @return ArrayList<Player> when record(s)
      */
     public ArrayList<Player> getPlayersOfAccount(Account account) {
-       dbConnection = new DBConnection();
        ArrayList<Player> list = new ArrayList<Player>();
        try {
            ResultSet rs = dbConnection.executeQuery(
@@ -56,7 +55,6 @@ public class PlayerDAO {
      * @param player Player
      */
     public void updatePlayer(Player player) {
-        dbConnection = new DBConnection();
         if (playerExists(player)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
@@ -84,7 +82,6 @@ public class PlayerDAO {
      * @param player Player
      */
     public void addPlayer(Player player) {
-        dbConnection = new DBConnection();
         if (!playerExists(player)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
@@ -112,7 +109,6 @@ public class PlayerDAO {
      * @return boolean true when exists
      */
     public boolean playerExists(Player player) {
-        dbConnection = new DBConnection();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT count(*) as count FROM player WHERE idplayer=?", "query"),
@@ -145,11 +141,13 @@ public class PlayerDAO {
                     new Query("SELECT * FROM player WHERE idplayer=?", "query",
                             new QueryParameter(QueryParameter.INT, id)));
             if (rs.next()) {
+                AccountDAO accountDao = new AccountDAO();
+                Account account = accountDao.getAccountByUsername(rs.getString("username"));
                 player.setId(rs.getInt("idplayer"));
                 player.setPlayerStatus(rs.getString("playstatus_playstatus"));
                 player.setSeqnr(rs.getInt("seqnr"));
                 player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
-                player.setAccount(new Account(rs.getString("username")));
+                player.setAccount(account);
             }
         } catch (Exception e) {
             // TODO: handle exception
