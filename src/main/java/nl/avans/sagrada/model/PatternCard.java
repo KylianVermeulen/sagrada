@@ -117,7 +117,6 @@ public class PatternCard {
         int i = 0;
         for (int x = 0; x < CARD_WIDTH; x++) {
             for (int y = 0; y < CARD_HEIGHT; y++) {
-                System.out.println(id + ": " + i);
                 patterncardFields[x][y] = patternCardFieldsList.get(i);
                 i++;
             }
