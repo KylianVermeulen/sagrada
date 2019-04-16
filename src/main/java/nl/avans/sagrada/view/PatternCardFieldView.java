@@ -77,8 +77,4 @@ public class PatternCardFieldView extends StackPane {
     public void addColor() {
         setBackground(new Background(new BackgroundFill(patternCardField.getColor(), null, null)));
     }
-
-    public boolean hasAttributes() {
-        return patternCardField.hasAttributes();
-    }
 }

@@ -30,16 +30,8 @@ public class PatternCardField {
         return xPos;
     }
 
-    public void setxPos(int xPos) {
-        this.xPos = xPos;
-    }
-
     public int getyPos() {
         return yPos;
-    }
-
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
     }
 
     public boolean hasEyes() {
@@ -51,15 +43,6 @@ public class PatternCardField {
 
     public int getEyes() {
         return this.value;
-    }
-
-    public void setEyes(int eyes) {
-        this.value = eyes;
-
-    }
-
-    public String getStringColor(){
-        return this.color;
     }
 
     public Color getColor() {
@@ -77,17 +60,5 @@ public class PatternCardField {
             default:
                 return Color.WHITE;
         }
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-
-    }
-
-    public boolean hasAttributes() {
-        if (hasColor() || hasEyes()) {
-            return true;
-        }
-        return false;
     }
 }
