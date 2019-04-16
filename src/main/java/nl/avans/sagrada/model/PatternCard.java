@@ -1,11 +1,8 @@
 package nl.avans.sagrada.model;
 
-import nl.avans.sagrada.dao.PatternCardDAO;
 import nl.avans.sagrada.dao.PatternCardFieldDAO;
-import nl.avans.sagrada.view.PatternCardView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class PatternCard {
     private int id;
@@ -13,10 +10,7 @@ public class PatternCard {
     private boolean standard;
 
     private PatternCardField[][] patterncardFields;
-    private PatternCardView randomPatternCardView;
 
-    private ArrayList<String> colors;
-    private Random rnd;
     public static final int CARD_WIDTH = 5;
     public static final int CARD_HEIGHT = 4;;
 
@@ -37,10 +31,7 @@ public class PatternCard {
         this.id = id;
         this.difficulty = difficulty;
         this.standard = standard;
-
-        rnd = new Random();
-        patterncardFields = new PatternCardField[CARD_WIDTH][CARD_HEIGHT];
-        makeCard();
+        patterncardFields = getPatterncardFields();
     }
 
     /**
@@ -104,8 +95,8 @@ public class PatternCard {
      */
     public PatternCardField[][] getPatterncardFields() {
         PatternCardFieldDAO patternCardFieldDAO = new PatternCardFieldDAO();
-        ArrayList<PatternCardField> patterncardFields = patternCardFieldDAO.getPatterncardFieldsOfPatterncard(this);
-        return this.patterncardFields;
+        ArrayList<PatternCardField> patterncardFieldsList = patternCardFieldDAO.getPatterncardFieldsOfPatterncard(this);
+        return makepatternCardFields(patterncardFieldsList);
     }
 
     /**
@@ -117,6 +108,23 @@ public class PatternCard {
         this.patterncardFields = patterncardFields;
     }
 
+    public PatternCardField getPatternCardField(int x, int y) {
+        return patterncardFields[x][y];
+    }
+
+    private PatternCardField[][] makepatternCardFields(ArrayList<PatternCardField> patternCardFieldsList) {
+        PatternCardField[][] patterncardFields = new PatternCardField[CARD_WIDTH][CARD_HEIGHT];
+        int i = 0;
+        for (int x = 0; x < CARD_WIDTH; x++) {
+            for (int y = 0; y < CARD_HEIGHT; y++) {
+                System.out.println(id + ": " + i);
+                patterncardFields[x][y] = patternCardFieldsList.get(i);
+                i++;
+            }
+        }
+        return patterncardFields;
+    }
+
     /**
      * Get best location for a die
      *
@@ -125,75 +133,6 @@ public class PatternCard {
      */
     public PatternCardField getBestLocationForDie(GameDie die) {
         return null;
-    }
-
-    public PatternCardView getRandomPatternCardView() {
-        return this.randomPatternCardView;
-    }
-
-    public void generateRandomCard() {
-        randomPatternCardView = new PatternCardView();
-        makeColors();
-        for (int i = 0; i < randomPatternCardView.getPatternCard().getDifficulty() * 2; i++) {
-            generateRandomPatternCardField();
-        }
-    }
-
-    private void generateRandomPatternCardField() {
-        if (rnd.nextBoolean()) {
-            addRandomEyes();
-        } else {
-            addRandomColor();
-        }
-    }
-
-    private void addRandomEyes() {
-        int xPos = rnd.nextInt(5);
-        int yPos = rnd.nextInt(4);
-        int eyes = rnd.nextInt(6) + 1;
-        if (!randomPatternCardView.hasFieldAttributes(xPos, yPos) && randomPatternCardView.checkSidesEyes(xPos, yPos, eyes)) {
-            randomPatternCardView.setEyes(eyes, xPos, yPos);
-            randomPatternCardView.addEyes(xPos, yPos);
-        } else {
-            addRandomEyes();
-        }
-    }
-
-    private void addRandomColor() {
-        int xPos = rnd.nextInt(5);
-        int yPos = rnd.nextInt(4);
-        String color = colors.get(rnd.nextInt(colors.size()));
-        if (!randomPatternCardView.hasFieldAttributes(xPos, yPos) && randomPatternCardView.checkSidesColor(xPos, yPos, color)) {
-            randomPatternCardView.setColor(color, xPos, yPos);
-            randomPatternCardView.addColor(xPos, yPos);
-        } else {
-            addRandomColor();
-        }
-    }
-
-    private void makeColors() {
-        colors = new ArrayList<String>();
-        colors.add("blue");
-        colors.add("green");
-        colors.add("yellow");
-        colors.add("purple");
-        colors.add("red");
-    }
-
-    private void makeCard() {
-        setDifficulty(rnd.nextInt(6) + 1);
-        for (int y = 0; y < CARD_HEIGHT; y++) {
-            for (int x = 0; x < CARD_WIDTH; x++) {
-                PatternCardField patternCardField = new PatternCardField(this);
-                patterncardFields[x][y] = patternCardField;
-                patternCardField.setXPos(x);
-                patternCardField.setYPos(y);
-            }
-        }
-    }
-
-    public PatternCardField getPatternCardField(int x, int y) {
-        return patterncardFields[x][y];
     }
 
     public boolean checkSidesColor(int xPos, int yPos, String color) {

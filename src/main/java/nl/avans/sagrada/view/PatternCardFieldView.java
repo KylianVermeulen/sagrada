@@ -1,31 +1,31 @@
 package nl.avans.sagrada.view;
 
-import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PatternCardFieldView extends StackPane {
-    private int xPos;
-    private int yPos;
-    private PatternCardField patternCardField;
     private PatternCard patternCard;
+    private PatternCardField patternCardField;
+
     private ArrayList<Image> images;
-    private Text text;
 
     public PatternCardFieldView(PatternCard patternCard) {
         this.patternCard = patternCard;
+    }
+
+    public PatternCardFieldView(PatternCard patternCard, PatternCardField patternCardField) {
+        this.patternCard = patternCard;
+        this.patternCardField = patternCardField;
+
         images = new ArrayList<Image>();
         setPrefSize(50, 50);
         diceEyesArray();
@@ -37,7 +37,7 @@ public class PatternCardFieldView extends StackPane {
      * Method when the PatternCardField is clicked
      */
     private void onClick() {
-        System.out.println("x: " + xPos + " y: " + yPos);
+        System.out.println("x: " + patternCardField.getxPos() + " y: " + patternCardField.getyPos());
     }
 
     /**
@@ -50,13 +50,6 @@ public class PatternCardFieldView extends StackPane {
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/4.png")));
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/5.png")));
         images.add(new Image(getClass().getResourceAsStream("/images/dice eyes/6.png")));
-    }
-
-    /**
-     * Connects the PatternCardField to PatternCardFieldView with the same positions
-     */
-    public void initPatternCardField() {
-        patternCardField = patternCard.getPatternCardField(xPos, yPos);
     }
 
     /**
@@ -73,51 +66,7 @@ public class PatternCardFieldView extends StackPane {
         setBackground(new Background(new BackgroundFill(patternCardField.getColor(), null, null)));
     }
 
-    /**
-     * Adds dice view WIP
-     */
-    public void addDie() {
-        // WIP
-    }
-
-    /**
-     * Sets the Y value
-     *
-     * @param y int
-     */
-    public void setY(int y) {
-        this.yPos = y;
-    }
-
-    /**
-     * Sets the X value
-     *
-     * @param x int
-     */
-    public void setX(int x) {
-        this.xPos = x;
-    }
-
-    /**
-     * Sets the PatternCardField color
-     *
-     * @param color String
-     */
-    public void setColor(String color) {
-        patternCardField.setColor(color);
-    }
-
-    /**
-     * Sets the PatternCardField eyes
-     *
-     * @param eyes int
-     */
-    public void setEyes(int eyes) {
-        patternCardField.setEyes(eyes);
-    }
-
     public boolean hasAttributes() {
         return patternCardField.hasAttributes();
     }
-
 }

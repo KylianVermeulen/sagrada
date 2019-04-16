@@ -7,12 +7,9 @@ public class PatternCardField {
     private int yPos;
     private String color;
     private int value;
+
     private PatternCard patternCard;
     private GameDie die;
-
-    public PatternCardField(PatternCard patternCard) {
-        this.patternCard = patternCard;
-    }
 
     public PatternCardField(int xPos, int yPos, String color, int value, PatternCard patternCard) {
         this.xPos = xPos;
@@ -22,14 +19,6 @@ public class PatternCardField {
         this.patternCard = patternCard;
     }
 
-    public boolean canPlaceDieOnField(GameDie die) {
-        if (hasColor()) {
-
-        }
-        return false;
-    }
-
-
     public boolean hasColor() {
         if (color == null) {
             return false;
@@ -37,19 +26,20 @@ public class PatternCardField {
         return true;
     }
 
-    public void setXPos(int xPos) {
+    public int getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(int xPos) {
         this.xPos = xPos;
     }
 
-    public void setYPos(int yPos) {
-        this.yPos = yPos;
+    public int getyPos() {
+        return yPos;
     }
 
-    public boolean hasNoAttributes() {
-        if (!hasEyes() && !hasColor()) {
-            return true;
-        }
-        return false;
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
     }
 
     public boolean hasEyes() {
@@ -58,8 +48,6 @@ public class PatternCardField {
         }
         return true;
     }
-
-
 
     public int getEyes() {
         return this.value;
@@ -73,6 +61,7 @@ public class PatternCardField {
     public String getStringColor(){
         return this.color;
     }
+
     public Color getColor() {
         return Color.valueOf(color);
     }
@@ -87,9 +76,5 @@ public class PatternCardField {
             return true;
         }
         return false;
-    }
-
-    public void addDie() {
-
     }
 }

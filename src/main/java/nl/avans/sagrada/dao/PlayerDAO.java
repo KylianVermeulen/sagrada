@@ -39,7 +39,6 @@ public class PlayerDAO {
                player.setSeqnr(rs.getInt("seqnr"));
                player.setCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
                player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));
-               player.setPatternCard(new PatternCardDAO().getPatterncardOfPlayer(player));
                player.setScore(rs.getInt("score"));
                list.add(player);
            }

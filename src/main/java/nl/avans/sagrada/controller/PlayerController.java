@@ -29,6 +29,8 @@ public class PlayerController {
         PatternCard patternCard = player.getPatternCard();
 
         PatternCardView patternCardView = new PatternCardView(this);
+        patternCardView.setPatternCard(patternCard);
+        patternCardView.render();
 
         pane.getChildren().add(patternCardView);
         myScene.setRootPane(pane);
