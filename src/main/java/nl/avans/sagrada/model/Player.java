@@ -41,50 +41,110 @@ public class Player {
         playerDAO.updatePlayer(this);
     }
 
+    /**
+     * Get id from Player
+     *
+     * @return int
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Set id to Player
+     *
+     * @param id int
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Get playerstatus from Player
+     *
+     * @return String
+     */
     public String getPlayerStatus() {
         return playerStatus;
     }
 
+    /**
+     * Set playerstatus to Player
+     *
+     * @param playerStatus String
+     */
     public void setPlayerStatus(String playerStatus) {
         this.playerStatus = playerStatus;
     }
 
+    /**
+     * Get seqnr from Player
+     *
+     * @return int
+     */
     public int getSeqnr() {
         return seqnr;
     }
 
+    /**
+     * Set seqnr to Player
+     *
+     * @param seqnr int
+     */
     public void setSeqnr(int seqnr) {
         this.seqnr = seqnr;
     }
 
+    /**
+     * Get current player from Player
+     *
+     * @return boolean true when current player
+     */
     public boolean isCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Set current player to Player
+     *
+     * @param currentPlayer boolean
+     */
     public void setCurrentPlayer(boolean currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Get private objective card color from Player
+     *
+     * @return String
+     */
     public String getPrivateObjectivecardColor() {
         return privateObjectivecardColor;
     }
 
+    /**
+     * Set private objective card color to Player
+     *
+     * @param privateObjectivecardColor String
+     */
     public void setPrivateObjectivecardColor(String privateObjectivecardColor) {
         this.privateObjectivecardColor = privateObjectivecardColor;
     }
 
+    /**
+     * Get score from Player
+     *
+     * @return int
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Set score to Player
+     *
+     * @param score int
+     */
     public void setScore(int score) {
         this.score = score;
     }
