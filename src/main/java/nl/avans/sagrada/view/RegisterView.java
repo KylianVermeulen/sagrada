@@ -19,6 +19,12 @@ public class RegisterView extends VBox {
     private int backButtonHeight = 35;
     private int backButtonWidth = 75;
     
+    /**
+     * A RegisterView is a VBox which has two other panes within it: a BackButton pane (top left) and 
+     * a "content (vbox) pane", which, in turn, has a title, a username textfield, a password textfield and 
+     * a register button. The button actions are handled by the AccountController.
+     */
+    
     public RegisterView () {
         ac = new AccountController();
         TextField usernameInput = new TextField();

@@ -6,7 +6,9 @@ import javafx.scene.layout.Pane;
 public class MyScene extends Scene {
 
     //private RootPane rootPane;
-    
+    /**
+     * An instance of MyScene, used in order to set a (root)pane to the current scene.
+     */
     public MyScene() {
         super(new Pane());
         //rootPane = new RootPane();
