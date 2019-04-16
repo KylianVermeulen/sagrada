@@ -29,6 +29,7 @@ public class LoginView extends VBox {
 	private void makeContent() {
 		HBox userHBox = new HBox();
 
+		// maak de username en usernametextfield
 		Label userName = new Label("Username: ");
 		userName.setPadding(new Insets(10, 20, 10, 20));
 		TextField userTextField = new TextField();
@@ -38,6 +39,7 @@ public class LoginView extends VBox {
 
 		HBox passwordHBox = new HBox();
 
+		// maak de password en passwordtextfield
 		Label password = new Label("Password: ");
 		TextField passwordTextField = new TextField();
 		password.setPadding(new Insets(10, 20, 10, 20));
@@ -47,20 +49,17 @@ public class LoginView extends VBox {
 
 		Button loginButton = new Button("Login");
 		loginButton.setPrefSize(buttonWitdth, buttonHeight);
-		loginButton.setOnAction(e -> accountcontroller.login(userTextField.getText(), passwordTextField.getText()));
+		loginButton.setOnAction(e -> accountcontroller.login(userTextField.toString(), passwordTextField.toString()));
 
 		Label registerLabel = new Label("If you don't have an account click here: ");
 		registerLabel.setPadding(new Insets(10, 20, 10, 20));
 		registerLabel.setStyle("-fx-underline: true;");
-		registerLabel.setOnMouseClicked(e -> registerClick());
+		registerLabel.setOnMouseClicked(e -> accountcontroller.goRegister());
 
 		getChildren().addAll(userHBox, passwordHBox, loginButton, registerLabel);
 	}
 
-	private void registerClick() {
-		System.out.println("Go to register screen");
-	}
-
+	// maakt de titel van de pagina
 	private void makeTitle() {
 		Text scenetitle = new Text("Login");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));

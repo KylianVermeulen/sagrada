@@ -12,13 +12,20 @@ public class AccountController {
 	}
 
 	public void login(String username, String password) {
-		account.getUsername();
-		account.getPassword();
 		Account accountFromDao = aDAO.getAccountByUsername(username);
-		if(accountFromDao != null) {
-			accountFromDao.getPassword();
+		if (accountFromDao != null) {		
+			String password1 = accountFromDao.getPassword();
+			if (password1.equals(password)) {
+				System.out.println("go to HomeScreen");
+			}
+		}  else {
+			System.out.println("no user");
 		}
-		
+	}
+	
+
+	public void goRegister() {
+		System.out.println("Go to register RegisterView");
 	}
 
 	public void register() {
