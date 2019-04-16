@@ -1,9 +1,11 @@
 package nl.avans.sagrada.model;
 
-import nl.avans.sagrada.dao.*;
-
 import java.util.ArrayList;
 
+import nl.avans.sagrada.dao.AccountDAO;
+import nl.avans.sagrada.dao.FavorTokenDAO;
+import nl.avans.sagrada.dao.GameDAO;
+import nl.avans.sagrada.dao.PatterncardDAO;
 import nl.avans.sagrada.dao.PlayerDAO;
 
 public class Player {
@@ -19,20 +21,6 @@ public class Player {
     private ArrayList<FavorToken> favorTokens;
     private int score;
     private boolean cheatmode = false;
-        
-    /**
-     * Loads in a player of this object by the playerId
-     * @param playerId
-     */
-    public Player(int playerId) {
-        PlayerDAO playerDAO = new PlayerDAO();
-        Player player = playerDAO.getPlayerById(playerId);
-        id = player.getId();
-        playerStatus = player.getPlayerStatus();
-        seqnr = player.getSeqnr();
-        isCurrentPlayer = player.getIsCurrentPlayer();
-        account = player.getAccount();
-    }
     
 
     /**
