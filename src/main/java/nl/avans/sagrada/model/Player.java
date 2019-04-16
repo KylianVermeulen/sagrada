@@ -245,8 +245,8 @@ public class Player {
      * Get PatternCard from database using this and set to Player
      */
     public void setPatternCard() {
-        PatterncardDAO patterncardDAO = new PatterncardDAO();
-        this.patternCard = patterncardDAO.getPatterncardOfPlayer(this);
+        PatternCardDAO PatternCardDAO = new PatternCardDAO();
+        this.patternCard = PatternCardDAO.getPatterncardOfPlayer(this);
     }
 
     /**
@@ -271,8 +271,8 @@ public class Player {
      * Set optional PatterCards to Player from database
      */
     public void setOptionalPatternCards() {
-        PatterncardDAO patterncardDAO = new PatterncardDAO();
-        this.optionalPatternCards = patterncardDAO.getOptionalPatterncardOfPlayer(this);
+        PatternCardDAO PatternCardDAO = new PatternCardDAO();
+        this.optionalPatternCards = PatternCardDAO.getOptionalPatterncardOfPlayer(this);
     }
 
     /**
