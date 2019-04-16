@@ -30,8 +30,9 @@ public class InviteDAO {
                     new QueryParameter(QueryParameter.STRING, account.getUsername()))
             );
             while (rs.next()) {
+                PlayerDAO playerDao = new PlayerDAO();
                 Invite invite = new Invite();
-                Player player = new Player(rs.getInt("idplayer"));
+                Player player = playerDao.getPlayerById(rs.getInt("idplayer"));
                 invite.setSendedPlayer(player);
                 invite.setInvitedAccount(account);
                 String inviteStatus = rs.getString("playstatus_playstatus");
