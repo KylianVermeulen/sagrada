@@ -31,12 +31,12 @@ public class PatternCard {
 
     }
 
-    public void setDifficulty(int i) {
-        this.difficulty = i;
-    }
-
     public int getDifficulty() {
         return this.difficulty;
+    }
+
+    public void setDifficulty(int i) {
+        this.difficulty = i;
     }
 
     private void makeCard() {
@@ -54,4 +54,37 @@ public class PatternCard {
     public PatternCardField getPatternCardField(int x, int y) {
         return card[x][y];
     }
+
+    public boolean checkSides(int xPos, int yPos, String color) {
+        return checkSouth(xPos, yPos, color) && checkEast(xPos, yPos, color) && checkNorth(xPos, yPos, color) && checkWest(xPos, yPos, color);
+    }
+
+    public boolean checkSouth(int xPos, int yPos, String color) {
+        if (yPos == 3) return true;
+        PatternCardField pcd = card[xPos][yPos + 1];
+        if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        return true;
+    }
+
+    public boolean checkNorth(int xPos, int yPos, String color) {
+        if (yPos == 0) return true;
+        PatternCardField pcd = card[xPos][yPos - 1];
+        if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        return true;
+    }
+
+    public boolean checkEast(int xPos, int yPos, String color) {
+        if (xPos == 4) return true;
+        PatternCardField pcd = card[xPos + 1][yPos];
+        if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        return true;
+    }
+
+    public boolean checkWest(int xPos, int yPos, String color) {
+        if (xPos == 0) return true;
+        PatternCardField pcd = card[xPos - 1][yPos];
+        if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        return true;
+    }
+
 }

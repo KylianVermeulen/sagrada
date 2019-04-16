@@ -93,7 +93,7 @@ public class PatternCardView extends BorderPane {
         return this.patternCard;
     }
 
-    public boolean checkSides(int x, int y, String color) {
-        return card[x][y].checkSides(color);
+    public boolean checkSides(int xPos, int yPos, String color) {
+        return patternCard.checkSides(xPos,yPos,color);
     }
 }

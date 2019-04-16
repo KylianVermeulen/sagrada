@@ -25,10 +25,9 @@ public class MyScene extends Scene {
         setRoot(rootPane);
     }
 
-//patternCardView.getPatternCard().getDifficulty() * 2
     public void generateRandomCard() {
         makeColors();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < patternCardView.getPatternCard().getDifficulty() * 2; i++) {
             generateRandomPatternCardField();
         }
     }
@@ -36,6 +35,10 @@ public class MyScene extends Scene {
     private void makeColors() {
         colors = new ArrayList<String>();
         colors.add("blue");
+        colors.add("green");
+        colors.add("yellow");
+        colors.add("purple");
+        colors.add("red");
     }
 
     private void generateRandomPatternCardField() {
@@ -59,7 +62,6 @@ public class MyScene extends Scene {
     }
 
     private void addRandomColor() {
-
         int xPos = rnd.nextInt(5);
         int yPos = rnd.nextInt(4);
         String color = colors.get(rnd.nextInt(colors.size()));

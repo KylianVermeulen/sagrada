@@ -77,7 +77,4 @@ public class PatternCardFieldView extends StackPane {
         return patternCardField.hasAttributes();
     }
 
-    public boolean checkSides(String color) {
-        return patternCardField.checkSides(color);
-    }
 }
