@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import nl.avans.sagrada.dao.AccountDAO;
 import nl.avans.sagrada.dao.FavorTokenDAO;
 import nl.avans.sagrada.dao.GameDAO;
-import nl.avans.sagrada.dao.PatterncardDAO;
+import nl.avans.sagrada.dao.PatternCardDAO;
 import nl.avans.sagrada.dao.PlayerDAO;
 
 public class Player {

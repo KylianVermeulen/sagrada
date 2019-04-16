@@ -10,8 +10,12 @@ import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 
-public class PatterncardDAO {
+public class PatternCardDAO {
     private DBConnection dbConnection;
+    
+    public PatternCardDAO() {
+        dbConnection = new DBConnection();
+    }
 
     /**
      * Get PatternCard by Player
@@ -20,7 +24,6 @@ public class PatterncardDAO {
      * @return PatternCard
      */
     public PatternCard getPatterncardOfPlayer(Player player) {
-        dbConnection = new DBConnection();
         try  {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM patterncard INNER JOIN player p on patterncard.idpatterncard = p.patterncard_idpatterncard WHERE p.username=?", "query"),
