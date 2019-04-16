@@ -46,6 +46,7 @@ public class GameOverviewView extends VBox {
 
             Label label = new Label("Game: " +  game.getId());
             label.setPadding(new Insets(5, 4, 5, 4));
+            label.setPrefWidth(60);
 
             Button joinButton = buildButtonToJoin(game);
 
