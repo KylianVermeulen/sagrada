@@ -1,5 +1,7 @@
 package nl.avans.sagrada.model;
 
+import nl.avans.sagrada.dao.PatternCardDAO;
+import nl.avans.sagrada.dao.PatternCardFieldDAO;
 import nl.avans.sagrada.view.PatternCardView;
 
 import java.util.ArrayList;
@@ -8,12 +10,13 @@ import java.util.Random;
 public class PatternCard {
     private int id;
     private int difficulty;
-    private ArrayList<String> colors;
     private boolean standard;
+
     private PatternCardField[][] patterncardFields;
-    private Random rnd;
     private PatternCardView randomPatternCardView;
 
+    private ArrayList<String> colors;
+    private Random rnd;
     public static final int CARD_WIDTH = 5;
     public static final int CARD_HEIGHT = 4;;
 
@@ -100,7 +103,9 @@ public class PatternCard {
      * @return PatternCardField[]
      */
     public PatternCardField[][] getPatterncardFields() {
-        return patterncardFields;
+        PatternCardFieldDAO patternCardFieldDAO = new PatternCardFieldDAO();
+        ArrayList<PatternCardField> patterncardFields = patternCardFieldDAO.getPatterncardFieldsOfPatterncard(this);
+        return this.patterncardFields;
     }
 
     /**

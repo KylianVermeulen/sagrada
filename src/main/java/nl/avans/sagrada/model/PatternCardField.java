@@ -3,14 +3,22 @@ package nl.avans.sagrada.model;
 import javafx.scene.paint.Color;
 
 public class PatternCardField {
-    private GameDie die;
     private int xPos;
     private int yPos;
     private String color;
     private int value;
     private PatternCard patternCard;
+    private GameDie die;
 
     public PatternCardField(PatternCard patternCard) {
+        this.patternCard = patternCard;
+    }
+
+    public PatternCardField(int xPos, int yPos, String color, int value, PatternCard patternCard) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.color = color;
+        this.value = value;
         this.patternCard = patternCard;
     }
 

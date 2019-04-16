@@ -9,8 +9,6 @@ import nl.avans.sagrada.dao.PlayerDAO;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Player;
 
-import java.util.ArrayList;
-
 public class MyScene extends Scene {
     private Pane rootPane;
 	

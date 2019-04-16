@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.PatternCard;
 
 import static nl.avans.sagrada.model.PatternCard.CARD_HEIGHT;
@@ -12,9 +13,17 @@ import static nl.avans.sagrada.model.PatternCard.CARD_WIDTH;
 
 public class PatternCardView extends BorderPane {
     private PatternCard patternCard;
+    private PlayerController playerController;
+
     private PatternCardFieldView[][] card;
     private TilePane patternCardField;
     private HBox difficultyBar;
+
+    public PatternCardView(PlayerController playerController){
+        this.playerController = playerController;
+        setPrefSize(310, 230);
+    }
+
     public PatternCardView() {
         setPadding(new Insets(10, 0, 0, 10));
         setPrefSize(310, 230);

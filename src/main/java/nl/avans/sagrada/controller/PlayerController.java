@@ -3,6 +3,7 @@ package nl.avans.sagrada.controller;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.MyScene;
+import nl.avans.sagrada.view.PatternCardView;
 
 public class PlayerController {
     private Player player;
@@ -26,6 +27,11 @@ public class PlayerController {
     public void seePatterncardOfPlayer(Player player) {
         Pane pane = new Pane();
         PatternCard patternCard = player.getPatternCard();
+
+        PatternCardView patternCardView = new PatternCardView(this);
+
+        pane.getChildren().add(patternCardView);
+        myScene.setRootPane(pane);
     }
 
     public void useToolcard(Toolcard toolcard) {
