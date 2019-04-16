@@ -1,5 +1,6 @@
 package nl.avans.sagrada.view;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -13,63 +14,33 @@ import java.util.Random;
 public class MyScene extends Scene {
     private Random rnd;
     private PatternCardView patternCardView;
-    ArrayList<String> colors;
 
     public MyScene() {
         super(new Pane());
         rnd = new Random();
         TilePane rootPane = new TilePane();
-        patternCardView = new PatternCardView();
-        rootPane.getChildren().add(patternCardView);
-        generateRandomCard();
+        PatternCard patternCard1 = new PatternCard();
+        PatternCard patternCard2 = new PatternCard();
+        PatternCard patternCard3 = new PatternCard();
+        PatternCard patternCard4 = new PatternCard();
+        PatternCard patternCard5 = new PatternCard();
+        PatternCard patternCard6 = new PatternCard();
+        PatternCard patternCard7 = new PatternCard();
+        PatternCard patternCard8 = new PatternCard();
+
+        patternCard1.generateRandomCard();
+        patternCard2.generateRandomCard();
+        patternCard3.generateRandomCard();
+        patternCard4.generateRandomCard();
+        patternCard5.generateRandomCard();
+        patternCard6.generateRandomCard();
+        patternCard7.generateRandomCard();
+        patternCard8.generateRandomCard();
+
+        rootPane.getChildren().addAll(patternCard1.getRandomPatternCardView(), patternCard2.getRandomPatternCardView(),
+                patternCard3.getRandomPatternCardView(), patternCard4.getRandomPatternCardView(),
+                patternCard5.getRandomPatternCardView(), patternCard6.getRandomPatternCardView(),
+                patternCard7.getRandomPatternCardView(), patternCard8.getRandomPatternCardView());
         setRoot(rootPane);
-    }
-
-    public void generateRandomCard() {
-        makeColors();
-        for (int i = 0; i < patternCardView.getPatternCard().getDifficulty() * 2; i++) {
-            generateRandomPatternCardField();
-        }
-    }
-
-    private void makeColors() {
-        colors = new ArrayList<String>();
-        colors.add("blue");
-        colors.add("green");
-        colors.add("yellow");
-        colors.add("purple");
-        colors.add("red");
-    }
-
-    private void generateRandomPatternCardField() {
-        if (rnd.nextBoolean()) {
-            addRandomEyes();
-        } else {
-            addRandomColor();
-        }
-    }
-
-    private void addRandomEyes() {
-        int xPos = rnd.nextInt(5);
-        int yPos = rnd.nextInt(4);
-        int eyes = rnd.nextInt(6) + 1;
-        if (!patternCardView.hasFieldAttributes(xPos, yPos)) {
-            patternCardView.setEyes(eyes, xPos, yPos);
-            patternCardView.addEyes(xPos, yPos);
-        } else {
-            addRandomEyes();
-        }
-    }
-
-    private void addRandomColor() {
-        int xPos = rnd.nextInt(5);
-        int yPos = rnd.nextInt(4);
-        String color = colors.get(rnd.nextInt(colors.size()));
-        if (!patternCardView.hasFieldAttributes(xPos, yPos) && patternCardView.checkSides(xPos, yPos, color)) {
-            patternCardView.setColor(color, xPos, yPos);
-            patternCardView.addColor(xPos, yPos);
-        } else {
-            addRandomColor();
-        }
     }
 }

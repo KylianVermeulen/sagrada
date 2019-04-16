@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 public class PatternCardFieldView extends StackPane {
     private int xPos;
-    private int y;
+    private int yPos;
     private PatternCardField patternCardField;
     private PatternCard patternCard;
     private ArrayList<Image> images;
@@ -30,6 +30,11 @@ public class PatternCardFieldView extends StackPane {
         setPrefSize(50, 50);
         diceEyesArray();
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        this.setOnMouseClicked(e -> onClick());
+    }
+
+    private void onClick() {
+        System.out.println("x: " + xPos + " y: " + yPos);
     }
 
     private void diceEyesArray() {
@@ -42,7 +47,7 @@ public class PatternCardFieldView extends StackPane {
     }
 
     public void initPatternCardField() {
-        patternCardField = patternCard.getPatternCardField(xPos, y);
+        patternCardField = patternCard.getPatternCardField(xPos, yPos);
     }
 
     public void addEyes() {
@@ -53,12 +58,12 @@ public class PatternCardFieldView extends StackPane {
         setBackground(new Background(new BackgroundFill(patternCardField.getColor(), null, null)));
     }
 
-    public void addDie(){
+    public void addDie() {
 
     }
 
     public void setY(int y) {
-        this.y = y;
+        this.yPos = y;
     }
 
     public void setX(int x) {

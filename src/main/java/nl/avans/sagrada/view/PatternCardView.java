@@ -51,16 +51,32 @@ public class PatternCardView extends BorderPane {
         card[x][y].addEyes();
     }
 
-
+    /**
+     * Sets the eyes of the PatternCardField
+     *
+     * @param eyes int
+     * @param x int
+     * @param y int
+     */
     public void setEyes(int eyes, int x, int y) {
         card[x][y].setEyes(eyes);
     }
 
+    /**
+     * Sets the Color of the PatternCardField
+     *
+     * @param color String
+     * @param x int
+     * @param y int
+     */
     public void setColor(String color, int x, int y) {
         card[x][y].setColor(color);
 
     }
 
+    /**
+     * Makes a 2D Array with the PatternCardField and their positions
+     */
     private void makeCard() {
         for (int y = 0; y < CARD_HEIGHT; y++) {
             for (int x = 0; x < CARD_WIDTH; x++) {
@@ -85,14 +101,33 @@ public class PatternCardView extends BorderPane {
         card[x][y].addDie();
     }
 
+    /**
+     * Checks if the PatternCardField has any color or eye attributes
+     *
+     * @param x int
+     * @param y int
+     * @return boolean
+     */
     public boolean hasFieldAttributes(int x, int y) {
         return card[x][y].hasAttributes();
     }
 
+    /**
+     * gets the empty generated patterncard
+     * @return PatternCard
+     */
     public PatternCard getPatternCard() {
         return this.patternCard;
     }
 
+    /**
+     * Checks if the PatternCardField neighbors have the same color as the PatternCardField you are checking
+     *
+     * @param xPos int
+     * @param yPos int
+     * @param color String
+     * @return boolean
+     */
     public boolean checkSides(int xPos, int yPos, String color) {
         return patternCard.checkSides(xPos,yPos,color);
     }
