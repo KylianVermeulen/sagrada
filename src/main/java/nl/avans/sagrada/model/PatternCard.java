@@ -13,7 +13,7 @@ public class PatternCard {
     private int difficulty;
     private ArrayList<String> colors;
     private boolean standard;
-    private PatternCardField[][] card;
+    private PatternCardField[][] patterncardFields;
     private Random rnd;
     private PatternCardView randomPatternCardView;
 
@@ -22,7 +22,7 @@ public class PatternCard {
      */
     public PatternCard() {
         rnd = new Random();
-        card = new PatternCardField[CARD_WIDTH][CARD_HEIGHT];
+        patterncardFields = new PatternCardField[CARD_WIDTH][CARD_HEIGHT];
         makeCard();
     }
 
@@ -98,7 +98,7 @@ public class PatternCard {
      *
      * @return PatternCardField[]
      */
-    public PatternCardField[] getPatterncardFields() {
+    public PatternCardField[][] getPatterncardFields() {
         return patterncardFields;
     }
 
@@ -107,7 +107,7 @@ public class PatternCard {
      *
      * @param patterncardFields PatternCardField[]
      */
-    public void setPatterncardFields(PatternCardField[] patterncardFields) {
+    public void setPatterncardFields(PatternCardField[][] patterncardFields) {
         this.patterncardFields = patterncardFields;
     }
 
@@ -179,7 +179,7 @@ public class PatternCard {
         for (int y = 0; y < CARD_HEIGHT; y++) {
             for (int x = 0; x < CARD_WIDTH; x++) {
                 PatternCardField patternCardField = new PatternCardField(this);
-                card[x][y] = patternCardField;
+                patterncardFields[x][y] = patternCardField;
                 patternCardField.setXPos(x);
                 patternCardField.setYPos(y);
             }
@@ -187,7 +187,7 @@ public class PatternCard {
     }
 
     public PatternCardField getPatternCardField(int x, int y) {
-        return card[x][y];
+        return patterncardFields[x][y];
     }
 
     public boolean checkSidesColor(int xPos, int yPos, String color) {
@@ -196,28 +196,28 @@ public class PatternCard {
 
     private boolean checkSouthColor(int xPos, int yPos, String color) {
         if (yPos == 3) return true;
-        PatternCardField pcd = card[xPos][yPos + 1];
+        PatternCardField pcd = patterncardFields[xPos][yPos + 1];
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
         return true;
     }
 
     private boolean checkNorthColor(int xPos, int yPos, String color) {
         if (yPos == 0) return true;
-        PatternCardField pcd = card[xPos][yPos - 1];
+        PatternCardField pcd = patterncardFields[xPos][yPos - 1];
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
         return true;
     }
 
     private boolean checkEastColor(int xPos, int yPos, String color) {
         if (xPos == 4) return true;
-        PatternCardField pcd = card[xPos + 1][yPos];
+        PatternCardField pcd = patterncardFields[xPos + 1][yPos];
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
         return true;
     }
 
     private boolean checkWestColor(int xPos, int yPos, String color) {
         if (xPos == 0) return true;
-        PatternCardField pcd = card[xPos - 1][yPos];
+        PatternCardField pcd = patterncardFields[xPos - 1][yPos];
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
         return true;
     }
@@ -228,28 +228,28 @@ public class PatternCard {
 
     private boolean checkSouthEyes(int xPos, int yPos, int eyes) {
         if (yPos == 3) return true;
-        PatternCardField pcd = card[xPos][yPos + 1];
+        PatternCardField pcd = patterncardFields[xPos][yPos + 1];
         if (pcd.hasEyes()) return !(pcd.getEyes() == eyes);
         return true;
     }
 
     private boolean checkNorthEyes(int xPos, int yPos, int eyes) {
         if (yPos == 0) return true;
-        PatternCardField pcd = card[xPos][yPos - 1];
+        PatternCardField pcd = patterncardFields[xPos][yPos - 1];
         if (pcd.hasEyes()) return !(pcd.getEyes() == eyes);
         return true;
     }
 
     private boolean checkEastEyes(int xPos, int yPos, int eyes) {
         if (xPos == 4) return true;
-        PatternCardField pcd = card[xPos + 1][yPos];
+        PatternCardField pcd = patterncardFields[xPos + 1][yPos];
         if (pcd.hasEyes()) return !(pcd.getEyes() == eyes);
         return true;
     }
 
     private boolean checkWestEyes(int xPos, int yPos, int eyes) {
         if (xPos == 0) return true;
-        PatternCardField pcd = card[xPos - 1][yPos];
+        PatternCardField pcd = patterncardFields[xPos - 1][yPos];
         if (pcd.hasEyes()) return !(pcd.getEyes() == eyes);
         return true;
     }
