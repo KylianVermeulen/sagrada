@@ -1,10 +1,9 @@
 package nl.avans.sagrada.controller;
 
-import nl.avans.sagrada.model.GameDie;
-import nl.avans.sagrada.model.PatternCardField;
-import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.model.Toolcard;
+import javafx.scene.layout.Pane;
+import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.MyScene;
+import nl.avans.sagrada.view.PatternCardView;
 
 public class PlayerController {
     private Player player;
@@ -25,8 +24,16 @@ public class PlayerController {
 
     }
 
-    public void seePatterncardOfPlayer(Player player) {
+    public void viewPatterncardOfPlayer(Player player) {
+        Pane pane = new Pane();
+        PatternCard patternCard = player.getPatternCard();
 
+        PatternCardView patternCardView = new PatternCardView(this);
+        patternCardView.setPatternCard(patternCard);
+        patternCardView.render();
+
+        pane.getChildren().add(patternCardView);
+        myScene.setRootPane(pane);
     }
 
     public void useToolcard(Toolcard toolcard) {

@@ -1,12 +1,18 @@
 package nl.avans.sagrada.model;
 
+import nl.avans.sagrada.dao.PatternCardFieldDAO;
+
+import java.util.ArrayList;
 
 public class PatternCard {
     private int id;
     private int difficulty;
     private boolean standard;
 
-    private PatternCardField[] patterncardFields;
+    private PatternCardField[][] patternCardFields;
+
+    public static final int CARD_SQUARES_WIDTH = 5;
+    public static final int CARD_SQUARES_HEIGHT = 4;
 
     /**
      * Empty constructor
@@ -25,6 +31,7 @@ public class PatternCard {
         this.id = id;
         this.difficulty = difficulty;
         this.standard = standard;
+        patternCardFields = getPatternCardFields();
     }
 
     /**
@@ -86,32 +93,47 @@ public class PatternCard {
      *
      * @return PatternCardField[]
      */
-    public PatternCardField[] getPatterncardFields() {
-        return patterncardFields;
+    public PatternCardField[][] getPatternCardFields() {
+        PatternCardFieldDAO patternCardFieldDAO = new PatternCardFieldDAO();
+        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDAO.getPatternCardFieldsOfPatterncard(this);
+        return makePatternCardFields(patternCardFieldsList);
     }
 
     /**
      * Set patternCardFields to PatternCard
      *
-     * @param patterncardFields PatternCardField[]
+     * @param patternCardFields PatternCardField[]
      */
-    public void setPatterncardFields(PatternCardField[] patterncardFields) {
-        this.patterncardFields = patterncardFields;
+    public void setPatterncardFields(PatternCardField[][] patternCardFields) {
+        this.patternCardFields = patternCardFields;
     }
 
     /**
-     * Get best location for a die
+     * Get a PatternCardField by location
      *
-     * @param die GameDie
+     * @param x int
+     * @param y int
      * @return PatternCardField
      */
-    public PatternCardField getBestLocationForDie(GameDie die) {
-        return null;
+    public PatternCardField getPatternCardField(int x, int y) {
+        return patternCardFields[x][y];
     }
 
     /**
-     * Generate random PatternCard
+     * Convert ArrayList to 2D Array of PatternCardField
+     *
+     * @param patternCardFieldsList ArrayList<PatternCardField>
+     * @return PatternCardField[][]
      */
-    public void generateRandomCard() {
+    private PatternCardField[][] makePatternCardFields(ArrayList<PatternCardField> patternCardFieldsList) {
+        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH][CARD_SQUARES_HEIGHT];
+        int i = 0;
+        for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
+            for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
+                patterncardFields[x][y] = patternCardFieldsList.get(i);
+                i++;
+            }
+        }
+        return patterncardFields;
     }
 }

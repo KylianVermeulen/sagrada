@@ -28,5 +28,4 @@ public class Main extends Application {
         rootScene = new MyScene();
         primaryStage.setScene(rootScene);
     }
-
 }
