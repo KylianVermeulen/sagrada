@@ -5,8 +5,4 @@ public class GameDie extends Die {
     private int roundTrack;
     private int round;
     private PatternCardField patternCardField;
-
-    public int getEyes(){
-        return this.eyes;
-    }
 }
