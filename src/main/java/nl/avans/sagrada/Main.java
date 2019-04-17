@@ -7,6 +7,7 @@ import nl.avans.sagrada.view.MyScene;
 public class Main extends Application {
     public static final int SCREEN_HEIGHT = 800;
     public static final int SCREEN_WIDTH = 1280;
+
     private MyScene rootScene;
 
     public static void main(String[] args) {
