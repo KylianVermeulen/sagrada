@@ -9,7 +9,7 @@ public class PatternCard {
     private int difficulty;
     private boolean standard;
 
-    private PatternCardField[][] patterncardFields;
+    private PatternCardField[][] patternCardFields;
 
     public static final int CARD_WIDTH = 5;
     public static final int CARD_HEIGHT = 4;;
