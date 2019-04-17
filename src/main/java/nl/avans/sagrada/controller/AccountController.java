@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -21,7 +19,6 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.GameOverviewView;
 import nl.avans.sagrada.view.InviteOverviewView;
 import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.PopupRegisterView;
 import nl.avans.sagrada.view.RegisterView;
 
 public class AccountController {
@@ -51,29 +48,23 @@ public class AccountController {
      */
     public void register(String username, String password) {
         Account account = new Account();
-        PopupRegisterView popupRegisterView = new PopupRegisterView(this, AlertType.NONE, "", null);
         if (username.length() < 3) {
-            popupRegisterView.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Fout in gebruikersnaam lengte." , "De ingevulde gebruikersnaam is te kort!");
             return;
         }
         if (password.length() < 3) {
-            popupRegisterView.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Fout in wachtwoord lengte." , "Het ingevulde wachtwoord is te kort!");
             return;
         }
         Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
         Matcher match = pt.matcher(password);
         if (match.find()) {
-            popupRegisterView.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Fout in wachtwoord inhoud." , "Gebruik alleen letters en cijfers voor uw wachtwoord.");
             return;
         }
         account.setUsername(username);
         account.setPassword(password);
         if (accountDao.accountExists(account)) {
-            popupRegisterView.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Gebruiker bestaat al." , "Kies een andere gebruikersnaam.");
             return;
         }
         accountDao.addAccount(account);
-        popupRegisterView.createPopup(AlertType.INFORMATION, ButtonType.OK, "Bevestiging" , "Uw account is succesvol aangemaakt!", "Uw gebruikersnaam: " + account.getUsername());
     }
     
     /**
