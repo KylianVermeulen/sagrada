@@ -9,9 +9,10 @@ import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Game;
 
+import javax.swing.text.View;
 import java.util.ArrayList;
 
-public class GameOverviewView extends VBox {
+public class GameOverviewView extends VBox implements ViewInterface {
     private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
     private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2;
     private ArrayList<Game> games;

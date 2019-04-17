@@ -11,7 +11,7 @@ import nl.avans.sagrada.model.Account;
 
 import java.util.ArrayList;
 
-public class AccountListOverview extends VBox {
+public class AccountListOverview extends VBox implements ViewInterface {
     private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
     private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT;
     private ArrayList<Account> accounts;
