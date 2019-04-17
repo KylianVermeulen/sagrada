@@ -12,7 +12,7 @@ public class PatternCard {
     private PatternCardField[][] patternCardFields;
 
     public static final int CARD_WIDTH = 5;
-    public static final int CARD_HEIGHT = 4;;
+    public static final int CARD_HEIGHT = 4;
 
     /**
      * Empty constructor
