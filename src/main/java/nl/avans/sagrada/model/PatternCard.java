@@ -11,8 +11,8 @@ public class PatternCard {
 
     private PatternCardField[][] patternCardFields;
 
-    public static final int CARD_WIDTH = 5;
-    public static final int CARD_HEIGHT = 4;
+    public static final int CARD_SQUARES_WIDTH = 5;
+    public static final int CARD_SQUARES_HEIGHT = 4;
 
     /**
      * Empty constructor
@@ -126,10 +126,10 @@ public class PatternCard {
      * @return PatternCardField[][]
      */
     private PatternCardField[][] makePatternCardFields(ArrayList<PatternCardField> patternCardFieldsList) {
-        PatternCardField[][] patterncardFields = new PatternCardField[CARD_WIDTH][CARD_HEIGHT];
+        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH][CARD_SQUARES_HEIGHT];
         int i = 0;
-        for (int x = 0; x < CARD_WIDTH; x++) {
-            for (int y = 0; y < CARD_HEIGHT; y++) {
+        for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
+            for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
                 patterncardFields[x][y] = patternCardFieldsList.get(i);
                 i++;
             }

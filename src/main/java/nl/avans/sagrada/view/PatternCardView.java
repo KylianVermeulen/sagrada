@@ -8,8 +8,8 @@ import javafx.scene.shape.Circle;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.PatternCard;
 
-import static nl.avans.sagrada.model.PatternCard.CARD_HEIGHT;
-import static nl.avans.sagrada.model.PatternCard.CARD_WIDTH;
+import static nl.avans.sagrada.model.PatternCard.CARD_SQUARES_HEIGHT;
+import static nl.avans.sagrada.model.PatternCard.CARD_SQUARES_WIDTH;
 
 public class PatternCardView extends BorderPane {
     private PatternCard patternCard;
@@ -46,7 +46,7 @@ public class PatternCardView extends BorderPane {
     public void render() {
         getChildren().clear();
         patternCardField = new TilePane();
-        patternCardFieldViews = new PatternCardFieldView[CARD_WIDTH][CARD_HEIGHT];
+        patternCardFieldViews = new PatternCardFieldView[CARD_SQUARES_WIDTH][CARD_SQUARES_HEIGHT];
         makePatternCardFieldViews();
 
         setCenter(patternCardField);
@@ -78,8 +78,8 @@ public class PatternCardView extends BorderPane {
      * Makes a 2D Array with the PatternCardField and their positions
      */
     private void makePatternCardFieldViews() {
-        for (int y = 0; y < CARD_HEIGHT; y++) {
-            for (int x = 0; x < CARD_WIDTH; x++) {
+        for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
+            for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
                 PatternCardFieldView patternCardFieldView = new PatternCardFieldView(playerController);
                 patternCardFieldView.setPatternCard(patternCard);
                 patternCardFieldView.setPatternCardField(patternCard.getPatternCardField(x,y));
