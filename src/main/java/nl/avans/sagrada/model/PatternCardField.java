@@ -47,7 +47,7 @@ public class PatternCardField {
 
     public Color getColor() {
         switch (color) {
-            case "red":
+            case "rood":
                 return Color.RED;
             case "blauw":
                 return Color.BLUE;
