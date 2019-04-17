@@ -19,6 +19,9 @@ public class PatternCardFieldView extends StackPane {
 
     private ArrayList<Image> images;
 
+    private static final int WIDTH = 50;
+    private static final int HEIGHT = 50;
+
     /**
      * Partial constructor
      *
@@ -26,7 +29,7 @@ public class PatternCardFieldView extends StackPane {
      */
     public PatternCardFieldView(PlayerController playerController) {
         this.playerController = playerController;
-        setPrefSize(50, 50);
+        setPrefSize(WIDTH, HEIGHT);
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         setOnMouseClicked(e -> onClick());
 

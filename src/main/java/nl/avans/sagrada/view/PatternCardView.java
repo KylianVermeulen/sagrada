@@ -19,6 +19,9 @@ public class PatternCardView extends BorderPane {
     private TilePane patternCardField;
     private HBox difficultyBar;
 
+    private static final int WIDTH = 310;
+    private static final int HEIGHT = 230;
+
     /**
      * Partial constructor
      *
@@ -26,7 +29,7 @@ public class PatternCardView extends BorderPane {
      */
     public PatternCardView(PlayerController playerController) {
         this.playerController = playerController;
-        setPrefSize(310, 230);
+        setPrefSize(WIDTH, HEIGHT);
         setPadding(new Insets(10, 0, 0, 10));
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
     }
