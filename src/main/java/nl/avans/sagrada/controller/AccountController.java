@@ -71,10 +71,8 @@ public class AccountController {
         account = accountDao.getAccountByUsername("test1");
         ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
         ArrayList<Player> players = account.getPlayers();
-        ArrayList<Game> games = new ArrayList<Game>();
-        for (Player player : players) {
-            games.add(player.getGame());
-        }
+        ArrayList<Game> games = account.getGames();
+
         
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);

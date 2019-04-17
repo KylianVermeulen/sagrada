@@ -102,4 +102,20 @@ public class Account {
         players = playerDAO.getPlayersOfAccount(this);
         return players;
     }
+    
+    /**
+     * Added method to get all the games of a account
+     * @return ArrayList<Game>
+     */
+    public ArrayList<Game> getGames() {
+        if (players.size() == 0) {
+            getPlayers(); 
+        }
+        
+        ArrayList<Game> games = new ArrayList<>();
+        for (Player player : players) {
+            games.add(player.getGame());
+        }
+        return games;
+    }
 }
