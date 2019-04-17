@@ -23,7 +23,7 @@ public class PatternCardDAO {
      * @param player Player
      * @return PatternCard
      */
-    public PatternCard getPatterncardOfPlayer(Player player) {
+    public PatternCard getSelectedPatterncardOfPlayer(Player player) {
         try  {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT patterncard.* FROM patterncard INNER JOIN player p on patterncard.idpatterncard = p.patterncard_idpatterncard WHERE p.username=?", "query"),

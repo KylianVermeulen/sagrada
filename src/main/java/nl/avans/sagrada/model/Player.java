@@ -230,7 +230,7 @@ public class Player {
      */
     public PatternCard getPatternCard() {
         PatternCardDAO PatternCardDAO = new PatternCardDAO();
-        patternCard = PatternCardDAO.getPatterncardOfPlayer(this);
+        patternCard = PatternCardDAO.getSelectedPatterncardOfPlayer(this);
         return patternCard;
     }
 
