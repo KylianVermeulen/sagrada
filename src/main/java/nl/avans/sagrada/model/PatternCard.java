@@ -122,11 +122,9 @@ public class PatternCard {
     /**
      * Convert ArrayList to 2D Array of PatternCardField
      *
-     * @deprecated because method assumes ArrayList is in correct order. Needs refactoring.
      * @param patternCardFieldsList ArrayList<PatternCardField>
      * @return PatternCardField[][]
      */
-    @Deprecated
     private PatternCardField[][] makepatternCardFields(ArrayList<PatternCardField> patternCardFieldsList) {
         PatternCardField[][] patterncardFields = new PatternCardField[CARD_WIDTH][CARD_HEIGHT];
         int i = 0;

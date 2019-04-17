@@ -21,7 +21,7 @@ public class PatternCardFieldDAO {
         ArrayList<PatternCardField> list = new ArrayList<PatternCardField>();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM patterncardfield WHERE patterncard_idpatterncard=?", "query"),
+                    new Query("SELECT * FROM sagrada.patterncardfield WHERE patterncard_idpatterncard=? ORDER BY position_x, position_y", "query"),
                     new QueryParameter(QueryParameter.INT, patternCard.getId())
             );
             while (rs.next()) {
