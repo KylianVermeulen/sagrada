@@ -17,22 +17,13 @@ public class PopupRegisterView extends PopupView {
      * @param buttonType ButtonType[]
      */
     public PopupRegisterView(AccountController accountController, AlertType alertType, String contentText, ButtonType[] buttonType) {
-        super(alertType, contentText, buttonType);
-        this.accountController = accountController;
+        super(accountController, alertType, contentText, buttonType);
     }
     
     @Override
     public void createPopup (AlertType alertType, ButtonType buttonType, String popupTitle, String popupHeader, String popupText) {
-        Alert pv = new Alert(AlertType.NONE, "", buttonType);
-
-        pv.setTitle(popupTitle);
-        pv.setHeaderText(popupHeader);
-        pv.setAlertType(alertType); 
-        pv.setContentText(popupText); 
-        pv.setResizable(false);
-        
-        Optional<ButtonType> result = pv.showAndWait();
-
+        super.createPopup(alertType, buttonType, popupTitle, popupHeader, popupText);
+        ButtonType result = super.getResult();
         if(!result.isPresent() && alertType == AlertType.INFORMATION) {
             accountController.gotoLogin();
         }

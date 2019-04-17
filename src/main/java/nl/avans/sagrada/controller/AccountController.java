@@ -135,10 +135,11 @@ public class AccountController {
     /**
      * Shows the register view, allowing the register screen to be displayed as current screen.
      */
-    public void showRegister() {
+    public void viewRegister() {
         Pane pane = new Pane();
         
         RegisterView registerView = new RegisterView(this);
+        registerView.render();
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(registerView);
         

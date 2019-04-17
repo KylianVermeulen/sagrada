@@ -27,7 +27,6 @@ public class RegisterView extends VBox {
     public RegisterView (AccountController accountController) {
         this.accountController = accountController;
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);        
-        createRegisterContent();
     }
     
     /**
@@ -35,10 +34,11 @@ public class RegisterView extends VBox {
      * a "content (vbox) pane", which, in turn, has a title, a username textfield, a password textfield and 
      * a register button. The button actions are handled by the AccountController.
      */
-    private void createRegisterContent() {
+    public void render() {
+        getChildren().clear();
         TextField usernameInput = new TextField();
         PasswordField passwordInput = new PasswordField();
-        Button button1 = new Button("Register");
+        Button registerButton = new Button("Register");
         Label registerText = new Label("Register");
         Label usernameText = new Label("Username:");
         Label passwordText = new Label("Password:");
@@ -53,7 +53,7 @@ public class RegisterView extends VBox {
         backButton.setId("backButton");
         backButton.setOnAction(e -> accountController.gotoLogin());
         
-        button1.setOnAction(e -> accountController.register(usernameInput.getText(), passwordInput.getText()));
+        registerButton.setOnAction(e -> accountController.register(usernameInput.getText(), passwordInput.getText()));
         
         VBox vbox = new VBox();
         HBox hbox1 = new HBox();
@@ -67,7 +67,7 @@ public class RegisterView extends VBox {
         
         hbox1.getChildren().addAll(usernameText, usernameInput);
         hbox2.getChildren().addAll(passwordText, passwordInput);
-        vbox.getChildren().addAll(registerText, hbox1, hbox2, button1);
+        vbox.getChildren().addAll(registerText, hbox1, hbox2, registerButton);
         backButtonPane.getChildren().add(backButton);
         
         vbox.setPadding(new Insets(321, 0, 0, 0)); //Dit moet later aangepast worden om precies het midden te verkrijgen (net als bij login scherm)

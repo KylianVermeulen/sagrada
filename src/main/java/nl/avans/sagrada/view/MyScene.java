@@ -16,9 +16,8 @@ public class MyScene extends Scene {
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
         rootPane = new Pane();
-        setRoot(rootPane);
-        
-        accountController.showRegister();
+        setRoot(rootPane);  
+        accountController.viewRegister();
     }
 
     /**

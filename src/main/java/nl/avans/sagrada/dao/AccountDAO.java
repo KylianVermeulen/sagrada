@@ -15,7 +15,6 @@ public class AccountDAO {
         dbConnection = new DBConnection();
     }
 
-
     /**
      * Gets a account by the username
      * When there was no account found it will return null
@@ -59,9 +58,9 @@ public class AccountDAO {
             e.printStackTrace();
         }
         return list;
-	}
+    }
     
-    /**
+     /**
      * Adds an account to the database, and also sets a username and a password for this account.
      * @param account Account
      */

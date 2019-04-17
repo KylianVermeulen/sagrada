@@ -4,9 +4,11 @@ import java.util.Optional;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import nl.avans.sagrada.controller.AccountController;
 
 public abstract class PopupView extends Alert {
-
+    private AccountController accountController;
+    
     /**
      * An instance of PopupView is an extension of Alert (javafx.scene.control.Alert).
      * This instance requests an AlertType, a text (Dialogue) and an array of ButtonType (in order to add multiple buttons to the popup) as parameters.
@@ -14,8 +16,9 @@ public abstract class PopupView extends Alert {
      * @param contentText String
      * @param buttonType ButtonType[]
      */
-    public PopupView (AlertType alertType, String contentText, ButtonType[] buttonType) {
+    public PopupView (AccountController accountController, AlertType alertType, String contentText, ButtonType[] buttonType) {
         super(alertType, contentText, buttonType);
+        this.accountController = accountController;
     }
     
     /**
