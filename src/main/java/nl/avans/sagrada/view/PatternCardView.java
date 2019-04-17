@@ -22,9 +22,7 @@ public class PatternCardView extends BorderPane {
     public PatternCardView(PlayerController playerController) {
         this.playerController = playerController;
         setPrefSize(310, 230);
-
         setPadding(new Insets(10, 0, 0, 10));
-        setPrefSize(310, 230);
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
     }
 
