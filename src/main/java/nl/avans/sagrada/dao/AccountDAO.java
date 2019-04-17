@@ -99,7 +99,7 @@ public class AccountDAO {
         }
     }
 
-    /*
+    /**
      * Check if account exists
      *
      * @param account Account

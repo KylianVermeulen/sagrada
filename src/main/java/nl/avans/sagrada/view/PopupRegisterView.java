@@ -4,9 +4,11 @@ import java.util.Optional;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import nl.avans.sagrada.controller.AccountController;
 
-public abstract class PopupView extends Alert {
-
+public class PopupRegisterView extends PopupView {
+    private AccountController accountController;
+    
     /**
      * An instance of PopupView is an extension of Alert (javafx.scene.control.Alert).
      * This instance requests an AlertType, a text (Dialogue) and an array of ButtonType (in order to add multiple buttons to the popup) as parameters.
@@ -14,18 +16,12 @@ public abstract class PopupView extends Alert {
      * @param contentText String
      * @param buttonType ButtonType[]
      */
-    public PopupView (AlertType alertType, String contentText, ButtonType[] buttonType) {
+    public PopupRegisterView(AccountController accountController, AlertType alertType, String contentText, ButtonType[] buttonType) {
         super(alertType, contentText, buttonType);
+        this.accountController = accountController;
     }
     
-    /**
-     * Creates a pop-up to show a user how the program has handled their input. Uses an alert type, button type, title, header and text (dialogue).
-     * @param alertType AlertType
-     * @param buttonType ButtonType
-     * @param popupTitle String
-     * @param popupHeader String
-     * @param popupText String
-     */ 
+    @Override
     public void createPopup (AlertType alertType, ButtonType buttonType, String popupTitle, String popupHeader, String popupText) {
         Alert pv = new Alert(AlertType.NONE, "", buttonType);
 
@@ -37,15 +33,15 @@ public abstract class PopupView extends Alert {
         
         Optional<ButtonType> result = pv.showAndWait();
 
-        if(!result.isPresent()) {
-            //"X" pressed.
+        if(!result.isPresent() && alertType == AlertType.INFORMATION) {
+            accountController.gotoLogin();
         }
         else if(result.get() == ButtonType.CLOSE) {
             return;
-            //"Close" pressed.
         }
         else if(result.get() == ButtonType.OK) {
-            //"OK" pressed.
+           accountController.gotoLogin();
         }   
-    }   
+    }
+
 }

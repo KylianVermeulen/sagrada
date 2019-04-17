@@ -21,7 +21,8 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.GameOverviewView;
 import nl.avans.sagrada.view.InviteOverviewView;
 import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.PopupView;
+import nl.avans.sagrada.view.PopupRegisterView;
+import nl.avans.sagrada.view.RegisterView;
 
 public class AccountController {
     private Account account;
@@ -30,7 +31,6 @@ public class AccountController {
     private InviteDAO inviteDao;
     private PlayerDAO playerDAO;
     private GameDAO gameDAO;
-    private PopupView pv;
     
     
     public AccountController(MyScene myScene) {
@@ -38,8 +38,7 @@ public class AccountController {
         accountDao = new AccountDAO();
         inviteDao = new InviteDAO();
         playerDAO = new PlayerDAO();
-        gameDAO = new GameDAO();
-        pv = new PopupView(AlertType.NONE, "", null);
+        gameDAO = new GameDAO();     
     }
 
     public void login() {
@@ -50,42 +49,37 @@ public class AccountController {
      * @param username String
      * @param password String
      */
-    
     public void register(String username, String password) {
         Account account = new Account();
+        PopupRegisterView popupRegisterView = new PopupRegisterView(this, AlertType.NONE, "", null);
         if (username.length() < 3) {
-            System.out.println("TEST: username is te kort!");
-            pv.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Fout in gebruikersnaam lengte." , "De ingevulde gebruikersnaam is te kort!");
+            popupRegisterView.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Fout in gebruikersnaam lengte." , "De ingevulde gebruikersnaam is te kort!");
             return;
         }
         if (password.length() < 3) {
-            System.out.println("TEST: wachtwoord is te kort!");
-            pv.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Fout in wachtwoord lengte." , "Het ingevulde wachtwoord is te kort!");
+            popupRegisterView.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Fout in wachtwoord lengte." , "Het ingevulde wachtwoord is te kort!");
             return;
         }
         Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
         Matcher match = pt.matcher(password);
         if (match.find()) {
-            pv.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Fout in wachtwoord inhoud." , "Gebruik alleen letters en cijfers voor uw wachtwoord.");
-            System.out.println("TEST: wachtwoord heeft leestekens!");
+            popupRegisterView.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Fout in wachtwoord inhoud." , "Gebruik alleen letters en cijfers voor uw wachtwoord.");
             return;
         }
         account.setUsername(username);
         account.setPassword(password);
         if (accountDao.accountExists(account)) {
-            pv.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Gebruiker bestaat al." , "Kies een andere gebruikersnaam.");
-            System.out.println("TEST: account bestaat al!");
+            popupRegisterView.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Gebruiker bestaat al." , "Kies een andere gebruikersnaam.");
             return;
         }
         accountDao.addAccount(account);
-        pv.createPopup(AlertType.INFORMATION, ButtonType.OK, "Bevestiging" , "Uw account is succesvol aangemaakt!", "Uw gebruikersnaam: " + account.getUsername());
+        popupRegisterView.createPopup(AlertType.INFORMATION, ButtonType.OK, "Bevestiging" , "Uw account is succesvol aangemaakt!", "Uw gebruikersnaam: " + account.getUsername());
     }
     
     /**
      * Switches the current pane to the "Login screen" pane.
      */
     public void gotoLogin() {
-        System.out.println("TEST: go to login screen!");
         //go to login pane
     }
     
@@ -134,6 +128,19 @@ public class AccountController {
         inviteOverview.render();
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(inviteOverview);
+        
+        myScene.setRootPane(pane);
+    }
+    
+    /**
+     * Shows the register view, allowing the register screen to be displayed as current screen.
+     */
+    public void showRegister() {
+        Pane pane = new Pane();
+        
+        RegisterView registerView = new RegisterView(this);
+        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        pane.getChildren().add(registerView);
         
         myScene.setRootPane(pane);
     }
