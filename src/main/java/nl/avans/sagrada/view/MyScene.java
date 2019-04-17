@@ -31,10 +31,4 @@ public class MyScene extends Scene {
         rootPane.getChildren().clear();
         rootPane.getChildren().add(pane);
     }
-
-    public void testPatterncardView() {
-        Account account = new AccountDAO().getAccountByUsername("test1");
-        Player player = new PlayerDAO().getPlayerById(account.getPlayers().get(0).getId());
-        playerController.viewPatterncardOfPlayer(player);
-    }
 }
