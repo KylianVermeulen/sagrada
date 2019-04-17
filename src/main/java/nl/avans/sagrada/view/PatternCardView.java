@@ -33,9 +33,6 @@ public class PatternCardView extends BorderPane {
     public void render() {
         getChildren().clear();
         patternCardField = new TilePane();
-        difficultyBar = new HBox();
-        difficultyBar.setPadding(new Insets(5,0,5,5));
-
         patternCardFieldViews = new PatternCardFieldView[CARD_WIDTH][CARD_HEIGHT];
         makePatternCardFieldViews();
 
@@ -47,6 +44,9 @@ public class PatternCardView extends BorderPane {
      * Shows difficulty view
      */
     private void showDifficulty() {
+        difficultyBar = new HBox();
+        difficultyBar.setPadding(new Insets(5,0,5,5));
+
         for (int i = 0; i < patternCard.getDifficulty(); i++) {
             Pane pane = new Pane();
             pane.setPadding(new Insets(0,5,0,0));
@@ -54,10 +54,11 @@ public class PatternCardView extends BorderPane {
             pane.getChildren().add(circle);
             difficultyBar.getChildren().add(pane);
         }
-        GridPane test = new GridPane();
-        test.getChildren().add(difficultyBar);
-        test.setAlignment(Pos.BOTTOM_RIGHT);
-        setBottom(test);
+
+        GridPane difficultyBarWrapper = new GridPane();
+        difficultyBarWrapper.getChildren().add(difficultyBar);
+        difficultyBarWrapper.setAlignment(Pos.BOTTOM_RIGHT);
+        setBottom(difficultyBarWrapper);
     }
 
     /**
