@@ -9,10 +9,11 @@ import javafx.scene.paint.Color;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 import java.util.ArrayList;
 
-public class PatternCardFieldView extends StackPane {
+public class PatternCardFieldView extends StackPane implements ViewInterface {
     private PatternCard patternCard;
     private PatternCardField patternCardField;
     private PlayerController playerController;
@@ -56,6 +57,7 @@ public class PatternCardFieldView extends StackPane {
     /**
      * Renders the view with all the information
      */
+    @Override
     public void render() {
         getChildren().clear();
         if (patternCardField.hasColor()) {

@@ -4,10 +4,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.AccountDAO;
-import nl.avans.sagrada.dao.PlayerDAO;
-import nl.avans.sagrada.model.Account;
-import nl.avans.sagrada.model.Player;
 
 public class MyScene extends Scene {
     private Pane rootPane;
