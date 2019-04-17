@@ -63,6 +63,7 @@ public class AccountController {
     }
 
     public void setupNewGame() {
+        
     }
     
     public void lobby() {
