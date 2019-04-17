@@ -1,5 +1,8 @@
 package nl.avans.sagrada.controller;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -13,8 +16,6 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.*;
-
-import java.util.ArrayList;
 
 public class AccountController {
     private Account account;
@@ -34,7 +35,40 @@ public class AccountController {
 
     public void login() {
     }
-
+    
+    /**
+     * Registers a user via username and password, and checks for certain requirements linked to the username and password.
+     * @param username String
+     * @param password String
+     */
+    public void register(String username, String password) {
+        Account account = new Account();
+        if (username.length() < 3) {
+            return;
+        }
+        if (password.length() < 3) {
+            return;
+        }
+        Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
+        Matcher match = pt.matcher(password);
+        if (match.find()) {
+            return;
+        }
+        account.setUsername(username);
+        account.setPassword(password);
+        if (accountDao.accountExists(account)) {
+            return;
+        }
+        accountDao.addAccount(account);
+    }
+    
+    /**
+     * Switches the current pane to the "Login screen" pane.
+     */
+    public void gotoLogin() {
+        //go to login pane
+    }
+    
     public void register() {
     }
 
@@ -93,6 +127,20 @@ public class AccountController {
         inviteOverview.render();
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(inviteOverview);
+        
+        myScene.setRootPane(pane);
+    }
+    
+    /**
+     * Shows the register view, allowing the register screen to be displayed as current screen.
+     */
+    public void viewRegister() {
+        Pane pane = new Pane();
+        
+        RegisterView registerView = new RegisterView(this);
+        registerView.render();
+        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        pane.getChildren().add(registerView);
         
         myScene.setRootPane(pane);
     }

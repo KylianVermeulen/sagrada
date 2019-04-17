@@ -10,7 +10,7 @@ public class MyScene extends Scene {
 	
     private AccountController accountController;
     private PlayerController playerController;
-	
+
     public MyScene() {
         super(new Pane());
         accountController = new AccountController(this);
@@ -21,7 +21,7 @@ public class MyScene extends Scene {
 
     /**
      * Set the rootpane of the pane that we have as root from the scene
-     * @param pane
+     * @param pane Pane
      */
     public void setRootPane(Pane pane) {
         rootPane.getChildren().clear();
