@@ -8,8 +8,8 @@ import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-import javax.swing.text.View;
 import java.util.ArrayList;
 
 public class GameOverviewView extends VBox implements ViewInterface {

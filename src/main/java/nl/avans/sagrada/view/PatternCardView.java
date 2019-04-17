@@ -7,8 +7,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class PatternCardView extends BorderPane {
+public class PatternCardView extends BorderPane implements ViewInterface {
     private PatternCard patternCard;
     private PlayerController playerController;
 
@@ -40,6 +41,10 @@ public class PatternCardView extends BorderPane {
         this.patternCard = patternCard;
     }
 
+    /**
+     * Renders the view with all the information
+     */
+    @Override
     public void render() {
         getChildren().clear();
         patternCardField = new TilePane();

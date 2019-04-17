@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 import java.util.ArrayList;
 
