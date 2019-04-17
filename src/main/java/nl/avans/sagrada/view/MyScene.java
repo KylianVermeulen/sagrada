@@ -4,10 +4,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
-	
+
 public class MyScene extends Scene {
     private Pane rootPane;
-
+	
     private AccountController accountController;
     private PlayerController playerController;
 
@@ -16,8 +16,7 @@ public class MyScene extends Scene {
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
         rootPane = new Pane();
-        setRoot(rootPane);  
-        accountController.viewRegister();
+        setRoot(rootPane);
     }
 
     /**
@@ -27,5 +26,5 @@ public class MyScene extends Scene {
     public void setRootPane(Pane pane) {
         rootPane.getChildren().clear();
         rootPane.getChildren().add(pane);
-    }	
+    }
 }

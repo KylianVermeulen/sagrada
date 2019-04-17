@@ -12,8 +12,9 @@ import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Invite;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class InviteOverviewView extends VBox {
+public class InviteOverviewView extends VBox implements ViewInterface {
     private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
     private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2;
     private ArrayList<Invite> invites;
@@ -35,6 +36,7 @@ public class InviteOverviewView extends VBox {
     /**
      * Renders the view with all the information
      */
+    @Override
     public void render() {
         getChildren().clear();
         for (Invite invite: invites) {

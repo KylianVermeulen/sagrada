@@ -3,7 +3,6 @@ package nl.avans.sagrada.controller;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -16,10 +15,9 @@ import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.view.GameOverviewView;
-import nl.avans.sagrada.view.InviteOverviewView;
-import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.RegisterView;
+import nl.avans.sagrada.view.*;
+
+import java.util.ArrayList;
 
 public class AccountController {
     private Account account;
@@ -28,7 +26,6 @@ public class AccountController {
     private InviteDAO inviteDao;
     private PlayerDAO playerDAO;
     private GameDAO gameDAO;
-    
     
     public AccountController(MyScene myScene) {
         this.myScene = myScene;
@@ -99,6 +96,19 @@ public class AccountController {
         gameOverview.render();
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(gameOverview);
+
+        myScene.setRootPane(pane);
+    }
+
+    public void accountListOverview() {
+        Pane pane = new Pane();
+        ArrayList<Account> accounts = accountDao.getAllAccounts();
+
+        AccountListOverview accountListOverview = new AccountListOverview(this);
+        accountListOverview.setAccounts(accounts);
+        accountListOverview.render();
+        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        pane.getChildren().add(accountListOverview);
 
         myScene.setRootPane(pane);
     }
