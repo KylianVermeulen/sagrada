@@ -13,11 +13,20 @@ import nl.avans.sagrada.model.PatternCardField;
 public class PatternCardFieldDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Constructor
+     */
     public PatternCardFieldDAO() {
         dbConnection = new DBConnection();
     }
 
-    public ArrayList<PatternCardField> getPatterncardFieldsOfPatterncard(PatternCard patternCard) {
+    /**
+     * Get PatternCardFields from db using PatternCard
+     *
+     * @param patternCard PatternCard
+     * @return ArrayList<PatternCardField
+     */
+    public ArrayList<PatternCardField> getPatternCardFieldsOfPatterncard(PatternCard patternCard) {
         ArrayList<PatternCardField> list = new ArrayList<PatternCardField>();
         try {
             ResultSet rs = dbConnection.executeQuery(

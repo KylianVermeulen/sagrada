@@ -95,8 +95,8 @@ public class PatternCard {
      */
     public PatternCardField[][] getPatternCardFields() {
         PatternCardFieldDAO patternCardFieldDAO = new PatternCardFieldDAO();
-        ArrayList<PatternCardField> patterncardFieldsList = patternCardFieldDAO.getPatterncardFieldsOfPatterncard(this);
-        return makePatternCardFields(patterncardFieldsList);
+        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDAO.getPatternCardFieldsOfPatterncard(this);
+        return makePatternCardFields(patternCardFieldsList);
     }
 
     /**
