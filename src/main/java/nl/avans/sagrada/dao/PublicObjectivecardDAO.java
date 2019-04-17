@@ -7,13 +7,13 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.PublicObjectiveCard;
 
 public class PublicObjectivecardDAO {
-	private DBConnection dbConnection;
-	
-	public ArrayList<PublicObjectiveCard> getAllPublicObjectiveCards() {
-		return null;
-	}
-	
-	public ArrayList<PublicObjectiveCard> getAllPublicObjectiveCardsOfGame(Game game) {
-		return null;
-	}
+    private DBConnection dbConnection;
+
+    public ArrayList<PublicObjectiveCard> getAllPublicObjectiveCards() {
+        return null;
+    }
+
+    public ArrayList<PublicObjectiveCard> getAllPublicObjectiveCardsOfGame(Game game) {
+        return null;
+    }
 }

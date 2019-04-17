@@ -7,13 +7,13 @@ import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Invite;
 
 public class InviteDAO {
-	private DBConnection dbConnection;
+    private DBConnection dbConnection;
 
-	public ArrayList<Invite> getInvitesOfAccount(Account account) {
-		return null;
-	}
+    public ArrayList<Invite> getInvitesOfAccount(Account account) {
+        return null;
+    }
 
-	public void addInvite(Invite invite) {
+    public void addInvite(Invite invite) {
 
-	}
+    }
 }
