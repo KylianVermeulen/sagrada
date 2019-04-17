@@ -60,6 +60,26 @@ public class AccountDAO {
         }
         return list;
     }
+    
+    /**
+     * Gets all accounts that a account can invites
+     * @param account the account that want's to send the invite
+     * @return ArrayList<Account>
+     */
+    public ArrayList<Account> getAllInviteableAccounts(Account account) {
+        ArrayList<Account> accounts = getAllAccounts();
+        ArrayList<Account> inviteAbleAccounts = new ArrayList<>();
+        
+        for(Account inviteAccount: accounts) {
+            String usernameAccount = account.getUsername();
+            String usernameInviteAvleAccount = inviteAccount.getUsername();
+            if (usernameAccount.equals(usernameInviteAvleAccount)) {
+                inviteAbleAccounts.add(account);
+            }
+        }
+        
+        return(inviteAbleAccounts);
+    }
 
     /**
      * Update account

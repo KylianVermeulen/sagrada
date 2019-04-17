@@ -63,7 +63,7 @@ public class AccountController {
     }
 
     public void setupNewGame() {
-        
+        ArrayList<Account> accounts = accountDao.getAllInviteableAccounts(account);
     }
     
     public void lobby() {
