@@ -39,6 +39,7 @@ public class AccountListOverview extends VBox implements ViewInterface {
     /**
      * Renders the view with all the information
      */
+    @Override
     public void render() {
         getChildren().clear();
         for (Account account : accounts) {

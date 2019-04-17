@@ -12,10 +12,7 @@ import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.view.AccountListOverview;
-import nl.avans.sagrada.view.GameOverviewView;
-import nl.avans.sagrada.view.InviteOverviewView;
-import nl.avans.sagrada.view.MyScene;
+import nl.avans.sagrada.view.*;
 
 import java.util.ArrayList;
 

@@ -40,6 +40,7 @@ public class GameOverviewView extends VBox implements ViewInterface {
     /**
      * Renders the view with all the information
      */
+    @Override
     public void render() {
         getChildren().clear();
         for (Game game : games) {

@@ -35,6 +35,7 @@ public class InviteOverviewView extends VBox implements ViewInterface {
     /**
      * Renders the view with all the information
      */
+    @Override
     public void render() {
         getChildren().clear();
         for (Invite invite: invites) {
