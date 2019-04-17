@@ -19,6 +19,11 @@ public class PatternCardView extends BorderPane {
     private TilePane patternCardField;
     private HBox difficultyBar;
 
+    /**
+     * Partial constructor
+     *
+     * @param playerController PlayerController
+     */
     public PatternCardView(PlayerController playerController) {
         this.playerController = playerController;
         setPrefSize(310, 230);
@@ -26,6 +31,11 @@ public class PatternCardView extends BorderPane {
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
     }
 
+    /**
+     * Set PatternCard to view
+     *
+     * @param patternCard PatternCard
+     */
     public void setPatternCard(PatternCard patternCard) {
         this.patternCard = patternCard;
     }
@@ -67,7 +77,10 @@ public class PatternCardView extends BorderPane {
     private void makePatternCardFieldViews() {
         for (int y = 0; y < CARD_HEIGHT; y++) {
             for (int x = 0; x < CARD_WIDTH; x++) {
-                PatternCardFieldView patternCardFieldView = new PatternCardFieldView(patternCard, patternCard.getPatternCardField(x,y));
+                PatternCardFieldView patternCardFieldView = new PatternCardFieldView(playerController);
+                patternCardFieldView.setPatternCard(patternCard);
+                patternCardFieldView.setPatternCardField(patternCard.getPatternCardField(x,y));
+                patternCardFieldView.render();
                 patternCardFieldViews[x][y] = patternCardFieldView;
 
                 Pane paddingPane = new Pane();

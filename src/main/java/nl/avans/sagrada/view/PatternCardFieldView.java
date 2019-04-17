@@ -6,6 +6,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 
@@ -14,24 +15,46 @@ import java.util.ArrayList;
 public class PatternCardFieldView extends StackPane {
     private PatternCard patternCard;
     private PatternCardField patternCardField;
+    private PlayerController playerController;
 
     private ArrayList<Image> images;
 
-    public PatternCardFieldView(PatternCard patternCard, PatternCardField patternCardField) {
-        this.patternCard = patternCard;
-        this.patternCardField = patternCardField;
+    /**
+     * Partial constructor
+     *
+     * @param playerController PlayerController
+     */
+    public PatternCardFieldView(PlayerController playerController) {
+        this.playerController = playerController;
+        setPrefSize(50, 50);
+        setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        setOnMouseClicked(e -> onClick());
 
         images = new ArrayList<Image>();
-        setPrefSize(50, 50);
         diceEyesArray();
-
-        setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        this.setOnMouseClicked(e -> onClick());
-
-        render();
     }
 
+    /**
+     * Set PatternCard to PatternCardFieldView
+     * @param patternCard PatternCard
+     */
+    public void setPatternCard(PatternCard patternCard) {
+        this.patternCard = patternCard;
+    }
+
+    /**
+     * Set PatternCardField to PatternCardFieldView
+     * @param patternCardField PatternCardField
+     */
+    public void setPatternCardField(PatternCardField patternCardField) {
+        this.patternCardField = patternCardField;
+    }
+
+    /**
+     * Renders the view with all the information
+     */
     public void render() {
+        getChildren().clear();
         if (patternCardField.hasColor()) {
             addColor();
         }
