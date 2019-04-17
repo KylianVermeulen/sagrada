@@ -96,4 +96,25 @@ public class AccountController {
         
         myScene.setRootPane(pane);
     }
+    
+    public void lobby() {
+        Pane pane = new Pane();
+        account = accountDao.getAccountByUsername("test1");
+        ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
+        ArrayList<Player> players = account.getPlayers();
+        ArrayList<Game> games = new ArrayList<Game>();
+        for (Player player : players) {
+            games.add(player.getGame());
+        }
+        
+        LobbyView lobbyView = new LobbyView(this);
+        lobbyView.setInvites(pendingInvites);
+        lobbyView.setGames(games);
+        lobbyView.render();
+        
+        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        pane.getChildren().add(lobbyView);
+        
+        myScene.setRootPane(pane);
+    }
 }
