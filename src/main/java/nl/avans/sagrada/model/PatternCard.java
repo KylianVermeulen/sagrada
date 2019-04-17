@@ -31,7 +31,7 @@ public class PatternCard {
         this.id = id;
         this.difficulty = difficulty;
         this.standard = standard;
-        patternCardFields = getPatterncardFields();
+        patternCardFields = getPatternCardFields();
     }
 
     /**
@@ -93,7 +93,7 @@ public class PatternCard {
      *
      * @return PatternCardField[]
      */
-    public PatternCardField[][] getPatterncardFields() {
+    public PatternCardField[][] getPatternCardFields() {
         PatternCardFieldDAO patternCardFieldDAO = new PatternCardFieldDAO();
         ArrayList<PatternCardField> patterncardFieldsList = patternCardFieldDAO.getPatterncardFieldsOfPatterncard(this);
         return makePatternCardFields(patterncardFieldsList);
@@ -102,10 +102,10 @@ public class PatternCard {
     /**
      * Set patternCardFields to PatternCard
      *
-     * @param patterncardFields PatternCardField[]
+     * @param patternCardFields PatternCardField[]
      */
-    public void setPatterncardFields(PatternCardField[][] patterncardFields) {
-        this.patternCardFields = patterncardFields;
+    public void setPatterncardFields(PatternCardField[][] patternCardFields) {
+        this.patternCardFields = patternCardFields;
     }
 
     /**
