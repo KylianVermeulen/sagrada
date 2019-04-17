@@ -2,27 +2,29 @@ package nl.avans.sagrada.view;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-
+import nl.avans.sagrada.controller.AccountController;
+import nl.avans.sagrada.controller.PlayerController;
+	
 public class MyScene extends Scene {
+    private Pane rootPane;
 
-    //private RootPane rootPane;
-    /**
-     * An instance of MyScene, used in order to set a (root)pane to the current scene.
-     */
+    private AccountController accountController;
+    private PlayerController playerController;
+
     public MyScene() {
         super(new Pane());
-        //rootPane = new RootPane();
-        RegisterView regView = new RegisterView();
-        //setRoot(rootPane);
-        
-        setRoot(regView); //alleen voor deze branch! zo kan deze window getest worden. 
-                          //later moet dit niet naar regView gezet worden, maar naar een rootpane.
-        
+        accountController = new AccountController(this);
+        playerController = new PlayerController(this);
+        rootPane = new Pane();
+        setRoot(rootPane);
     }
-    
-//    public void setRootPane(RootPane rootPane) {
-//        this.setRoot(rootPane);
-//    }
-    
 
+    /**
+     * Set the rootpane of the pane that we have as root from the scene
+     * @param pane Pane
+     */
+    public void setRootPane(Pane pane) {
+        rootPane.getChildren().clear();
+        rootPane.getChildren().add(pane);
+    }	
 }

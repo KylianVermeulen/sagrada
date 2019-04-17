@@ -1,28 +1,48 @@
 package nl.avans.sagrada.controller;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.AccountDAO;
+import nl.avans.sagrada.dao.GameDAO;
+import nl.avans.sagrada.dao.InviteDAO;
+import nl.avans.sagrada.dao.PlayerDAO;
 import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.Invite;
+import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.view.GameOverviewView;
+import nl.avans.sagrada.view.InviteOverviewView;
+import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PopupView;
 
 public class AccountController {
     private Account account;
-    private AccountDAO aDAO;
+    private MyScene myScene;
+    private AccountDAO accountDao;
+    private InviteDAO inviteDao;
+    private PlayerDAO playerDAO;
+    private GameDAO gameDAO;
     private PopupView pv;
     
-    /**
-     * An instance of AccountController, which initializes an AccountDAO and a PopupView.
-     */
-    public AccountController() {
-        aDAO = new AccountDAO();
+    
+    public AccountController(MyScene myScene) {
+        this.myScene = myScene;
+        accountDao = new AccountDAO();
+        inviteDao = new InviteDAO();
+        playerDAO = new PlayerDAO();
+        gameDAO = new GameDAO();
         pv = new PopupView(AlertType.NONE, "", null);
     }
-    
-    public void login() {
 
+    public void login() {
     }
     
     /**
@@ -52,12 +72,12 @@ public class AccountController {
         }
         account.setUsername(username);
         account.setPassword(password);
-        if (aDAO.accountExists(account)) {
+        if (accountDao.accountExists(account)) {
             pv.createPopup(AlertType.ERROR, ButtonType.CLOSE, "Foutmelding" ,"Gebruiker bestaat al." , "Kies een andere gebruikersnaam.");
             System.out.println("TEST: account bestaat al!");
             return;
         }
-        aDAO.addAccount(account);
+        accountDao.addAccount(account);
         pv.createPopup(AlertType.INFORMATION, ButtonType.OK, "Bevestiging" , "Uw account is succesvol aangemaakt!", "Uw gebruikersnaam: " + account.getUsername());
     }
     
@@ -68,27 +88,53 @@ public class AccountController {
         System.out.println("TEST: go to login screen!");
         //go to login pane
     }
-    public void acceptInvite() {
-
+    
+    public void register() {
     }
 
-    public void denyInvite() {
+    public void acceptInvite(Invite invite) {
+        invite.acceptInvite();
+    }
 
+    public void denyInvite(Invite invite) {
+        invite.denyInvite();
     }
 
     public void gameOverview() {
+        Pane pane = new Pane();
+        account = accountDao.getAccountByUsername("test2");
+        ArrayList<Player> players = account.getPlayers();
+        ArrayList<Game> games = new ArrayList<Game>();
+        for (Player player : players) {
+            games.add(player.getGame());
+        }
 
+        GameOverviewView gameOverview = new GameOverviewView(this);
+        gameOverview.setGames(games);
+        gameOverview.render();
+        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        pane.getChildren().add(gameOverview);
+
+        myScene.setRootPane(pane);
     }
 
-    public void joinGame() {
-
+    public void joinGame(Game game) {
     }
 
     public void setupNewGame() {
-
     }
 
     public void inviteOverview() {
-
+        Pane pane = new Pane();
+        account = accountDao.getAccountByUsername("test1");
+        ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
+        
+        InviteOverviewView inviteOverview = new InviteOverviewView(this);
+        inviteOverview.setInvites(pendingInvites);
+        inviteOverview.render();
+        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        pane.getChildren().add(inviteOverview);
+        
+        myScene.setRootPane(pane);
     }
 }
