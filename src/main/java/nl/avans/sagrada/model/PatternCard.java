@@ -31,7 +31,7 @@ public class PatternCard {
         this.id = id;
         this.difficulty = difficulty;
         this.standard = standard;
-        patterncardFields = getPatterncardFields();
+        patternCardFields = getPatterncardFields();
     }
 
     /**
@@ -105,7 +105,7 @@ public class PatternCard {
      * @param patterncardFields PatternCardField[]
      */
     public void setPatterncardFields(PatternCardField[][] patterncardFields) {
-        this.patterncardFields = patterncardFields;
+        this.patternCardFields = patterncardFields;
     }
 
     /**
@@ -116,7 +116,7 @@ public class PatternCard {
      * @return PatternCardField
      */
     public PatternCardField getPatternCardField(int x, int y) {
-        return patterncardFields[x][y];
+        return patternCardFields[x][y];
     }
 
     /**
