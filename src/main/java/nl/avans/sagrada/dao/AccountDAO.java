@@ -1,12 +1,13 @@
 package nl.avans.sagrada.dao;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Account;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AccountDAO {
     private DBConnection dbConnection;
@@ -59,23 +60,6 @@ public class AccountDAO {
         }
         return list;
     }
-    
-     /**
-     * Adds an account to the database, and also sets a username and a password for this account.
-     * @param account Account
-     */
-    public void addAccount(Account account) {
-        dbConnection = new DBConnection();
-        try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("INSERT INTO account (username, password) VALUES (?, ?)", "update"),
-                    new QueryParameter(QueryParameter.STRING, account.getUsername()),
-                    new QueryParameter(QueryParameter.STRING, account.getPassword())
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Update account
@@ -95,6 +79,27 @@ public class AccountDAO {
             }
         } else {
             System.out.println("Can't update non existing account");
+        }
+    }
+
+    /**
+     * Add account
+     *
+     * @param account Account
+     */
+    public void addAccount(Account account) {
+        if (!accountExists(account)) {
+            try {
+                ResultSet rs = dbConnection.executeQuery(
+                        new Query("INSERT INTO account (username, password) VALUES (?, ?)", "update"),
+                        new QueryParameter(QueryParameter.STRING, account.getUsername()),
+                        new QueryParameter(QueryParameter.STRING, account.getPassword())
+                );
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Can't create a new account, already exists");
         }
     }
 
