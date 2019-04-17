@@ -13,8 +13,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class RegisterView extends VBox {
+public class RegisterView extends VBox implements ViewInterface {
     private AccountController accountController;
     private int backButtonHeight = 35;
     private int backButtonWidth = 75;
@@ -34,6 +35,7 @@ public class RegisterView extends VBox {
      * a "content (vbox) pane", which, in turn, has a title, a username textfield, a password textfield and 
      * a register button. The button actions are handled by the AccountController.
      */
+    @Override
     public void render() {
         getChildren().clear();
         TextField usernameInput = new TextField();

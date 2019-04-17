@@ -17,8 +17,6 @@ import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.*;
 
-import java.util.ArrayList;
-
 public class AccountController {
     private Account account;
     private MyScene myScene;
@@ -32,7 +30,7 @@ public class AccountController {
         accountDao = new AccountDAO();
         inviteDao = new InviteDAO();
         playerDAO = new PlayerDAO();
-        gameDAO = new GameDAO();     
+        gameDAO = new GameDAO();
     }
 
     public void login() {
