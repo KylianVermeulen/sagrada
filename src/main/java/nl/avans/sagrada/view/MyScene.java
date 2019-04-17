@@ -37,6 +37,6 @@ public class MyScene extends Scene {
     public void testPatterncardView() {
         Account account = new AccountDAO().getAccountByUsername("test1");
         Player player = new PlayerDAO().getPlayerById(account.getPlayers().get(0).getId());
-        playerController.seePatterncardOfPlayer(player);
+        playerController.viewPatterncardOfPlayer(player);
     }
 }

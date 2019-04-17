@@ -24,7 +24,7 @@ public class PlayerController {
 
     }
 
-    public void seePatterncardOfPlayer(Player player) {
+    public void viewPatterncardOfPlayer(Player player) {
         Pane pane = new Pane();
         PatternCard patternCard = player.getPatternCard();
 

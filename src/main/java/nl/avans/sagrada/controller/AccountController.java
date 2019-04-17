@@ -1,7 +1,5 @@
 package nl.avans.sagrada.controller;
 
-import java.util.ArrayList;
-
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -17,6 +15,8 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.GameOverviewView;
 import nl.avans.sagrada.view.InviteOverviewView;
 import nl.avans.sagrada.view.MyScene;
+
+import java.util.ArrayList;
 
 public class AccountController {
     private Account account;

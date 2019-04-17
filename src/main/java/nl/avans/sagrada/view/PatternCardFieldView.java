@@ -35,7 +35,7 @@ public class PatternCardFieldView extends StackPane {
         if (patternCardField.hasColor()) {
             addColor();
         }
-        if (patternCardField.hasEyes()) {
+        if (patternCardField.hasValue()) {
             addEyes();
         }
     }
@@ -63,7 +63,7 @@ public class PatternCardFieldView extends StackPane {
      * Adds dice eye image to the PatternCardFieldView
      */
     public void addEyes() {
-        getChildren().add(new ImageView(images.get(patternCardField.getEyes() - 1)));
+        getChildren().add(new ImageView(images.get(patternCardField.getValue() - 1)));
     }
 
     /**
