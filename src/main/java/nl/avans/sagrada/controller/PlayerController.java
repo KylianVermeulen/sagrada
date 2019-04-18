@@ -35,10 +35,11 @@ public class PlayerController {
         myScene.setRootPane(pane);
     }
 
-    //                PatternCard patternCard = new PatternCard(rs.getInt("idpatterncard"), rs.getInt("difficulty"), rs.getBoolean("standard"));
+    //    public PatternCard(int id, int difficulty, boolean standard) {
+    //    PatternCard patternCard = new PatternCard(rs.getInt("idpatterncard"), rs.getInt("difficulty"), rs.getBoolean("standard"));
     public void test() {
         Pane pane = new Pane();
-        PatternCard patternCard = new PatternCard();
+        PatternCard patternCard = new PatternCard(1,3,false);
         PatternCardView patternCardView = new PatternCardView(this);
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();

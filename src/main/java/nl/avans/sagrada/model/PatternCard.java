@@ -5,14 +5,12 @@ import nl.avans.sagrada.dao.PatternCardFieldDAO;
 import java.util.ArrayList;
 
 public class PatternCard {
+    public static final int CARD_SQUARES_WIDTH = 5;
+    public static final int CARD_SQUARES_HEIGHT = 4;
     private int id;
     private int difficulty;
     private boolean standard;
-
     private PatternCardField[][] patternCardFields;
-
-    public static final int CARD_SQUARES_WIDTH = 5;
-    public static final int CARD_SQUARES_HEIGHT = 4;
 
     /**
      * Empty constructor
@@ -23,15 +21,19 @@ public class PatternCard {
     /**
      * Full constructor
      *
-     * @param id int
+     * @param id         int
      * @param difficulty int
-     * @param standard boolean
+     * @param standard   boolean
      */
     public PatternCard(int id, int difficulty, boolean standard) {
         this.id = id;
         this.difficulty = difficulty;
         this.standard = standard;
-        patternCardFields = getPatternCardFields();
+        if(standard){
+            patternCardFields = getPatternCardFields();
+        } else {
+            patternCardFields = getEmptyPatternCardFields();
+        }
     }
 
     /**
@@ -99,6 +101,10 @@ public class PatternCard {
         return makePatternCardFields(patternCardFieldsList);
     }
 
+    public PatternCardField[][] getEmptyPatternCardFields() {
+        return makeEmptyPatternCardFields();
+    }
+
     /**
      * Set patternCardFields to PatternCard
      *
@@ -132,6 +138,19 @@ public class PatternCard {
             for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
                 patterncardFields[x][y] = patternCardFieldsList.get(i);
                 i++;
+            }
+        }
+        return patterncardFields;
+    }
+
+    private PatternCardField[][] makeEmptyPatternCardFields() {
+        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH][CARD_SQUARES_HEIGHT];
+        for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
+            for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
+                PatternCardField patternCardField = new PatternCardField();
+                patterncardFields[x][y] = patternCardField;
+                patternCardField.setxPos(x);
+                patternCardField.setyPos(y);
             }
         }
         return patterncardFields;
