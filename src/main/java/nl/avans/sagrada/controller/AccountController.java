@@ -30,6 +30,7 @@ public class AccountController {
         inviteDao = new InviteDAO();
         playerDAO = new PlayerDAO();
         gameDAO = new GameDAO();
+        account = accountDao.getAccountByUsername("test1");
     }
 
     public void login() {
@@ -63,14 +64,34 @@ public class AccountController {
     }
 
     public void setupNewGame() {
+        Pane pane = new Pane();
+        Game game = gameDAO.createNewGame();
+        int playerId = playerDAO.getNextPlayerId();
+        Player player = new Player();
+        player.setId(playerId);
+        player.setSeqnr(1);
+        player.setPlayerStatus("challengee");
+        player.setIsCurrentPlayer(true);
+        player.setAccount(account);
+        player.setGame(game);
+        player.setPrivateObjectivecardColor(game.getRandomAvailablePrivateColor());
+        playerDAO.addPlayer(player);
+        
+        game.setTurnPlayer(player);
+        gameDAO.updateGame(game);
+        
         ArrayList<Account> accounts = accountDao.getAllInviteableAccounts(account);
+        GameSetupView gameSetupView = new GameSetupView(this, accounts, account);
+        gameSetupView.render();
+        pane.getChildren().add(gameSetupView);
+        
+        myScene.setRoot(pane);
+        
     }
     
     public void lobby() {
         Pane pane = new Pane();
-        account = accountDao.getAccountByUsername("test1");
         ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
-        ArrayList<Player> players = account.getPlayers();
         ArrayList<Game> games = account.getGames();
 
         
@@ -83,5 +104,9 @@ public class AccountController {
         pane.getChildren().add(lobbyView);
         
         myScene.setRootPane(pane);
+    }
+
+    public void sendInvite(Account reciever) {
+        System.out.println(reciever.getUsername());
     }
 }

@@ -17,6 +17,7 @@ public class Account {
      * Empty constructor
      */
     public Account() {
+        players = new ArrayList<Player>();
     }
 
     /**
@@ -28,6 +29,7 @@ public class Account {
     public Account(String username, String password) {
         this.username = username;
         this.password = password;
+        players = new ArrayList<Player>();
     }
     
     /**

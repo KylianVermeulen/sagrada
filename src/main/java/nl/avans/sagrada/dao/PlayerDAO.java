@@ -84,7 +84,8 @@ public class PlayerDAO {
         if (!playerExists(player)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
-                        new Query("INSERT INTO player (username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?, ?, ?, ?, ?, ?, ?)", "update"),
+                        new Query("INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?,?, ?, ?, ?, ?, ?, ?)", "update"),
+                        new QueryParameter(QueryParameter.INT, player.getId()),
                         new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
                         new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                         new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
@@ -153,5 +154,20 @@ public class PlayerDAO {
             player = null;
         }
         return player;
+    }
+    
+    public int getNextPlayerId() {
+        try {
+            ResultSet rs = dbConnection.executeQuery(new Query("SELECT MAX(idplayer) AS highestId FROM player", "query"));
+            if (rs.next()) {
+                int nextId = rs.getInt("highestId") + 1;
+                System.out.println(nextId);
+                return nextId;
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.getStackTrace();
+        }
+        return 0;
     }
 }

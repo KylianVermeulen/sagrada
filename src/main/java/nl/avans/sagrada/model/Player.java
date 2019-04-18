@@ -108,14 +108,6 @@ public class Player {
         this.isCurrentPlayer = isCurrentPlayer;
     }
     
-    /**
-     * Returns if the currentPlayer is the current player 
-     * who's turn it is
-     * @return
-     */
-    public boolean getIsCurrentPlayer() {
-        return isCurrentPlayer;
-    }
     
     /**
      * Get current player from Player
