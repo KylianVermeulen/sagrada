@@ -9,7 +9,7 @@ import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class InviteView extends HBox implements ViewInterface {
-    private final int BUTTON_WIDTH = 25;
+    private final int BUTTON_WIDTH = 50;
     private final int BUTTON_HEIGHT = 25;
     
     private final int PANE_WIDTH = 200;

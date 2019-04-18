@@ -73,8 +73,8 @@ public class AccountDAO {
         for(Account inviteAccount: accounts) {
             String usernameAccount = account.getUsername();
             String usernameInviteAvleAccount = inviteAccount.getUsername();
-            if (usernameAccount.equals(usernameInviteAvleAccount)) {
-                inviteAbleAccounts.add(account);
+            if (!usernameAccount.equals(usernameInviteAvleAccount)) {
+                inviteAbleAccounts.add(inviteAccount);
             }
         }
         

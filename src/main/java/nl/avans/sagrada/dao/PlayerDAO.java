@@ -161,7 +161,6 @@ public class PlayerDAO {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT MAX(idplayer) AS highestId FROM player", "query"));
             if (rs.next()) {
                 int nextId = rs.getInt("highestId") + 1;
-                System.out.println(nextId);
                 return nextId;
             }
         } catch (Exception e) {

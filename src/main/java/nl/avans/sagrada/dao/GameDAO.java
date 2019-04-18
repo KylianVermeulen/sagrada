@@ -46,7 +46,6 @@ public class GameDAO {
                         new QueryParameter(QueryParameter.INT, turnPlayerId),
                         new QueryParameter(QueryParameter.INT, game.getId())
                     );
-            System.out.println(game.getId());
         } catch (Exception e) {
             System.out.println(e.getStackTrace());
         }

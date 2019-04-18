@@ -18,6 +18,7 @@ public class Account {
      */
     public Account() {
         players = new ArrayList<Player>();
+        pendingInvites = new ArrayList<Invite>();
     }
 
     /**
@@ -30,6 +31,7 @@ public class Account {
         this.username = username;
         this.password = password;
         players = new ArrayList<Player>();
+        pendingInvites = new ArrayList<Invite>();
     }
     
     /**
