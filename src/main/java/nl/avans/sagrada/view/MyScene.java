@@ -15,6 +15,7 @@ public class MyScene extends Scene {
         super(new Pane());
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
+        playerController.showRandomCard();
         rootPane = new Pane();
         setRoot(rootPane);
     }

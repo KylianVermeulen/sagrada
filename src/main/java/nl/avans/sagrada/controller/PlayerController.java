@@ -8,7 +8,7 @@ import nl.avans.sagrada.view.PatternCardView;
 public class PlayerController {
     private Player player;
     private MyScene myScene;
-    
+
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
     }
@@ -16,6 +16,7 @@ public class PlayerController {
     public void seeToolcards() {
 
     }
+
     public void seeToolcard() {
 
     }
@@ -27,11 +28,20 @@ public class PlayerController {
     public void viewPatterncardOfPlayer(Player player) {
         Pane pane = new Pane();
         PatternCard patternCard = player.getPatternCard();
-
         PatternCardView patternCardView = new PatternCardView(this);
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();
+        pane.getChildren().add(patternCardView);
+        myScene.setRootPane(pane);
+    }
 
+    //                PatternCard patternCard = new PatternCard(rs.getInt("idpatterncard"), rs.getInt("difficulty"), rs.getBoolean("standard"));
+    public void test() {
+        Pane pane = new Pane();
+        PatternCard patternCard = new PatternCard();
+        PatternCardView patternCardView = new PatternCardView(this);
+        patternCardView.setPatternCard(patternCard);
+        patternCardView.render();
         pane.getChildren().add(patternCardView);
         myScene.setRootPane(pane);
     }
