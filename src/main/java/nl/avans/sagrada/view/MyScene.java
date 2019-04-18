@@ -66,9 +66,9 @@ public class MyScene extends Scene {
         }
         for (int i = 0; i < alerts.size(); i++) {
             Pane alert = alerts.get(i);
-            int margin_default = 20;
-            int height_pane = Alert.HEIGHT_ALERT;
-            int margin = (margin_default + (i * height_pane + i * (margin_default / 2)));
+            int marginDefault = 20;
+            int heightPane = Alert.HEIGHT_ALERT;
+            int margin = (marginDefault + (i * heightPane + i * (marginDefault / 2)));
             StackPane.setMargin(alert, new Insets(margin, 20, 20, 20));
             rootPane.getChildren().add(alert);
         }

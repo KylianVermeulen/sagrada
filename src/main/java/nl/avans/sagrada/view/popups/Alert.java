@@ -14,7 +14,7 @@ import javafx.scene.text.FontWeight;
 public class Alert extends Popup {
     private String title;
     private String message;
-    private String type;
+    private AlertType type;
 
     public static final int WIDTH_ALERT = 320;
     public static final int HEIGHT_ALERT = 90;
@@ -24,9 +24,9 @@ public class Alert extends Popup {
      *
      * @param title String
      * @param message String
-     * @param type String (info, succes, warning, error)
+     * @param type AlertType
      */
-    public Alert(String title, String message, String type) {
+    public Alert(String title, String message, AlertType type) {
         super(WIDTH_ALERT, HEIGHT_ALERT);
         this.title = title;
         this.message = message;
@@ -70,16 +70,16 @@ public class Alert extends Popup {
      */
     public void setBackground() {
         switch (type) {
-            case "info":
+            case INFO:
                 setBackground(new Background(new BackgroundFill(Color.web("#66c3d6"), new CornerRadii(26), null)));
                 break;
-            case "succes":
+            case SUCCES:
                 setBackground(new Background(new BackgroundFill(Color.web("#40bc8a"), new CornerRadii(26), null)));
                 break;
-            case "warning":
+            case WARNING:
                 setBackground(new Background(new BackgroundFill(Color.web("#fcb738"), new CornerRadii(26), null)));
                 break;
-            case "error":
+            case ERROR:
                 setBackground(new Background(new BackgroundFill(Color.web("#ff5955"), new CornerRadii(26), null)));
                 break;
             default:
@@ -128,7 +128,7 @@ public class Alert extends Popup {
      *
      * @return String
      */
-    public String getType() {
+    public AlertType getType() {
         return type;
     }
 
@@ -137,7 +137,7 @@ public class Alert extends Popup {
      *
      * @param type String
      */
-    public void setType(String type) {
+    public void setType(AlertType type) {
         this.type = type;
     }
 }

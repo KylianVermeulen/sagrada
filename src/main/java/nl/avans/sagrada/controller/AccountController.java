@@ -14,6 +14,7 @@ import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.*;
 import nl.avans.sagrada.view.popups.Alert;
+import nl.avans.sagrada.view.popups.AlertType;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -46,31 +47,31 @@ public class AccountController {
     public void register(String username, String password) {
         Account account = new Account();
         if (username.length() < 3) {
-            Alert alert = new Alert("Username invalid", "Username must be 3 characters.", "error");
+            Alert alert = new Alert("Username invalid", "Username must be 3 characters.", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         if (password.length() < 3) {
-            Alert alert = new Alert("Password invalid", "Password must be 3 characters.", "error");
+            Alert alert = new Alert("Password invalid", "Password must be 3 characters.", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
         Matcher match = pt.matcher(password);
         if (match.find()) {
-            Alert alert = new Alert("Password invalid", "Password can only contain letters and numbers.", "error");
+            Alert alert = new Alert("Password invalid", "Password can only contain letters and numbers.", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         account.setUsername(username);
         account.setPassword(password);
         if (accountDao.accountExists(account)) {
-            Alert alert = new Alert("Username invalid", "Username already exists.", "error");
+            Alert alert = new Alert("Username invalid", "Username already exists.", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         accountDao.addAccount(account);
-        Alert alert = new Alert("Account created", "Account is now created.", "succes");
+        Alert alert = new Alert("Account created", "Account is now created.", AlertType.SUCCES);
         myScene.addAlertPane(alert);
     }
     
