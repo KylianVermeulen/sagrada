@@ -33,7 +33,7 @@ public class PlayerController {
         patternCardView.render();
 
         pane.getChildren().add(patternCardView);
-        myScene.setRootPane(pane);
+        myScene.setContentPane(pane);
     }
 
     public void useToolcard(Toolcard toolcard) {
