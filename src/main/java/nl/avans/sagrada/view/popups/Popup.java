@@ -45,34 +45,77 @@ public abstract class Popup extends Pane implements ViewInterface {
     @Override
     public abstract void render();
 
+    /**
+     * Get x position of view
+     *
+     * @return int
+     */
     public int getPosX() {
         return posX;
     }
 
+    /**
+     * Set x position to view
+     *
+     * @param posX int
+     */
     public void setPosX(int posX) {
         this.posX = posX;
     }
 
+    /**
+     * Get y position of view
+     *
+     * @return int
+     */
     public int getPosY() {
         return posY;
     }
 
+    /**
+     * Set y position to view
+     *
+     * @param posY int
+     */
     public void setPosY(int posY) {
         this.posY = posY;
     }
 
+    /**
+     * Get width of view
+     * Not camelcase because of Pane class extend, method is final
+     *
+     * @return int
+     */
     public int getwidth() {
         return width;
     }
 
+    /**
+     * Set width to view
+     *
+     *
+     * @param width int
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Get height of view
+     * Not camelcase because of Pane class extend, method is final
+     *
+     * @return int
+     */
     public int getheight() {
         return height;
     }
 
+    /**
+     * Set height of view
+     *
+     * @param height int
+     */
     public void setHeight(int height) {
         this.height = height;
     }

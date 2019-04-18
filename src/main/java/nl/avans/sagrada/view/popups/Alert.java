@@ -44,22 +44,29 @@ public class Alert extends Popup {
     @Override
     public void render() {
         getChildren().clear();
+
         VBox vBox = new VBox();
         vBox.setPrefSize(super.getwidth(), super.getheight());
         vBox.setSpacing(3);
         vBox.setPadding(new Insets(20));
         vBox.setAlignment(Pos.CENTER_LEFT);
+
         Label titleLabel = new Label(title);
         titleLabel.setTextFill(Color.web("#fff"));
         titleLabel.setFont(Font.font("sans-serif", FontWeight.BOLD, 14));
+
         Label messageLabel = new Label(message);
         messageLabel.setTextFill(Color.web("#fff"));
         messageLabel.setFont(Font.font("sans-serif", FontWeight.NORMAL, 13));
+
         vBox.getChildren().add(titleLabel);
         vBox.getChildren().add(messageLabel);
         getChildren().add(vBox);
     }
 
+    /**
+     * Set the background color based upon String type
+     */
     public void setBackground() {
         switch (type) {
             case "info":
@@ -79,26 +86,56 @@ public class Alert extends Popup {
         }
     }
 
+    /**
+     * Get title of alert
+     *
+     * @return String
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Set title to alert
+     *
+     * @param title String
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Get message of alert
+     *
+     * @return String
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Set message to alert
+     *
+     * @param message String
+     */
     public void setMessage(String message) {
         this.message = message;
     }
 
+    /**
+     * Get type of alert
+     *
+     * @return String
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Set type to alert
+     *
+     * @param type String
+     */
     public void setType(String type) {
         this.type = type;
     }
