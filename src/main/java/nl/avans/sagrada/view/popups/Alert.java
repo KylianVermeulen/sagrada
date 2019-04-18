@@ -33,6 +33,7 @@ public class Alert extends Popup {
         this.type = type;
 
         // USE_PREF_SIZE is a javafx const. Pref size is set in Popup class though super()
+        // Max size is needed because a StackPane will resize children to own size.
         setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
         setBackground();
         render();
