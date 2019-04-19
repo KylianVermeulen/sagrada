@@ -1,5 +1,7 @@
 package nl.avans.sagrada.model;
 
+import java.util.ArrayList;
+
 public class Game {
     private int id;
     private Player turnPlayer;
@@ -8,14 +10,28 @@ public class Game {
     private FavorToken[] favorTokens;
     private GameDie[] gameDie;
     private PublicObjectiveCard[] publicObjectiveCards;
+    private ArrayList<Chatline> chatlines;
 
-    /**
+	public ArrayList<Chatline> getChatlines() {
+		return chatlines;
+	}
+
+	public void setChatlines(ArrayList<Chatline> chatlines) {
+		this.chatlines = chatlines;
+	}
+	
+	public void addChatLine(Chatline chatline) {
+		chatlines.add(chatline);
+	}
+
+	/**
      * Partial constructor
      *
      * @param id int
      */
     public Game(int id) {
         this.id = id;
+        chatlines = new ArrayList<>();
     }
 
     /**
@@ -96,6 +112,7 @@ public class Game {
     public GameDie[] getGameDie() {
         return gameDie;
     }
+    
 
     /**
      * Set gameDice to Game
@@ -123,4 +140,7 @@ public class Game {
     public void setPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
         this.publicObjectiveCards = publicObjectiveCards;
     }
+    
+    
+    
 }

@@ -1,7 +1,6 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
-
 import nl.avans.sagrada.dao.AccountDAO;
 import nl.avans.sagrada.dao.FavorTokenDAO;
 import nl.avans.sagrada.dao.GameDAO;
