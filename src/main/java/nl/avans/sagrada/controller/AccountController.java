@@ -1,8 +1,5 @@
 package nl.avans.sagrada.controller;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -16,6 +13,12 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.*;
+import nl.avans.sagrada.view.popups.Alert;
+import nl.avans.sagrada.view.popups.AlertType;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AccountController {
     private Account account;
@@ -44,22 +47,32 @@ public class AccountController {
     public void register(String username, String password) {
         Account account = new Account();
         if (username.length() < 3) {
+            Alert alert = new Alert("Username invalid", "Username must be 3 characters.", AlertType.ERROR);
+            myScene.addAlertPane(alert);
             return;
         }
         if (password.length() < 3) {
+            Alert alert = new Alert("Password invalid", "Password must be 3 characters.", AlertType.ERROR);
+            myScene.addAlertPane(alert);
             return;
         }
         Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
         Matcher match = pt.matcher(password);
         if (match.find()) {
+            Alert alert = new Alert("Password invalid", "Password can only contain letters and numbers.", AlertType.ERROR);
+            myScene.addAlertPane(alert);
             return;
         }
         account.setUsername(username);
         account.setPassword(password);
         if (accountDao.accountExists(account)) {
+            Alert alert = new Alert("Username invalid", "Username already exists.", AlertType.ERROR);
+            myScene.addAlertPane(alert);
             return;
         }
         accountDao.addAccount(account);
+        Alert alert = new Alert("Account created", "Account is now created.", AlertType.SUCCES);
+        myScene.addAlertPane(alert);
     }
     
     /**
@@ -95,7 +108,7 @@ public class AccountController {
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(gameOverview);
 
-        myScene.setRootPane(pane);
+        myScene.setContentPane(pane);
     }
 
     public void accountListOverview() {
@@ -108,7 +121,7 @@ public class AccountController {
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(accountListOverview);
 
-        myScene.setRootPane(pane);
+        myScene.setContentPane(pane);
     }
 
     public void joinGame(Game game) {
@@ -127,8 +140,8 @@ public class AccountController {
         inviteOverview.render();
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(inviteOverview);
-        
-        myScene.setRootPane(pane);
+
+        myScene.setContentPane(pane);
     }
     
     /**
@@ -141,7 +154,7 @@ public class AccountController {
         registerView.render();
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(registerView);
-        
-        myScene.setRootPane(pane);
+
+        myScene.setContentPane(pane);
     }
 }
