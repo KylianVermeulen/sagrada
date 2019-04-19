@@ -72,10 +72,8 @@ public class GameDAO {
                     );
             if (rs.next()) {
                 int gameId = rs.getInt("highestGameId") + 1;
-                System.out.println(gameId);
                 game = new Game();
                 game.setId(gameId);
-                System.out.println(game.getId());
                 addGame(game);
                 return game;
             }
