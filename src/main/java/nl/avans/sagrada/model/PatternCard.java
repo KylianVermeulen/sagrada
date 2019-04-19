@@ -24,9 +24,9 @@ public class PatternCard {
     /**
      * Full constructor
      *
-     * @param id         int
+     * @param id int
      * @param difficulty int
-     * @param standard   boolean
+     * @param standard boolean
      */
     public PatternCard(int id, int difficulty, boolean standard) {
         this.id = id;

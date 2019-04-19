@@ -20,10 +20,10 @@ public class PatternCardField {
     /**
      * Full constructor
      *
-     * @param xPos        int
-     * @param yPos        int
-     * @param color       String
-     * @param value       int
+     * @param xPos int
+     * @param yPos int
+     * @param color String
+     * @param value int
      * @param patternCard PatternCard
      */
     public PatternCardField(int xPos, int yPos, String color, int value, PatternCard patternCard) {
@@ -37,8 +37,8 @@ public class PatternCardField {
     /**
      * Partial constructor
      *
-     * @param xPos        int
-     * @param yPos        int
+     * @param xPos int
+     * @param yPos int
      * @param patternCard PatternCard
      */
     public PatternCardField(int xPos, int yPos, PatternCard patternCard) {
