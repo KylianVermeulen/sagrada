@@ -4,3 +4,8 @@
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center;
 }
+
+#CardView {
+	-fx-border-color: black;
+	-fx-border-width: 3;
+}
