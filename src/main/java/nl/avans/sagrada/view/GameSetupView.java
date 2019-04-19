@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameSetupView extends BorderPane implements ViewInterface {
@@ -20,15 +21,17 @@ public class GameSetupView extends BorderPane implements ViewInterface {
     private ArrayList<Account> accounts;
     private Account account;
     private VBox inviteContainer;
+    private Game game;
 
     private final Insets padding = new Insets(10, 10, 10, 10);
 
-    public GameSetupView(AccountController accountController, ArrayList<Account> accounts, Account currentAccount) {
+    public GameSetupView(AccountController accountController, ArrayList<Account> accounts, Account currentAccount, Game game) {
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
         setPadding(padding);
         this.accountController = accountController;
         this.accounts = accounts;
         this.account = currentAccount;
+        this.game = game;
     }
 
     public void setInviteAbleAccounts(ArrayList<Account> accounts) {
@@ -39,7 +42,7 @@ public class GameSetupView extends BorderPane implements ViewInterface {
     public void render() {
         buidGameSelector();
         buildInviteList();
-        setLeft(gameSelectorPane);
+        setTop(gameSelectorPane);
         setCenter(inviteContainer);
     }
 
@@ -67,7 +70,7 @@ public class GameSetupView extends BorderPane implements ViewInterface {
         Label label = new Label("Invite spelers");
         getChildren().add(label);
         for (Account account : accounts) {
-            InviteView inviteView = new InviteView(accountController, account);
+            InviteView inviteView = new InviteView(accountController, account, game);
             inviteView.render();
             inviteContainer.getChildren().add(inviteView);
         }

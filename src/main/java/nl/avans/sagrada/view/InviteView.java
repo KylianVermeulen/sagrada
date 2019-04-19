@@ -6,6 +6,7 @@ import javafx.scene.layout.HBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class InviteView extends HBox implements ViewInterface {
@@ -17,10 +18,12 @@ public class InviteView extends HBox implements ViewInterface {
     
     private AccountController accountController;
     private Account account;
+    private Game game;
         
-    public InviteView(AccountController accountController, Account account) {
+    public InviteView(AccountController accountController, Account account, Game game) {
         this.accountController = accountController;
         this.account = account;
+        this.game = game;
         setPrefSize(PANE_WIDTH, PANE_HEIGHT);
     }
 
@@ -30,7 +33,7 @@ public class InviteView extends HBox implements ViewInterface {
         Button button = new Button();
         button.setText("->");
         button.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        button.setOnAction(e->accountController.sendInvite(account));
+        button.setOnAction(e->accountController.sendInvite(account, game));
         getChildren().addAll(label, button);
     }
 }

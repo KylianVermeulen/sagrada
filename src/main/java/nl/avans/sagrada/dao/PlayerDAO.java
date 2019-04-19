@@ -4,6 +4,7 @@ import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 
 import java.sql.ResultSet;
@@ -168,5 +169,23 @@ public class PlayerDAO {
             e.getStackTrace();
         }
         return 0;
+    }
+
+    public Player getPlayerByAccountAndGame(Account account, Game game) {
+        Player player = null;
+        try {
+            ResultSet rs = dbConnection.executeQuery(new Query("SELECT idplayer FROM player WHERE username=? AND game_idgame=?", "query"), 
+                        new QueryParameter(QueryParameter.STRING, account.getUsername()),
+                        new QueryParameter(QueryParameter.INT, game.getId())
+                    );
+            if (rs.next()) {
+                System.out.println("Done");
+                int playerId = rs.getInt("idplayer");
+                System.out.println("playerid: " + playerId);
+                player = getPlayerById(playerId);
+            }
+        } catch (Exception e) {
+        }
+        return player;
     }
 }

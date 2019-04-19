@@ -1,7 +1,6 @@
 package nl.avans.sagrada.model;
 
 public class Invite {
-    private Player sendedPlayer;
     private Account invitedAccount;
     private Game game;
     private boolean accepted;
@@ -10,14 +9,6 @@ public class Invite {
     public Invite() {
         accepted = false;
         denied = false;
-    }
-    
-    /**
-     * Sets the player that has send the invite
-     * @param player
-     */
-    public void setSendedPlayer(Player player) {
-        sendedPlayer = player;
     }
 
     
@@ -61,11 +52,11 @@ public class Invite {
         return (!accepted && !denied);
     }
     
-    /**
-     * Gets the player that has sended the invite
-     * @return Player
-     */
-    public Player getSendedPlayer() {
-        return sendedPlayer;
+    public Account getInvitedAccount() {
+        return invitedAccount;
+    }
+    
+    public Game getGame() {
+        return game;
     }
 }

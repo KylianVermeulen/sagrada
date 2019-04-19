@@ -24,6 +24,9 @@ public class AccountController {
     private PlayerDAO playerDAO;
     private GameDAO gameDAO;
     
+    private int numberOfInvitesAccounts;
+    private final int MAX_NUMBER_OF_INVITES = 4;
+    
     public AccountController(MyScene myScene) {
         this.myScene = myScene;
         accountDao = new AccountDAO();
@@ -64,13 +67,15 @@ public class AccountController {
     }
 
     public void setupNewGame() {
+        numberOfInvitesAccounts = 0;
+        
         Pane pane = new Pane();
         Game game = gameDAO.createNewGame();
         int playerId = playerDAO.getNextPlayerId();
         Player player = new Player();
         player.setId(playerId);
         player.setSeqnr(1);
-        player.setPlayerStatus("challengee");
+        player.setPlayerStatus("challenger");
         player.setIsCurrentPlayer(true);
         player.setAccount(account);
         player.setGame(game);
@@ -81,7 +86,7 @@ public class AccountController {
         gameDAO.updateGame(game);
         
         ArrayList<Account> accounts = accountDao.getAllInviteableAccounts(account);
-        GameSetupView gameSetupView = new GameSetupView(this, accounts, account);
+        GameSetupView gameSetupView = new GameSetupView(this, accounts, account, game);
         gameSetupView.render();
         pane.getChildren().add(gameSetupView);
         
@@ -106,7 +111,15 @@ public class AccountController {
         myScene.setRootPane(pane);
     }
 
-    public void sendInvite(Account reciever) {
-        System.out.println(reciever.getUsername());
+    public void sendInvite(Account reciever, Game game) {
+        numberOfInvitesAccounts++;
+        Invite invite = new Invite();
+        invite.setGame(game);
+        invite.setInvitedAccount(reciever);
+        inviteDao.addInvite(invite);
+        
+        if (MAX_NUMBER_OF_INVITES == numberOfInvitesAccounts) {
+            lobby();
+        }
     }
 }

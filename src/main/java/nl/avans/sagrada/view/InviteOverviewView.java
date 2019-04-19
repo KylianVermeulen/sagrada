@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -40,9 +41,9 @@ public class InviteOverviewView extends VBox implements ViewInterface {
     public void render() {
         getChildren().clear();
         for (Invite invite: invites) {
-            Account sendedAccount = invite.getSendedPlayer().getAccount();
+            Game game = invite.getGame();
             Pane pane = new HBox();
-            Label label = new Label("Invite van: " + sendedAccount.getUsername());
+            Label label = new Label("Invite voor spel: " + game.getId());
             label.setPadding(new Insets(5, 4, 5, 4));
             pane.getChildren().add(label);
             
