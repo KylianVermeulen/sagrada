@@ -32,7 +32,7 @@ public class PlayerController {
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();
         pane.getChildren().add(patternCardView);
-        myScene.setRootPane(pane);
+        myScene.setContentPane(pane);
     }
 
     /**
