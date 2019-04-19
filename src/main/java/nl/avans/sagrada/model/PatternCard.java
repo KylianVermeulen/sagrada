@@ -5,12 +5,14 @@ import nl.avans.sagrada.dao.PatternCardFieldDAO;
 import java.util.ArrayList;
 
 public class PatternCard {
-    public static final int CARD_SQUARES_WIDTH = 5;
-    public static final int CARD_SQUARES_HEIGHT = 4;
     private int id;
     private int difficulty;
     private boolean standard;
+
     private PatternCardField[][] patternCardFields;
+
+    public static final int CARD_SQUARES_WIDTH = 5;
+    public static final int CARD_SQUARES_HEIGHT = 4;
 
     /**
      * Empty constructor
@@ -21,18 +23,18 @@ public class PatternCard {
     /**
      * Full constructor
      *
-     * @param id         int
+     * @param id int
      * @param difficulty int
-     * @param standard   boolean
+     * @param standard boolean
      */
     public PatternCard(int id, int difficulty, boolean standard) {
         this.id = id;
         this.difficulty = difficulty;
         this.standard = standard;
-        if(standard){
+        if (standard) {
             patternCardFields = getPatternCardFields();
         } else {
-            patternCardFields = getEmptyPatternCardFields();
+            patternCardFields = makeNewPatternCardFields();
         }
     }
 
@@ -101,10 +103,6 @@ public class PatternCard {
         return makePatternCardFields(patternCardFieldsList);
     }
 
-    public PatternCardField[][] getEmptyPatternCardFields() {
-        return makeEmptyPatternCardFields();
-    }
-
     /**
      * Set patternCardFields to PatternCard
      *
@@ -143,14 +141,12 @@ public class PatternCard {
         return patterncardFields;
     }
 
-    private PatternCardField[][] makeEmptyPatternCardFields() {
+    private PatternCardField[][] makeNewPatternCardFields() {
         PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH][CARD_SQUARES_HEIGHT];
-        for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
-            for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
-                PatternCardField patternCardField = new PatternCardField();
+        for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
+            for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
+                PatternCardField patternCardField = new PatternCardField(x, y, this);
                 patterncardFields[x][y] = patternCardField;
-                patternCardField.setxPos(x);
-                patternCardField.setyPos(y);
             }
         }
         return patterncardFields;

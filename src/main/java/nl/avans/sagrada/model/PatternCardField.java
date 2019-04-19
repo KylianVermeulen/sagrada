@@ -35,6 +35,19 @@ public class PatternCardField {
     }
 
     /**
+     * Partial constructor
+     *
+     * @param xPos int
+     * @param yPos int
+     * @param patternCard PatternCard
+     */
+    public PatternCardField(int xPos, int yPos, PatternCard patternCard) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.patternCard = patternCard;
+    }
+
+    /**
      * @return boolean true when color is set
      */
     public boolean hasColor() {
