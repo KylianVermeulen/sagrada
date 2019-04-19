@@ -20,10 +20,10 @@ public class PatternCardField {
     /**
      * Full constructor
      *
-     * @param xPos int
-     * @param yPos int
-     * @param color String
-     * @param value int
+     * @param xPos        int
+     * @param yPos        int
+     * @param color       String
+     * @param value       int
      * @param patternCard PatternCard
      */
     public PatternCardField(int xPos, int yPos, String color, int value, PatternCard patternCard) {
@@ -37,8 +37,8 @@ public class PatternCardField {
     /**
      * Partial constructor
      *
-     * @param xPos int
-     * @param yPos int
+     * @param xPos        int
+     * @param yPos        int
      * @param patternCard PatternCard
      */
     public PatternCardField(int xPos, int yPos, PatternCard patternCard) {
@@ -78,6 +78,7 @@ public class PatternCardField {
 
     /**
      * Set xPos to PatternCardField
+     *
      * @param xPos int
      */
     public void setxPos(int xPos) {
@@ -95,6 +96,7 @@ public class PatternCardField {
 
     /**
      * Set yPos to PatternCardField
+     *
      * @param yPos int
      */
     public void setyPos(int yPos) {
@@ -124,6 +126,8 @@ public class PatternCardField {
      *
      * @return Color
      */
+    
+
     public Color getColor() {
         switch (color) {
             case "rood":
@@ -148,5 +152,15 @@ public class PatternCardField {
      */
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public boolean hasFieldAttributes() {
+        if (hasColor()) return true;
+        if (hasValue()) return true;
+        return false;
+    }
+
+    public String getStringColor() {
+        return this.color;
     }
 }
