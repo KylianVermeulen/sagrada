@@ -126,8 +126,6 @@ public class PatternCardField {
      *
      * @return Color
      */
-    
-
     public Color getColor() {
         switch (color) {
             case "rood":
@@ -154,12 +152,22 @@ public class PatternCardField {
         this.color = color;
     }
 
+    /**
+     * Checks if the selected patternCardField has a color or a value (eyes)
+     *
+     * @return boolean
+     */
     public boolean hasFieldAttributes() {
         if (hasColor()) return true;
         if (hasValue()) return true;
         return false;
     }
 
+    /**
+     * Return the color as a String value
+     *
+     * @return String
+     */
     public String getStringColor() {
         return this.color;
     }

@@ -17,7 +17,7 @@ public class MyScene extends Scene {
         playerController = new PlayerController(this);
         rootPane = new Pane();
         setRoot(rootPane);
-        playerController.test();
+        playerController.makeRandomPatternCard();
     }
 
     /**

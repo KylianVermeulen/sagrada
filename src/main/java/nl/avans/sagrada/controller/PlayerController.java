@@ -35,11 +35,14 @@ public class PlayerController {
         myScene.setRootPane(pane);
     }
 
-    //    public PatternCard(int id, int difficulty, boolean standard) {
-    //    PatternCard patternCard = new PatternCard(rs.getInt("idpatterncard"), rs.getInt("difficulty"), rs.getBoolean("standard"));
-    public void test() {
+    /**
+     * Makes a random generated patternCard
+     *
+     * (adding the difficultly in PatternCard does not matter for a random generated patternCard just make sure standard is false)
+     */
+    public void makeRandomPatternCard() {
         Pane pane = new Pane();
-        PatternCard patternCard = new PatternCard(1,3,false);
+        PatternCard patternCard = new PatternCard(1,0,false);
         PatternCardView patternCardView = new PatternCardView(this);
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();
