@@ -72,27 +72,27 @@ public class PatternCard {
     }
 
     /**
-     * Random 50/50 chance if it's going to add a color or an value(eyes) to the selected PatternCardField
+     * Random 50/50 chance if it's going to add a color or an value to the selected PatternCardField
      */
     private void generateRandomPatternCardField() {
         if (rnd.nextBoolean()) {
-            addRandomEyes();
+            addRandomValue();
         } else {
             addRandomColor();
         }
     }
 
     /**
-     * Adds random value (eyes) to the selected patternCardField if it's not a valid patternCardField the method will run again
+     * Adds random value  to the selected patternCardField if it's not a valid patternCardField the method will run again
      */
-    private void addRandomEyes() {
+    private void addRandomValue() {
         int xPos = rnd.nextInt(5);
         int yPos = rnd.nextInt(4);
-        int eyes = rnd.nextInt(6) + 1;
-        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos].checkSidesEyes(eyes)) {
-            patternCardFields[xPos][yPos].setValue(eyes);
+        int value = rnd.nextInt(6) + 1;
+        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos].checkSidesValue(value)) {
+            patternCardFields[xPos][yPos].setValue(value);
         } else {
-            addRandomEyes();
+            addRandomValue();
         }
     }
 
