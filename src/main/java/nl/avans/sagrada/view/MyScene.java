@@ -7,6 +7,7 @@ import nl.avans.sagrada.controller.PlayerController;
 
 public class MyScene extends Scene {
     private Pane rootPane;
+    private ToolCardView tcv;
 	
     private AccountController accountController;
     private PlayerController playerController;
@@ -17,6 +18,7 @@ public class MyScene extends Scene {
         playerController = new PlayerController(this);
         rootPane = new Pane();
         setRoot(rootPane);
+        playerController.seeToolcard();
     }
 
     /**

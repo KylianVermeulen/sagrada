@@ -4,6 +4,7 @@ import javafx.scene.layout.Pane;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardView;
+import nl.avans.sagrada.view.ToolCardView;
 
 public class PlayerController {
     private Player player;
@@ -17,7 +18,14 @@ public class PlayerController {
 
     }
     public void seeToolcard() {
-
+        Pane pane = new Pane();
+        
+        ToolCardView toolCardView = new ToolCardView(this);
+        //toolCardView.setToolCard(toolCard);
+        toolCardView.render();
+        
+        pane.getChildren().add(toolCardView);
+        myScene.setRootPane(pane);
     }
 
     public void overviewOfGame() {
