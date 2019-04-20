@@ -102,6 +102,7 @@ public class AccountController {
         int gameId = gameDAO.getNextGameId();
         Game game = new Game();
         game.setId(gameId);
+        gameDAO.addGame(game);
         int playerId = playerDAO.getNextPlayerId();
         Player player = new Player();
         player.setId(playerId);
