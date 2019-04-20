@@ -13,20 +13,12 @@ import nl.avans.sagrada.model.Toolcard;
 public class ToolCardView extends CardView {
     private Toolcard toolcard;
     private PlayerController playerController;
-    private String imageUrl;
+    
     
     public ToolCardView(PlayerController playerController) {
         super();
         this.playerController = playerController;
-        setImageUrl("/images/toolcard1.png");
-    }
-    
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        //setImageUrl("/images/toolcard1.png");
     }
 
     public void setToolCard(Toolcard toolcard) {
@@ -34,7 +26,7 @@ public class ToolCardView extends CardView {
     }
     
     public void showDescription() {
-        Text description = new Text("Nadat je een dobbelsteen kiest,\nmag je de waarde ervan met 1\nverhogen of verlagen");
+        Text description = new Text(toolcard.getDescription());
         description.setFont(Main.SAGRADAFONT);
         description.setTextAlignment(TextAlignment.CENTER);
         StackPane descriptionPane = new StackPane();
@@ -45,6 +37,7 @@ public class ToolCardView extends CardView {
     }
     
     public void showImage(String url) {
+        url = "/images/toolcard1.png";
         Image image = new Image(url);
         StackPane imagePane = new StackPane();
         ImageView imgview = new ImageView(image);
@@ -58,7 +51,7 @@ public class ToolCardView extends CardView {
     }
     
     public void showSeqNumber() {
-        Text seqNumber = new Text("Driepuntstang\n1"); //Integer.toString(toolcard.getSeqnr())
+        Text seqNumber = new Text(Integer.toString(toolcard.getSeqnr()));
         seqNumber.setFont(Main.SAGRADAFONT);
         seqNumber.setTextAlignment(TextAlignment.CENTER);
         StackPane seqNumberPane = new StackPane();
@@ -71,10 +64,8 @@ public class ToolCardView extends CardView {
     public void render() {
         getChildren().clear();
         showSeqNumber();
-        showImage(getImageUrl());
+        showImage(toolcard.getImageUrl());
         showDescription();
-        System.out.print(getImageUrl());
-        System.out.println(javafx.scene.text.Font.getFamilies());
     }
 
 }

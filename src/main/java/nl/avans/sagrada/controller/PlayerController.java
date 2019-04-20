@@ -17,11 +17,11 @@ public class PlayerController {
     public void seeToolcards() {
 
     }
-    public void seeToolcard() {
+    public void seeToolcard(Toolcard toolcard) {
         Pane pane = new Pane();
         
         ToolCardView toolCardView = new ToolCardView(this);
-        //toolCardView.setToolCard(toolCard);
+        toolCardView.setToolCard(toolcard);
         toolCardView.render();
         
         pane.getChildren().add(toolCardView);

@@ -4,10 +4,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.Toolcard;
 
 public class MyScene extends Scene {
     private Pane rootPane;
     private ToolCardView tcv;
+    private Toolcard toolcard;
 	
     private AccountController accountController;
     private PlayerController playerController;
@@ -16,9 +18,10 @@ public class MyScene extends Scene {
         super(new Pane());
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
+        toolcard = new Toolcard(1, 1, "Description");
         rootPane = new Pane();
         setRoot(rootPane);
-        playerController.seeToolcard();
+        playerController.seeToolcard(toolcard);
     }
 
     /**

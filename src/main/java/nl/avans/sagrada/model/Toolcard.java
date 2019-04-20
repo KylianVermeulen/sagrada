@@ -8,17 +8,17 @@ public class Toolcard {
     private int id;
     private int seqnr;
     private String description;
-    private Image image;
+    private String imageUrl;
     private ArrayList<FavorToken> favorTokens;
     
     public Toolcard() {      
     }
     
-    public Toolcard(int id, int seqnr, String description, Image image) {
+    public Toolcard(int id, int seqnr, String description) {
         this.id = id;
         this.seqnr = seqnr;
         this.description = description;
-        this.image = image;
+        //this.imageUrl = imageUrl;
     }
     
     public void useToolcard() {
@@ -56,12 +56,11 @@ public class Toolcard {
         this.favorTokens = favorTokens;
     }
 
-    public Image getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
-    
 }
