@@ -8,7 +8,7 @@ import nl.avans.sagrada.view.PatternCardView;
 public class PlayerController {
     private Player player;
     private MyScene myScene;
-    
+
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
     }
@@ -16,6 +16,7 @@ public class PlayerController {
     public void seeToolcards() {
 
     }
+
     public void seeToolcard() {
 
     }
@@ -27,11 +28,24 @@ public class PlayerController {
     public void viewPatterncardOfPlayer(Player player) {
         Pane pane = new Pane();
         PatternCard patternCard = player.getPatternCard();
-
         PatternCardView patternCardView = new PatternCardView(this);
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();
+        pane.getChildren().add(patternCardView);
+        myScene.setContentPane(pane);
+    }
 
+    /**
+     * Makes a random generated patternCard
+     *
+     * (adding the difficultly in PatternCard does not matter for a random generated patternCard just make sure standard is false)
+     */
+    public void makeRandomPatternCard() {
+        Pane pane = new Pane();
+        PatternCard patternCard = new PatternCard(1,0,false);
+        PatternCardView patternCardView = new PatternCardView(this);
+        patternCardView.setPatternCard(patternCard);
+        patternCardView.render();
         pane.getChildren().add(patternCardView);
         myScene.setContentPane(pane);
     }
