@@ -13,8 +13,12 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.*;
+import nl.avans.sagrada.view.popups.Alert;
+import nl.avans.sagrada.view.popups.AlertType;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AccountController {
     private Account account;
@@ -35,7 +39,50 @@ public class AccountController {
 
     public void login() {
     }
-
+    
+    /**
+     * Registers a user via username and password, and checks for certain requirements linked to the username and password.
+     * @param username String
+     * @param password String
+     */
+    public void register(String username, String password) {
+        Account account = new Account();
+        if (username.length() < 3) {
+            Alert alert = new Alert("Username invalid", "Username must be 3 characters.", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+        if (password.length() < 3) {
+            Alert alert = new Alert("Password invalid", "Password must be 3 characters.", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+        Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
+        Matcher match = pt.matcher(password);
+        if (match.find()) {
+            Alert alert = new Alert("Password invalid", "Password can only contain letters and numbers.", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+        account.setUsername(username);
+        account.setPassword(password);
+        if (accountDao.accountExists(account)) {
+            Alert alert = new Alert("Username invalid", "Username already exists.", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+        accountDao.addAccount(account);
+        Alert alert = new Alert("Account created", "Account is now created.", AlertType.SUCCES);
+        myScene.addAlertPane(alert);
+    }
+    
+    /**
+     * Switches the current pane to the "Login screen" pane.
+     */
+    public void gotoLogin() {
+        //go to login pane
+    }
+    
     public void register() {
     }
 
@@ -47,17 +94,22 @@ public class AccountController {
         invite.denyInvite();
     }
 
-    public void accountListOverview() {
+    public void gameOverview() {
         Pane pane = new Pane();
-        ArrayList<Account> accounts = accountDao.getAllAccounts();
+        account = accountDao.getAccountByUsername("test2");
+        ArrayList<Player> players = account.getPlayers();
+        ArrayList<Game> games = new ArrayList<Game>();
+        for (Player player : players) {
+            games.add(player.getGame());
+        }
 
-        AccountListOverview accountListOverview = new AccountListOverview(this);
-        accountListOverview.setAccounts(accounts);
-        accountListOverview.render();
+        GameOverviewView gameOverview = new GameOverviewView(this);
+        gameOverview.setGames(games);
+        gameOverview.render();
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        pane.getChildren().add(accountListOverview);
+        pane.getChildren().add(gameOverview);
 
-        myScene.setRootPane(pane);
+        myScene.setContentPane(pane);
     }
 
     public void joinGame(Game game) {
@@ -85,7 +137,7 @@ public class AccountController {
         gameSetupView.render();
         pane.getChildren().add(gameSetupView);
         
-        myScene.setRootPane(pane);
+        myScene.setContentPane(pane);
         
     }
     
@@ -102,8 +154,21 @@ public class AccountController {
         
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(lobbyView);
-        
-        myScene.setRootPane(pane);
+
+        myScene.setContentPane(pane);
+    }
+    
+    /**
+     * Shows the register view, allowing the register screen to be displayed as current screen.
+     */
+    public void viewRegister() {
+        Pane pane = new Pane();        
+        RegisterView registerView = new RegisterView(this);
+        registerView.render();
+        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        pane.getChildren().add(registerView);
+
+        myScene.setContentPane(pane);
     }
 
     public void sendInvites(ArrayList<InviteView> inviteViews, Game game) {
