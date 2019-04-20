@@ -50,20 +50,20 @@ public class ToolCardView extends CardView {
         System.out.println(url);
     }
     
-    public void showSeqNumber() {
-        Text seqNumber = new Text(Integer.toString(toolcard.getSeqnr()));
-        seqNumber.setFont(Main.SAGRADAFONT);
-        seqNumber.setTextAlignment(TextAlignment.CENTER);
-        StackPane seqNumberPane = new StackPane();
-        seqNumberPane.getChildren().add(seqNumber);
-        seqNumberPane.setPrefSize(getViewWidth(), (getViewHeight() / 6));
-        setTop(seqNumberPane);
+    public void showNumber() {
+        Text number = new Text(Integer.toString(toolcard.getId()));
+        number.setFont(Main.SAGRADAFONT);
+        number.setTextAlignment(TextAlignment.CENTER);
+        StackPane numberPane = new StackPane();
+        numberPane.getChildren().add(number);
+        numberPane.setPrefSize(getViewWidth(), (getViewHeight() / 6));
+        setTop(numberPane);
     }
     
     @Override
     public void render() {
         getChildren().clear();
-        showSeqNumber();
+        showNumber();
         showImage(toolcard.getImageUrl());
         showDescription();
     }
