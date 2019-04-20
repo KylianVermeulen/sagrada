@@ -85,7 +85,7 @@ public class AccountController {
         gameSetupView.render();
         pane.getChildren().add(gameSetupView);
         
-        myScene.setRoot(pane);
+        myScene.setRootPane(pane);
         
     }
     
