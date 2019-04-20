@@ -10,26 +10,31 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 
 public class LoginView extends VBox {
 	private static int buttonWitdth = 120;
 	private static int buttonHeight = 30;
 
-	private AccountController accountcontroller;
+	private AccountController accountController;
 
-	public LoginView() {
-		accountcontroller = new AccountController();
+	public LoginView(AccountController accountController) {
+		this.accountController = accountController;
+		setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		setAlignment(Pos.CENTER);
-
-		makeTitle();
-		makeContent();
 	}
 
-	private void makeContent() {
+	/**
+	 * Creates a "LoginView" layout. A LoginView layout is a VBox wich has one main
+	 * pane: a "content (vbox) pane", which has a title, a username textfield, a
+	 * password textfield, a login button and a register text. The button actions
+	 * are handled by the AccountController.
+	 */
+	public void render() {
+		getChildren().clear();
 		HBox userHBox = new HBox();
 
-		// maak de username en usernametextfield
 		Label userName = new Label("Username: ");
 		userName.setPadding(new Insets(10, 20, 10, 20));
 		TextField userTextField = new TextField();
@@ -39,7 +44,6 @@ public class LoginView extends VBox {
 
 		HBox passwordHBox = new HBox();
 
-		// maak de password en passwordtextfield
 		Label password = new Label("Password: ");
 		TextField passwordTextField = new TextField();
 		password.setPadding(new Insets(10, 20, 10, 20));
@@ -49,17 +53,17 @@ public class LoginView extends VBox {
 
 		Button loginButton = new Button("Login");
 		loginButton.setPrefSize(buttonWitdth, buttonHeight);
-		loginButton.setOnAction(e -> accountcontroller.login(userTextField.toString(), passwordTextField.toString()));
+		loginButton.setOnAction(e -> accountController.login(userTextField.toString(), passwordTextField.toString()));
 
 		Label registerLabel = new Label("If you don't have an account click here: ");
 		registerLabel.setPadding(new Insets(10, 20, 10, 20));
 		registerLabel.setStyle("-fx-underline: true;");
-		registerLabel.setOnMouseClicked(e -> accountcontroller.goRegister());
+		registerLabel.setOnMouseClicked(e -> accountController.goRegister());
 
+		makeTitle();
 		getChildren().addAll(userHBox, passwordHBox, loginButton, registerLabel);
 	}
 
-	// maakt de titel van de pagina
 	private void makeTitle() {
 		Text scenetitle = new Text("Login");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
