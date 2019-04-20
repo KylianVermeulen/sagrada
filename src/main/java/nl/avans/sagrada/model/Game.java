@@ -7,12 +7,16 @@ public class Game {
     private int id;
     private Player turnPlayer;
 
+    private String gamemode;
     private ArrayList<Player> players;
     private Player startPlayer;
     private FavorToken[] favorTokens;
     private GameDie[] gameDie;
     private PublicObjectiveCard[] publicObjectiveCards;
     private final String[] privateObjectiveCardColors = {"blauw", "geel", "groen", "paars", "rood"};
+    
+    public static final String GAMEMODE_NORMAL = "normal";
+    public static final String GAMEMODE_GENERATED = "generate";
 
     /**
      * Partial constructor
@@ -22,10 +26,12 @@ public class Game {
     public Game(int id) {
         this.id = id;
         players = new ArrayList<>();
+        gamemode = GAMEMODE_NORMAL;
     }
     
     public Game() {
         players = new ArrayList<>();
+        gamemode = GAMEMODE_NORMAL;
     }
 
     /**
@@ -157,5 +163,22 @@ public class Game {
             return privateColor;
         }
         return "";
+    }
+    
+    public void setGamemode(String gamemode) {
+        if (gamemode.equals(GAMEMODE_NORMAL) || gamemode.equals(GAMEMODE_GENERATED)) {
+            this.gamemode = gamemode;
+        }
+        else {
+            System.out.println("Wrong gamemode");
+        }
+    }
+    
+    public String getGamemode() {
+        return gamemode;
+    }
+        
+    public void setOptionPatternCardsForPlayers() {
+        //  Set the patterncard for all players
     }
 }

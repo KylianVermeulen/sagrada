@@ -24,9 +24,6 @@ public class AccountController {
     private PlayerDAO playerDAO;
     private GameDAO gameDAO;
     
-    private int numberOfInvitesAccounts;
-    private final int MAX_NUMBER_OF_INVITES = 4;
-    
     public AccountController(MyScene myScene) {
         this.myScene = myScene;
         accountDao = new AccountDAO();
@@ -66,9 +63,7 @@ public class AccountController {
     public void joinGame(Game game) {
     }
 
-    public void setupNewGame() {
-        numberOfInvitesAccounts = 0;
-        
+    public void setupNewGame() {        
         Pane pane = new Pane();
         Game game = gameDAO.createNewGame();
         int playerId = playerDAO.getNextPlayerId();
@@ -86,7 +81,7 @@ public class AccountController {
         gameDAO.updateGame(game);
         
         ArrayList<Account> accounts = accountDao.getAllInviteableAccounts(account);
-        GameSetupView gameSetupView = new GameSetupView(this, accounts, account, game);
+        GameSetupView gameSetupView = new GameSetupView(this, accounts, game);
         gameSetupView.render();
         pane.getChildren().add(gameSetupView);
         
@@ -111,15 +106,30 @@ public class AccountController {
         myScene.setRootPane(pane);
     }
 
-    public void sendInvite(Account reciever, Game game) {
-        numberOfInvitesAccounts++;
-        Invite invite = new Invite();
-        invite.setGame(game);
-        invite.setInvitedAccount(reciever);
-        inviteDao.addInvite(invite);
-        
-        if (MAX_NUMBER_OF_INVITES == numberOfInvitesAccounts) {
-            lobby();
+    public void sendInvites(ArrayList<InviteView> inviteViews, Game game) {
+        ArrayList<Account> invitedAccounts = new ArrayList<>();
+        for (InviteView inviteView: inviteViews) {
+            if (inviteView.getCheckbox().isSelected()) {
+                invitedAccounts.add(inviteView.getAccount());
+            }
         }
+        if (invitedAccounts.size() == 0) {
+            System.out.println("Te weinig accounts ge-invite");
+            return;
+        }
+        if (invitedAccounts.size() > 3) {
+            System.out.println("Te veel accounts ge-invite");
+            return;
+        }
+        
+        for (Account invitedAccount: invitedAccounts) {
+            Invite invite = new Invite();
+            invite.setGame(game);
+            invite.setInvitedAccount(invitedAccount);
+            inviteDao.addInvite(invite);
+        }
+        System.out.println("Invites zijn verstuurd!");
+        game.setOptionPatternCardsForPlayers();
+        lobby();
     }
 }
