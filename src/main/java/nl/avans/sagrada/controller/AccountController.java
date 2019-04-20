@@ -99,7 +99,9 @@ public class AccountController {
 
     public void setupNewGame() {        
         Pane pane = new Pane();
-        Game game = gameDAO.createNewGame();
+        int gameId = gameDAO.getNextGameId();
+        Game game = new Game();
+        game.setId(gameId);
         int playerId = playerDAO.getNextPlayerId();
         Player player = new Player();
         player.setId(playerId);

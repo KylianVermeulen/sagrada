@@ -60,7 +60,7 @@ public class GameDAO {
      * @param game
      * @return boolean
      */
-    private void addGame(Game game) {
+    public void addGame(Game game) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                         new Query("INSERT INTO game (idgame) VALUES (?)", "update"),
@@ -72,26 +72,21 @@ public class GameDAO {
     }
     
     /**
-     * Get the new id for the record and creates a new game
-     * @return Game containing the game object
+     * Gets the next game id of a new game
+     * @return int
      */
-    public Game createNewGame() {
-        Game game = null;
+    public int getNextGameId() {
+        int gameId = 0;
         try {
             ResultSet rs = dbConnection.executeQuery(
                         new Query("SELECT MAX(idgame) AS highestGameId FROM game", "query")
                     );
             if (rs.next()) {
-                int gameId = rs.getInt("highestGameId") + 1;
-                game = new Game();
-                game.setId(gameId);
-                addGame(game);
-                return game;
+                gameId = rs.getInt("highestGameId") + 1;
             }
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
-        return game;
+        return gameId;
     }
 }
