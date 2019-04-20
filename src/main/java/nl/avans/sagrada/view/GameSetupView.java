@@ -9,10 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
@@ -49,7 +46,8 @@ public class GameSetupView extends VBox implements ViewInterface {
         buidGameSelector();
         buildInviteList();
         buildStartButton();
-        getChildren().addAll(gameSelectorPane, inviteContainer, startButton);
+        Label inviteLabel = new Label("Invite spelers");
+        getChildren().addAll(gameSelectorPane, inviteLabel,inviteContainer, startButton);
     }
 
     private void buidGameSelector() {
@@ -81,13 +79,10 @@ public class GameSetupView extends VBox implements ViewInterface {
         inviteContainer = new ScrollPane();
         inviteContainer.setPannable(true);
         inviteContainer.setPrefSize(Main.SCREEN_WIDTH / 3, Main.SCREEN_HEIGHT / 3);
-        inviteContainer.setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
         
         inviteViews = new ArrayList<>();
         VBox invites = new VBox();
         
-        Label label = new Label("Invite spelers");
-        invites.getChildren().add(label);
         for (Account account : accounts) {
             InviteView inviteView = new InviteView(account);
             inviteView.render();
