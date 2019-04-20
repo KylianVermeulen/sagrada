@@ -157,6 +157,10 @@ public class PlayerDAO {
         return player;
     }
     
+    /**
+     * Gets the next id for a player
+     * @return int
+     */
     public int getNextPlayerId() {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT MAX(idplayer) AS highestId FROM player", "query"));
@@ -171,6 +175,12 @@ public class PlayerDAO {
         return 0;
     }
 
+    /**
+     * Gets a Player by the account and game
+     * @param account
+     * @param game
+     * @return Player
+     */
     public Player getPlayerByAccountAndGame(Account account, Game game) {
         Player player = null;
         try {

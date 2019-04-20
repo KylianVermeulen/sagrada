@@ -12,6 +12,10 @@ public class InviteView extends HBox implements ViewInterface {
     private Account account;
     private CheckBox checkbox;
         
+    /**
+     * Constructor
+     * @param account
+     */
     public InviteView(Account account) {
         this.account = account;
         setPrefSize(PANE_WIDTH, PANE_HEIGHT);
@@ -23,10 +27,18 @@ public class InviteView extends HBox implements ViewInterface {
         getChildren().add(checkbox);
     }
     
+    /**
+     * Get the account that is in this view
+     * @return
+     */
     public Account getAccount() {
         return account;
     }
     
+    /**
+     * Gets the checkbox of this view
+     * @return
+     */
     public CheckBox getCheckbox() {
         return checkbox;
     }

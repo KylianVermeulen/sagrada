@@ -39,6 +39,10 @@ public class GameDAO {
         return null;
     }
 
+    /**
+     * Updates a game
+     * @param game
+     */
     public void updateGame(Game game) {
         try {
             int turnPlayerId = game.getTurnPlayer().getId();
@@ -47,23 +51,30 @@ public class GameDAO {
                         new QueryParameter(QueryParameter.INT, game.getId())
                     );
         } catch (Exception e) {
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
         }
     }
 
-    public boolean addGame(Game game) {
+    /**
+     * Adds a new game to the database
+     * @param game
+     * @return boolean
+     */
+    private void addGame(Game game) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                         new Query("INSERT INTO game (idgame) VALUES (?)", "update"),
                         new QueryParameter(QueryParameter.INT, game.getId())
                     );
-            return true;
         } catch (Exception e) {
-            e.getStackTrace();
-            return false;
+            e.printStackTrace();
         }
     }
     
+    /**
+     * Get the new id for the record and creates a new game
+     * @return Game containing the game object
+     */
     public Game createNewGame() {
         Game game = null;
         try {
@@ -79,7 +90,7 @@ public class GameDAO {
             }
         } catch (Exception e) {
             // TODO: handle exception
-            e.getStackTrace();
+            e.printStackTrace();
         }
         return game;
     }

@@ -72,6 +72,10 @@ public class InviteDAO {
         
     }
 
+    /**
+     * Adds a new invite to the database
+     * @param invite
+     */
     public void addInvite(Invite invite) {
         try {
             PlayerDAO playerDao = new PlayerDAO();
@@ -94,6 +98,11 @@ public class InviteDAO {
         }
     }
     
+    /**
+     * Get the next seqnr for the invited player
+     * @param game
+     * @return int
+     */
     public int getSeqNrForNextPlayer(Game game) {
         int nextSeqnr = 1;
         try {

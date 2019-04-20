@@ -29,16 +29,18 @@ public class GameSetupView extends VBox implements ViewInterface {
     private final int BUTTON_WIDTH = 100;
     private final int BUTTON_HEIGHT = 50;
 
+    /**
+     * Constructor
+     * @param accountController
+     * @param accounts
+     * @param game
+     */
     public GameSetupView(AccountController accountController, ArrayList<Account> accounts, Game game) {
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
         setPadding(padding);
         this.accountController = accountController;
         this.accounts = accounts;
         this.game = game;
-    }
-
-    public void setInviteAbleAccounts(ArrayList<Account> accounts) {
-        this.accounts = accounts;
     }
 
     @Override
@@ -50,6 +52,9 @@ public class GameSetupView extends VBox implements ViewInterface {
         getChildren().addAll(gameSelectorPane, inviteLabel,inviteContainer, startButton);
     }
 
+    /**
+     * Builds the game selector
+     */
     private void buidGameSelector() {
         RadioButton[] radioButtons = new RadioButton[2];
         radioButtons[0] = new RadioButton("Normale patroonkaarten");
@@ -75,6 +80,9 @@ public class GameSetupView extends VBox implements ViewInterface {
         gameSelectorPane.setAlignment(Pos.BASELINE_LEFT);
     }
 
+    /**
+     * Builds the list of all accounts that can be invited
+     */
     private void buildInviteList() {
         inviteContainer = new ScrollPane();
         inviteContainer.setPannable(true);
@@ -93,6 +101,9 @@ public class GameSetupView extends VBox implements ViewInterface {
         inviteContainer.setContent(invites);
     }
     
+    /**
+     * Builds the start button
+     */
     private void buildStartButton() {
         startButton = new Button("Opslaan");
         startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);

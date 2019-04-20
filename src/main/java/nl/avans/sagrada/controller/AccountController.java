@@ -94,24 +94,6 @@ public class AccountController {
         invite.denyInvite();
     }
 
-    public void gameOverview() {
-        Pane pane = new Pane();
-        account = accountDao.getAccountByUsername("test2");
-        ArrayList<Player> players = account.getPlayers();
-        ArrayList<Game> games = new ArrayList<Game>();
-        for (Player player : players) {
-            games.add(player.getGame());
-        }
-
-        GameOverviewView gameOverview = new GameOverviewView(this);
-        gameOverview.setGames(games);
-        gameOverview.render();
-        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        pane.getChildren().add(gameOverview);
-
-        myScene.setContentPane(pane);
-    }
-
     public void joinGame(Game game) {
     }
 

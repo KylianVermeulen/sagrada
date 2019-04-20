@@ -52,10 +52,18 @@ public class Invite {
         return (!accepted && !denied);
     }
     
+    /**
+     * Get the account that is invited
+     * @return Account
+     */
     public Account getInvitedAccount() {
         return invitedAccount;
     }
     
+    /**
+     * Get the game that the invite is for
+     * @return Game
+     */
     public Game getGame() {
         return game;
     }

@@ -140,14 +140,26 @@ public class Game {
         this.publicObjectiveCards = publicObjectiveCards;
     }
     
+    /**
+     * Sets the start player of a game
+     * @param player
+     */
     public void setStartPlayer(Player player) {
         this.startPlayer = player;
     }
     
+    /**
+     * Gets the start player of a game
+     * @return
+     */
     public Player getStartPlayer() {
         return startPlayer;
     }
     
+    /**
+     * Gets a private color that is not in use by a player
+     * @return String
+     */
     public String getRandomAvailablePrivateColor() {
         boolean hasNotChooseRandomCard = false;
         Random random = new Random();
@@ -165,6 +177,10 @@ public class Game {
         return "";
     }
     
+    /**
+     * Sets the gamemode of the game
+     * @param gamemode
+     */
     public void setGamemode(String gamemode) {
         if (gamemode.equals(GAMEMODE_NORMAL) || gamemode.equals(GAMEMODE_GENERATED)) {
             this.gamemode = gamemode;
@@ -174,10 +190,17 @@ public class Game {
         }
     }
     
+    /**
+     * Gets the gamemode of a game
+     * @return String
+     */
     public String getGamemode() {
         return gamemode;
     }
-        
+    
+    /**
+     * Sets for all the players of the game there optional patternCards
+     */
     public void setOptionPatternCardsForPlayers() {
         //  Set the patterncard for all players
     }
