@@ -1,6 +1,7 @@
 package nl.avans.sagrada.view;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import nl.avans.sagrada.Main;
@@ -19,6 +20,7 @@ public class InviteView extends HBox implements ViewInterface {
     private AccountController accountController;
     private Account account;
     private Game game;
+    private CheckBox checkbox;
         
     public InviteView(AccountController accountController, Account account, Game game) {
         this.accountController = accountController;
@@ -29,11 +31,7 @@ public class InviteView extends HBox implements ViewInterface {
 
     @Override
     public void render() {
-        Label label = new Label("Invite: " + account.getUsername());
-        Button button = new Button();
-        button.setText("->");
-        button.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        button.setOnAction(e->accountController.sendInvite(account, game));
-        getChildren().addAll(label, button);
+        checkbox = new CheckBox(account.getUsername());
+        getChildren().add(checkbox);
     }
 }

@@ -3,6 +3,7 @@ package nl.avans.sagrada.view;
 import java.util.ArrayList;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
@@ -42,7 +43,9 @@ public class LobbyView extends BorderPane implements ViewInterface {
         buildNewGameBtn();
         
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(inviteOverview, gameOverview);
+        Label inviteLabel = new Label("Invites van spelers");
+        Label gameOverviewLabel = new Label("Je openstaande spellen");
+        vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);
         setCenter(newGameButton);
     }

@@ -3,6 +3,7 @@ package nl.avans.sagrada.view;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
@@ -12,9 +13,9 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 import java.util.ArrayList;
 
-public class GameOverviewView extends VBox implements ViewInterface {
+public class GameOverviewView extends ScrollPane implements ViewInterface {
     private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
-    private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2;
+    private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2 - 70;
     private ArrayList<Game> games;
     private AccountController accountController;
 
@@ -26,6 +27,7 @@ public class GameOverviewView extends VBox implements ViewInterface {
     public GameOverviewView(AccountController accountController) {
         this.accountController = accountController;
         setPrefSize(PANE_WIDTH, PANE_HEIGHT);
+        setPannable(true);
     }
 
     /**
@@ -43,6 +45,7 @@ public class GameOverviewView extends VBox implements ViewInterface {
     @Override
     public void render() {
         getChildren().clear();
+        VBox vbox = new VBox();
         for (Game game : games) {
             HBox hBox = new HBox();
 
@@ -54,8 +57,9 @@ public class GameOverviewView extends VBox implements ViewInterface {
 
             hBox.getChildren().add(label);
             hBox.getChildren().add(joinButton);
-            getChildren().add(hBox);
+            vbox.getChildren().add(hBox);
         }
+        setContent(vbox);
     }
 
     /**

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -15,7 +16,7 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class InviteOverviewView extends VBox implements ViewInterface {
+public class InviteOverviewView extends ScrollPane implements ViewInterface {
     private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
     private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2;
     private ArrayList<Invite> invites;
@@ -24,6 +25,7 @@ public class InviteOverviewView extends VBox implements ViewInterface {
     public InviteOverviewView(AccountController accountController) {
         this.accountController = accountController;
         setPrefSize(PANE_WIDTH, PANE_HEIGHT);
+        setPannable(true);
     }
     
     /**
@@ -40,6 +42,7 @@ public class InviteOverviewView extends VBox implements ViewInterface {
     @Override
     public void render() {
         getChildren().clear();
+        VBox vbox = new VBox();
         for (Invite invite: invites) {
             Game game = invite.getGame();
             Pane pane = new HBox();
@@ -51,8 +54,9 @@ public class InviteOverviewView extends VBox implements ViewInterface {
             Button denyButton = buildButtonToDenyInvite(invite);
             
             pane.getChildren().addAll(acceptButton, denyButton);
-            getChildren().add(pane);
+            vbox.getChildren().add(pane);
         }
+        setContent(vbox);
     }
     
     /**
