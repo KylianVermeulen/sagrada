@@ -1,93 +1,101 @@
 package nl.avans.sagrada.view;
 
-import java.util.ArrayList;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.view.popups.Alert;
+
+import java.util.ArrayList;
 
 public class MyScene extends Scene {
-	private Pane rootPane;
-	private Pane contentPane;
+    private Pane rootPane;
+    private Pane contentPane;
+    private ArrayList<Pane> alerts;
 
-	private AccountController accountController;
-	private PlayerController playerController;
-//	private ArrayList<Pane> loginAlerts;
+    private AccountController accountController;
+    private PlayerController playerController;
 
-	public MyScene() {
-		super(new Pane());
-		accountController = new AccountController(this);
-		playerController = new PlayerController(this);
+    public MyScene() {
+        super(new Pane());
+        accountController = new AccountController(this);
+        playerController = new PlayerController(this);
 
-		rootPane = new StackPane();
-		contentPane = new Pane();
-//		loginAlerts = new ArrayList<Pane>();
-		accountController.viewLogin();
+        rootPane = new StackPane();
+        contentPane = new Pane();
+        alerts = new ArrayList<Pane>();
 
-		rootPane.getChildren().add(contentPane);
-		setRoot(rootPane);
-	}
+        rootPane.getChildren().add(contentPane);
+        setRoot(rootPane);
+    }
 
-	/**
-	 * Set the rootpane of the pane that we have as root from the scene
-	 * 
-	 * @param pane
-	 *            Pane
-	 */
-	public void setRootPane(Pane pane) {
-		rootPane.getChildren().clear();
-		rootPane.getChildren().add(pane);
-	}
+    /**
+     * Set the contentPane of the rootPane that we have as content for the scene
+     *
+     * @param pane Pane
+     */
+    public void setContentPane(Pane pane) {
+        contentPane.getChildren().clear();
+        contentPane.getChildren().add(pane);
+    }
 
-	public void setContentPane(Pane pane) {
-		contentPane.getChildren().clear();
-		contentPane.getChildren().add(pane);
-	}
-	
-//	public void addLoginAlertPane(Pane pane) {
-//		StackPane.setAlignment(pane, Pos.TOP_RIGHT);
-//		PauseTransition delay = new PauseTransition(Duration.seconds(3));
-//		delay.setOnFinished(e -> removeLoginAlertPaneAnimation(pane));
-//		delay.play();
-//		loginAlerts.add(pane);
-//		renderLoginAlertPanes();
-//		
-//	}
-//
-//	private void renderLoginAlertPanes() {
-//		for(Pane currentAlert : loginAlerts) {
-//			rootPane.getChildren().remove(currentAlert);
-//		}
-//		for (int i = 0; i < loginAlerts.size(); i++) {
-//			Pane alert = loginAlerts.get(i);
-//			int marginDefault = 20;
-//			int heightPane = 90;
-//			int margin = (marginDefault + (i * heightPane + i * (marginDefault / 2)));
-//			StackPane.setMargin(alert, new Insets(margin, 20, 20, 20));
-//			rootPane.getChildren().add(alert);
-//		}
-//		
-//	}
-//
-//	private void removeLoginAlertPaneAnimation(Pane pane) {
-//		FadeTransition fadeTransition = new FadeTransition(Duration.millis(350), pane);
-//		fadeTransition.setToValue(0.0);
-//		fadeTransition.setOnFinished(e -> removeLoginAlertPane(pane));
-//		fadeTransition.play();
-//	}
-//	
-//	private void removeLoginAlertPane(Pane pane) {
-//		loginAlerts.remove(pane);
-//		rootPane.getChildren().remove(pane);
-//		renderLoginAlertPanes();
-//	}
+    /**
+     * Add alert pane to alerts list and call method render all alerts
+     *
+     * @param pane Pane
+     */
+    public void addAlertPane(Pane pane) {
+        StackPane.setAlignment(pane, Pos.TOP_RIGHT);
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        delay.setOnFinished(e -> removeAlertPaneAnimation(pane));
+        delay.play();
+        alerts.add(pane);
+        renderAlertPanes();
+    }
 
+    /**
+     * Render all alerts
+     */
+    public void renderAlertPanes() {
+        for (Pane currentAlert : alerts) {
+            rootPane.getChildren().remove(currentAlert);
+        }
+        for (int i = 0; i < alerts.size(); i++) {
+            Pane alert = alerts.get(i);
+            int marginDefault = 20;
+            int heightPane = Alert.HEIGHT_ALERT;
+            int margin = (marginDefault + (i * heightPane + i * (marginDefault / 2)));
+            StackPane.setMargin(alert, new Insets(margin, 20, 20, 20));
+            rootPane.getChildren().add(alert);
+        }
+    }
+
+    /**
+     * Remove alert pane animation
+     *
+     * @param pane Pane
+     */
+    public void removeAlertPaneAnimation(Pane pane) {
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(350), pane);
+        fadeTransition.setToValue(0.0);
+        fadeTransition.setOnFinished(e -> removeAlertPane(pane));
+        fadeTransition.play();
+    }
+
+    /**
+     * Remove alert from alerts list and call method render all alerts
+     *
+     * @param pane Pane
+     */
+    public void removeAlertPane(Pane pane) {
+        alerts.remove(pane);
+        rootPane.getChildren().remove(pane);
+        renderAlertPanes();
+    }
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class AccountDAO {
     private DBConnection dbConnection;
-    
+
     public AccountDAO() {
         dbConnection = new DBConnection();
     }
