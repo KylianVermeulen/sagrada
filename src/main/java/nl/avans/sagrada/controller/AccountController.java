@@ -127,9 +127,11 @@ public class AccountController {
     
     public void lobby() {
         Pane pane = new Pane();
+        account = accountDao.getAccountByUsername(account.getUsername());
+        // Update the account
+        
         ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
         ArrayList<Game> games = account.getGames();
-
         
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);
@@ -164,10 +166,13 @@ public class AccountController {
         }
         if (invitedAccounts.size() == 0) {
             System.out.println("Te weinig accounts ge-invite");
+            Alert alert = new Alert("Invites niet verstuurd", "Te weinig accounts geselecteerd", AlertType.ERROR);
+            myScene.addAlertPane(alert);
             return;
         }
         if (invitedAccounts.size() > 3) {
-            System.out.println("Te veel accounts ge-invite");
+            Alert alert = new Alert("Invites niet verstuurd", "Te veel accounts geselecteerd", AlertType.ERROR);
+            myScene.addAlertPane(alert);
             return;
         }
         
@@ -177,7 +182,8 @@ public class AccountController {
             invite.setInvitedAccount(invitedAccount);
             inviteDao.addInvite(invite);
         }
-        System.out.println("Invites zijn verstuurd!");
+        Alert alert = new Alert("Invites verstuurd", "Invites zijn verstuurd", AlertType.INFO);
+        myScene.addAlertPane(alert);
         game.setOptionPatternCardsForPlayers();
         lobby();
     }
