@@ -34,6 +34,7 @@ public class AccountController {
         inviteDao = new InviteDAO();
         playerDAO = new PlayerDAO();
         gameDAO = new GameDAO();
+        account = accountDao.getAccountByUsername("test1");
     }
 
     public void login() {
@@ -93,53 +94,53 @@ public class AccountController {
         invite.denyInvite();
     }
 
-    public void gameOverview() {
-        Pane pane = new Pane();
-        account = accountDao.getAccountByUsername("test2");
-        ArrayList<Player> players = account.getPlayers();
-        ArrayList<Game> games = new ArrayList<Game>();
-        for (Player player : players) {
-            games.add(player.getGame());
-        }
-
-        GameOverviewView gameOverview = new GameOverviewView(this);
-        gameOverview.setGames(games);
-        gameOverview.render();
-        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        pane.getChildren().add(gameOverview);
-
-        myScene.setContentPane(pane);
-    }
-
-    public void accountListOverview() {
-        Pane pane = new Pane();
-        ArrayList<Account> accounts = accountDao.getAllAccounts();
-
-        AccountListOverview accountListOverview = new AccountListOverview(this);
-        accountListOverview.setAccounts(accounts);
-        accountListOverview.render();
-        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        pane.getChildren().add(accountListOverview);
-
-        myScene.setContentPane(pane);
-    }
-
     public void joinGame(Game game) {
     }
 
-    public void setupNewGame() {
-    }
-
-    public void inviteOverview() {
+    public void setupNewGame() {        
         Pane pane = new Pane();
-        account = accountDao.getAccountByUsername("test1");
-        ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
+        int gameId = gameDAO.getNextGameId();
+        Game game = new Game();
+        game.setId(gameId);
+        gameDAO.addGame(game);
+        int playerId = playerDAO.getNextPlayerId();
+        Player player = new Player();
+        player.setId(playerId);
+        player.setSeqnr(1);
+        player.setPlayerStatus("challenger");
+        player.setIsCurrentPlayer(true);
+        player.setAccount(account);
+        player.setGame(game);
+        player.setPrivateObjectivecardColor(game.getRandomAvailablePrivateColor());
+        playerDAO.addPlayer(player);
         
-        InviteOverviewView inviteOverview = new InviteOverviewView(this);
-        inviteOverview.setInvites(pendingInvites);
-        inviteOverview.render();
+        game.setTurnPlayer(player);
+        gameDAO.updateGame(game);
+        
+        ArrayList<Account> accounts = accountDao.getAllInviteableAccounts(account);
+        GameSetupView gameSetupView = new GameSetupView(this, accounts, game);
+        gameSetupView.render();
+        pane.getChildren().add(gameSetupView);
+        
+        myScene.setContentPane(pane);
+        
+    }
+    
+    public void lobby() {
+        Pane pane = new Pane();
+        account = accountDao.getAccountByUsername(account.getUsername());
+        // Update the account
+        
+        ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
+        ArrayList<Game> games = account.getGames();
+        
+        LobbyView lobbyView = new LobbyView(this);
+        lobbyView.setInvites(pendingInvites);
+        lobbyView.setGames(games);
+        lobbyView.render();
+        
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        pane.getChildren().add(inviteOverview);
+        pane.getChildren().add(lobbyView);
 
         myScene.setContentPane(pane);
     }
@@ -148,13 +149,43 @@ public class AccountController {
      * Shows the register view, allowing the register screen to be displayed as current screen.
      */
     public void viewRegister() {
-        Pane pane = new Pane();
-        
+        Pane pane = new Pane();        
         RegisterView registerView = new RegisterView(this);
         registerView.render();
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(registerView);
 
         myScene.setContentPane(pane);
+    }
+
+    public void sendInvites(ArrayList<InviteView> inviteViews, Game game) {
+        ArrayList<Account> invitedAccounts = new ArrayList<>();
+        for (InviteView inviteView: inviteViews) {
+            if (inviteView.getCheckbox().isSelected()) {
+                invitedAccounts.add(inviteView.getAccount());
+            }
+        }
+        if (invitedAccounts.size() == 0) {
+            System.out.println("Te weinig accounts ge-invite");
+            Alert alert = new Alert("Invites niet verstuurd", "Te weinig accounts geselecteerd", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+        if (invitedAccounts.size() > 3) {
+            Alert alert = new Alert("Invites niet verstuurd", "Te veel accounts geselecteerd", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+        
+        for (Account invitedAccount: invitedAccounts) {
+            Invite invite = new Invite();
+            invite.setGame(game);
+            invite.setInvitedAccount(invitedAccount);
+            inviteDao.addInvite(invite);
+        }
+        Alert alert = new Alert("Invites verstuurd", "Invites zijn verstuurd", AlertType.INFO);
+        myScene.addAlertPane(alert);
+        game.setOptionPatternCardsForPlayers();
+        lobby();
     }
 }
