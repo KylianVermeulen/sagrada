@@ -42,7 +42,7 @@ public class ChatLineView extends VBox {
 		textfield.setMinHeight(TEXTFIELD_HEIGHT);
 		textfield.setMaxWidth(TEXTFIELD_WIDTH);
 		textfield.setMinWidth(TEXTFIELD_WIDTH);
-		textfield.setOnAction(e -> playercontroller.sendMessage(textfield.getText()));
+		textfield.setOnAction(e -> playercontroller.sendMessage(textfield));
 		
 		downpane.getChildren().add(textfield);
 		getChildren().addAll(chatpane, downpane);
