@@ -70,9 +70,9 @@ public class DieView extends Pane {
      * Resized the images to the WIDTH and HEIGHT of the pane
      */
     private void resizeImages() {
-        for (ImageView x : images) {
-            x.setFitHeight(HEIGHT);
-            x.setFitWidth(WIDTH);
+        for (ImageView image : images) {
+            image.setFitHeight(HEIGHT);
+            image.setFitWidth(WIDTH);
         }
     }
 
