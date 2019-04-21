@@ -19,10 +19,10 @@ import nl.avans.sagrada.model.Player;
 	        super(new Pane());
 	    	Player player = new Player();
 	    	Game game = new Game(2);
-	    	Account account = new Account();
-	    	account.setUsername("Ian");
+	    	Account account = new Account("Ian", "Ian");
 	    	player.setAccount(account);
 	    	player.setGame(game);
+	    	player.setId(2);
 	    	
 	        accountController = new AccountController(this);
 	        playerController = new PlayerController(this);

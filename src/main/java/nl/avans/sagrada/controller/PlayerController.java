@@ -3,6 +3,8 @@ package nl.avans.sagrada.controller;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+
+import nl.avans.sagrada.dao.ChatlineDAO;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCardField;
@@ -53,9 +55,10 @@ public class PlayerController {
     public void sendMessage(String message) {
     	Date date = new Date();
 		long time = date.getTime();
-		
 		Timestamp timestamp = new Timestamp(time);
+    	
     	Chatline chatline = new Chatline(player, message, timestamp);
+		
     	ArrayList<Chatline> chatlines = player.getGame().getChatlines();
     	
     	ChatLineView chatview = new ChatLineView(this);
@@ -64,9 +67,9 @@ public class PlayerController {
     
     	player.getGame().addChatLine(chatline);
     	
-    	chatline.addtoDB();
-
     	myScene.setRootPane(chatview);
+    	
+    	chatline.addtoDB();
     }
 
 	public void setPlayer(Player player) {

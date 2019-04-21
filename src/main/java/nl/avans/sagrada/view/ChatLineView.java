@@ -64,7 +64,7 @@ public class ChatLineView extends VBox {
 			return;
 			
 		} else {
-			Label label = new Label(hour + ":" + minute + " | Player: " + playername + " | " + message);
+			Label label = new Label("[" + hour + ":" + minute + "] " + playername + ": " + message);
 			
 			messagebox.getChildren().add(label);
 		}

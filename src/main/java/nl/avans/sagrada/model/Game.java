@@ -11,7 +11,7 @@ public class Game {
     private GameDie[] gameDie;
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<Chatline> chatlines;
-
+    
 	public ArrayList<Chatline> getChatlines() {
 		return chatlines;
 	}
