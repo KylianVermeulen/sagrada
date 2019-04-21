@@ -14,21 +14,40 @@ public class ToolCardView extends CardView {
     private Toolcard toolcard;
     private PlayerController playerController;
     
-    
+    /**
+     * Filled constructor
+     * @param playerController PlayerController
+     */
     public ToolCardView(PlayerController playerController) {
         super();
         this.playerController = playerController;
         //setImageUrl("/images/toolcard1.png");
     }
+    
+    /**
+     * Returns the toolcard that is currently linked to this view.
+     * @return toolcard that is linked to this view
+     */
+    public Toolcard getToolCard() {
+        return toolcard;
+    }
 
+    /**
+     * Sets the current toolcard that is linked to this view.
+     * @param toolcard Toolcard
+     */
     public void setToolCard(Toolcard toolcard) {
         this.toolcard = toolcard;
     }
     
+    /**
+     * Generates a text to display a toolcard's description.
+     */
     public void showDescription() {
         Text description = new Text(toolcard.getDescription());
         description.setFont(Main.SAGRADAFONT);
         description.setTextAlignment(TextAlignment.CENTER);
+        description.wrappingWidthProperty().set(getViewWidth());
         StackPane descriptionPane = new StackPane();
         descriptionPane.getChildren().add(description);
         descriptionPane.setAlignment(Pos.CENTER);
@@ -36,8 +55,12 @@ public class ToolCardView extends CardView {
         setBottom(descriptionPane);
     }
     
+    /**
+     * Displays the toolcard image.
+     * @param url String
+     */
     public void showImage(String url) {
-        url = "/images/toolcard1.png";
+        //url = "/images/toolcard1.png";
         Image image = new Image(url);
         StackPane imagePane = new StackPane();
         ImageView imgview = new ImageView(image);
@@ -50,9 +73,13 @@ public class ToolCardView extends CardView {
         System.out.println(url);
     }
     
+    /**
+     * Generates a text to display the number at the top of the toolcard.
+     */
     public void showNumber() {
         Text number = new Text(Integer.toString(toolcard.getId()));
         number.setFont(Main.SAGRADAFONT);
+        number.wrappingWidthProperty().set(getViewWidth());
         number.setTextAlignment(TextAlignment.CENTER);
         StackPane numberPane = new StackPane();
         numberPane.getChildren().add(number);

@@ -22,7 +22,7 @@ public class MyScene extends Scene {
         rootPane = new Pane();
         setRoot(rootPane);
         game = new Game(1);
-        playerController.seeToolcard(game, 1);
+        playerController.seeToolcard(game, 1, "/images/toolcard1.png");
     }
 
     /**

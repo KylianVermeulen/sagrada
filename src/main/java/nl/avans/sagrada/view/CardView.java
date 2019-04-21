@@ -11,6 +11,9 @@ public abstract class CardView extends BorderPane implements ViewInterface {
     private static final int HEIGHT = 440;
     private static final Color CARDSANDYELLOW = Color.rgb(255, 240, 173);
     
+    /**
+     * Empty constructor
+     */
     public CardView() {
         super();
         setPrefSize(WIDTH, HEIGHT);
@@ -20,10 +23,18 @@ public abstract class CardView extends BorderPane implements ViewInterface {
         setId("CardView");
     }
     
+    /**
+     * Returns the standard height for cards.
+     * @return standard card height (int)
+     */
     public int getViewHeight() {
         return HEIGHT;
     }
     
+    /**
+     * Returns the standard width for cards.
+     * @return standard card width (int)
+     */
     public int getViewWidth() {
         return WIDTH;
     }

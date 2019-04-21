@@ -18,13 +18,20 @@ public class PlayerController {
     }
 
     public void seeToolcards() {
-
     }
-    public void seeToolcard(Game game, int selection) {
+    
+    /**
+     * Displays the selected toolcard from the current game.
+     * @param game Game
+     * @param selection int
+     * @param imageUrl String
+     */
+    public void seeToolcard(Game game, int selection, String imageUrl) {
         Pane pane = new Pane();
         
         ToolCardView toolCardView = new ToolCardView(this);
         toolCardView.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(selection));
+        toolCardView.getToolCard().setImageUrl(imageUrl);
         toolCardView.render();
         
         pane.getChildren().add(toolCardView);
