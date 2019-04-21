@@ -22,7 +22,7 @@ import nl.avans.sagrada.model.Player;
 	    	Account account = new Account("Ian", "Ian");
 	    	player.setAccount(account);
 	    	player.setGame(game);
-	    	player.setId(2);
+	    	player.setId(0);
 	    	
 	        accountController = new AccountController(this);
 	        playerController = new PlayerController(this);

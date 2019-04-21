@@ -37,7 +37,6 @@ public class Chatline {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
-	
 }
 
 

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javafx.scene.control.TextField;
 import nl.avans.sagrada.dao.ChatlineDAO;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.GameDie;
@@ -17,8 +18,11 @@ public class PlayerController {
     private Player player;
     private MyScene myScene;
     
+    private ChatlineDAO chatlineDAO;
+    
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
+        chatlineDAO = new ChatlineDAO();
     }
 
     public void seeToolcards() {
@@ -52,13 +56,15 @@ public class PlayerController {
 
     }
     
-    public void sendMessage(String message) {
+    public void sendMessage(TextField textfield) {
     	Date date = new Date();
 		long time = date.getTime();
 		Timestamp timestamp = new Timestamp(time);
+		String text = textfield.getText();
     	
-    	Chatline chatline = new Chatline(player, message, timestamp);
-		
+    	Chatline chatline = new Chatline(player, text, timestamp);
+    	chatlineDAO.addChatline(chatline);
+    	
     	ArrayList<Chatline> chatlines = player.getGame().getChatlines();
     	
     	ChatLineView chatview = new ChatLineView(this);
