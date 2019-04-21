@@ -16,6 +16,9 @@ public class DieView extends Pane {
     private static final int WIDTH = 40;
     private static final int HEIGHT = 40;
 
+    /**
+     * Full constructor
+     */
     public DieView() {
         images = new ArrayList<ImageView>();
         setPrefSize(WIDTH, HEIGHT);
@@ -24,6 +27,9 @@ public class DieView extends Pane {
         resizeImages();
     }
 
+    /**
+     * Renders the visuals
+     */
     public void render() {
         if (gameDie.hasColor()) {
             setColor(gameDie.getColor());
@@ -33,19 +39,36 @@ public class DieView extends Pane {
         }
     }
 
+    /**
+     * Gets the eyes value out of gameDie and shows the visual of the value
+     *
+     * @param eyes int
+     */
     public void setEyes(int eyes) {
         getChildren().add(images.get(eyes - 1));
     }
 
 
+    /**
+     * Gets the color value out of gameDie and shows the visual of the value
+     *
+     * @param color String
+     */
     private void setColor(Color color) {
         setBackground(new Background(new BackgroundFill(color, null, null)));
     }
 
+    /**
+     * Sets the gameDie of the View
+     * @param gameDie GameDie
+     */
     public void setGameDie(GameDie gameDie) {
         this.gameDie = gameDie;
     }
 
+    /**
+     * Resized the images to the WIDTH and HEIGHT of the pane
+     */
     private void resizeImages() {
         for (ImageView x : images) {
             x.setFitHeight(HEIGHT);
@@ -53,6 +76,9 @@ public class DieView extends Pane {
         }
     }
 
+    /**
+     * Initializes the values of the image array
+     */
     private void diceEyesArray() {
         images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/1.png"))));
         images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/2.png"))));

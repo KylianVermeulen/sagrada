@@ -10,10 +10,20 @@ public class Die {
     public Die() {
     }
 
+    /**
+     * Returns the Color as a String
+     *
+     * @return String
+     */
     protected String getStringColor() {
         return this.color;
     }
 
+    /**
+     * Sets the Color
+     *
+     * @param color String
+     */
     protected void setColor(String color) {
         this.color = color;
     }
