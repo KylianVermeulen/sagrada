@@ -69,7 +69,8 @@ public class PlayerController {
     	
     	myScene.setRootPane(chatview);
     	
-    	chatline.addtoDB();
+    	ChatlineDAO chatlinedao = new ChatlineDAO();
+    	chatlinedao.addChatline(chatline);
     }
 
 	public void setPlayer(Player player) {

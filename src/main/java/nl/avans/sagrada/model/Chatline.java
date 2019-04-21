@@ -38,12 +38,6 @@ public class Chatline {
 		this.timestamp = timestamp;
 	}
 	
-	public void addtoDB() {
-		ChatlineDAO chatlinedao = new ChatlineDAO();
-		chatlinedao.addChatline(this);
-		
-	}
-	
 }
 
 
