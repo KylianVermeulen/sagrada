@@ -1,6 +1,7 @@
 package nl.avans.sagrada.controller;
 
 import javafx.scene.layout.Pane;
+import nl.avans.sagrada.dao.ToolcardDAO;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardView;
@@ -9,6 +10,7 @@ import nl.avans.sagrada.view.ToolCardView;
 public class PlayerController {
     private Player player;
     private MyScene myScene;
+    private ToolcardDAO toolcardDAO;
     
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -17,11 +19,11 @@ public class PlayerController {
     public void seeToolcards() {
 
     }
-    public void seeToolcard(Toolcard toolcard) {
+    public void seeToolcard(Game game, int selection) {
         Pane pane = new Pane();
         
         ToolCardView toolCardView = new ToolCardView(this);
-        toolCardView.setToolCard(toolcard);
+        toolCardView.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(selection));
         toolCardView.render();
         
         pane.getChildren().add(toolCardView);
