@@ -2,6 +2,7 @@ package nl.avans.sagrada.controller;
 
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.model.*;
+import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardView;
 
@@ -37,12 +38,12 @@ public class PlayerController {
 
     /**
      * Makes a random generated patternCard
-     *
+     * <p>
      * (adding the difficultly in PatternCard does not matter for a random generated patternCard just make sure standard is false)
      */
     public void makeRandomPatternCard() {
         Pane pane = new Pane();
-        PatternCard patternCard = new PatternCard(1,0,false);
+        PatternCard patternCard = new PatternCard(1, 0, false);
         PatternCardView patternCardView = new PatternCardView(this);
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();
@@ -55,6 +56,15 @@ public class PlayerController {
     }
 
     public void toggleCheatmode() {
+
+    }
+
+    public void makeDie() {
+        GameDie gameDie = new GameDie(6, "geel");
+        DieView dieView = new DieView();
+        dieView.setGameDie(gameDie);
+        dieView.render();
+        myScene.setContentPane(dieView);
 
     }
 

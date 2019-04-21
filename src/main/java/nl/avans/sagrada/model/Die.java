@@ -9,4 +9,12 @@ public class Die {
      */
     public Die() {
     }
+
+    protected String getStringColor() {
+        return this.color;
+    }
+
+    protected void setColor(String color) {
+        this.color = color;
+    }
 }
