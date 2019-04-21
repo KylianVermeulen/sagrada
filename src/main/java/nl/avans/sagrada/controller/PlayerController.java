@@ -14,6 +14,7 @@ public class PlayerController {
     
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
+        toolcardDAO = new ToolcardDAO();
     }
 
     public void seeToolcards() {
