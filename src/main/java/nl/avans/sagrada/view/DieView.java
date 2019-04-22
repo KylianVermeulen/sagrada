@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,7 @@ public class DieView extends Pane implements ViewInterface {
     /**
      * Renders the visuals
      */
-     @Override
+    @Override
     public void render() {
         if (gameDie.hasColor()) {
             setColor(gameDie.getColor());
@@ -61,6 +62,7 @@ public class DieView extends Pane implements ViewInterface {
 
     /**
      * Sets the gameDie of the View
+     *
      * @param gameDie GameDie
      */
     public void setGameDie(GameDie gameDie) {
