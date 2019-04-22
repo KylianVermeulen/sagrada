@@ -30,6 +30,7 @@ public class MyScene extends Scene {
         rootPane = new StackPane();
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
+        accountController.viewLogin();
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);

@@ -14,8 +14,8 @@ import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 
 public class LoginView extends VBox {
-	private static int buttonWitdth = 120;
-	private static int buttonHeight = 30;
+	private final static int BUTTONWIDTH = 120;
+	private final static int BUTTONHEIGHT = 30;
 
 	private AccountController accountController;
 
@@ -52,13 +52,13 @@ public class LoginView extends VBox {
 		passwordHBox.getChildren().addAll(password, passwordTextField);
 
 		Button loginButton = new Button("Login");
-		loginButton.setPrefSize(buttonWitdth, buttonHeight);
+		loginButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
 		loginButton.setOnAction(e -> accountController.login(userTextField.toString(), passwordTextField.toString()));
 
 		Label registerLabel = new Label("If you don't have an account click here: ");
 		registerLabel.setPadding(new Insets(10, 20, 10, 20));
 		registerLabel.setStyle("-fx-underline: true;");
-		registerLabel.setOnMouseClicked(e -> accountController.goRegister());
+		registerLabel.setOnMouseClicked(e -> accountController.viewRegister());
 
 		makeTitle();
 		getChildren().addAll(userHBox, passwordHBox, loginButton, registerLabel);

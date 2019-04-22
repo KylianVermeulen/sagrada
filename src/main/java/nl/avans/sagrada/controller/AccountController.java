@@ -49,12 +49,15 @@ public class AccountController {
         if (accountFromDao.getPassword().equals(password)) {
           System.out.println("go to HomeScreen");
           Alert alert = new Alert("Login succesfull", "You are now logged in", AlertType.SUCCES);
+          myScene.addAlertPane(alert);
         } else {
           Alert alert = new Alert("Passeword invalid", "password is incorrect, try again", AlertType.ERROR);
+          myScene.addAlertPane(alert);
         }
       } else {
         System.out.println("no user");
         Alert alert = new Alert("Username invalid", "Username does not excists.", AlertType.ERROR);
+        myScene.addAlertPane(alert);
       }
       return accountFromDao;
     }
