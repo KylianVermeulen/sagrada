@@ -80,9 +80,6 @@ public class ToolCardView extends CardView {
     public void showNumber() {
         Text number = new Text(Integer.toString(toolcard.getId()) + "\n" + toolcard.getTitle());
         number.setFont(Main.SAGRADAFONT);
-        String css = this.getClass().getResource("/css/style.css").toExternalForm();
-        number.getStyleClass().add(css);
-        number.setId("test");
         number.wrappingWidthProperty().set(getViewWidth());
         number.setTextAlignment(TextAlignment.CENTER);
         StackPane numberPane = new StackPane();
