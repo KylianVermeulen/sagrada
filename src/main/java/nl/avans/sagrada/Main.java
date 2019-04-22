@@ -24,6 +24,7 @@ public class Main extends Application {
         buildGui(primaryStage);
         primaryStage.show();
     }
+    
     private void buildGui(Stage primaryStage) {
         rootScene = new MyScene();
         primaryStage.setScene(rootScene);
