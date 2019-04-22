@@ -1,5 +1,7 @@
 package nl.avans.sagrada.controller;
 
+import javafx.geometry.Insets;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ToolcardDAO;
 import nl.avans.sagrada.model.*;
@@ -17,7 +19,28 @@ public class PlayerController {
         toolcardDAO = new ToolcardDAO();
     }
 
-    public void seeToolcards() {
+    public void seeToolcards(Game game) {
+        BorderPane pane = new BorderPane();
+        
+        ToolCardView toolCardView1 = new ToolCardView(this);
+        toolCardView1.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(0));
+        toolCardView1.getToolCard().setImageUrl("/images/toolcard1.png"); //image werkt nu raar
+        toolCardView1.render();        
+        
+        ToolCardView toolCardView2 = new ToolCardView(this);
+        toolCardView2.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(1));
+        toolCardView2.getToolCard().setImageUrl("/images/toolcard1.png"); //image werkt nu raar
+        toolCardView2.render();
+        
+        ToolCardView toolCardView3 = new ToolCardView(this);
+        toolCardView3.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(2));
+        toolCardView3.getToolCard().setImageUrl("/images/toolcard1.png"); //image werkt nu raar
+        toolCardView3.render();        
+        
+        pane.setLeft(toolCardView1);
+        pane.setCenter(toolCardView2);
+        pane.setRight(toolCardView3);
+        myScene.setRootPane(pane);
     }
     
     /**
