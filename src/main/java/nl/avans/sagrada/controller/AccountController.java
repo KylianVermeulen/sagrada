@@ -59,7 +59,7 @@ public class AccountController {
 			}
 		} else {
 			System.out.println("no user");
-			Alert alert = new Alert("Username invalid", "Username does not excists.", AlertType.ERROR);
+			Alert alert = new Alert("Username invalid", "Username does not exists.", AlertType.ERROR);
 			myScene.addAlertPane(alert);
 		}
 		accountFromDao = this.account;
