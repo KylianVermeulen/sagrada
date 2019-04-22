@@ -21,25 +21,19 @@ public class PlayerController {
 
     public void seeToolcards(Game game) {
         BorderPane pane = new BorderPane();
-        
-        ToolCardView toolCardView1 = new ToolCardView(this);
-        toolCardView1.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(0));
-        toolCardView1.render();        
-        
-        ToolCardView toolCardView2 = new ToolCardView(this);
-        toolCardView2.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(1));
-        toolCardView2.render();
-        
-        ToolCardView toolCardView3 = new ToolCardView(this);
-        toolCardView3.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(2));
-        toolCardView3.render();        
-        
-        BorderPane.setMargin(toolCardView1, new Insets(0, 5, 0, 0));
-        BorderPane.setMargin(toolCardView2, new Insets(0, 5, 0, 5));
-        BorderPane.setMargin(toolCardView3, new Insets(0, 0, 0, 5));
-        pane.setLeft(toolCardView1);
-        pane.setCenter(toolCardView2);
-        pane.setRight(toolCardView3);
+        ToolCardView[] toolcardviews = new ToolCardView[3];
+        for (int index = 0; index < toolcardviews.length; index++) {
+            toolcardviews[index] = new ToolCardView(this);
+            toolcardviews[index].setToolCard(toolcardDAO.getToolcardsOfGame(game).get(index));
+            toolcardviews[index].render();
+        }
+
+        BorderPane.setMargin(toolcardviews[0], new Insets(0, 5, 0, 0));
+        BorderPane.setMargin(toolcardviews[1], new Insets(0, 5, 0, 5));
+        BorderPane.setMargin(toolcardviews[2], new Insets(0, 0, 0, 5));
+        pane.setLeft(toolcardviews[0]);
+        pane.setCenter(toolcardviews[1]);
+        pane.setRight(toolcardviews[2]);
         myScene.setRootPane(pane);
     }
     

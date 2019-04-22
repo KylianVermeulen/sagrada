@@ -102,41 +102,11 @@ public class Toolcard {
      * @return an image URL for this toolcard (String)
      */
     public String getImageUrl() {
-        if (getId() == 1) {
-            setImageUrl("/images/toolcardImages/toolcard1.png");
-        }
-        if (getId() == 2) {
-            setImageUrl("/images/toolcardImages/toolcard2.png");
-        }
-        if (getId() == 3) {
-            setImageUrl("/images/toolcardImages/toolcard3.png");
-        }
-        if (getId() == 4) {
-            setImageUrl("/images/toolcardImages/toolcard4.png");
-        }
-        if (getId() == 5) {
-            setImageUrl("/images/toolcardImages/toolcard5.png");
-        }
-        if (getId() == 6) {
-            setImageUrl("/images/toolcardImages/toolcard6.png");
-        }
-        if (getId() == 7) {
-            setImageUrl("/images/toolcardImages/toolcard7.png");
-        }
-        if (getId() == 8) {
-            setImageUrl("/images/toolcardImages/toolcard8.png");
-        }
-        if (getId() == 9) {
-            setImageUrl("/images/toolcardImages/toolcard9.png");
-        }
-        if (getId() == 10) {
-            setImageUrl("/images/toolcardImages/toolcard10.png");
-        }
-        if (getId() == 11) {
-            setImageUrl("/images/toolcardImages/toolcard11.png");
-        }
-        if (getId() == 12) {
-            setImageUrl("/images/toolcardImages/toolcard12.png");
+        int[] ids = new int[12];
+        for (int index = 0; index < ids.length; index++) {
+            if (getId() == (index + 1)) {
+                setImageUrl("/images/toolcardImages/toolcard" + (index + 1) + ".png");
+            }
         }
         return imageUrl;
     }

@@ -22,7 +22,6 @@ public class ToolCardView extends CardView {
     public ToolCardView(PlayerController playerController) {
         super();
         this.playerController = playerController;
-        //setImageUrl("/images/toolcard1.png");
     }
     
     /**
@@ -46,7 +45,7 @@ public class ToolCardView extends CardView {
      */
     public void showDescription() {
         Text description = new Text(toolcard.getDescription());
-        description.setFont(Main.SAGRADAFONT);
+        description.setFont(Main.SAGRADA_FONT);
         description.setTextAlignment(TextAlignment.CENTER);
         description.wrappingWidthProperty().set(getViewWidth());
         StackPane descriptionPane = new StackPane();
@@ -61,7 +60,6 @@ public class ToolCardView extends CardView {
      * @param url String
      */
     public void showImage(String url) {
-        //url = "/images/toolcard1.png";
         Image image = new Image(url);
         StackPane imagePane = new StackPane();
         ImageView imgview = new ImageView(image);
@@ -79,7 +77,7 @@ public class ToolCardView extends CardView {
      */
     public void showNumber() {
         Text number = new Text(Integer.toString(toolcard.getId()) + "\n" + toolcard.getTitle());
-        number.setFont(Main.SAGRADAFONT);
+        number.setFont(Main.SAGRADA_FONT);
         number.wrappingWidthProperty().set(getViewWidth());
         number.setTextAlignment(TextAlignment.CENTER);
         StackPane numberPane = new StackPane();
