@@ -33,9 +33,11 @@ public class InviteDAO {
             while (rs.next()) {
                 GameDAO gameDao = new GameDAO();
                 PlayerDAO playerDao = new PlayerDAO();
+                Player player = playerDao.getPlayerById(rs.getInt("idplayer"));
                 Game game = gameDao.getGameById(rs.getInt("game_idgame"));
                 Invite invite = new Invite();
                 invite.setInvitedAccount(account);
+                invite.setPlayer(player);
                 invite.setGame(game);
                 String inviteStatus = rs.getString("playstatus_playstatus");
                 if (inviteStatus.equals("accepted")) {
@@ -64,7 +66,8 @@ public class InviteDAO {
         ArrayList<Invite> inviteList = getInvitesOfAccount(account);
         ArrayList<Invite> pendingInvites = new ArrayList<>();
         for(Invite invite: inviteList) {
-            if (invite.isPending()) {
+            Player player = invite.getPlayer();
+            if (invite.isPending() && !player.getPlayerStatus().equals("challenger")) {
                 pendingInvites.add(invite);
             }
         }

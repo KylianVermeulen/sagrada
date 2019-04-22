@@ -5,6 +5,7 @@ public class Invite {
     private Game game;
     private boolean accepted;
     private boolean denied;
+    private Player player;
     
     public Invite() {
         accepted = false;
@@ -66,5 +67,13 @@ public class Invite {
      */
     public Game getGame() {
         return game;
+    }
+
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    public Player getPlayer() {
+        return player;
     }
 }
