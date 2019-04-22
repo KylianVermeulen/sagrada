@@ -1,13 +1,22 @@
 package nl.avans.sagrada.model;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Game {
     private int id;
     private Player turnPlayer;
 
-    private Player[] players;
+    private String gamemode;
+    private ArrayList<Player> players;
+    private Player startPlayer;
     private FavorToken[] favorTokens;
     private GameDie[] gameDie;
     private PublicObjectiveCard[] publicObjectiveCards;
+    private final String[] privateObjectiveCardColors = {"blauw", "geel", "groen", "paars", "rood"};
+    
+    public static final String GAMEMODE_NORMAL = "normal";
+    public static final String GAMEMODE_GENERATED = "generate";
 
     /**
      * Partial constructor
@@ -16,6 +25,13 @@ public class Game {
      */
     public Game(int id) {
         this.id = id;
+        players = new ArrayList<>();
+        gamemode = GAMEMODE_NORMAL;
+    }
+    
+    public Game() {
+        players = new ArrayList<>();
+        gamemode = GAMEMODE_NORMAL;
     }
 
     /**
@@ -57,7 +73,7 @@ public class Game {
      *
      * @return Player[]
      */
-    public Player[] getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
@@ -66,7 +82,7 @@ public class Game {
      *
      * @param players Player[]
      */
-    public void setPlayers(Player[] players) {
+    public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
 
@@ -122,5 +138,70 @@ public class Game {
      */
     public void setPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
         this.publicObjectiveCards = publicObjectiveCards;
+    }
+    
+    /**
+     * Sets the start player of a game
+     * @param player
+     */
+    public void setStartPlayer(Player player) {
+        this.startPlayer = player;
+    }
+    
+    /**
+     * Gets the start player of a game
+     * @return
+     */
+    public Player getStartPlayer() {
+        return startPlayer;
+    }
+    
+    /**
+     * Gets a private color that is not in use by a player
+     * @return String
+     */
+    public String getRandomAvailablePrivateColor() {
+        boolean hasNotChooseRandomCard = false;
+        Random random = new Random();
+        int amountOfColors = privateObjectiveCardColors.length;
+        while (!hasNotChooseRandomCard) {
+            int randomArrayPostition = random.nextInt(amountOfColors);
+            String privateColor = privateObjectiveCardColors[randomArrayPostition];
+            for (Player player: players) {
+                if (player.getPrivateObjectivecardColor().equals(privateColor)) {
+                    continue;
+                }
+            }
+            return privateColor;
+        }
+        return "";
+    }
+    
+    /**
+     * Sets the gamemode of the game
+     * @param gamemode
+     */
+    public void setGamemode(String gamemode) {
+        if (gamemode.equals(GAMEMODE_NORMAL) || gamemode.equals(GAMEMODE_GENERATED)) {
+            this.gamemode = gamemode;
+        }
+        else {
+            System.out.println("Wrong gamemode");
+        }
+    }
+    
+    /**
+     * Gets the gamemode of a game
+     * @return String
+     */
+    public String getGamemode() {
+        return gamemode;
+    }
+    
+    /**
+     * Sets for all the players of the game there optional patternCards
+     */
+    public void setOptionPatternCardsForPlayers() {
+        //  Set the patterncard for all players
     }
 }

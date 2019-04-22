@@ -34,6 +34,8 @@ public class MyScene extends Scene {
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
+        
+        accountController.lobby();
     }
 
     /**
