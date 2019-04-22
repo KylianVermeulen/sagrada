@@ -94,6 +94,9 @@ public class LobbyView extends BorderPane implements ViewInterface {
         gameOverview.render();
     }
     
+    /**
+     * Builds to button to logout
+     */
     private void buildLogout() {
         logoutButton = new Button("Logout");
         logoutButton.setOnAction(e->accountController.logout());

@@ -102,6 +102,9 @@ public class AccountController {
         myScene.addAlertPane(alert);
     }
     
+    /**
+     * Controlls the logout
+     */
     public void logout() {
         account = null;
         viewLogin();
