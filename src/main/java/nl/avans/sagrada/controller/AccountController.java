@@ -62,6 +62,7 @@ public class AccountController {
 			Alert alert = new Alert("Username invalid", "Username does not excists.", AlertType.ERROR);
 			myScene.addAlertPane(alert);
 		}
+		accountFromDao = this.account;
 		return accountFromDao;
 	}
 

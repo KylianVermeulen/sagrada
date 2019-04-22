@@ -12,8 +12,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class LoginView extends VBox {
+public class LoginView extends VBox implements ViewInterface {
 	private final static int BUTTONWIDTH = 120;
 	private final static int BUTTONHEIGHT = 30;
 
@@ -55,9 +56,11 @@ public class LoginView extends VBox {
 		loginButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
 		loginButton.setOnAction(e -> accountController.login(userTextField, passwordTextField));
 
-		Label registerLabel = new Label("If you don't have an account click here: ");
-		registerLabel.setPadding(new Insets(10, 20, 10, 20));
-		registerLabel.setStyle("-fx-underline: true;");
+		Text registerLabel = new Text("If you don't have an account click here: ");
+//		registerLabel.setPadding(new Insets(10, 20, 10, 20));
+		String css  = this.getClass().getResource("/css/style.css").toExternalForm();
+		registerLabel.getStyleClass().add(css);
+		registerLabel.setId("registerLabel");
 		registerLabel.setOnMouseClicked(e -> accountController.viewRegister());
 
 		makeTitle();
