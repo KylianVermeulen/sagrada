@@ -2,6 +2,7 @@ package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +21,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private InviteOverviewView inviteOverview;
     private GameOverviewView gameOverview;
     private Button newGameButton;
+    private Button logoutButton;
     
     private final int BUTTON_WIDTH = 150;
     private final int BUTTON_HEIGHT = 40;
@@ -54,6 +56,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
         buildInviteOverview();
         buildGamesOverview();
         buildNewGameBtn();
+        buildLogout();
         
         VBox vbox = new VBox();
         Label inviteLabel = new Label("Invites van spelers");
@@ -61,6 +64,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
         vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);
         setCenter(newGameButton);
+        setRight(logoutButton);
     }
     
     /**
@@ -88,5 +92,10 @@ public class LobbyView extends BorderPane implements ViewInterface {
         gameOverview = new GameOverviewView(accountController);
         gameOverview.setGames(games);
         gameOverview.render();
+    }
+    
+    private void buildLogout() {
+        logoutButton = new Button("Logout");
+        logoutButton.setOnAction(e->accountController.logout());
     }
 }

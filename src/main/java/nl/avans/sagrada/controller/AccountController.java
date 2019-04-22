@@ -101,6 +101,11 @@ public class AccountController {
         Alert alert = new Alert("Account created", "Account is now created.", AlertType.SUCCES);
         myScene.addAlertPane(alert);
     }
+    
+    public void logout() {
+        account = null;
+        viewLogin();
+    }
 
     public void acceptInvite(Invite invite) {
         invite.acceptInvite();
