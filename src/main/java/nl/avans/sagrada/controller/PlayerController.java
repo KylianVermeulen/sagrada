@@ -70,6 +70,7 @@ public class PlayerController {
 
     }
 
+
     public void emptyPatternCard() {
         Pane pane = new Pane();
         PatternCard patternCard = new PatternCard();
