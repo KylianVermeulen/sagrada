@@ -18,7 +18,7 @@ public class MyScene extends Scene {
     private Pane rootPane;
     private Pane contentPane;
     private ArrayList<Pane> alerts;
-	
+
     private AccountController accountController;
     private PlayerController playerController;
 
@@ -39,6 +39,7 @@ public class MyScene extends Scene {
 
     /**
      * Set the contentPane of the rootPane that we have as content for the scene
+     *
      * @param pane Pane
      */
     public void setContentPane(Pane pane) {
@@ -48,6 +49,7 @@ public class MyScene extends Scene {
 
     /**
      * Add alert pane to alerts list and call method render all alerts
+     *
      * @param pane Pane
      */
     public void addAlertPane(Pane pane) {
@@ -78,6 +80,7 @@ public class MyScene extends Scene {
 
     /**
      * Remove alert pane animation
+     *
      * @param pane Pane
      */
     public void removeAlertPaneAnimation(Pane pane) {
@@ -89,9 +92,10 @@ public class MyScene extends Scene {
 
     /**
      * Remove alert from alerts list and call method render all alerts
+     *
      * @param pane Pane
      */
-    public void removeAlertPane(Pane pane)  {
+    public void removeAlertPane(Pane pane) {
         alerts.remove(pane);
         rootPane.getChildren().remove(pane);
         renderAlertPanes();
