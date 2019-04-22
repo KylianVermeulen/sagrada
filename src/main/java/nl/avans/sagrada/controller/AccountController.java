@@ -35,36 +35,32 @@ public class AccountController {
         inviteDao = new InviteDAO();
         playerDAO = new PlayerDAO();
         gameDAO = new GameDAO();
-        account = accountDao.getAccountByUsername("test1");
     }
 
     /**
      * Login an account and checks is username and password combination is right.
      *
-     * @param userTextField
-     * @param passwordTextField
-     * @return
+     * @param userTextField TextField
+     * @param passwordTextField TextField
      */
-    public Account login(TextField userTextField, TextField passwordTextField) {
+    public void login(TextField userTextField, TextField passwordTextField) {
         String username = userTextField.getText();
         String password = passwordTextField.getText();
         Account accountFromDao = accountDao.getAccountByUsername(username);
         if (accountFromDao != null) {
             if (accountFromDao.getPassword().equals(password)) {
-                System.out.println("go to HomeScreen");
-                Alert alert = new Alert("Login succesfull", "You are now logged in", AlertType.SUCCES);
+                Alert alert = new Alert("Login geslaagd", "Je bent nu ingelogd.", AlertType.SUCCES);
                 myScene.addAlertPane(alert);
+                account = accountFromDao;
+                lobby();
             } else {
-                Alert alert = new Alert("Passeword invalid", "password is incorrect, try again", AlertType.ERROR);
+                Alert alert = new Alert("Password ongeldig", "Password is niet geldig.", AlertType.ERROR);
                 myScene.addAlertPane(alert);
             }
         } else {
-            System.out.println("no user");
-            Alert alert = new Alert("Username invalid", "Username does not exists.", AlertType.ERROR);
+            Alert alert = new Alert("Username ongeldig", "Username bestaat niet.", AlertType.ERROR);
             myScene.addAlertPane(alert);
         }
-        accountFromDao = this.account;
-        return accountFromDao;
     }
 
     /**
@@ -106,16 +102,6 @@ public class AccountController {
         myScene.addAlertPane(alert);
     }
 
-    /**
-     * Switches the current pane to the "Login screen" pane.
-     */
-    public void gotoLogin() {
-        // go to login pane
-    }
-
-    public void register() {
-    }
-
     public void acceptInvite(Invite invite) {
         invite.acceptInvite();
     }
@@ -127,7 +113,7 @@ public class AccountController {
     public void joinGame(Game game) {
     }
 
-    public void setupNewGame() {        
+    public void setupNewGame() {
         Pane pane = new Pane();
         int gameId = gameDAO.getNextGameId();
         Game game = new Game();
@@ -143,32 +129,31 @@ public class AccountController {
         player.setGame(game);
         player.setPrivateObjectivecardColor(game.getRandomAvailablePrivateColor());
         playerDAO.addPlayer(player);
-        
+
         game.setTurnPlayer(player);
         gameDAO.updateGame(game);
-        
+
         ArrayList<Account> accounts = accountDao.getAllInviteableAccounts(account);
         GameSetupView gameSetupView = new GameSetupView(this, accounts, game);
         gameSetupView.render();
         pane.getChildren().add(gameSetupView);
-        
+
         myScene.setContentPane(pane);
-        
     }
-    
+
     public void lobby() {
         Pane pane = new Pane();
         account = accountDao.getAccountByUsername(account.getUsername());
         // Update the account
-        
+
         ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
         ArrayList<Game> games = account.getGames();
-        
+
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);
         lobbyView.setGames(games);
         lobbyView.render();
-        
+
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(lobbyView);
 
@@ -219,7 +204,7 @@ public class AccountController {
             myScene.addAlertPane(alert);
             return;
         }
-        
+
         for (Account invitedAccount: invitedAccounts) {
             Invite invite = new Invite();
             invite.setGame(game);
