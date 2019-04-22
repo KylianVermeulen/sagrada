@@ -70,15 +70,13 @@ public class PlayerController {
 
     }
 
-
     public void emptyPatternCard() {
         Pane pane = new Pane();
         PatternCard patternCard = new PatternCard();
         PatternCardView patternCardView = new PatternCardView(this);
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();
-        patternCard.getPatternCardField(0,0).placeDie(new GameDie(1,"paars"));
-        patternCardView.render();
+
         pane.getChildren().add(patternCardView);
         myScene.setContentPane(pane);
     }
