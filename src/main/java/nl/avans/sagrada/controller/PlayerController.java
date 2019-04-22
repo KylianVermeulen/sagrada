@@ -5,6 +5,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ToolcardDAO;
 import nl.avans.sagrada.model.*;
+import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardView;
 import nl.avans.sagrada.view.ToolCardView;
@@ -12,8 +13,7 @@ import nl.avans.sagrada.view.ToolCardView;
 public class PlayerController {
     private Player player;
     private MyScene myScene;
-    private ToolcardDAO toolcardDAO;
-    
+
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
         toolcardDAO = new ToolcardDAO();
@@ -54,6 +54,9 @@ public class PlayerController {
         myScene.setRootPane(pane);
     }
 
+    public void seeToolcard() {
+    }
+
     public void overviewOfGame() {
 
     }
@@ -61,13 +64,26 @@ public class PlayerController {
     public void viewPatterncardOfPlayer(Player player) {
         Pane pane = new Pane();
         PatternCard patternCard = player.getPatternCard();
-
         PatternCardView patternCardView = new PatternCardView(this);
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();
-
         pane.getChildren().add(patternCardView);
-        myScene.setRootPane(pane);
+        myScene.setContentPane(pane);
+    }
+
+    /**
+     * Makes a random generated patternCard
+     *
+     * (adding the difficultly in PatternCard does not matter for a random generated patternCard just make sure standard is false)
+     */
+    public void makeRandomPatternCard() {
+        Pane pane = new Pane();
+        PatternCard patternCard = new PatternCard(1, 0, false);
+        PatternCardView patternCardView = new PatternCardView(this);
+        patternCardView.setPatternCard(patternCard);
+        patternCardView.render();
+        pane.getChildren().add(patternCardView);
+        myScene.setContentPane(pane);
     }
 
     public void useToolcard(Toolcard toolcard) {
@@ -75,6 +91,15 @@ public class PlayerController {
     }
 
     public void toggleCheatmode() {
+
+    }
+
+    public void makeDie() {
+        GameDie gameDie = new GameDie(6, "geel");
+        DieView dieView = new DieView();
+        dieView.setGameDie(gameDie);
+        dieView.render();
+        myScene.setContentPane(dieView);
 
     }
 
