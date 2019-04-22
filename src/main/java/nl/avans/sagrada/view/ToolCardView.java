@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.Main;
@@ -77,8 +78,11 @@ public class ToolCardView extends CardView {
      * Generates a text to display the number at the top of the toolcard.
      */
     public void showNumber() {
-        Text number = new Text(Integer.toString(toolcard.getId()));
+        Text number = new Text(Integer.toString(toolcard.getId()) + "\n" + toolcard.getTitle());
         number.setFont(Main.SAGRADAFONT);
+        String css = this.getClass().getResource("/css/style.css").toExternalForm();
+        number.getStyleClass().add(css);
+        number.setId("test");
         number.wrappingWidthProperty().set(getViewWidth());
         number.setTextAlignment(TextAlignment.CENTER);
         StackPane numberPane = new StackPane();

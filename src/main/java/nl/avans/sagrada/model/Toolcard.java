@@ -9,6 +9,7 @@ public class Toolcard {
     private int seqnr;
     private String description;
     private String imageUrl;
+    private String title;
     private ArrayList<FavorToken> favorTokens;
     
     /**
@@ -101,6 +102,42 @@ public class Toolcard {
      * @return an image URL for this toolcard (String)
      */
     public String getImageUrl() {
+        if (getId() == 1) {
+            setImageUrl("/images/toolcardImages/toolcard1.png");
+        }
+        if (getId() == 2) {
+            setImageUrl("/images/toolcardImages/toolcard2.png");
+        }
+        if (getId() == 3) {
+            setImageUrl("/images/toolcardImages/toolcard3.png");
+        }
+        if (getId() == 4) {
+            setImageUrl("/images/toolcardImages/toolcard4.png");
+        }
+        if (getId() == 5) {
+            setImageUrl("/images/toolcardImages/toolcard5.png");
+        }
+        if (getId() == 6) {
+            setImageUrl("/images/toolcardImages/toolcard6.png");
+        }
+        if (getId() == 7) {
+            setImageUrl("/images/toolcardImages/toolcard7.png");
+        }
+        if (getId() == 8) {
+            setImageUrl("/images/toolcardImages/toolcard8.png");
+        }
+        if (getId() == 9) {
+            setImageUrl("/images/toolcardImages/toolcard9.png");
+        }
+        if (getId() == 10) {
+            setImageUrl("/images/toolcardImages/toolcard10.png");
+        }
+        if (getId() == 11) {
+            setImageUrl("/images/toolcardImages/toolcard11.png");
+        }
+        if (getId() == 12) {
+            setImageUrl("/images/toolcardImages/toolcard12.png");
+        }
         return imageUrl;
     }
 
@@ -110,5 +147,49 @@ public class Toolcard {
      */
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+    
+    public String getTitle() {
+        if (getId() == 1) {
+            setTitle("Driepuntstang");
+        }
+        if (getId() == 2) {
+            setTitle("Églomisé Borstel");
+        }
+        if (getId() == 3) {
+            setTitle("Folie-aandrukker");
+        }
+        if (getId() == 4) {
+            setTitle("Loodopenhaler");
+        }
+        if (getId() == 5) {
+            setTitle("Rondsnijder");
+        }
+        if (getId() == 6) {
+            setTitle("Fluxborstel");
+        }
+        if (getId() == 7) {
+            setTitle("Loodhamer");
+        }
+        if (getId() == 8) {
+            setTitle("Glasbreektang");
+        }
+        if (getId() == 9) {
+            setTitle("Snijliniaal");
+        }
+        if (getId() == 10) {
+            setTitle("Schuurblok");
+        }
+        if (getId() == 11) {
+            setTitle("Fluxverwijderaar");
+        }
+        if (getId() == 12) {
+            setTitle("Olieglassnijder");
+        }
+        return title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

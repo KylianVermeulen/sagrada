@@ -7,8 +7,8 @@ import javafx.scene.paint.Color;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public abstract class CardView extends BorderPane implements ViewInterface {
-    private static final int WIDTH = 310;
-    private static final int HEIGHT = 440;
+    private static final int WIDTH = 130;
+    private static final int HEIGHT = 170;
     private static final Color CARDSANDYELLOW = Color.rgb(255, 240, 173);
     
     /**

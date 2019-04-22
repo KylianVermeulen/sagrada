@@ -24,19 +24,19 @@ public class PlayerController {
         
         ToolCardView toolCardView1 = new ToolCardView(this);
         toolCardView1.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(0));
-        toolCardView1.getToolCard().setImageUrl("/images/toolcard1.png"); //image werkt nu raar
         toolCardView1.render();        
         
         ToolCardView toolCardView2 = new ToolCardView(this);
         toolCardView2.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(1));
-        toolCardView2.getToolCard().setImageUrl("/images/toolcard1.png"); //image werkt nu raar
         toolCardView2.render();
         
         ToolCardView toolCardView3 = new ToolCardView(this);
         toolCardView3.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(2));
-        toolCardView3.getToolCard().setImageUrl("/images/toolcard1.png"); //image werkt nu raar
         toolCardView3.render();        
         
+        BorderPane.setMargin(toolCardView1, new Insets(0, 5, 0, 0));
+        BorderPane.setMargin(toolCardView2, new Insets(0, 5, 0, 5));
+        BorderPane.setMargin(toolCardView3, new Insets(0, 0, 0, 5));
         pane.setLeft(toolCardView1);
         pane.setCenter(toolCardView2);
         pane.setRight(toolCardView3);
@@ -49,12 +49,11 @@ public class PlayerController {
      * @param selection int
      * @param imageUrl String
      */
-    public void seeToolcard(Game game, int selection, String imageUrl) {
+    public void seeToolcard(Game game, int selection) {
         Pane pane = new Pane();
         
         ToolCardView toolCardView = new ToolCardView(this);
         toolCardView.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(selection));
-        toolCardView.getToolCard().setImageUrl(imageUrl);
         toolCardView.render();
         
         pane.getChildren().add(toolCardView);

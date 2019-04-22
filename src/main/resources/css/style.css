@@ -9,3 +9,7 @@
 	-fx-border-color: #C4923B;
 	-fx-border-width: 3;
 }
+
+#test {
+	-fx-underline: true;
+}
