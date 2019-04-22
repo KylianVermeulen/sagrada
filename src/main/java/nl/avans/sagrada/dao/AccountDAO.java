@@ -8,6 +8,8 @@ import nl.avans.sagrada.model.Account;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javafx.scene.control.TextField;
+
 public class AccountDAO {
     private DBConnection dbConnection;
 

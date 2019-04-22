@@ -53,7 +53,7 @@ public class LoginView extends VBox {
 
 		Button loginButton = new Button("Login");
 		loginButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
-		loginButton.setOnAction(e -> accountController.login(userTextField.toString(), passwordTextField.toString()));
+		loginButton.setOnAction(e -> accountController.login(userTextField, passwordTextField));
 
 		Label registerLabel = new Label("If you don't have an account click here: ");
 		registerLabel.setPadding(new Insets(10, 20, 10, 20));
