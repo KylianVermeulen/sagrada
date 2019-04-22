@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 import java.util.ArrayList;
 

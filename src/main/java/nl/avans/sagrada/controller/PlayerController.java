@@ -13,6 +13,7 @@ import nl.avans.sagrada.view.ToolCardView;
 public class PlayerController {
     private Player player;
     private MyScene myScene;
+    private ToolcardDAO toolcardDAO;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -34,7 +35,7 @@ public class PlayerController {
         pane.setLeft(toolcardviews[0]);
         pane.setCenter(toolcardviews[1]);
         pane.setRight(toolcardviews[2]);
-        myScene.setRootPane(pane);
+        myScene.setContentPane(pane);
     }
     
     /**
@@ -51,7 +52,7 @@ public class PlayerController {
         toolCardView.render();
         
         pane.getChildren().add(toolCardView);
-        myScene.setRootPane(pane);
+        myScene.setContentPane(pane);
     }
 
     public void seeToolcard() {
