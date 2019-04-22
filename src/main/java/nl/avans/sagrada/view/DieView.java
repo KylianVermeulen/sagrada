@@ -30,6 +30,7 @@ public class DieView extends Pane implements ViewInterface {
     /**
      * Renders the visuals
      */
+     @Override
     public void render() {
         if (gameDie.hasColor()) {
             setColor(gameDie.getColor());
