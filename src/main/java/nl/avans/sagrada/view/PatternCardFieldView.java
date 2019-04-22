@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.controller.PlayerController;
@@ -40,6 +41,7 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
 
     /**
      * Set PatternCard to PatternCardFieldView
+     *
      * @param patternCard PatternCard
      */
     public void setPatternCard(PatternCard patternCard) {
@@ -48,6 +50,7 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
 
     /**
      * Set PatternCardField to PatternCardFieldView
+     *
      * @param patternCardField PatternCardField
      */
     public void setPatternCardField(PatternCardField patternCardField) {
@@ -65,6 +68,12 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         }
         if (patternCardField.hasValue()) {
             addEyes();
+        }
+        if (patternCardField.hasDie()) {
+            DieView dieView = new DieView();
+            dieView.setGameDie(patternCardField.getDie());
+            dieView.render();
+            getChildren().add(dieView);
         }
     }
 

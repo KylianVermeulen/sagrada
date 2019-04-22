@@ -60,11 +60,11 @@ public class PatternCardView extends BorderPane implements ViewInterface {
      */
     private void showDifficulty() {
         difficultyBar = new HBox();
-        difficultyBar.setPadding(new Insets(5,0,5,5));
+        difficultyBar.setPadding(new Insets(5, 0, 5, 5));
 
         for (int i = 0; i < patternCard.getDifficulty(); i++) {
             Pane pane = new Pane();
-            pane.setPadding(new Insets(0,5,0,0));
+            pane.setPadding(new Insets(0, 5, 0, 0));
             Circle circle = new Circle(5, Color.WHITE);
             pane.getChildren().add(circle);
             difficultyBar.getChildren().add(pane);
@@ -84,7 +84,7 @@ public class PatternCardView extends BorderPane implements ViewInterface {
             for (int x = 0; x < PatternCard.CARD_SQUARES_WIDTH; x++) {
                 PatternCardFieldView patternCardFieldView = new PatternCardFieldView(playerController);
                 patternCardFieldView.setPatternCard(patternCard);
-                patternCardFieldView.setPatternCardField(patternCard.getPatternCardField(x,y));
+                patternCardFieldView.setPatternCardField(patternCard.getPatternCardField(x, y));
                 patternCardFieldView.render();
                 patternCardFieldViews[x][y] = patternCardFieldView;
 

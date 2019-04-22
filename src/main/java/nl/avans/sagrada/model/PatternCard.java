@@ -16,9 +16,10 @@ public class PatternCard {
     private ArrayList<String> colors;
 
     /**
-     * Empty constructor
+     * Empty PatternCard
      */
     public PatternCard() {
+        patternCardFields = makeNewPatternCardFields();
     }
 
     /**
@@ -213,6 +214,11 @@ public class PatternCard {
         return patterncardFields;
     }
 
+    /**
+     * Makes an empty PatternCard
+     *
+     * @return PatternCard[][]
+     */
     private PatternCardField[][] makeNewPatternCardFields() {
         PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH][CARD_SQUARES_HEIGHT];
         for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
@@ -222,5 +228,16 @@ public class PatternCard {
             }
         }
         return patterncardFields;
+    }
+
+    /**
+     * Places die on the selected PatternCardField
+     *
+     * @param xPos int
+     * @param yPos int
+     * @param gameDie GameDie
+     */
+    public void placeDie(int xPos, int yPos, GameDie gameDie) {
+        patternCardFields[xPos][yPos].placeDie(gameDie);
     }
 }

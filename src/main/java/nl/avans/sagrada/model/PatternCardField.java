@@ -71,6 +71,7 @@ public class PatternCardField {
         if (yPos == 3) return true;
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        if (pcd.hasDie()) return !(pcd.getDie().getStringColor().equals(color));
         return true;
     }
 
@@ -84,6 +85,7 @@ public class PatternCardField {
         if (yPos == 0) return true;
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        if (pcd.hasDie()) return !(pcd.getDie().getStringColor().equals(color));
         return true;
     }
 
@@ -97,6 +99,7 @@ public class PatternCardField {
         if (xPos == 4) return true;
         PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        if (pcd.hasDie()) return !(pcd.getDie().getStringColor().equals(color));
         return true;
     }
 
@@ -110,6 +113,7 @@ public class PatternCardField {
         if (xPos == 0) return true;
         PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);
         if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        if (pcd.hasDie()) return !(pcd.getDie().getStringColor().equals(color));
         return true;
     }
 
@@ -136,6 +140,7 @@ public class PatternCardField {
         if (yPos == 3) return true;
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
         if (pcd.hasValue()) return !(pcd.getValue() == value);
+        if (pcd.hasDie()) return !(pcd.getDie().getEyes() == value);
         return true;
     }
 
@@ -149,6 +154,7 @@ public class PatternCardField {
         if (yPos == 0) return true;
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
         if (pcd.hasValue()) return !(pcd.getValue() == value);
+        if (pcd.hasDie()) return !(pcd.getDie().getEyes() == value);
         return true;
     }
 
@@ -162,6 +168,7 @@ public class PatternCardField {
         if (xPos == 4) return true;
         PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
         if (pcd.hasValue()) return !(pcd.getValue() == value);
+        if (pcd.hasDie()) return !(pcd.getDie().getEyes() == value);
         return true;
     }
 
@@ -175,6 +182,7 @@ public class PatternCardField {
         if (xPos == 0) return true;
         PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);
         if (pcd.hasValue()) return !(pcd.getValue() == value);
+        if (pcd.hasDie()) return !(pcd.getDie().getEyes() == value);
         return true;
     }
 
@@ -301,5 +309,47 @@ public class PatternCardField {
      */
     public String getStringColor() {
         return this.color;
+    }
+
+    /**
+     * Checks if the selected PatternCardField has a die on it
+     *
+     * @return boolean
+     */
+    public boolean hasDie() {
+        if (die == null) return false;
+        return true;
+    }
+
+    /**
+     * Places die on the selected PatternCardField
+     *
+     * @param gameDie GameDie
+     */
+    public void placeDie(GameDie gameDie) {
+        if (hasDie()) {
+            return;
+        }
+        int dieEyes = gameDie.getEyes();
+        String dieStringColor = gameDie.getStringColor();
+        if (checkSidesColor(dieStringColor) && checkSidesValue(dieEyes)) {
+            if (hasColor()) {
+                if (gameDie.getStringColor().equals(this.color)) {
+                    this.die = gameDie;
+                    return;
+                }
+                return;
+            }
+            this.die = gameDie;
+        }
+    }
+
+    /**
+     * Returns the die on the selected PatternCardField
+     *
+     * @return GameDie
+     */
+    public GameDie getDie() {
+        return this.die;
     }
 }

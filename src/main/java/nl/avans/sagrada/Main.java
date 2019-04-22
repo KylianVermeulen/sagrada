@@ -1,4 +1,5 @@
 package nl.avans.sagrada;
+
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -24,6 +25,7 @@ public class Main extends Application {
         buildGui(primaryStage);
         primaryStage.show();
     }
+
     private void buildGui(Stage primaryStage) {
         rootScene = new MyScene();
         primaryStage.setScene(rootScene);
