@@ -8,7 +8,7 @@ import nl.avans.sagrada.model.GameDie;
 
 import java.util.ArrayList;
 
-public class DieView extends Pane {
+public class DieView extends Pane implements ViewInterface {
 
     private ArrayList<ImageView> images;
     private GameDie gameDie;
