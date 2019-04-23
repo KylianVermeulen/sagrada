@@ -30,10 +30,11 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
     public PatternCardFieldView(PlayerController playerController) {
         this.playerController = playerController;
         setPrefSize(WIDTH, HEIGHT);
+        setMaxSize(WIDTH, HEIGHT);
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         images = new ArrayList<ImageView>();
         diceEyesArray();
-
+        resizeImages();
         setOnMouseDragReleased(e -> {
             DieView dieView = (DieView) e.getGestureSource();
             patternCardField.placeDie(dieView.getGameDie());
@@ -83,7 +84,7 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
 
 
     /**
-     * Resized the images to the WIDTH and HEIGHT of the pane
+     * Resized the images 5px smaller then the pane to prevent it from resizing
      */
     private void resizeImages() {
         for (ImageView image : images) {
