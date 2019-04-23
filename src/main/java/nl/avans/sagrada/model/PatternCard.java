@@ -42,10 +42,20 @@ public class PatternCard {
         }
     }
 
+    /**
+     * Checks if it's the first turn
+     *
+     * @return boolean
+     */
     public boolean isFirstTurn() {
         return this.firstTurn;
     }
 
+    /**
+     * Sets the firstTurn value
+     *
+     * @param firstTurn boolean
+     */
     public void setFirstTurn(boolean firstTurn) {
         this.firstTurn = firstTurn;
     }

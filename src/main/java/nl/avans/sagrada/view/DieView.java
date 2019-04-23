@@ -12,11 +12,10 @@ import java.util.ArrayList;
 
 public class DieView extends Pane {
 
-    private ArrayList<ImageView> images;
-    private GameDie gameDie;
-
     private static final int WIDTH = 35;
     private static final int HEIGHT = 35;
+    private ArrayList<ImageView> images;
+    private GameDie gameDie;
 
     /**
      * Full constructor
@@ -54,7 +53,7 @@ public class DieView extends Pane {
 
         });
     }
-
+    
     /**
      * Gets the eyes value out of gameDie and shows the visual of the value
      *
@@ -75,16 +74,21 @@ public class DieView extends Pane {
     }
 
     /**
+     * Returns the gameDie
+     *
+     * @return GameDie
+     */
+    public GameDie getGameDie() {
+        return this.gameDie;
+    }
+
+    /**
      * Sets the gameDie of the View
      *
      * @param gameDie GameDie
      */
     public void setGameDie(GameDie gameDie) {
         this.gameDie = gameDie;
-    }
-
-    public GameDie getGameDie() {
-        return this.gameDie;
     }
 
     /**
