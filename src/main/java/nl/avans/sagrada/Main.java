@@ -9,6 +9,7 @@ public class Main extends Application {
     public static final int SCREEN_HEIGHT = 800;
     public static final int SCREEN_WIDTH = 1280;
     public static final Font SAGRADA_FONT = new Font("Segoe Script", 8);
+    public static final Font SAGRADA_ZOOM_FONT = new Font("Segoe Script", 14);
 
     private MyScene rootScene;
 

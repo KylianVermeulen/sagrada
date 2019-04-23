@@ -3,10 +3,13 @@ package nl.avans.sagrada.controller;
 import java.util.ArrayList;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import nl.avans.sagrada.dao.ToolcardDAO;
 import nl.avans.sagrada.model.*;
+import nl.avans.sagrada.view.CardView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardView;
@@ -21,7 +24,7 @@ public class PlayerController {
         this.myScene = myScene;
         toolcardDAO = new ToolcardDAO();
     }
-
+    
     /**
      * Displays all toolcards that belong to a certain game.
      * @param game Game
@@ -31,9 +34,12 @@ public class PlayerController {
         ToolCardView[] toolcardviews = new ToolCardView[3];
         ArrayList<Toolcard> toolcards = toolcardDAO.getToolcardsOfGame(game);
         for (int index = 0; index < toolcardviews.length; index++) {
-            toolcardviews[index] = new ToolCardView(this);
+            toolcardviews[index] = new ToolCardView(this, game);
+            Toolcard toolcard = toolcards.get(index);
             toolcardviews[index].setToolCard(toolcards.get(index));
+            toolcardviews[index].setToolCardSelection(index);
             toolcardviews[index].render();
+            toolcardviews[index].setOnMouseClicked(e -> viewToolcard(game, toolcard));
         }
 
         BorderPane.setMargin(toolcardviews[0], new Insets(0, 5, 0, 0));
@@ -50,14 +56,23 @@ public class PlayerController {
      * @param game Game
      * @param selection int
      */
-    public void viewToolcard(Game game, int selection) {
+    public void viewToolcard(Game game, Toolcard toolcard) {
         Pane pane = new Pane();
         
-        ToolCardView toolCardView = new ToolCardView(this);
-        toolCardView.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(selection));
+        ToolCardView toolCardView = new ToolCardView(this, game);
+        toolCardView.setZoomed(true);
+        toolCardView.setToolCard(toolcard);
         toolCardView.render();
-        
-        pane.getChildren().add(toolCardView);
+        toolCardView.setPrefSize(CardView.ZOOM_CARD_WIDTH, CardView.ZOOM_CARD_HEIGHT);
+        BorderPane toolCardViewPane = new BorderPane();
+        StackPane useToolCardButtonPane = new StackPane();
+        Button useButton = new Button("Gebruik Gereedschapskaart");
+        useButton.setOnAction(e -> useToolcard(toolcard));
+        useToolCardButtonPane.getChildren().add(useButton);
+        useToolCardButtonPane.setPrefSize(CardView.ZOOM_CARD_WIDTH, (CardView.ZOOM_CARD_HEIGHT / 6));   
+        toolCardViewPane.setBottom(useToolCardButtonPane);
+        toolCardViewPane.setCenter(toolCardView);
+        pane.getChildren().add(toolCardViewPane);
         myScene.setContentPane(pane);
     }
 
