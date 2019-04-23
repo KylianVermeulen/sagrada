@@ -13,3 +13,7 @@
 #registerLabel {
     -fx-underline: true;
 }
+
+#ObjectiveCardDescription {
+    -fx-background-color: #bfbfbf
+}
