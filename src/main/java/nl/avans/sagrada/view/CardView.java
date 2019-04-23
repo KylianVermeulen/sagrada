@@ -1,6 +1,9 @@
 package nl.avans.sagrada.view;
 
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public abstract class CardView extends BorderPane implements ViewInterface {
@@ -14,6 +17,7 @@ public abstract class CardView extends BorderPane implements ViewInterface {
         super();
         setPrefSize(WIDTH, HEIGHT);
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
+        setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
         getStylesheets().add(css);
         setId("CardView");
     }

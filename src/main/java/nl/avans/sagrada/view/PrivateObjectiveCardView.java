@@ -1,14 +1,17 @@
 package nl.avans.sagrada.view;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.model.Player;
 
 public class PrivateObjectiveCardView extends CardView {
     private final static int SQUAREWIDTH = 30;
@@ -26,36 +29,33 @@ public class PrivateObjectiveCardView extends CardView {
     @Override
     public void render() {
         getChildren().clear();
-        showSquare();
-        showDescription();
+        showImage(null);
+        showText();
     }
 
-    private void showDescription() {
-        HBox bottomPrivateCard = new HBox();
-        Text description = new Text(
-                "TINTEN " + /* player.getPrivateObjectivecardColor().toUpperCase() + */ " - Persoonlijk \n"
-                        + "Som van waades op " + /* player.getPrivateObjectivecardColor() +*/ "\n" + "dobbelstenen");
+    public void showText() {
+        Text scorePoints = new Text("#");
+        Text description = new Text("TINTEN *GETCOLOR* - Persoonlijk \n Som van waardes op *getColor* \n dobbelstenen");
+        scorePoints.setFont(new Font("Segoe Script", 8));
+        description.setFont(new Font("Segoe Script", 8));
+        description.setTextAlignment(TextAlignment.CENTER);
+        BorderPane textPane = new BorderPane();
+        StackPane scorePane = new StackPane();
+        scorePane.getChildren().add(scorePoints);
+        StackPane descriptionPane = new StackPane();
+        descriptionPane.getChildren().add(description);
+        textPane.setLeft(scorePane);
+        textPane.setCenter(descriptionPane);
+        scorePane.setPrefWidth(getViewWidth() / 6);
 
-        bottomPrivateCard.getChildren().add(description);
-        setBottom(bottomPrivateCard);
+        setBottom(textPane);
+
     }
 
-    private void showSquare() {
-        StackPane squarePane = new StackPane();
-
-        Rectangle colorSquare = new Rectangle();
-        colorSquare.setWidth(SQUAREWIDTH);
-        colorSquare.setHeight(SQUAREHEIGHT);
-        colorSquare.setFill(Color.BLUE);
-        colorSquare.setStroke(Color.BLACK);
-        colorSquare.setStrokeWidth(2);
-
-        squarePane.getChildren().add(colorSquare);
-        squarePane.setMaxSize(getViewWidth(), getViewHeight() / 6);
-
-        squarePane.setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null)));
-
-        setCenter(squarePane);
+    private void showImage(String url) {
+        Image image = new Image(url);
+        StackPane imagePane = new StackPane();
+        ImageView imageView = new ImageView();
 
     }
 

@@ -24,7 +24,7 @@ public class MyScene extends Scene {
 
     private AccountController accountController;
     private PlayerController playerController;
-    private PrivateObjectiveCardView test;
+//    private PrivateObjectiveCardView test;
     private PlayerDAO playerDao;
     private Player player;
 
@@ -36,14 +36,15 @@ public class MyScene extends Scene {
         playerDao = new PlayerDAO();
         player = playerDao.getPlayerById(1);
 
-        test = new PrivateObjectiveCardView(playerController);
+//        test = new PrivateObjectiveCardView(playerController);
 
         rootPane = new StackPane();
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
 
         rootPane.getChildren().add(contentPane);
-        setRoot(test);
+        setRoot(rootPane);
+        playerController.viewPrivateObjectiveCard();
 
     }
 

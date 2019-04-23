@@ -21,7 +21,6 @@ public class Player {
     private ArrayList<FavorToken> favorTokens;
     private int score;
     private boolean cheatmode = false;
-    
 
     /**
      * Empty constructor
@@ -57,12 +56,12 @@ public class Player {
     /**
      * Set id to Player
      *
-     * @param id int
+     * @param id
+     *            int
      */
     public void setId(int id) {
         this.id = id;
     }
-    
 
     /**
      * Get playerstatus from Player
@@ -76,7 +75,8 @@ public class Player {
     /**
      * Set playerstatus to Player
      *
-     * @param playerStatus String
+     * @param playerStatus
+     *            String
      */
     public void setPlayerStatus(String playerStatus) {
         this.playerStatus = playerStatus;
@@ -94,21 +94,22 @@ public class Player {
     /**
      * Set seqnr of Player
      *
-     * @param seqnr int
+     * @param seqnr
+     *            int
      */
     public void setSeqnr(int seqnr) {
         this.seqnr = seqnr;
     }
-    
+
     /**
      * Set if the player is the currentPlayer
+     * 
      * @param isCurrentPlayer
      */
     public void setIsCurrentPlayer(boolean isCurrentPlayer) {
         this.isCurrentPlayer = isCurrentPlayer;
     }
-    
-    
+
     /**
      * Get current player from Player
      *
@@ -121,7 +122,8 @@ public class Player {
     /**
      * Set current player to Player
      *
-     * @param currentPlayer boolean
+     * @param currentPlayer
+     *            boolean
      */
     public void setCurrentPlayer(boolean currentPlayer) {
         isCurrentPlayer = currentPlayer;
@@ -139,7 +141,8 @@ public class Player {
     /**
      * Set private objective card color to Player
      *
-     * @param privateObjectivecardColor String
+     * @param privateObjectivecardColor
+     *            String
      */
     public void setPrivateObjectivecardColor(String privateObjectivecardColor) {
         this.privateObjectivecardColor = privateObjectivecardColor;
@@ -157,7 +160,8 @@ public class Player {
     /**
      * Set score to Player
      *
-     * @param score int
+     * @param score
+     *            int
      */
     public void setScore(int score) {
         this.score = score;
@@ -175,7 +179,8 @@ public class Player {
     /**
      * Set Account to Player
      *
-     * @param account Account
+     * @param account
+     *            Account
      */
     public void setAccount(Account account) {
         this.account = account;
@@ -201,7 +206,8 @@ public class Player {
     /**
      * Set Game to Player
      *
-     * @param game Game
+     * @param game
+     *            Game
      */
     public void setGame(Game game) {
         this.game = game;
@@ -229,7 +235,8 @@ public class Player {
     /**
      * Set PatternCard to Player
      *
-     * @param patterncard PatternCard
+     * @param patterncard
+     *            PatternCard
      */
     public void setPatternCard(PatternCard patterncard) {
         this.patternCard = patterncard;
@@ -247,7 +254,8 @@ public class Player {
     /**
      * Set optional PatternCards to Player
      *
-     * @param optionalPatterncards ArrayList<PatternCard>
+     * @param optionalPatterncards
+     *            ArrayList<PatternCard>
      */
     public void setOptionalPatternCards(ArrayList<PatternCard> optionalPatterncards) {
         this.optionalPatternCards = optionalPatterncards;
@@ -273,7 +281,8 @@ public class Player {
     /**
      * Set FavorTokens to Player
      *
-     * @param favorTokens ArrayList<FavorToken>
+     * @param favorTokens
+     *            ArrayList<FavorToken>
      */
     public void setFavorTokens(ArrayList<FavorToken> favorTokens) {
         this.favorTokens = favorTokens;
@@ -299,9 +308,33 @@ public class Player {
     /**
      * Set cheatmode
      *
-     * @param cheatmode boolean
+     * @param cheatmode
+     *            boolean
      */
     public void setCheatmode(boolean cheatmode) {
         this.cheatmode = cheatmode;
+    }
+
+    public String getImageUrl() {
+        String color = getPrivateObjectivecardColor();
+        String url;
+        switch (color) {
+        case "blue":
+            url = "/images/privateObjectiveCardColors/blue.png";
+            break;
+        case "green":
+            url = "/images/privateObjectiveCardColors/green.png";
+            break;
+        case "purple":
+            url = "/images/privateObjectiveCardColors/purple.png";
+            break;
+        case "red":
+            url = "/images/privateObjectiveCardColors/red.png";
+            break;
+        case "yellow":
+            url = "/images/privateObjectiveCardColors/yellow.png";
+            break;
+        }
+        return url;
     }
 }
