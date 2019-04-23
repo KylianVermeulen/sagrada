@@ -129,10 +129,9 @@ public class Account {
         
         for (Game game: games) {
             if (game.isActive()) {
-                
+                activeGames.add(game);
             }
         }
-        
-        return activeGames;
+        return activeGames;        
     }
 }
