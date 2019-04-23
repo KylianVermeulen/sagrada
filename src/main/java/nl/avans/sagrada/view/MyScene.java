@@ -15,21 +15,7 @@ import nl.avans.sagrada.model.Player;
 	    private PlayerController playerController;
 	
 	    public MyScene() {
-
 	        super(new Pane());
-	    	Player player = new Player();
-	    	Game game = new Game(0);
-	    	Account account = new Account();
-	    	account.setUsername("test1");
-	    	player.setAccount(account);
-	    	player.setGame(game);
-	    	player.setId(0);
-	    	
-	        accountController = new AccountController(this);
-	        playerController = new PlayerController(this);
-	        rootPane = new ChatLineView(playerController);
-	        playerController.setPlayer(player);
-	        setRoot(rootPane);
 	    }
 	
 	    /**
