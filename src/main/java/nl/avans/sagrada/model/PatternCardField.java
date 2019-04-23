@@ -51,7 +51,7 @@ public class PatternCardField {
      * Checks if the patternCardField neighbor to the selected patternCardField
      *
      * @param color String
-     * @param b
+     * @param isDie boolean
      * @return boolean
      */
     public boolean checkSidesColor(String color, boolean isDie) {
@@ -66,7 +66,7 @@ public class PatternCardField {
      * Checks south of the patternCardField and checks if there is a color
      *
      * @param color String
-     * @param isDie
+     * @param isDie boolean
      * @return boolean
      */
     private boolean checkSouthColor(String color, boolean isDie) {
@@ -79,7 +79,7 @@ public class PatternCardField {
      * Checks north of the patternCardField and checks if there is a color
      *
      * @param color String
-     * @param isDie
+     * @param isDie boolean
      * @return boolean
      */
     private boolean checkNorthColor(String color, boolean isDie) {
@@ -92,7 +92,7 @@ public class PatternCardField {
      * Checks east of the patternCardField and checks if there is a color
      *
      * @param color String
-     * @param isDie
+     * @param isDie boolean
      * @return boolean
      */
     private boolean checkEastColor(String color, boolean isDie) {
@@ -105,7 +105,7 @@ public class PatternCardField {
      * Checks west of the patternCardField and checks if there is a color
      *
      * @param color String
-     * @param isDie
+     * @param isDie boolean
      * @return boolean
      */
     private boolean checkWestColor(String color, boolean isDie) {
@@ -114,6 +114,14 @@ public class PatternCardField {
         return checkColorAndDieColor(color, pcd, isDie);
     }
 
+    /**
+     * Checks if the turn is valid
+     *
+     * @param color String
+     * @param pcd PatternCardField
+     * @param isDie boolean
+     * @return
+     */
     private boolean checkColorAndDieColor(String color, PatternCardField pcd, boolean isDie) {
         if (!isDie) if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
         if (pcd.hasDie()) return !(pcd.getDie().getStringColor().equals(color));
@@ -124,7 +132,7 @@ public class PatternCardField {
      * Checks if the patternCardField neighbor to the selected patternCardField has an value (value)
      *
      * @param value int
-     * @param isDie
+     * @param isDie boolean
      * @return boolean
      */
     public boolean checkSidesValue(int value, boolean isDie) {
@@ -138,7 +146,7 @@ public class PatternCardField {
      * Checks south of the patternCardField and checks if there is an eye value
      *
      * @param value int
-     * @param isDie
+     * @param isDie boolean
      * @return boolean
      */
     private boolean checkSouthValue(int value, boolean isDie) {
@@ -157,7 +165,7 @@ public class PatternCardField {
      * Checks north of the patternCardField and checks if there is an eye value
      *
      * @param value int
-     * @param isDie
+     * @param isDie boolean
      * @return boolean
      */
     private boolean checkNorthValue(int value, boolean isDie) {
@@ -170,7 +178,7 @@ public class PatternCardField {
      * Checks east of the patternCardField and checks if there is an eye value
      *
      * @param value int
-     * @param isDie
+     * @param isDie boolean
      * @return boolean
      */
     private boolean checkEastValue(int value, boolean isDie) {
@@ -183,7 +191,7 @@ public class PatternCardField {
      * Checks west of the patternCardField and checks if there is an eye value
      *
      * @param value int
-     * @param isDie
+     * @param isDie boolean
      * @return boolean
      */
     private boolean checkWestValue(int value, boolean isDie) {

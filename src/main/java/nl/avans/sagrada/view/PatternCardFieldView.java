@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
@@ -36,9 +37,12 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         diceEyesArray();
         resizeImages();
         setOnMouseDragReleased(e -> {
-            DieView dieView = (DieView) e.getGestureSource();
-            patternCardField.placeDie(dieView.getGameDie());
-            this.render();
+            try {
+                GameDie gameDie = ((GameDie) ((DieView) e.getGestureSource()).getGameDie());
+                patternCardField.placeDie(gameDie);
+                this.render();
+            } catch (Exception e1) {
+            }
         });
 
     }
