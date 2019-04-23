@@ -45,6 +45,18 @@ public class Invite {
         denied = true; 
     }
     
+    public String getStatus() {
+        if (accepted) {
+            return "accepted";
+        }
+        else if (denied) {
+            return "refused";
+        }
+        else {
+            return "challengee";
+        }
+    }
+    
     /**
      * Checks if the invite has not been responded to
      * @return boolean

@@ -120,4 +120,22 @@ public class InviteDAO {
         }
         return nextSeqnr;
     }
+    
+    /**
+     * Updates the playstatus of a invite
+     * @param invite
+     */
+    public void updateInvite(Invite invite) {
+        int playerId = invite.getPlayer().getId();
+        
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("UPDATE player SET playstatus_playstatus=?  WHERE idplayer=?", "update"),
+                        new QueryParameter(QueryParameter.STRING, invite.getStatus()),
+                        new QueryParameter(QueryParameter.INT, playerId)
+                    );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

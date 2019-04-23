@@ -112,10 +112,16 @@ public class AccountController {
 
     public void acceptInvite(Invite invite) {
         invite.acceptInvite();
+        inviteDao.updateInvite(invite);
+        lobby();
     }
 
     public void denyInvite(Invite invite) {
         invite.denyInvite();
+        inviteDao.updateInvite(invite);
+        Game game = invite.getGame();
+        game.cancel();
+        lobby();
     }
 
     public void joinGame(Game game) {
