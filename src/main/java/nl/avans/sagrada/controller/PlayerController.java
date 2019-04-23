@@ -70,7 +70,7 @@ public class PlayerController {
         Pane pane2 = new Pane();
         Pane pane3 = new Pane();
 
-        PatternCard patternCard = new PatternCard();
+        PatternCard patternCard = new PatternCard(1, 0, false);
         PatternCardView patternCardView = new PatternCardView(this);
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();

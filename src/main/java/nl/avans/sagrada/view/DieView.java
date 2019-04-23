@@ -10,7 +10,7 @@ import nl.avans.sagrada.model.GameDie;
 
 import java.util.ArrayList;
 
-public class DieView extends StackPane {
+public class DieView extends Pane {
 
     private ArrayList<ImageView> images;
     private GameDie gameDie;

@@ -15,14 +15,12 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 import java.util.ArrayList;
 
 public class PatternCardFieldView extends StackPane implements ViewInterface {
+    private static final int WIDTH = 50;
+    private static final int HEIGHT = 50;
     private PatternCard patternCard;
     private PatternCardField patternCardField;
     private PlayerController playerController;
-
-    private ArrayList<Image> images;
-
-    private static final int WIDTH = 50;
-    private static final int HEIGHT = 50;
+    private ArrayList<ImageView> images;
 
     /**
      * Partial constructor
@@ -33,19 +31,15 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         this.playerController = playerController;
         setPrefSize(WIDTH, HEIGHT);
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        setOnMouseClicked(e -> onClick());
-
-        setOnMouseDragEntered(e -> {
-            System.out.println("test");
-        });
+        images = new ArrayList<ImageView>();
+        diceEyesArray();
 
         setOnMouseDragReleased(e -> {
             DieView dieView = (DieView) e.getGestureSource();
             patternCardField.placeDie(dieView.getGameDie());
             this.render();
         });
-        images = new ArrayList<Image>();
-        diceEyesArray();
+
     }
 
     /**
@@ -82,34 +76,39 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
             DieView dieView = new DieView();
             dieView.setGameDie(patternCardField.getDie());
             dieView.render();
+            getChildren().clear();
             getChildren().add(dieView);
         }
     }
 
+
     /**
-     * Method when the PatternCardField is clicked
+     * Resized the images to the WIDTH and HEIGHT of the pane
      */
-    private void onClick() {
-        System.out.println("x: " + patternCardField.getxPos() + " y: " + patternCardField.getyPos());
+    private void resizeImages() {
+        for (ImageView image : images) {
+            image.setFitHeight(HEIGHT - 5);
+            image.setFitWidth(WIDTH - 5);
+        }
     }
 
     /**
      * Adds dice eye images to the image array
      */
     private void diceEyesArray() {
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/1.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/2.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/3.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/4.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/5.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/6.png")));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/1.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/2.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/3.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/4.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/5.png"))));
+        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/6.png"))));
     }
 
     /**
      * Adds dice eye image to the PatternCardFieldView
      */
     public void addEyes() {
-        getChildren().add(new ImageView(images.get(patternCardField.getValue() - 1)));
+        getChildren().add(images.get(patternCardField.getValue() - 1));
     }
 
     /**

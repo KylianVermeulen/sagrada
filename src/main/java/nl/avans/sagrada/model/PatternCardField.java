@@ -327,22 +327,57 @@ public class PatternCardField {
      * @param gameDie GameDie
      */
     public void placeDie(GameDie gameDie) {
+        if (patternCard.isFirstTurn()) {
+            if (nextToBorder()) {
+                sideCheck(gameDie);
+                return;
+            }
+            return;
+        }
         if (hasDie()) {
             return;
         }
+        sideCheck(gameDie);
+    }
+
+    private boolean nextToBorder() {
+        if (yPos == 0 || yPos == 3 || xPos == 0 || xPos == 4) {
+            return true;
+        }
+        return false;
+    }
+
+    private void sideCheck(GameDie gameDie) {
         int dieEyes = gameDie.getEyes();
         String dieStringColor = gameDie.getStringColor();
         if (checkSidesColor(dieStringColor) && checkSidesValue(dieEyes)) {
             if (hasColor()) {
                 if (gameDie.getStringColor().equals(this.color)) {
                     this.die = gameDie;
+                    if (patternCard.isFirstTurn()) {
+                        patternCard.setFirstTurn(false);
+                    }
                     return;
                 }
                 return;
             }
+            if (hasValue()) {
+                if (gameDie.getEyes() == getValue()) {
+                    this.die = gameDie;
+                    if (patternCard.isFirstTurn()) {
+                        patternCard.setFirstTurn(false);
+                    }
+                    return;
+                }
+                return;
+            }
+            if (patternCard.isFirstTurn()) {
+                patternCard.setFirstTurn(false);
+            }
             this.die = gameDie;
         }
     }
+
 
     /**
      * Returns the die on the selected PatternCardField

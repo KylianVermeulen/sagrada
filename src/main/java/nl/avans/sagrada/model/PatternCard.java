@@ -8,6 +8,7 @@ import java.util.Random;
 public class PatternCard {
     public static final int CARD_SQUARES_WIDTH = 5;
     public static final int CARD_SQUARES_HEIGHT = 4;
+    private boolean firstTurn = true;
     private Random rnd;
     private int id;
     private int difficulty;
@@ -39,6 +40,14 @@ public class PatternCard {
             patternCardFields = makeNewPatternCardFields();
             generateRandomCard();
         }
+    }
+
+    public boolean isFirstTurn() {
+        return this.firstTurn;
+    }
+
+    public void setFirstTurn(boolean firstTurn) {
+        this.firstTurn = firstTurn;
     }
 
     /**

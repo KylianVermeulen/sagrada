@@ -10,15 +10,13 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class PatternCardView extends BorderPane implements ViewInterface {
+    private static final int WIDTH = 315;
+    private static final int HEIGHT = 230;
     private PatternCard patternCard;
     private PlayerController playerController;
-
     private PatternCardFieldView[][] patternCardFieldViews;
     private TilePane patternCardField;
     private HBox difficultyBar;
-
-    private static final int WIDTH = 310;
-    private static final int HEIGHT = 230;
 
     /**
      * Partial constructor
@@ -28,6 +26,8 @@ public class PatternCardView extends BorderPane implements ViewInterface {
     public PatternCardView(PlayerController playerController) {
         this.playerController = playerController;
         setPrefSize(WIDTH, HEIGHT);
+        setMaxSize(WIDTH, HEIGHT);
+
         setPadding(new Insets(10, 0, 0, 10));
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 
@@ -90,7 +90,7 @@ public class PatternCardView extends BorderPane implements ViewInterface {
                 patternCardFieldViews[x][y] = patternCardFieldView;
 
                 Pane paddingPane = new Pane();
-                paddingPane.setPadding(new Insets(5, 5, 5, 5));
+                paddingPane.setPadding(new Insets(5));
                 paddingPane.getChildren().add(patternCardFieldView);
                 patternCardField.getChildren().add(paddingPane);
             }
