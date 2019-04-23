@@ -40,7 +40,7 @@ public class PublicObjectiveCardView extends CardView {
     }
     
     public void showText() {
-        Text scorePoints = new Text(Integer.toString(publicObjectiveCard.getScorePoints()));
+        Text scorePoints = new Text(Integer.toString(publicObjectiveCard.getSeqnr()));
         Text description = new Text(publicObjectiveCard.getDescription());
         scorePoints.setFont(Main.SAGRADA_FONT);
         description.setFont(Main.SAGRADA_FONT);
@@ -55,8 +55,9 @@ public class PublicObjectiveCardView extends CardView {
     
     @Override
     public void render() {
-        // TODO Auto-generated method stub
-        
+        getChildren().clear();
+        showImage(publicObjectiveCard.getImageUrl());
+        showText();
     }
 
 }

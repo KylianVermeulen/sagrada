@@ -4,13 +4,12 @@ public class PublicObjectiveCard {
     private int id;
     private int seqnr;
     private String description;
-    private int scorePoints;
+    private String imageUrl;
     
-    public PublicObjectiveCard(int id, int seqnr, String description, int scorePoints) {
+    public PublicObjectiveCard(int id, int seqnr, String description) {
         this.id = id;
         this.seqnr = seqnr;
         this.description = description;
-        this.scorePoints = scorePoints;
     }
 
     public int getId() {
@@ -37,13 +36,17 @@ public class PublicObjectiveCard {
         this.description = description;
     }
 
-    public int getScorePoints() {
-        return scorePoints;
+    public String getImageUrl() {
+        int[] ids = new int[10];
+        for (int index = 0; index < ids.length; index++) {
+            if (getId() == (index + 1)) {
+                setImageUrl("/images/publicObjectiveCardImages/publicObjectiveCard" + (index + 1) + ".png");
+            }
+        }
+        return imageUrl;
     }
 
-    public void setScorePoints(int scorePoints) {
-        this.scorePoints = scorePoints;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
-    
-    
 }

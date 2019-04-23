@@ -35,6 +35,14 @@ public class PlayerController {
         pane.getChildren().add(patternCardView);
         myScene.setContentPane(pane);
     }
+    
+    public void viewPublicObjectiveCards(Game game) {
+        
+    }
+    
+    public void viewPublicObjectiveCard(Game game, PublicObjectiveCard publicObjectiveCard) {
+        
+    }
 
     /**
      * Makes a random generated patternCard
