@@ -4,6 +4,7 @@ import javafx.scene.layout.Pane;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardView;
+import nl.avans.sagrada.view.PrivateObjectiveCardView;
 
 public class PlayerController {
     private Player player;
@@ -50,5 +51,10 @@ public class PlayerController {
 
     public void leaveGame() {
 
+    }
+    
+    public void viewPrivateObjectiveCard() {
+        Pane pane = new Pane();
+        
     }
 }

@@ -18,26 +18,31 @@ public class MyScene extends Scene {
     private Pane rootPane;
     private Pane contentPane;
     private ArrayList<Pane> alerts;
-	
+
     private AccountController accountController;
     private PlayerController playerController;
+    private PrivateObjectiveCardView test;
 
     public MyScene() {
         super(new Pane());
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
+        test = new PrivateObjectiveCardView(playerController);
 
         rootPane = new StackPane();
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
+        
 
         rootPane.getChildren().add(contentPane);
-        setRoot(rootPane);
+        setRoot(test);
     }
 
     /**
      * Set the contentPane of the rootPane that we have as content for the scene
-     * @param pane Pane
+     * 
+     * @param pane
+     *            Pane
      */
     public void setContentPane(Pane pane) {
         contentPane.getChildren().clear();
@@ -46,7 +51,9 @@ public class MyScene extends Scene {
 
     /**
      * Add alert pane to alerts list and call method render all alerts
-     * @param pane Pane
+     * 
+     * @param pane
+     *            Pane
      */
     public void addAlertPane(Pane pane) {
         StackPane.setAlignment(pane, Pos.TOP_RIGHT);
@@ -76,7 +83,9 @@ public class MyScene extends Scene {
 
     /**
      * Remove alert pane animation
-     * @param pane Pane
+     * 
+     * @param pane
+     *            Pane
      */
     public void removeAlertPaneAnimation(Pane pane) {
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(350), pane);
@@ -87,9 +96,11 @@ public class MyScene extends Scene {
 
     /**
      * Remove alert from alerts list and call method render all alerts
-     * @param pane Pane
+     * 
+     * @param pane
+     *            Pane
      */
-    public void removeAlertPane(Pane pane)  {
+    public void removeAlertPane(Pane pane) {
         alerts.remove(pane);
         rootPane.getChildren().remove(pane);
         renderAlertPanes();
