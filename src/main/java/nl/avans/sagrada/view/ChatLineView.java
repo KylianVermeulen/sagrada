@@ -60,10 +60,9 @@ public class ChatLineView extends VBox {
 		String message = chatline.getMessage();
 		
 		if(message.matches("")) {
-			return;
 			
 		} else {
-			Label label = new Label("[" + hour + ":" + minute + "] " + playername + ": " + message);
+			Label label = new Label("[" + hour + ":" + minute + ":" + chatline.getTimestamp().getSeconds() + "] " + playername + ": " + message);
 			
 			messagebox.getChildren().add(label);
 		}

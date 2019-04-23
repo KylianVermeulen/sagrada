@@ -8,10 +8,9 @@ public class Chatline {
     private String message;
     private Timestamp timestamp;
     
-    public Chatline(Player player, String message, Timestamp timestamp) {
+    public Chatline(Player player, String message) {
     	this.player = player;
     	this.message = message;
-    	this.timestamp = timestamp;
     }
 
 	public Player getPlayer() {

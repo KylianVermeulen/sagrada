@@ -1,5 +1,6 @@
 package nl.avans.sagrada.controller;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,23 +58,30 @@ public class PlayerController {
     }
     
     public void sendMessage(TextField textfield) {
-    	Date date = new Date();
-		long time = date.getTime();
-		Timestamp timestamp = new Timestamp(time);
 		String text = textfield.getText();
-    	
-    	Chatline chatline = new Chatline(player, text, timestamp);
-    	chatlineDAO.addChatline(chatline);
-    	
-    	ArrayList<Chatline> chatlines = player.getGame().getChatlines();
-    	
-    	ChatLineView chatview = new ChatLineView(this);
-    	chatview.addExistingMessages(chatlines);
-    	chatview.addMessage(chatline);
-    
-    	player.getGame().addChatLine(chatline);
-    	
-    	myScene.setRootPane(chatview);
+
+    	Chatline chatline = new Chatline(player, text);
+		
+    	chatlineDAO.setTime(chatline);
+		
+    	if (chatlineDAO.timeExists(chatline) == false) {
+    		
+        	chatlineDAO.addChatline(chatline);
+        	
+        	ArrayList<Chatline> chatlines = player.getGame().getChatlines();
+        	
+        	ChatLineView chatview = new ChatLineView(this);
+        	chatview.addExistingMessages(chatlines);
+        	chatview.addMessage(chatline);
+        
+        	player.getGame().addChatLine(chatline);
+        	
+        	myScene.setRootPane(chatview);
+    	} else {
+    		System.out.println("alert");
+    	}
+
+
     }
 
 	public void setPlayer(Player player) {
