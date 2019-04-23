@@ -80,8 +80,6 @@ public class PlayerController {
     	} else {
     		System.out.println("alert");
     	}
-
-
     }
 
 	public void setPlayer(Player player) {
