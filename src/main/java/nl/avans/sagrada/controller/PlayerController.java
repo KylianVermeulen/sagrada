@@ -8,12 +8,10 @@ import nl.avans.sagrada.view.PatternCardView;
 import nl.avans.sagrada.view.PrivateObjectiveCardView;
 
 public class PlayerController {
-    private Player player;
     private MyScene myScene;
 
-    public PlayerController(MyScene myScene, Player player) {
+    public PlayerController(MyScene myScene) {
         this.myScene = myScene;
-        this.player = player;
     }
 
     public void seeToolcards() {

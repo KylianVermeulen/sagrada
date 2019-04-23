@@ -7,15 +7,15 @@ import javafx.scene.paint.Color;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public abstract class CardView extends BorderPane implements ViewInterface {
-    private static final int WIDTH = 310;
-    private static final int HEIGHT = 440;
+    private static final int CARD_WIDTH = 130;
+    private static final int CARD_HEIGHT = 170;
     
     /**
      * Empty constructor
      */
     public CardView() {
         super();
-        setPrefSize(WIDTH, HEIGHT);
+        setPrefSize(CARD_WIDTH, CARD_HEIGHT);
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
         getStylesheets().add(css);
@@ -27,7 +27,7 @@ public abstract class CardView extends BorderPane implements ViewInterface {
      * @return standard card height (int)
      */
     public int getViewHeight() {
-        return HEIGHT;
+        return CARD_HEIGHT;
     }
     
     /**
@@ -35,6 +35,6 @@ public abstract class CardView extends BorderPane implements ViewInterface {
      * @return standard card width (int)
      */
     public int getViewWidth() {
-        return WIDTH;
+        return CARD_WIDTH;
     }
 }

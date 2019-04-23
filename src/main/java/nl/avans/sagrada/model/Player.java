@@ -316,24 +316,26 @@ public class Player {
     }
 
     public String getImageUrl() {
-        String color = getPrivateObjectivecardColor();
+        String color = "blauw";
         String url;
         switch (color) {
-        case "blue":
+        case "blauw":
             url = "/images/privateObjectiveCardColors/blue.png";
             break;
-        case "green":
+        case "groen":
             url = "/images/privateObjectiveCardColors/green.png";
             break;
-        case "purple":
+        case "paars":
             url = "/images/privateObjectiveCardColors/purple.png";
             break;
-        case "red":
+        case "rood":
             url = "/images/privateObjectiveCardColors/red.png";
             break;
-        case "yellow":
+        case "geel":
             url = "/images/privateObjectiveCardColors/yellow.png";
             break;
+        default:
+            url = "er is iets mis gegaan";
         }
         return url;
     }

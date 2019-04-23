@@ -24,19 +24,11 @@ public class MyScene extends Scene {
 
     private AccountController accountController;
     private PlayerController playerController;
-//    private PrivateObjectiveCardView test;
-    private PlayerDAO playerDao;
-    private Player player;
 
     public MyScene() {
         super(new Pane());
         accountController = new AccountController(this);
-        playerController = new PlayerController(this, player);
-
-        playerDao = new PlayerDAO();
-        player = playerDao.getPlayerById(1);
-
-//        test = new PrivateObjectiveCardView(playerController);
+        playerController = new PlayerController(this);
 
         rootPane = new StackPane();
         contentPane = new Pane();
@@ -48,12 +40,10 @@ public class MyScene extends Scene {
 
     }
 
-
     public void setContentPane(Pane pane) {
         contentPane.getChildren().clear();
         contentPane.getChildren().add(pane);
     }
-
 
     public void addAlertPane(Pane pane) {
         StackPane.setAlignment(pane, Pos.TOP_RIGHT);
@@ -81,14 +71,12 @@ public class MyScene extends Scene {
         }
     }
 
-
     public void removeAlertPaneAnimation(Pane pane) {
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(350), pane);
         fadeTransition.setToValue(0.0);
         fadeTransition.setOnFinished(e -> removeAlertPane(pane));
         fadeTransition.play();
     }
-
 
     public void removeAlertPane(Pane pane) {
         alerts.remove(pane);

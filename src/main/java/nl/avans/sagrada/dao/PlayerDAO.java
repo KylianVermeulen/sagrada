@@ -148,6 +148,7 @@ public class PlayerDAO {
                 player.setPlayerStatus(rs.getString("playstatus_playstatus"));
                 player.setSeqnr(rs.getInt("seqnr"));
                 player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
+                player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));
                 player.setAccount(account);
             }
         } catch (Exception e) {
