@@ -45,5 +45,4 @@ public abstract class CardView extends BorderPane implements ViewInterface {
     public int getZoomViewHeight() {
         return ZOOM_CARD_HEIGHT;
     }
-    
 }

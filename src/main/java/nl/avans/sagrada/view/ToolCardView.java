@@ -67,7 +67,7 @@ public class ToolCardView extends CardView {
     public int getToolCardSelection() {
         return toolCardSelection;
     }
-    
+
     /**
      * Generates a text to display a toolcard's description.
      */

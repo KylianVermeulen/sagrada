@@ -24,7 +24,7 @@ public class PlayerController {
         this.myScene = myScene;
         toolcardDAO = new ToolcardDAO();
     }
-    
+
     /**
      * Displays all toolcards that belong to a certain game.
      * @param game Game
