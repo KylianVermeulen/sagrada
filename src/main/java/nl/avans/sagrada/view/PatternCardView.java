@@ -30,6 +30,9 @@ public class PatternCardView extends BorderPane implements ViewInterface {
         setPrefSize(WIDTH, HEIGHT);
         setPadding(new Insets(10, 0, 0, 10));
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+        setOnDragEntered(e -> {
+            System.out.println("yeet");
+        });
     }
 
     /**

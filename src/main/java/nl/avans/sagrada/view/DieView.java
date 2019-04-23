@@ -1,7 +1,9 @@
 package nl.avans.sagrada.view;
 
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.model.GameDie;
@@ -26,6 +28,8 @@ public class DieView extends StackPane {
         setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
         diceEyesArray();
         resizeImages();
+
+
     }
 
     /**
@@ -38,6 +42,18 @@ public class DieView extends StackPane {
         if (gameDie.hasEyes()) {
             setEyes(gameDie.getEyes());
         }
+    }
+
+    public void makeMovable() {
+        setOnDragDetected(e -> {
+            System.out.println("aadsasd");
+        });
+
+
+        this.setOnMouseReleased(e -> {
+
+
+        });
     }
 
     /**
