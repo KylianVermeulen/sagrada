@@ -1,4 +1,4 @@
-  2package nl.avans.sagrada.view;
+package nl.avans.sagrada.view;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
