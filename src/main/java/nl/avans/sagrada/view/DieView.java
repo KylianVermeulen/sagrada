@@ -46,12 +46,11 @@ public class DieView extends StackPane {
 
     public void makeMovable() {
         setOnDragDetected(e -> {
-            System.out.println("aadsasd");
+            this.startFullDrag();
         });
 
 
         this.setOnMouseReleased(e -> {
-
 
         });
     }
@@ -82,6 +81,10 @@ public class DieView extends StackPane {
      */
     public void setGameDie(GameDie gameDie) {
         this.gameDie = gameDie;
+    }
+
+    public GameDie getGameDie() {
+        return this.gameDie;
     }
 
     /**

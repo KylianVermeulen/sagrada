@@ -35,10 +35,15 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         setOnMouseClicked(e -> onClick());
 
-        setOnDragEntered(e -> {
+        setOnMouseDragEntered(e -> {
             System.out.println("test");
         });
 
+        setOnMouseDragReleased(e -> {
+            DieView dieView = (DieView) e.getGestureSource();
+            patternCardField.placeDie(dieView.getGameDie());
+            this.render();
+        });
         images = new ArrayList<Image>();
         diceEyesArray();
     }
