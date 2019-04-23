@@ -67,7 +67,7 @@ public class InviteDAO {
         ArrayList<Invite> pendingInvites = new ArrayList<>();
         for(Invite invite: inviteList) {
             Player player = invite.getPlayer();
-            if (invite.isPending() && !player.getPlayerStatus().equals("challenger")) {
+            if (player.getPlayerStatus().equals("challengee")) {
                 pendingInvites.add(invite);
             }
         }

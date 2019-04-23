@@ -226,6 +226,15 @@ public class AccountController {
             myScene.addAlertPane(alert);
             return;
         }
+        
+        for (Account invitedAccount: invitedAccounts) {
+            if (invitedAccount.hasPendingInviteFromAccount(account)) {
+                String subMessage = "Account: " + invitedAccount.getUsername() + " heeft al een invite";
+                Alert alert = new Alert("Al een active invite", subMessage, AlertType.ERROR);
+                myScene.addAlertPane(alert);
+                return;
+            }
+        }
 
         for (Account invitedAccount: invitedAccounts) {
             Invite invite = new Invite();

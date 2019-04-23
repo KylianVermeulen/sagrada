@@ -43,6 +43,21 @@ public class Account {
         pendingInvites = inviteDao.getAllPendingInvitesOfAccount(this);
         return pendingInvites;
     }
+    
+    public boolean hasPendingInviteFromAccount(Account sendingAccount) {
+        ArrayList<Invite> pendingInvites = getAllPendingInvites();
+        for (Invite invite: pendingInvites) {
+            Game game = invite.getGame();
+            ArrayList<Player> playersOfGame = game.getPlayers();
+            for (Player gamePlayer: playersOfGame) {
+                if (getUsername().equals(gamePlayer.getAccount().getUsername())) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
 
     /**
      * Add object to database
