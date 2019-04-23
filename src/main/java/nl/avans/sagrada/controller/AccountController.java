@@ -110,12 +110,20 @@ public class AccountController {
         viewLogin();
     }
 
+    /**
+     * Controlls the accept of a invite
+     * @param invite
+     */
     public void acceptInvite(Invite invite) {
         invite.acceptInvite();
         inviteDao.updateInvite(invite);
         lobby();
     }
 
+    /**
+     * Controlls the deny of a invite
+     * @param invite
+     */
     public void denyInvite(Invite invite) {
         invite.denyInvite();
         inviteDao.updateInvite(invite);

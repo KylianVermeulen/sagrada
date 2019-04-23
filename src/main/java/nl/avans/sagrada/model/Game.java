@@ -91,6 +91,10 @@ public class Game {
         this.players = players;
     }
     
+    /**
+     * Checks if a game is active
+     * @return boolean
+     */
     public boolean isActive() {
         for (Player player: players) {
             String playerStatus = player.getPlayerStatus();
@@ -220,6 +224,9 @@ public class Game {
         //  Set the patterncard for all players
     }
     
+    /**
+     * Cancels a game by updating all player status to abort
+     */
     public void cancel() {
         ArrayList<Player> players = getPlayers();
         PlayerDAO playerDao = new PlayerDAO();
