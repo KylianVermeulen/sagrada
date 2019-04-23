@@ -161,7 +161,7 @@ public class AccountController {
         // Update the account
 
         ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
-        ArrayList<Game> games = account.getGames();
+        ArrayList<Game> games = account.getActiveGames();
 
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);

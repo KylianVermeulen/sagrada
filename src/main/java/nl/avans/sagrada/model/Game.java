@@ -90,6 +90,16 @@ public class Game {
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
+    
+    public boolean isActive() {
+        for (Player player: players) {
+            String playerStatus = player.getPlayerStatus();
+            if (playerStatus.equals("aborted") || playerStatus.equals("finished")) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Get favorTokens from Game

@@ -122,4 +122,17 @@ public class Account {
         }
         return games;
     }
+    
+    public ArrayList<Game> getActiveGames() {
+        ArrayList<Game> games = getGames();
+        ArrayList<Game> activeGames = new ArrayList<>();
+        
+        for (Game game: games) {
+            if (game.isActive()) {
+                
+            }
+        }
+        
+        return activeGames;
+    }
 }
