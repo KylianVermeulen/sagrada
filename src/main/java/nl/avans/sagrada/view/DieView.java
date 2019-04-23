@@ -28,7 +28,7 @@ public class DieView extends Pane {
         diceEyesArray();
         resizeImages();
 
-
+        //asd
     }
 
     /**
@@ -53,7 +53,7 @@ public class DieView extends Pane {
 
         });
     }
-    
+
     /**
      * Gets the eyes value out of gameDie and shows the visual of the value
      *
