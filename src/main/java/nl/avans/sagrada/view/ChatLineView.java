@@ -27,6 +27,9 @@ public class ChatLineView extends VBox {
 		buildChat();
 	}
 	
+	/**
+	 * Method that builds the view for the chat
+	 */
 	private void buildChat() {
 		
 		ScrollPane chatpane = new ScrollPane();
@@ -52,23 +55,26 @@ public class ChatLineView extends VBox {
 		return messagebox;
 	}
 	
+	/**
+	 * Method that adds a message to the view
+	 * @param chatline Chatline
+	 */
 	public void addMessage(Chatline chatline) {
 		int hour = chatline.getTimestamp().getHours();
 		int minute = chatline.getTimestamp().getMinutes();
+		int second = chatline.getTimestamp().getSeconds();
 		
 		String playername = chatline.getPlayer().getAccount().getUsername();
 		String message = chatline.getMessage();
 		
-		if(message.matches("")) {
-			
-		} else {
-			Label label = new Label("[" + hour + ":" + minute + ":" + chatline.getTimestamp().getSeconds() + "] " + playername + ": " + message);
-			
+			Label label = new Label("[" + hour + ":" + minute + ":" + second + "] " + playername + ": " + message);
 			messagebox.getChildren().add(label);
-		}
-		
 	}
 	
+	/**
+	 * Method that adds a array of existing messages to the view
+	 * @param chatlines Chatline
+	 */
 	public void addExistingMessages(ArrayList<Chatline> chatlines) {
 		if(chatlines != null) {
 			for(int i = 0; i < chatlines.size(); i++) {
@@ -77,7 +83,4 @@ public class ChatLineView extends VBox {
 		}
 		
 	}
-	
-
-
 }	

@@ -122,30 +122,40 @@ public class PlayerController {
 
     }
     
+    /**
+     * Method that adds a message to the view and database
+     * @param textfield TextField
+     */
     public void sendMessage(TextField textfield) {
 		String text = textfield.getText();
 
     	Chatline chatline = new Chatline(player, text);
 		
     	chatlinedao.setTime(chatline);
-		
-    	if (chatlinedao.timeExists(chatline) == false) {
-    		
-        	chatlinedao.addChatline(chatline);
-        	
-        	ArrayList<Chatline> chatlines = player.getGame().getChatlines();
-        	
-        	ChatLineView chatview = new ChatLineView(this);
-        	chatview.addExistingMessages(chatlines);
-        	chatview.addMessage(chatline);
-        
-        	player.getGame().addChatLine(chatline);
-        	
-        	myScene.setContentPane(chatview);
-    	} else {
-    		Alert alert = new Alert("Alert", "You can't send more than 1 message in a second", AlertType.ERROR);
-    		myScene.addAlertPane(alert);
-    	}
+    	
+		if(!text.matches("")) {
+			if (chatlinedao.timeExists(chatline) == false) {
+	    		
+	        	chatlinedao.addChatline(chatline);
+	        	
+	        	ArrayList<Chatline> chatlines = player.getGame().getChatlines();
+	        	
+	        	ChatLineView chatview = new ChatLineView(this);
+	        	chatview.addExistingMessages(chatlines);
+	        	chatview.addMessage(chatline);
+	        
+	        	player.getGame().addChatLine(chatline);
+	        	
+	        	myScene.setContentPane(chatview);
+	    	} else {
+	    		Alert alert = new Alert("Waarschuwing", "Je mag maar 1 keer per seconde een bericht versturen!", AlertType.ERROR);
+	    		myScene.addAlertPane(alert);
+	    	}
+		} else {
+			Alert alert = new Alert("Waarschuwing", "Je bericht moet text bevatten", AlertType.ERROR);
+			myScene.addAlertPane(alert);
+		}
+    	
     }
 
 	public void setPlayer(Player player) {

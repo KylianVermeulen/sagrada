@@ -4,8 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-import com.mysql.cj.protocol.Resultset;
-
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
@@ -28,9 +26,6 @@ public class ChatlineDAO {
         Timestamp timeStamp = chatline.getTimestamp();
         String message = chatline.getMessage();
         
-        	 if(message.matches("")) {
-             	
-             } else {
              	try {
          			ResultSet rs = dbConnection.executeQuery(
          					new Query("INSERT INTO chatline(player_idplayer, time, message) VALUES (?, ?, ?)", "update"),
@@ -42,9 +37,12 @@ public class ChatlineDAO {
          		} catch (SQLException e) {
          			e.printStackTrace();
          		}
-             }
     }
     
+    /**
+     * Method to set the current database time to a chatline
+     * @param chatline Chatline
+     */
 	public void setTime(Chatline chatline) {
 		try {
 			ResultSet rs = dbConnection.executeQuery(
@@ -59,6 +57,11 @@ public class ChatlineDAO {
 		}
 	}
 	
+	/**
+	 * Method to check if a player has already send a message on 1 specific time
+	 * @param chatline Chatline
+	 * @return
+	 */
 	public boolean timeExists(Chatline chatline) {
 		try {
 			ResultSet rs = dbConnection.executeQuery(
@@ -80,7 +83,6 @@ public class ChatlineDAO {
 			e.printStackTrace();
 		}
 		
-		return true;
-		
+		return true;	
 	}
 }

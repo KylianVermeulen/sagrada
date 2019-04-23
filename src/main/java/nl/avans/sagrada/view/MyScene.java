@@ -27,28 +27,17 @@ public class MyScene extends Scene {
 
     public MyScene() {
         super(new Pane());
-        Player player = new Player();
-        Game game = new Game(1);
-        Account account = new Account();
-        account.setUsername("test1");
-        player.setAccount(account);
-        player.setGame(game);
-        player.setId(1);
         
-       // accountController = new AccountController(this);
+        accountController = new AccountController(this);
         playerController = new PlayerController(this);
-        
-        playerController.setPlayer(player);
 
         rootPane = new StackPane();
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
-
-        ChatLineView chatlineview = new ChatLineView(playerController);
-        setContentPane(chatlineview);
+        
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
-        //accountController.viewLogin();
+        accountController.viewLogin();
     }
 
     /**
