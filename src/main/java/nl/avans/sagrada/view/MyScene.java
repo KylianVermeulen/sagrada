@@ -18,8 +18,9 @@ import nl.avans.sagrada.model.Player;
 
 	        super(new Pane());
 	    	Player player = new Player();
-	    	Game game = new Game(2);
-	    	Account account = new Account("Ian", "Ian");
+	    	Game game = new Game(0);
+	    	Account account = new Account();
+	    	account.setUsername("test1");
 	    	player.setAccount(account);
 	    	player.setGame(game);
 	    	player.setId(0);

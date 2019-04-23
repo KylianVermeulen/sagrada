@@ -74,9 +74,6 @@ public class PlayerController {
     	player.getGame().addChatLine(chatline);
     	
     	myScene.setRootPane(chatview);
-    	
-    	ChatlineDAO chatlinedao = new ChatlineDAO();
-    	chatlinedao.addChatline(chatline);
     }
 
 	public void setPlayer(Player player) {

@@ -46,7 +46,6 @@ public class ChatLineView extends VBox {
 		
 		downpane.getChildren().add(textfield);
 		getChildren().addAll(chatpane, downpane);
-		
 	}
 
 	public VBox getMessagebox() {
