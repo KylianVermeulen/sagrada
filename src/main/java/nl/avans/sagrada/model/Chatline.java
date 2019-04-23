@@ -1,7 +1,6 @@
 package nl.avans.sagrada.model;
 
 import java.sql.Timestamp;
-import nl.avans.sagrada.dao.ChatlineDAO;
 
 public class Chatline {
     private Player player;

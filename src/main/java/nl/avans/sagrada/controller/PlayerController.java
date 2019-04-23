@@ -3,23 +3,30 @@ package nl.avans.sagrada.controller;
 import java.util.ArrayList;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import nl.avans.sagrada.dao.ChatlineDAO;
 import nl.avans.sagrada.dao.ToolcardDAO;
 import nl.avans.sagrada.model.*;
+import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardView;
 import nl.avans.sagrada.view.ToolCardView;
+import nl.avans.sagrada.view.popups.Alert;
+import nl.avans.sagrada.view.popups.AlertType;
 
 public class PlayerController {
     private Player player;
     private MyScene myScene;
     private ToolcardDAO toolcardDAO;
+    private ChatlineDAO chatlinedao;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
         toolcardDAO = new ToolcardDAO();
+        chatlinedao = new ChatlineDAO();
     }
 
     /**
@@ -120,11 +127,11 @@ public class PlayerController {
 
     	Chatline chatline = new Chatline(player, text);
 		
-    	chatlineDAO.setTime(chatline);
+    	chatlinedao.setTime(chatline);
 		
-    	if (chatlineDAO.timeExists(chatline) == false) {
+    	if (chatlinedao.timeExists(chatline) == false) {
     		
-        	chatlineDAO.addChatline(chatline);
+        	chatlinedao.addChatline(chatline);
         	
         	ArrayList<Chatline> chatlines = player.getGame().getChatlines();
         	
@@ -134,9 +141,10 @@ public class PlayerController {
         
         	player.getGame().addChatLine(chatline);
         	
-        	myScene.setRootPane(chatview);
+        	myScene.setContentPane(chatview);
     	} else {
-    		System.out.println("alert");
+    		Alert alert = new Alert("Alert", "You can't send more than 1 message in a second", AlertType.ERROR);
+    		myScene.addAlertPane(alert);
     	}
     }
 
