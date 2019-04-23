@@ -304,4 +304,29 @@ public class Player {
     public void setCheatmode(boolean cheatmode) {
         this.cheatmode = cheatmode;
     }
+    
+    public String getImageUrl() {
+        String color = getPrivateObjectivecardColor();
+        String url;
+        switch (color) {
+        case "blue":
+            url = "/images/privateObjectiveCardColors/blue.png";
+            break;
+        case "green":
+            url = "/images/privateObjectiveCardColors/green.png";
+            break;
+        case "purple":
+            url = "/images/privateObjectiveCardColors/purple.png";
+            break;
+        case "red":
+            url = "/images/privateObjectiveCardColors/red.png";
+            break;
+        case "yellow":
+            url = "/images/privateObjectiveCardColors/yellow.png";
+            break;
+        default: url = "Er is iets mis gegaan.";
+                break;
+        }
+        return url;
+    }
 }

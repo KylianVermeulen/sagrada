@@ -91,10 +91,4 @@ public class ToolCardView extends CardView {
         showImage(toolcard.getImageUrl());
         showDescription();
     }
-
-    @Override
-    public void render() {
-        // TODO Auto-generated method stub
-        
-    }
 }

@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.view.popups.Alert;
 
 import java.util.ArrayList;
@@ -33,7 +34,8 @@ public class MyScene extends Scene {
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
-        accountController.viewLogin();
+        //accountController.viewLogin();
+        playerController.viewPublicObjectiveCards(new Game(1));
     }
 
     /**

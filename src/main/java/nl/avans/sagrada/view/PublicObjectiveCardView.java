@@ -29,8 +29,9 @@ public class PublicObjectiveCardView extends CardView {
     
     public void showImage(String url) {
         Image image = new Image(url);
+        System.out.println(url);
         StackPane imagePane = new StackPane();
-        ImageView imageView = new ImageView();
+        ImageView imageView = new ImageView(image);
         imageView.setFitHeight((getViewHeight() / 1.5));
         imageView.setFitWidth(getViewWidth() + 1);
         imageView.setPreserveRatio(false);
@@ -50,7 +51,7 @@ public class PublicObjectiveCardView extends CardView {
         textPane.setLeft(scorePane);
         textPane.setCenter(descriptionPane);
         scorePane.setPrefWidth((getViewWidth()/6));
-        
+        setBottom(textPane);
     }
     
     @Override
@@ -58,11 +59,5 @@ public class PublicObjectiveCardView extends CardView {
         getChildren().clear();
         showImage(publicObjectiveCard.getImageUrl());
         showText();
-    }
-
-    @Override
-    public void render() {
-        // TODO Auto-generated method stub
-        
     }
 }
