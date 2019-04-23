@@ -44,13 +44,23 @@ public class Account {
         return pendingInvites;
     }
     
+    /**
+     * Check if a player is 
+     * @param sendingAccount
+     * @return
+     */
     public boolean hasPendingInviteFromAccount(Account sendingAccount) {
         ArrayList<Invite> pendingInvites = getAllPendingInvites();
         for (Invite invite: pendingInvites) {            
             Game game = invite.getGame();
             for (Player player: game.getPlayers()) {
-                if (sendingAccount.getUsername().equals(player.getAccount().getUsername())) {
-                    return true;
+                String sendingAccountUsername = sendingAccount.getUsername();
+                String playerUsername = player.getAccount().getUsername();
+                
+                if (sendingAccountUsername.equals(playerUsername)) {
+                    if (player.getPlayerStatus().equals("challenger")) {
+                        return true;
+                    }
                 }
             }
         }
