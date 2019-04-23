@@ -123,6 +123,10 @@ public class Account {
         return games;
     }
     
+    /**
+     * Get all the active games of a account
+     * @return ArrayList<Game>
+     */
     public ArrayList<Game> getActiveGames() {
         ArrayList<Game> games = getGames();
         ArrayList<Game> activeGames = new ArrayList<>();
