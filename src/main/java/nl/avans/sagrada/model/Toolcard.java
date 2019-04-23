@@ -120,41 +120,35 @@ public class Toolcard {
     }
     
     public String getTitle() {
-        if (getId() == 1) {
-            setTitle("Driepuntstang");
-        }
-        if (getId() == 2) {
-            setTitle("Églomisé Borstel");
-        }
-        if (getId() == 3) {
-            setTitle("Folie-aandrukker");
-        }
-        if (getId() == 4) {
-            setTitle("Loodopenhaler");
-        }
-        if (getId() == 5) {
-            setTitle("Rondsnijder");
-        }
-        if (getId() == 6) {
-            setTitle("Fluxborstel");
-        }
-        if (getId() == 7) {
-            setTitle("Loodhamer");
-        }
-        if (getId() == 8) {
-            setTitle("Glasbreektang");
-        }
-        if (getId() == 9) {
-            setTitle("Snijliniaal");
-        }
-        if (getId() == 10) {
-            setTitle("Schuurblok");
-        }
-        if (getId() == 11) {
-            setTitle("Fluxverwijderaar");
-        }
-        if (getId() == 12) {
-            setTitle("Olieglassnijder");
+        int id = getId();
+        String title;
+        switch(id) {
+            case 1:  title = "Driepuntstang";
+                     break;
+            case 2:  title = "Églomisé Borstel";
+                     break;
+            case 3:  title = "Folie-aandrukker";
+                     break;
+            case 4:  title = "Loodopenhaler";
+                     break;
+            case 5:  title = "Rondsnijder";
+                     break;
+            case 6:  title = "Fluxborstel";
+                     break;
+            case 7:  title = "Loodhamer";
+                     break;
+            case 8:  title = "Glasbreektang";
+                     break;
+            case 9:  title = "Snijliniaal";
+                     break;
+            case 10: title = "Schuurblok";
+                     break;
+            case 11: title = "Fluxverwijderaar";
+                     break;
+            case 12: title = "Olieglassnijder";
+                     break;
+            default: title = "Er is iets misgegaan";
+                     break;            
         }
         return title;
     }

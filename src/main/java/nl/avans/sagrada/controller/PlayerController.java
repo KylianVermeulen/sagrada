@@ -20,7 +20,7 @@ public class PlayerController {
         toolcardDAO = new ToolcardDAO();
     }
 
-    public void seeToolcards(Game game) {
+    public void viewToolcards(Game game) {
         BorderPane pane = new BorderPane();
         ToolCardView[] toolcardviews = new ToolCardView[3];
         for (int index = 0; index < toolcardviews.length; index++) {
@@ -42,9 +42,8 @@ public class PlayerController {
      * Displays the selected toolcard from the current game.
      * @param game Game
      * @param selection int
-     * @param imageUrl String
      */
-    public void seeToolcard(Game game, int selection) {
+    public void viewToolcard(Game game, int selection) {
         Pane pane = new Pane();
         
         ToolCardView toolCardView = new ToolCardView(this);
@@ -53,9 +52,6 @@ public class PlayerController {
         
         pane.getChildren().add(toolCardView);
         myScene.setContentPane(pane);
-    }
-
-    public void seeToolcard() {
     }
 
     public void overviewOfGame() {

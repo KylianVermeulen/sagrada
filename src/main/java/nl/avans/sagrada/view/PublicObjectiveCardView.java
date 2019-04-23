@@ -7,5 +7,4 @@ public class PublicObjectiveCardView extends CardView {
         // TODO Auto-generated method stub
         
     }
-
 }
