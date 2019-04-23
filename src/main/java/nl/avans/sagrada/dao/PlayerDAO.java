@@ -4,6 +4,7 @@ import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 
 import java.sql.ResultSet;
@@ -84,7 +85,8 @@ public class PlayerDAO {
         if (!playerExists(player)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
-                        new Query("INSERT INTO player (username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?, ?, ?, ?, ?, ?, ?)", "update"),
+                        new Query("INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?,?, ?, ?, ?, ?, ?, ?)", "update"),
+                        new QueryParameter(QueryParameter.INT, player.getId()),
                         new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
                         new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                         new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
@@ -151,6 +153,49 @@ public class PlayerDAO {
         } catch (Exception e) {
             // TODO: handle exception
             player = null;
+            System.out.println("Player is null");
+        }
+        return player;
+    }
+    
+    /**
+     * Gets the next id for a player
+     * @return int
+     */
+    public int getNextPlayerId() {
+        try {
+            ResultSet rs = dbConnection.executeQuery(new Query("SELECT MAX(idplayer) AS highestId FROM player", "query"));
+            if (rs.next()) {
+                int nextId = rs.getInt("highestId") + 1;
+                return nextId;
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.getStackTrace();
+        }
+        return 0;
+    }
+
+    /**
+     * Gets a Player by the account and game
+     * @param account
+     * @param game
+     * @return Player
+     */
+    public Player getPlayerByAccountAndGame(Account account, Game game) {
+        Player player = null;
+        try {
+            ResultSet rs = dbConnection.executeQuery(new Query("SELECT idplayer FROM player WHERE username=? AND game_idgame=?", "query"), 
+                        new QueryParameter(QueryParameter.STRING, account.getUsername()),
+                        new QueryParameter(QueryParameter.INT, game.getId())
+                    );
+            if (rs.next()) {
+                System.out.println("Done");
+                int playerId = rs.getInt("idplayer");
+                System.out.println("playerid: " + playerId);
+                player = getPlayerById(playerId);
+            }
+        } catch (Exception e) {
         }
         return player;
     }

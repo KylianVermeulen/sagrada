@@ -64,7 +64,6 @@ public class AccountListOverview extends VBox implements ViewInterface {
      */
     private Button buildButtonToViewStats() {
         Button button = new Button("stats");
-        button.setOnAction(e -> accountController.gameOverview());
         return button;
     }
 }

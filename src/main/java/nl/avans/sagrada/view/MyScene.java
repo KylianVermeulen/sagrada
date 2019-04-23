@@ -7,9 +7,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.PlayerDAO;
+import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.popups.Alert;
 
 import java.util.ArrayList;
@@ -22,39 +25,35 @@ public class MyScene extends Scene {
     private AccountController accountController;
     private PlayerController playerController;
     private PrivateObjectiveCardView test;
+    private PlayerDAO playerDao;
+    private Player player;
 
     public MyScene() {
         super(new Pane());
         accountController = new AccountController(this);
-        playerController = new PlayerController(this);
+        playerController = new PlayerController(this, player);
+
+        playerDao = new PlayerDAO();
+        player = playerDao.getPlayerById(1);
+
         test = new PrivateObjectiveCardView(playerController);
 
         rootPane = new StackPane();
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
-        
 
         rootPane.getChildren().add(contentPane);
         setRoot(test);
+
     }
 
-    /**
-     * Set the contentPane of the rootPane that we have as content for the scene
-     * 
-     * @param pane
-     *            Pane
-     */
+
     public void setContentPane(Pane pane) {
         contentPane.getChildren().clear();
         contentPane.getChildren().add(pane);
     }
 
-    /**
-     * Add alert pane to alerts list and call method render all alerts
-     * 
-     * @param pane
-     *            Pane
-     */
+
     public void addAlertPane(Pane pane) {
         StackPane.setAlignment(pane, Pos.TOP_RIGHT);
         PauseTransition delay = new PauseTransition(Duration.seconds(3));
@@ -81,12 +80,7 @@ public class MyScene extends Scene {
         }
     }
 
-    /**
-     * Remove alert pane animation
-     * 
-     * @param pane
-     *            Pane
-     */
+
     public void removeAlertPaneAnimation(Pane pane) {
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(350), pane);
         fadeTransition.setToValue(0.0);
@@ -94,12 +88,7 @@ public class MyScene extends Scene {
         fadeTransition.play();
     }
 
-    /**
-     * Remove alert from alerts list and call method render all alerts
-     * 
-     * @param pane
-     *            Pane
-     */
+
     public void removeAlertPane(Pane pane) {
         alerts.remove(pane);
         rootPane.getChildren().remove(pane);

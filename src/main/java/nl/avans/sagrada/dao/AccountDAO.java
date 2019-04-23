@@ -1,11 +1,11 @@
 package nl.avans.sagrada.dao;
 
-import java.sql.ResultSet;
-
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Account;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,8 +17,8 @@ public class AccountDAO {
     }
 
     /**
-     * Gets a account by the username
-     * When there was no account found it will return null
+     * Gets a account by the username When there was no account found it will return null
+     *
      * @param username
      * @return Account model
      */
@@ -59,6 +59,27 @@ public class AccountDAO {
             e.printStackTrace();
         }
         return list;
+    }
+
+    /**
+     * Gets all accounts that a account can invites
+     *
+     * @param account the account that want's to send the invite
+     * @return ArrayList<Account>
+     */
+    public ArrayList<Account> getAllInviteableAccounts(Account account) {
+        ArrayList<Account> accounts = getAllAccounts();
+        ArrayList<Account> inviteAbleAccounts = new ArrayList<>();
+
+        for (Account inviteAccount : accounts) {
+            String usernameAccount = account.getUsername();
+            String usernameInviteAvleAccount = inviteAccount.getUsername();
+            if (!usernameAccount.equals(usernameInviteAvleAccount)) {
+                inviteAbleAccounts.add(inviteAccount);
+            }
+        }
+
+        return (inviteAbleAccounts);
     }
 
     /**
@@ -118,7 +139,7 @@ public class AccountDAO {
             if (rs.next()) {
                 int count = rs.getInt("count");
                 if (count > 0) {
-                    return  true;
+                    return true;
                 } else {
                     return false;
                 }

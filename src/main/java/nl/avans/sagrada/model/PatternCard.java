@@ -3,16 +3,17 @@ package nl.avans.sagrada.model;
 import nl.avans.sagrada.dao.PatternCardFieldDAO;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PatternCard {
+    public static final int CARD_SQUARES_WIDTH = 5;
+    public static final int CARD_SQUARES_HEIGHT = 4;
+    private Random rnd;
     private int id;
     private int difficulty;
     private boolean standard;
-
     private PatternCardField[][] patternCardFields;
-
-    public static final int CARD_SQUARES_WIDTH = 5;
-    public static final int CARD_SQUARES_HEIGHT = 4;
+    private ArrayList<String> colors;
 
     /**
      * Empty constructor
@@ -31,7 +32,82 @@ public class PatternCard {
         this.id = id;
         this.difficulty = difficulty;
         this.standard = standard;
-        patternCardFields = getPatternCardFields();
+        if (standard) {
+            patternCardFields = getPatternCardFields();
+        } else {
+            patternCardFields = makeNewPatternCardFields();
+            generateRandomCard();
+        }
+    }
+
+    /**
+     * makes an String array with all the possible colors
+     */
+    private void makeColors() {
+        colors = new ArrayList<String>();
+        colors.add("blauw");
+        colors.add("groen");
+        colors.add("geel");
+        colors.add("paars");
+        colors.add("rood");
+    }
+
+    /**
+     * Generates a random PatternCard
+     */
+    public void generateRandomCard() {
+        rnd = new Random();
+        makeColors();
+        generateRandomDifficulty();
+        for (int i = 0; i < getDifficulty() * 2; i++) {
+            generateRandomPatternCardField();
+        }
+    }
+
+    /**
+     * Generates a random difficulty
+     */
+    private void generateRandomDifficulty() {
+        setDifficulty(rnd.nextInt(6) + 1);
+    }
+
+    /**
+     * Random 50/50 chance if it's going to add a color or an value to the selected PatternCardField
+     */
+    private void generateRandomPatternCardField() {
+        if (rnd.nextBoolean()) {
+            addRandomValue();
+        } else {
+            addRandomColor();
+        }
+    }
+
+    /**
+     * Adds random value  to the selected patternCardField if it's not a valid patternCardField the method will run again
+     */
+    private void addRandomValue() {
+        int xPos = rnd.nextInt(5);
+        int yPos = rnd.nextInt(4);
+        int value = rnd.nextInt(6) + 1;
+        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos].checkSidesValue(value)) {
+            patternCardFields[xPos][yPos].setValue(value);
+        } else {
+            addRandomValue();
+        }
+    }
+
+    /**
+     * Adds random color to the selected patternCardField if it's not a valid patternCardField the method will run again
+     */
+    private void addRandomColor() {
+        int xPos = rnd.nextInt(5);
+        int yPos = rnd.nextInt(4);
+        String color = colors.get(rnd.nextInt(colors.size()));
+        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos].checkSidesColor(color)) {
+            patternCardFields[xPos][yPos].setColor(color);
+        } else {
+            addRandomColor();
+        }
     }
 
     /**
@@ -132,6 +208,17 @@ public class PatternCard {
             for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
                 patterncardFields[x][y] = patternCardFieldsList.get(i);
                 i++;
+            }
+        }
+        return patterncardFields;
+    }
+
+    private PatternCardField[][] makeNewPatternCardFields() {
+        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH][CARD_SQUARES_HEIGHT];
+        for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
+            for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
+                PatternCardField patternCardField = new PatternCardField(x, y, this);
+                patterncardFields[x][y] = patternCardField;
             }
         }
         return patterncardFields;

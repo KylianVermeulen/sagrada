@@ -53,7 +53,7 @@ public class RegisterView extends VBox implements ViewInterface {
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         backButton.getStylesheets().add(css);
         backButton.setId("backButton");
-        backButton.setOnAction(e -> accountController.gotoLogin());
+        backButton.setOnAction(e -> accountController.viewLogin());
         
         registerButton.setOnAction(e -> accountController.register(usernameInput.getText(), passwordInput.getText()));
         
