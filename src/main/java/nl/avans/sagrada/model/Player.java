@@ -107,14 +107,6 @@ public class Player {
         this.isCurrentPlayer = isCurrentPlayer;
     }
     
-    /**
-     * Returns if the currentPlayer is the current player 
-     * who's turn it is
-     * @return
-     */
-    public boolean getIsCurrentPlayer() {
-        return isCurrentPlayer;
-    }
     
     /**
      * Get current player from Player
@@ -228,6 +220,8 @@ public class Player {
      * @return PatternCard
      */
     public PatternCard getPatternCard() {
+        PatternCardDAO PatternCardDAO = new PatternCardDAO();
+        patternCard = PatternCardDAO.getSelectedPatterncardOfPlayer(this);
         return patternCard;
     }
 
@@ -238,14 +232,6 @@ public class Player {
      */
     public void setPatternCard(PatternCard patterncard) {
         this.patternCard = patterncard;
-    }
-
-    /**
-     * Get PatternCard from database using this and set to Player
-     */
-    public void setPatternCard() {
-        PatternCardDAO PatternCardDAO = new PatternCardDAO();
-        this.patternCard = PatternCardDAO.getPatterncardOfPlayer(this);
     }
 
     /**
