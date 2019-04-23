@@ -2,8 +2,6 @@ package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
 
-import javafx.scene.image.Image;
-
 public class Toolcard {
     private int id;
     private int seqnr;
@@ -119,6 +117,10 @@ public class Toolcard {
         this.imageUrl = imageUrl;
     }
     
+    /**
+     * Returns the title of the toolcard.
+     * @return the title for this toolcard
+     */
     public String getTitle() {
         int id = getId();
         String title;
@@ -153,6 +155,10 @@ public class Toolcard {
         return title;
     }
     
+    /**
+     * Sets the title for the toolcard.
+     * @param title String
+     */
     public void setTitle(String title) {
         this.title = title;
     }

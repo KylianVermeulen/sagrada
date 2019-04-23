@@ -1,5 +1,7 @@
 package nl.avans.sagrada.controller;
 
+import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -20,12 +22,17 @@ public class PlayerController {
         toolcardDAO = new ToolcardDAO();
     }
 
+    /**
+     * Displays all toolcards that belong to a certain game.
+     * @param game Game
+     */
     public void viewToolcards(Game game) {
         BorderPane pane = new BorderPane();
         ToolCardView[] toolcardviews = new ToolCardView[3];
+        ArrayList<Toolcard> toolcards = toolcardDAO.getToolcardsOfGame(game);
         for (int index = 0; index < toolcardviews.length; index++) {
             toolcardviews[index] = new ToolCardView(this);
-            toolcardviews[index].setToolCard(toolcardDAO.getToolcardsOfGame(game).get(index));
+            toolcardviews[index].setToolCard(toolcards.get(index));
             toolcardviews[index].render();
         }
 
@@ -39,7 +46,7 @@ public class PlayerController {
     }
     
     /**
-     * Displays the selected toolcard from the current game.
+     * Displays the selected toolcard for the current game.
      * @param game Game
      * @param selection int
      */

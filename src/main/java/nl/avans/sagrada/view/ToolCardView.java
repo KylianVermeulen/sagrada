@@ -4,7 +4,6 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.Main;
@@ -69,7 +68,6 @@ public class ToolCardView extends CardView {
         imagePane.getChildren().add(imgview);
         imagePane.setPrefSize(getViewWidth(), (getViewHeight()/2));
         setCenter(imagePane);
-        System.out.println(url);
     }
     
     /**
