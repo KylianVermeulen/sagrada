@@ -1,0 +1,15 @@
+#backButton {
+    -fx-background-image: url("/images/ARROW_LEFT.png"); 
+    -fx-background-size: 75 35;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#CardView {
+    -fx-border-color: #C4923B;
+    -fx-border-width: 3;
+}
+
+#registerLabel {
+    -fx-underline: true;
+}
