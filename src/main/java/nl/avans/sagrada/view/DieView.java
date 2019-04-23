@@ -27,8 +27,6 @@ public class DieView extends Pane {
         setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
         diceEyesArray();
         resizeImages();
-
-        //asd
     }
 
     /**
