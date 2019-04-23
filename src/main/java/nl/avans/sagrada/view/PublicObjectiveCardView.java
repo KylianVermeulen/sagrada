@@ -60,4 +60,9 @@ public class PublicObjectiveCardView extends CardView {
         showText();
     }
 
+    @Override
+    public void render() {
+        // TODO Auto-generated method stub
+        
+    }
 }
