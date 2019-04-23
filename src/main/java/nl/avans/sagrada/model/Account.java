@@ -45,9 +45,11 @@ public class Account {
     }
     
     /**
-     * Check if a player is 
+     * Checks if the account has a pending invite of the 
+     * account that will send the invite
+     * If there is a pending invite we return true
      * @param sendingAccount
-     * @return
+     * @return boolean
      */
     public boolean hasPendingInviteFromAccount(Account sendingAccount) {
         ArrayList<Invite> pendingInvites = getAllPendingInvites();
@@ -59,12 +61,12 @@ public class Account {
                 
                 if (sendingAccountUsername.equals(playerUsername)) {
                     if (player.getPlayerStatus().equals("challenger")) {
+                        // Check if the player was the creator of the game
                         return true;
                     }
                 }
             }
-        }
-        
+        }      
         return false;
     }
 
