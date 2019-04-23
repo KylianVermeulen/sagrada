@@ -46,11 +46,10 @@ public class Account {
     
     public boolean hasPendingInviteFromAccount(Account sendingAccount) {
         ArrayList<Invite> pendingInvites = getAllPendingInvites();
-        for (Invite invite: pendingInvites) {
+        for (Invite invite: pendingInvites) {            
             Game game = invite.getGame();
-            ArrayList<Player> playersOfGame = game.getPlayers();
-            for (Player gamePlayer: playersOfGame) {
-                if (getUsername().equals(gamePlayer.getAccount().getUsername())) {
+            for (Player player: game.getPlayers()) {
+                if (sendingAccount.getUsername().equals(player.getAccount().getUsername())) {
                     return true;
                 }
             }
