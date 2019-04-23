@@ -22,6 +22,8 @@ public class Player {
     private int score;
     private boolean cheatmode = false;
     
+    public static final String STATUS_ABORT = "aborted";
+    
 
     /**
      * Empty constructor

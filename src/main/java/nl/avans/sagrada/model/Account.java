@@ -43,6 +43,32 @@ public class Account {
         pendingInvites = inviteDao.getAllPendingInvitesOfAccount(this);
         return pendingInvites;
     }
+    
+    /**
+     * Checks if the account has a pending invite of the 
+     * account that will send the invite
+     * If there is a pending invite we return true
+     * @param sendingAccount
+     * @return boolean
+     */
+    public boolean hasPendingInviteFromAccount(Account sendingAccount) {
+        ArrayList<Invite> pendingInvites = getAllPendingInvites();
+        for (Invite invite: pendingInvites) {            
+            Game game = invite.getGame();
+            for (Player player: game.getPlayers()) {
+                String sendingAccountUsername = sendingAccount.getUsername();
+                String playerUsername = player.getAccount().getUsername();
+                
+                if (sendingAccountUsername.equals(playerUsername)) {
+                    if (player.getPlayerStatus().equals("challenger")) {
+                        // Check if the player was the creator of the game
+                        return true;
+                    }
+                }
+            }
+        }      
+        return false;
+    }
 
     /**
      * Add object to database
@@ -121,5 +147,21 @@ public class Account {
             games.add(player.getGame());
         }
         return games;
+    }
+    
+    /**
+     * Get all the active games of a account
+     * @return ArrayList<Game>
+     */
+    public ArrayList<Game> getActiveGames() {
+        ArrayList<Game> games = getGames();
+        ArrayList<Game> activeGames = new ArrayList<>();
+        
+        for (Game game: games) {
+            if (game.isActive()) {
+                activeGames.add(game);
+            }
+        }
+        return activeGames;        
     }
 }

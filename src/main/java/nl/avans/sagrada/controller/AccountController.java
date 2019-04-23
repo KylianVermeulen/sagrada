@@ -110,12 +110,26 @@ public class AccountController {
         viewLogin();
     }
 
+    /**
+     * Controlls the accept of a invite
+     * @param invite
+     */
     public void acceptInvite(Invite invite) {
         invite.acceptInvite();
+        inviteDao.updateInvite(invite);
+        lobby();
     }
 
+    /**
+     * Controlls the deny of a invite
+     * @param invite
+     */
     public void denyInvite(Invite invite) {
         invite.denyInvite();
+        inviteDao.updateInvite(invite);
+        Game game = invite.getGame();
+        game.cancel();
+        lobby();
     }
 
     public void joinGame(Game game) {
@@ -155,7 +169,7 @@ public class AccountController {
         // Update the account
 
         ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
-        ArrayList<Game> games = account.getGames();
+        ArrayList<Game> games = account.getActiveGames();
 
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);
@@ -211,6 +225,15 @@ public class AccountController {
             Alert alert = new Alert("Invites niet verstuurd", "Te veel accounts geselecteerd", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
+        }
+        
+        for (Account invitedAccount: invitedAccounts) {
+            if (invitedAccount.hasPendingInviteFromAccount(account)) {
+                String subMessage = "Account: " + invitedAccount.getUsername() + " heeft al een invite";
+                Alert alert = new Alert("Al een active invite", subMessage, AlertType.ERROR);
+                myScene.addAlertPane(alert);
+                return;
+            }
         }
 
         for (Account invitedAccount: invitedAccounts) {

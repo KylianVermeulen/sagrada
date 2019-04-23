@@ -146,6 +146,7 @@ public class PlayerDAO {
                 Account account = accountDao.getAccountByUsername(rs.getString("username"));
                 player.setId(rs.getInt("idplayer"));
                 player.setPlayerStatus(rs.getString("playstatus_playstatus"));
+                player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));
                 player.setSeqnr(rs.getInt("seqnr"));
                 player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
                 player.setAccount(account);

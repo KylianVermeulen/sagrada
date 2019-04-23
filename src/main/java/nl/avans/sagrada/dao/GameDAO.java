@@ -4,9 +4,11 @@ import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class GameDAO {
     private DBConnection dbConnection;
@@ -88,5 +90,25 @@ public class GameDAO {
             e.printStackTrace();
         }
         return gameId;
+    }
+    
+    public ArrayList<Player> getPlayersOfGame(Game game) {
+        ArrayList<Player> players = new ArrayList<>();
+        PlayerDAO playerDao = new PlayerDAO();
+        try {
+            ResultSet rs = dbConnection.executeQuery(new Query("SELECT idplayer FROM player WHERE game_idgame=?", "query"),
+                        new QueryParameter(QueryParameter.INT, game.getId())
+                    );
+            while (rs.next()) {
+                int playerId = rs.getInt("idplayer");
+                Player player = playerDao.getPlayerById(playerId);
+                player.setGame(game);
+                players.add(player);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return players;
     }
 }

@@ -46,6 +46,22 @@ public class Invite {
     }
     
     /**
+     * Gets the status of the invite as a String
+     * @return String
+     */
+    public String getStatus() {
+        if (accepted) {
+            return "accepted";
+        }
+        else if (denied) {
+            return "refused";
+        }
+        else {
+            return "challengee";
+        }
+    }
+    
+    /**
      * Checks if the invite has not been responded to
      * @return boolean
      */
@@ -69,10 +85,18 @@ public class Invite {
         return game;
     }
 
+    /**
+     * Sets a player for who the invite is
+     * @param player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
   
+    /**
+     * Gets the player that the invite is for
+     * @return
+     */
     public Player getPlayer() {
         return player;
     }
