@@ -109,7 +109,7 @@ public class PatternCard {
         int xPos = rnd.nextInt(5);
         int yPos = rnd.nextInt(4);
         int value = rnd.nextInt(6) + 1;
-        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos].checkSidesValue(value)) {
+        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos].checkSidesValue(value, false)) {
             patternCardFields[xPos][yPos].setValue(value);
         } else {
             addRandomValue();
@@ -123,7 +123,7 @@ public class PatternCard {
         int xPos = rnd.nextInt(5);
         int yPos = rnd.nextInt(4);
         String color = colors.get(rnd.nextInt(colors.size()));
-        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos].checkSidesColor(color)) {
+        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos].checkSidesColor(color, false)) {
             patternCardFields[xPos][yPos].setColor(color);
         } else {
             addRandomColor();
