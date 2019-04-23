@@ -45,6 +45,15 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
             }
         });
 
+        setOnMouseDragEntered(e -> {
+            this.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+        });
+
+        setOnMouseDragExited(e -> {
+            this.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+            this.render();
+        });
+
     }
 
     /**
