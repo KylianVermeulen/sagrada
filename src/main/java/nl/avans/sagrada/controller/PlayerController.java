@@ -79,6 +79,10 @@ public class PlayerController {
         myScene.setContentPane(pane);
     }
     
+    /**
+     * Displays all public objective card for the current game.
+     * @param game Game
+     */
     public void viewPublicObjectiveCards(Game game) {
         BorderPane pane = new BorderPane();
         PublicObjectiveCardView[] publicobjectivecardviews = new PublicObjectiveCardView[3];
@@ -98,6 +102,11 @@ public class PlayerController {
         myScene.setContentPane(pane);
     }
     
+    /**
+     * Displays the selected public objective card for the current game.
+     * @param game Game
+     * @param publicObjectiveCard PublicObjectiveCard
+     */
     public void viewPublicObjectiveCard(Game game, PublicObjectiveCard publicObjectiveCard) {
         Pane pane = new Pane();
         

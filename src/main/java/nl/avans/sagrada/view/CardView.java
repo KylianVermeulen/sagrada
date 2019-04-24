@@ -1,8 +1,6 @@
 package nl.avans.sagrada.view;
 
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public abstract class CardView extends BorderPane implements ViewInterface {
