@@ -1,7 +1,6 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
-
 import nl.avans.sagrada.dao.AccountDAO;
 import nl.avans.sagrada.dao.FavorTokenDAO;
 import nl.avans.sagrada.dao.GameDAO;
@@ -9,6 +8,7 @@ import nl.avans.sagrada.dao.PatternCardDAO;
 import nl.avans.sagrada.dao.PlayerDAO;
 
 public class Player {
+    public static final String STATUS_ABORT = "aborted";
     private int id;
     private Account account;
     private Game game;
@@ -21,9 +21,7 @@ public class Player {
     private ArrayList<FavorToken> favorTokens;
     private int score;
     private boolean cheatmode = false;
-    
-    public static final String STATUS_ABORT = "aborted";
-    
+
 
     /**
      * Empty constructor
@@ -64,7 +62,7 @@ public class Player {
     public void setId(int id) {
         this.id = id;
     }
-    
+
 
     /**
      * Get playerstatus from Player
@@ -101,16 +99,15 @@ public class Player {
     public void setSeqnr(int seqnr) {
         this.seqnr = seqnr;
     }
-    
+
     /**
      * Set if the player is the currentPlayer
-     * @param isCurrentPlayer
      */
     public void setIsCurrentPlayer(boolean isCurrentPlayer) {
         this.isCurrentPlayer = isCurrentPlayer;
     }
-    
-    
+
+
     /**
      * Get current player from Player
      *

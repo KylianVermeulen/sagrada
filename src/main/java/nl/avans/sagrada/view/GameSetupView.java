@@ -1,7 +1,6 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,6 +16,9 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameSetupView extends VBox implements ViewInterface {
+    private final Insets padding = new Insets(10, 10, 10, 10);
+    private final int BUTTON_WIDTH = 100;
+    private final int BUTTON_HEIGHT = 50;
     private AccountController accountController;
     private VBox gameSelectorPane;
     private ArrayList<Account> accounts;
@@ -25,17 +27,11 @@ public class GameSetupView extends VBox implements ViewInterface {
     private Button startButton;
     private ArrayList<InviteView> inviteViews;
 
-    private final Insets padding = new Insets(10, 10, 10, 10);
-    private final int BUTTON_WIDTH = 100;
-    private final int BUTTON_HEIGHT = 50;
-
     /**
      * Constructor
-     * @param accountController
-     * @param accounts
-     * @param game
      */
-    public GameSetupView(AccountController accountController, ArrayList<Account> accounts, Game game) {
+    public GameSetupView(AccountController accountController, ArrayList<Account> accounts,
+            Game game) {
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
         setPadding(padding);
         this.accountController = accountController;
@@ -49,7 +45,7 @@ public class GameSetupView extends VBox implements ViewInterface {
         buildInviteList();
         buildStartButton();
         Label inviteLabel = new Label("Invite spelers");
-        getChildren().addAll(gameSelectorPane, inviteLabel,inviteContainer, startButton);
+        getChildren().addAll(gameSelectorPane, inviteLabel, inviteContainer, startButton);
     }
 
     /**
@@ -66,7 +62,6 @@ public class GameSetupView extends VBox implements ViewInterface {
         radioButtons[1].setOnAction(e -> {
             game.setGamemode(Game.GAMEMODE_GENERATED);
         });
-
 
         ToggleGroup toggleGroup = new ToggleGroup();
         toggleGroup.getToggles().addAll(radioButtons);
@@ -87,27 +82,27 @@ public class GameSetupView extends VBox implements ViewInterface {
         inviteContainer = new ScrollPane();
         inviteContainer.setPannable(true);
         inviteContainer.setPrefSize(Main.SCREEN_WIDTH / 3, Main.SCREEN_HEIGHT / 3);
-        
+
         inviteViews = new ArrayList<>();
         VBox invites = new VBox();
-        
+
         for (Account account : accounts) {
             InviteView inviteView = new InviteView(account);
             inviteView.render();
             inviteViews.add(inviteView);
         }
         invites.getChildren().addAll(inviteViews);
-        
+
         inviteContainer.setContent(invites);
     }
-    
+
     /**
      * Builds the start button
      */
     private void buildStartButton() {
         startButton = new Button("Opslaan");
         startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        startButton.setOnAction(e-> accountController.sendInvites(inviteViews, game));
+        startButton.setOnAction(e -> accountController.sendInvites(inviteViews, game));
     }
 
 }

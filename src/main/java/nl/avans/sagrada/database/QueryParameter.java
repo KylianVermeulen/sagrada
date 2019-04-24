@@ -2,7 +2,7 @@ package nl.avans.sagrada.database;
 
 public class QueryParameter {
     public static final int BOOLEAN = 100, DATE = 101, DOUBLE = 102, FLOAT = 103,
-                            INT = 104, STRING = 105, TIME = 106, TIMESTAMP = 107, UNSET = -1;
+            INT = 104, STRING = 105, TIME = 106, TIMESTAMP = 107, UNSET = -1;
     private int type = UNSET;
     private Object value = null;
 

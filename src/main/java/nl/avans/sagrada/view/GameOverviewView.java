@@ -1,5 +1,6 @@
 package nl.avans.sagrada.view;
 
+import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,8 +11,6 @@ import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
-
-import java.util.ArrayList;
 
 public class GameOverviewView extends ScrollPane implements ViewInterface {
     private final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
@@ -50,7 +49,7 @@ public class GameOverviewView extends ScrollPane implements ViewInterface {
         for (Game game : games) {
             HBox hBox = new HBox();
 
-            Label label = new Label("Game: " +  game.getId());
+            Label label = new Label("Game: " + game.getId());
             label.setPadding(new Insets(5, 4, 5, 4));
             label.setPrefWidth(LABEL_WIDTH);
 
@@ -65,6 +64,7 @@ public class GameOverviewView extends ScrollPane implements ViewInterface {
 
     /**
      * Builds a button to join a game
+     *
      * @param game Game
      * @return Button
      */

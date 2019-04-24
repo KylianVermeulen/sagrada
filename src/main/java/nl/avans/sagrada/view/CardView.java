@@ -6,7 +6,7 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public abstract class CardView extends BorderPane implements ViewInterface {
     public static final int CARD_WIDTH = 130;
     public static final int CARD_HEIGHT = 170;
-    
+
     /**
      * Empty constructor
      */

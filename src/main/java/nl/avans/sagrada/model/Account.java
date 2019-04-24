@@ -1,10 +1,9 @@
 package nl.avans.sagrada.model;
 
+import java.util.ArrayList;
 import nl.avans.sagrada.dao.AccountDAO;
 import nl.avans.sagrada.dao.InviteDAO;
 import nl.avans.sagrada.dao.PlayerDAO;
-
-import java.util.ArrayList;
 
 public class Account {
     private String username;
@@ -33,9 +32,10 @@ public class Account {
         players = new ArrayList<Player>();
         pendingInvites = new ArrayList<Invite>();
     }
-    
+
     /**
      * Get all the pending invites from the user
+     *
      * @return ArrayList with all invites
      */
     public ArrayList<Invite> getAllPendingInvites() {
@@ -43,22 +43,21 @@ public class Account {
         pendingInvites = inviteDao.getAllPendingInvitesOfAccount(this);
         return pendingInvites;
     }
-    
+
     /**
-     * Checks if the account has a pending invite of the 
-     * account that will send the invite
-     * If there is a pending invite we return true
-     * @param sendingAccount
+     * Checks if the account has a pending invite of the account that will send the invite If there
+     * is a pending invite we return true
+     *
      * @return boolean
      */
     public boolean hasPendingInviteFromAccount(Account sendingAccount) {
         ArrayList<Invite> pendingInvites = getAllPendingInvites();
-        for (Invite invite: pendingInvites) {            
+        for (Invite invite : pendingInvites) {
             Game game = invite.getGame();
-            for (Player player: game.getPlayers()) {
+            for (Player player : game.getPlayers()) {
                 String sendingAccountUsername = sendingAccount.getUsername();
                 String playerUsername = player.getAccount().getUsername();
-                
+
                 if (sendingAccountUsername.equals(playerUsername)) {
                     if (player.getPlayerStatus().equals("challenger")) {
                         // Check if the player was the creator of the game
@@ -66,7 +65,7 @@ public class Account {
                     }
                 }
             }
-        }      
+        }
         return false;
     }
 
@@ -132,36 +131,38 @@ public class Account {
         players = playerDAO.getPlayersOfAccount(this);
         return players;
     }
-    
+
     /**
      * Added method to get all the games of a account
+     *
      * @return ArrayList<Game>
      */
     public ArrayList<Game> getGames() {
         if (players.size() == 0) {
-            getPlayers(); 
+            getPlayers();
         }
-        
+
         ArrayList<Game> games = new ArrayList<>();
         for (Player player : players) {
             games.add(player.getGame());
         }
         return games;
     }
-    
+
     /**
      * Get all the active games of a account
+     *
      * @return ArrayList<Game>
      */
     public ArrayList<Game> getActiveGames() {
         ArrayList<Game> games = getGames();
         ArrayList<Game> activeGames = new ArrayList<>();
-        
-        for (Game game: games) {
+
+        for (Game game : games) {
             if (game.isActive()) {
                 activeGames.add(game);
             }
         }
-        return activeGames;        
+        return activeGames;
     }
 }

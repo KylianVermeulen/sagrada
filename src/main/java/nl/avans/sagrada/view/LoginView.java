@@ -27,9 +27,9 @@ public class LoginView extends VBox implements ViewInterface {
     }
 
     /**
-     * Creates a "LoginView" layout. A LoginView layout is a VBox wich has one main pane: a "content (vbox) pane", which
-     * has a title, a username textfield, a password textfield, a login button and a register text. The button actions
-     * are handled by the AccountController.
+     * Creates a "LoginView" layout. A LoginView layout is a VBox wich has one main pane: a "content
+     * (vbox) pane", which has a title, a username textfield, a password textfield, a login button
+     * and a register text. The button actions are handled by the AccountController.
      */
     public void render() {
         getChildren().clear();

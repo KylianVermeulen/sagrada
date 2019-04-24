@@ -59,7 +59,9 @@ public class GameDie extends Die {
      * @return boolean
      */
     public boolean hasEyes() {
-        if (eyes == 0) return false;
+        if (eyes == 0) {
+            return false;
+        }
         return true;
     }
 
@@ -69,7 +71,9 @@ public class GameDie extends Die {
      * @return boolean
      */
     public boolean hasColor() {
-        if (color == null) return false;
+        if (color == null) {
+            return false;
+        }
         return true;
     }
 

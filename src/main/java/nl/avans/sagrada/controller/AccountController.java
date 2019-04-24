@@ -1,5 +1,8 @@
 package nl.avans.sagrada.controller;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -13,28 +16,21 @@ import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.view.*;
+import nl.avans.sagrada.view.GameSetupView;
+import nl.avans.sagrada.view.InviteView;
+import nl.avans.sagrada.view.LobbyView;
+import nl.avans.sagrada.view.LoginView;
+import nl.avans.sagrada.view.MyScene;
+import nl.avans.sagrada.view.RegisterView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
-
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AccountController {
     private Account account;
     private MyScene myScene;
-    private AccountDAO accountDao;
-    private InviteDAO inviteDao;
-    private PlayerDAO playerDAO;
-    private GameDAO gameDAO;
 
     public AccountController(MyScene myScene) {
         this.myScene = myScene;
-        accountDao = new AccountDAO();
-        inviteDao = new InviteDAO();
-        playerDAO = new PlayerDAO();
-        gameDAO = new GameDAO();
     }
 
     /**
@@ -44,17 +40,19 @@ public class AccountController {
      * @param passwordTextField TextField
      */
     public void login(TextField userTextField, TextField passwordTextField) {
+        AccountDAO accountDAO = new AccountDAO();
         String username = userTextField.getText();
         String password = passwordTextField.getText();
-        Account accountFromDao = accountDao.getAccountByUsername(username);
+        Account accountFromDao = accountDAO.getAccountByUsername(username);
         if (accountFromDao != null) {
             if (accountFromDao.getPassword().equals(password)) {
                 Alert alert = new Alert("Login geslaagd", "Je bent nu ingelogd.", AlertType.SUCCES);
                 myScene.addAlertPane(alert);
                 account = accountFromDao;
-                lobby();
+                viewLobby();
             } else {
-                Alert alert = new Alert("Password ongeldig", "Password is niet geldig.", AlertType.ERROR);
+                Alert alert = new Alert("Password ongeldig", "Password is niet geldig.",
+                        AlertType.ERROR);
                 myScene.addAlertPane(alert);
             }
         } else {
@@ -64,44 +62,48 @@ public class AccountController {
     }
 
     /**
-     * Registers a user via username and password, and checks for certain requirements linked to the username and
-     * password.
+     * Registers a user via username and password, and checks for certain requirements linked to the
+     * username and password.
      *
      * @param username String
      * @param password String
      */
     public void register(String username, String password) {
+        AccountDAO accountDAO = new AccountDAO();
         Account account = new Account();
         if (username.length() < 3) {
-            Alert alert = new Alert("Username invalid", "Username must be 3 characters.", AlertType.ERROR);
+            Alert alert = new Alert("Username invalid", "Username must be 3 characters.",
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         if (password.length() < 3) {
-            Alert alert = new Alert("Password invalid", "Password must be 3 characters.", AlertType.ERROR);
+            Alert alert = new Alert("Password invalid", "Password must be 3 characters.",
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
         Matcher match = pt.matcher(password);
         if (match.find()) {
-            Alert alert = new Alert("Password invalid", "Password can only contain letters and numbers.",
-                    AlertType.ERROR);
+            Alert alert = new Alert("Password invalid",
+                    "Password can only contain letters and numbers.", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         account.setUsername(username);
         account.setPassword(password);
-        if (accountDao.accountExists(account)) {
-            Alert alert = new Alert("Username invalid", "Username already exists.", AlertType.ERROR);
+        if (accountDAO.accountExists(account)) {
+            Alert alert = new Alert("Username invalid", "Username already exists.",
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
-        accountDao.addAccount(account);
+        accountDAO.addAccount(account);
         Alert alert = new Alert("Account created", "Account is now created.", AlertType.SUCCES);
         myScene.addAlertPane(alert);
     }
-    
+
     /**
      * Controlls the logout
      */
@@ -112,30 +114,34 @@ public class AccountController {
 
     /**
      * Controlls the accept of a invite
-     * @param invite
      */
     public void acceptInvite(Invite invite) {
+        InviteDAO inviteDAO = new InviteDAO();
         invite.acceptInvite();
-        inviteDao.updateInvite(invite);
-        lobby();
+        inviteDAO.updateInvite(invite);
+        viewLobby();
     }
 
     /**
      * Controlls the deny of a invite
-     * @param invite
      */
     public void denyInvite(Invite invite) {
+        InviteDAO inviteDAO = new InviteDAO();
         invite.denyInvite();
-        inviteDao.updateInvite(invite);
+        inviteDAO.updateInvite(invite);
         Game game = invite.getGame();
         game.cancel();
-        lobby();
+        viewLobby();
     }
 
     public void joinGame(Game game) {
     }
 
     public void setupNewGame() {
+        GameDAO gameDAO = new GameDAO();
+        PlayerDAO playerDAO = new PlayerDAO();
+        AccountDAO accountDAO = new AccountDAO();
+
         Pane pane = new Pane();
         int gameId = gameDAO.getNextGameId();
         Game game = new Game();
@@ -155,7 +161,7 @@ public class AccountController {
         game.setTurnPlayer(player);
         gameDAO.updateGame(game);
 
-        ArrayList<Account> accounts = accountDao.getAllInviteableAccounts(account);
+        ArrayList<Account> accounts = accountDAO.getAllInviteableAccounts(account);
         GameSetupView gameSetupView = new GameSetupView(this, accounts, game);
         gameSetupView.render();
         pane.getChildren().add(gameSetupView);
@@ -163,10 +169,10 @@ public class AccountController {
         myScene.setContentPane(pane);
     }
 
-    public void lobby() {
+    public void viewLobby() {
+        AccountDAO accountDAO = new AccountDAO();
         Pane pane = new Pane();
-        account = accountDao.getAccountByUsername(account.getUsername());
-        // Update the account
+        account = accountDAO.getAccountByUsername(account.getUsername());
 
         ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
         ArrayList<Game> games = account.getActiveGames();
@@ -209,42 +215,47 @@ public class AccountController {
     }
 
     public void sendInvites(ArrayList<InviteView> inviteViews, Game game) {
+        InviteDAO inviteDAO = new InviteDAO();
+
         ArrayList<Account> invitedAccounts = new ArrayList<>();
-        for (InviteView inviteView: inviteViews) {
+        for (InviteView inviteView : inviteViews) {
             if (inviteView.getCheckbox().isSelected()) {
                 invitedAccounts.add(inviteView.getAccount());
             }
         }
         if (invitedAccounts.size() == 0) {
             System.out.println("Te weinig accounts ge-invite");
-            Alert alert = new Alert("Invites niet verstuurd", "Te weinig accounts geselecteerd", AlertType.ERROR);
+            Alert alert = new Alert("Invites niet verstuurd", "Te weinig accounts geselecteerd",
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         if (invitedAccounts.size() > 3) {
-            Alert alert = new Alert("Invites niet verstuurd", "Te veel accounts geselecteerd", AlertType.ERROR);
+            Alert alert = new Alert("Invites niet verstuurd", "Te veel accounts geselecteerd",
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
-        
-        for (Account invitedAccount: invitedAccounts) {
+
+        for (Account invitedAccount : invitedAccounts) {
             if (invitedAccount.hasPendingInviteFromAccount(account)) {
-                String subMessage = "Account: " + invitedAccount.getUsername() + " heeft al een invite";
+                String subMessage =
+                        "Account: " + invitedAccount.getUsername() + " heeft al een invite";
                 Alert alert = new Alert("Al een active invite", subMessage, AlertType.ERROR);
                 myScene.addAlertPane(alert);
                 return;
             }
         }
 
-        for (Account invitedAccount: invitedAccounts) {
+        for (Account invitedAccount : invitedAccounts) {
             Invite invite = new Invite();
             invite.setGame(game);
             invite.setInvitedAccount(invitedAccount);
-            inviteDao.addInvite(invite);
+            inviteDAO.addInvite(invite);
         }
         Alert alert = new Alert("Invites verstuurd", "Invites zijn verstuurd", AlertType.INFO);
         myScene.addAlertPane(alert);
         game.setOptionPatternCardsForPlayers();
-        lobby();
+        viewLobby();
     }
 }

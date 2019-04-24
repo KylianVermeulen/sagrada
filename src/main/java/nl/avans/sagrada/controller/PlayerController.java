@@ -1,13 +1,17 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
-
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.PublicObjectiveCardDAO;
 import nl.avans.sagrada.dao.ToolcardDAO;
-import nl.avans.sagrada.model.*;
+import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.PatternCardField;
+import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.model.Toolcard;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardView;
@@ -24,9 +28,12 @@ public class PlayerController {
 
     /**
      * Displays all toolcards that belong to a certain game.
+     *
      * @param game Game
      */
     public void viewToolcards(Game game) {
+        ToolcardDAO toolcardDAO = new ToolcardDAO();
+
         BorderPane pane = new BorderPane();
         ToolcardDAO toolcardDAO = new ToolcardDAO();
         ToolCardView[] toolcardviews = new ToolCardView[3];
@@ -45,20 +52,21 @@ public class PlayerController {
         pane.setRight(toolcardviews[2]);
         myScene.setContentPane(pane);
     }
-    
+
     /**
      * Displays the selected toolcard for the current game.
+     *
      * @param game Game
      * @param selection int
      */
     public void viewToolcard(Game game, int selection) {
-        Pane pane = new Pane();
         ToolcardDAO toolcardDAO = new ToolcardDAO();
-        
+
+        Pane pane = new Pane();
         ToolCardView toolCardView = new ToolCardView(this);
         toolCardView.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(selection));
         toolCardView.render();
-        
+
         pane.getChildren().add(toolCardView);
         myScene.setContentPane(pane);
     }
@@ -104,7 +112,8 @@ public class PlayerController {
     /**
      * Makes a random generated patternCard
      *
-     * (adding the difficultly in PatternCard does not matter for a random generated patternCard just make sure standard is false)
+     * (adding the difficultly in PatternCard does not matter for a random generated patternCard
+     * just make sure standard is false)
      */
     public void makeRandomPatternCard() {
         Pane pane = new Pane();

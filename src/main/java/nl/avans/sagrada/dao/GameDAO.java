@@ -1,18 +1,17 @@
 package nl.avans.sagrada.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 public class GameDAO {
     private DBConnection dbConnection;
-    
+
     public GameDAO() {
         dbConnection = new DBConnection();
     }
@@ -43,15 +42,15 @@ public class GameDAO {
 
     /**
      * Updates a game
-     * @param game
      */
     public void updateGame(Game game) {
         try {
             int turnPlayerId = game.getTurnPlayer().getId();
-            ResultSet rs = dbConnection.executeQuery(new Query("UPDATE game SET turn_idplayer=? WHERE idgame=?", "update"),
-                        new QueryParameter(QueryParameter.INT, turnPlayerId),
-                        new QueryParameter(QueryParameter.INT, game.getId())
-                    );
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("UPDATE game SET turn_idplayer=? WHERE idgame=?", "update"),
+                    new QueryParameter(QueryParameter.INT, turnPlayerId),
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,30 +58,31 @@ public class GameDAO {
 
     /**
      * Adds a new game to the database
-     * @param game
+     *
      * @return boolean
      */
     public void addGame(Game game) {
         try {
             ResultSet rs = dbConnection.executeQuery(
-                        new Query("INSERT INTO game (idgame) VALUES (?)", "update"),
-                        new QueryParameter(QueryParameter.INT, game.getId())
-                    );
+                    new Query("INSERT INTO game (idgame) VALUES (?)", "update"),
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Gets the next game id of a new game
+     *
      * @return int
      */
     public int getNextGameId() {
         int gameId = 0;
         try {
             ResultSet rs = dbConnection.executeQuery(
-                        new Query("SELECT MAX(idgame) AS highestGameId FROM game", "query")
-                    );
+                    new Query("SELECT MAX(idgame) AS highestGameId FROM game", "query")
+            );
             if (rs.next()) {
                 gameId = rs.getInt("highestGameId") + 1;
             }
@@ -91,14 +91,15 @@ public class GameDAO {
         }
         return gameId;
     }
-    
+
     public ArrayList<Player> getPlayersOfGame(Game game) {
         ArrayList<Player> players = new ArrayList<>();
         PlayerDAO playerDao = new PlayerDAO();
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query("SELECT idplayer FROM player WHERE game_idgame=?", "query"),
-                        new QueryParameter(QueryParameter.INT, game.getId())
-                    );
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT idplayer FROM player WHERE game_idgame=?", "query"),
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
             while (rs.next()) {
                 int playerId = rs.getInt("idplayer");
                 Player player = playerDao.getPlayerById(playerId);
