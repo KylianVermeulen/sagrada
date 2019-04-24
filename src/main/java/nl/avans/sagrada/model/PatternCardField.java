@@ -70,7 +70,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkSouthColor(String color, boolean isDie) {
-        if (yPos == 3) return true;
+        if (yPos == 3) {
+            return true;
+        }
         PatternCardField patternCardField = patternCard.getPatternCardField(xPos, yPos + 1);
         return checkColorAndDieColor(color, patternCardField, isDie);
     }
@@ -83,7 +85,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkNorthColor(String color, boolean isDie) {
-        if (yPos == 0) return true;
+        if (yPos == 0) {
+            return true;
+        }
         PatternCardField patternCardField = patternCard.getPatternCardField(xPos, yPos - 1);
         return checkColorAndDieColor(color, patternCardField, isDie);
     }
@@ -96,7 +100,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkEastColor(String color, boolean isDie) {
-        if (xPos == 4) return true;
+        if (xPos == 4) {
+            return true;
+        }
         PatternCardField patternCardField = patternCard.getPatternCardField(xPos + 1, yPos);
         return checkColorAndDieColor(color, patternCardField, isDie);
     }
@@ -109,7 +115,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkWestColor(String color, boolean isDie) {
-        if (xPos == 0) return true;
+        if (xPos == 0) {
+            return true;
+        }
         PatternCardField patternCardField = patternCard.getPatternCardField(xPos - 1, yPos);
         return checkColorAndDieColor(color, patternCardField, isDie);
     }
@@ -123,9 +131,14 @@ public class PatternCardField {
      * @return
      */
     private boolean checkColorAndDieColor(String color, PatternCardField patternCardField, boolean isDie) {
-        if (!isDie)
-            if (patternCardField.hasColor()) return !patternCardField.getStringColor().equals(color);
-        if (patternCardField.hasDie()) return !(patternCardField.getDie().getStringColor().equals(color));
+        if (!isDie) {
+            if (patternCardField.hasColor()) {
+                return !patternCardField.getStringColor().equals(color);
+            }
+        }
+        if (patternCardField.hasDie()) {
+            return !(patternCardField.getDie().getStringColor().equals(color));
+        }
         return true;
     }
 
@@ -151,15 +164,22 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkSouthValue(int value, boolean isDie) {
-        if (yPos == 3) return true;
+        if (yPos == 3) {
+            return true;
+        }
         PatternCardField patternCardField = patternCard.getPatternCardField(xPos, yPos + 1);
         return checkValueAndValueDie(value, patternCardField, isDie);
     }
 
     private boolean checkValueAndValueDie(int value, PatternCardField patternCardField, boolean isDie) {
-        if (!isDie)
-            if (patternCardField.hasValue()) return !(patternCardField.getValue() == value);
-        if (patternCardField.hasDie()) return !(patternCardField.getDie().getEyes() == value);
+        if (!isDie) {
+            if (patternCardField.hasValue()) {
+                return !(patternCardField.getValue() == value);
+            }
+        }
+        if (patternCardField.hasDie()) {
+            return !(patternCardField.getDie().getEyes() == value);
+        }
         return true;
     }
 
@@ -171,7 +191,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkNorthValue(int value, boolean isDie) {
-        if (yPos == 0) return true;
+        if (yPos == 0) {
+            return true;
+        }
         PatternCardField patternCardField = patternCard.getPatternCardField(xPos, yPos - 1);
         return checkValueAndValueDie(value, patternCardField, isDie);
     }
@@ -184,7 +206,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkEastValue(int value, boolean isDie) {
-        if (xPos == 4) return true;
+        if (xPos == 4) {
+            return true;
+        }
         PatternCardField patternCardField = patternCard.getPatternCardField(xPos + 1, yPos);
         return checkValueAndValueDie(value, patternCardField, isDie);
     }
@@ -197,7 +221,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkWestValue(int value, boolean isDie) {
-        if (xPos == 0) return true;
+        if (xPos == 0) {
+            return true;
+        }
         PatternCardField patternCardField = patternCard.getPatternCardField(xPos - 1, yPos);
         return checkValueAndValueDie(value, patternCardField, isDie);
     }
@@ -313,8 +339,12 @@ public class PatternCardField {
      * @return boolean
      */
     public boolean hasFieldAttributes() {
-        if (hasColor()) return true;
-        if (hasValue()) return true;
+        if (hasColor()) {
+            return true;
+        }
+        if (hasValue()) {
+            return true;
+        }
         return false;
     }
 
@@ -333,7 +363,9 @@ public class PatternCardField {
      * @return boolean
      */
     public boolean hasDie() {
-        if (die == null) return false;
+        if (die == null) {
+            return false;
+        }
         return true;
     }
 
@@ -350,8 +382,9 @@ public class PatternCardField {
             }
             return;
         }
-        if (hasDie())
+        if (hasDie()) {
             return;
+        }
         sideCheckPlaceDie(gameDie);
     }
 
@@ -401,16 +434,18 @@ public class PatternCardField {
         if (patternCard.isFirstTurn()) {
             patternCard.setFirstTurn(false);
             this.die = gameDie;
-        } else if (isNextToDie())
+        } else if (isNextToDie()) {
             this.die = gameDie;
+        }
     }
 
     /**
      * Checks if the placed die is next to a die or diagonal to a die
      */
     private boolean isNextToDie() {
-        if (checkNorthDie() || checkNorthEastDie() || checkEastDie() || checkSouthEastDie() || checkSouthDie() || checkSouthWestDie() || checkWestDie() || checkNorthWest())
+        if (checkNorthDie() || checkNorthEastDie() || checkEastDie() || checkSouthEastDie() || checkSouthDie() || checkSouthWestDie() || checkWestDie() || checkNorthWest()) {
             return true;
+        }
         return false;
     }
 
@@ -420,7 +455,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkNorthDie() {
-        if (yPos == 0) return false;
+        if (yPos == 0) {
+            return false;
+        }
         return patternCard.getPatternCardField(xPos, yPos - 1).hasDie();
     }
 
@@ -430,7 +467,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkNorthEastDie() {
-        if (yPos == 0 || xPos == 4) return false;
+        if (yPos == 0 || xPos == 4) {
+            return false;
+        }
         return patternCard.getPatternCardField(xPos + 1, yPos - 1).hasDie();
     }
 
@@ -440,7 +479,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkEastDie() {
-        if (xPos == 4) return false;
+        if (xPos == 4) {
+            return false;
+        }
         return patternCard.getPatternCardField(xPos + 1, yPos).hasDie();
     }
 
@@ -450,7 +491,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkSouthEastDie() {
-        if (xPos == 4 || yPos == 3) return false;
+        if (xPos == 4 || yPos == 3) {
+            return false;
+        }
         return patternCard.getPatternCardField(xPos + 1, yPos + 1).hasDie();
     }
 
@@ -460,7 +503,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkSouthDie() {
-        if (yPos == 3) return false;
+        if (yPos == 3) {
+            return false;
+        }
         return patternCard.getPatternCardField(xPos, yPos + 1).hasDie();
     }
 
@@ -470,7 +515,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkSouthWestDie() {
-        if (yPos == 3 || xPos == 0) return false;
+        if (yPos == 3 || xPos == 0) {
+            return false;
+        }
         return patternCard.getPatternCardField(xPos - 1, yPos + 1).hasDie();
     }
 
@@ -480,7 +527,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkWestDie() {
-        if (xPos == 0) return false;
+        if (xPos == 0) {
+            return false;
+        }
         return patternCard.getPatternCardField(xPos - 1, yPos).hasDie();
     }
 
@@ -490,7 +539,9 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkNorthWest() {
-        if (xPos == 0 || yPos == 0) return false;
+        if (xPos == 0 || yPos == 0) {
+            return false;
+        }
         return patternCard.getPatternCardField(xPos - 1, yPos - 1).hasDie();
 
     }
