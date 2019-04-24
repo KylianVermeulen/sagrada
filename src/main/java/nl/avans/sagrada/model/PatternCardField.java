@@ -352,7 +352,6 @@ public class PatternCardField {
         }
         if (hasDie())
             return;
-
         sideCheckPlaceDie(gameDie);
     }
 

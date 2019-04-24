@@ -41,14 +41,10 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
                 GameDie gameDie = ((GameDie) ((DieView) event.getGestureSource()).getGameDie());
                 patternCardField.placeDie(gameDie);
                 this.render();
-            } catch (Exception ec) {
+            } catch (Exception e) {
             }
         });
-
-
         addHover();
-
-
     }
 
     /**

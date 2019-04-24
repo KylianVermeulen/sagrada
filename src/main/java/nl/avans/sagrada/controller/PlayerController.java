@@ -81,7 +81,7 @@ public class PlayerController {
 
     /**
      * Makes a random generated patternCard
-     * <p>
+     *
      * (adding the difficultly in PatternCard does not matter for a random generated patternCard just make sure standard is false)
      */
     public void makeRandomPatternCard() {
