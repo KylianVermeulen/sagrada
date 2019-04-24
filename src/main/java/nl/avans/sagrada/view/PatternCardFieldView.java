@@ -45,6 +45,16 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
             }
         });
 
+
+        addHover();
+
+
+    }
+
+    /**
+     * Adds hover effect
+     */
+    private void addHover() {
         setOnMouseDragEntered(e -> {
             this.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
         });
@@ -52,7 +62,6 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
             this.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
             this.render();
         });
-
     }
 
     /**
