@@ -3,6 +3,9 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import nl.avans.sagrada.dao.GameDAO;
+import nl.avans.sagrada.dao.PlayerDAO;
+
 public class Game {
     private int id;
     private Player turnPlayer;
@@ -25,14 +28,16 @@ public class Game {
      */
     public Game(int id) {
         this.id = id;
-        players = new ArrayList<>();
         gamemode = GAMEMODE_NORMAL;
+        GameDAO gameDao = new GameDAO();
+        players = gameDao.getPlayersOfGame(this);
     }
     
     public Game() {
         players = new ArrayList<>();
         gamemode = GAMEMODE_NORMAL;
     }
+    
 
     /**
      * Get id from Game
@@ -84,6 +89,20 @@ public class Game {
      */
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
+    }
+    
+    /**
+     * Checks if a game is active
+     * @return boolean
+     */
+    public boolean isActive() {
+        for (Player player: players) {
+            String playerStatus = player.getPlayerStatus();
+            if (playerStatus.equals("aborted") || playerStatus.equals("finished")) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -203,5 +222,17 @@ public class Game {
      */
     public void setOptionPatternCardsForPlayers() {
         //  Set the patterncard for all players
+    }
+    
+    /**
+     * Cancels a game by updating all player status to abort
+     */
+    public void cancel() {
+        ArrayList<Player> players = getPlayers();
+        PlayerDAO playerDao = new PlayerDAO();
+        for (Player player: players) {
+            player.setPlayerStatus(Player.STATUS_ABORT);
+            playerDao.updatePlayer(player);
+        }
     }
 }

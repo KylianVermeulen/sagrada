@@ -10,7 +10,7 @@ import nl.avans.sagrada.model.GameDie;
 
 import java.util.ArrayList;
 
-public class DieView extends Pane {
+public class DieView extends Pane implements ViewInterface {
 
     private static final int WIDTH = 35;
     private static final int HEIGHT = 35;
@@ -32,6 +32,7 @@ public class DieView extends Pane {
     /**
      * Renders the visuals
      */
+    @Override
     public void render() {
         if (gameDie.hasColor()) {
             setColor(gameDie.getColor());
@@ -51,7 +52,7 @@ public class DieView extends Pane {
 
         });
     }
-
+ 
     /**
      * Gets the eyes value out of gameDie and shows the visual of the value
      *
