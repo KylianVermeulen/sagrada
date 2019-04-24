@@ -50,11 +50,11 @@ public class PublicObjectiveCardView extends CardView {
         Image image = new Image(url);
         StackPane imagePane = new StackPane();
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight((getViewHeight()/1.25));
-        imageView.setFitWidth(getViewWidth() + 1);
+        imageView.setFitHeight((CardView.CARD_HEIGHT/1.25));
+        imageView.setFitWidth(CardView.CARD_WIDTH + 1);
         imageView.setPreserveRatio(false);
         imagePane.getChildren().add(imageView);
-        imagePane.setPrefSize(getViewWidth(), (getViewHeight()/1.25));
+        imagePane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT/1.25));
         setCenter(imagePane);
     }
     
@@ -68,7 +68,7 @@ public class PublicObjectiveCardView extends CardView {
         description.setFont(Main.SAGRADA_FONT);
         description.setTextAlignment(TextAlignment.CENTER);
         scorePoints.setTextAlignment(TextAlignment.CENTER);
-        description.setWrappingWidth((getViewWidth()/1.2));
+        description.setWrappingWidth((CardView.CARD_WIDTH/1.2));
         BorderPane textPane = new BorderPane();
         StackPane scorePane = new StackPane();
         StackPane descriptionPane = new StackPane();
@@ -76,8 +76,8 @@ public class PublicObjectiveCardView extends CardView {
         descriptionPane.getChildren().add(description);
         textPane.setLeft(scorePane);
         textPane.setCenter(descriptionPane);
-        scorePane.setPrefWidth((getViewWidth()/6));
-        textPane.setPrefSize((getViewWidth()/1.2), (getViewHeight()/4));
+        scorePane.setPrefWidth((CardView.CARD_WIDTH/6));
+        textPane.setPrefSize((CardView.CARD_WIDTH/1.2), (CardView.CARD_HEIGHT/4));
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         getStylesheets().add(css);
         textPane.getStylesheets().add(css);

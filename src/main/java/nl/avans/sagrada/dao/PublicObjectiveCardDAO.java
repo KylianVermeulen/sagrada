@@ -13,10 +13,17 @@ import nl.avans.sagrada.model.PublicObjectiveCard;
 public class PublicObjectiveCardDAO {
     private DBConnection dbConnection;
     
+    /**
+     * Empty constructor
+     */
     public PublicObjectiveCardDAO() {
         dbConnection = new DBConnection();
     }
 
+    /**
+     * Returns all public objective cards from the database.
+     * @return all public objective cards as an ArrayList
+     */
     public ArrayList<PublicObjectiveCard> getAllPublicObjectiveCards() {
         ArrayList<PublicObjectiveCard> list = new ArrayList<PublicObjectiveCard>();
         try {
@@ -31,6 +38,11 @@ public class PublicObjectiveCardDAO {
         return list;
     }
 
+    /**
+     * Returns all public objective cards from the database, belonging to a certain game.
+     * @param game Game
+     * @return all public objective cards belonging to game as an ArrayList
+     */
     public ArrayList<PublicObjectiveCard> getAllPublicObjectiveCardsOfGame(Game game) {
         ArrayList<PublicObjectiveCard> list = new ArrayList<PublicObjectiveCard>();
         try {

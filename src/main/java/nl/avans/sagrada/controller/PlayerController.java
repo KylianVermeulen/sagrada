@@ -17,13 +17,9 @@ import nl.avans.sagrada.view.ToolCardView;
 public class PlayerController {
     private Player player;
     private MyScene myScene;
-    private ToolcardDAO toolcardDAO;
-    private PublicObjectiveCardDAO publicObjectiveCardDAO;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
-        toolcardDAO = new ToolcardDAO();
-        publicObjectiveCardDAO = new PublicObjectiveCardDAO();
     }
 
     /**
@@ -32,6 +28,7 @@ public class PlayerController {
      */
     public void viewToolcards(Game game) {
         BorderPane pane = new BorderPane();
+        ToolcardDAO toolcardDAO = new ToolcardDAO();
         ToolCardView[] toolcardviews = new ToolCardView[3];
         ArrayList<Toolcard> toolcards = toolcardDAO.getToolcardsOfGame(game);
         for (int index = 0; index < toolcardviews.length; index++) {
@@ -56,6 +53,7 @@ public class PlayerController {
      */
     public void viewToolcard(Game game, int selection) {
         Pane pane = new Pane();
+        ToolcardDAO toolcardDAO = new ToolcardDAO();
         
         ToolCardView toolCardView = new ToolCardView(this);
         toolCardView.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(selection));
@@ -85,6 +83,7 @@ public class PlayerController {
      */
     public void viewPublicObjectiveCards(Game game) {
         BorderPane pane = new BorderPane();
+        PublicObjectiveCardDAO publicObjectiveCardDAO = new PublicObjectiveCardDAO();
         PublicObjectiveCardView[] publicobjectivecardviews = new PublicObjectiveCardView[3];
         ArrayList<PublicObjectiveCard> publicObjectiveCards = publicObjectiveCardDAO.getAllPublicObjectiveCardsOfGame(game);
         for (int index = 0; index < publicobjectivecardviews.length; index++) {
