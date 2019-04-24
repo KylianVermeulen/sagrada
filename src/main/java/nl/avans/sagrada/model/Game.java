@@ -13,7 +13,6 @@ public class Game {
     private FavorToken[] favorTokens;
     private GameDie[] gameDie;
     private PublicObjectiveCard[] publicObjectiveCards;
-    private ArrayList<Chatline> chatlines;
     private final String[] privateObjectiveCardColors = {"blauw", "geel", "groen", "paars", "rood"};
     
     public static final String GAMEMODE_NORMAL = "normal";
@@ -26,7 +25,6 @@ public class Game {
      */
     public Game(int id) {
         this.id = id;
-        chatlines = new ArrayList<>();
         players = new ArrayList<>();
         gamemode = GAMEMODE_NORMAL;
     }
@@ -141,18 +139,6 @@ public class Game {
      */
     public void setPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
         this.publicObjectiveCards = publicObjectiveCards;
-    }
-    
-    public ArrayList<Chatline> getChatlines() {
-		    return chatlines;
-	  }
-  
-    public void setChatlines(ArrayList<Chatline> chatlines) {
-        this.chatlines = chatlines;
-    }
-
-    public void addChatLine(Chatline chatline) {
-        chatlines.add(chatline);
     }
   
     /**

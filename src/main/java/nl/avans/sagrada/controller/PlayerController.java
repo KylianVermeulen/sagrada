@@ -21,12 +21,12 @@ public class PlayerController {
     private Player player;
     private MyScene myScene;
     private ToolcardDAO toolcardDAO;
-    private ChatlineDAO chatlinedao;
+    private ChatlineDAO chatlineDAO;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
         toolcardDAO = new ToolcardDAO();
-        chatlinedao = new ChatlineDAO();
+        chatlineDAO = new ChatlineDAO();
     }
 
     /**
@@ -131,20 +131,17 @@ public class PlayerController {
 
     	Chatline chatline = new Chatline(player, text);
 		
-    	chatlinedao.setTime(chatline);
+    	chatlineDAO.setTime(chatline);
+    	ArrayList<Chatline> chatlines = chatlineDAO.getChatlinesOfGame(player.getGame());
     	
 		if(!text.matches("")) {
-			if (chatlinedao.timeExists(chatline) == false) {
+			if (chatlineDAO.timeExists(chatline) == false) {
 	    		
-	        	chatlinedao.addChatline(chatline);
-	        	
-	        	ArrayList<Chatline> chatlines = player.getGame().getChatlines();
+	        	chatlineDAO.addChatline(chatline);
 	        	
 	        	ChatLineView chatview = new ChatLineView(this);
 	        	chatview.addExistingMessages(chatlines);
 	        	chatview.addMessage(chatline);
-	        
-	        	player.getGame().addChatLine(chatline);
 	        	
 	        	myScene.setContentPane(chatview);
 	    	} else {
@@ -152,10 +149,15 @@ public class PlayerController {
 	    		myScene.addAlertPane(alert);
 	    	}
 		} else {
-			Alert alert = new Alert("Waarschuwing", "Je bericht moet text bevatten", AlertType.ERROR);
+			Alert alert = new Alert("Waarschuwing", "Je bericht moet tekst bevatten", AlertType.ERROR);
 			myScene.addAlertPane(alert);
 		}
     	
+    }
+    
+    public void viewChat() {
+    	ChatLineView chatlineview = new ChatLineView(this);
+    	myScene.setContentPane(chatlineview);
     }
 
 	public void setPlayer(Player player) {

@@ -67,8 +67,8 @@ public class ChatLineView extends VBox {
 		String playername = chatline.getPlayer().getAccount().getUsername();
 		String message = chatline.getMessage();
 		
-			Label label = new Label("[" + hour + ":" + minute + ":" + second + "] " + playername + ": " + message);
-			messagebox.getChildren().add(label);
+		Label label = new Label("[" + hour + ":" + minute + ":" + second + "] " + playername + ": " + message);
+		messagebox.getChildren().add(label);
 	}
 	
 	/**

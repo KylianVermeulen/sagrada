@@ -1,6 +1,5 @@
 package nl.avans.sagrada;
 import javafx.application.Application;
-import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import nl.avans.sagrada.view.MyScene;

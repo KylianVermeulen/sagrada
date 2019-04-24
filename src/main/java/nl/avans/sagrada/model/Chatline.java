@@ -11,6 +11,10 @@ public class Chatline {
     	this.player = player;
     	this.message = message;
     }
+    
+    public Chatline() {
+    	
+    }
 
 	public Player getPlayer() {
 		return player;

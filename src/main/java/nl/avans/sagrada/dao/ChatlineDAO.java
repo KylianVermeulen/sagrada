@@ -3,11 +3,13 @@ package nl.avans.sagrada.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 
 public class ChatlineDAO {
@@ -39,6 +41,29 @@ public class ChatlineDAO {
          		}
     }
     
+    public ArrayList<Chatline> getChatlinesOfGame(Game game) {
+    	ArrayList<Chatline> chatlines = new ArrayList<>();
+    	try {
+			ResultSet rs = dbConnection.executeQuery(
+					new Query("SELECT * FROM chatline JOIN player ON chatline.player_idplayer = player.idplayer WHERE game_idgame =?", "query"),
+					new QueryParameter(QueryParameter.INT, game.getId())
+					);
+			
+			while (rs.next()) {
+				Chatline chatline = new Chatline();
+				chatline.setPlayer(new PlayerDAO().getPlayerById(rs.getInt("player_idplayer")));
+				chatline.setTimestamp(rs.getTimestamp("time"));
+				chatline.setMessage(rs.getString("message"));
+				chatlines.add(chatline);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return chatlines;
+    	
+    }
+    
     /**
      * Method to set the current database time to a chatline
      * @param chatline Chatline
@@ -53,7 +78,7 @@ public class ChatlineDAO {
 			}
 		
 		} catch (SQLException e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -75,7 +100,6 @@ public class ChatlineDAO {
 					return true;
 				} else {
 					return false;
-					
 				}
 			}
 							
