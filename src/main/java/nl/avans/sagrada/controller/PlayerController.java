@@ -77,6 +77,9 @@ public class PlayerController {
 
     }
 
+    /**
+     * Views the private-objectivecard on screen.
+     */
     public void viewPrivateObjectiveCard() {
         Pane pane = new Pane();
         PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView(this);

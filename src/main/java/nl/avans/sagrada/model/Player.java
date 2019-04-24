@@ -315,6 +315,10 @@ public class Player {
         this.cheatmode = cheatmode;
     }
 
+    /**
+     * returns the immage's of the private-objectivecard.
+     * @return
+     */
     public String getImageUrl() {
         String color = "blauw";
         String url;

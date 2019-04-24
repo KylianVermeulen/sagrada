@@ -1,6 +1,5 @@
 package nl.avans.sagrada.view;
 
-import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -25,6 +24,12 @@ public class PrivateObjectiveCardView extends CardView {
     private PlayerController playerController;
     private Player player;
 
+    /**
+     * Filled constructor
+     * 
+     * @param playerController
+     *            PlayerController.
+     */
     public PrivateObjectiveCardView(PlayerController playerController) {
         super();
         this.playerController = playerController;
@@ -33,6 +38,9 @@ public class PrivateObjectiveCardView extends CardView {
         render();
     }
 
+    /**
+     * Renders the private-objectivecard.
+     */
     @Override
     public void render() {
         getChildren().clear();
@@ -40,6 +48,9 @@ public class PrivateObjectiveCardView extends CardView {
         showText();
     }
 
+    /**
+     * Shows the description and the points of the private-objectivecard.
+     */
     public void showText() {
         PlayerDAO pDAO = new PlayerDAO();
 
@@ -60,8 +71,6 @@ public class PrivateObjectiveCardView extends CardView {
         textPane.setCenter(descriptionPane);
         scorePane.setPrefWidth(getViewWidth() / 6);
         textPane.setPrefSize((getViewWidth() / 1.2), (getViewHeight() / 4));
-        textPane.setBorder(new Border(
-                new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
         textPane.setBackground(new Background(new BackgroundFill(Color.rgb(191, 191, 191), null, null)));
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         getStylesheets().add(css);
@@ -72,6 +81,11 @@ public class PrivateObjectiveCardView extends CardView {
 
     }
 
+    /**
+     * shows the immage of the private-objectivecard.
+     * 
+     * @param url
+     */
     private void showImage(String url) {
         Image image = new Image(url);
         StackPane imagePane = new StackPane();
