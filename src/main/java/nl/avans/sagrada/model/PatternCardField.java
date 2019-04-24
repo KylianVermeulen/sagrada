@@ -71,8 +71,8 @@ public class PatternCardField {
      */
     private boolean checkSouthColor(String color, boolean isDie) {
         if (yPos == 3) return true;
-        PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
-        return checkColorAndDieColor(color, pcd, isDie);
+        PatternCardField patternCardField = patternCard.getPatternCardField(xPos, yPos + 1);
+        return checkColorAndDieColor(color, patternCardField, isDie);
     }
 
     /**
@@ -84,8 +84,8 @@ public class PatternCardField {
      */
     private boolean checkNorthColor(String color, boolean isDie) {
         if (yPos == 0) return true;
-        PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
-        return checkColorAndDieColor(color, pcd, isDie);
+        PatternCardField patternCardField = patternCard.getPatternCardField(xPos, yPos - 1);
+        return checkColorAndDieColor(color, patternCardField, isDie);
     }
 
     /**
@@ -97,8 +97,8 @@ public class PatternCardField {
      */
     private boolean checkEastColor(String color, boolean isDie) {
         if (xPos == 4) return true;
-        PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
-        return checkColorAndDieColor(color, pcd, isDie);
+        PatternCardField patternCardField = patternCard.getPatternCardField(xPos + 1, yPos);
+        return checkColorAndDieColor(color, patternCardField, isDie);
     }
 
     /**
@@ -110,21 +110,22 @@ public class PatternCardField {
      */
     private boolean checkWestColor(String color, boolean isDie) {
         if (xPos == 0) return true;
-        PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);
-        return checkColorAndDieColor(color, pcd, isDie);
+        PatternCardField patternCardField = patternCard.getPatternCardField(xPos - 1, yPos);
+        return checkColorAndDieColor(color, patternCardField, isDie);
     }
 
     /**
      * Checks if the turn is valid
      *
      * @param color String
-     * @param pcd PatternCardField
+     * @param patternCardField PatternCardField
      * @param isDie boolean
      * @return
      */
-    private boolean checkColorAndDieColor(String color, PatternCardField pcd, boolean isDie) {
-        if (!isDie) if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
-        if (pcd.hasDie()) return !(pcd.getDie().getStringColor().equals(color));
+    private boolean checkColorAndDieColor(String color, PatternCardField patternCardField, boolean isDie) {
+        if (!isDie)
+            if (patternCardField.hasColor()) return !patternCardField.getStringColor().equals(color);
+        if (patternCardField.hasDie()) return !(patternCardField.getDie().getStringColor().equals(color));
         return true;
     }
 
@@ -151,13 +152,14 @@ public class PatternCardField {
      */
     private boolean checkSouthValue(int value, boolean isDie) {
         if (yPos == 3) return true;
-        PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
-        return checkValueAndValueDie(value, pcd, isDie);
+        PatternCardField patternCardField = patternCard.getPatternCardField(xPos, yPos + 1);
+        return checkValueAndValueDie(value, patternCardField, isDie);
     }
 
-    private boolean checkValueAndValueDie(int value, PatternCardField pcd, boolean isDie) {
-        if (!isDie) if (pcd.hasValue()) return !(pcd.getValue() == value);
-        if (pcd.hasDie()) return !(pcd.getDie().getEyes() == value);
+    private boolean checkValueAndValueDie(int value, PatternCardField patternCardField, boolean isDie) {
+        if (!isDie)
+            if (patternCardField.hasValue()) return !(patternCardField.getValue() == value);
+        if (patternCardField.hasDie()) return !(patternCardField.getDie().getEyes() == value);
         return true;
     }
 
@@ -170,8 +172,8 @@ public class PatternCardField {
      */
     private boolean checkNorthValue(int value, boolean isDie) {
         if (yPos == 0) return true;
-        PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
-        return checkValueAndValueDie(value, pcd, isDie);
+        PatternCardField patternCardField = patternCard.getPatternCardField(xPos, yPos - 1);
+        return checkValueAndValueDie(value, patternCardField, isDie);
     }
 
     /**
@@ -183,8 +185,8 @@ public class PatternCardField {
      */
     private boolean checkEastValue(int value, boolean isDie) {
         if (xPos == 4) return true;
-        PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
-        return checkValueAndValueDie(value, pcd, isDie);
+        PatternCardField patternCardField = patternCard.getPatternCardField(xPos + 1, yPos);
+        return checkValueAndValueDie(value, patternCardField, isDie);
     }
 
     /**
@@ -196,8 +198,8 @@ public class PatternCardField {
      */
     private boolean checkWestValue(int value, boolean isDie) {
         if (xPos == 0) return true;
-        PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);
-        return checkValueAndValueDie(value, pcd, isDie);
+        PatternCardField patternCardField = patternCard.getPatternCardField(xPos - 1, yPos);
+        return checkValueAndValueDie(value, patternCardField, isDie);
     }
 
     /**
@@ -348,9 +350,9 @@ public class PatternCardField {
             }
             return;
         }
-        if (hasDie()) {
+        if (hasDie())
             return;
-        }
+
         sideCheckPlaceDie(gameDie);
     }
 
@@ -388,7 +390,6 @@ public class PatternCardField {
                 return;
             }
             checkTurn(gameDie);
-            return;
         }
     }
 
@@ -401,10 +402,8 @@ public class PatternCardField {
         if (patternCard.isFirstTurn()) {
             patternCard.setFirstTurn(false);
             this.die = gameDie;
-        } else if (isNextToDie()) {
+        } else if (isNextToDie())
             this.die = gameDie;
-        }
-        return;
     }
 
     /**

@@ -1,14 +1,18 @@
 package nl.avans.sagrada.controller;
 
 import javafx.geometry.Insets;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import nl.avans.sagrada.dao.ToolcardDAO;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardView;
 import nl.avans.sagrada.view.ToolCardView;
+
+import java.util.ArrayList;
 
 public class PlayerController {
     private Player player;
@@ -22,6 +26,7 @@ public class PlayerController {
 
     /**
      * Displays all toolcards that belong to a certain game.
+     *
      * @param game Game
      */
     public void viewToolcards(Game game) {
@@ -42,19 +47,20 @@ public class PlayerController {
         pane.setRight(toolcardviews[2]);
         myScene.setContentPane(pane);
     }
-    
+
     /**
      * Displays the selected toolcard for the current game.
+     *
      * @param game Game
      * @param selection int
      */
     public void viewToolcard(Game game, int selection) {
         Pane pane = new Pane();
-        
+
         ToolCardView toolCardView = new ToolCardView(this);
         toolCardView.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(selection));
         toolCardView.render();
-        
+
         pane.getChildren().add(toolCardView);
         myScene.setContentPane(pane);
     }
@@ -123,10 +129,6 @@ public class PlayerController {
         DieView dieView3 = new DieView();
         dieView3.setGameDie(gameDie3);
         dieView3.render();
-
-        dieView1.makeMovable();
-        dieView2.makeMovable();
-        dieView3.makeMovable();
 
         pane1.setPadding(new Insets(5));
         pane2.setPadding(new Insets(5));

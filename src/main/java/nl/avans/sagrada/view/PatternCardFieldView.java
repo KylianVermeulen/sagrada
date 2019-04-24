@@ -36,12 +36,12 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         images = new ArrayList<ImageView>();
         diceEyesArray();
         resizeImages();
-        setOnMouseDragReleased(e -> {
+        setOnMouseDragReleased(event -> {
             try {
-                GameDie gameDie = ((GameDie) ((DieView) e.getGestureSource()).getGameDie());
+                GameDie gameDie = ((GameDie) ((DieView) event.getGestureSource()).getGameDie());
                 patternCardField.placeDie(gameDie);
                 this.render();
-            } catch (Exception e1) {
+            } catch (Exception ec) {
             }
         });
 

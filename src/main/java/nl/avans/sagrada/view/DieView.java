@@ -1,12 +1,11 @@
 package nl.avans.sagrada.view;
 
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 import java.util.ArrayList;
 
@@ -42,17 +41,6 @@ public class DieView extends Pane implements ViewInterface {
         }
     }
 
-    public void makeMovable() {
-        setOnDragDetected(e -> {
-            this.startFullDrag();
-        });
-
-
-        this.setOnMouseReleased(e -> {
-
-        });
-    }
- 
     /**
      * Gets the eyes value out of gameDie and shows the visual of the value
      *
