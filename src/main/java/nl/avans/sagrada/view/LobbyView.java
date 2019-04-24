@@ -65,7 +65,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
      */
     private void buildNewGameBtn() {
         newGameButton = new Button("Maak nieuw spel");
-        newGameButton.setOnAction(e -> accountController.setupNewGame());
+        newGameButton.setOnAction(e -> accountController.actionSetupNewGame());
         newGameButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     }
 
@@ -92,6 +92,6 @@ public class LobbyView extends BorderPane implements ViewInterface {
      */
     private void buildLogout() {
         logoutButton = new Button("Logout");
-        logoutButton.setOnAction(e -> accountController.logout());
+        logoutButton.setOnAction(e -> accountController.actionLogout());
     }
 }

@@ -59,7 +59,7 @@ public class RegisterView extends VBox implements ViewInterface {
         backButton.setOnAction(e -> accountController.viewLogin());
 
         registerButton.setOnAction(
-                e -> accountController.register(usernameInput.getText(), passwordInput.getText()));
+                e -> accountController.actionRegister(usernameInput.getText(), passwordInput.getText()));
 
         VBox vbox = new VBox();
         HBox hbox1 = new HBox();

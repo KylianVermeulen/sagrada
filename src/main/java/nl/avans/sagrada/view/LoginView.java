@@ -53,7 +53,7 @@ public class LoginView extends VBox implements ViewInterface {
 
         Button loginButton = new Button("Login");
         loginButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
-        loginButton.setOnAction(e -> accountController.login(userTextField, passwordTextField));
+        loginButton.setOnAction(e -> accountController.actionLogin(userTextField.getText(), passwordTextField.getText()));
 
         Label registerLabel = new Label("If you don't have an account click here: ");
         String css = this.getClass().getResource("/css/style.css").toExternalForm();

@@ -70,7 +70,7 @@ public class GameOverviewView extends ScrollPane implements ViewInterface {
      */
     private Button buildButtonToJoin(Game game) {
         Button button = new Button("->");
-        button.setOnAction(e -> accountController.joinGame(game));
+        button.setOnAction(e -> accountController.actionJoinGame(game));
         return button;
     }
 }

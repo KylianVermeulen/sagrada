@@ -3,7 +3,6 @@ package nl.avans.sagrada.controller;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -34,21 +33,33 @@ public class AccountController {
     }
 
     /**
-     * Login an account and checks is username and password combination is right.
-     *
-     * @param userTextField TextField
-     * @param passwordTextField TextField
+     * Displays the login view as content pane. Allows the user to login with a username and
+     * password.
      */
-    public void login(TextField userTextField, TextField passwordTextField) {
+    public void viewLogin() {
+        Pane pane = new Pane();
+        LoginView loginView = new LoginView(this);
+        loginView.render();
+        pane.getChildren().add(loginView);
+        myScene.setContentPane(pane);
+    }
+
+    /**
+     * Login a user using a username and password obtained by the view. Checks the username and
+     * password from the database.
+     *
+     * @param username the username of the account
+     * @param password the password of the account
+     */
+    public void actionLogin(String username, String password) {
         AccountDAO accountDAO = new AccountDAO();
-        String username = userTextField.getText();
-        String password = passwordTextField.getText();
-        Account accountFromDao = accountDAO.getAccountByUsername(username);
-        if (accountFromDao != null) {
-            if (accountFromDao.getPassword().equals(password)) {
+        Account account = accountDAO.getAccountByUsername(username);
+
+        if (account != null) {
+            if (account.getPassword().equals(password)) {
                 Alert alert = new Alert("Login geslaagd", "Je bent nu ingelogd.", AlertType.SUCCES);
                 myScene.addAlertPane(alert);
-                account = accountFromDao;
+                this.account = account;
                 viewLobby();
             } else {
                 Alert alert = new Alert("Password ongeldig", "Password is niet geldig.",
@@ -62,23 +73,38 @@ public class AccountController {
     }
 
     /**
-     * Registers a user via username and password, and checks for certain requirements linked to the
-     * username and password.
-     *
-     * @param username String
-     * @param password String
+     * Displays the register view as content pane. Allows the user to register with a username and
+     * password.
      */
-    public void register(String username, String password) {
+    public void viewRegister() {
+        Pane pane = new Pane();
+        RegisterView registerView = new RegisterView(this);
+        registerView.render();
+        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        pane.getChildren().add(registerView);
+        myScene.setContentPane(pane);
+    }
+
+    /**
+     * Registers a user using a username and password, and checks for certain requirements linked to
+     * the username and password.
+     *
+     * @param username the username of the new account
+     * @param password the password of the new account
+     */
+    public void actionRegister(String username, String password) {
         AccountDAO accountDAO = new AccountDAO();
         Account account = new Account();
+
         if (username.length() < 3) {
-            Alert alert = new Alert("Username invalid", "Username must be 3 characters.",
+            Alert alert = new Alert("Username ongeldig",
+                    "Username moet minstens 3 characters zijn.",
                     AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         if (password.length() < 3) {
-            Alert alert = new Alert("Password invalid", "Password must be 3 characters.",
+            Alert alert = new Alert("Password ongeldig", "Password moet minstens 3 characters zijn",
                     AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
@@ -86,67 +112,69 @@ public class AccountController {
         Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
         Matcher match = pt.matcher(password);
         if (match.find()) {
-            Alert alert = new Alert("Password invalid",
-                    "Password can only contain letters and numbers.", AlertType.ERROR);
+            Alert alert = new Alert("Password ongeldig",
+                    "Moet alleen letters en/of cijfers bevatten.", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
+
         account.setUsername(username);
         account.setPassword(password);
         if (accountDAO.accountExists(account)) {
-            Alert alert = new Alert("Username invalid", "Username already exists.",
+            Alert alert = new Alert("Username ongeldig", "Username bestaat al.",
                     AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         accountDAO.addAccount(account);
-        Alert alert = new Alert("Account created", "Account is now created.", AlertType.SUCCES);
+        Alert alert = new Alert("Account aangemaakt", "Account is aangemaakt.", AlertType.SUCCES);
         myScene.addAlertPane(alert);
+        viewLogin();
     }
 
     /**
-     * Controlls the logout
+     * Logs the user out of the game. Will display the login view.
      */
-    public void logout() {
+    public void actionLogout() {
         account = null;
         viewLogin();
     }
 
     /**
-     * Controlls the accept of a invite
+     * Displays the lobby view of the account. Receives the pending invites and games from the
+     * database.
      */
-    public void acceptInvite(Invite invite) {
-        InviteDAO inviteDAO = new InviteDAO();
-        invite.acceptInvite();
-        inviteDAO.updateInvite(invite);
-        viewLobby();
+    public void viewLobby() {
+        AccountDAO accountDAO = new AccountDAO();
+        Pane pane = new Pane();
+        account = accountDAO.getAccountByUsername(account.getUsername());
+        ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
+        ArrayList<Game> games = account.getActiveGames();
+
+        LobbyView lobbyView = new LobbyView(this);
+        lobbyView.setInvites(pendingInvites);
+        lobbyView.setGames(games);
+        lobbyView.render();
+
+        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        pane.getChildren().add(lobbyView);
+        myScene.setContentPane(pane);
     }
 
     /**
-     * Controlls the deny of a invite
+     * Displays the setup game view as content pane. Makes a game object and start players object
+     * and saved to the database.
      */
-    public void denyInvite(Invite invite) {
-        InviteDAO inviteDAO = new InviteDAO();
-        invite.denyInvite();
-        inviteDAO.updateInvite(invite);
-        Game game = invite.getGame();
-        game.cancel();
-        viewLobby();
-    }
-
-    public void joinGame(Game game) {
-    }
-
-    public void setupNewGame() {
+    public void actionSetupNewGame() {
         GameDAO gameDAO = new GameDAO();
         PlayerDAO playerDAO = new PlayerDAO();
         AccountDAO accountDAO = new AccountDAO();
 
-        Pane pane = new Pane();
         int gameId = gameDAO.getNextGameId();
         Game game = new Game();
         game.setId(gameId);
         gameDAO.addGame(game);
+
         int playerId = playerDAO.getNextPlayerId();
         Player player = new Player();
         player.setId(playerId);
@@ -160,69 +188,34 @@ public class AccountController {
 
         game.setTurnPlayer(player);
         gameDAO.updateGame(game);
-
         ArrayList<Account> accounts = accountDAO.getAllInviteableAccounts(account);
+
+        Pane pane = new Pane();
         GameSetupView gameSetupView = new GameSetupView(this, accounts, game);
         gameSetupView.render();
+
         pane.getChildren().add(gameSetupView);
-
-        myScene.setContentPane(pane);
-    }
-
-    public void viewLobby() {
-        AccountDAO accountDAO = new AccountDAO();
-        Pane pane = new Pane();
-        account = accountDAO.getAccountByUsername(account.getUsername());
-
-        ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
-        ArrayList<Game> games = account.getActiveGames();
-
-        LobbyView lobbyView = new LobbyView(this);
-        lobbyView.setInvites(pendingInvites);
-        lobbyView.setGames(games);
-        lobbyView.render();
-
-        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        pane.getChildren().add(lobbyView);
-
         myScene.setContentPane(pane);
     }
 
     /**
-     * Shows the register view, allowing the register screen to be displayed as current screen.
+     * Displays the lobby view as content pane when all checks have passed. Checks for the count of
+     * invites and if start player hasn't already sent an invite to an invited player.
+     *
+     * @param inviteViews list of invites
+     * @param game the game object for which the invites are.
      */
-    public void viewRegister() {
-        Pane pane = new Pane();
-        RegisterView registerView = new RegisterView(this);
-        registerView.render();
-        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        pane.getChildren().add(registerView);
-
-        myScene.setContentPane(pane);
-    }
-
-    /**
-     * Shows the login view, allowing the login screen to be displayed as current screen.
-     */
-    public void viewLogin() {
-        Pane pane = new Pane();
-
-        LoginView loginView = new LoginView(this);
-        loginView.render();
-        pane.getChildren().add(loginView);
-
-        myScene.setContentPane(pane);
-    }
-
-    public void sendInvites(ArrayList<InviteView> inviteViews, Game game) {
+    public void actionSendInvites(ArrayList<InviteView> inviteViews, Game game) {
+        PlayerDAO playerDAO = new PlayerDAO();
         InviteDAO inviteDAO = new InviteDAO();
-
+        ArrayList<Player> players = new ArrayList<>();
         ArrayList<Account> invitedAccounts = new ArrayList<>();
         for (InviteView inviteView : inviteViews) {
             if (inviteView.getCheckbox().isSelected()) {
                 invitedAccounts.add(inviteView.getAccount());
             }
         }
+
         if (invitedAccounts.size() == 0) {
             System.out.println("Te weinig accounts ge-invite");
             Alert alert = new Alert("Invites niet verstuurd", "Te weinig accounts geselecteerd",
@@ -252,10 +245,47 @@ public class AccountController {
             invite.setGame(game);
             invite.setInvitedAccount(invitedAccount);
             inviteDAO.addInvite(invite);
+
+            Player player = playerDAO.getPlayerByAccountAndGame(invite.getInvitedAccount(), game);
+            players.add(player);
         }
+        Player start_player = playerDAO.getPlayerByAccountAndGame(account, game);
+        players.add(start_player);
+
         Alert alert = new Alert("Invites verstuurd", "Invites zijn verstuurd", AlertType.INFO);
         myScene.addAlertPane(alert);
+        game.setPlayers(players);
         game.setOptionPatternCardsForPlayers();
         viewLobby();
+    }
+
+    /**
+     * Accept an invite and will set the lobby view as content pane.
+     */
+    public void actionAcceptInvite(Invite invite) {
+        InviteDAO inviteDAO = new InviteDAO();
+        invite.acceptInvite();
+        inviteDAO.updateInvite(invite);
+        viewLobby();
+    }
+
+    /**
+     * Denies an invite and will set the lobby view as content pane.
+     */
+    public void actionDenyInvite(Invite invite) {
+        InviteDAO inviteDAO = new InviteDAO();
+        invite.denyInvite();
+        inviteDAO.updateInvite(invite);
+        Game game = invite.getGame();
+        game.cancel();
+        viewLobby();
+    }
+
+    /**
+     * Join a game.
+     *
+     * @param game the game to join
+     */
+    public void actionJoinGame(Game game) {
     }
 }

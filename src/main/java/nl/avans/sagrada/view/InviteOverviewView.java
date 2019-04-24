@@ -63,7 +63,7 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
      */
     private Button buildButtonToAcceptInvite(Invite invite) {
         Button button = new Button("+");
-        button.setOnAction(e -> accountController.acceptInvite(invite));
+        button.setOnAction(e -> accountController.actionAcceptInvite(invite));
         return (button);
     }
 
@@ -74,7 +74,7 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
      */
     private Button buildButtonToDenyInvite(Invite invite) {
         Button button = new Button("x");
-        button.setOnAction(e -> accountController.denyInvite(invite));
+        button.setOnAction(e -> accountController.actionDenyInvite(invite));
         return (button);
     }
 }
