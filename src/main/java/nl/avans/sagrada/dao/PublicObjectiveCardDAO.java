@@ -12,6 +12,9 @@ import nl.avans.sagrada.model.PublicObjectiveCard;
 public class PublicObjectiveCardDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Constructor, Initializes DBConnection
+     */
     public PublicObjectiveCardDAO() {
         dbConnection = new DBConnection();
     }

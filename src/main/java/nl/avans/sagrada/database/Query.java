@@ -11,7 +11,7 @@ public class Query {
     private ResultSet resultSet;
 
     /**
-     * Partial constructor
+     * Full constructor
      *
      * @param sql query
      * @param type "query" or "update" (insert, update, delete)

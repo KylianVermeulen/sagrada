@@ -13,10 +13,18 @@ import nl.avans.sagrada.model.Player;
 public class InviteDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Constructor, Initializes DBConnection
+     */
     public InviteDAO() {
         dbConnection = new DBConnection();
     }
 
+    /**
+     * This method will return a list of invites from a given account.
+     * @param account
+     * @return
+     */
     public ArrayList<Invite> getInvitesOfAccount(Account account) {
         ArrayList<Invite> invites = new ArrayList<>();
         try {
@@ -25,10 +33,10 @@ public class InviteDAO {
                             new QueryParameter(QueryParameter.STRING, account.getUsername()))
             );
             while (rs.next()) {
-                GameDAO gameDao = new GameDAO();
-                PlayerDAO playerDao = new PlayerDAO();
-                Player player = playerDao.getPlayerById(rs.getInt("idplayer"));
-                Game game = gameDao.getGameById(rs.getInt("game_idgame"));
+                GameDAO gameDAO = new GameDAO();
+                PlayerDAO playerDAO = new PlayerDAO();
+                Player player = playerDAO.getPlayerById(rs.getInt("idplayer"));
+                Game game = gameDAO.getGameById(rs.getInt("game_idgame"));
                 Invite invite = new Invite();
                 invite.setInvitedAccount(account);
                 invite.setPlayer(player);
@@ -49,6 +57,11 @@ public class InviteDAO {
         return invites;
     }
 
+    /**
+     *
+     * @param account
+     * @return
+     */
     public ArrayList<Invite> getAllPendingInvitesOfAccount(Account account) {
         ArrayList<Invite> inviteList = getInvitesOfAccount(account);
         ArrayList<Invite> pendingInvites = new ArrayList<>();

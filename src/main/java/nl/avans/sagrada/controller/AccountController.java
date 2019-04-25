@@ -148,7 +148,7 @@ public class AccountController {
         AccountDAO accountDAO = new AccountDAO();
         Pane pane = new Pane();
         account = accountDAO.getAccountByUsername(account.getUsername());
-        ArrayList<Invite> pendingInvites = account.getAllPendingInvites();
+        ArrayList<Invite> pendingInvites = account.getPendingInvites();
         ArrayList<Game> games = account.getActiveGames();
 
         LobbyView lobbyView = new LobbyView(this);

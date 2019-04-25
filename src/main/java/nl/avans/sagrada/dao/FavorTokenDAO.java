@@ -12,10 +12,19 @@ import nl.avans.sagrada.model.Player;
 public class FavorTokenDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Constructor, Initializes DBConnection
+     */
     public FavorTokenDAO() {
         dbConnection = new DBConnection();
     }
 
+    /**
+     * This method will return a list of all favor tokens of a player given as parameter.
+     *
+     * @param player The player to retrieve all favor tokens.
+     * @return A list of favor tokens.
+     */
     public ArrayList<FavorToken> getFavortokensOfPlayer(Player player) {
         ArrayList<FavorToken> list = new ArrayList<>();
         try {

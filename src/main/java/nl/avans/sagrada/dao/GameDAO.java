@@ -12,10 +12,19 @@ import nl.avans.sagrada.model.Player;
 public class GameDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Constructor, Initializes DBConnection
+     */
     public GameDAO() {
         dbConnection = new DBConnection();
     }
 
+    /**
+     * This method will return a new game object using gameId as unique identifier.
+     *
+     * @param gameId The id from a game.
+     * @return A new game object.
+     */
     public Game getGameById(int gameId) {
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -34,6 +43,11 @@ public class GameDAO {
         return null;
     }
 
+    /**
+     * This method will update a game in the database.
+     *
+     * @param game The game object to update.
+     */
     public void updateGame(Game game) {
         try {
             int turnPlayerId = game.getTurnPlayer().getId();
@@ -47,6 +61,11 @@ public class GameDAO {
         }
     }
 
+    /**
+     * This method will add a game to the database.
+     *
+     * @param game The game object to add.
+     */
     public void addGame(Game game) {
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -58,6 +77,11 @@ public class GameDAO {
         }
     }
 
+    /**
+     * This method will return the next id for a new game.
+     *
+     * @return The next possible id in the database.
+     */
     public int getNextGameId() {
         int gameId = 0;
         try {
@@ -73,6 +97,12 @@ public class GameDAO {
         return gameId;
     }
 
+    /**
+     * This method will return a list of players for a certain game given as parameter.
+     *
+     * @param game The game object to retrieve the players of.
+     * @return A list of players.
+     */
     public ArrayList<Player> getPlayersOfGame(Game game) {
         PlayerDAO playerDAO = new PlayerDAO();
         ArrayList<Player> players = new ArrayList<>();

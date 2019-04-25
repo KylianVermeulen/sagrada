@@ -11,6 +11,9 @@ import nl.avans.sagrada.model.Player;
 public class PatternCardDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Constructor, Initializes DBConnection
+     */
     public PatternCardDAO() {
         dbConnection = new DBConnection();
     }

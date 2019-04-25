@@ -12,6 +12,9 @@ import nl.avans.sagrada.model.Toolcard;
 public class ToolcardDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Constructor, Initializes DBConnection
+     */
     public ToolcardDAO() {
         dbConnection = new DBConnection();
     }

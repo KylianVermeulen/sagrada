@@ -12,6 +12,9 @@ import nl.avans.sagrada.model.PatternCardField;
 public class PatternCardFieldDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Constructor, Initializes DBConnection
+     */
     public PatternCardFieldDAO() {
         dbConnection = new DBConnection();
     }

@@ -7,7 +7,7 @@ public class QueryParameter {
     private Object value = null;
 
     /**
-     * Constructor
+     * Full constructor
      *
      * @param type parameter type
      * @param value parameter value

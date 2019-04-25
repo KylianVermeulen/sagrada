@@ -13,6 +13,9 @@ import nl.avans.sagrada.model.Player;
 public class PlayerDAO {
     private DBConnection dbConnection;
 
+    /**
+     * Constructor, Initializes DBConnection
+     */
     public PlayerDAO() {
         dbConnection = new DBConnection();
     }
