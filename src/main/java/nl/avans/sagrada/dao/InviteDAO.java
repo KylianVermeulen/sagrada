@@ -17,11 +17,6 @@ public class InviteDAO {
         dbConnection = new DBConnection();
     }
 
-    /**
-     * get all the invites from a account
-     *
-     * @return ArrayList containing all the invites
-     */
     public ArrayList<Invite> getInvitesOfAccount(Account account) {
         ArrayList<Invite> invites = new ArrayList<>();
         try {
@@ -49,16 +44,11 @@ public class InviteDAO {
                 invites.add(invite);
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         return invites;
     }
 
-    /**
-     * Get all invites that are pending So the invites that are still waiting for a response
-     *
-     * @return ArrayList with all the invites
-     */
     public ArrayList<Invite> getAllPendingInvitesOfAccount(Account account) {
         ArrayList<Invite> inviteList = getInvitesOfAccount(account);
         ArrayList<Invite> pendingInvites = new ArrayList<>();
@@ -69,12 +59,8 @@ public class InviteDAO {
             }
         }
         return pendingInvites;
-
     }
 
-    /**
-     * Adds a new invite to the database
-     */
     public void addInvite(Invite invite) {
         try {
             PlayerDAO playerDao = new PlayerDAO();
@@ -85,7 +71,7 @@ public class InviteDAO {
             int seqNr = this.getSeqNrForNextPlayer(game);
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "INSERT INTO `player` (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, patterncard_idpatterncard, score) VALUES (?, ?, ?, ?, ?, '0', ?, NULL, NULL);",
+                            "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, patterncard_idpatterncard, score) VALUES (?, ?, ?, ?, ?, '0', ?, NULL, NULL);",
                             "update"),
                     new QueryParameter(QueryParameter.INT, nextPlayerId),
                     new QueryParameter(QueryParameter.STRING, username),
@@ -99,11 +85,6 @@ public class InviteDAO {
         }
     }
 
-    /**
-     * Get the next seqnr for the invited player
-     *
-     * @return int
-     */
     public int getSeqNrForNextPlayer(Game game) {
         int nextSeqnr = 1;
         try {
@@ -121,9 +102,6 @@ public class InviteDAO {
         return nextSeqnr;
     }
 
-    /**
-     * Updates the playstatus of a invite
-     */
     public void updateInvite(Invite invite) {
         int playerId = invite.getPlayer().getId();
 

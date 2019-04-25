@@ -9,7 +9,6 @@ import nl.avans.sagrada.dao.ToolcardDAO;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
-import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.Toolcard;
 import nl.avans.sagrada.view.DieView;
@@ -27,13 +26,12 @@ public class PlayerController {
     }
 
     /**
-     * Displays all toolcards that belong to a certain game.
+     * Example code
      *
-     * @param game Game
+     * @param game the game to view the three Toolcard's of.
      */
     public void viewToolcards(Game game) {
         ToolcardDAO toolcardDAO = new ToolcardDAO();
-
         BorderPane pane = new BorderPane();
         ToolcardDAO toolcardDAO = new ToolcardDAO();
         ToolCardView[] toolcardviews = new ToolCardView[3];
@@ -54,10 +52,10 @@ public class PlayerController {
     }
 
     /**
-     * Displays the selected toolcard for the current game.
+     * Example code
      *
-     * @param game Game
-     * @param selection int
+     * @param game the game to view Toolcard of.
+     * @param selection the selected Toolcard to view.
      */
     public void viewToolcard(Game game, int selection) {
         ToolcardDAO toolcardDAO = new ToolcardDAO();
@@ -71,35 +69,23 @@ public class PlayerController {
         myScene.setContentPane(pane);
     }
 
-    public void overviewOfGame() {
-
-    }
-
-    public void viewPatterncardOfPlayer(Player player) {
-        Pane pane = new Pane();
-        PatternCard patternCard = player.getPatternCard();
-        PatternCardView patternCardView = new PatternCardView(this);
-        patternCardView.setPatternCard(patternCard);
-        patternCardView.render();
-        pane.getChildren().add(patternCardView);
-        myScene.setContentPane(pane);
-    }
-    
     /**
-     * Displays all public objective card for the current game.
+     * Example code
+     *
      * @param game Game
      */
     public void viewPublicObjectiveCards(Game game) {
         BorderPane pane = new BorderPane();
         PublicObjectiveCardDAO publicObjectiveCardDAO = new PublicObjectiveCardDAO();
         PublicObjectiveCardView[] publicobjectivecardviews = new PublicObjectiveCardView[3];
-        ArrayList<PublicObjectiveCard> publicObjectiveCards = publicObjectiveCardDAO.getAllPublicObjectiveCardsOfGame(game);
+        ArrayList<PublicObjectiveCard> publicObjectiveCards = publicObjectiveCardDAO
+                .getAllPublicObjectiveCardsOfGame(game);
         for (int index = 0; index < publicobjectivecardviews.length; index++) {
             publicobjectivecardviews[index] = new PublicObjectiveCardView(this);
             publicobjectivecardviews[index].setPublicObjectiveCard(publicObjectiveCards.get(index));
             publicobjectivecardviews[index].render();
         }
-        
+
         BorderPane.setMargin(publicobjectivecardviews[0], new Insets(0, 5, 0, 0));
         BorderPane.setMargin(publicobjectivecardviews[1], new Insets(0, 5, 0, 5));
         BorderPane.setMargin(publicobjectivecardviews[2], new Insets(0, 0, 0, 5));
@@ -110,14 +96,13 @@ public class PlayerController {
     }
 
     /**
-     * Makes a random generated patternCard
+     * Example code
      *
-     * (adding the difficultly in PatternCard does not matter for a random generated patternCard
-     * just make sure standard is false)
+     * @param player the player to view the PatternCard of.
      */
-    public void makeRandomPatternCard() {
+    public void viewPatternCardOfPlayer(Player player) {
         Pane pane = new Pane();
-        PatternCard patternCard = new PatternCard(1, 0, false);
+        PatternCard patternCard = player.getPatternCard();
         PatternCardView patternCardView = new PatternCardView(this);
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();
@@ -125,28 +110,14 @@ public class PlayerController {
         myScene.setContentPane(pane);
     }
 
-    public void useToolcard(Toolcard toolcard) {
-
-    }
-
-    public void toggleCheatmode() {
-
-    }
-
+    /**
+     * Example code
+     */
     public void makeDie() {
-        GameDie gameDie = new GameDie(6, "geel");
+        GameDie gameDie = new GameDie(1, "geel", 6);
         DieView dieView = new DieView();
         dieView.setGameDie(gameDie);
         dieView.render();
         myScene.setContentPane(dieView);
-
-    }
-
-    public void placeDie(GameDie die, PatternCardField patterncardField) {
-
-    }
-
-    public void leaveGame() {
-
     }
 }

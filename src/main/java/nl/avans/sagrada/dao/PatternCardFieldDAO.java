@@ -12,21 +12,12 @@ import nl.avans.sagrada.model.PatternCardField;
 public class PatternCardFieldDAO {
     private DBConnection dbConnection;
 
-    /**
-     * Constructor
-     */
     public PatternCardFieldDAO() {
         dbConnection = new DBConnection();
     }
 
-    /**
-     * Get PatternCardFields from db using PatternCard
-     *
-     * @param patternCard PatternCard
-     * @return ArrayList<PatternCardField
-     */
     public ArrayList<PatternCardField> getPatternCardFieldsOfPatterncard(PatternCard patternCard) {
-        ArrayList<PatternCardField> list = new ArrayList<PatternCardField>();
+        ArrayList<PatternCardField> list = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
@@ -47,8 +38,5 @@ public class PatternCardFieldDAO {
             e.printStackTrace();
         }
         return list;
-    }
-
-    public void addPatterncardField(PatternCardField patterncardField, PatternCard patterncard) {
     }
 }

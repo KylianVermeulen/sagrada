@@ -16,14 +16,8 @@ public class ToolcardDAO {
         dbConnection = new DBConnection();
     }
 
-    /**
-     * Returns all toolcards that are active during the selected game.
-     *
-     * @param game Game
-     * @return an ArrayList (type: Toolcard) of all toolcards that are active in the selected game
-     */
     public ArrayList<Toolcard> getToolcardsOfGame(Game game) {
-        ArrayList<Toolcard> list = new ArrayList<Toolcard>();
+        ArrayList<Toolcard> list = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
@@ -42,13 +36,8 @@ public class ToolcardDAO {
         return list;
     }
 
-    /**
-     * Returns all toolcards that are stored in the database.
-     *
-     * @return an ArrayList (type: Toolcard) of all toolcards stored within the database
-     */
     public ArrayList<Toolcard> getAllToolcards() {
-        ArrayList<Toolcard> list = new ArrayList<Toolcard>();
+        ArrayList<Toolcard> list = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM toolcard", "query"));
             while (rs.next()) {

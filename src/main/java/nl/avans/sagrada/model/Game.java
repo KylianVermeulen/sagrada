@@ -18,16 +18,10 @@ public class Game {
     private GameDie[] gameDie;
     private PublicObjectiveCard[] publicObjectiveCards;
 
-    /**
-     * Partial constructor
-     *
-     * @param id int
-     */
     public Game(int id) {
         this.id = id;
-        gamemode = GAMEMODE_NORMAL;
-        GameDAO gameDao = new GameDAO();
-        players = gameDao.getPlayersOfGame(this);
+        GameDAO gameDAO = new GameDAO();
+        players = gameDAO.getPlayersOfGame(this);
     }
 
     public Game() {

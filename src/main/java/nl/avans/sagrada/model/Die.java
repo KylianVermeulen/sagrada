@@ -4,27 +4,27 @@ public class Die {
     private int number;
     private String color;
 
-    /**
-     * Empty constructor
-     */
     public Die() {
     }
 
-    /**
-     * Returns the Color as a String
-     *
-     * @return String
-     */
-    protected String getStringColor() {
-        return this.color;
+    public Die(int number, String color) {
+        this.number = number;
+        this.color = color;
     }
 
-    /**
-     * Sets the Color
-     *
-     * @param color String
-     */
-    protected void setColor(String color) {
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
         this.color = color;
     }
 }

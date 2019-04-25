@@ -253,14 +253,6 @@ public class Player {
     }
 
     /**
-     * Set optional PatterCards to Player from database
-     */
-    public void setOptionalPatternCards() {
-        PatternCardDAO PatternCardDAO = new PatternCardDAO();
-        this.optionalPatternCards = PatternCardDAO.getOptionalPatterncardOfPlayer(this);
-    }
-
-    /**
      * Get FavorTokens from Player
      *
      * @return ArrayList<FavorToken>

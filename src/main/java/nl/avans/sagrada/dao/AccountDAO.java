@@ -15,11 +15,6 @@ public class AccountDAO {
         dbConnection = new DBConnection();
     }
 
-    /**
-     * Gets a account by the username When there was no account found it will return null
-     *
-     * @return Account model
-     */
     public Account getAccountByUsername(String username) {
         Account account = null;
         try {
@@ -34,23 +29,20 @@ public class AccountDAO {
                 account = new Account(accountUsername, accountPassword);
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         return account;
     }
 
-    /**
-     * Get all accounts
-     *
-     * @return ArrayList<Account>
-     */
     public ArrayList<Account> getAllAccounts() {
         DBConnection dbConnection = new DBConnection();
-        ArrayList<Account> list = new ArrayList<Account>();
+        ArrayList<Account> list = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM account", "query"));
             while (rs.next()) {
-                Account account = new Account(rs.getString("username"), rs.getString("password"));
+                String accountUsername = rs.getString("username");
+                String accountPassword = rs.getString("password");
+                Account account = new Account(accountUsername, accountPassword);
                 list.add(account);
             }
         } catch (SQLException e) {
@@ -59,32 +51,20 @@ public class AccountDAO {
         return list;
     }
 
-    /**
-     * Gets all accounts that a account can invites
-     *
-     * @param account the account that want's to send the invite
-     * @return ArrayList<Account>
-     */
     public ArrayList<Account> getAllInviteableAccounts(Account account) {
         ArrayList<Account> accounts = getAllAccounts();
         ArrayList<Account> inviteAbleAccounts = new ArrayList<>();
 
         for (Account inviteAccount : accounts) {
             String usernameAccount = account.getUsername();
-            String usernameInviteAvleAccount = inviteAccount.getUsername();
-            if (!usernameAccount.equals(usernameInviteAvleAccount)) {
+            String usernameInviteAbleAccount = inviteAccount.getUsername();
+            if (!usernameAccount.equals(usernameInviteAbleAccount)) {
                 inviteAbleAccounts.add(inviteAccount);
             }
         }
-
-        return (inviteAbleAccounts);
+        return inviteAbleAccounts;
     }
 
-    /**
-     * Update account
-     *
-     * @param account Account
-     */
     public void updateAccount(Account account) {
         if (accountExists(account)) {
             try {
@@ -101,11 +81,6 @@ public class AccountDAO {
         }
     }
 
-    /**
-     * Add account
-     *
-     * @param account Account
-     */
     public void addAccount(Account account) {
         if (!accountExists(account)) {
             try {
@@ -123,12 +98,6 @@ public class AccountDAO {
         }
     }
 
-    /**
-     * Check if account exists
-     *
-     * @param account Account
-     * @return boolean true when exists
-     */
     public boolean accountExists(Account account) {
         try {
             ResultSet rs = dbConnection.executeQuery(

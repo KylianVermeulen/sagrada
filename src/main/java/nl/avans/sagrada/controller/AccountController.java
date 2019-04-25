@@ -206,7 +206,7 @@ public class AccountController {
      * @param game the game object for which the invites are.
      */
     public void actionSendInvites(ArrayList<InviteView> inviteViews, Game game) {
-        PlayerDAO playerDAO = new PlayerDAO();
+        GameDAO gameDAO = new GameDAO();
         InviteDAO inviteDAO = new InviteDAO();
         ArrayList<Player> players = new ArrayList<>();
         ArrayList<Account> invitedAccounts = new ArrayList<>();
@@ -245,15 +245,10 @@ public class AccountController {
             invite.setGame(game);
             invite.setInvitedAccount(invitedAccount);
             inviteDAO.addInvite(invite);
-
-            Player player = playerDAO.getPlayerByAccountAndGame(invite.getInvitedAccount(), game);
-            players.add(player);
         }
-        Player start_player = playerDAO.getPlayerByAccountAndGame(account, game);
-        players.add(start_player);
-
         Alert alert = new Alert("Invites verstuurd", "Invites zijn verstuurd", AlertType.INFO);
         myScene.addAlertPane(alert);
+        players = gameDAO.getPlayersOfGame(game);
         game.setPlayers(players);
         game.setOptionPatternCardsForPlayers();
         viewLobby();

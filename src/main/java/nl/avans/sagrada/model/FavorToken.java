@@ -6,19 +6,10 @@ public class FavorToken {
     private Player player;
     private Toolcard toolcard;
 
-    /**
-     * Partial constructor for getFavortokensOfPlayer
-     *
-     * @param id int
-     * @param player Player
-     */
     public FavorToken(int id, Player player) {
         this.id = id;
         this.player = player;
         this.game = player.getGame();
-    }
-
-    public void save() {
     }
 
     public int getId() {

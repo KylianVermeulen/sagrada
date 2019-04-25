@@ -2,7 +2,6 @@ package nl.avans.sagrada.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
@@ -16,12 +15,6 @@ public class PatternCardDAO {
         dbConnection = new DBConnection();
     }
 
-    /**
-     * Get PatternCard by Player
-     *
-     * @param player Player
-     * @return PatternCard
-     */
     public PatternCard getSelectedPatterncardOfPlayer(Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -41,23 +34,4 @@ public class PatternCardDAO {
         }
         return null;
     }
-
-    public ArrayList<PatternCard> getOptionalPatterncardOfPlayer(Player player) {
-        return null;
-    }
-
-    public void savePatterncardOfPlayer(PatternCard patterncard, Player player) {
-    }
-
-    public void saveOptionalPatterncardOfPlayer(ArrayList<PatternCard> optionalPatterncards,
-            Player player) {
-    }
-
-    public void createPatterncard(PatternCard patterncard) {
-    }
-
-    public ArrayList<PatternCard> getAllPatterncards() {
-        return null;
-    }
-
 }

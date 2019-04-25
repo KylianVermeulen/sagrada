@@ -16,12 +16,6 @@ public class GameDAO {
         dbConnection = new DBConnection();
     }
 
-    /**
-     * Get game by gameid
-     *
-     * @param gameId int
-     * @return Game when record
-     */
     public Game getGameById(int gameId) {
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -40,9 +34,6 @@ public class GameDAO {
         return null;
     }
 
-    /**
-     * Updates a game
-     */
     public void updateGame(Game game) {
         try {
             int turnPlayerId = game.getTurnPlayer().getId();
@@ -56,11 +47,6 @@ public class GameDAO {
         }
     }
 
-    /**
-     * Adds a new game to the database
-     *
-     * @return boolean
-     */
     public void addGame(Game game) {
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -72,11 +58,6 @@ public class GameDAO {
         }
     }
 
-    /**
-     * Gets the next game id of a new game
-     *
-     * @return int
-     */
     public int getNextGameId() {
         int gameId = 0;
         try {
@@ -93,8 +74,8 @@ public class GameDAO {
     }
 
     public ArrayList<Player> getPlayersOfGame(Game game) {
+        PlayerDAO playerDAO = new PlayerDAO();
         ArrayList<Player> players = new ArrayList<>();
-        PlayerDAO playerDao = new PlayerDAO();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT idplayer FROM player WHERE game_idgame=?", "query"),
@@ -102,12 +83,11 @@ public class GameDAO {
             );
             while (rs.next()) {
                 int playerId = rs.getInt("idplayer");
-                Player player = playerDao.getPlayerById(playerId);
+                Player player = playerDAO.getPlayerById(playerId);
                 player.setGame(game);
                 players.add(player);
             }
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
         return players;

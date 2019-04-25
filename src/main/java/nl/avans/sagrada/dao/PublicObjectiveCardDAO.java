@@ -18,14 +18,18 @@ public class PublicObjectiveCardDAO {
 
     /**
      * Returns all public objective cards from the database.
+     *
      * @return all public objective cards as an ArrayList
      */
     public ArrayList<PublicObjectiveCard> getAllPublicObjectiveCards() {
         ArrayList<PublicObjectiveCard> list = new ArrayList<PublicObjectiveCard>();
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM public_objectivecard", "query"));
+            ResultSet rs = dbConnection
+                    .executeQuery(new Query("SELECT * FROM public_objectivecard", "query"));
             while (rs.next()) {
-                PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard(rs.getInt("idpublic_objectivecard"), rs.getInt("seqnr"), rs.getString("description"));
+                PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard(
+                        rs.getInt("idpublic_objectivecard"), rs.getInt("seqnr"),
+                        rs.getString("description"));
                 list.add(publicObjectiveCard);
             }
         } catch (SQLException e) {
@@ -36,6 +40,7 @@ public class PublicObjectiveCardDAO {
 
     /**
      * Returns all public objective cards from the database, belonging to a certain game.
+     *
      * @param game Game
      * @return all public objective cards belonging to game as an ArrayList
      */
@@ -43,11 +48,15 @@ public class PublicObjectiveCardDAO {
         ArrayList<PublicObjectiveCard> list = new ArrayList<PublicObjectiveCard>();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT public_objectivecard.* FROM public_objectivecard INNER JOIN sharedpublic_objectivecard s on public_objectivecard.idpublic_objectivecard = s.idpublic_objectivecard WHERE s.idgame=?" , "query"),
+                    new Query(
+                            "SELECT public_objectivecard.* FROM public_objectivecard INNER JOIN sharedpublic_objectivecard s on public_objectivecard.idpublic_objectivecard = s.idpublic_objectivecard WHERE s.idgame=?",
+                            "query"),
                     new QueryParameter(QueryParameter.INT, game.getId())
             );
             while (rs.next()) {
-                PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard(rs.getInt("idpublic_objectivecard"), rs.getInt("seqnr"), rs.getString("description"));
+                PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard(
+                        rs.getInt("idpublic_objectivecard"), rs.getInt("seqnr"),
+                        rs.getString("description"));
                 list.add(publicObjectiveCard);
             }
         } catch (SQLException e) {
@@ -55,5 +64,4 @@ public class PublicObjectiveCardDAO {
         }
         return list;
     }
-
 }

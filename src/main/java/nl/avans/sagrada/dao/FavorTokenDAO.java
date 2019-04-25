@@ -16,14 +16,8 @@ public class FavorTokenDAO {
         dbConnection = new DBConnection();
     }
 
-    /**
-     * Get Favortokens by Player
-     *
-     * @param player Player
-     * @return ArrayList<FavorToken>
-     */
     public ArrayList<FavorToken> getFavortokensOfPlayer(Player player) {
-        ArrayList<FavorToken> list = new ArrayList<FavorToken>();
+        ArrayList<FavorToken> list = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamefavortoken WHERE idplayer=?", "query",

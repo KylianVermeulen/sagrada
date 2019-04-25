@@ -17,14 +17,8 @@ public class PlayerDAO {
         dbConnection = new DBConnection();
     }
 
-    /**
-     * Get all players with account.username
-     *
-     * @param account Account
-     * @return ArrayList<Player> when record(s)
-     */
     public ArrayList<Player> getPlayersOfAccount(Account account) {
-        ArrayList<Player> list = new ArrayList<Player>();
+        ArrayList<Player> list = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM player WHERE username=?", "query",
@@ -48,100 +42,50 @@ public class PlayerDAO {
         return list;
     }
 
-    /**
-     * Update player
-     *
-     * @param player Player
-     */
     public void updatePlayer(Player player) {
-        if (playerExists(player)) {
-            try {
-                ResultSet rs = dbConnection.executeQuery(
-                        new Query(
-                                "UPDATE player SET username=?, game_idgame=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
-                                "update"),
-                        new QueryParameter(QueryParameter.STRING,
-                                player.getAccount().getUsername()),
-                        new QueryParameter(QueryParameter.INT, player.getGame().getId()),
-                        new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
-                        new QueryParameter(QueryParameter.INT, player.getSeqnr()),
-                        new QueryParameter(QueryParameter.BOOLEAN, player.isCurrentPlayer()),
-                        new QueryParameter(QueryParameter.STRING,
-                                player.getPrivateObjectivecardColor()),
-                        new QueryParameter(QueryParameter.INT, player.getScore()),
-                        new QueryParameter(QueryParameter.INT, player.getId())
-                );
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Can't update non existing player");
-        }
-    }
-
-    /**
-     * Add player
-     *
-     * @param player Player
-     */
-    public void addPlayer(Player player) {
-        if (!playerExists(player)) {
-            try {
-                ResultSet rs = dbConnection.executeQuery(
-                        new Query(
-                                "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?,?, ?, ?, ?, ?, ?, ?)",
-                                "update"),
-                        new QueryParameter(QueryParameter.INT, player.getId()),
-                        new QueryParameter(QueryParameter.STRING,
-                                player.getAccount().getUsername()),
-                        new QueryParameter(QueryParameter.INT, player.getGame().getId()),
-                        new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
-                        new QueryParameter(QueryParameter.INT, player.getSeqnr()),
-                        new QueryParameter(QueryParameter.BOOLEAN, player.isCurrentPlayer()),
-                        new QueryParameter(QueryParameter.STRING,
-                                player.getPrivateObjectivecardColor()),
-                        new QueryParameter(QueryParameter.INT, player.getScore())
-                );
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Can't create a new player, already exists");
-        }
-    }
-
-    /**
-     * Check if player exists
-     *
-     * @param player Player
-     * @return boolean true when exists
-     */
-    public boolean playerExists(Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT count(*) as count FROM player WHERE idplayer=?", "query"),
+                    new Query(
+                            "UPDATE player SET username=?, game_idgame=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
+                            "update"),
+                    new QueryParameter(QueryParameter.STRING,
+                            player.getAccount().getUsername()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getId()),
+                    new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
+                    new QueryParameter(QueryParameter.INT, player.getSeqnr()),
+                    new QueryParameter(QueryParameter.BOOLEAN, player.isCurrentPlayer()),
+                    new QueryParameter(QueryParameter.STRING,
+                            player.getPrivateObjectivecardColor()),
+                    new QueryParameter(QueryParameter.INT, player.getScore()),
                     new QueryParameter(QueryParameter.INT, player.getId())
             );
-            if (rs.next()) {
-                int count = rs.getInt("count");
-                if (count > 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
-    /**
-     * Gets a player by the Id of the player When no player has found it will return null
-     *
-     * @param id the id of the player
-     * @return Player
-     */
+    public void addPlayer(Player player) {
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?,?, ?, ?, ?, ?, ?, ?)",
+                            "update"),
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.STRING,
+                            player.getAccount().getUsername()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getId()),
+                    new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
+                    new QueryParameter(QueryParameter.INT, player.getSeqnr()),
+                    new QueryParameter(QueryParameter.BOOLEAN, player.isCurrentPlayer()),
+                    new QueryParameter(QueryParameter.STRING,
+                            player.getPrivateObjectivecardColor()),
+                    new QueryParameter(QueryParameter.INT, player.getScore())
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Player getPlayerById(int id) {
         Player player = new Player();
         try {
@@ -149,8 +93,8 @@ public class PlayerDAO {
                     new Query("SELECT * FROM player WHERE idplayer=?", "query",
                             new QueryParameter(QueryParameter.INT, id)));
             if (rs.next()) {
-                AccountDAO accountDao = new AccountDAO();
-                Account account = accountDao.getAccountByUsername(rs.getString("username"));
+                AccountDAO accountDAO = new AccountDAO();
+                Account account = accountDAO.getAccountByUsername(rs.getString("username"));
                 player.setId(rs.getInt("idplayer"));
                 player.setPlayerStatus(rs.getString("playstatus_playstatus"));
                 player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));
@@ -159,17 +103,12 @@ public class PlayerDAO {
                 player.setAccount(account);
             }
         } catch (Exception e) {
-            // TODO: handle exception
             player = null;
+            e.printStackTrace();
         }
         return player;
     }
 
-    /**
-     * Gets the next id for a player
-     *
-     * @return int
-     */
     public int getNextPlayerId() {
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -179,19 +118,13 @@ public class PlayerDAO {
                 return nextId;
             }
         } catch (Exception e) {
-            // TODO: handle exception
             e.getStackTrace();
         }
         return 0;
     }
 
-    /**
-     * Gets a Player by the account and game
-     *
-     * @return Player
-     */
     public Player getPlayerByAccountAndGame(Account account, Game game) {
-        Player player = null;
+        Player player = new Player();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT idplayer FROM player WHERE username=? AND game_idgame=?",
@@ -200,12 +133,12 @@ public class PlayerDAO {
                     new QueryParameter(QueryParameter.INT, game.getId())
             );
             if (rs.next()) {
-                System.out.println("Done");
                 int playerId = rs.getInt("idplayer");
-                System.out.println("playerid: " + playerId);
                 player = getPlayerById(playerId);
             }
         } catch (Exception e) {
+            player = null;
+            e.printStackTrace();
         }
         return player;
     }

@@ -41,7 +41,7 @@ public class DieView extends Pane implements ViewInterface {
     @Override
     public void render() {
         if (gameDie.hasColor()) {
-            setColor(gameDie.getColor());
+            setColor(gameDie.getFXColor());
         }
         if (gameDie.hasEyes()) {
             setEyes(gameDie.getEyes());
