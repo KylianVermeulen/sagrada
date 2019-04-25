@@ -141,7 +141,7 @@ public class Toolcard {
                 title = "Driepuntstang";
                 break;
             case 2:
-                title = "�glomis� Borstel";
+                title = "glomis Borstel";
                 break;
             case 3:
                 title = "Folie-aandrukker";
