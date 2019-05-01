@@ -88,7 +88,7 @@ public class PublicObjectiveCardView extends CardView {
     @Override
     public void render() {
         getChildren().clear();
-        showImage(publicObjectiveCard.getImageUrl());
+        showImage(publicObjectiveCard.getImagePath());
         showText();
     }
 }

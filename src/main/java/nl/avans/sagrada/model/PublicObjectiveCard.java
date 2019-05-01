@@ -4,7 +4,7 @@ public class PublicObjectiveCard {
     private int id;
     private int seqnr;
     private String description;
-    private String imageUrl;
+    private String imagePath;
     
     /**
      * Filled constructor
@@ -67,24 +67,24 @@ public class PublicObjectiveCard {
     }
 
     /**
-     * Returns the public objective card image url
-     * @return image url (String)
+     * Returns the public objective card image path
+     * @return image path (String)
      */
-    public String getImageUrl() {
+    public String getImagePath() {
         int[] ids = new int[10];
         for (int index = 0; index < ids.length; index++) {
             if (getId() == (index + 1)) {
-                setImageUrl("/images/publicObjectiveCardImages/publicObjectiveCard" + (index + 1) + ".png");
+                setImagePath("/images/publicObjectiveCardImages/publicObjectiveCard" + (index + 1) + ".png");
             }
         }
-        return imageUrl;
+        return imagePath;
     }
 
     /**
-     * Sets the public objective card image url
-     * @param imageUrl String
+     * Sets the public objective card image path
+     * @param imagePath String
      */
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

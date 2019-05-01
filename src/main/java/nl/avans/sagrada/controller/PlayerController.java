@@ -100,22 +100,6 @@ public class PlayerController {
         pane.setRight(publicobjectivecardviews[2]);
         myScene.setContentPane(pane);
     }
-    
-    /**
-     * Displays the selected public objective card for the current game.
-     * @param game Game
-     * @param publicObjectiveCard PublicObjectiveCard
-     */
-    public void viewPublicObjectiveCard(Game game, PublicObjectiveCard publicObjectiveCard) {
-        Pane pane = new Pane();
-        
-        PublicObjectiveCardView publicObjectiveCardView = new PublicObjectiveCardView(this);
-        publicObjectiveCardView.setPublicObjectiveCard(publicObjectiveCard);
-        publicObjectiveCardView.render();
-        
-        pane.getChildren().add(publicObjectiveCardView);
-        myScene.setContentPane(pane);
-    }
 
     /**
      * Makes a random generated patternCard
