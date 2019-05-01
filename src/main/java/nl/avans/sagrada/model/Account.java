@@ -1,8 +1,8 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
-import nl.avans.sagrada.dao.InviteDAO;
-import nl.avans.sagrada.dao.PlayerDAO;
+import nl.avans.sagrada.dao.InviteDao;
+import nl.avans.sagrada.dao.PlayerDao;
 
 public class Account {
     private String username;
@@ -74,14 +74,14 @@ public class Account {
     /**
      * This method will return a list of pending invites of this account. The list is used to view
      * pending invites in the GUI. The pending invites will be accessed from the database using the
-     * InviteDAO and this account object.
+     * InviteDao and this account object.
      *
      * @return The list of pending invites.
      * @see Invite
      */
     public ArrayList<Invite> getPendingInvites() {
-        InviteDAO inviteDAO = new InviteDAO();
-        pendingInvites = inviteDAO.getAllPendingInvitesOfAccount(this);
+        InviteDao inviteDao = new InviteDao();
+        pendingInvites = inviteDao.getAllPendingInvitesOfAccount(this);
         return pendingInvites;
     }
 
@@ -97,14 +97,14 @@ public class Account {
 
     /**
      * This method will return a list of Players of this account. The Players will be accessed from
-     * the database using the PlayerDAO and this account object.
+     * the database using the PlayerDao and this account object.
      *
      * @return The list of Players.
      * @see Player
      */
     public ArrayList<Player> getPlayers() {
-        PlayerDAO playerDAO = new PlayerDAO();
-        players = playerDAO.getPlayersOfAccount(this);
+        PlayerDao playerDao = new PlayerDao();
+        players = playerDao.getPlayersOfAccount(this);
         return players;
     }
 

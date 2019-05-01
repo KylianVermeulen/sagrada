@@ -10,13 +10,13 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 
-public class InviteDAO {
+public class InviteDao {
     private DBConnection dbConnection;
 
     /**
      * Constructor, Initializes DBConnection
      */
-    public InviteDAO() {
+    public InviteDao() {
         dbConnection = new DBConnection();
     }
 
@@ -33,10 +33,10 @@ public class InviteDAO {
                             new QueryParameter(QueryParameter.STRING, account.getUsername()))
             );
             while (rs.next()) {
-                GameDAO gameDAO = new GameDAO();
-                PlayerDAO playerDAO = new PlayerDAO();
-                Player player = playerDAO.getPlayerById(rs.getInt("idplayer"));
-                Game game = gameDAO.getGameById(rs.getInt("game_idgame"));
+                GameDao gameDao = new GameDao();
+                PlayerDao playerDao = new PlayerDao();
+                Player player = playerDao.getPlayerById(rs.getInt("idplayer"));
+                Game game = gameDao.getGameById(rs.getInt("game_idgame"));
                 Invite invite = new Invite();
                 invite.setInvitedAccount(account);
                 invite.setPlayer(player);
@@ -76,7 +76,7 @@ public class InviteDAO {
 
     public void addInvite(Invite invite) {
         try {
-            PlayerDAO playerDao = new PlayerDAO();
+            PlayerDao playerDao = new PlayerDao();
             int nextPlayerId = playerDao.getNextPlayerId();
             String username = invite.getInvitedAccount().getUsername();
             Game game = invite.getGame();

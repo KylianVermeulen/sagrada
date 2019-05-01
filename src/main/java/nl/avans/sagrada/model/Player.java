@@ -1,10 +1,10 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
-import nl.avans.sagrada.dao.AccountDAO;
-import nl.avans.sagrada.dao.FavorTokenDAO;
-import nl.avans.sagrada.dao.GameDAO;
-import nl.avans.sagrada.dao.PatternCardDAO;
+import nl.avans.sagrada.dao.AccountDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
+import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.PatternCardDao;
 
 public class Player {
     public static final String STATUS_ABORT = "aborted";
@@ -85,8 +85,8 @@ public class Player {
     }
 
     public void setAccount() {
-        AccountDAO accountDAO = new AccountDAO();
-        this.account = accountDAO.getAccountByUsername(this.account.getUsername());
+        AccountDao accountDao = new AccountDao();
+        this.account = accountDao.getAccountByUsername(this.account.getUsername());
     }
 
     public Game getGame() {
@@ -98,13 +98,13 @@ public class Player {
     }
 
     public void setGame() {
-        GameDAO gameDAO = new GameDAO();
-        this.game = gameDAO.getGameById(this.game.getId());
+        GameDao gameDao = new GameDao();
+        this.game = gameDao.getGameById(this.game.getId());
     }
 
     public PatternCard getPatternCard() {
-        PatternCardDAO PatternCardDAO = new PatternCardDAO();
-        patternCard = PatternCardDAO.getSelectedPatterncardOfPlayer(this);
+        PatternCardDao PatternCardDao = new PatternCardDao();
+        patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(this);
         return patternCard;
     }
 
@@ -129,8 +129,8 @@ public class Player {
     }
 
     public void setFavorToken() {
-        FavorTokenDAO favorTokenDAO = new FavorTokenDAO();
-        this.favorTokens = favorTokenDAO.getFavortokensOfPlayer(this);
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        this.favorTokens = favorTokenDao.getFavortokensOfPlayer(this);
     }
 
     public boolean isCheatmode() {

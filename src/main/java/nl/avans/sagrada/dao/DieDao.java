@@ -2,13 +2,13 @@ package nl.avans.sagrada.dao;
 
 import nl.avans.sagrada.database.DBConnection;
 
-public class DieDAO {
+public class DieDao {
     private DBConnection dbConnection;
 
     /**
      * Constructor, Initializes DBConnection
      */
-    public DieDAO() {
+    public DieDao() {
         dbConnection = new DBConnection();
     }
 }

@@ -9,13 +9,13 @@ import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.PublicObjectiveCard;
 
-public class PublicObjectiveCardDAO {
+public class PublicObjectiveCardDao {
     private DBConnection dbConnection;
 
     /**
      * Constructor, Initializes DBConnection
      */
-    public PublicObjectiveCardDAO() {
+    public PublicObjectiveCardDao() {
         dbConnection = new DBConnection();
     }
 

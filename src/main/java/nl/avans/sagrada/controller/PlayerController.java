@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import nl.avans.sagrada.dao.PublicObjectiveCardDAO;
-import nl.avans.sagrada.dao.ToolcardDAO;
+import nl.avans.sagrada.dao.PublicObjectiveCardDao;
+import nl.avans.sagrada.dao.ToolcardDao;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.Toolcard;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
@@ -31,11 +32,10 @@ public class PlayerController {
      * @param game the game to view the three Toolcard's of.
      */
     public void viewToolcards(Game game) {
-        ToolcardDAO toolcardDAO = new ToolcardDAO();
+        ToolcardDao toolcardDao = new ToolcardDao();
         BorderPane pane = new BorderPane();
-        ToolcardDAO toolcardDAO = new ToolcardDAO();
         ToolCardView[] toolcardviews = new ToolCardView[3];
-        ArrayList<Toolcard> toolcards = toolcardDAO.getToolcardsOfGame(game);
+        ArrayList<Toolcard> toolcards = toolcardDao.getToolcardsOfGame(game);
         for (int index = 0; index < toolcardviews.length; index++) {
             toolcardviews[index] = new ToolCardView(this);
             toolcardviews[index].setToolCard(toolcards.get(index));
@@ -58,11 +58,11 @@ public class PlayerController {
      * @param selection the selected Toolcard to view.
      */
     public void viewToolcard(Game game, int selection) {
-        ToolcardDAO toolcardDAO = new ToolcardDAO();
+        ToolcardDao toolcardDao = new ToolcardDao();
 
         Pane pane = new Pane();
         ToolCardView toolCardView = new ToolCardView(this);
-        toolCardView.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(selection));
+        toolCardView.setToolCard(toolcardDao.getToolcardsOfGame(game).get(selection));
         toolCardView.render();
 
         pane.getChildren().add(toolCardView);
@@ -76,9 +76,9 @@ public class PlayerController {
      */
     public void viewPublicObjectiveCards(Game game) {
         BorderPane pane = new BorderPane();
-        PublicObjectiveCardDAO publicObjectiveCardDAO = new PublicObjectiveCardDAO();
+        PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
         PublicObjectiveCardView[] publicobjectivecardviews = new PublicObjectiveCardView[3];
-        ArrayList<PublicObjectiveCard> publicObjectiveCards = publicObjectiveCardDAO
+        ArrayList<PublicObjectiveCard> publicObjectiveCards = publicObjectiveCardDao
                 .getAllPublicObjectiveCardsOfGame(game);
         for (int index = 0; index < publicobjectivecardviews.length; index++) {
             publicobjectivecardviews[index] = new PublicObjectiveCardView(this);

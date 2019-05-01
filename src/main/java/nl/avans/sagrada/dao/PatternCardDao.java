@@ -8,13 +8,13 @@ import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 
-public class PatternCardDAO {
+public class PatternCardDao {
     private DBConnection dbConnection;
 
     /**
      * Constructor, Initializes DBConnection
      */
-    public PatternCardDAO() {
+    public PatternCardDao() {
         dbConnection = new DBConnection();
     }
 

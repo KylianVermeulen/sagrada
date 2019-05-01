@@ -2,13 +2,13 @@ package nl.avans.sagrada.dao;
 
 import nl.avans.sagrada.database.DBConnection;
 
-public class GameDieDAO {
+public class ChatlineDao {
     private DBConnection dbConnection;
 
     /**
      * Constructor, Initializes DBConnection
      */
-    public GameDieDAO() {
+    public ChatlineDao() {
         dbConnection = new DBConnection();
     }
 }

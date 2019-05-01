@@ -2,8 +2,8 @@ package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
 import java.util.Random;
-import nl.avans.sagrada.dao.GameDAO;
-import nl.avans.sagrada.dao.PlayerDAO;
+import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.PlayerDao;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
@@ -20,8 +20,8 @@ public class Game {
 
     public Game(int id) {
         this.id = id;
-        GameDAO gameDAO = new GameDAO();
-        players = gameDAO.getPlayersOfGame(this);
+        GameDao gameDao = new GameDao();
+        players = gameDao.getPlayersOfGame(this);
     }
 
     public Game() {
@@ -221,7 +221,7 @@ public class Game {
      */
     public void cancel() {
         ArrayList<Player> players = getPlayers();
-        PlayerDAO playerDao = new PlayerDAO();
+        PlayerDao playerDao = new PlayerDao();
         for (Player player : players) {
             player.setPlayerStatus(Player.STATUS_ABORT);
             playerDao.updatePlayer(player);

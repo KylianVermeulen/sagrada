@@ -9,13 +9,13 @@ import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Toolcard;
 
-public class ToolcardDAO {
+public class ToolcardDao {
     private DBConnection dbConnection;
 
     /**
      * Constructor, Initializes DBConnection
      */
-    public ToolcardDAO() {
+    public ToolcardDao() {
         dbConnection = new DBConnection();
     }
 

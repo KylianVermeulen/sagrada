@@ -9,13 +9,13 @@ import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Player;
 
-public class FavorTokenDAO {
+public class FavorTokenDao {
     private DBConnection dbConnection;
 
     /**
      * Constructor, Initializes DBConnection
      */
-    public FavorTokenDAO() {
+    public FavorTokenDao() {
         dbConnection = new DBConnection();
     }
 

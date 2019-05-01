@@ -9,13 +9,13 @@ import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 
-public class GameDAO {
+public class GameDao {
     private DBConnection dbConnection;
 
     /**
      * Constructor, Initializes DBConnection
      */
-    public GameDAO() {
+    public GameDao() {
         dbConnection = new DBConnection();
     }
 
@@ -104,7 +104,7 @@ public class GameDAO {
      * @return A list of players.
      */
     public ArrayList<Player> getPlayersOfGame(Game game) {
-        PlayerDAO playerDAO = new PlayerDAO();
+        PlayerDao playerDao = new PlayerDao();
         ArrayList<Player> players = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -113,7 +113,7 @@ public class GameDAO {
             );
             while (rs.next()) {
                 int playerId = rs.getInt("idplayer");
-                Player player = playerDAO.getPlayerById(playerId);
+                Player player = playerDao.getPlayerById(playerId);
                 player.setGame(game);
                 players.add(player);
             }

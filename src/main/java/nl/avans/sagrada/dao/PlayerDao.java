@@ -10,13 +10,13 @@ import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 
-public class PlayerDAO {
+public class PlayerDao {
     private DBConnection dbConnection;
 
     /**
      * Constructor, Initializes DBConnection
      */
-    public PlayerDAO() {
+    public PlayerDao() {
         dbConnection = new DBConnection();
     }
 
@@ -31,7 +31,7 @@ public class PlayerDAO {
                 Player player = new Player();
                 player.setId(rs.getInt("idplayer"));
                 player.setAccount(account);
-                player.setGame(new GameDAO().getGameById(rs.getInt("game_idgame")));
+                player.setGame(new GameDao().getGameById(rs.getInt("game_idgame")));
                 player.setPlayerStatus(rs.getString("playstatus_playstatus"));
                 player.setSeqnr(rs.getInt("seqnr"));
                 player.setCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
@@ -96,8 +96,8 @@ public class PlayerDAO {
                     new Query("SELECT * FROM player WHERE idplayer=?", "query",
                             new QueryParameter(QueryParameter.INT, id)));
             if (rs.next()) {
-                AccountDAO accountDAO = new AccountDAO();
-                Account account = accountDAO.getAccountByUsername(rs.getString("username"));
+                AccountDao accountDao = new AccountDao();
+                Account account = accountDao.getAccountByUsername(rs.getString("username"));
                 player.setId(rs.getInt("idplayer"));
                 player.setPlayerStatus(rs.getString("playstatus_playstatus"));
                 player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));

@@ -8,13 +8,13 @@ import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Account;
 
-public class AccountDAO {
+public class AccountDao {
     private DBConnection dbConnection;
 
     /**
      * Constructor, Initializes DBConnection
      */
-    public AccountDAO() {
+    public AccountDao() {
         dbConnection = new DBConnection();
     }
 

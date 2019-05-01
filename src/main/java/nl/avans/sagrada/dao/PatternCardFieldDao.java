@@ -9,13 +9,13 @@ import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 
-public class PatternCardFieldDAO {
+public class PatternCardFieldDao {
     private DBConnection dbConnection;
 
     /**
      * Constructor, Initializes DBConnection
      */
-    public PatternCardFieldDAO() {
+    public PatternCardFieldDao() {
         dbConnection = new DBConnection();
     }
 

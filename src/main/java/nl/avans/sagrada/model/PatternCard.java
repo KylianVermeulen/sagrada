@@ -2,7 +2,7 @@ package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
 import java.util.Random;
-import nl.avans.sagrada.dao.PatternCardFieldDAO;
+import nl.avans.sagrada.dao.PatternCardFieldDao;
 
 public class PatternCard {
     public static final int CARD_SQUARES_WIDTH = 5;
@@ -174,8 +174,8 @@ public class PatternCard {
      * @return PatternCardField[]
      */
     public PatternCardField[][] getPatternCardFields() {
-        PatternCardFieldDAO patternCardFieldDAO = new PatternCardFieldDAO();
-        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDAO
+        PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
+        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao
                 .getPatternCardFieldsOfPatterncard(this);
         return makePatternCardFields(patternCardFieldsList);
     }

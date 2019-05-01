@@ -7,10 +7,10 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import nl.avans.sagrada.dao.AccountDAO;
-import nl.avans.sagrada.dao.GameDAO;
-import nl.avans.sagrada.dao.InviteDAO;
-import nl.avans.sagrada.dao.PlayerDAO;
+import nl.avans.sagrada.dao.AccountDao;
+import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.InviteDao;
+import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
@@ -52,8 +52,8 @@ public class AccountController {
      * @param password the password of the account
      */
     public void actionLogin(String username, String password) {
-        AccountDAO accountDAO = new AccountDAO();
-        Account account = accountDAO.getAccountByUsername(username);
+        AccountDao accountDao = new AccountDao();
+        Account account = accountDao.getAccountByUsername(username);
 
         if (account != null) {
             if (account.getPassword().equals(password)) {
@@ -93,7 +93,7 @@ public class AccountController {
      * @param password the password of the new account
      */
     public void actionRegister(String username, String password) {
-        AccountDAO accountDAO = new AccountDAO();
+        AccountDao accountDao = new AccountDao();
         Account account = new Account();
 
         if (username.length() < 3) {
@@ -120,13 +120,13 @@ public class AccountController {
 
         account.setUsername(username);
         account.setPassword(password);
-        if (accountDAO.accountExists(account)) {
+        if (accountDao.accountExists(account)) {
             Alert alert = new Alert("Username ongeldig", "Username bestaat al.",
                     AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
-        accountDAO.addAccount(account);
+        accountDao.addAccount(account);
         Alert alert = new Alert("Account aangemaakt", "Account is aangemaakt.", AlertType.SUCCES);
         myScene.addAlertPane(alert);
         viewLogin();
@@ -145,9 +145,9 @@ public class AccountController {
      * database.
      */
     public void viewLobby() {
-        AccountDAO accountDAO = new AccountDAO();
+        AccountDao accountDao = new AccountDao();
         Pane pane = new Pane();
-        account = accountDAO.getAccountByUsername(account.getUsername());
+        account = accountDao.getAccountByUsername(account.getUsername());
         ArrayList<Invite> pendingInvites = account.getPendingInvites();
         ArrayList<Game> games = account.getActiveGames();
 
@@ -166,16 +166,16 @@ public class AccountController {
      * and saved to the database.
      */
     public void actionSetupNewGame() {
-        GameDAO gameDAO = new GameDAO();
-        PlayerDAO playerDAO = new PlayerDAO();
-        AccountDAO accountDAO = new AccountDAO();
+        GameDao gameDao = new GameDao();
+        PlayerDao playerDao = new PlayerDao();
+        AccountDao accountDao = new AccountDao();
 
-        int gameId = gameDAO.getNextGameId();
+        int gameId = gameDao.getNextGameId();
         Game game = new Game();
         game.setId(gameId);
-        gameDAO.addGame(game);
+        gameDao.addGame(game);
 
-        int playerId = playerDAO.getNextPlayerId();
+        int playerId = playerDao.getNextPlayerId();
         Player player = new Player();
         player.setId(playerId);
         player.setSeqnr(1);
@@ -184,11 +184,11 @@ public class AccountController {
         player.setAccount(account);
         player.setGame(game);
         player.setPrivateObjectivecardColor(game.getRandomAvailablePrivateColor());
-        playerDAO.addPlayer(player);
+        playerDao.addPlayer(player);
 
         game.setTurnPlayer(player);
-        gameDAO.updateGame(game);
-        ArrayList<Account> accounts = accountDAO.getAllInviteableAccounts(account);
+        gameDao.updateGame(game);
+        ArrayList<Account> accounts = accountDao.getAllInviteableAccounts(account);
 
         Pane pane = new Pane();
         GameSetupView gameSetupView = new GameSetupView(this, accounts, game);
@@ -206,8 +206,8 @@ public class AccountController {
      * @param game the game object for which the invites are.
      */
     public void actionSendInvites(ArrayList<InviteView> inviteViews, Game game) {
-        GameDAO gameDAO = new GameDAO();
-        InviteDAO inviteDAO = new InviteDAO();
+        GameDao gameDao = new GameDao();
+        InviteDao inviteDao = new InviteDao();
         ArrayList<Player> players = new ArrayList<>();
         ArrayList<Account> invitedAccounts = new ArrayList<>();
         for (InviteView inviteView : inviteViews) {
@@ -244,11 +244,11 @@ public class AccountController {
             Invite invite = new Invite();
             invite.setGame(game);
             invite.setInvitedAccount(invitedAccount);
-            inviteDAO.addInvite(invite);
+            inviteDao.addInvite(invite);
         }
         Alert alert = new Alert("Invites verstuurd", "Invites zijn verstuurd", AlertType.INFO);
         myScene.addAlertPane(alert);
-        players = gameDAO.getPlayersOfGame(game);
+        players = gameDao.getPlayersOfGame(game);
         game.setPlayers(players);
         game.setOptionPatternCardsForPlayers();
         viewLobby();
@@ -258,9 +258,9 @@ public class AccountController {
      * Accept an invite and will set the lobby view as content pane.
      */
     public void actionAcceptInvite(Invite invite) {
-        InviteDAO inviteDAO = new InviteDAO();
+        InviteDao inviteDao = new InviteDao();
         invite.acceptInvite();
-        inviteDAO.updateInvite(invite);
+        inviteDao.updateInvite(invite);
         viewLobby();
     }
 
@@ -268,9 +268,9 @@ public class AccountController {
      * Denies an invite and will set the lobby view as content pane.
      */
     public void actionDenyInvite(Invite invite) {
-        InviteDAO inviteDAO = new InviteDAO();
+        InviteDao inviteDao = new InviteDao();
         invite.denyInvite();
-        inviteDAO.updateInvite(invite);
+        inviteDao.updateInvite(invite);
         Game game = invite.getGame();
         game.cancel();
         viewLobby();
