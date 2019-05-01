@@ -127,7 +127,7 @@ public class Toolcard {
         switch(id) {
             case 1:  title = "Driepuntstang";
                      break;
-            case 2:  title = "Églomisé Borstel";
+            case 2:  title = "Eglomise Borstel";
                      break;
             case 3:  title = "Folie-aandrukker";
                      break;

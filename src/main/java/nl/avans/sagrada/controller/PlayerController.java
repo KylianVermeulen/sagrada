@@ -7,10 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ToolcardDAO;
 import nl.avans.sagrada.model.*;
-import nl.avans.sagrada.view.DieView;
-import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.PatternCardView;
-import nl.avans.sagrada.view.ToolCardView;
+import nl.avans.sagrada.view.*;
 
 public class PlayerController {
     private Player player;
@@ -24,6 +21,7 @@ public class PlayerController {
 
     /**
      * Displays all toolcards that belong to a certain game.
+     *
      * @param game Game
      */
     public void viewToolcards(Game game) {
@@ -44,19 +42,20 @@ public class PlayerController {
         pane.setRight(toolcardviews[2]);
         myScene.setContentPane(pane);
     }
-    
+
     /**
      * Displays the selected toolcard for the current game.
+     *
      * @param game Game
      * @param selection int
      */
     public void viewToolcard(Game game, int selection) {
         Pane pane = new Pane();
-        
+
         ToolCardView toolCardView = new ToolCardView(this);
         toolCardView.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(selection));
         toolCardView.render();
-        
+
         pane.getChildren().add(toolCardView);
         myScene.setContentPane(pane);
     }
@@ -75,9 +74,16 @@ public class PlayerController {
         myScene.setContentPane(pane);
     }
 
+
+    public void showRoundTrack() {
+        RoundTrack roundTrack = new RoundTrack();
+        RoundTrackView roundTrackView = new RoundTrackView(roundTrack);
+        myScene.setContentPane(roundTrackView);
+    }
+
     /**
      * Makes a random generated patternCard
-     *
+     * 
      * (adding the difficultly in PatternCard does not matter for a random generated patternCard just make sure standard is false)
      */
     public void makeRandomPatternCard() {
@@ -98,6 +104,11 @@ public class PlayerController {
 
     }
 
+    public void kaasje() {
+        RoundTrack roundTrack = new RoundTrack();
+
+    }
+
     public void makeDie() {
         GameDie gameDie = new GameDie(6, "geel");
         DieView dieView = new DieView();
@@ -114,4 +125,5 @@ public class PlayerController {
     public void leaveGame() {
 
     }
+
 }
