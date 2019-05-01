@@ -1,9 +1,7 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
-import nl.avans.sagrada.dao.AccountDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
-import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 
 public class Player {
@@ -84,22 +82,12 @@ public class Player {
         this.account = account;
     }
 
-    public void setAccount() {
-        AccountDao accountDao = new AccountDao();
-        this.account = accountDao.getAccountByUsername(this.account.getUsername());
-    }
-
     public Game getGame() {
         return game;
     }
 
     public void setGame(Game game) {
         this.game = game;
-    }
-
-    public void setGame() {
-        GameDao gameDao = new GameDao();
-        this.game = gameDao.getGameById(this.game.getId());
     }
 
     public PatternCard getPatternCard() {
@@ -121,16 +109,13 @@ public class Player {
     }
 
     public ArrayList<FavorToken> getFavorTokens() {
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        this.favorTokens = favorTokenDao.getFavortokensOfPlayer(this);
         return favorTokens;
     }
 
     public void setFavorTokens(ArrayList<FavorToken> favorTokens) {
         this.favorTokens = favorTokens;
-    }
-
-    public void setFavorToken() {
-        FavorTokenDao favorTokenDao = new FavorTokenDao();
-        this.favorTokens = favorTokenDao.getFavortokensOfPlayer(this);
     }
 
     public boolean isCheatmode() {
