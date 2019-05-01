@@ -5,21 +5,21 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import nl.avans.sagrada.dao.PublicObjectiveCardDAO;
 import nl.avans.sagrada.dao.ToolcardDAO;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardView;
+import nl.avans.sagrada.view.PublicObjectiveCardView;
 import nl.avans.sagrada.view.ToolCardView;
 
 public class PlayerController {
     private Player player;
     private MyScene myScene;
-    private ToolcardDAO toolcardDAO;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
-        toolcardDAO = new ToolcardDAO();
     }
 
     /**
@@ -28,6 +28,7 @@ public class PlayerController {
      */
     public void viewToolcards(Game game) {
         BorderPane pane = new BorderPane();
+        ToolcardDAO toolcardDAO = new ToolcardDAO();
         ToolCardView[] toolcardviews = new ToolCardView[3];
         ArrayList<Toolcard> toolcards = toolcardDAO.getToolcardsOfGame(game);
         for (int index = 0; index < toolcardviews.length; index++) {
@@ -52,6 +53,7 @@ public class PlayerController {
      */
     public void viewToolcard(Game game, int selection) {
         Pane pane = new Pane();
+        ToolcardDAO toolcardDAO = new ToolcardDAO();
         
         ToolCardView toolCardView = new ToolCardView(this);
         toolCardView.setToolCard(toolcardDAO.getToolcardsOfGame(game).get(selection));
@@ -72,6 +74,30 @@ public class PlayerController {
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();
         pane.getChildren().add(patternCardView);
+        myScene.setContentPane(pane);
+    }
+    
+    /**
+     * Displays all public objective card for the current game.
+     * @param game Game
+     */
+    public void viewPublicObjectiveCards(Game game) {
+        BorderPane pane = new BorderPane();
+        PublicObjectiveCardDAO publicObjectiveCardDAO = new PublicObjectiveCardDAO();
+        PublicObjectiveCardView[] publicobjectivecardviews = new PublicObjectiveCardView[3];
+        ArrayList<PublicObjectiveCard> publicObjectiveCards = publicObjectiveCardDAO.getAllPublicObjectiveCardsOfGame(game);
+        for (int index = 0; index < publicobjectivecardviews.length; index++) {
+            publicobjectivecardviews[index] = new PublicObjectiveCardView(this);
+            publicobjectivecardviews[index].setPublicObjectiveCard(publicObjectiveCards.get(index));
+            publicobjectivecardviews[index].render();
+        }
+        
+        BorderPane.setMargin(publicobjectivecardviews[0], new Insets(0, 5, 0, 0));
+        BorderPane.setMargin(publicobjectivecardviews[1], new Insets(0, 5, 0, 5));
+        BorderPane.setMargin(publicobjectivecardviews[2], new Insets(0, 0, 0, 5));
+        pane.setLeft(publicobjectivecardviews[0]);
+        pane.setCenter(publicobjectivecardviews[1]);
+        pane.setRight(publicobjectivecardviews[2]);
         myScene.setContentPane(pane);
     }
 
