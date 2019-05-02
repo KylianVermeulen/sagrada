@@ -1,5 +1,6 @@
 package nl.avans.sagrada.view;
 
+import java.util.ArrayList;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
@@ -15,13 +16,10 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.popups.Alert;
 
-import java.util.ArrayList;
-
 public class MyScene extends Scene {
     private Pane rootPane;
     private Pane contentPane;
     private ArrayList<Pane> alerts;
-
     private AccountController accountController;
     private PlayerController playerController;
 

@@ -12,12 +12,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class Alert extends Popup {
+    public static final int WIDTH_ALERT = 320;
+    public static final int HEIGHT_ALERT = 90;
     private String title;
     private String message;
     private AlertType type;
-
-    public static final int WIDTH_ALERT = 320;
-    public static final int HEIGHT_ALERT = 90;
 
     /**
      * Full constructor for a alert
@@ -71,19 +70,24 @@ public class Alert extends Popup {
     public void setBackground() {
         switch (type) {
             case INFO:
-                setBackground(new Background(new BackgroundFill(Color.web("#66c3d6"), new CornerRadii(26), null)));
+                setBackground(new Background(
+                        new BackgroundFill(Color.web("#66c3d6"), new CornerRadii(26), null)));
                 break;
             case SUCCES:
-                setBackground(new Background(new BackgroundFill(Color.web("#40bc8a"), new CornerRadii(26), null)));
+                setBackground(new Background(
+                        new BackgroundFill(Color.web("#40bc8a"), new CornerRadii(26), null)));
                 break;
             case WARNING:
-                setBackground(new Background(new BackgroundFill(Color.web("#fcb738"), new CornerRadii(26), null)));
+                setBackground(new Background(
+                        new BackgroundFill(Color.web("#fcb738"), new CornerRadii(26), null)));
                 break;
             case ERROR:
-                setBackground(new Background(new BackgroundFill(Color.web("#ff5955"), new CornerRadii(26), null)));
+                setBackground(new Background(
+                        new BackgroundFill(Color.web("#ff5955"), new CornerRadii(26), null)));
                 break;
             default:
-                setBackground(new Background(new BackgroundFill(Color.web("#66c3d6"), new CornerRadii(26), null)));
+                setBackground(new Background(
+                        new BackgroundFill(Color.web("#66c3d6"), new CornerRadii(26), null)));
         }
     }
 

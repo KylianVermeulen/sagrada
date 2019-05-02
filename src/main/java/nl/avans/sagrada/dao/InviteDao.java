@@ -2,7 +2,6 @@ package nl.avans.sagrada.dao;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
@@ -11,28 +10,31 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 
-public class InviteDAO {
+public class InviteDao {
     private DBConnection dbConnection;
-    
-    public InviteDAO() {
+
+    /**
+     * Constructor, Initializes DBConnection
+     */
+    public InviteDao() {
         dbConnection = new DBConnection();
     }
 
     /**
-     * get all the invites from a account
+     * This method will return a list of invites from a given account.
      * @param account
-     * @return ArrayList containing all the invites
+     * @return
      */
     public ArrayList<Invite> getInvitesOfAccount(Account account) {
         ArrayList<Invite> invites = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM player WHERE username=?", "query",
-                    new QueryParameter(QueryParameter.STRING, account.getUsername()))
+                            new QueryParameter(QueryParameter.STRING, account.getUsername()))
             );
             while (rs.next()) {
-                GameDAO gameDao = new GameDAO();
-                PlayerDAO playerDao = new PlayerDAO();
+                GameDao gameDao = new GameDao();
+                PlayerDao playerDao = new PlayerDao();
                 Player player = playerDao.getPlayerById(rs.getInt("idplayer"));
                 Game game = gameDao.getGameById(rs.getInt("game_idgame"));
                 Invite invite = new Invite();
@@ -42,8 +44,7 @@ public class InviteDAO {
                 String inviteStatus = rs.getString("playstatus_playstatus");
                 if (inviteStatus.equals("accepted")) {
                     invite.acceptInvite();
-                }
-                else if (inviteStatus.equals("refused")) {
+                } else if (inviteStatus.equals("refused")) {
                     invite.denyInvite();
                 }
                 // When they do not have accepted or rejected, this is not important for a invite
@@ -51,67 +52,60 @@ public class InviteDAO {
                 invites.add(invite);
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         return invites;
     }
-    
+
     /**
-     * Get all invites that are pending
-     * So the invites that are still waiting for a response
+     *
      * @param account
-     * @return ArrayList with all the invites
+     * @return
      */
     public ArrayList<Invite> getAllPendingInvitesOfAccount(Account account) {
         ArrayList<Invite> inviteList = getInvitesOfAccount(account);
         ArrayList<Invite> pendingInvites = new ArrayList<>();
-        for(Invite invite: inviteList) {
+        for (Invite invite : inviteList) {
             Player player = invite.getPlayer();
-            if (invite.isPending() && !player.getPlayerStatus().equals("challenger")) {
+            if (player.getPlayerStatus().equals("challengee")) {
                 pendingInvites.add(invite);
             }
         }
         return pendingInvites;
-        
     }
 
-    /**
-     * Adds a new invite to the database
-     * @param invite
-     */
     public void addInvite(Invite invite) {
         try {
-            PlayerDAO playerDao = new PlayerDAO();
+            PlayerDao playerDao = new PlayerDao();
             int nextPlayerId = playerDao.getNextPlayerId();
             String username = invite.getInvitedAccount().getUsername();
             Game game = invite.getGame();
             String privateObjectiveColor = game.getRandomAvailablePrivateColor();
             int seqNr = this.getSeqNrForNextPlayer(game);
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("INSERT INTO `player` (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, patterncard_idpatterncard, score) VALUES (?, ?, ?, ?, ?, '0', ?, NULL, NULL);", "update"),
-                        new QueryParameter(QueryParameter.INT, nextPlayerId),
-                        new QueryParameter(QueryParameter.STRING, username),
-                        new QueryParameter(QueryParameter.INT, game.getId()),
-                        new QueryParameter(QueryParameter.STRING, "challengee"),
-                        new QueryParameter(QueryParameter.INT, seqNr),
-                        new QueryParameter(QueryParameter.STRING, privateObjectiveColor)
-                    );
+                    new Query(
+                            "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, patterncard_idpatterncard, score) VALUES (?, ?, ?, ?, ?, '0', ?, NULL, NULL);",
+                            "update"),
+                    new QueryParameter(QueryParameter.INT, nextPlayerId),
+                    new QueryParameter(QueryParameter.STRING, username),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.STRING, "challengee"),
+                    new QueryParameter(QueryParameter.INT, seqNr),
+                    new QueryParameter(QueryParameter.STRING, privateObjectiveColor)
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    /**
-     * Get the next seqnr for the invited player
-     * @param game
-     * @return int
-     */
+
     public int getSeqNrForNextPlayer(Game game) {
         int nextSeqnr = 1;
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query("SELECT MAX(seqnr) AS highestSeqnr FROM player WHERE game_idgame=?", "query"),
-                        new QueryParameter(QueryParameter.INT, game.getId())
-                    );
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT MAX(seqnr) AS highestSeqnr FROM player WHERE game_idgame=?",
+                            "query"),
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
             if (rs.next()) {
                 nextSeqnr = rs.getInt("highestSeqnr") + 1;
             }
@@ -119,5 +113,20 @@ public class InviteDAO {
             e.printStackTrace();
         }
         return nextSeqnr;
+    }
+
+    public void updateInvite(Invite invite) {
+        int playerId = invite.getPlayer().getId();
+
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("UPDATE player SET playstatus_playstatus=?  WHERE idplayer=?",
+                            "update"),
+                    new QueryParameter(QueryParameter.STRING, invite.getStatus()),
+                    new QueryParameter(QueryParameter.INT, playerId)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

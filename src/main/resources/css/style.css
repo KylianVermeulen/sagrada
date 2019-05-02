@@ -13,3 +13,12 @@
 #registerLabel {
     -fx-underline: true;
 }
+
+#ObjectiveCardDescription {
+    -fx-background-color: #bfbfbf;
+}
+
+#publicObjectiveCard {
+    -fx-border-color: #6c6c6d;
+    -fx-border-width: 3;
+}
