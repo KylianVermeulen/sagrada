@@ -13,22 +13,39 @@ public class RoundTrackView extends HBox {
     private RoundTrack roundTrack;
     private RoundTrackFieldView[] roundTrackFieldViews;
 
+    /**
+     * Full constructor
+     *
+     * @param roundTrack RoundTrack
+     */
     public RoundTrackView(RoundTrack roundTrack) {
         this.roundTrack = roundTrack;
-        setPadding(new Insets(5));
+        setPadding(new Insets(5, 0, 0, 5));
 
         // ADD FINAL INT 10
         roundTrackFieldViews = new RoundTrackFieldView[10];
-//        setPrefWidth(700);
-//        setPrefSize(400, 100);
-//        setMaxSize(400, 100);
+        setPrefSize(740, 80);
         setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
-        makeTrackFieldViews();
+        makeRoundTrackFieldViews();
     }
 
-    private void makeTrackFieldViews() {
+    /**
+     * Renders the RoundTrackFields
+     */
+    public void render() {
+        for (RoundTrackFieldView roundTrackFieldView : roundTrackFieldViews) {
+            roundTrackFieldView.render();
+        }
+    }
+
+    /**
+     * Makes the RoundTrackFieldViews and adds them in a pane that has padding
+     */
+    private void makeRoundTrackFieldViews() {
         for (int i = 0; i < roundTrackFieldViews.length; i++) {
             roundTrackFieldViews[i] = new RoundTrackFieldView();
+            roundTrackFieldViews[i].setRoundTrack(roundTrack);
+            roundTrackFieldViews[i].setRoundTrackField(roundTrack.getRoundTrackField(i));
             Pane paddingPane = new Pane();
             paddingPane.setPadding(new Insets(3));
             paddingPane.getChildren().add(roundTrackFieldViews[i]);

@@ -22,6 +22,9 @@ public class MyScene extends Scene {
     private AccountController accountController;
     private PlayerController playerController;
 
+    /**
+     * Full Constructor
+     */
     public MyScene() {
         super(new Pane());
         accountController = new AccountController(this);
@@ -33,8 +36,7 @@ public class MyScene extends Scene {
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
-        playerController.showRoundTrack();
-//        accountController.viewLogin();
+        accountController.viewLogin();
     }
 
     /**

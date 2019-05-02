@@ -75,15 +75,39 @@ public class PlayerController {
     }
 
 
+    /**
+     * Test function for roundTrack
+     */
     public void showRoundTrack() {
+        GameDie gameDie1 = new GameDie(1, "geel");
+        GameDie gameDie2 = new GameDie(3, "blauw");
+        GameDie gameDie3 = new GameDie(5, "rood");
+
         RoundTrack roundTrack = new RoundTrack();
+        roundTrack.addGameDie(gameDie1, 1);
+        roundTrack.addGameDie(gameDie2, 1);
+        roundTrack.addGameDie(gameDie3, 1);
+
+        roundTrack.addGameDie(gameDie1, 2);
+        roundTrack.addGameDie(gameDie3, 2);
+
+        roundTrack.addGameDie(gameDie1, 3);
+        roundTrack.addGameDie(gameDie2, 3);
+
+        roundTrack.addGameDie(gameDie2, 4);
+        roundTrack.addGameDie(gameDie3, 4);
+
+        roundTrack.addGameDie(gameDie1, 5);
+        roundTrack.addGameDie(gameDie3, 5);
+
         RoundTrackView roundTrackView = new RoundTrackView(roundTrack);
+        roundTrackView.render();
         myScene.setContentPane(roundTrackView);
     }
 
     /**
      * Makes a random generated patternCard
-     * 
+     * <p>
      * (adding the difficultly in PatternCard does not matter for a random generated patternCard just make sure standard is false)
      */
     public void makeRandomPatternCard() {
