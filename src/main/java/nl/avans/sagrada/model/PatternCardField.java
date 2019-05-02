@@ -7,7 +7,6 @@ public class PatternCardField {
     private int yPos;
     private String color;
     private int value;
-
     private PatternCard patternCard;
     private GameDie die;
 
@@ -143,7 +142,8 @@ public class PatternCardField {
     }
 
     /**
-     * Checks if the patternCardField neighbor to the selected patternCardField has an value (value)
+     * Checks if the patternCardField neighbor to the selected patternCardField has an value
+     * (value)
      *
      * @param value int
      * @param isDie boolean
@@ -232,20 +232,14 @@ public class PatternCardField {
      * @return boolean true when color is set
      */
     public boolean hasColor() {
-        if (color == null) {
-            return false;
-        }
-        return true;
+        return color != null;
     }
 
     /**
      * @return boolean true when value is set
      */
     public boolean hasValue() {
-        if (value == 0) {
-            return false;
-        }
-        return true;
+        return value != 0;
     }
 
     /**
@@ -342,10 +336,7 @@ public class PatternCardField {
         if (hasColor()) {
             return true;
         }
-        if (hasValue()) {
-            return true;
-        }
-        return false;
+        return hasValue();
     }
 
     /**

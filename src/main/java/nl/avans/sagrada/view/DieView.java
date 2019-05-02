@@ -1,16 +1,21 @@
 package nl.avans.sagrada.view;
 
+import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-import java.util.ArrayList;
-
 public class DieView extends Pane implements ViewInterface {
-
     private static final int WIDTH = 35;
     private static final int HEIGHT = 35;
     private ArrayList<ImageView> images;
@@ -34,7 +39,7 @@ public class DieView extends Pane implements ViewInterface {
     @Override
     public void render() {
         if (gameDie.hasColor()) {
-            setColor(gameDie.getColor());
+            setColor(gameDie.getFXColor());
         }
         if (gameDie.hasEyes()) {
             setEyes(gameDie.getEyes());
@@ -92,11 +97,17 @@ public class DieView extends Pane implements ViewInterface {
      * Initializes the values of the image array
      */
     private void diceEyesArray() {
-        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/1.png"))));
-        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/2.png"))));
-        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/3.png"))));
-        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/4.png"))));
-        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/5.png"))));
-        images.add(new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/6.png"))));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/1.png"))));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/2.png"))));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/3.png"))));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/4.png"))));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/5.png"))));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/6.png"))));
     }
 }

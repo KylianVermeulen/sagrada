@@ -1,5 +1,6 @@
 package nl.avans.sagrada.view;
 
+import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -12,8 +13,6 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
-
-import java.util.ArrayList;
 
 public class PatternCardFieldView extends StackPane implements ViewInterface {
     private static final int WIDTH = 50;

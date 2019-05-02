@@ -2,7 +2,13 @@ package nl.avans.sagrada.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import nl.avans.sagrada.controller.PlayerController;
@@ -83,7 +89,8 @@ public class PatternCardView extends BorderPane implements ViewInterface {
     private void makePatternCardFieldViews() {
         for (int y = 0; y < PatternCard.CARD_SQUARES_HEIGHT; y++) {
             for (int x = 0; x < PatternCard.CARD_SQUARES_WIDTH; x++) {
-                PatternCardFieldView patternCardFieldView = new PatternCardFieldView(playerController);
+                PatternCardFieldView patternCardFieldView = new PatternCardFieldView(
+                        playerController);
                 patternCardFieldView.setPatternCard(patternCard);
                 patternCardFieldView.setPatternCardField(patternCard.getPatternCardField(x, y));
                 patternCardFieldView.render();
