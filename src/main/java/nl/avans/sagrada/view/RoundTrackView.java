@@ -19,9 +19,9 @@ public class RoundTrackView extends HBox {
 
         // ADD FINAL INT 10
         roundTrackFieldViews = new RoundTrackFieldView[10];
-
-        setPrefSize(400, 100);
-        setMaxSize(400, 100);
+//        setPrefWidth(700);
+//        setPrefSize(400, 100);
+//        setMaxSize(400, 100);
         setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
         makeTrackFieldViews();
     }
