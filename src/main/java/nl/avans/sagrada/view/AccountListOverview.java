@@ -1,5 +1,6 @@
 package nl.avans.sagrada.view;
 
+import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,8 +10,6 @@ import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
-
-import java.util.ArrayList;
 
 public class AccountListOverview extends VBox implements ViewInterface {
     private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
@@ -46,7 +45,7 @@ public class AccountListOverview extends VBox implements ViewInterface {
         for (Account account : accounts) {
             HBox hBox = new HBox();
 
-            Label username = new Label("Account: " +  account.getUsername());
+            Label username = new Label("Account: " + account.getUsername());
             username.setPadding(new Insets(5, 4, 5, 4));
             username.setPrefWidth(150);
 
@@ -60,6 +59,7 @@ public class AccountListOverview extends VBox implements ViewInterface {
 
     /**
      * Builds a button to view stats
+     *
      * @return Button
      */
     private Button buildButtonToViewStats() {

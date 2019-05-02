@@ -5,26 +5,57 @@ public class Die {
     private String color;
 
     /**
-     * Empty constructor
+     * Empty constructor.
      */
     public Die() {
     }
 
     /**
-     * Returns the Color as a String
+     * Full constructor, initializes all instance variables.
      *
-     * @return String
+     * @param number The number of this die.
+     * @param color The color of this die.
      */
-    protected String getStringColor() {
-        return this.color;
+    public Die(int number, String color) {
+        this.number = number;
+        this.color = color;
     }
 
     /**
-     * Sets the Color
+     * This method will return the number of this die.
      *
-     * @param color String
+     * @return The number of this die.
      */
-    protected void setColor(String color) {
+    public int getNumber() {
+        return number;
+    }
+
+    /**
+     * Registers the number is this die. The number is a unique identifier for this die.
+     *
+     * @param number The number of this die.
+     */
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    /**
+     * This method will return the color of this die. The color is one of the following: rood;
+     * groen; geel; paars; blauw.
+     *
+     * @return The color of this die.
+     */
+    public String getColor() {
+        return color;
+    }
+
+    /**
+     * Registers the color of this die. The color must be one of the following: rood; groen; geel;
+     * paars; blauw;
+     *
+     * @param color The color of this die.
+     */
+    public void setColor(String color) {
         this.color = color;
     }
 }

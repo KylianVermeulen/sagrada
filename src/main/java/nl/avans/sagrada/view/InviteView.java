@@ -8,13 +8,12 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public class InviteView extends HBox implements ViewInterface {
     private final int PANE_WIDTH = 200;
     private final int PANE_HEIGHT = 50;
-    
+
     private Account account;
     private CheckBox checkbox;
-        
+
     /**
      * Constructor
-     * @param account
      */
     public InviteView(Account account) {
         this.account = account;
@@ -26,18 +25,16 @@ public class InviteView extends HBox implements ViewInterface {
         checkbox = new CheckBox(account.getUsername());
         getChildren().add(checkbox);
     }
-    
+
     /**
      * Get the account that is in this view
-     * @return
      */
     public Account getAccount() {
         return account;
     }
-    
+
     /**
      * Gets the checkbox of this view
-     * @return
      */
     public CheckBox getCheckbox() {
         return checkbox;

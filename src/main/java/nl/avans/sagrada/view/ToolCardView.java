@@ -13,18 +13,20 @@ import nl.avans.sagrada.model.Toolcard;
 public class ToolCardView extends CardView {
     private Toolcard toolcard;
     private PlayerController playerController;
-    
+
     /**
      * Filled constructor
+     *
      * @param playerController PlayerController
      */
     public ToolCardView(PlayerController playerController) {
         super();
         this.playerController = playerController;
     }
-    
+
     /**
      * Returns the toolcard that is currently linked to this view.
+     *
      * @return toolcard that is linked to this view
      */
     public Toolcard getToolCard() {
@@ -33,12 +35,13 @@ public class ToolCardView extends CardView {
 
     /**
      * Sets the current toolcard that is linked to this view.
+     *
      * @param toolcard Toolcard
      */
     public void setToolCard(Toolcard toolcard) {
         this.toolcard = toolcard;
     }
-    
+
     /**
      * Generates a text to display a toolcard's description.
      */
@@ -53,9 +56,10 @@ public class ToolCardView extends CardView {
         descriptionPane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT / 3));
         setBottom(descriptionPane);
     }
-    
+
     /**
      * Displays the toolcard image.
+     *
      * @param url String
      */
     public void showImage(String url) {
@@ -69,7 +73,7 @@ public class ToolCardView extends CardView {
         imagePane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT/2));
         setCenter(imagePane);
     }
-    
+
     /**
      * Generates a text to display the number at the top of the toolcard.
      */
@@ -83,7 +87,7 @@ public class ToolCardView extends CardView {
         numberPane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT / 6));
         setTop(numberPane);
     }
-    
+
     @Override
     public void render() {
         getChildren().clear();

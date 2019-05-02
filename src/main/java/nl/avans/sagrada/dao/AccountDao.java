@@ -1,26 +1,29 @@
 package nl.avans.sagrada.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Account;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-public class AccountDAO {
+public class AccountDao {
     private DBConnection dbConnection;
 
-    public AccountDAO() {
+    /**
+     * Constructor, Initializes DBConnection
+     */
+    public AccountDao() {
         dbConnection = new DBConnection();
     }
 
     /**
-     * Gets a account by the username When there was no account found it will return null
+     * This method will return a new account object with information from the database using the
+     * parameter username as unique identifier.
      *
-     * @param username
-     * @return Account model
+     * @param username The username for account.
+     * @return A account object with username and password.
      */
     public Account getAccountByUsername(String username) {
         Account account = null;
@@ -36,23 +39,25 @@ public class AccountDAO {
                 account = new Account(accountUsername, accountPassword);
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         return account;
     }
 
     /**
-     * Get all accounts
+     * This method will return a list of all accounts saved in the database.
      *
-     * @return ArrayList<Account>
+     * @return A list of all accounts.
      */
     public ArrayList<Account> getAllAccounts() {
         DBConnection dbConnection = new DBConnection();
-        ArrayList<Account> list = new ArrayList<Account>();
+        ArrayList<Account> list = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM account", "query"));
             while (rs.next()) {
-                Account account = new Account(rs.getString("username"), rs.getString("password"));
+                String accountUsername = rs.getString("username");
+                String accountPassword = rs.getString("password");
+                Account account = new Account(accountUsername, accountPassword);
                 list.add(account);
             }
         } catch (SQLException e) {
@@ -62,10 +67,11 @@ public class AccountDAO {
     }
 
     /**
-     * Gets all accounts that a account can invites
+     * This method will return a list of all accounts a certain account, given as parameter, can
+     * invite.
      *
-     * @param account the account that want's to send the invite
-     * @return ArrayList<Account>
+     * @param account The account sending the invite.
+     * @return A list of all invite able accounts.
      */
     public ArrayList<Account> getAllInviteableAccounts(Account account) {
         ArrayList<Account> accounts = getAllAccounts();
@@ -73,46 +79,25 @@ public class AccountDAO {
 
         for (Account inviteAccount : accounts) {
             String usernameAccount = account.getUsername();
-            String usernameInviteAvleAccount = inviteAccount.getUsername();
-            if (!usernameAccount.equals(usernameInviteAvleAccount)) {
+            String usernameInviteAbleAccount = inviteAccount.getUsername();
+            if (!usernameAccount.equals(usernameInviteAbleAccount)) {
                 inviteAbleAccounts.add(inviteAccount);
             }
         }
-
-        return (inviteAbleAccounts);
+        return inviteAbleAccounts;
     }
 
     /**
-     * Update account
+     * This method will add a new account to the database.
      *
-     * @param account Account
-     */
-    public void updateAccount(Account account) {
-        if (accountExists(account)) {
-            try {
-                ResultSet rs = dbConnection.executeQuery(
-                        new Query("UPDATE account SET password=? WHERE username=?", "update"),
-                        new QueryParameter(QueryParameter.STRING, account.getPassword()),
-                        new QueryParameter(QueryParameter.STRING, account.getUsername())
-                );
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Can't update non existing account");
-        }
-    }
-
-    /**
-     * Add account
-     *
-     * @param account Account
+     * @param account The account object to save in the database.
      */
     public void addAccount(Account account) {
         if (!accountExists(account)) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
-                        new Query("INSERT INTO account (username, password) VALUES (?, ?)", "update"),
+                        new Query("INSERT INTO account (username, password) VALUES (?, ?)",
+                                "update"),
                         new QueryParameter(QueryParameter.STRING, account.getUsername()),
                         new QueryParameter(QueryParameter.STRING, account.getPassword())
                 );
@@ -125,10 +110,10 @@ public class AccountDAO {
     }
 
     /**
-     * Check if account exists
+     * This method will check if a account exists in the database.
      *
-     * @param account Account
-     * @return boolean true when exists
+     * @param account The account to check for.
+     * @return True when account exists.
      */
     public boolean accountExists(Account account) {
         try {
