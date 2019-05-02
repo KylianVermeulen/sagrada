@@ -19,15 +19,30 @@ public class GameDie extends Die {
         this.eyes = eyes;
     }
 
+    /**
+     * The string color from a die.
+     *
+     * @return The color.
+     */
     @Override
     public String getColor() {
         return super.getColor();
     }
 
+    /**
+     * The eyes/value from a die.
+     *
+     * @return The eyes/value.
+     */
     public int getEyes() {
         return this.eyes;
     }
 
+    /**
+     * The JavaFX color from a die.
+     *
+     * @return Color object JavaFX.
+     */
     public Color getFXColor() {
         switch (super.getColor()) {
             case "rood":
@@ -45,10 +60,20 @@ public class GameDie extends Die {
         }
     }
 
+    /**
+     * Check if the die has eyes.
+     *
+     * @return True when has eyes.
+     */
     public boolean hasEyes() {
         return eyes != 0;
     }
 
+    /**
+     * Check if the die has a color.
+     *
+     * @return True when has color.
+     */
     public boolean hasColor() {
         return super.getColor() != null;
     }
