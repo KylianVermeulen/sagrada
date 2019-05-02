@@ -1,6 +1,5 @@
 package nl.avans.sagrada.controller;
 
-import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -34,20 +33,20 @@ public class PlayerController {
     public void viewToolcards(Game game) {
         ToolcardDao toolcardDao = new ToolcardDao();
         BorderPane pane = new BorderPane();
-        ToolCardView[] toolcardviews = new ToolCardView[3];
-        ArrayList<Toolcard> toolcards = toolcardDao.getToolcardsOfGame(game);
-        for (int index = 0; index < toolcardviews.length; index++) {
-            toolcardviews[index] = new ToolCardView(this);
-            toolcardviews[index].setToolCard(toolcards.get(index));
-            toolcardviews[index].render();
+        ToolCardView[] toolcardViews = new ToolCardView[3];
+        Toolcard[] toolcards = toolcardDao.getToolcardsOfGame(game).toArray(new Toolcard[3]);
+        for (int index = 0; index < toolcardViews.length; index++) {
+            toolcardViews[index] = new ToolCardView(this);
+            toolcardViews[index].setToolCard(toolcards[index]);
+            toolcardViews[index].render();
         }
 
-        BorderPane.setMargin(toolcardviews[0], new Insets(0, 5, 0, 0));
-        BorderPane.setMargin(toolcardviews[1], new Insets(0, 5, 0, 5));
-        BorderPane.setMargin(toolcardviews[2], new Insets(0, 0, 0, 5));
-        pane.setLeft(toolcardviews[0]);
-        pane.setCenter(toolcardviews[1]);
-        pane.setRight(toolcardviews[2]);
+        BorderPane.setMargin(toolcardViews[0], new Insets(0, 5, 0, 0));
+        BorderPane.setMargin(toolcardViews[1], new Insets(0, 5, 0, 5));
+        BorderPane.setMargin(toolcardViews[2], new Insets(0, 0, 0, 5));
+        pane.setLeft(toolcardViews[0]);
+        pane.setCenter(toolcardViews[1]);
+        pane.setRight(toolcardViews[2]);
         myScene.setContentPane(pane);
     }
 
@@ -77,21 +76,21 @@ public class PlayerController {
     public void viewPublicObjectiveCards(Game game) {
         BorderPane pane = new BorderPane();
         PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
-        PublicObjectiveCardView[] publicobjectivecardviews = new PublicObjectiveCardView[3];
-        ArrayList<PublicObjectiveCard> publicObjectiveCards = publicObjectiveCardDao
-                .getAllPublicObjectiveCardsOfGame(game);
-        for (int index = 0; index < publicobjectivecardviews.length; index++) {
-            publicobjectivecardviews[index] = new PublicObjectiveCardView(this);
-            publicobjectivecardviews[index].setPublicObjectiveCard(publicObjectiveCards.get(index));
-            publicobjectivecardviews[index].render();
+        PublicObjectiveCardView[] publicObjectiveCardViews = new PublicObjectiveCardView[3];
+        PublicObjectiveCard[] publicObjectiveCards = publicObjectiveCardDao
+                .getAllPublicObjectiveCardsOfGame(game).toArray(new PublicObjectiveCard[3]);
+        for (int index = 0; index < publicObjectiveCardViews.length; index++) {
+            publicObjectiveCardViews[index] = new PublicObjectiveCardView(this);
+            publicObjectiveCardViews[index].setPublicObjectiveCard(publicObjectiveCards[index]);
+            publicObjectiveCardViews[index].render();
         }
 
-        BorderPane.setMargin(publicobjectivecardviews[0], new Insets(0, 5, 0, 0));
-        BorderPane.setMargin(publicobjectivecardviews[1], new Insets(0, 5, 0, 5));
-        BorderPane.setMargin(publicobjectivecardviews[2], new Insets(0, 0, 0, 5));
-        pane.setLeft(publicobjectivecardviews[0]);
-        pane.setCenter(publicobjectivecardviews[1]);
-        pane.setRight(publicobjectivecardviews[2]);
+        BorderPane.setMargin(publicObjectiveCardViews[0], new Insets(0, 5, 0, 0));
+        BorderPane.setMargin(publicObjectiveCardViews[1], new Insets(0, 5, 0, 5));
+        BorderPane.setMargin(publicObjectiveCardViews[2], new Insets(0, 0, 0, 5));
+        pane.setLeft(publicObjectiveCardViews[0]);
+        pane.setCenter(publicObjectiveCardViews[1]);
+        pane.setRight(publicObjectiveCardViews[2]);
         myScene.setContentPane(pane);
     }
 

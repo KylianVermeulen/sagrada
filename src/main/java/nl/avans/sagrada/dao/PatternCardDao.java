@@ -19,6 +19,7 @@ public class PatternCardDao {
     }
 
     public PatternCard getSelectedPatterncardOfPlayer(Player player) {
+        PatternCard patternCard = null;
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
@@ -27,7 +28,7 @@ public class PatternCardDao {
                     new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername())
             );
             if (rs.next()) {
-                PatternCard patternCard = new PatternCard(rs.getInt("idpatterncard"),
+                patternCard = new PatternCard(rs.getInt("idpatterncard"),
                         rs.getInt("difficulty"), rs.getBoolean("standard"));
                 return patternCard;
             }
@@ -35,6 +36,6 @@ public class PatternCardDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return patternCard;
     }
 }
