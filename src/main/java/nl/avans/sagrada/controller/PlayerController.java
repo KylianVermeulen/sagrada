@@ -24,11 +24,34 @@ public class PlayerController {
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
     }
+    
+    /**
+     * Assigns three random toolcards to the current game (given as parameter).
+     * @param game The current Game
+     */
+    public void assignRandomToolcards(Game game) {
+        ToolcardDao toolcardDAO = new ToolcardDao();
+        int counter = 0;
+        int[] randomToolCardIDs = new int[3];
+        double[] randomNumbers = new double[3];
+        
+        while (counter <3) {
+            randomNumbers[counter] = (Math.random()*11) + 1;
+            randomToolCardIDs[counter] = (int) Math.round(randomNumbers[counter]);
+            if ((counter - 1) >= 0) {
+                if (randomToolCardIDs[counter] == randomToolCardIDs[counter-1]) {
+                    randomToolCardIDs[counter]++;
+                }
+            }
+            toolcardDAO.addToolcardToGame(toolcardDAO.getToolcardByID(randomToolCardIDs[counter]), game);
+            counter++;
+        }
+    }
 
     /**
      * Example code
      *
-     * @param game the game to view the three Toolcard's of.
+     * @param game the game to view the three Toolcards of.
      */
     public void viewToolcards(Game game) {
         ToolcardDao toolcardDao = new ToolcardDao();
