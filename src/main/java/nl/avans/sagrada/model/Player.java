@@ -1,14 +1,11 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
-
-import nl.avans.sagrada.dao.AccountDAO;
-import nl.avans.sagrada.dao.FavorTokenDAO;
-import nl.avans.sagrada.dao.GameDAO;
-import nl.avans.sagrada.dao.PatternCardDAO;
-import nl.avans.sagrada.dao.PlayerDAO;
+import nl.avans.sagrada.dao.FavorTokenDao;
+import nl.avans.sagrada.dao.PatternCardDao;
 
 public class Player {
+    public static final String STATUS_ABORT = "aborted";
     private int id;
     private Account account;
     private Game game;
@@ -21,287 +18,209 @@ public class Player {
     private ArrayList<FavorToken> favorTokens;
     private int score;
     private boolean cheatmode = false;
-    
-    public static final String STATUS_ABORT = "aborted";
-    
 
-    /**
-     * Empty constructor
-     */
     public Player() {
     }
 
     /**
-     * Add object to databasee
-     */
-    public void add() {
-        PlayerDAO playerDAO = new PlayerDAO();
-        playerDAO.addPlayer(this);
-    }
-
-    /**
-     * Update object in database
-     */
-    public void save() {
-        PlayerDAO playerDAO = new PlayerDAO();
-        playerDAO.updatePlayer(this);
-    }
-
-    /**
-     * Get id from Player
+     * The id is a unique identifier for each player in the database.
      *
-     * @return int
+     * @return The id of this player.
      */
     public int getId() {
         return id;
     }
 
     /**
-     * Set id to Player
+     * The id is a unique identifier for each player in the database.
      *
-     * @param id int
+     * @param id Must be unique in the database.
      */
     public void setId(int id) {
         this.id = id;
     }
-    
 
     /**
-     * Get playerstatus from Player
+     * The player status of a player.
      *
-     * @return String
+     * @return The status of this player.
      */
     public String getPlayerStatus() {
         return playerStatus;
     }
 
     /**
-     * Set playerstatus to Player
+     * The player status of a player.
      *
-     * @param playerStatus String
+     * @param playerStatus Must be an existing status in the database.
      */
     public void setPlayerStatus(String playerStatus) {
         this.playerStatus = playerStatus;
     }
 
     /**
-     * Get seqnr from Player
+     * The seqnr is the number of which turn the player has to act.
      *
-     * @return int
+     * @return The seqnr of this player.
      */
     public int getSeqnr() {
         return seqnr;
     }
 
     /**
-     * Set seqnr of Player
+     * The seqnr is the number of wich turn the player has to act.
      *
-     * @param seqnr int
+     * @param seqnr Must be a valid turn and unique in a game.
      */
     public void setSeqnr(int seqnr) {
         this.seqnr = seqnr;
     }
-    
+
     /**
-     * Set if the player is the currentPlayer
-     * @param isCurrentPlayer
+     * The current player is the player that has to act in a game.
+     *
+     * @param isCurrentPlayer There can only be one current player in game.
      */
     public void setIsCurrentPlayer(boolean isCurrentPlayer) {
         this.isCurrentPlayer = isCurrentPlayer;
     }
-    
-    
+
     /**
-     * Get current player from Player
+     * The current player is the player that has to act in a game.
      *
-     * @return boolean true when current player
+     * @return True when current player.
      */
     public boolean isCurrentPlayer() {
         return isCurrentPlayer;
     }
 
     /**
-     * Set current player to Player
+     * The private objective card color is the color the player gets point for.
      *
-     * @param currentPlayer boolean
-     */
-    public void setCurrentPlayer(boolean currentPlayer) {
-        isCurrentPlayer = currentPlayer;
-    }
-
-    /**
-     * Get private objective card color from Player
-     *
-     * @return String
+     * @return The private objective card color of this player.
      */
     public String getPrivateObjectivecardColor() {
         return privateObjectivecardColor;
     }
 
     /**
-     * Set private objective card color to Player
+     * The private objective card color is the color the player gets point for.
      *
-     * @param privateObjectivecardColor String
+     * @param privateObjectivecardColor Must be unique in a game.
      */
     public void setPrivateObjectivecardColor(String privateObjectivecardColor) {
         this.privateObjectivecardColor = privateObjectivecardColor;
     }
 
     /**
-     * Get score from Player
+     * The score is the count of points a player has, starts at (-20 + favor tokens)
      *
-     * @return int
+     * @return The score of this player.
      */
     public int getScore() {
         return score;
     }
 
     /**
-     * Set score to Player
+     * The score is the count of points a player has, starts at (-20 + favor tokens)
      *
-     * @param score int
+     * @param score Must be greater or equal than -20.
      */
     public void setScore(int score) {
         this.score = score;
     }
 
     /**
-     * Get Account from Player
+     * The account is the actor of the player.
      *
-     * @return Account
+     * @return The account of this player.
      */
     public Account getAccount() {
         return account;
     }
 
     /**
-     * Set Account to Player
+     * The account is the actor of the player.
      *
-     * @param account Account
+     * @param account Must be a existing account in the database.
      */
     public void setAccount(Account account) {
         this.account = account;
     }
 
     /**
-     * Get Account from database using username and set to Player
-     */
-    public void setAccount() {
-        AccountDAO accountDAO = new AccountDAO();
-        this.account = accountDAO.getAccountByUsername(this.account.getUsername());
-    }
-
-    /**
-     * Get Game from Player
+     * The game of this player.
      *
-     * @return Game
+     * @return The game of this player.
      */
     public Game getGame() {
         return game;
     }
 
     /**
-     * Set Game to Player
+     * The game of this player.
      *
-     * @param game Game
+     * @param game Must be a existing game in the database.
      */
     public void setGame(Game game) {
         this.game = game;
     }
 
     /**
-     * Get Game from database using idgame and set to Player
-     */
-    public void setGame() {
-        GameDAO gameDAO = new GameDAO();
-        this.game = gameDAO.getGameById(this.game.getId());
-    }
-
-    /**
-     * Get PatternCard from Player
-     *
-     * @return PatternCard
+     * @return The patterncard of this player.
      */
     public PatternCard getPatternCard() {
-        PatternCardDAO PatternCardDAO = new PatternCardDAO();
-        patternCard = PatternCardDAO.getSelectedPatterncardOfPlayer(this);
+        PatternCardDao PatternCardDao = new PatternCardDao();
+        patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(this);
         return patternCard;
     }
 
     /**
-     * Set PatternCard to Player
-     *
-     * @param patterncard PatternCard
+     * @param patterncard The patterncard of this player.
      */
     public void setPatternCard(PatternCard patterncard) {
         this.patternCard = patterncard;
     }
 
     /**
-     * Get optional PatternCards from Player
-     *
-     * @return ArrayList<PatternCard>
+     * @return The optional pattern cards of this player.
      */
     public ArrayList<PatternCard> getOptionalPatternCards() {
         return optionalPatternCards;
     }
 
     /**
-     * Set optional PatternCards to Player
-     *
-     * @param optionalPatterncards ArrayList<PatternCard>
+     * @param optionalPatterncards The optional pattern cards of this player.
      */
     public void setOptionalPatternCards(ArrayList<PatternCard> optionalPatterncards) {
         this.optionalPatternCards = optionalPatterncards;
     }
 
     /**
-     * Set optional PatterCards to Player from database
-     */
-    public void setOptionalPatternCards() {
-        PatternCardDAO PatternCardDAO = new PatternCardDAO();
-        this.optionalPatternCards = PatternCardDAO.getOptionalPatterncardOfPlayer(this);
-    }
-
-    /**
-     * Get FavorTokens from Player
-     *
-     * @return ArrayList<FavorToken>
+     * @return The favor tokens of this player.
      */
     public ArrayList<FavorToken> getFavorTokens() {
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        this.favorTokens = favorTokenDao.getFavortokensOfPlayer(this);
         return favorTokens;
     }
 
     /**
-     * Set FavorTokens to Player
-     *
-     * @param favorTokens ArrayList<FavorToken>
+     * @param favorTokens The favor tokens of this player.
      */
     public void setFavorTokens(ArrayList<FavorToken> favorTokens) {
         this.favorTokens = favorTokens;
     }
 
     /**
-     * Set FavorTokens to Player from database
-     */
-    public void setFavorToken() {
-        FavorTokenDAO favorTokenDAO = new FavorTokenDAO();
-        this.favorTokens = favorTokenDAO.getFavortokensOfPlayer(this);
-    }
-
-    /**
-     * Get cheatmode
-     *
-     * @return boolean true when enabled
+     * @return True when cheatmode is enabled.
      */
     public boolean isCheatmode() {
         return cheatmode;
     }
 
     /**
-     * Set cheatmode
-     *
-     * @param cheatmode boolean
+     * @param cheatmode Enable or disable cheatmode.
      */
     public void setCheatmode(boolean cheatmode) {
         this.cheatmode = cheatmode;

@@ -2,7 +2,13 @@ package nl.avans.sagrada.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import nl.avans.sagrada.controller.PlayerController;
@@ -10,15 +16,13 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class PatternCardView extends BorderPane implements ViewInterface {
+    private static final int WIDTH = 310;
+    private static final int HEIGHT = 230;
     private PatternCard patternCard;
     private PlayerController playerController;
-
     private PatternCardFieldView[][] patternCardFieldViews;
     private TilePane patternCardField;
     private HBox difficultyBar;
-
-    private static final int WIDTH = 310;
-    private static final int HEIGHT = 230;
 
     /**
      * Partial constructor
@@ -60,11 +64,11 @@ public class PatternCardView extends BorderPane implements ViewInterface {
      */
     private void showDifficulty() {
         difficultyBar = new HBox();
-        difficultyBar.setPadding(new Insets(5,0,5,5));
+        difficultyBar.setPadding(new Insets(5, 0, 5, 5));
 
         for (int i = 0; i < patternCard.getDifficulty(); i++) {
             Pane pane = new Pane();
-            pane.setPadding(new Insets(0,5,0,0));
+            pane.setPadding(new Insets(0, 5, 0, 0));
             Circle circle = new Circle(5, Color.WHITE);
             pane.getChildren().add(circle);
             difficultyBar.getChildren().add(pane);
@@ -82,9 +86,10 @@ public class PatternCardView extends BorderPane implements ViewInterface {
     private void makePatternCardFieldViews() {
         for (int y = 0; y < PatternCard.CARD_SQUARES_HEIGHT; y++) {
             for (int x = 0; x < PatternCard.CARD_SQUARES_WIDTH; x++) {
-                PatternCardFieldView patternCardFieldView = new PatternCardFieldView(playerController);
+                PatternCardFieldView patternCardFieldView = new PatternCardFieldView(
+                        playerController);
                 patternCardFieldView.setPatternCard(patternCard);
-                patternCardFieldView.setPatternCardField(patternCard.getPatternCardField(x,y));
+                patternCardFieldView.setPatternCardField(patternCard.getPatternCardField(x, y));
                 patternCardFieldView.render();
                 patternCardFieldViews[x][y] = patternCardFieldView;
 

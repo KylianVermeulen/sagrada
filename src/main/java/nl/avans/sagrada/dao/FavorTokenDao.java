@@ -1,30 +1,32 @@
 package nl.avans.sagrada.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Player;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-public class FavorTokenDAO {
+public class FavorTokenDao {
     private DBConnection dbConnection;
-    
-    public FavorTokenDAO() {
+
+    /**
+     * Constructor, Initializes DBConnection
+     */
+    public FavorTokenDao() {
         dbConnection = new DBConnection();
     }
 
     /**
-     * Get Favortokens by Player
+     * This method will return a list of all favor tokens of a player given as parameter.
      *
-     * @param player Player
-     * @return ArrayList<FavorToken>
+     * @param player The player to retrieve all favor tokens.
+     * @return A list of favor tokens.
      */
     public ArrayList<FavorToken> getFavortokensOfPlayer(Player player) {
-        ArrayList<FavorToken> list = new ArrayList<FavorToken>();
+        ArrayList<FavorToken> list = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamefavortoken WHERE idplayer=?", "query",

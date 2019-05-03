@@ -1,6 +1,13 @@
 package nl.avans.sagrada.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -9,7 +16,7 @@ import java.util.logging.Logger;
 
 public class DBConnection {
     private static Connection connection = null;
-    private static String devDatabaseUrl = "jdbc:mysql://134.209.204.60:3306/sagrada?serverTimezone=Europe/Amsterdam";
+    private static String devDatabaseUrl = "jdbc:mysql://134.209.204.60:3306/sagrada_v22?serverTimezone=Europe/Amsterdam";
     private static String dbPassword = "Sagrada1!";
     private static String dbUser = "sagrada";
     private Properties connectionProperties;
@@ -26,12 +33,34 @@ public class DBConnection {
         connectionProperties.put("password", dbPassword);
     }
 
+    public static String getDevDatabaseUrl() {
+        return devDatabaseUrl;
+    }
+
+    public static void setDevDatabaseUrl(String devDatabaseUrl) {
+        DBConnection.devDatabaseUrl = devDatabaseUrl;
+    }
+
+    public static String getDbPassword() {
+        return dbPassword;
+    }
+
+    public static void setDbPassword(String dbPassword) {
+        DBConnection.dbPassword = dbPassword;
+    }
+
+    public static String getDbUser() {
+        return dbUser;
+    }
+
+    public static void setDbUser(String dbUser) {
+        DBConnection.dbUser = dbUser;
+    }
 
     /**
      * Returns a open connection, make a new connection when conn == null or isClosed
      *
      * @return new Connection
-     * @throws SQLException
      */
     public Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
@@ -42,8 +71,8 @@ public class DBConnection {
     }
 
     /**
-     * Executes the given Query on this connection
-     * based on Query sql and Query first QueryParameter
+     * Executes the given Query on this connection based on Query sql and Query first
+     * QueryParameter
      *
      * @param query Query
      * @return ResultSet
@@ -54,8 +83,7 @@ public class DBConnection {
     }
 
     /**
-     * Executes the given Query on this connection
-     * based on Query sql and given QueryParameters
+     * Executes the given Query on this connection based on Query sql and given QueryParameters
      *
      * @param query Query
      * @param parameters QueryParameter...
@@ -69,8 +97,8 @@ public class DBConnection {
     }
 
     /**
-     * Executes the given Query on this connection
-     * based on Query sql and Query QueryParameter on pos
+     * Executes the given Query on this connection based on Query sql and Query QueryParameter on
+     * pos
      *
      * @param query Query
      * @param pos QueryParameter array position in Query
@@ -140,7 +168,8 @@ public class DBConnection {
      * @param params QueryParameter...
      * @throws SQLException SQLException
      */
-    public void fillStatement(PreparedStatement pstmt, QueryParameter... params) throws SQLException {
+    public void fillStatement(PreparedStatement pstmt, QueryParameter... params)
+            throws SQLException {
         for (int i = 1; i <= params.length; i++) {
             QueryParameter param = params[i - 1];
             Object value = param.getValue();
@@ -207,30 +236,6 @@ public class DBConnection {
      */
     public void addQueryToQueue(Query query) {
         queuedQueries.add(query);
-    }
-
-    public static String getDevDatabaseUrl() {
-        return devDatabaseUrl;
-    }
-
-    public static void setDevDatabaseUrl(String devDatabaseUrl) {
-        DBConnection.devDatabaseUrl = devDatabaseUrl;
-    }
-
-    public static String getDbPassword() {
-        return dbPassword;
-    }
-
-    public static void setDbPassword(String dbPassword) {
-        DBConnection.dbPassword = dbPassword;
-    }
-
-    public static String getDbUser() {
-        return dbUser;
-    }
-
-    public static void setDbUser(String dbUser) {
-        DBConnection.dbUser = dbUser;
     }
 
     public List<Query> getQueuedQueries() {
