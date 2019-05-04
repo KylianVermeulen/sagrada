@@ -6,7 +6,7 @@ public class Toolcard {
     private int id;
     private int seqnr;
     private String description;
-    private String imageUrl;
+    private String imagePath;
     private String name;
     private ArrayList<FavorToken> favorTokens;
 
@@ -106,27 +106,27 @@ public class Toolcard {
     }
 
     /**
-     * Returns the image URL for the toolcard.
+     * Returns the image path for the toolcard.
      *
-     * @return an image URL for this toolcard (String)
+     * @return an image path for this toolcard (String)
      */
-    public String getImageUrl() {
+    public String getImagePath() {
         int[] ids = new int[12];
         for (int index = 0; index < ids.length; index++) {
             if (getId() == (index + 1)) {
-                setImageUrl("/images/toolcardImages/toolcard" + (index + 1) + ".png");
+                setImagePath("/images/toolcardImages/toolcard" + (index + 1) + ".png");
             }
         }
-        return imageUrl;
+        return imagePath;
     }
 
     /**
-     * Sets the image URL for the toolcard.
+     * Sets the image path for the toolcard.
      *
-     * @param imageUrl String
+     * @param imagePath String
      */
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     /**

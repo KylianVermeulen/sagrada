@@ -78,7 +78,7 @@ public class ToolCardView extends CardView {
      * Generates a text to display the number at the top of the toolcard.
      */
     public void showNumber() {
-        Text number = new Text(Integer.toString(toolcard.getId()) + "\n" + toolcard.getTitle());
+        Text number = new Text(Integer.toString(toolcard.getId()) + "\n" + toolcard.getName());
         number.setFont(Main.SAGRADA_FONT);
         number.wrappingWidthProperty().set(CardView.CARD_WIDTH);
         number.setTextAlignment(TextAlignment.CENTER);
@@ -92,7 +92,7 @@ public class ToolCardView extends CardView {
     public void render() {
         getChildren().clear();
         showNumber();
-        showImage(toolcard.getImageUrl());
+        showImage(toolcard.getImagePath());
         showDescription();
     }
 }
