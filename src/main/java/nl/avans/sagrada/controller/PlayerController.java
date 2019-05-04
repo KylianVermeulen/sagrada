@@ -5,7 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.ChatlineDAO;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
 import nl.avans.sagrada.model.Chatline;
@@ -124,6 +124,7 @@ public class PlayerController {
         DieView dieView = new DieView();
         dieView.setGameDie(gameDie);
         dieView.render();
+        
         myScene.setContentPane(dieView);
     }
 
@@ -134,7 +135,7 @@ public class PlayerController {
      */
     public void sendMessage(TextField textfield) {
         String text = textfield.getText();
-        ChatlineDao chatlineDao = new ChatlineDao();
+        ChatlineDAO chatlineDao = new ChatlineDAO();
         Chatline chatline = new Chatline(player, text);
         chatlineDao.setTime(chatline);
         ArrayList<Chatline> chatlines = chatlineDao.getChatlinesOfGame(player.getGame());

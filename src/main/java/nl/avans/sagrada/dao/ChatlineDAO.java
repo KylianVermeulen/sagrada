@@ -11,10 +11,10 @@ import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 
-public class ChatlineDao {
+public class ChatlineDAO {
     private DBConnection dbConnection;
 
-    public ChatlineDao() {
+    public ChatlineDAO() {
         dbConnection = new DBConnection();
     }
 
@@ -112,4 +112,5 @@ public class ChatlineDao {
         }
         return true;
     }
+    
 }
