@@ -21,6 +21,7 @@ public class ToolcardDao {
 
     /**
      * Returns all toolcards that are stored in the database as entries, belonging to a certain game.
+     * 
      * @param game The game to which the toolcards belong
      * @return An ArrayList of toolcards that belong to this game
      */
@@ -34,8 +35,8 @@ public class ToolcardDao {
                     new QueryParameter(QueryParameter.INT, game.getId())
             );
             while (rs.next()) {
-                Toolcard toolcard = new Toolcard(rs.getInt("idtoolcard"), rs.getInt("seqnr"),
-                        rs.getString("description"), rs.getString("name"));
+                Toolcard toolcard = new Toolcard(rs.getInt("idtoolcard"), rs.getString("name"), rs.getInt("seqnr"),
+                        rs.getString("description"));
                 list.add(toolcard);
             }
         } catch (SQLException e) {
@@ -46,6 +47,7 @@ public class ToolcardDao {
 
     /**
      * Returns all toolcards that are stored in the database as entries.
+     * 
      * @return An ArrayList containing all Toolcard entries from the database
      */
     public ArrayList<Toolcard> getAllToolcards() {
@@ -53,8 +55,8 @@ public class ToolcardDao {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM toolcard", "query"));
             while (rs.next()) {
-                Toolcard toolcard = new Toolcard(rs.getInt("idtoolcard"), rs.getInt("seqnr"),
-                        rs.getString("description"), rs.getString("name"));
+                Toolcard toolcard = new Toolcard(rs.getInt("idtoolcard"),  rs.getString("name"), rs.getInt("seqnr"),
+                        rs.getString("description"));
                 list.add(toolcard);
             }
         } catch (SQLException e) {
@@ -65,10 +67,11 @@ public class ToolcardDao {
     
     /**
      * Returns the toolcard that belongs to the given id.
+     * 
      * @param id The to be returned toolcard's id
      * @return The toolcard that belongs to the id entered as parameter
      */
-    public Toolcard getToolcardByID(int id) {
+    public Toolcard getToolcardById(int id) {
         Toolcard toolcard = new Toolcard();
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -90,6 +93,7 @@ public class ToolcardDao {
     /**
      * Adds a toolcard to a game. Both the toolcard and the game that are subject
      * to this method are given as parameters.
+     * 
      * @param toolcard The Toolcard that should be added to a game
      * @param game The Game to which the toolcard should be added
      */
@@ -99,7 +103,7 @@ public class ToolcardDao {
                     new Query(
                             "INSERT INTO gametoolcard (gametoolcard, idtoolcard, idgame) VALUES (?, ?, ?)", "update"
                             ),
-                    new QueryParameter(QueryParameter.INT, getNextGameToolcard()),
+                    new QueryParameter(QueryParameter.INT, getNextGameToolcardId()),
                     new QueryParameter(QueryParameter.INT, toolcard.getId()),
                     new QueryParameter(QueryParameter.INT, game.getId())
             );
@@ -112,21 +116,22 @@ public class ToolcardDao {
      * Method that returns the next gametoolcard integer that is available in the database
      * table 'gametoolcard'. This allows a new row to be added to the table, as this
      * method ensures that a possible new entry is added to an empty space in the table.
+     * 
      * @return The next gametoolcard int, which has not yet been used by any existing
      * database entries
      */
-    public int getNextGameToolcard() {
-        int nextGameToolcard = 1;
+    public int getNextGameToolcardId() {
+        int gameToolcardId = 0;
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT MAX(gametoolcard) AS maxGameToolcard FROM gametoolcard", "query")               
+                    new Query("SELECT MAX(gametoolcard) AS highestGameToolcardId FROM gametoolcard", "query")               
             );
             if (rs.next()) {
-                nextGameToolcard = rs.getInt("maxGameToolcard") + 1;
+                gameToolcardId = rs.getInt("maxGameToolcard") + 1;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return nextGameToolcard;
+        return gameToolcardId;
     }
 }

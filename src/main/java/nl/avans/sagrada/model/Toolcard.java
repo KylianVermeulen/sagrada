@@ -23,7 +23,7 @@ public class Toolcard {
      * @param seqnr int
      * @param description String
      */
-    public Toolcard(int id, int seqnr, String description, String name) {
+    public Toolcard(int id, String name, int seqnr, String description) {
         this.id = id;
         this.seqnr = seqnr;
         this.description = description;
