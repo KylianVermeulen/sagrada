@@ -38,9 +38,18 @@ public class PlayerController {
         while (counter <3) {
             randomNumbers[counter] = (Math.random()*11) + 1;
             randomToolCardIDs[counter] = (int) Math.round(randomNumbers[counter]);
-            if ((counter - 1) >= 0) {
-                if (randomToolCardIDs[counter] == randomToolCardIDs[counter-1]) {
+            if ((counter - 1) >= 0 & randomToolCardIDs[counter] == randomToolCardIDs[counter-1]) {
+                randomToolCardIDs[counter]++;
+                if ((counter - 2) >= 0 & randomToolCardIDs[counter] == randomToolCardIDs[counter-2]) {
                     randomToolCardIDs[counter]++;
+                    if (randomToolCardIDs[counter] > 12) {
+                        randomToolCardIDs[counter] = (randomToolCardIDs[counter-2] - 2);
+                    }
+                } else if (randomToolCardIDs[counter] > 12) {
+                    randomToolCardIDs[counter] = (randomToolCardIDs[counter-1] - 2);
+                    if ((counter - 2) >= 0 & randomToolCardIDs[counter] == randomToolCardIDs[counter-2]) {
+                        randomToolCardIDs[counter]--;
+                    }
                 }
             }
             toolcardDAO.addToolcardToGame(toolcardDAO.getToolcardByID(randomToolCardIDs[counter]), game);
