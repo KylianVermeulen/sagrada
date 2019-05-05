@@ -43,7 +43,8 @@ public class PatternCardSelectionView extends StackPane implements ViewInterface
         for (PatternCard patternCard : optionalPatternCards) {
             PatternCardView patternCardView = new PatternCardView(playerController);
             patternCardView.setPatternCard(patternCard);
-            patternCardView.setOnMouseClicked(e -> playerController.actionSelectPatternCard(patternCard));
+            patternCardView
+                    .setOnMouseClicked(e -> playerController.actionSelectPatternCard(patternCard));
             patternCardView.render();
             tilePane.getChildren().add(patternCardView);
         }

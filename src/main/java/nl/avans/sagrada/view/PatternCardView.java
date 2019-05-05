@@ -52,7 +52,8 @@ public class PatternCardView extends BorderPane implements ViewInterface {
     public void render() {
         getChildren().clear();
         patternCardField = new TilePane();
-        patternCardFieldViews = new PatternCardFieldView[PatternCard.CARD_SQUARES_WIDTH + 1][PatternCard.CARD_SQUARES_HEIGHT + 1];
+        patternCardFieldViews = new PatternCardFieldView[PatternCard.CARD_SQUARES_WIDTH + 1][
+                PatternCard.CARD_SQUARES_HEIGHT + 1];
         makePatternCardFieldViews();
 
         setCenter(patternCardField);

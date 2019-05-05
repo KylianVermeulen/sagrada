@@ -149,6 +149,7 @@ public class PlayerDao {
 
     /**
      * Update the selected patterncard of a player.
+     *
      * @param player The player.
      * @param patternCard The patterncard.
      */

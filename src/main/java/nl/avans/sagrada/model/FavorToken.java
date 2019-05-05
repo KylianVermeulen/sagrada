@@ -8,6 +8,7 @@ public class FavorToken {
 
     /**
      * Partial constructor, generate favor tokens of player.
+     *
      * @param id The favorTokenId.
      * @param player The player.
      */
