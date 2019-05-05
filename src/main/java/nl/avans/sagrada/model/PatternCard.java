@@ -212,9 +212,6 @@ public class PatternCard {
             }
         }
         patternCardFieldDao.addPatternCardFields(list, this);
-//        for (PatternCardField patternCardField : list) {
-//            patternCardFieldDao.addPatternCardField(patternCardField, this);
-//        }
     }
 
     /**
