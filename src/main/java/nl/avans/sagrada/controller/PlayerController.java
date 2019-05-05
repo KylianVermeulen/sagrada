@@ -34,7 +34,6 @@ public class PlayerController {
         ToolcardDao toolcardDao = new ToolcardDao();
         BorderPane pane = new BorderPane();
         ToolCardView[] toolcardViews = new ToolCardView[3];
-        game.assignRandomToolcards();
         Toolcard[] toolcards = toolcardDao.getToolcardsOfGame(game).toArray(new Toolcard[3]);
         for (int index = 0; index < toolcardViews.length; index++) {
             toolcardViews[index] = new ToolCardView(this);

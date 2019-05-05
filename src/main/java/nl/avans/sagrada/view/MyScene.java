@@ -32,8 +32,7 @@ public class MyScene extends Scene {
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
-        //accountController.viewLogin();
-        playerController.viewToolcards(new Game(2));
+        accountController.viewLogin();
     }
 
     /**
