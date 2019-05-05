@@ -1,10 +1,14 @@
 package nl.avans.sagrada.controller;
 
+import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
+import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
@@ -13,6 +17,7 @@ import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.ToolCard;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
+import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.PatternCardView;
 import nl.avans.sagrada.view.PublicObjectiveCardView;
 import nl.avans.sagrada.view.ToolCardView;
@@ -27,6 +32,33 @@ public class PlayerController {
     
     public void viewGame(Game game) {
         
+    }
+
+    public void actionJoinGame(Account account, Game game) {
+        player = new PlayerDao().getPlayerByAccountAndGame(account, game);
+        player.setGame(game);
+        if (player.getPatternCard() == null) {
+            viewOptionalPatternCards();
+        }
+    }
+
+    public void viewOptionalPatternCards() {
+        Pane pane = new Pane();
+        ArrayList<PatternCard> patternCards = new PatternCardDao()
+                .getOptionalPatternCardsOfPlayer(player);
+        PatternCardSelectionView patternCardSelectionView = new PatternCardSelectionView(this);
+        patternCardSelectionView.setOptionalPatternCards(patternCards);
+        patternCardSelectionView.render();
+        pane.getChildren().add(patternCardSelectionView);
+        myScene.setContentPane(pane);
+    }
+
+    public void actionSelectPatternCard(PatternCard patternCard) {
+        PlayerDao playerDao = new PlayerDao();
+        player.setPatternCard(patternCard);
+        playerDao.updateSelectedPatternCard(player, patternCard);
+        player.generateFavorTokens();
+        viewPatternCardOfPlayer(player);
     }
 
     /**
