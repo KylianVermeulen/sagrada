@@ -4,7 +4,6 @@ import javafx.scene.paint.Color;
 
 public class GameDie extends Die {
     private int eyes;
-    private String color;
     private int roundTrack;
     private int round;
     private PatternCardField patternCardField;
@@ -15,20 +14,37 @@ public class GameDie extends Die {
      * @param eyes int
      * @param color String
      */
-    public GameDie(int eyes, String color) {
-        super.setColor(color);
+    public GameDie(int number, String color, int eyes) {
+        super(number, color);
         this.eyes = eyes;
-        this.color = super.getStringColor();
     }
 
+    /**
+     * The string color from a die.
+     *
+     * @return The color.
+     */
+    @Override
+    public String getColor() {
+        return super.getColor();
+    }
 
     /**
-     * Returns the color as a javafx Color
+     * The eyes/value from a die.
      *
-     * @return Color
+     * @return The eyes/value.
      */
-    public Color getColor() {
-        switch (color) {
+    public int getEyes() {
+        return this.eyes;
+    }
+
+    /**
+     * The JavaFX color from a die.
+     *
+     * @return Color object JavaFX.
+     */
+    public Color getFXColor() {
+        switch (super.getColor()) {
             case "rood":
                 return Color.RED;
             case "blauw":
@@ -45,40 +61,20 @@ public class GameDie extends Die {
     }
 
     /**
-     * Returns the color as a String
+     * Check if the die has eyes.
      *
-     * @return String
-     */
-    public String getStringColor() {
-        return this.color;
-    }
-
-    /**
-     * Checks if the gameDie has a eye value
-     *
-     * @return boolean
+     * @return True when has eyes.
      */
     public boolean hasEyes() {
-        if (eyes == 0) return false;
-        return true;
+        return eyes != 0;
     }
 
     /**
-     * Checks if the gameDie has a Color
+     * Check if the die has a color.
      *
-     * @return boolean
+     * @return True when has color.
      */
     public boolean hasColor() {
-        if (color == null) return false;
-        return true;
-    }
-
-    /**
-     * Returns the amount of eyes
-     *
-     * @return int
-     */
-    public int getEyes() {
-        return this.eyes;
+        return super.getColor() != null;
     }
 }

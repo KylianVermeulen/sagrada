@@ -82,8 +82,7 @@ public abstract class Popup extends Pane implements ViewInterface {
     }
 
     /**
-     * Get width of view
-     * Not camelcase because of Pane class extend, method is final
+     * Get width of view Not camelcase because of Pane class extend, method is final
      *
      * @return int
      */
@@ -94,7 +93,6 @@ public abstract class Popup extends Pane implements ViewInterface {
     /**
      * Set width to view
      *
-     *
      * @param width int
      */
     public void setWidth(int width) {
@@ -102,8 +100,7 @@ public abstract class Popup extends Pane implements ViewInterface {
     }
 
     /**
-     * Get height of view
-     * Not camelcase because of Pane class extend, method is final
+     * Get height of view Not camelcase because of Pane class extend, method is final
      *
      * @return int
      */

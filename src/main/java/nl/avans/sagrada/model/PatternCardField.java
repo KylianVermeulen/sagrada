@@ -7,7 +7,6 @@ public class PatternCardField {
     private int yPos;
     private String color;
     private int value;
-
     private PatternCard patternCard;
     private GameDie die;
 
@@ -54,9 +53,7 @@ public class PatternCardField {
      * @return boolean
      */
     public boolean checkSidesColor(String color) {
-        return checkSouthColor(color)
-                && checkEastColor(color)
-                && checkNorthColor(color)
+        return checkSouthColor(color) && checkEastColor(color) && checkNorthColor(color)
                 && checkWestColor(color);
     }
 
@@ -68,9 +65,13 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkSouthColor(String color) {
-        if (yPos == 3) return true;
+        if (yPos == 4) {
+            return true;
+        }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
-        if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        if (pcd.hasColor()) {
+            return !pcd.getStringColor().equals(color);
+        }
         return true;
     }
 
@@ -81,9 +82,13 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkNorthColor(String color) {
-        if (yPos == 0) return true;
+        if (yPos == 1) {
+            return true;
+        }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
-        if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        if (pcd.hasColor()) {
+            return !pcd.getStringColor().equals(color);
+        }
         return true;
     }
 
@@ -94,9 +99,13 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkEastColor(String color) {
-        if (xPos == 4) return true;
+        if (xPos == 5) {
+            return true;
+        }
         PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
-        if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        if (pcd.hasColor()) {
+            return !pcd.getStringColor().equals(color);
+        }
         return true;
     }
 
@@ -107,22 +116,25 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkWestColor(String color) {
-        if (xPos == 0) return true;
+        if (xPos == 1) {
+            return true;
+        }
         PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);
-        if (pcd.hasColor()) return !pcd.getStringColor().equals(color);
+        if (pcd.hasColor()) {
+            return !pcd.getStringColor().equals(color);
+        }
         return true;
     }
 
     /**
-     * Checks if the patternCardField neighbor to the selected patternCardField has an value (value)
+     * Checks if the patternCardField neighbor to the selected patternCardField has an value
+     * (value)
      *
      * @param value int
      * @return boolean
      */
     public boolean checkSidesValue(int value) {
-        return checkSouthValue(value)
-                && checkEastValue(value)
-                && checkNorthValue(value)
+        return checkSouthValue(value) && checkEastValue(value) && checkNorthValue(value)
                 && checkWestValue(value);
     }
 
@@ -133,9 +145,13 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkSouthValue(int value) {
-        if (yPos == 3) return true;
+        if (yPos == 4) {
+            return true;
+        }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
-        if (pcd.hasValue()) return !(pcd.getValue() == value);
+        if (pcd.hasValue()) {
+            return !(pcd.getValue() == value);
+        }
         return true;
     }
 
@@ -146,9 +162,13 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkNorthValue(int value) {
-        if (yPos == 0) return true;
+        if (yPos == 1) {
+            return true;
+        }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
-        if (pcd.hasValue()) return !(pcd.getValue() == value);
+        if (pcd.hasValue()) {
+            return !(pcd.getValue() == value);
+        }
         return true;
     }
 
@@ -159,9 +179,13 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkEastValue(int value) {
-        if (xPos == 4) return true;
+        if (xPos == 5) {
+            return true;
+        }
         PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
-        if (pcd.hasValue()) return !(pcd.getValue() == value);
+        if (pcd.hasValue()) {
+            return !(pcd.getValue() == value);
+        }
         return true;
     }
 
@@ -172,9 +196,13 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkWestValue(int value) {
-        if (xPos == 0) return true;
+        if (xPos == 1) {
+            return true;
+        }
         PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);
-        if (pcd.hasValue()) return !(pcd.getValue() == value);
+        if (pcd.hasValue()) {
+            return !(pcd.getValue() == value);
+        }
         return true;
     }
 
@@ -182,20 +210,14 @@ public class PatternCardField {
      * @return boolean true when color is set
      */
     public boolean hasColor() {
-        if (color == null) {
-            return false;
-        }
-        return true;
+        return color != null;
     }
 
     /**
      * @return boolean true when value is set
      */
     public boolean hasValue() {
-        if (value == 0) {
-            return false;
-        }
-        return true;
+        return value != 0;
     }
 
     /**
@@ -289,9 +311,10 @@ public class PatternCardField {
      * @return boolean
      */
     public boolean hasFieldAttributes() {
-        if (hasColor()) return true;
-        if (hasValue()) return true;
-        return false;
+        if (hasColor()) {
+            return true;
+        }
+        return hasValue();
     }
 
     /**

@@ -1,11 +1,101 @@
 package nl.avans.sagrada.view;
 
+import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import nl.avans.sagrada.Main;
+import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.Toolcard;
+
 public class ToolCardView extends CardView {
+    private Toolcard toolcard;
+    private PlayerController playerController;
+
+    /**
+     * Filled constructor
+     *
+     * @param playerController PlayerController
+     */
+    public ToolCardView(PlayerController playerController) {
+        super();
+        this.playerController = playerController;
+        String css = this.getClass().getResource("/css/style.css").toExternalForm();
+        getStylesheets().add(css);
+        setId("toolcardBackground");
+    }
+
+    /**
+     * Returns the toolcard that is currently linked to this view.
+     *
+     * @return toolcard that is linked to this view
+     */
+    public Toolcard getToolCard() {
+        return toolcard;
+    }
+
+    /**
+     * Sets the current toolcard that is linked to this view.
+     *
+     * @param toolcard Toolcard
+     */
+    public void setToolCard(Toolcard toolcard) {
+        this.toolcard = toolcard;
+    }
+
+    /**
+     * Generates a text to display a toolcard's description.
+     */
+    public void showDescription() {
+        Text description = new Text(toolcard.getDescription());
+        description.setFont(Main.SAGRADA_FONT);
+        description.setTextAlignment(TextAlignment.CENTER);
+        description.wrappingWidthProperty().set(CardView.CARD_WIDTH);
+        StackPane descriptionPane = new StackPane();
+        descriptionPane.getChildren().add(description);
+        descriptionPane.setAlignment(Pos.CENTER);
+        descriptionPane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT / 3));
+        setBottom(descriptionPane);
+    }
+
+    /**
+     * Displays the toolcard image.
+     *
+     * @param url String
+     */
+    public void showImage(String url) {
+        Image image = new Image(url);
+        StackPane imagePane = new StackPane();
+        ImageView imgview = new ImageView(image);
+        imgview.setFitHeight((CardView.CARD_HEIGHT / 2));
+        imgview.setFitWidth(CardView.CARD_WIDTH + 1);
+        imgview.setPreserveRatio(false);
+        imagePane.getChildren().add(imgview);
+        imagePane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT / 2));
+        setCenter(imagePane);
+    }
+
+    /**
+     * Generates a text to display the number at the top of the toolcard.
+     */
+    public void showNumber() {
+        Text name = new Text(Integer.toString(toolcard.getSeqnr()) + "\n" + toolcard.getName());
+        name.setFont(Main.SAGRADA_FONT);
+        name.wrappingWidthProperty().set(CardView.CARD_WIDTH);
+        name.setTextAlignment(TextAlignment.CENTER);
+        StackPane numberPane = new StackPane();
+        numberPane.getChildren().add(name);
+        numberPane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT / 6));
+        setTop(numberPane);
+    }
 
     @Override
     public void render() {
-        // TODO Auto-generated method stub
-        
+        getChildren().clear();
+        showNumber();
+        showImage(toolcard.getImagePath());
+        showDescription();
     }
-
 }

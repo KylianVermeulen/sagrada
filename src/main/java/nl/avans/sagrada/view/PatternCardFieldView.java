@@ -1,5 +1,6 @@
 package nl.avans.sagrada.view;
 
+import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -11,17 +12,13 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-import java.util.ArrayList;
-
 public class PatternCardFieldView extends StackPane implements ViewInterface {
+    private static final int WIDTH = 50;
+    private static final int HEIGHT = 50;
     private PatternCard patternCard;
     private PatternCardField patternCardField;
     private PlayerController playerController;
-
     private ArrayList<Image> images;
-
-    private static final int WIDTH = 50;
-    private static final int HEIGHT = 50;
 
     /**
      * Partial constructor
@@ -40,6 +37,7 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
 
     /**
      * Set PatternCard to PatternCardFieldView
+     *
      * @param patternCard PatternCard
      */
     public void setPatternCard(PatternCard patternCard) {
@@ -48,6 +46,7 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
 
     /**
      * Set PatternCardField to PatternCardFieldView
+     *
      * @param patternCardField PatternCardField
      */
     public void setPatternCardField(PatternCardField patternCardField) {
@@ -72,7 +71,8 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      * Method when the PatternCardField is clicked
      */
     private void onClick() {
-        System.out.println("x: " + patternCardField.getxPos() + " y: " + patternCardField.getyPos());
+        System.out
+                .println("x: " + patternCardField.getxPos() + " y: " + patternCardField.getyPos());
     }
 
     /**

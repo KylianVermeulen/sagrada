@@ -1,5 +1,6 @@
 package nl.avans.sagrada.view;
 
+import java.util.ArrayList;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
@@ -7,21 +8,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.PlayerDAO;
-import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.popups.Alert;
-
-import java.util.ArrayList;
 
 public class MyScene extends Scene {
     private Pane rootPane;
     private Pane contentPane;
     private ArrayList<Pane> alerts;
-
     private AccountController accountController;
     private PlayerController playerController;
 
@@ -40,6 +35,19 @@ public class MyScene extends Scene {
 
     }
 
+    public AccountController getAccountController() {
+        return accountController;
+    }
+
+    public PlayerController getPlayerController() {
+        return playerController;
+    }
+
+    /**
+     * Set the contentPane of the rootPane that we have as content for the scene
+     *
+     * @param pane Pane
+     */
     public void setContentPane(Pane pane) {
         contentPane.getChildren().clear();
         contentPane.getChildren().add(pane);

@@ -19,21 +19,24 @@ public class RegisterView extends VBox implements ViewInterface {
     private AccountController accountController;
     private int backButtonHeight = 35;
     private int backButtonWidth = 75;
-    
+
     /**
-     * RegisterView constructor. Sets the RegisterView pane size to the screensize and generates the pane content.
+     * RegisterView constructor. Sets the RegisterView pane size to the screensize and generates the
+     * pane content.
+     *
      * @param accountController AccountController
      */
-    
-    public RegisterView (AccountController accountController) {
+
+    public RegisterView(AccountController accountController) {
         this.accountController = accountController;
-        setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);        
+        setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
     }
-    
+
     /**
-     * Creates a "RegisterView" layout. A RegisterView is a VBox which has two other panes within it: a BackButton pane (top left) and 
-     * a "content (vbox) pane", which, in turn, has a title, a username textfield, a password textfield and 
-     * a register button. The button actions are handled by the AccountController.
+     * Creates a "RegisterView" layout. A RegisterView is a VBox which has two other panes within
+     * it: a BackButton pane (top left) and a "content (vbox) pane", which, in turn, has a title, a
+     * username textfield, a password textfield and a register button. The button actions are
+     * handled by the AccountController.
      */
     @Override
     public void render() {
@@ -45,8 +48,8 @@ public class RegisterView extends VBox implements ViewInterface {
         Label usernameText = new Label("Username:");
         Label passwordText = new Label("Password:");
         Button backButton = new Button();
-        
-        registerText.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));   
+
+        registerText.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         usernameText.setPadding(new Insets(10, 20, 10, 20));
         passwordText.setPadding(new Insets(10, 20, 10, 20));
         backButton.setPrefSize(backButtonWidth, backButtonHeight);
@@ -54,26 +57,28 @@ public class RegisterView extends VBox implements ViewInterface {
         backButton.getStylesheets().add(css);
         backButton.setId("backButton");
         backButton.setOnAction(e -> accountController.viewLogin());
-        
-        registerButton.setOnAction(e -> accountController.register(usernameInput.getText(), passwordInput.getText()));
-        
+
+        registerButton.setOnAction(
+                e -> accountController.actionRegister(usernameInput.getText(), passwordInput.getText()));
+
         VBox vbox = new VBox();
         HBox hbox1 = new HBox();
         HBox hbox2 = new HBox();
         FlowPane backButtonPane = new FlowPane();
-        
+
         hbox1.setAlignment(Pos.CENTER);
         hbox2.setAlignment(Pos.CENTER);
         backButtonPane.setAlignment(Pos.TOP_LEFT);
         vbox.setAlignment(Pos.CENTER);
-        
+
         hbox1.getChildren().addAll(usernameText, usernameInput);
         hbox2.getChildren().addAll(passwordText, passwordInput);
         vbox.getChildren().addAll(registerText, hbox1, hbox2, registerButton);
         backButtonPane.getChildren().add(backButton);
-        
-        vbox.setPadding(new Insets(321, 0, 0, 0)); //Dit moet later aangepast worden om precies het midden te verkrijgen (net als bij login scherm)
-        
+
+        vbox.setPadding(new Insets(321, 0, 0,
+                0)); //Dit moet later aangepast worden om precies het midden te verkrijgen (net als bij login scherm)
+
         getChildren().addAll(backButtonPane, vbox);
     }
 

@@ -1,9 +1,8 @@
 package nl.avans.sagrada.model;
 
-import nl.avans.sagrada.dao.PatternCardFieldDAO;
-
 import java.util.ArrayList;
 import java.util.Random;
+import nl.avans.sagrada.dao.PatternCardFieldDao;
 
 public class PatternCard {
     public static final int CARD_SQUARES_WIDTH = 5;
@@ -16,9 +15,17 @@ public class PatternCard {
     private ArrayList<String> colors;
 
     /**
-     * Empty constructor
+     * Partial constructor
      */
-    public PatternCard() {
+    public PatternCard(int id, boolean standard) {
+        this.id = id;
+        this.standard = standard;
+        if (standard) {
+            patternCardFields = getPatternCardFields();
+        } else {
+            patternCardFields = makeNewPatternCardFields();
+            generateRandomCard();
+        }
     }
 
     /**
@@ -32,12 +39,7 @@ public class PatternCard {
         this.id = id;
         this.difficulty = difficulty;
         this.standard = standard;
-        if (standard) {
-            patternCardFields = getPatternCardFields();
-        } else {
-            patternCardFields = makeNewPatternCardFields();
-            generateRandomCard();
-        }
+        patternCardFields = getPatternCardFields();
     }
 
     /**
@@ -72,7 +74,8 @@ public class PatternCard {
     }
 
     /**
-     * Random 50/50 chance if it's going to add a color or an value to the selected PatternCardField
+     * Random 50/50 chance if it's going to add a color or an value to the selected
+     * PatternCardField
      */
     private void generateRandomPatternCardField() {
         if (rnd.nextBoolean()) {
@@ -83,13 +86,15 @@ public class PatternCard {
     }
 
     /**
-     * Adds random value  to the selected patternCardField if it's not a valid patternCardField the method will run again
+     * Adds random value  to the selected patternCardField if it's not a valid patternCardField the
+     * method will run again
      */
     private void addRandomValue() {
-        int xPos = rnd.nextInt(5);
-        int yPos = rnd.nextInt(4);
+        int xPos = rnd.nextInt(4) + 1;
+        int yPos = rnd.nextInt(3) + 1;
         int value = rnd.nextInt(6) + 1;
-        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos].checkSidesValue(value)) {
+        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos]
+                .checkSidesValue(value)) {
             patternCardFields[xPos][yPos].setValue(value);
         } else {
             addRandomValue();
@@ -97,13 +102,15 @@ public class PatternCard {
     }
 
     /**
-     * Adds random color to the selected patternCardField if it's not a valid patternCardField the method will run again
+     * Adds random color to the selected patternCardField if it's not a valid patternCardField the
+     * method will run again
      */
     private void addRandomColor() {
-        int xPos = rnd.nextInt(5);
-        int yPos = rnd.nextInt(4);
+        int xPos = rnd.nextInt(4) + 1;
+        int yPos = rnd.nextInt(3) + 1;
         String color = colors.get(rnd.nextInt(colors.size()));
-        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos].checkSidesColor(color)) {
+        if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos]
+                .checkSidesColor(color)) {
             patternCardFields[xPos][yPos].setColor(color);
         } else {
             addRandomColor();
@@ -170,8 +177,9 @@ public class PatternCard {
      * @return PatternCardField[]
      */
     public PatternCardField[][] getPatternCardFields() {
-        PatternCardFieldDAO patternCardFieldDAO = new PatternCardFieldDAO();
-        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDAO.getPatternCardFieldsOfPatterncard(this);
+        PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
+        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao
+                .getPatternCardFieldsOfPatterncard(this);
         return makePatternCardFields(patternCardFieldsList);
     }
 
@@ -195,17 +203,29 @@ public class PatternCard {
         return patternCardFields[x][y];
     }
 
+    public void saveNewPatternCardFields() {
+        ArrayList<PatternCardField> list = new ArrayList<>();
+        PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
+        for (int x = 1; x <= CARD_SQUARES_WIDTH; x++) {
+            for (int y = 1; y <= CARD_SQUARES_HEIGHT; y++) {
+                list.add(patternCardFields[x][y]);
+            }
+        }
+        patternCardFieldDao.addPatternCardFields(list, this);
+    }
+
     /**
      * Convert ArrayList to 2D Array of PatternCardField
      *
      * @param patternCardFieldsList ArrayList<PatternCardField>
      * @return PatternCardField[][]
      */
-    private PatternCardField[][] makePatternCardFields(ArrayList<PatternCardField> patternCardFieldsList) {
-        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH][CARD_SQUARES_HEIGHT];
+    private PatternCardField[][] makePatternCardFields(
+            ArrayList<PatternCardField> patternCardFieldsList) {
+        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH + 1][CARD_SQUARES_HEIGHT + 1];
         int i = 0;
-        for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
-            for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
+        for (int x = 1; x <= CARD_SQUARES_WIDTH; x++) {
+            for (int y = 1; y <= CARD_SQUARES_HEIGHT; y++) {
                 patterncardFields[x][y] = patternCardFieldsList.get(i);
                 i++;
             }
@@ -214,9 +234,9 @@ public class PatternCard {
     }
 
     private PatternCardField[][] makeNewPatternCardFields() {
-        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH][CARD_SQUARES_HEIGHT];
-        for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
-            for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
+        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH + 1][CARD_SQUARES_HEIGHT + 1];
+        for (int x = 1; x <= CARD_SQUARES_WIDTH; x++) {
+            for (int y = 1; y <= CARD_SQUARES_HEIGHT; y++) {
                 PatternCardField patternCardField = new PatternCardField(x, y, this);
                 patterncardFields[x][y] = patternCardField;
             }

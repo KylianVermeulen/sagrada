@@ -1,13 +1,15 @@
 package nl.avans.sagrada;
+
 import javafx.application.Application;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import nl.avans.sagrada.view.MyScene;
 
 public class Main extends Application {
     public static final int SCREEN_HEIGHT = 800;
     public static final int SCREEN_WIDTH = 1280;
-
+    public static final Font SAGRADA_FONT = new Font("Segoe Script", 8);
     private MyScene rootScene;
 
     public static void main(String[] args) {
@@ -24,7 +26,7 @@ public class Main extends Application {
         buildGui(primaryStage);
         primaryStage.show();
     }
-    
+
     private void buildGui(Stage primaryStage) {
         rootScene = new MyScene();
         primaryStage.setScene(rootScene);
