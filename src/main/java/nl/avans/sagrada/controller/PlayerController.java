@@ -138,14 +138,14 @@ public class PlayerController {
         ChatlineDAO chatlineDao = new ChatlineDAO();
         Chatline chatline = new Chatline(player, text);
         chatlineDao.setTime(chatline);
-        ArrayList<Chatline> chatlines = chatlineDao.getChatlinesOfGame(player.getGame());
 
         if (!text.matches("")) {
             if (chatlineDao.timeExists(chatline) == false) {
                 chatlineDao.addChatline(chatline);
                 ChatLineView chatview = new ChatLineView(this);
-                chatview.addExistingMessages(chatlines);
+                chatview.addExistingMessages(player.getChatlines());
                 chatview.addMessage(chatline);
+                player.addChatline(chatline);
                 myScene.setContentPane(chatview);
             } else {
                 Alert alert = new Alert("Waarschuwing",
@@ -158,7 +158,7 @@ public class PlayerController {
             myScene.addAlertPane(alert);
         }
     }
-
+    
     public void viewChat() {
         ChatLineView chatlineview = new ChatLineView(this);
         myScene.setContentPane(chatlineview);

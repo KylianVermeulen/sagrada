@@ -16,10 +16,13 @@ public class Player {
     private PatternCard patternCard;
     private ArrayList<PatternCard> optionalPatternCards;
     private ArrayList<FavorToken> favorTokens;
+    private ArrayList<Chatline> chatlines;
     private int score;
     private boolean cheatmode = false;
 
     public Player() {
+    	chatlines = new ArrayList<>();
+    	
     }
 
     /**
@@ -225,4 +228,16 @@ public class Player {
     public void setCheatmode(boolean cheatmode) {
         this.cheatmode = cheatmode;
     }
+    
+    public void addChatline(Chatline chatline) {
+    	chatlines.add(chatline);
+    }
+
+	public ArrayList<Chatline> getChatlines() {
+		return chatlines;
+	}
+
+	public void setChatlines(ArrayList<Chatline> chatlines) {
+		this.chatlines = chatlines;
+	}
 }
