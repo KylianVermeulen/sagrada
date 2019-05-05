@@ -2,9 +2,12 @@ package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
 
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Game;
@@ -19,6 +22,7 @@ public class GameView extends VBox implements ViewInterface {
     private PlayerController playerController;
     
     private VBox toolcardAndRoundTrack;
+    private HBox publicObjectiveCards;
     private HBox otherPlayersPatternCards;
     
     public GameView(PlayerController playerController, Game game, Player player) {
@@ -28,6 +32,7 @@ public class GameView extends VBox implements ViewInterface {
         
         otherPlayersPatternCards = new HBox();
         toolcardAndRoundTrack = new VBox();
+        publicObjectiveCards = new HBox();
     }
     
     private void buildOtherPlayersPatternCard() {
@@ -50,7 +55,7 @@ public class GameView extends VBox implements ViewInterface {
     }
     
     private void buildPublicObjectiveCards() {
-        toolcardAndRoundTrack.setPrefSize(Main.SCREEN_WIDTH / 3, Main.SCREEN_HEIGHT / 3);
+        publicObjectiveCards.setPrefSize(Main.SCREEN_WIDTH / 3, Main.SCREEN_HEIGHT / 3);
         ArrayList<ToolCard> toolCards = game.getToolCards();
         HBox toolCardViews = new HBox();
         
@@ -60,11 +65,13 @@ public class GameView extends VBox implements ViewInterface {
             toolCardView.render();
             toolCardViews.getChildren().add(toolCardView);
         }
-        toolcardAndRoundTrack.getChildren().add(toolCardViews);
+        publicObjectiveCards.getChildren().add(toolCardViews);
     }
     
     private void buildRoundTrack() {
-        
+        Pane roundTrack = new Pane();
+        roundTrack.setBackground(new Background(new BackgroundFill(Color.RED, null ,null)));
+        toolcardAndRoundTrack.getChildren().add(roundTrack);
     }
 
     @Override
@@ -75,7 +82,11 @@ public class GameView extends VBox implements ViewInterface {
         buildPublicObjectiveCards();
         buildRoundTrack();
         
+        HBox secondView = new HBox();
+        secondView.getChildren().add(toolcardAndRoundTrack);
+        secondView.getChildren().add(publicObjectiveCards);
+        
         getChildren().add(otherPlayersPatternCards);
-        getChildren().add
+        getChildren().add(secondView);
     }
 }
