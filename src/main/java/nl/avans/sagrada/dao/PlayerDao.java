@@ -8,6 +8,7 @@ import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 
 public class PlayerDao {
@@ -144,5 +145,24 @@ public class PlayerDao {
             e.printStackTrace();
         }
         return player;
+    }
+
+    /**
+     * Update the selected patterncard of a player.
+     * @param player The player.
+     * @param patternCard The patterncard.
+     */
+    public void updateSelectedPatternCard(Player player, PatternCard patternCard) {
+        System.out.println(patternCard.getId());
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("UPDATE player SET patterncard_idpatterncard=? WHERE idplayer=?",
+                            "update"),
+                    new QueryParameter(QueryParameter.INT, patternCard.getId()),
+                    new QueryParameter(QueryParameter.INT, player.getId())
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

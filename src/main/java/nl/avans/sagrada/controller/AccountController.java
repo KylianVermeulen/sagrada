@@ -282,5 +282,6 @@ public class AccountController {
      * @param game the game to join
      */
     public void actionJoinGame(Game game) {
+        myScene.getPlayerController().actionJoinGame(account, game);
     }
 }

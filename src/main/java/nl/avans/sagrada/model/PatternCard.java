@@ -15,9 +15,17 @@ public class PatternCard {
     private ArrayList<String> colors;
 
     /**
-     * Empty constructor
+     * Partial constructor
      */
-    public PatternCard() {
+    public PatternCard(int id, boolean standard) {
+        this.id = id;
+        this.standard = standard;
+        if (standard) {
+            patternCardFields = getPatternCardFields();
+        } else {
+            patternCardFields = makeNewPatternCardFields();
+            generateRandomCard();
+        }
     }
 
     /**
@@ -31,12 +39,7 @@ public class PatternCard {
         this.id = id;
         this.difficulty = difficulty;
         this.standard = standard;
-        if (standard) {
-            patternCardFields = getPatternCardFields();
-        } else {
-            patternCardFields = makeNewPatternCardFields();
-            generateRandomCard();
-        }
+        patternCardFields = getPatternCardFields();
     }
 
     /**
@@ -87,8 +90,8 @@ public class PatternCard {
      * method will run again
      */
     private void addRandomValue() {
-        int xPos = rnd.nextInt(5);
-        int yPos = rnd.nextInt(4);
+        int xPos = rnd.nextInt(4) + 1;
+        int yPos = rnd.nextInt(3) + 1;
         int value = rnd.nextInt(6) + 1;
         if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos]
                 .checkSidesValue(value)) {
@@ -103,8 +106,8 @@ public class PatternCard {
      * method will run again
      */
     private void addRandomColor() {
-        int xPos = rnd.nextInt(5);
-        int yPos = rnd.nextInt(4);
+        int xPos = rnd.nextInt(4) + 1;
+        int yPos = rnd.nextInt(3) + 1;
         String color = colors.get(rnd.nextInt(colors.size()));
         if (!patternCardFields[xPos][yPos].hasFieldAttributes() && patternCardFields[xPos][yPos]
                 .checkSidesColor(color)) {
@@ -200,6 +203,20 @@ public class PatternCard {
         return patternCardFields[x][y];
     }
 
+    public void saveNewPatternCardFields() {
+        ArrayList<PatternCardField> list = new ArrayList<>();
+        PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
+        for (int x = 1; x <= CARD_SQUARES_WIDTH; x++) {
+            for (int y = 1; y <= CARD_SQUARES_HEIGHT; y++) {
+                list.add(patternCardFields[x][y]);
+            }
+        }
+        patternCardFieldDao.addPatternCardFields(list, this);
+//        for (PatternCardField patternCardField : list) {
+//            patternCardFieldDao.addPatternCardField(patternCardField, this);
+//        }
+    }
+
     /**
      * Convert ArrayList to 2D Array of PatternCardField
      *
@@ -208,10 +225,10 @@ public class PatternCard {
      */
     private PatternCardField[][] makePatternCardFields(
             ArrayList<PatternCardField> patternCardFieldsList) {
-        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH][CARD_SQUARES_HEIGHT];
+        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH + 1][CARD_SQUARES_HEIGHT + 1];
         int i = 0;
-        for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
-            for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
+        for (int x = 1; x <= CARD_SQUARES_WIDTH; x++) {
+            for (int y = 1; y <= CARD_SQUARES_HEIGHT; y++) {
                 patterncardFields[x][y] = patternCardFieldsList.get(i);
                 i++;
             }
@@ -220,9 +237,9 @@ public class PatternCard {
     }
 
     private PatternCardField[][] makeNewPatternCardFields() {
-        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH][CARD_SQUARES_HEIGHT];
-        for (int x = 0; x < CARD_SQUARES_WIDTH; x++) {
-            for (int y = 0; y < CARD_SQUARES_HEIGHT; y++) {
+        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH + 1][CARD_SQUARES_HEIGHT + 1];
+        for (int x = 1; x <= CARD_SQUARES_WIDTH; x++) {
+            for (int y = 1; y <= CARD_SQUARES_HEIGHT; y++) {
                 PatternCardField patternCardField = new PatternCardField(x, y, this);
                 patterncardFields[x][y] = patternCardField;
             }

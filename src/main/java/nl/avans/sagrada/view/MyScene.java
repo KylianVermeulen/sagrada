@@ -34,6 +34,14 @@ public class MyScene extends Scene {
         accountController.viewLogin();
     }
 
+    public AccountController getAccountController() {
+        return accountController;
+    }
+
+    public PlayerController getPlayerController() {
+        return playerController;
+    }
+
     /**
      * Set the contentPane of the rootPane that we have as content for the scene
      *

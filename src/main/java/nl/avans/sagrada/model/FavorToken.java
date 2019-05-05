@@ -6,6 +6,11 @@ public class FavorToken {
     private Player player;
     private Toolcard toolcard;
 
+    /**
+     * Partial constructor, generate favor tokens of player.
+     * @param id The favorTokenId.
+     * @param player The player.
+     */
     public FavorToken(int id, Player player) {
         this.id = id;
         this.player = player;
