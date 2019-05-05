@@ -154,6 +154,7 @@ public class PlayerDAO {
         } catch (Exception e) {
             // TODO: handle exception
             player = null;
+            e.printStackTrace();
             System.out.println("Player is null");
         }
         return player;
