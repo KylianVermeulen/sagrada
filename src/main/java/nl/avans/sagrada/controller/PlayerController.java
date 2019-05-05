@@ -33,7 +33,9 @@ public class PlayerController {
     public void actionJoinGame(Account account, Game game) {
         player = new PlayerDao().getPlayerByAccountAndGame(account, game);
         player.setGame(game);
-        viewOptionalPatternCards();
+        if (player.getPatternCard() == null) {
+            viewOptionalPatternCards();
+        }
     }
 
     public void viewOptionalPatternCards() {
