@@ -1,5 +1,7 @@
 package nl.avans.sagrada.model;
 
+import java.util.ArrayList;
+
 public class PublicObjectiveCard {
     private int id;
     private String name;
@@ -8,15 +10,15 @@ public class PublicObjectiveCard {
     private String imagePath;
 
     public PublicObjectiveCard() {
-
     }
 
     /**
-     * Filled constructor
-     * 
+     * Full constructor
+     *
      * @param id int
-     * @param seqnr int
+     * @param name String
      * @param description String
+     * @param points int
      */
     public PublicObjectiveCard(int id, String name, String description, int points) {
         this.id = id;
@@ -27,7 +29,7 @@ public class PublicObjectiveCard {
 
     /**
      * Returns public objective card id
-     * 
+     *
      * @return id (int)
      */
     public int getId() {
@@ -36,7 +38,7 @@ public class PublicObjectiveCard {
 
     /**
      * Sets public objective card id
-     * 
+     *
      * @param id int
      */
     public void setId(int id) {
@@ -44,18 +46,18 @@ public class PublicObjectiveCard {
     }
 
     /**
-     * Returns public objective card name
-     * 
-     * @return name (String)
+     * Returns public objective card sequence number
+     *
+     * @return sequence number (int)
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Sets public objective card name
-     * 
-     * @param String name
+     * Sets the public objective cars sequence number
+     *
+     * @param name String
      */
     public void setName(String name) {
         this.name = name;
@@ -63,7 +65,7 @@ public class PublicObjectiveCard {
 
     /**
      * Returns the public objective card description
-     * 
+     *
      * @return description (String)
      */
     public String getDescription() {
@@ -72,25 +74,25 @@ public class PublicObjectiveCard {
 
     /**
      * Sets the public objective card description
-     * 
+     *
      * @param description String
      */
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     /**
      * Returns public objective card points
-     * 
+     *
      * @return points (int)
      */
     public int getPoints() {
         return points;
     }
-    
+
     /**
      * Sets the public objective card points
-     * 
+     *
      * @param points int
      */
     public void setPoints(int points) {
@@ -99,7 +101,7 @@ public class PublicObjectiveCard {
 
     /**
      * Returns the public objective card image path
-     * 
+     *
      * @return image path (String)
      */
     public String getImagePath() {
@@ -115,10 +117,155 @@ public class PublicObjectiveCard {
 
     /**
      * Sets the public objective card image path
-     * 
+     *
      * @param imagePath String
      */
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public int calculateScore(PatternCard patternCard) {
+        switch (id) {
+            case 1:
+                return calculatePairShades(patternCard, 3, 4, points);
+            case 2:
+                return calculatePairShades(patternCard, 5, 6, points);
+            case 3:
+                return calculatePairShades(patternCard, 1, 2, points);
+            case 4:
+                return calculateShadeVariety(patternCard, points);
+            case 7:
+                return calculateColorVariety(patternCard, points);
+            default:
+                return 0;
+        }
+    }
+
+    private int calculatePairShades(PatternCard patternCard, int val1, int val2, int rewardScore) {
+        int score = 0;
+
+        // Add the values of val1 and val2 in patterncard to valueList
+        ArrayList<Integer> valueList = new ArrayList<>();
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop through x-pos
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop through y-pos
+                if (patternCard.getPatternCardField(x, y)
+                        .hasDie()) { // Check if there is a placed die
+                    int value = patternCard.getPatternCardField(x, y).getDie()
+                            .getEyes(); // Get the value from die
+                    if (value == val1 || value == val2) { // Check if the value matches val1 or val2
+                        valueList.add(value); // Add the value to valueList
+                    }
+                }
+            }
+        }
+
+        // Add rewardScore for each pair of values
+        outerloop:
+        for (int x = 0; x < valueList.size(); ) {
+            int value = valueList.get(x); // The first value in valueList
+            for (int i = 1; i < valueList.size(); i++) {
+                int value1 = valueList.get(i); // The second or higher value in valueList
+                if (value == value1) { // If there is a pair of values
+                    score += rewardScore; // Increase score
+                    valueList.remove(Integer.valueOf(value)); // Remove value from valueList
+                    valueList.remove(Integer.valueOf(value1)); // Remove value from valueList
+                    continue outerloop; // Continue in outerloop using label (next first value)
+                }
+            }
+            valueList.remove(Integer
+                    .valueOf(value)); // If there is no pair for a value, remove from valueList
+        }
+
+        return score;
+    }
+
+    private int calculateShadeVariety(PatternCard patternCard, int rewardScore) {
+        int score = 0;
+
+        // Add all values in patterncard to valueList
+        ArrayList<Integer> valueList = new ArrayList<>();
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop through x-pos
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop through y-pos
+                if (patternCard.getPatternCardField(x, y)
+                        .hasDie()) { // Check if there is a placed die
+                    valueList.add(patternCard.getPatternCardField(x, y).getDie()
+                            .getEyes()); // Add the value to valueList
+                }
+            }
+        }
+
+        // Add rewardScore for each set of 6 different values
+        ArrayList<Integer> varietyList = new ArrayList<>();
+        for (int x = 0; x < valueList.size(); ) {
+            int firstValue = valueList.get(x); // The first value in valueList
+            varietyList.add(firstValue); // Add the first value to varietyList
+
+            for (int i = 1; i < valueList.size(); i++) {
+                int nextValue = valueList.get(i); // The second or higher value in valueList
+                if (varietyList.contains(nextValue)) {
+                    continue; // Continue with next value in valueList when it already exists in varietyList
+                }
+                varietyList.add(nextValue); // Add the next value to varietyList
+            }
+
+            if (varietyList.contains(1) && varietyList.contains(2) && varietyList.contains(3)
+                    && varietyList.contains(4) && varietyList.contains(5)
+                    && varietyList.contains(6)) { // Check if there is a set of values
+                score += rewardScore; // Increase score
+                for (int removeValue : varietyList) { // Remove values from valueList
+                    valueList.remove(Integer.valueOf(removeValue));
+                }
+                varietyList.clear(); // Clear varietyList for next iteration
+            } else {
+                break;
+            }
+        }
+
+        return score;
+    }
+
+    private int calculateColorVariety(PatternCard patternCard, int rewardScore) {
+        int score = 0;
+
+        // Add all colors in patterncard to valueList
+        ArrayList<String> colorList = new ArrayList<>();
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop through x-pos
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop through y-pos
+                if (patternCard.getPatternCardField(x, y)
+                        .hasDie()) { // Check if there is a placed die
+                    colorList.add(patternCard.getPatternCardField(x, y).getDie()
+                            .getColor()); // Add the color to colorList
+                }
+            }
+        }
+
+        // Add rewardScore for each set of 5 different colors
+        ArrayList<String> varietyList = new ArrayList<>();
+        for (int x = 0; x < colorList.size(); ) {
+            String firstColor = colorList.get(x); // The first color in valueList
+            varietyList.add(firstColor); // Add the first color to varietyList
+
+            for (int i = 1; i < colorList.size(); i++) {
+                String nextColor = colorList.get(i); // The second or higher color in valueList
+                if (varietyList.contains(nextColor)) {
+                    continue; // Continue with next color in colorList when it already exists in varietyList
+                }
+                varietyList.add(nextColor); // Add the next color to varietyList
+            }
+
+            if (varietyList.contains("rood") && varietyList.contains("blauw") && varietyList
+                    .contains("groen") && varietyList.contains("paars") && varietyList
+                    .contains("geel")) { // Check if there is a set of colors
+                score += rewardScore; // Increase score
+                for (String removeColor : varietyList) { // Remove colors from valueList
+                    colorList.remove(removeColor);
+                }
+                varietyList.clear(); // Clear varietyList for next iteration
+            } else {
+                break;
+            }
+        }
+
+        return score;
     }
 }

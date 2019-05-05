@@ -325,4 +325,16 @@ public class PatternCardField {
     public String getStringColor() {
         return this.color;
     }
+
+    public GameDie getDie() {
+        return die;
+    }
+
+    public void setDie(GameDie die) {
+        this.die = die;
+    }
+
+    public boolean hasDie() {
+        return die != null;
+    }
 }
