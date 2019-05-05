@@ -53,10 +53,6 @@ public class ChatLineView extends VBox {
 		downpane.getChildren().add(textfield);
 		getChildren().addAll(chatpane, downpane);
 	}
-
-	public VBox getMessagebox() {
-		return messagebox;
-	}
 	
 	/**
 	 * Method that adds a message to the view

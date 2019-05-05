@@ -1,6 +1,5 @@
 package nl.avans.sagrada.controller;
 
-import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;

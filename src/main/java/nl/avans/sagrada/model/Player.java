@@ -228,14 +228,26 @@ public class Player {
         this.cheatmode = cheatmode;
     }
     
+    /**
+     * addChatline to player
+     * @param chatline
+     */
     public void addChatline(Chatline chatline) {
     	chatlines.add(chatline);
     }
 
+    /**
+     * get chatlines from player
+     * @return
+     */
 	public ArrayList<Chatline> getChatlines() {
 		return chatlines;
 	}
 
+	/**
+	 * set chatlines for player
+	 * @param chatlines
+	 */
 	public void setChatlines(ArrayList<Chatline> chatlines) {
 		this.chatlines = chatlines;
 	}

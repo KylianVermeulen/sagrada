@@ -14,6 +14,10 @@ import nl.avans.sagrada.model.Player;
 public class ChatlineDAO {
     private DBConnection dbConnection;
 
+    
+    /**
+     * Constructor
+     */
     public ChatlineDAO() {
         dbConnection = new DBConnection();
     }
@@ -42,6 +46,11 @@ public class ChatlineDAO {
         }
     }
 
+    /**
+     * Method to get all chatlines of a game
+     * @param game Game
+     * @return
+     */
     public ArrayList<Chatline> getChatlinesOfGame(Game game) {
         ArrayList<Chatline> chatlines = new ArrayList<>();
         try {
