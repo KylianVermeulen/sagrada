@@ -22,3 +22,9 @@
     -fx-border-color: #6c6c6d;
     -fx-border-width: 3;
 }
+
+#toolcardBackground {
+    -fx-background-color: #ffe599;
+    -fx-border-color: #C4923B;
+    -fx-border-width: 3;
+}
