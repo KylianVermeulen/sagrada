@@ -174,6 +174,7 @@ public class AccountController {
         Game game = new Game();
         game.setId(gameId);
         gameDao.addGame(game);
+        game.assignRandomToolcards();
 
         int playerId = playerDao.getNextPlayerId();
         Player player = new Player();

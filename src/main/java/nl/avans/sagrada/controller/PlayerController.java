@@ -60,7 +60,7 @@ public class PlayerController {
     /**
      * Example code
      *
-     * @param game the game to view the three Toolcard's of.
+     * @param game the game to view the three Toolcards of.
      */
     public void viewToolcards(Game game) {
         ToolcardDao toolcardDao = new ToolcardDao();
