@@ -264,7 +264,6 @@ public class Game {
         while (counter < 3) {
             randomNumbers[counter] = (Math.random() * 11) + 1;
             randomToolCardIds[counter] = (int) Math.round(randomNumbers[counter]);
-            System.out.println(randomToolCardIds[counter]);
             if ((counter - 1) >= 0) {
                 if (randomToolCardIds[counter] == randomToolCardIds[counter - 1]) {
                     randomToolCardIds[counter]++;
