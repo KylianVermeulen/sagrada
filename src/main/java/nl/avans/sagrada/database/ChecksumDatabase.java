@@ -4,20 +4,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import nl.avans.sagrada.AnimationTimerExt;
 import nl.avans.sagrada.controller.AccountController;
-import nl.avans.sagrada.model.AccountStatus;
-import nl.avans.sagrada.view.MyScene;
+import nl.avans.sagrada.model.enumerations.AccountStatus;
 
 public class ChecksumDatabase {
     private AnimationTimerExt animationTimerExt;
     private DBConnection dbConnection;
-    private MyScene myScene;
     private AccountController accountController;
     private String checksumPlayer;
 
-    public ChecksumDatabase(MyScene myScene,
-            AccountController accountController) {
+    public ChecksumDatabase(AccountController accountController) {
         dbConnection = new DBConnection();
-        this.myScene = myScene;
         this.accountController = accountController;
         createTimer();
         animationTimerExt.start();

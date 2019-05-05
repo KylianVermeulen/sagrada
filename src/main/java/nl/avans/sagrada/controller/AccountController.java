@@ -12,7 +12,7 @@ import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.InviteDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.model.Account;
-import nl.avans.sagrada.model.AccountStatus;
+import nl.avans.sagrada.model.enumerations.AccountStatus;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
