@@ -18,11 +18,15 @@ public class Game {
     private FavorToken[] favorTokens;
     private GameDie[] gameDie;
     private PublicObjectiveCard[] publicObjectiveCards;
+    private ArrayList<ToolCard> toolCards;
 
     public Game(int id) {
         this.id = id;
         GameDao gameDao = new GameDao();
+        ToolcardDao toolcardDao = new ToolcardDao();
+        
         players = gameDao.getPlayersOfGame(this);
+        toolCards = toolcardDao.getToolcardsOfGame(this);
     }
 
     public Game() {
@@ -227,6 +231,14 @@ public class Game {
             player.setPlayerStatus(Player.STATUS_ABORT);
             playerDao.updatePlayer(player);
         }
+    }
+    
+    public void setToolCards(ArrayList<ToolCard> toolCards) {
+        this.toolCards = toolCards;
+    }
+    
+    public ArrayList<ToolCard> getToolCards() {
+        return toolCards;
     }
     
     /**

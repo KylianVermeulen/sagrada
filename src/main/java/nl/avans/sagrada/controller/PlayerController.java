@@ -10,7 +10,7 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
-import nl.avans.sagrada.model.Toolcard;
+import nl.avans.sagrada.model.ToolCard;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardView;
@@ -24,6 +24,10 @@ public class PlayerController {
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
     }
+    
+    public void viewGame(Game game) {
+        
+    }
 
     /**
      * Example code
@@ -34,7 +38,7 @@ public class PlayerController {
         ToolcardDao toolcardDao = new ToolcardDao();
         BorderPane pane = new BorderPane();
         ToolCardView[] toolcardViews = new ToolCardView[3];
-        Toolcard[] toolcards = toolcardDao.getToolcardsOfGame(game).toArray(new Toolcard[3]);
+        ToolCard[] toolcards = toolcardDao.getToolcardsOfGame(game).toArray(new ToolCard[3]);
         for (int index = 0; index < toolcardViews.length; index++) {
             toolcardViews[index] = new ToolCardView(this);
             toolcardViews[index].setToolCard(toolcards[index]);

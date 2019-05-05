@@ -10,10 +10,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.model.Toolcard;
+import nl.avans.sagrada.model.ToolCard;
 
 public class ToolCardView extends CardView {
-    private Toolcard toolcard;
+    private ToolCard toolcard;
     private PlayerController playerController;
 
     /**
@@ -34,7 +34,7 @@ public class ToolCardView extends CardView {
      *
      * @return toolcard that is linked to this view
      */
-    public Toolcard getToolCard() {
+    public ToolCard getToolCard() {
         return toolcard;
     }
 
@@ -43,7 +43,7 @@ public class ToolCardView extends CardView {
      *
      * @param toolcard Toolcard
      */
-    public void setToolCard(Toolcard toolcard) {
+    public void setToolCard(ToolCard toolcard) {
         this.toolcard = toolcard;
     }
 

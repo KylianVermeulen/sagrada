@@ -1,0 +1,81 @@
+package nl.avans.sagrada.view;
+
+import java.util.ArrayList;
+
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import nl.avans.sagrada.Main;
+import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
+
+public class GameView extends VBox implements ViewInterface {
+    private Game game;
+    private Player player;
+    private PlayerController playerController;
+    
+    private VBox toolcardAndRoundTrack;
+    private HBox otherPlayersPatternCards;
+    
+    public GameView(PlayerController playerController, Game game, Player player) {
+        this.game = game;
+        this.playerController = playerController;
+        this.player = player;
+        
+        otherPlayersPatternCards = new HBox();
+        toolcardAndRoundTrack = new VBox();
+    }
+    
+    private void buildOtherPlayersPatternCard() {
+        ArrayList<PatternCardView> otherPlayersPatternCardsViews = new ArrayList<>();
+        ArrayList<Player> players = game.getPlayers();
+        for (Player player: players) {
+            String playerAccountUsername = player.getAccount().getUsername();
+            String currentPlayerAccountUsername = this.player.getAccount().getUsername();
+            if (!playerAccountUsername.equals(currentPlayerAccountUsername)) {
+                PatternCard patternCard = player.getPatternCard();
+                
+                PatternCardView patternCardView = new PatternCardView(playerController);
+                patternCardView.setPatternCard(patternCard);
+                patternCardView.render();
+                
+                otherPlayersPatternCardsViews.add(patternCardView);
+            }
+        }
+        otherPlayersPatternCards.getChildren().addAll(otherPlayersPatternCardsViews);
+    }
+    
+    private void buildPublicObjectiveCards() {
+        toolcardAndRoundTrack.setPrefSize(Main.SCREEN_WIDTH / 3, Main.SCREEN_HEIGHT / 3);
+        ArrayList<ToolCard> toolCards = game.getToolCards();
+        HBox toolCardViews = new HBox();
+        
+        for (ToolCard toolCard: toolCards) {
+            ToolCardView toolCardView = new ToolCardView(playerController);
+            toolCardView.setToolCard(toolCard);
+            toolCardView.render();
+            toolCardViews.getChildren().add(toolCardView);
+        }
+        toolcardAndRoundTrack.getChildren().add(toolCardViews);
+    }
+    
+    private void buildRoundTrack() {
+        
+    }
+
+    @Override
+    public void render() {
+        getChildren().clear();
+        
+        buildOtherPlayersPatternCard();
+        buildPublicObjectiveCards();
+        buildRoundTrack();
+        
+        getChildren().add(otherPlayersPatternCards);
+        getChildren().add
+    }
+}
