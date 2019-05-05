@@ -9,6 +9,7 @@ public class Toolcard {
     private String imagePath;
     private String name;
     private ArrayList<FavorToken> favorTokens;
+    private boolean hasBeenPayedForBefore;
 
     /**
      * Empty constructor.
@@ -145,5 +146,13 @@ public class Toolcard {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean hasBeenPayedForBefore() {
+        return hasBeenPayedForBefore;
+    }
+
+    public void setHasBeenPayedForBefore(boolean hasBeenPayedForBefore) {
+        this.hasBeenPayedForBefore = hasBeenPayedForBefore;
     }
 }

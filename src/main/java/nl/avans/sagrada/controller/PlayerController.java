@@ -29,12 +29,13 @@ public class PlayerController {
     
     public void payForToolcard(Game game, FavorToken favorToken, FavorToken favorToken2) {
         FavorTokenDao favorTokenDao = new FavorTokenDao();
-        boolean isUsedBefore = false;
+        Toolcard toolcard = new Toolcard();
         
         if (favorTokenDao.getFavortokensOfPlayer(player).size() > 0) {
-            if (!isUsedBefore) {
+            if (!toolcard.hasBeenPayedForBefore()) {
                 favorTokenDao.setFavortokensForToolcard(favorToken);
                 player.getFavorTokens().remove(0);
+                toolcard.setHasBeenPayedForBefore(true);
             } else {
                 if (favorTokenDao.getFavortokensOfPlayer(player).size() > 1) {
                     favorTokenDao.setFavortokensForToolcard(favorToken);
