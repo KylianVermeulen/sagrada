@@ -127,7 +127,7 @@ public class ToolcardDao {
                     new Query("SELECT MAX(gametoolcard) AS highestGameToolcardId FROM gametoolcard", "query")               
             );
             if (rs.next()) {
-                gameToolcardId = rs.getInt("maxGameToolcard") + 1;
+                gameToolcardId = rs.getInt("highestGameToolcardId") + 1;
             }
         } catch (SQLException e) {
             e.printStackTrace();

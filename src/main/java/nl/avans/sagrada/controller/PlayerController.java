@@ -24,52 +24,6 @@ public class PlayerController {
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
     }
-    
-    /**
-     * Assigns three random toolcards to the current game (given as parameter).
-     * Firstly, the method makes a total of three random (double) numbers, which
-     * in turn are converted into integers after rounding the doubles.
-     * Then, the method checks whether the toolcardID from the array is the first
-     * entry of the array or not, and, if not, checks if the current id is the
-     * same as the previous array entry id. If these two are the same, the current id gets
-     * an increase of one in order to make sure the two ids are not the same. If the new
-     * value of the current toolcard id is higher than 12, the id gets decreased by 2.
-     * If the current toolcard id is the third array entry, the method ensures that this
-     * new value (as described above) is not the same as the first AND second array entries.
-     * If, before the scenario as pictured above takes place, the current toolcard id is the third entry,
-     * and the current toolcard id is the same as the first array entry, the same action as above
-     * takes place, except now another increase in id happens. If, again, this value is higher than 12,
-     * the value gets a decrease of two.
-     * 
-     * @param game Game
-     */
-    public void assignRandomToolcards(Game game) {
-        ToolcardDao toolcardDao = new ToolcardDao();
-        int counter = 0;
-        int[] randomToolCardIds = new int[3];
-        double[] randomNumbers = new double[3];
-        
-        while (counter < 3) {
-            randomNumbers[counter] = (Math.random()*11) + 1;
-            randomToolCardIds[counter] = (int) Math.round(randomNumbers[counter]);
-            if ((counter - 1) >= 0 & randomToolCardIds[counter] == randomToolCardIds[counter-1]) {
-                randomToolCardIds[counter]++;
-                if ((counter - 2) >= 0 & randomToolCardIds[counter] == randomToolCardIds[counter-2]) {
-                    randomToolCardIds[counter]++;
-                    if (randomToolCardIds[counter] > 12) {
-                        randomToolCardIds[counter] = (randomToolCardIds[counter-2] - 2);
-                    }
-                } else if (randomToolCardIds[counter] > 12) {
-                    randomToolCardIds[counter] = (randomToolCardIds[counter-1] - 2);
-                    if ((counter - 2) >= 0 & randomToolCardIds[counter] == randomToolCardIds[counter-2]) {
-                        randomToolCardIds[counter]--;
-                    }
-                }
-            }
-            toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomToolCardIds[counter]), game);
-            counter++;
-        }
-    }
 
     /**
      * Example code
@@ -80,6 +34,7 @@ public class PlayerController {
         ToolcardDao toolcardDao = new ToolcardDao();
         BorderPane pane = new BorderPane();
         ToolCardView[] toolcardViews = new ToolCardView[3];
+        game.assignRandomToolcards();
         Toolcard[] toolcards = toolcardDao.getToolcardsOfGame(game).toArray(new Toolcard[3]);
         for (int index = 0; index < toolcardViews.length; index++) {
             toolcardViews[index] = new ToolCardView(this);
