@@ -2,6 +2,7 @@ package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
@@ -24,6 +25,8 @@ public class GameView extends VBox implements ViewInterface {
     private VBox toolcardAndRoundTrack;
     private HBox publicObjectiveCards;
     private HBox otherPlayersPatternCards;
+    private HBox playerInfo;
+    private Pane chatLine;
     
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
@@ -33,6 +36,7 @@ public class GameView extends VBox implements ViewInterface {
         otherPlayersPatternCards = new HBox();
         toolcardAndRoundTrack = new VBox();
         publicObjectiveCards = new HBox();
+        playerInfo = new HBox();
     }
     
     private void buildOtherPlayersPatternCard() {
@@ -73,6 +77,27 @@ public class GameView extends VBox implements ViewInterface {
         roundTrack.setBackground(new Background(new BackgroundFill(Color.RED, null ,null)));
         toolcardAndRoundTrack.getChildren().add(roundTrack);
     }
+    
+    private void buildChat() {
+        chatLine = new Pane();
+        chatLine.setPrefWidth(Main.SCREEN_WIDTH / 3);
+        chatLine.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+    }
+    
+    private void buildPlayerInfo() {
+        Label balanceLabel = new Label("Balance " + player.getFavorTokens().size());
+        
+        PatternCard patternCard = player.getPatternCard();
+        
+        PatternCardView patternCardView = new PatternCardView(playerController);
+        patternCardView.setPatternCard(patternCard);
+        patternCardView.render();
+        
+        Pane privateObjectiveCard = new Pane();
+        privateObjectiveCard.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+        
+        playerInfo.getChildren().addAll(balanceLabel, patternCardView, privateObjectiveCard);
+    }
 
     @Override
     public void render() {
@@ -81,10 +106,18 @@ public class GameView extends VBox implements ViewInterface {
         buildOtherPlayersPatternCard();
         buildPublicObjectiveCards();
         buildRoundTrack();
+        buildChat();
+        buildPlayerInfo();
         
         HBox secondView = new HBox();
+        secondView.setPrefHeight(Main.SCREEN_HEIGHT / 3);
         secondView.getChildren().add(toolcardAndRoundTrack);
         secondView.getChildren().add(publicObjectiveCards);
+        
+        HBox thirdView = new HBox();
+        thirdView.setPrefHeight(Main.SCREEN_HEIGHT / 3);
+        thirdView.getChildren().add(chatLine);
+        thirdView.getChildren().add(playerInfo);
         
         getChildren().add(otherPlayersPatternCards);
         getChildren().add(secondView);
