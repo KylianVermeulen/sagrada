@@ -20,6 +20,10 @@ public class ChatLineView extends VBox {
 	private PlayerController playercontroller;
 	private VBox messagebox;
 	
+	/**
+	 * Constructor
+	 * @param playercontroller PlayerController
+	 */
 	public ChatLineView(PlayerController playercontroller) {
 		this.playercontroller = playercontroller;
 		messagebox = new VBox();

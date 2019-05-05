@@ -159,11 +159,18 @@ public class PlayerController {
         }
     }
     
+    /**
+     * Method to view the chat
+     */
     public void viewChat() {
         ChatLineView chatlineview = new ChatLineView(this);
         myScene.setContentPane(chatlineview);
     }
 
+    /**
+     * temporary method to set the player for the controller
+     * @param player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }

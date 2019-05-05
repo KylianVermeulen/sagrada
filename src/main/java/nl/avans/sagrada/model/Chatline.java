@@ -7,11 +7,19 @@ public class Chatline {
     private String message;
     private Timestamp timestamp;
     
+    /**
+     * Constructor
+     * @param player Player
+     * @param message String
+     */
     public Chatline(Player player, String message) {
     	this.player = player;
     	this.message = message;
     }
     
+    /**
+     * Empty Constructor
+     */
     public Chatline() {
     	
     }
