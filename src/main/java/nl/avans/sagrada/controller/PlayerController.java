@@ -3,8 +3,10 @@ package nl.avans.sagrada.controller;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
+import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
@@ -23,6 +25,34 @@ public class PlayerController {
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
+    }
+    
+    public void payForToolcard(Game game, FavorToken favorToken, FavorToken favorToken2) {
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        boolean isUsedBefore = false;
+        
+        if (favorTokenDao.getFavortokensOfPlayer(player).size() > 0) {
+            if (!isUsedBefore) {
+                favorTokenDao.setFavortokensForToolcard(favorToken);
+                player.getFavorTokens().remove(0);
+            } else {
+                if (favorTokenDao.getFavortokensOfPlayer(player).size() > 1) {
+                    favorTokenDao.setFavortokensForToolcard(favorToken);
+                    player.getFavorTokens().remove(0);
+                    favorTokenDao.setFavortokensForToolcard(favorToken2);
+                    player.getFavorTokens().remove(1);
+                } else {
+                    handleToolcardPaymentRejection(game);
+                }
+            }
+        } else {
+            handleToolcardPaymentRejection(game);
+        }
+    }
+
+    private void handleToolcardPaymentRejection(Game game) {
+        //visuals for unsuccessful payment are done by Ian.
+        viewToolcards(game);
     }
 
     /**

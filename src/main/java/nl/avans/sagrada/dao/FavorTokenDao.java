@@ -7,7 +7,9 @@ import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.FavorToken;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.model.Toolcard;
 
 public class FavorTokenDao {
     private DBConnection dbConnection;
@@ -40,5 +42,84 @@ public class FavorTokenDao {
             e.printStackTrace();
         }
         return list;
+    }
+    
+    public int getNextFavorTokenId() {
+        int favorTokenId = 0;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT MAX(idfavortoken) AS highestFavorTokenId FROM gamefavortoken", "query")
+            );
+            if (rs.next()) {
+                favorTokenId = rs.getInt("highestFavorTokenId") + 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return favorTokenId;
+    }
+    
+    public void setFavortokenForGame(Game game) {
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("INSERT INTO gamefavortoken (idfavortoken, idgame) VALUES (?, ?)", "update"),
+                    new QueryParameter(QueryParameter.INT, getNextFavorTokenId()),
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public FavorToken getFavorTokenById(int id) {
+        ToolcardDao toolcardDao = new ToolcardDao();
+        PlayerDao playerDao = new PlayerDao();
+        GameDao gameDao = new GameDao();
+        FavorToken favorToken = new FavorToken();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM gamefavortoken WHERE idfavortoken=?", "query"),
+                    new QueryParameter(QueryParameter.INT, id)
+            );
+            if (rs.next()) {
+                favorToken.setId(rs.getInt("idfavortoken"));;
+                favorToken.setGame(gameDao.getGameById(rs.getInt("idgame")));
+                favorToken.setPlayer(playerDao.getPlayerById(rs.getInt("idplayer")));
+                favorToken.setToolcard(toolcardDao.getToolcardById(rs.getInt("gametoolcard")));
+            }
+        } catch (Exception e) {
+            favorToken = null;
+            e.printStackTrace();
+        }
+        return favorToken;
+    }
+    
+    public void setFavortokenForPlayer(Game game, Player player) {
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("UPDATE gamefavortoken (idfavortoken, idgame, idplayer) VALUES (?, ?, ?)", "update"),
+                    new QueryParameter(QueryParameter.INT, getNextFavorTokenId()),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.INT, player.getId())
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void setFavortokensForToolcard(FavorToken favorToken) {
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "UPDATE gamefavortoken SET idfavortoken=?, idgame=?, idplayer=?, gametoolcard=? WHERE idfavortoken=?",
+                            "update"),
+                    new QueryParameter(QueryParameter.INT, favorToken.getId()),
+                    new QueryParameter(QueryParameter.INT, favorToken.getGame()),
+                    new QueryParameter(QueryParameter.INT, favorToken.getPlayer()),
+                    new QueryParameter(QueryParameter.INT, favorToken.getToolcard())
+            );                    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
