@@ -65,7 +65,7 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkSouthColor(String color) {
-        if (yPos == 3) {
+        if (yPos == 4) {
             return true;
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
@@ -82,7 +82,7 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkNorthColor(String color) {
-        if (yPos == 0) {
+        if (yPos == 1) {
             return true;
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
@@ -99,7 +99,7 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkEastColor(String color) {
-        if (xPos == 4) {
+        if (xPos == 5) {
             return true;
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
@@ -116,7 +116,7 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkWestColor(String color) {
-        if (xPos == 0) {
+        if (xPos == 1) {
             return true;
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);
@@ -145,7 +145,7 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkSouthValue(int value) {
-        if (yPos == 3) {
+        if (yPos == 4) {
             return true;
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
@@ -162,7 +162,7 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkNorthValue(int value) {
-        if (yPos == 0) {
+        if (yPos == 1) {
             return true;
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
@@ -179,7 +179,7 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkEastValue(int value) {
-        if (xPos == 4) {
+        if (xPos == 5) {
             return true;
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
@@ -196,7 +196,7 @@ public class PatternCardField {
      * @return boolean
      */
     private boolean checkWestValue(int value) {
-        if (xPos == 0) {
+        if (xPos == 1) {
             return true;
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);

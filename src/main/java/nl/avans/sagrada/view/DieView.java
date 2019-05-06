@@ -17,8 +17,8 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class DieView extends Pane implements ViewInterface {
 
-    private static final int WIDTH = 40;
-    private static final int HEIGHT = 40;
+    private final int DIE_WIDTH = 40;
+    private final int DIE_HEIGHT = 40;
     private ArrayList<ImageView> images;
     private GameDie gameDie;
 
@@ -27,7 +27,7 @@ public class DieView extends Pane implements ViewInterface {
      */
     public DieView() {
         images = new ArrayList<ImageView>();
-        setPrefSize(WIDTH, HEIGHT);
+        setPrefSize(DIE_WIDTH, DIE_HEIGHT);
         setBorder(new Border(
                 new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
                         new BorderWidths(3))));
@@ -81,8 +81,8 @@ public class DieView extends Pane implements ViewInterface {
      */
     private void resizeImages() {
         for (ImageView image : images) {
-            image.setFitHeight(HEIGHT);
-            image.setFitWidth(WIDTH);
+            image.setFitHeight(DIE_HEIGHT);
+            image.setFitWidth(DIE_WIDTH);
         }
     }
 

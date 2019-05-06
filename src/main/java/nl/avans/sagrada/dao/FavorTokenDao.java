@@ -65,48 +65,23 @@ public class FavorTokenDao {
     }
 
     /**
-     * Sets a favortoken for a specific game.
-     * 
-     * @param game Game
+     * Add a favor token to the database.
+     *
+     * @param favorToken The favor token to add.
      */
-    public void setFavortokenForGame(Game game) {
+    public void addFavorToken(FavorToken favorToken) {
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("INSERT INTO gamefavortoken (idfavortoken, idgame) VALUES (?, ?)",
+                    new Query(
+                            "INSERT INTO gamefavortoken (idfavortoken, idgame, idplayer) VALUES (?, ?, ?)",
                             "update"),
-                    new QueryParameter(QueryParameter.INT, getNextFavorTokenId()),
-                    new QueryParameter(QueryParameter.INT, game.getId()));
+                    new QueryParameter(QueryParameter.INT, favorToken.getId()),
+                    new QueryParameter(QueryParameter.INT, favorToken.getGame().getId()),
+                    new QueryParameter(QueryParameter.INT, favorToken.getPlayer().getId())
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Returns a favortoken from the database, specified by the id given as parameter.
-     * 
-     * @param id int
-     * @return The favortoken belonging to the id, which is given as parameter
-     */
-    public FavorToken getFavorTokenById(int id) {
-        ToolcardDao toolcardDao = new ToolcardDao();
-        PlayerDao playerDao = new PlayerDao();
-        GameDao gameDao = new GameDao();
-        FavorToken favorToken = new FavorToken();
-        try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM gamefavortoken WHERE idfavortoken=?", "query"),
-                    new QueryParameter(QueryParameter.INT, id));
-            if (rs.next()) {
-                favorToken.setId(rs.getInt("idfavortoken"));;
-                favorToken.setGame(gameDao.getGameById(rs.getInt("idgame")));
-                favorToken.setPlayer(playerDao.getPlayerById(rs.getInt("idplayer")));
-                favorToken.setToolcard(toolcardDao.getToolcardById(rs.getInt("gametoolcard")));
-            }
-        } catch (Exception e) {
-            favorToken = null;
-            e.printStackTrace();
-        }
-        return favorToken;
     }
 
     public void setFavortokenForPlayer(FavorToken favorToken, Game game, Player player) {

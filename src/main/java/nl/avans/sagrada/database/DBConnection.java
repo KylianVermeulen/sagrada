@@ -162,6 +162,36 @@ public class DBConnection {
     }
 
     /**
+     * Creates a PreparedStatement from the given helperQuery's query and fills it with batches of
+     * the HelperQuery's QueryParameters then executes the PreparedStatement in batch and returns
+     * the returned int[]
+     *
+     * @param query The query
+     * @return the return from PreparedStatement.executeBatch();
+     */
+    public int[] executeBatchQuery(Query query) throws SQLException {
+        PreparedStatement pstmt = prepareStatement(query.getSql());
+        List<QueryParameter[]> parametersList = query.getParametersList();
+        for (QueryParameter[] queryParameters : parametersList) {
+            fillStatement(pstmt, queryParameters);
+            pstmt.addBatch();
+        }
+        return executeBatchStatement(pstmt);
+    }
+
+    /**
+     * Executes the given statement in batch and returns the int[]
+     *
+     * @return the result set of the execution
+     * @throws SQLException when executing the statement
+     */
+    public int[] executeBatchStatement(PreparedStatement pstmt) throws SQLException {
+        int[] results = pstmt.executeBatch();
+        connection.commit();
+        return results;
+    }
+
+    /**
      * Apply QueryParameters to PreparedStatement
      *
      * @param pstmt PreparedStatement
