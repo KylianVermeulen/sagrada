@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -45,7 +46,7 @@ public class LoginView extends VBox implements ViewInterface {
         HBox passwordHBox = new HBox();
 
         Label password = new Label("Password: ");
-        TextField passwordTextField = new TextField();
+        PasswordField passwordTextField = new PasswordField();
         password.setPadding(new Insets(10, 20, 10, 20));
         passwordHBox.setAlignment(Pos.CENTER);
 
