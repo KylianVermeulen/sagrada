@@ -15,11 +15,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Player;
 
 public class PrivateObjectiveCardView extends CardView {
-    private PlayerController playerController;
     private Player player;
 
     /**
@@ -27,9 +25,8 @@ public class PrivateObjectiveCardView extends CardView {
      *
      * @param playerController PlayerController.
      */
-    public PrivateObjectiveCardView(PlayerController playerController) {
+    public PrivateObjectiveCardView() {
         super();
-        this.playerController = playerController;
     }
 
     public void setPlayer(Player player) {

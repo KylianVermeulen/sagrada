@@ -37,7 +37,6 @@ public class PlayerController {
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
         }
-        viewPrivateObjectiveCard();
     }
 
     public void viewOptionalPatternCards() {
@@ -133,7 +132,7 @@ public class PlayerController {
      */
     public void viewPrivateObjectiveCard() {
         Pane pane = new Pane();
-        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView(this);
+        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView();
         privateObjectiveCardView.setPlayer(this.player);
         privateObjectiveCardView.render();
 
@@ -166,17 +165,4 @@ public class PlayerController {
         dieView.render();
         myScene.setContentPane(dieView);
     }
-
-//    /**
-//     * gets the private objective card color from the player
-//     * 
-//     * @param player
-//     * @return
-//     */
-//    public String getPlayerColor(Player player) {
-//        this.player = player;
-//        PlayerDao playerDao = new PlayerDao();
-//        String playerColor = playerDao.getPlayerById(1).getPrivateObjectivecardColor();
-//        return playerColor;
-//    }
 }
