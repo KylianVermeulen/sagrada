@@ -34,9 +34,10 @@ public class PlayerController {
     public void actionJoinGame(Account account, Game game) {
         player = new PlayerDao().getPlayerByAccountAndGame(account, game);
         player.setGame(game);
-        if (player.getPatternCard() == null) {
-            viewOptionalPatternCards();
-        }
+//        if (player.getPatternCard() == null) {
+//            viewOptionalPatternCards();
+//        }
+        viewPrivateObjectiveCard();
     }
 
     public void viewOptionalPatternCards() {
@@ -133,6 +134,7 @@ public class PlayerController {
     public void viewPrivateObjectiveCard() {
         Pane pane = new Pane();
         PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView(this);
+        privateObjectiveCardView.setPlayer(player);
         privateObjectiveCardView.render();
 
         pane.getChildren().add(privateObjectiveCardView);
@@ -165,16 +167,16 @@ public class PlayerController {
         myScene.setContentPane(dieView);
     }
 
-    /**
-     * gets the private objective card color from the player
-     * 
-     * @param player
-     * @return
-     */
-    public String getPlayerColor(Player player) {
-        this.player = player;
-        PlayerDao playerDao = new PlayerDao();
-        String playerColor = playerDao.getPlayerById(1).getPrivateObjectivecardColor();
-        return playerColor;
-    }
+//    /**
+//     * gets the private objective card color from the player
+//     * 
+//     * @param player
+//     * @return
+//     */
+//    public String getPlayerColor(Player player) {
+//        this.player = player;
+//        PlayerDao playerDao = new PlayerDao();
+//        String playerColor = playerDao.getPlayerById(1).getPrivateObjectivecardColor();
+//        return playerColor;
+//    }
 }

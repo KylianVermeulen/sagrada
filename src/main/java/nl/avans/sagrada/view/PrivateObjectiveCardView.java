@@ -12,7 +12,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -31,9 +30,12 @@ public class PrivateObjectiveCardView extends CardView {
     public PrivateObjectiveCardView(PlayerController playerController) {
         super();
         this.playerController = playerController;
-        player = new Player();
 
         render();
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     /**
@@ -42,7 +44,7 @@ public class PrivateObjectiveCardView extends CardView {
     @Override
     public void render() {
         getChildren().clear();
-        showImage(player.getImageUrl());
+        showImage(player.getImagePath());
         showText();
     }
 
@@ -51,8 +53,8 @@ public class PrivateObjectiveCardView extends CardView {
      */
     public void showText() {
         Text scorePoints = new Text("#");
-        Text description = new Text("TINTEN " + playerController.getPlayerColor(player)
-                + " - Persoonlijk \n Som van waardes op " + playerController.getPlayerColor(player)
+        Text description = new Text("TINTEN " + player.getPrivateObjectivecardColor()
+                + " - Persoonlijk \n Som van waardes op " + player.getPrivateObjectivecardColor()
                 + "\n dobbelstenen");
         scorePoints.setFont(new Font("Segoe Script", 15));
         description.setFont(new Font("Segoe Script", 6));
@@ -82,8 +84,8 @@ public class PrivateObjectiveCardView extends CardView {
     /**
      * shows the immage of the private-objectivecard.
      */
-    private void showImage(String url) {
-        Image image = new Image(url);
+    private void showImage(String path) {
+        Image image = new Image(path);
         StackPane imagePane = new StackPane();
         imagePane.setMaxSize(CARD_WIDTH, CARD_HEIGHT);
         imagePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,

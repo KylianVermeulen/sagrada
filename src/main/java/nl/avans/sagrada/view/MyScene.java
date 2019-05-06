@@ -31,7 +31,7 @@ public class MyScene extends Scene {
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
-        playerController.viewPrivateObjectiveCard();
+        accountController.viewLogin();
     }
 
     public AccountController getAccountController() {
