@@ -14,80 +14,80 @@ import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.view.popups.Alert;
 
 public class MyScene extends Scene {
-  private Pane rootPane;
-  private Pane contentPane;
-  private ArrayList<Pane> alerts;
-  private AccountController accountController;
-  private PlayerController playerController;
+    private Pane rootPane;
+    private Pane contentPane;
+    private ArrayList<Pane> alerts;
+    private AccountController accountController;
+    private PlayerController playerController;
 
-  public MyScene() {
-    super(new Pane());
-    accountController = new AccountController(this);
-    playerController = new PlayerController(this);
+    public MyScene() {
+        super(new Pane());
+        accountController = new AccountController(this);
+        playerController = new PlayerController(this);
 
-    rootPane = new StackPane();
-    contentPane = new Pane();
-    alerts = new ArrayList<Pane>();
+        rootPane = new StackPane();
+        contentPane = new Pane();
+        alerts = new ArrayList<Pane>();
 
-    rootPane.getChildren().add(contentPane);
-    setRoot(rootPane);
-    playerController.viewPrivateObjectiveCard();
-  }
-
-  public AccountController getAccountController() {
-    return accountController;
-  }
-
-  public PlayerController getPlayerController() {
-    return playerController;
-  }
-
-  /**
-   * Set the contentPane of the rootPane that we have as content for the scene
-   *
-   * @param pane Pane
-   */
-  public void setContentPane(Pane pane) {
-    contentPane.getChildren().clear();
-    contentPane.getChildren().add(pane);
-  }
-
-  public void addAlertPane(Pane pane) {
-    StackPane.setAlignment(pane, Pos.TOP_RIGHT);
-    PauseTransition delay = new PauseTransition(Duration.seconds(3));
-    delay.setOnFinished(e -> removeAlertPaneAnimation(pane));
-    delay.play();
-    alerts.add(pane);
-    renderAlertPanes();
-  }
-
-  /**
-   * Render all alerts
-   */
-  public void renderAlertPanes() {
-    for (Pane currentAlert : alerts) {
-      rootPane.getChildren().remove(currentAlert);
+        rootPane.getChildren().add(contentPane);
+        setRoot(rootPane);
+        playerController.viewPrivateObjectiveCard();
     }
-    for (int i = 0; i < alerts.size(); i++) {
-      Pane alert = alerts.get(i);
-      int marginDefault = 20;
-      int heightPane = Alert.HEIGHT_ALERT;
-      int margin = (marginDefault + (i * heightPane + i * (marginDefault / 2)));
-      StackPane.setMargin(alert, new Insets(margin, 20, 20, 20));
-      rootPane.getChildren().add(alert);
+
+    public AccountController getAccountController() {
+        return accountController;
     }
-  }
 
-  public void removeAlertPaneAnimation(Pane pane) {
-    FadeTransition fadeTransition = new FadeTransition(Duration.millis(350), pane);
-    fadeTransition.setToValue(0.0);
-    fadeTransition.setOnFinished(e -> removeAlertPane(pane));
-    fadeTransition.play();
-  }
+    public PlayerController getPlayerController() {
+        return playerController;
+    }
 
-  public void removeAlertPane(Pane pane) {
-    alerts.remove(pane);
-    rootPane.getChildren().remove(pane);
-    renderAlertPanes();
-  }
+    /**
+     * Set the contentPane of the rootPane that we have as content for the scene
+     *
+     * @param pane Pane
+     */
+    public void setContentPane(Pane pane) {
+        contentPane.getChildren().clear();
+        contentPane.getChildren().add(pane);
+    }
+
+    public void addAlertPane(Pane pane) {
+        StackPane.setAlignment(pane, Pos.TOP_RIGHT);
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        delay.setOnFinished(e -> removeAlertPaneAnimation(pane));
+        delay.play();
+        alerts.add(pane);
+        renderAlertPanes();
+    }
+
+    /**
+     * Render all alerts
+     */
+    public void renderAlertPanes() {
+        for (Pane currentAlert : alerts) {
+            rootPane.getChildren().remove(currentAlert);
+        }
+        for (int i = 0; i < alerts.size(); i++) {
+            Pane alert = alerts.get(i);
+            int marginDefault = 20;
+            int heightPane = Alert.HEIGHT_ALERT;
+            int margin = (marginDefault + (i * heightPane + i * (marginDefault / 2)));
+            StackPane.setMargin(alert, new Insets(margin, 20, 20, 20));
+            rootPane.getChildren().add(alert);
+        }
+    }
+
+    public void removeAlertPaneAnimation(Pane pane) {
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(350), pane);
+        fadeTransition.setToValue(0.0);
+        fadeTransition.setOnFinished(e -> removeAlertPane(pane));
+        fadeTransition.play();
+    }
+
+    public void removeAlertPane(Pane pane) {
+        alerts.remove(pane);
+        rootPane.getChildren().remove(pane);
+        renderAlertPanes();
+    }
 }
