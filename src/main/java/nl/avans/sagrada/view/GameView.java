@@ -140,6 +140,7 @@ public class GameView extends VBox implements ViewInterface {
         buildPlayerPrivateObjectiveCard();
         
         HBox firstView = new HBox();
+        firstView.setPrefHeight(PatternCardView.PATTERNCARD_HEIGHT);
         HBox secondView = new HBox();
         HBox thirdView = new HBox();
         
