@@ -30,8 +30,6 @@ public class PrivateObjectiveCardView extends CardView {
     public PrivateObjectiveCardView(PlayerController playerController) {
         super();
         this.playerController = playerController;
-
-        render();
     }
 
     public void setPlayer(Player player) {

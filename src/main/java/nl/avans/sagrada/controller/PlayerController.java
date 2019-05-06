@@ -34,9 +34,9 @@ public class PlayerController {
     public void actionJoinGame(Account account, Game game) {
         player = new PlayerDao().getPlayerByAccountAndGame(account, game);
         player.setGame(game);
-//        if (player.getPatternCard() == null) {
-//            viewOptionalPatternCards();
-//        }
+        if (player.getPatternCard() == null) {
+            viewOptionalPatternCards();
+        }
         viewPrivateObjectiveCard();
     }
 
@@ -134,7 +134,7 @@ public class PlayerController {
     public void viewPrivateObjectiveCard() {
         Pane pane = new Pane();
         PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView(this);
-        privateObjectiveCardView.setPlayer(player);
+        privateObjectiveCardView.setPlayer(this.player);
         privateObjectiveCardView.render();
 
         pane.getChildren().add(privateObjectiveCardView);
