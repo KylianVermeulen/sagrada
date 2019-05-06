@@ -41,4 +41,45 @@ public class FavorTokenDao {
         }
         return list;
     }
+
+    /**
+     * Add a favor token to the database.
+     *
+     * @param favorToken The favor token to add.
+     */
+    public void addFavorToken(FavorToken favorToken) {
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "INSERT INTO gamefavortoken (idfavortoken, idgame, idplayer) VALUES (?, ?, ?)",
+                            "update"),
+                    new QueryParameter(QueryParameter.INT, favorToken.getId()),
+                    new QueryParameter(QueryParameter.INT, favorToken.getGame().getId()),
+                    new QueryParameter(QueryParameter.INT, favorToken.getPlayer().getId())
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Get the next available favor token id.
+     *
+     * @return favorTokenId.
+     */
+    public int getNextFavorTokenId() {
+        int favorTokenId = 0;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT MAX(idfavortoken) AS highestFavorTokenId FROM gamefavortoken",
+                            "query")
+            );
+            if (rs.next()) {
+                favorTokenId = rs.getInt("highestFavorTokenId") + 1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return favorTokenId;
+    }
 }
