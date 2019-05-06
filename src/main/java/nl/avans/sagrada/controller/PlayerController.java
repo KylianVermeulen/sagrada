@@ -19,12 +19,13 @@ import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.PatternCardView;
+import nl.avans.sagrada.view.PrivateObjectiveCardView;
 import nl.avans.sagrada.view.PublicObjectiveCardView;
 import nl.avans.sagrada.view.ToolCardView;
 
 public class PlayerController {
-    private Player player;
     private MyScene myScene;
+    private Player player;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -40,8 +41,8 @@ public class PlayerController {
 
     public void viewOptionalPatternCards() {
         Pane pane = new Pane();
-        ArrayList<PatternCard> patternCards = new PatternCardDao()
-                .getOptionalPatternCardsOfPlayer(player);
+        ArrayList<PatternCard> patternCards =
+                new PatternCardDao().getOptionalPatternCardsOfPlayer(player);
         PatternCardSelectionView patternCardSelectionView = new PatternCardSelectionView(this);
         patternCardSelectionView.setOptionalPatternCards(patternCards);
         patternCardSelectionView.render();
@@ -123,6 +124,19 @@ public class PlayerController {
         pane.setLeft(publicObjectiveCardViews[0]);
         pane.setCenter(publicObjectiveCardViews[1]);
         pane.setRight(publicObjectiveCardViews[2]);
+        myScene.setContentPane(pane);
+    }
+
+    /**
+     * Example code
+     */
+    public void viewPrivateObjectiveCard() {
+        Pane pane = new Pane();
+        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView();
+        privateObjectiveCardView.setPlayer(this.player);
+        privateObjectiveCardView.render();
+
+        pane.getChildren().add(privateObjectiveCardView);
         myScene.setContentPane(pane);
     }
 

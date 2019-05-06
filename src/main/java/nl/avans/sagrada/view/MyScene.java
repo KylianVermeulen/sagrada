@@ -55,10 +55,10 @@ public class MyScene extends Scene {
         contentPane.getChildren().add(pane);
     }
 
-    /**
-     * Add alert pane to alerts list and call method render all alerts
-     *
-     * @param pane Pane
+    /**	
+     * Add alert pane to alerts list and call method render all alerts	
+     *	
+     * @param pane Pane	
      */
     public void addAlertPane(Pane pane) {
         StackPane.setAlignment(pane, Pos.TOP_RIGHT);
@@ -86,10 +86,10 @@ public class MyScene extends Scene {
         }
     }
 
-    /**
-     * Remove alert pane animation
-     *
-     * @param pane Pane
+    /**	
+     * Remove alert pane animation	
+     *	
+     * @param pane Pane	
      */
     public void removeAlertPaneAnimation(Pane pane) {
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(350), pane);
@@ -98,10 +98,10 @@ public class MyScene extends Scene {
         fadeTransition.play();
     }
 
-    /**
-     * Remove alert from alerts list and call method render all alerts
-     *
-     * @param pane Pane
+    /**	
+     * Remove alert from alerts list and call method render all alerts	
+     *	
+     * @param pane Pane	
      */
     public void removeAlertPane(Pane pane) {
         alerts.remove(pane);

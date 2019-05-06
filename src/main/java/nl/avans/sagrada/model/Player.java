@@ -3,6 +3,7 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PlayerDao;
 
 public class Player {
     public static final String STATUS_ABORT = "aborted";
@@ -19,8 +20,7 @@ public class Player {
     private int score;
     private boolean cheatmode = false;
 
-    public Player() {
-    }
+    public Player() {}
 
     /**
      * The id is a unique identifier for each player in the database.
@@ -240,5 +240,32 @@ public class Player {
      */
     public void setCheatmode(boolean cheatmode) {
         this.cheatmode = cheatmode;
+    }
+
+    /**
+     * returns the immage's of the private-objectivecard.
+     */
+    public String getImagePath() {
+        String imagePath;
+        switch (privateObjectivecardColor) {
+            case "blauw":
+                imagePath = "/images/privateObjectiveCardColors/blue.png";
+                break;
+            case "groen":
+                imagePath = "/images/privateObjectiveCardColors/green.png";
+                break;
+            case "paars":
+                imagePath = "/images/privateObjectiveCardColors/purple.png";
+                break;
+            case "rood":
+                imagePath = "/images/privateObjectiveCardColors/red.png";
+                break;
+            case "geel":
+                imagePath = "/images/privateObjectiveCardColors/yellow.png";
+                break;
+            default:
+                imagePath = "er is iets mis gegaan";
+        }
+        return imagePath;
     }
 }
