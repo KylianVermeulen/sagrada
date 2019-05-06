@@ -14,6 +14,7 @@ import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.ToolCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -22,104 +23,143 @@ public class GameView extends VBox implements ViewInterface {
     private Player player;
     private PlayerController playerController;
     
-    private VBox toolcardAndRoundTrack;
-    private HBox publicObjectiveCards;
-    private HBox otherPlayersPatternCards;
-    private HBox playerInfo;
+    private ArrayList<PatternCardView> otherPlayerPatternCardViews;
+    private ArrayList<ToolCardView> toolCardViews;
+    private ArrayList<PublicObjectiveCardView> publicObjectiveCardViews;
+    
+    private Label balance;
+    
+    private PatternCardView playerPatternCardView;
+    
+    private Pane scoreBoard;
+    private Pane roundTrack;
     private Pane chatLine;
+    private Pane privateObjectiveCardView;
     
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
         this.playerController = playerController;
         this.player = player;
-        
-        otherPlayersPatternCards = new HBox();
-        toolcardAndRoundTrack = new VBox();
-        publicObjectiveCards = new HBox();
-        playerInfo = new HBox();
     }
     
-    private void buildOtherPlayersPatternCard() {
-        ArrayList<PatternCardView> otherPlayersPatternCardsViews = new ArrayList<>();
+    private void buildOtherPlayerPatternCards() {
+        otherPlayerPatternCardViews = new ArrayList<>();
         ArrayList<Player> players = game.getPlayers();
+        
+        
         for (Player player: players) {
-            String playerAccountUsername = player.getAccount().getUsername();
-            String currentPlayerAccountUsername = this.player.getAccount().getUsername();
-            if (!playerAccountUsername.equals(currentPlayerAccountUsername)) {
-                PatternCard patternCard = player.getPatternCard();
+            String currentPlayerUsername = this.player.getAccount().getUsername();
+            String otherPlayerUsername = player.getAccount().getUsername();
+            
+            if (!currentPlayerUsername.equals(otherPlayerUsername)) {
+                PatternCard playerPatternCard = player.getPatternCard();
                 
                 PatternCardView patternCardView = new PatternCardView(playerController);
-                patternCardView.setPatternCard(patternCard);
+                patternCardView.setPatternCard(playerPatternCard);
                 patternCardView.render();
-                
-                otherPlayersPatternCardsViews.add(patternCardView);
+                otherPlayerPatternCardViews.add(patternCardView);
             }
         }
-        otherPlayersPatternCards.getChildren().addAll(otherPlayersPatternCardsViews);
     }
     
-    private void buildPublicObjectiveCards() {
-        publicObjectiveCards.setPrefSize(Main.SCREEN_WIDTH / 3, Main.SCREEN_HEIGHT / 3);
-        ArrayList<ToolCard> toolCards = game.getToolCards();
-        HBox toolCardViews = new HBox();
+    private void buildToolCards() {
+        toolCardViews = new ArrayList<>();
         
-        for (ToolCard toolCard: toolCards) {
-            ToolCardView toolCardView = new ToolCardView(playerController);
-            toolCardView.setToolCard(toolCard);
-            toolCardView.render();
-            toolCardViews.getChildren().add(toolCardView);
+        ArrayList<ToolCard> gameToolCards = new ArrayList<>();
+        gameToolCards = game.getToolCards();
+        
+        for (ToolCard toolcard: gameToolCards) {
+            ToolCardView toolcardView = new ToolCardView(playerController);
+            toolcardView.setToolCard(toolcard);
+            toolcardView.render();
+            
+            toolCardViews.add(toolcardView);
         }
-        publicObjectiveCards.getChildren().add(toolCardViews);
     }
     
     private void buildRoundTrack() {
-        Pane roundTrack = new Pane();
-        roundTrack.setBackground(new Background(new BackgroundFill(Color.RED, null ,null)));
-        toolcardAndRoundTrack.getChildren().add(roundTrack);
+        roundTrack = new Pane();
+        roundTrack.setPrefSize(66, 66);
+        roundTrack.setMaxSize(70, 70);
+        roundTrack.setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
     }
     
-    private void buildChat() {
+    private void buildPublicObjectiveCards() {
+        publicObjectiveCardViews = new ArrayList<>();
+        PublicObjectiveCard[] gamePublicObjectiveCards = game.getPublicObjectiveCards();
+        
+        for (PublicObjectiveCard publicObjectiveCard: gamePublicObjectiveCards) {
+            PublicObjectiveCardView publicObjectiveCardView = new PublicObjectiveCardView(playerController);
+            publicObjectiveCardView.setPublicObjectiveCard(publicObjectiveCard);
+            publicObjectiveCardView.render();
+            publicObjectiveCardViews.add(publicObjectiveCardView);
+        }
+    }
+    
+    private void buildChatLine() {
         chatLine = new Pane();
-        chatLine.setPrefWidth(Main.SCREEN_WIDTH / 3);
-        chatLine.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+        chatLine.setPrefSize(300, 200);
+        chatLine.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
     }
     
-    private void buildPlayerInfo() {
-        Label balanceLabel = new Label("Balance " + player.getFavorTokens().size());
-        
-        PatternCard patternCard = player.getPatternCard();
-        
-        PatternCardView patternCardView = new PatternCardView(playerController);
-        patternCardView.setPatternCard(patternCard);
-        patternCardView.render();
-        
-        Pane privateObjectiveCard = new Pane();
-        privateObjectiveCard.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
-        
-        playerInfo.getChildren().addAll(balanceLabel, patternCardView, privateObjectiveCard);
+    private void buildScoreBoard() {
+        scoreBoard = new Pane();
+        scoreBoard.setPrefSize(100, 300);
     }
+    
+    private void buildBalance() {
+        balance = new Label("Balance " + player.getScore());
+    }
+    
+    private void buildPlayerToolCard() {
+        PatternCard playerPatternCard = player.getPatternCard();
+        playerPatternCardView = new PatternCardView(playerController);
+        playerPatternCardView.setPatternCard(playerPatternCard);
+    }
+    
+    private void buildPlayerPrivateObjectiveCard() {
+        privateObjectiveCardView = new Pane();
+        privateObjectiveCardView.setPrefSize((CardView.CARD_WIDTH / 1.2), (CardView.CARD_WIDTH / 4));
+        privateObjectiveCardView.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
+    }
+    
 
     @Override
     public void render() {
         getChildren().clear();
         
-        buildOtherPlayersPatternCard();
-        buildPublicObjectiveCards();
+        buildOtherPlayerPatternCards();
+        buildScoreBoard();
+        buildToolCards();
         buildRoundTrack();
-        buildChat();
-        buildPlayerInfo();
+        buildPublicObjectiveCards();
+        buildChatLine();
+        buildBalance();
+        buildPlayerToolCard();
+        buildPlayerPrivateObjectiveCard();
         
+        HBox firstView = new HBox();
         HBox secondView = new HBox();
-        secondView.setPrefHeight(Main.SCREEN_HEIGHT / 3);
-        secondView.getChildren().add(toolcardAndRoundTrack);
-        secondView.getChildren().add(publicObjectiveCards);
-        
         HBox thirdView = new HBox();
-        thirdView.setPrefHeight(Main.SCREEN_HEIGHT / 3);
-        thirdView.getChildren().add(chatLine);
-        thirdView.getChildren().add(playerInfo);
         
-        getChildren().add(otherPlayersPatternCards);
+        firstView.getChildren().addAll(otherPlayerPatternCardViews);
+        firstView.getChildren().add(scoreBoard);
+        
+        HBox combinedToolCards = new HBox();
+        combinedToolCards.getChildren().addAll(toolCardViews);
+        VBox combinedToolCardsAndRoundTrack = new VBox();
+        combinedToolCardsAndRoundTrack.getChildren().addAll(combinedToolCards, roundTrack);
+        
+        secondView.getChildren().add(combinedToolCardsAndRoundTrack);
+        secondView.getChildren().addAll(publicObjectiveCardViews);
+        
+        thirdView.getChildren().add(chatLine);
+        thirdView.getChildren().add(balance);
+        thirdView.getChildren().add(playerPatternCardView);
+        thirdView.getChildren().add(privateObjectiveCardView);
+        
+        
+        getChildren().add(firstView);
         getChildren().add(secondView);
         getChildren().add(thirdView);
     }
