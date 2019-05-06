@@ -11,7 +11,9 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.database.ChecksumDatabase;
+import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.popups.Alert;
 
 public class MyScene extends Scene {
@@ -20,7 +22,7 @@ public class MyScene extends Scene {
     private ArrayList<Pane> alerts;
     private AccountController accountController;
     private PlayerController playerController;
-    private ChecksumDatabase checksumDatabase;
+    //private ChecksumDatabase checksumDatabase;
 
     public MyScene() {
         super(new Pane());
@@ -35,7 +37,7 @@ public class MyScene extends Scene {
         
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
-        checksumDatabase = new ChecksumDatabase(accountController);
+        //checksumDatabase = new ChecksumDatabase(accountController);
 
         rootPane = new StackPane();
         contentPane = new Pane();
