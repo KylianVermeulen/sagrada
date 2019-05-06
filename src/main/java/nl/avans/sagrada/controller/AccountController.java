@@ -291,5 +291,6 @@ public class AccountController {
      */
     public void actionJoinGame(Game game) {
         myScene.getPlayerController().actionJoinGame(account, game);
+        account.accountStatus = AccountStatus.GAME;
     }
 }

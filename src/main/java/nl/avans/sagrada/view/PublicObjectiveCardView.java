@@ -62,7 +62,7 @@ public class PublicObjectiveCardView extends CardView {
      * Displays the text at the bottom of the card for the public objective card.
      */
     public void showText() {
-        Text scorePoints = new Text(Integer.toString(publicObjectiveCard.getSeqnr()));
+        Text scorePoints = new Text(Integer.toString(publicObjectiveCard.getPoints()));
         Text description = new Text(publicObjectiveCard.getDescription());
         scorePoints.setFont(Main.SAGRADA_FONT);
         description.setFont(Main.SAGRADA_FONT);

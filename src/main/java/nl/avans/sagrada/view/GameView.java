@@ -23,7 +23,7 @@ public class GameView extends VBox implements ViewInterface {
     private Player player;
     private PlayerController playerController;
     
-    private ArrayList<PatternCardView> otherPlayerPatternCardViews;
+    private HBox otherPlayerPatternCardViews;
     private ArrayList<ToolCardView> toolCardViews;
     private ArrayList<PublicObjectiveCardView> publicObjectiveCardViews;
     
@@ -43,7 +43,7 @@ public class GameView extends VBox implements ViewInterface {
     }
     
     private void buildOtherPlayerPatternCards() {
-        otherPlayerPatternCardViews = new ArrayList<>();
+        otherPlayerPatternCardViews = new HBox();
         ArrayList<Player> players = game.getPlayers();
         
         
@@ -57,7 +57,7 @@ public class GameView extends VBox implements ViewInterface {
                 PatternCardView patternCardView = new PatternCardView(playerController);
                 patternCardView.setPatternCard(playerPatternCard);
                 patternCardView.render();
-                otherPlayerPatternCardViews.add(patternCardView);
+                otherPlayerPatternCardViews.getChildren().add(patternCardView);
             }
         }
     }
@@ -79,8 +79,8 @@ public class GameView extends VBox implements ViewInterface {
     
     private void buildRoundTrack() {
         roundTrack = new Pane();
-        roundTrack.setPrefSize(66, 66);
-        roundTrack.setMaxSize(70, 70);
+        roundTrack.setPrefSize(350, 66);
+        roundTrack.setMaxSize(350, 70);
         roundTrack.setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
     }
     
@@ -111,10 +111,11 @@ public class GameView extends VBox implements ViewInterface {
         balance = new Label("Balance " + player.getScore());
     }
     
-    private void buildPlayerToolCard() {
+    private void buildPlayerPatternCard() {
         PatternCard playerPatternCard = player.getPatternCard();
         playerPatternCardView = new PatternCardView(playerController);
         playerPatternCardView.setPatternCard(playerPatternCard);
+        playerPatternCardView.render();
     }
     
     private void buildPlayerPrivateObjectiveCard() {
@@ -135,7 +136,7 @@ public class GameView extends VBox implements ViewInterface {
         buildPublicObjectiveCards();
         buildChatLine();
         buildBalance();
-        buildPlayerToolCard();
+        buildPlayerPatternCard();
         buildPlayerPrivateObjectiveCard();
         
         HBox firstView = new HBox();

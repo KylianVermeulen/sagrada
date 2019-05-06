@@ -5,6 +5,7 @@ import java.util.Random;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
 
 public class Game {
@@ -147,6 +148,8 @@ public class Game {
      * @return PublicObjectiveCard[]
      */
     public PublicObjectiveCard[] getPublicObjectiveCards() {
+        PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
+        publicObjectiveCards = publicObjectiveCardDao.getAllPublicObjectiveCardsOfGame(this).toArray(new PublicObjectiveCard[3]);
         return publicObjectiveCards;
     }
 

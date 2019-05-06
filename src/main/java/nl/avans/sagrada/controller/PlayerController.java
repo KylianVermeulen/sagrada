@@ -16,6 +16,7 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.ToolCard;
 import nl.avans.sagrada.view.DieView;
+import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.PatternCardView;
@@ -30,8 +31,17 @@ public class PlayerController {
         this.myScene = myScene;
     }
     
-    public void viewGame(Game game) {
-        
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    
+    public void viewGame() {
+        Game game = player.getGame();
+        Pane pane = new Pane();
+        GameView gameView = new GameView(this, game, player);
+        gameView.render();
+        pane.getChildren().add(gameView);
+        myScene.setContentPane(pane);
     }
 
     public void actionJoinGame(Account account, Game game) {
@@ -39,6 +49,9 @@ public class PlayerController {
         player.setGame(game);
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
+        }
+        else {
+            viewGame();
         }
     }
 
@@ -58,7 +71,7 @@ public class PlayerController {
         player.setPatternCard(patternCard);
         playerDao.updateSelectedPatternCard(player, patternCard);
         player.generateFavorTokens();
-        viewPatternCardOfPlayer(player);
+        viewGame();
     }
 
     /**

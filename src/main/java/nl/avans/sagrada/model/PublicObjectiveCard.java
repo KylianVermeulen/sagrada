@@ -2,9 +2,10 @@ package nl.avans.sagrada.model;
 
 public class PublicObjectiveCard {
     private int id;
-    private int seqnr;
+    private String name;
     private String description;
     private String imagePath;
+    private int points;
     
     /**
      * Filled constructor
@@ -12,10 +13,11 @@ public class PublicObjectiveCard {
      * @param seqnr int
      * @param description String
      */
-    public PublicObjectiveCard(int id, int seqnr, String description) {
+    public PublicObjectiveCard(int id, String name, String description, int points) {
         this.id = id;
-        this.seqnr = seqnr;
+        this.name = name;
         this.description = description;
+        this.points = points;
     }
 
     /**
@@ -33,21 +35,21 @@ public class PublicObjectiveCard {
     public void setId(int id) {
         this.id = id;
     }
-
-    /**
-     * Returns public objective card sequence number
-     * @return sequence number (int)
-     */
-    public int getSeqnr() {
-        return seqnr;
+    
+    public void setName(String name) {
+        this.name = name;
     }
-
-    /**
-     * Sets the public objective cars sequence number
-     * @param seqnr int
-     */
-    public void setSeqnr(int seqnr) {
-        this.seqnr = seqnr;
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setPoints(int points) {
+        this.points = points;
+    }
+    
+    public int getPoints() {
+        return points;
     }
 
     /**

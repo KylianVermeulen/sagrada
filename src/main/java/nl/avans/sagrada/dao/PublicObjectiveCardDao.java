@@ -31,8 +31,11 @@ public class PublicObjectiveCardDao {
                     .executeQuery(new Query("SELECT * FROM public_objectivecard", "query"));
             while (rs.next()) {
                 PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard(
-                        rs.getInt("idpublic_objectivecard"), rs.getInt("seqnr"),
-                        rs.getString("description"));
+                        rs.getInt("idpublic_objectivecard"), 
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getInt("points")
+                   );
                 list.add(publicObjectiveCard);
             }
         } catch (SQLException e) {
@@ -58,8 +61,11 @@ public class PublicObjectiveCardDao {
             );
             while (rs.next()) {
                 PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard(
-                        rs.getInt("idpublic_objectivecard"), rs.getInt("seqnr"),
-                        rs.getString("description"));
+                        rs.getInt("idpublic_objectivecard"), 
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getInt("points")
+                   );
                 list.add(publicObjectiveCard);
             }
         } catch (SQLException e) {
