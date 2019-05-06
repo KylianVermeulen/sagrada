@@ -3,7 +3,9 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.ToolcardDao;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
@@ -92,7 +94,7 @@ public class Game {
     public boolean isActive() {
         for (Player player : players) {
             String playerStatus = player.getPlayerStatus();
-            if (playerStatus.equals("aborted") || playerStatus.equals("finished")) {
+            if (playerStatus.equals("aborted") || playerStatus.equals("finished") || playerStatus.equals("challengee")) {
                 return false;
             }
         }
@@ -215,7 +217,30 @@ public class Game {
      * Sets for all the players of the game there optional patternCards
      */
     public void setOptionPatternCardsForPlayers() {
-        //  Set the patterncard for all players
+        ArrayList<PatternCard> optionalPatternCards;
+        Random random = new Random();
+        if (gamemode.equals(GAMEMODE_NORMAL)) {
+            optionalPatternCards = new PatternCardDao().getAllStandardPatterncards();
+        } else {
+            optionalPatternCards = new ArrayList<>();
+            for (int i = 0; i < 16; i++) {
+                PatternCardDao patternCardDao = new PatternCardDao();
+                int patternCardId = patternCardDao.getNextPatternCardId();
+                PatternCard patternCard = new PatternCard(patternCardId, false);
+                patternCardDao.addPatterncard(patternCard);
+                patternCard.saveNewPatternCardFields();
+                optionalPatternCards.add(patternCard);
+            }
+        }
+        for (Player player : players) {
+            ArrayList<PatternCard> optionalPatternCardsPlayer = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                int randomInt = random.nextInt(optionalPatternCards.size());
+                optionalPatternCardsPlayer.add(optionalPatternCards.get(randomInt));
+                optionalPatternCards.remove(randomInt);
+            }
+            player.setOptionalPatternCards(optionalPatternCardsPlayer);
+        }
     }
 
     /**
@@ -227,6 +252,66 @@ public class Game {
         for (Player player : players) {
             player.setPlayerStatus(Player.STATUS_ABORT);
             playerDao.updatePlayer(player);
+        }
+    }
+    
+    /**
+     * Assigns three random toolcards to the current game (given as parameter).
+     * <p>
+     * Firstly, the method makes a total of three random (double) numbers, which
+     * in turn are converted into integers after rounding the doubles.
+     * </br>
+     * Then, the method checks whether the toolcardID from the array is the first
+     * entry of the array or not, and, if not, checks if the current id is the
+     * same as the previous array entry id. If these two are the same, the current id gets
+     * an increase of one in order to make sure the two ids are not the same.
+     * </br> 
+     * If the new value of the current toolcard id is higher than 12, the id gets decreased by 2.
+     * </br>
+     * If the current toolcard id is the third array entry, the method ensures that this
+     * new value (as described above) is not the same as the first AND second array entries.
+     * </p>
+     * <p>
+     * If, before the scenario as pictured above takes place, the current toolcard id is the third entry,
+     * and the current toolcard id is the same as the first array entry, the same action as above
+     * takes place, except now another increase in id happens.
+     * </br>
+     * If, again, this value is higher than 12, the value gets a decrease of two.
+     * </p>
+     * 
+     * @param game Game
+     */
+    public void assignRandomToolcards() {
+        ToolcardDao toolcardDao = new ToolcardDao();
+        int counter = 0;
+        int[] randomToolCardIds = new int[3];
+        double[] randomNumbers = new double[3];
+        
+        while (counter < 3) {
+            randomNumbers[counter] = (Math.random() * 11) + 1;
+            randomToolCardIds[counter] = (int) Math.round(randomNumbers[counter]);
+            if ((counter - 1) >= 0) {
+                if (randomToolCardIds[counter] == randomToolCardIds[counter - 1]) {
+                    randomToolCardIds[counter]++;
+                    if ((counter - 2) >= 0) {
+                        if (randomToolCardIds[counter] == randomToolCardIds[counter - 2]) {
+                            randomToolCardIds[counter]++; 
+                            if (randomToolCardIds[counter] > 12) {
+                                randomToolCardIds[counter] = (randomToolCardIds[counter - 2] - 2);
+                            }
+                        }
+                    }
+                }
+            } else if (randomToolCardIds[counter] > 12) {
+                randomToolCardIds[counter] = (randomToolCardIds[counter - 1] - 2);
+                if ((counter - 2) >= 0) {
+                    if (randomToolCardIds[counter] == randomToolCardIds[counter - 2]) {
+                        randomToolCardIds[counter]--;
+                    }
+                }
+            }
+            toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomToolCardIds[counter]), this);
+            counter++;
         }
     }
 }

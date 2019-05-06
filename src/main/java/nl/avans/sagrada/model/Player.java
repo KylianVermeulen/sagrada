@@ -185,17 +185,33 @@ public class Player {
     }
 
     /**
-     * @return The optional pattern cards of this player.
+     * @return The optional pattern cards of this player from the database.
      */
     public ArrayList<PatternCard> getOptionalPatternCards() {
+        PatternCardDao patternCardDao = new PatternCardDao();
+        this.optionalPatternCards = patternCardDao.getOptionalPatternCardsOfPlayer(this);
         return optionalPatternCards;
     }
 
     /**
-     * @param optionalPatterncards The optional pattern cards of this player.
+     * @param optionalPatterncards The optional pattern cards of this player to the database.
      */
     public void setOptionalPatternCards(ArrayList<PatternCard> optionalPatterncards) {
         this.optionalPatternCards = optionalPatterncards;
+        PatternCardDao patternCardDao = new PatternCardDao();
+        patternCardDao.saveOptionalPatternCardsOfPlayer(optionalPatterncards, this);
+    }
+
+    public void generateFavorTokens() {
+        ArrayList<FavorToken> favorTokens = new ArrayList<>();
+        for (int i = 0; i < patternCard.getDifficulty(); i++) {
+            FavorTokenDao favorTokenDao = new FavorTokenDao();
+            int favorTokenId = favorTokenDao.getNextFavorTokenId();
+            FavorToken favorToken = new FavorToken(favorTokenId, this);
+            favorTokenDao.addFavorToken(favorToken);
+            favorTokens.add(favorToken);
+        }
+        this.favorTokens = favorTokens;
     }
 
     /**

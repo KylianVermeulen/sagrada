@@ -3,6 +3,7 @@ package nl.avans.sagrada.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
@@ -24,7 +25,7 @@ public class PatternCardFieldDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT * FROM sagrada.patterncardfield WHERE patterncard_idpatterncard=? ORDER BY position_x, position_y",
+                            "SELECT * FROM patterncardfield WHERE patterncard_idpatterncard=? ORDER BY position_x, position_y",
                             "query"),
                     new QueryParameter(QueryParameter.INT, patternCard.getId())
             );
@@ -41,5 +42,31 @@ public class PatternCardFieldDao {
             e.printStackTrace();
         }
         return list;
+    }
+
+    /**
+     * Add all patterncardfields to the database using batch query.
+     */
+    public void addPatternCardFields(ArrayList<PatternCardField> patternCardFields,
+            PatternCard patternCard) {
+        List<QueryParameter[]> queryParametersList = new ArrayList<>();
+        for (int i = 0; i < 20; i++) { // 20 fields
+            QueryParameter[] queryParameters = {
+                    new QueryParameter(QueryParameter.INT, patternCard.getId()),
+                    new QueryParameter(QueryParameter.INT, patternCardFields.get(i).getxPos()),
+                    new QueryParameter(QueryParameter.INT, patternCardFields.get(i).getyPos()),
+                    new QueryParameter(QueryParameter.STRING,
+                            patternCardFields.get(i).getStringColor()),
+                    new QueryParameter(QueryParameter.INT, patternCardFields.get(i).getValue())
+            };
+            queryParametersList.add(queryParameters);
+        }
+        try {
+            int[] ints = dbConnection.executeBatchQuery(
+                    new Query("INSERT INTO patterncardfield VALUES (?, ?, ?, ?, ?)", "update",
+                            queryParametersList));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
