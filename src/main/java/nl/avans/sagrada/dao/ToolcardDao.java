@@ -134,4 +134,29 @@ public class ToolcardDao {
         }
         return gameToolcardId;
     }
+    
+    /**
+     * Returns the gametoolcard number that is linked to a toolcard and a game,
+     * the ids of which have been given as parameters.
+     * 
+     * @param toolcardId int
+     * @param gameId int
+     * @return The gametoolcard number belonging to a specific game and toolcard
+     */
+    public int getGameToolcardForToolcardId(int toolcardId, int gameId) {
+        int gameToolcardId = 0;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM gametoolcard WHERE idtoolcard=? AND idgame=?", "query"),
+                    new QueryParameter(QueryParameter.INT, toolcardId),
+                    new QueryParameter(QueryParameter.INT, gameId)
+            );
+            if (rs.next()) {
+                gameToolcardId = rs.getInt("gametoolcard");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return gameToolcardId;
+    }
 }

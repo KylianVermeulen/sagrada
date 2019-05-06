@@ -27,21 +27,41 @@ public class PlayerController {
         this.myScene = myScene;
     }
     
-    public void payForToolcard(Game game, FavorToken favorToken, FavorToken favorToken2) {
+    /**
+     * Handles the logic behind a toolcard payment. The method first checks if
+     * a player has already paid for a toolcard before or not, and if the player has sufficient funds.
+     * <p>
+     * If the toolcard has not received payment before, the player will hand over one favortoken as payment
+     * for the toolcard. This toolcard's status will then be set to "has already been paid for before".
+     * </br>
+     * If the toolcard has received payment before, then the player will hand over two
+     * favortokens as payment for the toolcard.
+     * </p>
+     * <p>
+     * If the player has insufficient funds, a message will appear on screen 
+     * informing the player about their lack of funds, and the player will not be able to use this toolcard.
+     * </p>
+     * 
+     * @param game Game
+     * @param toolcard Toolcard
+     */
+    public void payForToolcard(Game game, Toolcard toolcard) {
         FavorTokenDao favorTokenDao = new FavorTokenDao();
-        Toolcard toolcard = new Toolcard();
         
         if (favorTokenDao.getFavortokensOfPlayer(player).size() > 0) {
-            if (!toolcard.hasBeenPayedForBefore()) {
-                favorTokenDao.setFavortokensForToolcard(favorToken);
+            if (!toolcard.hasBeenPaidForBefore()) {
+                FavorToken favorToken = player.getFavorTokens().get(0);
+                favorTokenDao.setFavortokensForToolcard(favorToken, toolcard, game);
                 player.getFavorTokens().remove(0);
-                toolcard.setHasBeenPayedForBefore(true);
+                toolcard.setHasBeenPaidForBefore(true);
             } else {
                 if (favorTokenDao.getFavortokensOfPlayer(player).size() > 1) {
-                    favorTokenDao.setFavortokensForToolcard(favorToken);
+                    FavorToken favorToken = player.getFavorTokens().get(0);
+                    favorTokenDao.setFavortokensForToolcard(favorToken, toolcard, game);
                     player.getFavorTokens().remove(0);
-                    favorTokenDao.setFavortokensForToolcard(favorToken2);
-                    player.getFavorTokens().remove(1);
+                    FavorToken favorToken2 = player.getFavorTokens().get(0);
+                    favorTokenDao.setFavortokensForToolcard(favorToken2, toolcard, game);
+                    player.getFavorTokens().remove(0);
                 } else {
                     handleToolcardPaymentRejection(game);
                 }
@@ -51,6 +71,12 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Displays a message, informing the player that they cannot use the toolcard due to
+     * insufficient funds.
+     * 
+     * @param game Game
+     */
     private void handleToolcardPaymentRejection(Game game) {
         //visuals for unsuccessful payment are done by Ian.
         viewToolcards(game);

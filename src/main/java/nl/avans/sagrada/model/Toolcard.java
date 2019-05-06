@@ -9,7 +9,7 @@ public class Toolcard {
     private String imagePath;
     private String name;
     private ArrayList<FavorToken> favorTokens;
-    private boolean hasBeenPayedForBefore;
+    private boolean hasBeenPaidForBefore = false;
 
     /**
      * Empty constructor.
@@ -148,11 +148,22 @@ public class Toolcard {
         this.name = name;
     }
 
-    public boolean hasBeenPayedForBefore() {
-        return hasBeenPayedForBefore;
+    /**
+     * Returns the payment status for the toolcard. 
+     * If true, this toolcard has already been paid for before.
+     * 
+     * @return the payment status for the toolcard
+     */
+    public boolean hasBeenPaidForBefore() {
+        return hasBeenPaidForBefore;
     }
 
-    public void setHasBeenPayedForBefore(boolean hasBeenPayedForBefore) {
-        this.hasBeenPayedForBefore = hasBeenPayedForBefore;
+    /**
+     * Sets the payment status for the toolcard.
+     * 
+     * @param hasBeenPaidForBefore boolean
+     */
+    public void setHasBeenPaidForBefore(boolean hasBeenPaidForBefore) {
+        this.hasBeenPaidForBefore = hasBeenPaidForBefore;
     }
 }
