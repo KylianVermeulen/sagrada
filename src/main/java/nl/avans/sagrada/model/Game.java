@@ -3,6 +3,7 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.ToolcardDao;
 
@@ -215,7 +216,30 @@ public class Game {
      * Sets for all the players of the game there optional patternCards
      */
     public void setOptionPatternCardsForPlayers() {
-        // Set the patterncard for all players
+        ArrayList<PatternCard> optionalPatternCards;
+        Random random = new Random();
+        if (gamemode.equals(GAMEMODE_NORMAL)) {
+            optionalPatternCards = new PatternCardDao().getAllStandardPatterncards();
+        } else {
+            optionalPatternCards = new ArrayList<>();
+            for (int i = 0; i < 16; i++) {
+                PatternCardDao patternCardDao = new PatternCardDao();
+                int patternCardId = patternCardDao.getNextPatternCardId();
+                PatternCard patternCard = new PatternCard(patternCardId, false);
+                patternCardDao.addPatterncard(patternCard);
+                patternCard.saveNewPatternCardFields();
+                optionalPatternCards.add(patternCard);
+            }
+        }
+        for (Player player : players) {
+            ArrayList<PatternCard> optionalPatternCardsPlayer = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                int randomInt = random.nextInt(optionalPatternCards.size());
+                optionalPatternCardsPlayer.add(optionalPatternCards.get(randomInt));
+                optionalPatternCards.remove(randomInt);
+            }
+            player.setOptionalPatternCards(optionalPatternCardsPlayer);
+        }
     }
 
     /**

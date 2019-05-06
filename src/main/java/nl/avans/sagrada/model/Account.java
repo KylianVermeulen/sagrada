@@ -3,8 +3,10 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 import nl.avans.sagrada.dao.InviteDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.model.enumerations.AccountStatus;
 
 public class Account {
+    public AccountStatus accountStatus;
     private String username;
     private String password;
     private ArrayList<Player> players;
