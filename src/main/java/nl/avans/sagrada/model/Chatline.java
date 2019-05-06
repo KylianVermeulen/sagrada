@@ -21,7 +21,6 @@ public class Chatline {
      * Empty Constructor
      */
     public Chatline() {
-    	
     }
 
     /**
@@ -72,9 +71,3 @@ public class Chatline {
 		this.timestamp = timestamp;
 	}
 }
-
-
-
-
-
-

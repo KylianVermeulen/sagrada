@@ -27,15 +27,6 @@ public class MyScene extends Scene {
 
     public MyScene() {
         super(new Pane());
-        
-        Player player = new Player();
-        player.setId(1);
-        Game game = new Game(1);
-        Account account = new Account();
-        account.setUsername("test1");
-        player.setAccount(account);
-        player.setGame(game);
-        
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
         checksumDatabase = new ChecksumDatabase(accountController);
@@ -43,13 +34,10 @@ public class MyScene extends Scene {
         rootPane = new StackPane();
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
-        
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
         
-        //accountController.viewLogin();
-        playerController.setPlayer(player);
-        playerController.viewChat();
+        accountController.viewLogin();
     }
 
     public AccountController getAccountController() {

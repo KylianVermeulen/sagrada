@@ -128,7 +128,6 @@ public class Game {
         return gameDie;
     }
 
-
     /**
      * Set gameDice to Game
      *
@@ -169,7 +168,6 @@ public class Game {
     public void setStartPlayer(Player player) {
         this.startPlayer = player;
     }
-
 
     /**
      * Gets a private color that is not in use by a player

@@ -8,14 +8,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class ChatLineView extends VBox {
+public class ChatLineView extends VBox implements ViewInterface {
 	
-	private static final int CHATPANE_HEIGHT = 200;
-	private static final int CHATPANE_WIDTH = 300;
+	private final int CHATPANE_HEIGHT = 200;
+	private final int CHATPANE_WIDTH = 300;
 	
-	private static final int TEXTFIELD_HEIGHT = 25;
-	private static final int TEXTFIELD_WIDTH = 300;
+	private final int TEXTFIELD_HEIGHT = 25;
+	private final int TEXTFIELD_WIDTH = 300;
 	
 	private PlayerController playercontroller;
 	private VBox messagebox;
@@ -27,14 +28,13 @@ public class ChatLineView extends VBox {
 	public ChatLineView(PlayerController playercontroller) {
 		this.playercontroller = playercontroller;
 		messagebox = new VBox();
-		buildChat();
+		render();
 	}
 	
 	/**
 	 * Method that builds the view for the chat
 	 */
 	private void buildChat() {
-		
 		ScrollPane chatpane = new ScrollPane();
 		chatpane.setContent(messagebox);
 		chatpane.setMaxHeight(CHATPANE_HEIGHT);
@@ -48,7 +48,7 @@ public class ChatLineView extends VBox {
 		textfield.setMinHeight(TEXTFIELD_HEIGHT);
 		textfield.setMaxWidth(TEXTFIELD_WIDTH);
 		textfield.setMinWidth(TEXTFIELD_WIDTH);
-		textfield.setOnAction(e -> playercontroller.sendMessage(textfield));
+		textfield.setOnAction(e -> playercontroller.sendMessage(textfield.getText()));
 		
 		downpane.getChildren().add(textfield);
 		getChildren().addAll(chatpane, downpane);
@@ -81,5 +81,10 @@ public class ChatLineView extends VBox {
 			}
 		}
 		
+	}
+
+	@Override
+	public void render() {
+		buildChat();
 	}
 }	
