@@ -30,10 +30,9 @@ public class FavorTokenDao {
     public ArrayList<FavorToken> getFavortokensOfPlayer(Player player) {
         ArrayList<FavorToken> list = new ArrayList<>();
         try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM gamefavortoken WHERE idplayer=?", "query",
-                            new QueryParameter(QueryParameter.INT, player.getId()))
-            );
+            ResultSet rs = dbConnection
+                    .executeQuery(new Query("SELECT * FROM gamefavortoken WHERE idplayer=?",
+                            "query", new QueryParameter(QueryParameter.INT, player.getId())));
             while (rs.next()) {
                 FavorToken favorToken = new FavorToken(rs.getInt("idfavortoken"), player);
                 list.add(favorToken);
@@ -43,10 +42,10 @@ public class FavorTokenDao {
         }
         return list;
     }
-    
+
     /**
-     * Returns the next available idfavortoken in the database table, which allows for a new
-     * entry to be added to this table.
+     * Returns the next available idfavortoken in the database table, which allows for a new entry
+     * to be added to this table.
      * 
      * @return The next favortoken id that is available
      */
@@ -54,8 +53,8 @@ public class FavorTokenDao {
         int favorTokenId = 0;
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT MAX(idfavortoken) AS highestFavorTokenId FROM gamefavortoken", "query")
-            );
+                    new Query("SELECT MAX(idfavortoken) AS highestFavorTokenId FROM gamefavortoken",
+                            "query"));
             if (rs.next()) {
                 favorTokenId = rs.getInt("highestFavorTokenId") + 1;
             }
@@ -64,7 +63,7 @@ public class FavorTokenDao {
         }
         return favorTokenId;
     }
-    
+
     /**
      * Sets a favortoken for a specific game.
      * 
@@ -73,15 +72,15 @@ public class FavorTokenDao {
     public void setFavortokenForGame(Game game) {
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("INSERT INTO gamefavortoken (idfavortoken, idgame) VALUES (?, ?)", "update"),
+                    new Query("INSERT INTO gamefavortoken (idfavortoken, idgame) VALUES (?, ?)",
+                            "update"),
                     new QueryParameter(QueryParameter.INT, getNextFavorTokenId()),
-                    new QueryParameter(QueryParameter.INT, game.getId())
-            );
+                    new QueryParameter(QueryParameter.INT, game.getId()));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Returns a favortoken from the database, specified by the id given as parameter.
      * 
@@ -96,8 +95,7 @@ public class FavorTokenDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamefavortoken WHERE idfavortoken=?", "query"),
-                    new QueryParameter(QueryParameter.INT, id)
-            );
+                    new QueryParameter(QueryParameter.INT, id));
             if (rs.next()) {
                 favorToken.setId(rs.getInt("idfavortoken"));;
                 favorToken.setGame(gameDao.getGameById(rs.getInt("idgame")));
@@ -110,20 +108,20 @@ public class FavorTokenDao {
         }
         return favorToken;
     }
-    
-    public void setFavortokenForPlayer(Game game, Player player) {
+
+    public void setFavortokenForPlayer(FavorToken favorToken, Game game, Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("UPDATE gamefavortoken (idfavortoken, idgame, idplayer) VALUES (?, ?, ?)", "update"),
-                    new QueryParameter(QueryParameter.INT, getNextFavorTokenId()),
+            ResultSet rs = dbConnection.executeQuery(new Query(
+                    "UPDATE gamefavortoken SET idfavortoken=?, idgame=?, idplayer=? WHERE idfavortoken=?",
+                    "update"), new QueryParameter(QueryParameter.INT, favorToken.getId()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
-                    new QueryParameter(QueryParameter.INT, player.getId())
-            );
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, favorToken.getId()));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Updates the gamefavortoken table in the database to link a favortoken to a toolcard.
      * 
@@ -134,15 +132,14 @@ public class FavorTokenDao {
     public void setFavortokensForToolcard(FavorToken favorToken, Toolcard toolcard, Game game) {
         ToolcardDao toolcardDao = new ToolcardDao();
         try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query(
-                            "UPDATE gamefavortoken SET idfavortoken=?, idgame=?, idplayer=?, gametoolcard=? WHERE idfavortoken=?",
-                            "update"),
-                    new QueryParameter(QueryParameter.INT, favorToken.getId()),
-                    new QueryParameter(QueryParameter.INT, favorToken.getGame()),
-                    new QueryParameter(QueryParameter.INT, favorToken.getPlayer()),
-                    new QueryParameter(QueryParameter.INT, toolcardDao.getGameToolcardForToolcardId(toolcard.getId(), game.getId()))
-            );                    
+            ResultSet rs = dbConnection.executeQuery(new Query(
+                    "UPDATE gamefavortoken SET idfavortoken=?, idgame=?, idplayer=?, gametoolcard=? WHERE idfavortoken=?",
+                    "update"), new QueryParameter(QueryParameter.INT, favorToken.getId()),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.INT, favorToken.getPlayer().getId()),
+                    new QueryParameter(QueryParameter.INT, toolcardDao
+                            .getGameToolcardForToolcardId(toolcard.getId(), game.getId())),
+                    new QueryParameter(QueryParameter.INT, favorToken.getId()));
         } catch (SQLException e) {
             e.printStackTrace();
         }

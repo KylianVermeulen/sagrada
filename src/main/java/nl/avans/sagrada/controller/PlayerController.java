@@ -45,17 +45,19 @@ public class PlayerController {
      * @param game Game
      * @param toolcard Toolcard
      */
-    public void payForToolcard(Game game, Toolcard toolcard) {
+    public void actionPayForToolcard(Game game, Toolcard toolcard) {
         FavorTokenDao favorTokenDao = new FavorTokenDao();
+        ToolcardDao toolcardDao = new ToolcardDao();
+        toolcardDao.toolcardHasPayment(toolcard, game);
         
-        if (favorTokenDao.getFavortokensOfPlayer(player).size() > 0) {
+        if (player.getFavorTokens().size() > 0) {
             if (!toolcard.hasBeenPaidForBefore()) {
                 FavorToken favorToken = player.getFavorTokens().get(0);
                 favorTokenDao.setFavortokensForToolcard(favorToken, toolcard, game);
                 player.getFavorTokens().remove(0);
                 toolcard.setHasBeenPaidForBefore(true);
             } else {
-                if (favorTokenDao.getFavortokensOfPlayer(player).size() > 1) {
+                if (player.getFavorTokens().size() > 1) {
                     FavorToken favorToken = player.getFavorTokens().get(0);
                     favorTokenDao.setFavortokensForToolcard(favorToken, toolcard, game);
                     player.getFavorTokens().remove(0);
@@ -79,7 +81,6 @@ public class PlayerController {
      */
     private void handleToolcardPaymentRejection(Game game) {
         //visuals for unsuccessful payment are done by Ian.
-        viewToolcards(game);
     }
 
     /**

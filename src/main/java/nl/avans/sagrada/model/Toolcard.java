@@ -9,7 +9,7 @@ public class Toolcard {
     private String imagePath;
     private String name;
     private ArrayList<FavorToken> favorTokens;
-    private boolean hasBeenPaidForBefore = false;
+    private boolean hasBeenPaidForBefore;
 
     /**
      * Empty constructor.

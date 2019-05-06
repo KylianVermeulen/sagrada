@@ -159,4 +159,25 @@ public class ToolcardDao {
         }
         return gameToolcardId;
     }
+    
+    public boolean toolcardHasPayment(Toolcard toolcard, Game game) {
+        boolean toolcardHasPayment = toolcard.hasBeenPaidForBefore();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM gamefavortoken WHERE idtoolcard=? AND idgame=?", "query"),
+                    new QueryParameter(QueryParameter.INT, toolcard.getId()),
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
+            if (rs.next()) {
+                if (rs.getInt("idtoolcard") == 0) {
+                    toolcard.setHasBeenPaidForBefore(true);
+                } else {
+                    toolcard.setHasBeenPaidForBefore(false);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return toolcardHasPayment;
+    }
 }
