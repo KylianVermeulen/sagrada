@@ -12,6 +12,7 @@ import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.InviteDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.enumerations.AccountStatus;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
@@ -30,6 +31,10 @@ public class AccountController {
 
     public AccountController(MyScene myScene) {
         this.myScene = myScene;
+    }
+
+    public Account getAccount() {
+        return account;
     }
 
     /**
@@ -159,6 +164,7 @@ public class AccountController {
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(lobbyView);
         myScene.setContentPane(pane);
+        account.accountStatus = AccountStatus.LOBBY;
     }
 
     /**
@@ -197,6 +203,7 @@ public class AccountController {
 
         pane.getChildren().add(gameSetupView);
         myScene.setContentPane(pane);
+        account.accountStatus = AccountStatus.SETUP;
     }
 
     /**
