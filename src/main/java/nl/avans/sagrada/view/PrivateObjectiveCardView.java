@@ -4,9 +4,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -48,12 +54,14 @@ public class PrivateObjectiveCardView extends CardView {
         Text description = new Text("TINTEN " + playerController.getPlayerColor(player)
                 + " - Persoonlijk \n Som van waardes op " + playerController.getPlayerColor(player)
                 + "\n dobbelstenen");
-        scorePoints.setFont(new Font("Segoe Script", 8));
+        scorePoints.setFont(new Font("Segoe Script", 15));
         description.setFont(new Font("Segoe Script", 6));
         scorePoints.setTextAlignment(TextAlignment.CENTER);
         description.setTextAlignment(TextAlignment.CENTER);
         description.setWrappingWidth(CARD_WIDTH / 1.2);
         BorderPane textPane = new BorderPane();
+        textPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+                CornerRadii.EMPTY, new BorderWidths(2.5))));
         StackPane scorePane = new StackPane();
         scorePane.getChildren().add(scorePoints);
         StackPane descriptionPane = new StackPane();
@@ -77,6 +85,9 @@ public class PrivateObjectiveCardView extends CardView {
     private void showImage(String url) {
         Image image = new Image(url);
         StackPane imagePane = new StackPane();
+        imagePane.setMaxSize(CARD_WIDTH, CARD_HEIGHT);
+        imagePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+                CornerRadii.EMPTY, new BorderWidths(2.5))));
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(CARD_HEIGHT / 1.25);
         imageView.setFitWidth(CARD_WIDTH + 10);
