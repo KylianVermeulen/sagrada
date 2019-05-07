@@ -200,19 +200,18 @@ public class PlayerController {
      *
      * @param text String
      */
-    public void actionSendMessage(String text) {
+    public void actionSendMessage(String text, ChatLineView chatlineView) {
         ChatlineDao chatlineDao = new ChatlineDao();
         Chatline chatline = new Chatline(player, text);
+        Game game = player.getGame();
         chatlineDao.getTime(chatline);
 
         if (!text.matches("")) {
             if (chatlineDao.timeExistsOfPlayer(chatline) == false) {
                 chatlineDao.addChatline(chatline);
-//                ChatLineView chatview = new ChatLineView(this);
-//                chatview.addExistingMessages(player.getChatlines());
-//                chatview.addMessage(chatline);
-//                player.addChatline(chatline);
-//                myScene.setContentPane(chatview);
+                ArrayList<Chatline> chatlines = chatlineDao.getChatlinesOfGame(game);
+                chatlineView.setChatLines(chatlines);
+                chatlineView.render();
             } else {
                 Alert alert = new Alert("Waarschuwing",
                         "Je mag maar 1 keer per seconde een bericht versturen!", AlertType.ERROR);
@@ -223,13 +222,5 @@ public class PlayerController {
                     new Alert("Waarschuwing", "Je bericht moet tekst bevatten", AlertType.ERROR);
             myScene.addAlertPane(alert);
         }
-    }
-
-    /**
-     * Method to view the chat
-     */
-    public void viewChat() {
-        ChatLineView chatlineview = new ChatLineView(this);
-        myScene.setContentPane(chatlineview);
     }
 }

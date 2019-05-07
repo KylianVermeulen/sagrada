@@ -123,7 +123,8 @@ public class GameView extends VBox implements ViewInterface {
     }
     
     private void buildBalance() {
-        balance = new Label("Balance " + player.getScore());
+        balance = new Label("Betaalstenen: " + player.getScore());
+        balance.setPadding(new Insets(0,0,0,5));
     }
     
     private void buildPlayerPatternCard() {

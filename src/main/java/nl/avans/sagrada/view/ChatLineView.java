@@ -44,6 +44,7 @@ public class ChatLineView extends VBox implements ViewInterface {
         chatpane.setMinHeight(CHATPANE_HEIGHT);
         chatpane.setMaxWidth(CHATPANE_WIDTH);
         chatpane.setMinWidth(CHATPANE_WIDTH);
+        chatpane.setVvalue(1.0);
 
         HBox downpane = new HBox();
         TextField textfield = new TextField();
@@ -51,7 +52,7 @@ public class ChatLineView extends VBox implements ViewInterface {
         textfield.setMinHeight(TEXTFIELD_HEIGHT);
         textfield.setMaxWidth(TEXTFIELD_WIDTH);
         textfield.setMinWidth(TEXTFIELD_WIDTH);
-        textfield.setOnAction(e -> playercontroller.actionSendMessage(textfield.getText()));
+        textfield.setOnAction(e -> playercontroller.actionSendMessage(textfield.getText(), this));
 
         downpane.getChildren().add(textfield);
         getChildren().addAll(chatpane, downpane);
@@ -89,6 +90,7 @@ public class ChatLineView extends VBox implements ViewInterface {
     @Override
     public void render() {
         getChildren().clear();
+        messagebox.getChildren().clear();
         addExistingMessages();
         buildChat();
     }
