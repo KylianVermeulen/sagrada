@@ -6,7 +6,7 @@ import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.model.enumerations.AccountStatus;
 
 public class Account {
-    public AccountStatus accountStatus;
+    private AccountStatus accountStatus;
     private String username;
     private String password;
     private ArrayList<Player> players;
@@ -186,5 +186,13 @@ public class Account {
             }
         }
         return false;
+    }
+    
+    public void setAccountStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+    
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
     }
 }

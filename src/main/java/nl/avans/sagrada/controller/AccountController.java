@@ -168,7 +168,7 @@ public class AccountController {
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(lobbyView);
         myScene.setContentPane(pane);
-        account.accountStatus = AccountStatus.LOBBY;
+        account.setAccountStatus(AccountStatus.LOBBY);
     }
 
     /**
@@ -207,7 +207,7 @@ public class AccountController {
 
         pane.getChildren().add(gameSetupView);
         myScene.setContentPane(pane);
-        account.accountStatus = AccountStatus.SETUP;
+        account.setAccountStatus(AccountStatus.SETUP);
     }
 
     /**
@@ -295,6 +295,6 @@ public class AccountController {
      */
     public void actionJoinGame(Game game) {
         myScene.getPlayerController().actionJoinGame(account, game);
-        account.accountStatus = AccountStatus.GAME;
+        account.setAccountStatus(AccountStatus.GAME);
     }
 }
