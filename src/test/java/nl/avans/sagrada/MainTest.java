@@ -24,17 +24,23 @@ public class MainTest {
         patternCard.placeDie(2, 2, gameDie6);
         patternCard.placeDie(2, 3, gameDie7);
         patternCard.placeDie(2, 4, gameDie8);
+        // Expected score: 0
         System.out.println(
-                "POJ1: " + new PublicObjectiveCard(1, "x", "x", 3).calculateScore(patternCard));
+                "POJ1: " + new PublicObjectiveCard(1, "x", "x", 1).calculateScore(patternCard));
+        // Expected score: 0
         System.out.println(
-                "POJ2: " + new PublicObjectiveCard(2, "x", "x", 3).calculateScore(patternCard));
+                "POJ2: " + new PublicObjectiveCard(2, "x", "x", 1).calculateScore(patternCard));
+        // Expected score: 2
         System.out.println(
-                "POJ3: " + new PublicObjectiveCard(3, "x", "x", 3).calculateScore(patternCard));
+                "POJ3: " + new PublicObjectiveCard(3, "x", "x", 1).calculateScore(patternCard));
+        // Expected score: 1
         System.out.println(
-                "POJ4: " + new PublicObjectiveCard(4, "x", "x", 3).calculateScore(patternCard));
+                "POJ4: " + new PublicObjectiveCard(4, "x", "x", 1).calculateScore(patternCard));
+        // Expected score: 1
         System.out.println(
-                "POJ5: " + new PublicObjectiveCard(5, "x", "x", 3).calculateScore(patternCard));
+                "POJ5: " + new PublicObjectiveCard(5, "x", "x", 1).calculateScore(patternCard));
+        // Expected score: 1
         System.out.println(
-                "POJ7: " + new PublicObjectiveCard(7, "x", "x", 3).calculateScore(patternCard));
+                "POJ7: " + new PublicObjectiveCard(7, "x", "x", 1).calculateScore(patternCard));
     }
 }
