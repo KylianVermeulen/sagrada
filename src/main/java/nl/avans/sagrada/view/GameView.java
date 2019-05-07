@@ -195,8 +195,8 @@ public class GameView extends VBox implements ViewInterface {
         HBox thirdViewCenterBox = new HBox();
         thirdViewCenterBox.getChildren().addAll(balance, playerPatternCardView);
         thirdViewCenterBox.setPrefWidth(Main.SCREEN_WIDTH / 3);
+        thirdViewCenterBox.setSpacing(SPACING_BETWEEN_CHILDS);
         thirdView.setCenter(thirdViewCenterBox);
-        
         
         
         getChildren().add(firstView);
