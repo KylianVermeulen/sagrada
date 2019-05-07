@@ -136,7 +136,7 @@ public class PatternCardField {
             }
         }
         if (patternCardField.hasDie()) {
-            return !(patternCardField.getDie().getStringColor().equals(color));
+            return !(patternCardField.getDie().getColor().equals(color));
         }
         return true;
     }
@@ -398,10 +398,10 @@ public class PatternCardField {
      */
     private void sideCheckPlaceDie(GameDie gameDie) {
         int dieEyes = gameDie.getEyes();
-        String dieStringColor = gameDie.getStringColor();
+        String dieStringColor = gameDie.getColor();
         if (checkSidesColor(dieStringColor, true) && checkSidesValue(dieEyes, true)) {
             if (hasColor()) {
-                if (gameDie.getStringColor().equals(this.color)) {
+                if (gameDie.getColor().equals(this.color)) {
                     checkTurn(gameDie);
                 }
                 return;

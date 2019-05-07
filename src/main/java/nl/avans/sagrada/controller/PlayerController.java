@@ -4,11 +4,14 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.Toolcard;
@@ -171,6 +174,7 @@ public class PlayerController {
     public void emptyPatternCard() {
         Pane pane = new Pane();
         PatternCard patternCard = new PatternCard();
+        
         PatternCardView patternCardView = new PatternCardView(this);
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();
@@ -180,6 +184,9 @@ public class PlayerController {
     }
 
     public void placeDie(GameDie die, PatternCardField patterncardField) {
+        GameDieDao gamediedao = new GameDieDao();
+        gamediedao.placeDie(die, patterncardField, player);
         patterncardField.placeDie(die);
+        
     }
 }
