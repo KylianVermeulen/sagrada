@@ -15,6 +15,7 @@ import nl.avans.sagrada.dao.AccountDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.database.ChecksumDatabase;
+import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.popups.Alert;
@@ -37,11 +38,13 @@ public class MyScene extends Scene {
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
 
+        Account account = new AccountDao().getAccountByUsername("test4");
         PlayerDao playerDao = new PlayerDao();
         Player player = playerDao.getPlayerById(6);
         Game game = new GameDao().getGameById(4);
         player.setGame(game);
         playerController.setPlayer(player);
+        accountController.setAccount(account);
         
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);

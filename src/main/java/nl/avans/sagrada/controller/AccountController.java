@@ -32,6 +32,10 @@ public class AccountController {
     public AccountController(MyScene myScene) {
         this.myScene = myScene;
     }
+    
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     public Account getAccount() {
         return account;

@@ -41,6 +41,8 @@ public class GameView extends VBox implements ViewInterface {
     private Pane chatLine;
     private Pane privateObjectiveCardView;
     
+    private final int SPACING_BETWEEN_CHILDS = 15;
+    
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
         this.playerController = playerController;
@@ -49,6 +51,7 @@ public class GameView extends VBox implements ViewInterface {
     
     private void buildOtherPlayerPatternCards() {
         otherPlayerPatternCardViews = new HBox();
+        otherPlayerPatternCardViews.setSpacing(SPACING_BETWEEN_CHILDS);
         ArrayList<Player> players = game.getPlayers();
         
         
@@ -142,6 +145,8 @@ public class GameView extends VBox implements ViewInterface {
         exitButton.setOnAction(e -> playerController.exit());
         
         actionButtons.getChildren().addAll(passButton, exitButton);
+        actionButtons.setAlignment(Pos.BOTTOM_CENTER);
+        actionButtons.setSpacing(SPACING_BETWEEN_CHILDS);
     }
     
 
@@ -168,6 +173,7 @@ public class GameView extends VBox implements ViewInterface {
         HBox secondView = new HBox();
         secondView.setAlignment(Pos.CENTER);
         secondView.setPadding(new Insets(0,0,20,0));
+        secondView.setSpacing(SPACING_BETWEEN_CHILDS);
         BorderPane thirdView = new BorderPane();
         thirdView.setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT / 3);
         
