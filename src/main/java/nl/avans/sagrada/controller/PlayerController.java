@@ -1,25 +1,56 @@
 package nl.avans.sagrada.controller;
 
+import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.*;
 
 public class PlayerController {
-    private Player player;
     private MyScene myScene;
+    private Player player;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
     }
 
+    public void actionJoinGame(Account account, Game game) {
+        player = new PlayerDao().getPlayerByAccountAndGame(account, game);
+        player.setGame(game);
+        if (player.getPatternCard() == null) {
+            viewOptionalPatternCards();
+        }
+    }
+
+    public void viewOptionalPatternCards() {
+        Pane pane = new Pane();
+        ArrayList<PatternCard> patternCards =
+                new PatternCardDao().getOptionalPatternCardsOfPlayer(player);
+        PatternCardSelectionView patternCardSelectionView = new PatternCardSelectionView(this);
+        patternCardSelectionView.setOptionalPatternCards(patternCards);
+        patternCardSelectionView.render();
+        pane.getChildren().add(patternCardSelectionView);
+        myScene.setContentPane(pane);
+    }
+
+    public void actionSelectPatternCard(PatternCard patternCard) {
+        PlayerDao playerDao = new PlayerDao();
+        player.setPatternCard(patternCard);
+        playerDao.updateSelectedPatternCard(player, patternCard);
+        player.generateFavorTokens();
+        viewPatternCardOfPlayer(player);
+    }
+
     /**
      * Example code
      *
-     * @param game the game to view the three Toolcard's of.
+     * @param game the game to view the three Toolcards of.
      */
     public void viewToolcards(Game game) {
         ToolcardDao toolcardDao = new ToolcardDao();
@@ -117,6 +148,19 @@ public class PlayerController {
 
     /**
      * Example code
+     */
+    public void viewPrivateObjectiveCard() {
+        Pane pane = new Pane();
+        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView();
+        privateObjectiveCardView.setPlayer(this.player);
+        privateObjectiveCardView.render();
+
+        pane.getChildren().add(privateObjectiveCardView);
+        myScene.setContentPane(pane);
+    }
+
+    /**
+     * Example code
      *
      * @param player the player to view the PatternCard of.
      */
@@ -139,5 +183,43 @@ public class PlayerController {
         dieView.setGameDie(gameDie);
         dieView.render();
         myScene.setContentPane(dieView);
+    }
+
+    /**
+     * Method that adds a message to the view and database
+     *
+     * @param text String
+     */
+    public void actionSendMessage(String text) {
+        ChatlineDao chatlineDao = new ChatlineDao();
+        Chatline chatline = new Chatline(player, text);
+        chatlineDao.getTime(chatline);
+
+        if (!text.matches("")) {
+            if (chatlineDao.timeExistsOfPlayer(chatline) == false) {
+                chatlineDao.addChatline(chatline);
+                ChatLineView chatview = new ChatLineView(this);
+                chatview.addExistingMessages(player.getChatlines());
+                chatview.addMessage(chatline);
+                player.addChatline(chatline);
+                myScene.setContentPane(chatview);
+            } else {
+                Alert alert = new Alert("Waarschuwing",
+                        "Je mag maar 1 keer per seconde een bericht versturen!", AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
+        } else {
+            Alert alert =
+                    new Alert("Waarschuwing", "Je bericht moet tekst bevatten", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+        }
+    }
+
+    /**
+     * Method to view the chat
+     */
+    public void viewChat() {
+        ChatLineView chatlineview = new ChatLineView(this);
+        myScene.setContentPane(chatlineview);
     }
 }

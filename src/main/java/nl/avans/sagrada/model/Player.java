@@ -3,6 +3,7 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PlayerDao;
 
 public class Player {
     public static final String STATUS_ABORT = "aborted";
@@ -16,10 +17,12 @@ public class Player {
     private PatternCard patternCard;
     private ArrayList<PatternCard> optionalPatternCards;
     private ArrayList<FavorToken> favorTokens;
+    private ArrayList<Chatline> chatlines;
     private int score;
     private boolean cheatmode = false;
 
     public Player() {
+        chatlines = new ArrayList<>();
     }
 
     /**
@@ -183,17 +186,33 @@ public class Player {
     }
 
     /**
-     * @return The optional pattern cards of this player.
+     * @return The optional pattern cards of this player from the database.
      */
     public ArrayList<PatternCard> getOptionalPatternCards() {
+        PatternCardDao patternCardDao = new PatternCardDao();
+        this.optionalPatternCards = patternCardDao.getOptionalPatternCardsOfPlayer(this);
         return optionalPatternCards;
     }
 
     /**
-     * @param optionalPatterncards The optional pattern cards of this player.
+     * @param optionalPatterncards The optional pattern cards of this player to the database.
      */
     public void setOptionalPatternCards(ArrayList<PatternCard> optionalPatterncards) {
         this.optionalPatternCards = optionalPatterncards;
+        PatternCardDao patternCardDao = new PatternCardDao();
+        patternCardDao.saveOptionalPatternCardsOfPlayer(optionalPatterncards, this);
+    }
+
+    public void generateFavorTokens() {
+        ArrayList<FavorToken> favorTokens = new ArrayList<>();
+        for (int i = 0; i < patternCard.getDifficulty(); i++) {
+            FavorTokenDao favorTokenDao = new FavorTokenDao();
+            int favorTokenId = favorTokenDao.getNextFavorTokenId();
+            FavorToken favorToken = new FavorToken(favorTokenId, this);
+            favorTokenDao.addFavorToken(favorToken);
+            favorTokens.add(favorToken);
+        }
+        this.favorTokens = favorTokens;
     }
 
     /**
@@ -224,5 +243,59 @@ public class Player {
      */
     public void setCheatmode(boolean cheatmode) {
         this.cheatmode = cheatmode;
+    }
+
+    /**
+     * addChatline to player
+     * 
+     * @param chatline
+     */
+    public void addChatline(Chatline chatline) {
+        chatlines.add(chatline);
+    }
+
+    /**
+     * get chatlines from player
+     * 
+     * @return
+     */
+    public ArrayList<Chatline> getChatlines() {
+        return chatlines;
+    }
+
+    /**
+     * set chatlines for player
+     * 
+     * @param chatlines
+     */
+    public void setChatlines(ArrayList<Chatline> chatlines) {
+        this.chatlines = chatlines;
+    }
+
+    /**
+     * returns the immage's of the private-objectivecard.
+     */
+    public String getImagePath() {
+        String imagePath;
+        switch (privateObjectivecardColor) {
+            case "blauw":
+                imagePath = "/images/privateObjectiveCardColors/blue.png";
+                break;
+            case "groen":
+                imagePath = "/images/privateObjectiveCardColors/green.png";
+                break;
+            case "paars":
+                imagePath = "/images/privateObjectiveCardColors/purple.png";
+                break;
+            case "rood":
+                imagePath = "/images/privateObjectiveCardColors/red.png";
+                break;
+            case "geel":
+                imagePath = "/images/privateObjectiveCardColors/yellow.png";
+                break;
+            default:
+                imagePath = "er is iets mis gegaan";
+        }
+        return imagePath;
     }
 }

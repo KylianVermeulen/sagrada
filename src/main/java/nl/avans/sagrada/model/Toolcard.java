@@ -6,8 +6,8 @@ public class Toolcard {
     private int id;
     private int seqnr;
     private String description;
-    private String imageUrl;
-    private String title;
+    private String imagePath;
+    private String name;
     private ArrayList<FavorToken> favorTokens;
 
     /**
@@ -23,10 +23,11 @@ public class Toolcard {
      * @param seqnr int
      * @param description String
      */
-    public Toolcard(int id, int seqnr, String description) {
+    public Toolcard(int id, String name, int seqnr, String description) {
         this.id = id;
         this.seqnr = seqnr;
         this.description = description;
+        this.name = name;
     }
 
     public void useToolcard() {
@@ -105,87 +106,44 @@ public class Toolcard {
     }
 
     /**
-     * Returns the image URL for the toolcard.
+     * Returns the image path for the toolcard.
      *
-     * @return an image URL for this toolcard (String)
+     * @return an image path for this toolcard (String)
      */
-    public String getImageUrl() {
+    public String getImagePath() {
         int[] ids = new int[12];
         for (int index = 0; index < ids.length; index++) {
             if (getId() == (index + 1)) {
-                setImageUrl("/images/toolcardImages/toolcard" + (index + 1) + ".png");
+                setImagePath("/images/toolcardImages/toolcard" + (index + 1) + ".png");
             }
         }
-        return imageUrl;
+        return imagePath;
     }
 
     /**
-     * Sets the image URL for the toolcard.
+     * Sets the image path for the toolcard.
      *
-     * @param imageUrl String
+     * @param imagePath String
      */
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     /**
-     * Returns the title of the toolcard.
+     * Returns the name of the toolcard.
      *
-     * @return the title for this toolcard
+     * @return the name for this toolcard
      */
-    public String getTitle() {
-        int id = getId();
-        String title;
-        switch (id) {
-            case 1:
-                title = "Driepuntstang";
-                break;
-            case 2:
-                title = "glomis Borstel";
-                break;
-            case 3:
-                title = "Folie-aandrukker";
-                break;
-            case 4:
-                title = "Loodopenhaler";
-                break;
-            case 5:
-                title = "Rondsnijder";
-                break;
-            case 6:
-                title = "Fluxborstel";
-                break;
-            case 7:
-                title = "Loodhamer";
-                break;
-            case 8:
-                title = "Glasbreektang";
-                break;
-            case 9:
-                title = "Snijliniaal";
-                break;
-            case 10:
-                title = "Schuurblok";
-                break;
-            case 11:
-                title = "Fluxverwijderaar";
-                break;
-            case 12:
-                title = "Olieglassnijder";
-                break;
-            default:
-                title = "Er is iets misgegaan";
-                break;
-        }
-        return title;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the title for the toolcard.
+     * Sets the name for the toolcard.
      *
-     * @param title String
+     * @param name String
      */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 }

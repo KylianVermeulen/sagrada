@@ -11,6 +11,10 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.database.ChecksumDatabase;
+import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.popups.Alert;
 
 public class MyScene extends Scene {
@@ -19,6 +23,7 @@ public class MyScene extends Scene {
     private ArrayList<Pane> alerts;
     private AccountController accountController;
     private PlayerController playerController;
+    private ChecksumDatabase checksumDatabase;
 
     /**
      * Full Constructor
@@ -27,6 +32,7 @@ public class MyScene extends Scene {
         super(new Pane());
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
+        checksumDatabase = new ChecksumDatabase(accountController);
 
         rootPane = new StackPane();
         contentPane = new Pane();
@@ -35,6 +41,14 @@ public class MyScene extends Scene {
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
         accountController.viewLogin();
+    }
+
+    public AccountController getAccountController() {
+        return accountController;
+    }
+
+    public PlayerController getPlayerController() {
+        return playerController;
     }
 
     /**
@@ -49,7 +63,7 @@ public class MyScene extends Scene {
 
     /**
      * Add alert pane to alerts list and call method render all alerts
-     *
+     * 
      * @param pane Pane
      */
     public void addAlertPane(Pane pane) {
@@ -80,7 +94,7 @@ public class MyScene extends Scene {
 
     /**
      * Remove alert pane animation
-     *
+     * 
      * @param pane Pane
      */
     public void removeAlertPaneAnimation(Pane pane) {
@@ -92,7 +106,7 @@ public class MyScene extends Scene {
 
     /**
      * Remove alert from alerts list and call method render all alerts
-     *
+     * 
      * @param pane Pane
      */
     public void removeAlertPane(Pane pane) {
