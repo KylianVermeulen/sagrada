@@ -42,32 +42,39 @@ public class PlayerController {
      * @param game Game
      * @param toolcard Toolcard
      */
-    public void actionPayForToolcard(Game game, Toolcard toolcard) {
+    public void actionPayForToolcard(Toolcard toolcard) {
         FavorTokenDao favorTokenDao = new FavorTokenDao();
         ToolcardDao toolcardDao = new ToolcardDao();
-        toolcardDao.toolcardHasPayment(toolcard, game);
+        toolcardDao.toolcardHasPayment(toolcard, player.getGame());
 
         if (player.getFavorTokens().size() > 0) {
             if (!toolcard.hasBeenPaidForBefore()) {
                 ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
-                favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard, game);
+                favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard,
+                        player.getGame());
                 newFavorTokens.remove(0);
                 player.setFavorTokens(newFavorTokens);
                 toolcard.setHasBeenPaidForBefore(true);
             } else {
                 if (player.getFavorTokens().size() > 1) {
                     ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
-                    favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard, game);
+                    favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard,
+                            player.getGame());
                     newFavorTokens.remove(0);
-                    favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard, game);
+                    favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard,
+                            player.getGame());
                     newFavorTokens.remove(0);
                     player.setFavorTokens(newFavorTokens);
                 } else {
-                    // Handle payment rejection via alert #visuals
+                    Alert alert = new Alert("Te weinig betaalstenen",
+                            "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
+                    myScene.addAlertPane(alert);
                 }
             }
         } else {
-            // Handle payment rejection via alert #visuals
+            Alert alert = new Alert("Te weinig betaalstenen",
+                    "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
+            myScene.addAlertPane(alert);
         }
     }
 
