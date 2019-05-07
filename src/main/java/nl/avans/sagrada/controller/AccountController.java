@@ -272,9 +272,13 @@ public class AccountController {
      */
     public void actionAcceptInvite(Invite invite) {
         InviteDao inviteDao = new InviteDao();
+        
         invite.acceptInvite();
         inviteDao.updateInvite(invite);
-        viewLobby();
+        Player player = invite.getPlayer();
+        player.setGame(invite.getGame());
+        myScene.getPlayerController().setPlayer(player);
+        myScene.getPlayerController().viewOptionalPatternCards();
     }
 
     /**
