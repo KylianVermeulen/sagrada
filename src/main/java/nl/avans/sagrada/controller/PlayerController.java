@@ -168,16 +168,15 @@ public class PlayerController {
         DieView dieView = new DieView();
         dieView.setGameDie(gameDie);
         dieView.render();
-
         myScene.setContentPane(dieView);
     }
 
     /**
      * Method that adds a message to the view and database
      *
-     * @param textfield TextField
+     * @param text String
      */
-    public void sendMessage(String text) {
+    public void actionSendMessage(String text) {
         ChatlineDao chatlineDao = new ChatlineDao();
         Chatline chatline = new Chatline(player, text);
         chatlineDao.getTime(chatline);

@@ -22,7 +22,7 @@ public class Player {
     private boolean cheatmode = false;
 
     public Player() {
-    	chatlines = new ArrayList<>();
+        chatlines = new ArrayList<>();
     }
 
     /**
@@ -244,30 +244,33 @@ public class Player {
     public void setCheatmode(boolean cheatmode) {
         this.cheatmode = cheatmode;
     }
-    
+
     /**
      * addChatline to player
+     * 
      * @param chatline
      */
     public void addChatline(Chatline chatline) {
-    	chatlines.add(chatline);
+        chatlines.add(chatline);
     }
 
     /**
      * get chatlines from player
+     * 
      * @return
      */
-	public ArrayList<Chatline> getChatlines() {
-		return chatlines;
-	}
+    public ArrayList<Chatline> getChatlines() {
+        return chatlines;
+    }
 
-	/**
-	 * set chatlines for player
-	 * @param chatlines
-	 */
+    /**
+     * set chatlines for player
+     * 
+     * @param chatlines
+     */
     public void setChatlines(ArrayList<Chatline> chatlines) {
-		    this.chatlines = chatlines;
-	   }
+        this.chatlines = chatlines;
+    }
 
     /**
      * returns the immage's of the private-objectivecard.
