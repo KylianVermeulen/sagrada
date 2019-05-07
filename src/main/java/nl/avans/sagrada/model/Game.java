@@ -280,44 +280,36 @@ public class Game {
      */
     public void assignRandomToolcards() {
         ToolcardDao toolcardDao = new ToolcardDao();
-        int counter = 0;
-        int[] randomToolCardIds = new int[3];
-        double[] randomNumbers = new double[3];
 
-        while (counter < 3) {
-            randomNumbers[counter] = (Math.random() * 11) + 1;
-            randomToolCardIds[counter] = (int) Math.round(randomNumbers[counter]);
-            if ((counter - 1) >= 0) {
-                if (randomToolCardIds[counter] == randomToolCardIds[counter - 1]) {
-                    randomToolCardIds[counter]++;
-                    if ((counter - 2) >= 0) {
-                        if (randomToolCardIds[counter] == randomToolCardIds[counter - 2]) {
-                            randomToolCardIds[counter]++;
-                            if (randomToolCardIds[counter] > 12) {
-                                randomToolCardIds[counter] = (randomToolCardIds[counter - 2] - 2);
-                            }
-                        }
-                    }
-                }
-            } else if (randomToolCardIds[counter] > 12) {
-                randomToolCardIds[counter] = (randomToolCardIds[counter - 1] - 2);
-                if ((counter - 2) >= 0) {
-                    if (randomToolCardIds[counter] == randomToolCardIds[counter - 2]) {
-                        randomToolCardIds[counter]--;
-                    }
-                }
+        Random random = new Random();
+
+        int min = 1;
+        int max = 12;
+
+        int randomNumber1 = random.nextInt((max - min) + 1) + min;
+        int randomNumber2 = random.nextInt((max - min) + 1) + min;
+        int randomNumber3 = random.nextInt((max - min) + 1) + min;
+
+        boolean foundThreeValues = false;
+
+        while (!foundThreeValues) {
+            randomNumber1 = random.nextInt((max - min) + 1) + min;
+            randomNumber2 = random.nextInt((max - min) + 1) + min;
+            randomNumber3 = random.nextInt((max - min) + 1) + min;
+            if (randomNumber1 != randomNumber2 && randomNumber1 != randomNumber3
+                    && randomNumber2 != randomNumber3) {
+                foundThreeValues = true;
             }
-            toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomToolCardIds[counter]),
-                    this);
-            counter++;
         }
+        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber1), this);
+        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber2), this);
+        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber3), this);
     }
 
-    /**\
-     * assign three random public objectivecards to a game.
-     * first the method makes three random numbers between 1 and 10. 
-     * while some numbers are the same than make new number until all numbers are different.
-     * Then add the public objectivecards to the game.
+    /**
+     * \ assign three random public objectivecards to a game. first the method makes three random
+     * numbers between 1 and 10. while some numbers are the same than make new number until all
+     * numbers are different. Then add the public objectivecards to the game.
      */
     public void assignRandomPublicObjectiveCards() {
         PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();

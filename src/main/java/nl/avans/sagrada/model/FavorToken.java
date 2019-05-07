@@ -17,6 +17,9 @@ public class FavorToken {
         this.player = player;
         this.game = player.getGame();
     }
+    
+    public FavorToken() {
+    }
 
     /**
      * The id is a unique identifier for each favor token in the database.

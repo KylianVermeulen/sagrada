@@ -2,8 +2,10 @@ package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
@@ -20,6 +22,60 @@ public class PlayerController {
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
+    }
+
+    /**
+     * Handles the logic behind a toolcard payment. The method first checks if a player has already
+     * paid for a toolcard before or not, and if the player has sufficient funds.
+     * <p>
+     * If the toolcard has not received payment before, the player will hand over one favortoken as
+     * payment for the toolcard. This toolcard's status will then be set to "has already been paid
+     * for before". </br>
+     * If the toolcard has received payment before, then the player will hand over two favortokens
+     * as payment for the toolcard.
+     * </p>
+     * <p>
+     * If the player has insufficient funds, a message will appear on screen informing the player
+     * about their lack of funds, and the player will not be able to use this toolcard.
+     * </p>
+     * 
+     * @param game Game
+     * @param toolcard Toolcard
+     */
+    public void actionPayForToolcard(Toolcard toolcard) {
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        ToolcardDao toolcardDao = new ToolcardDao();
+        toolcardDao.toolcardHasPayment(toolcard, player.getGame());
+
+        if (player.getFavorTokens().size() > 0) {
+            if (!toolcard.hasBeenPaidForBefore()) {
+                ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+                favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard,
+                        player.getGame());
+                newFavorTokens.remove(0);
+                player.setFavorTokens(newFavorTokens);
+                toolcard.setHasBeenPaidForBefore(true);
+            } else {
+                if (player.getFavorTokens().size() > 1) {
+                    ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+                    favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard,
+                            player.getGame());
+                    newFavorTokens.remove(0);
+                    favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard,
+                            player.getGame());
+                    newFavorTokens.remove(0);
+                    player.setFavorTokens(newFavorTokens);
+                } else {
+                    Alert alert = new Alert("Te weinig betaalstenen",
+                            "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
+                    myScene.addAlertPane(alert);
+                }
+            }
+        } else {
+            Alert alert = new Alert("Te weinig betaalstenen",
+                    "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+        }
     }
 
     public void actionJoinGame(Account account, Game game) {
