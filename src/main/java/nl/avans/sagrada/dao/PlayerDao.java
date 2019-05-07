@@ -29,9 +29,10 @@ public class PlayerDao {
                             new QueryParameter(QueryParameter.STRING, account.getUsername())));
             while (rs.next()) {
                 Player player = new Player();
+                Game game = new GameDao().getGameById(rs.getInt("game_idgame"));
                 player.setId(rs.getInt("idplayer"));
                 player.setAccount(account);
-                player.setGame(new GameDao().getGameById(rs.getInt("game_idgame")));
+                player.setGame(game);
                 player.setPlayerStatus(rs.getString("playstatus_playstatus"));
                 player.setSeqnr(rs.getInt("seqnr"));
                 player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
@@ -145,7 +146,6 @@ public class PlayerDao {
      * @param patternCard The patterncard.
      */
     public void updateSelectedPatternCard(Player player, PatternCard patternCard) {
-        System.out.println(patternCard.getId());
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("UPDATE player SET patterncard_idpatterncard=? WHERE idplayer=?",

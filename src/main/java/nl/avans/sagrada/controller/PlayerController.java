@@ -23,6 +23,24 @@ public class PlayerController {
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
     }
+    
+    /**
+     * Sets the player for the controller
+     * @param player
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    
+
+    public void viewGame() {
+        Game game = player.getGame();
+        Pane pane = new Pane();
+        GameView gameView = new GameView(this, game, player);
+        gameView.render();
+        pane.getChildren().add(gameView);
+        myScene.setContentPane(pane);
+    }
 
     /**
      * Handles the logic behind a toolcard payment. The method first checks if a player has already
@@ -84,6 +102,17 @@ public class PlayerController {
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
         }
+        else {
+            if (!game.everyoneSelectedPatternCard()) {
+                // We don't allow anyone to the game view until everyone has a patterncard
+                Alert alert = new Alert("Nog even wachten", "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
+                myScene.addAlertPane(alert);
+            }
+            else {
+                viewGame(); 
+            }
+            
+        }
     }
 
     public void viewOptionalPatternCards() {
@@ -102,7 +131,16 @@ public class PlayerController {
         player.setPatternCard(patternCard);
         playerDao.updateSelectedPatternCard(player, patternCard);
         player.generateFavorTokens();
-        viewPatternCardOfPlayer(player);
+        Game game = player.getGame();
+        if (!game.everyoneSelectedPatternCard()) {
+            // We don't allow anyone to the game view until everyone has a patterncard
+            Alert alert = new Alert("Nog even wachten", "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
+            myScene.addAlertPane(alert);
+            myScene.getAccountController().viewLobby();
+        }
+        else {
+            viewGame(); 
+        }
     }
 
     /**
@@ -114,7 +152,7 @@ public class PlayerController {
         ToolcardDao toolcardDao = new ToolcardDao();
         BorderPane pane = new BorderPane();
         ToolCardView[] toolcardViews = new ToolCardView[3];
-        Toolcard[] toolcards = toolcardDao.getToolcardsOfGame(game).toArray(new Toolcard[3]);
+        ToolCard[] toolcards = toolcardDao.getToolcardsOfGame(game).toArray(new ToolCard[3]);
         for (int index = 0; index < toolcardViews.length; index++) {
             toolcardViews[index] = new ToolCardView(this);
             toolcardViews[index].setToolCard(toolcards[index]);
@@ -209,8 +247,7 @@ public class PlayerController {
      */
     public void viewPrivateObjectiveCard() {
         Pane pane = new Pane();
-        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView();
-        privateObjectiveCardView.setPlayer(this.player);
+        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView(player);
         privateObjectiveCardView.render();
 
         pane.getChildren().add(privateObjectiveCardView);
@@ -242,25 +279,37 @@ public class PlayerController {
         dieView.render();
         myScene.setContentPane(dieView);
     }
+    
+    /**
+     * Player is passing for a round
+     */
+    public void actionPass() {
+        
+    }
 
+    /**
+     * Players wants to go back to the lobby
+     */
+    public void exit() {
+        myScene.getAccountController().viewLobby();
+    }
     /**
      * Method that adds a message to the view and database
      *
      * @param text String
      */
-    public void actionSendMessage(String text) {
+    public void actionSendMessage(String text, ChatLineView chatlineView) {
         ChatlineDao chatlineDao = new ChatlineDao();
         Chatline chatline = new Chatline(player, text);
+        Game game = player.getGame();
         chatlineDao.getTime(chatline);
 
         if (!text.matches("")) {
             if (chatlineDao.timeExistsOfPlayer(chatline) == false) {
                 chatlineDao.addChatline(chatline);
-                ChatLineView chatview = new ChatLineView(this);
-                chatview.addExistingMessages(player.getChatlines());
-                chatview.addMessage(chatline);
-                player.addChatline(chatline);
-                myScene.setContentPane(chatview);
+                ArrayList<Chatline> chatlines = chatlineDao.getChatlinesOfGame(game);
+                chatlineView.setChatLines(chatlines);
+                chatlineView.render();
             } else {
                 Alert alert = new Alert("Waarschuwing",
                         "Je mag maar 1 keer per seconde een bericht versturen!", AlertType.ERROR);
@@ -271,13 +320,5 @@ public class PlayerController {
                     new Alert("Waarschuwing", "Je bericht moet tekst bevatten", AlertType.ERROR);
             myScene.addAlertPane(alert);
         }
-    }
-
-    /**
-     * Method to view the chat
-     */
-    public void viewChat() {
-        ChatLineView chatlineview = new ChatLineView(this);
-        myScene.setContentPane(chatlineview);
     }
 }

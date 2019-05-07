@@ -2,6 +2,7 @@ package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
 import java.util.Random;
+import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
@@ -20,11 +21,15 @@ public class Game {
     private FavorToken[] favorTokens;
     private GameDie[] gameDie;
     private PublicObjectiveCard[] publicObjectiveCards;
+    private ArrayList<ToolCard> toolCards;
 
     public Game(int id) {
         this.id = id;
         GameDao gameDao = new GameDao();
+        ToolcardDao toolcardDao = new ToolcardDao();
+        
         players = gameDao.getPlayersOfGame(this);
+        toolCards = toolcardDao.getToolcardsOfGame(this);
     }
 
     public Game() {
@@ -145,6 +150,8 @@ public class Game {
      * @return PublicObjectiveCard[]
      */
     public PublicObjectiveCard[] getPublicObjectiveCards() {
+        PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
+        publicObjectiveCards = publicObjectiveCardDao.getAllPublicObjectiveCardsOfGame(this).toArray(new PublicObjectiveCard[3]);
         return publicObjectiveCards;
     }
 
@@ -191,6 +198,16 @@ public class Game {
             return privateColor;
         }
         return "";
+    }
+    
+    /**
+     * Get all the chatlines of a game trough the chatline dao
+     * And returns them
+     * @return ArrayList<Chatline>
+     */
+    public ArrayList<Chatline> getChatlines() {
+        ArrayList<Chatline> chatlines = new ChatlineDao().getChatlinesOfGame(this);
+        return chatlines;
     }
 
     /**
@@ -254,7 +271,23 @@ public class Game {
             playerDao.updatePlayer(player);
         }
     }
-
+    
+    /**
+     * Set the toolcards of the current game
+     * @param toolCards
+     */
+    public void setToolCards(ArrayList<ToolCard> toolCards) {
+        this.toolCards = toolCards;
+    }
+    
+    /**
+     * Returns the toolcards of the current game
+     * @return ArrayList<ToolCard>
+     */
+    public ArrayList<ToolCard> getToolCards() {
+        return toolCards;
+    }
+    
     /**
      * Assigns three random toolcards to the current game (given as parameter).
      * <p>
@@ -306,7 +339,11 @@ public class Game {
         toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber3), this);
     }
 
-    /**
+    /**\
+     * assign three random public objectivecards to a game.
+     * first the method makes three random numbers between 1 and 10. 
+     * while some numbers are the same than make new number until all numbers are different.
+     * Then add the public objectivecards to the game.
      * \ assign three random public objectivecards to a game. first the method makes three random
      * numbers between 1 and 10. while some numbers are the same than make new number until all
      * numbers are different. Then add the public objectivecards to the game.
@@ -340,5 +377,20 @@ public class Game {
                 publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber2), this);
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
                 publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber3), this);
+    }
+
+    /**
+     * Checks if every player has selected a patterncard
+     * If one player has not selected a patterncard we return false
+     * @return boolean
+     */
+    public boolean everyoneSelectedPatternCard() {
+        ArrayList<Player> players = getPlayers();
+        for (Player player : players) {
+            if (player.getPatternCard() == null) {
+                return false;
+            }
+        }
+        return true;
     }
 }
