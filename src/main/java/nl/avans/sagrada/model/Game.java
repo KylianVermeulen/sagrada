@@ -145,6 +145,8 @@ public class Game {
      * @return PublicObjectiveCard[]
      */
     public PublicObjectiveCard[] getPublicObjectiveCards() {
+        PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
+        this.publicObjectiveCards = publicObjectiveCardDao.getAllPublicObjectiveCardsOfGame(this).toArray(new PublicObjectiveCard[3]);
         return publicObjectiveCards;
     }
 
@@ -275,8 +277,6 @@ public class Game {
      * above takes place, except now another increase in id happens. </br>
      * If, again, this value is higher than 12, the value gets a decrease of two.
      * </p>
-     * 
-     * @param game Game
      */
     public void assignRandomToolcards() {
         ToolcardDao toolcardDao = new ToolcardDao();
