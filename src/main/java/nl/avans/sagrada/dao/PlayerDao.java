@@ -146,7 +146,6 @@ public class PlayerDao {
      * @param patternCard The patterncard.
      */
     public void updateSelectedPatternCard(Player player, PatternCard patternCard) {
-        System.out.println(patternCard.getId());
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("UPDATE player SET patterncard_idpatterncard=? WHERE idplayer=?",
