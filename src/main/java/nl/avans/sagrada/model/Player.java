@@ -17,10 +17,13 @@ public class Player {
     private PatternCard patternCard;
     private ArrayList<PatternCard> optionalPatternCards;
     private ArrayList<FavorToken> favorTokens;
+    private ArrayList<Chatline> chatlines;
     private int score;
     private boolean cheatmode = false;
 
-    public Player() {}
+    public Player() {
+        chatlines = new ArrayList<>();
+    }
 
     /**
      * The id is a unique identifier for each player in the database.
@@ -243,31 +246,56 @@ public class Player {
     }
 
     /**
+     * addChatline to player
+     * 
+     * @param chatline
+     */
+    public void addChatline(Chatline chatline) {
+        chatlines.add(chatline);
+    }
+
+    /**
+     * get chatlines from player
+     * 
+     * @return
+     */
+    public ArrayList<Chatline> getChatlines() {
+        return chatlines;
+    }
+
+    /**
+     * set chatlines for player
+     * 
+     * @param chatlines
+     */
+    public void setChatlines(ArrayList<Chatline> chatlines) {
+        this.chatlines = chatlines;
+    }
+
+    /**
      * returns the immage's of the private-objectivecard.
      */
-    public String getImageUrl() {
-        PlayerDao playerDao = new PlayerDao();
-        String color = playerDao.getPlayerById(1).privateObjectivecardColor;
-        String url;
-        switch (color) {
+    public String getImagePath() {
+        String imagePath;
+        switch (privateObjectivecardColor) {
             case "blauw":
-                url = "/images/privateObjectiveCardColors/blue.png";
+                imagePath = "/images/privateObjectiveCardColors/blue.png";
                 break;
             case "groen":
-                url = "/images/privateObjectiveCardColors/green.png";
+                imagePath = "/images/privateObjectiveCardColors/green.png";
                 break;
             case "paars":
-                url = "/images/privateObjectiveCardColors/purple.png";
+                imagePath = "/images/privateObjectiveCardColors/purple.png";
                 break;
             case "rood":
-                url = "/images/privateObjectiveCardColors/red.png";
+                imagePath = "/images/privateObjectiveCardColors/red.png";
                 break;
             case "geel":
-                url = "/images/privateObjectiveCardColors/yellow.png";
+                imagePath = "/images/privateObjectiveCardColors/yellow.png";
                 break;
             default:
-                url = "er is iets mis gegaan";
+                imagePath = "er is iets mis gegaan";
         }
-        return url;
+        return imagePath;
     }
 }

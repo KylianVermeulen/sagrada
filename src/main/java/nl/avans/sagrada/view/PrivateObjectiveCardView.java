@@ -4,17 +4,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Player;
 
 public class PrivateObjectiveCardView extends CardView {
-    private PlayerController playerController;
     private Player player;
 
     /**
@@ -22,12 +25,12 @@ public class PrivateObjectiveCardView extends CardView {
      *
      * @param playerController PlayerController.
      */
-    public PrivateObjectiveCardView(PlayerController playerController) {
+    public PrivateObjectiveCardView() {
         super();
-        this.playerController = playerController;
-        player = new Player();
+    }
 
-        render();
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     /**
@@ -36,7 +39,7 @@ public class PrivateObjectiveCardView extends CardView {
     @Override
     public void render() {
         getChildren().clear();
-        showImage(player.getImageUrl());
+        showImage(player.getImagePath());
         showText();
     }
 
@@ -45,15 +48,17 @@ public class PrivateObjectiveCardView extends CardView {
      */
     public void showText() {
         Text scorePoints = new Text("#");
-        Text description = new Text("TINTEN " + playerController.getPlayerColor(player)
-                + " - Persoonlijk \n Som van waardes op " + playerController.getPlayerColor(player)
+        Text description = new Text("TINTEN " + player.getPrivateObjectivecardColor()
+                + " - Persoonlijk \n Som van waardes op " + player.getPrivateObjectivecardColor()
                 + "\n dobbelstenen");
-        scorePoints.setFont(new Font("Segoe Script", 8));
+        scorePoints.setFont(new Font("Segoe Script", 15));
         description.setFont(new Font("Segoe Script", 6));
         scorePoints.setTextAlignment(TextAlignment.CENTER);
         description.setTextAlignment(TextAlignment.CENTER);
         description.setWrappingWidth(CARD_WIDTH / 1.2);
         BorderPane textPane = new BorderPane();
+        textPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+                CornerRadii.EMPTY, new BorderWidths(2.5))));
         StackPane scorePane = new StackPane();
         scorePane.getChildren().add(scorePoints);
         StackPane descriptionPane = new StackPane();
@@ -74,9 +79,12 @@ public class PrivateObjectiveCardView extends CardView {
     /**
      * shows the immage of the private-objectivecard.
      */
-    private void showImage(String url) {
-        Image image = new Image(url);
+    private void showImage(String path) {
+        Image image = new Image(path);
         StackPane imagePane = new StackPane();
+        imagePane.setMaxSize(CARD_WIDTH, CARD_HEIGHT);
+        imagePane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+                CornerRadii.EMPTY, new BorderWidths(2.5))));
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(CARD_HEIGHT / 1.25);
         imageView.setFitWidth(CARD_WIDTH + 10);

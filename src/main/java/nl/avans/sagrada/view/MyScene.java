@@ -11,6 +11,10 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.database.ChecksumDatabase;
+import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.popups.Alert;
 
 public class MyScene extends Scene {
@@ -19,11 +23,16 @@ public class MyScene extends Scene {
     private ArrayList<Pane> alerts;
     private AccountController accountController;
     private PlayerController playerController;
+    private ChecksumDatabase checksumDatabase;
 
+    /**
+     * Full Constructor
+     */
     public MyScene() {
         super(new Pane());
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
+        checksumDatabase = new ChecksumDatabase(accountController);
 
         rootPane = new StackPane();
         contentPane = new Pane();
@@ -52,6 +61,11 @@ public class MyScene extends Scene {
         contentPane.getChildren().add(pane);
     }
 
+    /**
+     * Add alert pane to alerts list and call method render all alerts
+     * 
+     * @param pane Pane
+     */
     public void addAlertPane(Pane pane) {
         StackPane.setAlignment(pane, Pos.TOP_RIGHT);
         PauseTransition delay = new PauseTransition(Duration.seconds(3));
@@ -78,6 +92,11 @@ public class MyScene extends Scene {
         }
     }
 
+    /**
+     * Remove alert pane animation
+     * 
+     * @param pane Pane
+     */
     public void removeAlertPaneAnimation(Pane pane) {
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(350), pane);
         fadeTransition.setToValue(0.0);
@@ -85,6 +104,11 @@ public class MyScene extends Scene {
         fadeTransition.play();
     }
 
+    /**
+     * Remove alert from alerts list and call method render all alerts
+     * 
+     * @param pane Pane
+     */
     public void removeAlertPane(Pane pane) {
         alerts.remove(pane);
         rootPane.getChildren().remove(pane);
