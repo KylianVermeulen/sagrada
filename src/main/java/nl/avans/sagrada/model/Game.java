@@ -334,4 +334,14 @@ public class Game {
             counter++;
         }
     }
+
+    public boolean everyoneSelectedPatternCard() {
+        ArrayList<Player> players = getPlayers();
+        for (Player player: players) {
+            if (player.getPatternCard() == null) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

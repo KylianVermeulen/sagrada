@@ -41,18 +41,18 @@ public class MyScene extends Scene {
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
 
-        Account account = new AccountDao().getAccountByUsername("test4");
-        PlayerDao playerDao = new PlayerDao();
-        Player player = playerDao.getPlayerById(6);
-        Game game = new GameDao().getGameById(4);
-        player.setGame(game);
-        playerController.setPlayer(player);
-        accountController.setAccount(account);
+//        Account account = new AccountDao().getAccountByUsername("test4");
+//        PlayerDao playerDao = new PlayerDao();
+//        Player player = playerDao.getPlayerById(6);
+//        Game game = new GameDao().getGameById(4);
+//        player.setGame(game);
+//        playerController.setPlayer(player);
+//        accountController.setAccount(account);
         
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
-        playerController.viewGame();
-//        accountController.viewLogin();
+//        playerController.viewGame();
+        accountController.viewLogin();
     }
 
     public AccountController getAccountController() {

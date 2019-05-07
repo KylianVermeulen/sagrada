@@ -42,7 +42,14 @@ public class PlayerController {
             viewOptionalPatternCards();
         }
         else {
-            viewGame();
+            if (!game.everyoneSelectedPatternCard()) {
+                Alert alert = new Alert("Nog even wachten", "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
+                myScene.addAlertPane(alert);
+            }
+            else {
+                viewGame(); 
+            }
+            
         }
     }
 
@@ -62,7 +69,15 @@ public class PlayerController {
         player.setPatternCard(patternCard);
         playerDao.updateSelectedPatternCard(player, patternCard);
         player.generateFavorTokens();
-        viewGame();
+        Game game = player.getGame();
+        if (!game.everyoneSelectedPatternCard()) {
+            Alert alert = new Alert("Nog even wachten", "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
+            myScene.addAlertPane(alert);
+            myScene.getAccountController().viewLobby();
+        }
+        else {
+            viewGame(); 
+        }
     }
 
     /**
