@@ -95,9 +95,7 @@ public class PlayerController {
         player.setGame(game);
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
-        } else {
-            viewToolcards(game);
-        }
+        } 
     }
 
     public void viewOptionalPatternCards() {
@@ -141,9 +139,6 @@ public class PlayerController {
         pane.setLeft(toolcardViews[0]);
         pane.setCenter(toolcardViews[1]);
         pane.setRight(toolcardViews[2]);
-        Button button = new Button("Pay");
-        button.setOnAction(e -> actionPayForToolcard(game, toolcards[0]));
-        pane.setBottom(button);
         myScene.setContentPane(pane);
     }
 
