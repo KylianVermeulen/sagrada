@@ -252,25 +252,25 @@ public class PublicObjectiveCard {
         int score = 0;
 
         outerloop:
-        for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+        for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop through y-pos
             ArrayList<Integer> valueList = new ArrayList<>();
-            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
-                if (patternCard.getPatternCardField(x, y).hasDie()) {
-                    valueList.add(patternCard.getPatternCardField(x, y).getDie().getEyes());
+            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop though x-pos
+                if (patternCard.getPatternCardField(x, y).hasDie()) { // Check if there is a places die
+                    valueList.add(patternCard.getPatternCardField(x, y).getDie().getEyes()); // Add the value to valueList
                 }
             }
 
             ArrayList<Integer> varietyList = new ArrayList<>();
-            for (int i = 0; i < valueList.size(); i++) {
-                int value = valueList.get(i);
-                if (varietyList.contains(value)) {
-                    continue outerloop;
+            for (int i = 0; i < valueList.size(); i++) { // Loop through all x-pos values
+                int value = valueList.get(i); // Value for current x-pos
+                if (varietyList.contains(value)) { // Check if varietyList already contains value
+                    continue outerloop; // Continue in outerloop, next y-pos
                 }
-                varietyList.add(value);
+                varietyList.add(value); // Add value to varietyList
             }
 
-            if (varietyList.size() == 5) {
-                score += rewardScore;
+            if (varietyList.size() == 5) { // Check if there are 5 unique values in varietyList
+                score += rewardScore; // Increase score
             }
         }
 
@@ -281,25 +281,25 @@ public class PublicObjectiveCard {
         int score = 0;
 
         outerloop:
-        for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+        for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop though y-pos
             ArrayList<String> colorList = new ArrayList<>();
-            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
-                if (patternCard.getPatternCardField(x, y).hasDie()) {
-                    colorList.add(patternCard.getPatternCardField(x, y).getDie().getColor());
+            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop though x-pos
+                if (patternCard.getPatternCardField(x, y).hasDie()) { // Check if there is a placed die
+                    colorList.add(patternCard.getPatternCardField(x, y).getDie().getColor()); // Add the color to colorList
                 }
             }
 
             ArrayList<String> varietyList = new ArrayList<>();
-            for (int i = 0; i < colorList.size(); i++) {
-                String color = colorList.get(i);
-                if (varietyList.contains(color)) {
-                    continue outerloop;
+            for (int i = 0; i < colorList.size(); i++) { // Loop though all x-pos colors
+                String color = colorList.get(i); // Color for current x-pos
+                if (varietyList.contains(color)) { // Check if varietyList already contains color
+                    continue outerloop; // Continue in outerloop, next y-pos
                 }
-                varietyList.add(color);
+                varietyList.add(color); // Add color to varietyList
             }
 
-            if (varietyList.size() == 5) {
-                score += rewardScore;
+            if (varietyList.size() == 5) { // Check if there are 5 unique colors in varietyList
+                score += rewardScore; // Increase score
             }
         }
 
@@ -362,25 +362,25 @@ public class PublicObjectiveCard {
         int score = 0;
 
         outerloop:
-        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop though x-pos
             ArrayList<Integer> valueList = new ArrayList<>();
-            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
-                if (patternCard.getPatternCardField(x, y).hasDie()) {
-                    valueList.add(patternCard.getPatternCardField(x, y).getDie().getEyes());
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop though y-pos
+                if (patternCard.getPatternCardField(x, y).hasDie()) { // Check if there is a placed die
+                    valueList.add(patternCard.getPatternCardField(x, y).getDie().getEyes()); // Add the value to valueList
                 }
             }
 
             ArrayList<Integer> varietyList = new ArrayList<>();
-            for (int i = 0; i < valueList.size(); i++) {
-                int value = valueList.get(i);
-                if (varietyList.contains(value)) {
-                    continue outerloop;
+            for (int i = 0; i < valueList.size(); i++) { // Loop though all y-pos values
+                int value = valueList.get(i); // Value for current y-pos
+                if (varietyList.contains(value)) { // Check if varietyList already contains value
+                    continue outerloop; // Continue in outerloop, next x-pos
                 }
-                varietyList.add(value);
+                varietyList.add(value); // Add value to varietyList
             }
 
-            if (varietyList.size() == 4) {
-                score += rewardScore;
+            if (varietyList.size() == 4) { // Check if there are 5 unique values in varietyList
+                score += rewardScore; // Increase score
             }
         }
 
