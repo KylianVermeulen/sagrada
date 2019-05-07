@@ -35,6 +35,15 @@ public class DieView extends Pane implements ViewInterface {
         resizeImages();
     }
 
+    public DieView(GameDie gameDie) {
+        this.gameDie = gameDie;
+        images = new ArrayList<ImageView>();
+        setPrefSize(WIDTH, HEIGHT);
+        setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
+        diceEyesArray();
+        resizeImages();
+    }
+
     /**
      * Renders the visuals
      */
@@ -83,6 +92,19 @@ public class DieView extends Pane implements ViewInterface {
         for (ImageView image : images) {
             image.setFitHeight(DIE_HEIGHT);
             image.setFitWidth(DIE_WIDTH);
+        }
+    }
+
+    /**
+     * Resized the images to the given width and height
+     *
+     * @param height int
+     * @param width int
+     */
+    public void resizeImages(int height, int width) {
+        for (ImageView image : images) {
+            image.setFitHeight(height);
+            image.setFitWidth(width);
         }
     }
 

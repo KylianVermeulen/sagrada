@@ -25,6 +25,9 @@ public class MyScene extends Scene {
     private PlayerController playerController;
     private ChecksumDatabase checksumDatabase;
 
+    /**
+     * Full Constructor
+     */
     public MyScene() {
         super(new Pane());
         accountController = new AccountController(this);

@@ -9,24 +9,8 @@ import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
-import nl.avans.sagrada.model.Account;
-import nl.avans.sagrada.model.Chatline;
-import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.GameDie;
-import nl.avans.sagrada.model.PatternCard;
-import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.model.PublicObjectiveCard;
-import nl.avans.sagrada.model.Toolcard;
-import nl.avans.sagrada.view.ChatLineView;
-import nl.avans.sagrada.view.DieView;
-import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.PatternCardSelectionView;
-import nl.avans.sagrada.view.PatternCardView;
-import nl.avans.sagrada.view.PrivateObjectiveCardView;
-import nl.avans.sagrada.view.PublicObjectiveCardView;
-import nl.avans.sagrada.view.ToolCardView;
-import nl.avans.sagrada.view.popups.Alert;
-import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.model.*;
+import nl.avans.sagrada.view.*;
 
 public class PlayerController {
     private MyScene myScene;
@@ -130,6 +114,36 @@ public class PlayerController {
         pane.setCenter(publicObjectiveCardViews[1]);
         pane.setRight(publicObjectiveCardViews[2]);
         myScene.setContentPane(pane);
+    }
+
+    /**
+     * Test function for roundTrack
+     */
+    public void viewRoundTrack() {
+        GameDie gameDie1 = new GameDie(1, "geel", 1);
+        GameDie gameDie2 = new GameDie(2, "blauw", 3);
+        GameDie gameDie3 = new GameDie(3, "rood", 5);
+
+        RoundTrack roundTrack = new RoundTrack();
+        roundTrack.addGameDie(gameDie1, 1);
+        roundTrack.addGameDie(gameDie2, 1);
+        roundTrack.addGameDie(gameDie3, 1);
+
+        roundTrack.addGameDie(gameDie1, 2);
+        roundTrack.addGameDie(gameDie3, 2);
+
+        roundTrack.addGameDie(gameDie1, 3);
+        roundTrack.addGameDie(gameDie2, 3);
+
+        roundTrack.addGameDie(gameDie2, 4);
+        roundTrack.addGameDie(gameDie3, 4);
+
+        roundTrack.addGameDie(gameDie1, 5);
+        roundTrack.addGameDie(gameDie3, 5);
+
+        RoundTrackView roundTrackView = new RoundTrackView(roundTrack);
+        roundTrackView.render();
+        myScene.setContentPane(roundTrackView);
     }
 
     /**
