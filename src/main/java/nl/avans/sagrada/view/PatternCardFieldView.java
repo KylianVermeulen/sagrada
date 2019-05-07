@@ -71,8 +71,7 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      * Method when the PatternCardField is clicked
      */
     private void onClick() {
-        System.out
-                .println("x: " + patternCardField.getxPos() + " y: " + patternCardField.getyPos());
+
     }
 
     /**
