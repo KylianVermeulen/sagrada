@@ -168,4 +168,12 @@ public class PlayerController {
         dieView.render();
         myScene.setContentPane(dieView);
     }
+    
+    public void actionPass() {
+        
+    }
+
+    public void exit() {
+        myScene.getAccountController().viewLobby();
+    }
 }

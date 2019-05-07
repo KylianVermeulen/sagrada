@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -27,6 +28,7 @@ public class GameView extends VBox implements ViewInterface {
     private PlayerController playerController;
     
     private HBox otherPlayerPatternCardViews;
+    private HBox actionButtons;
     private ArrayList<ToolCardView> toolCardViews;
     private ArrayList<PublicObjectiveCardView> publicObjectiveCardViews;
     
@@ -102,7 +104,8 @@ public class GameView extends VBox implements ViewInterface {
     
     private void buildChatLine() {
         chatLine = new Pane();
-        chatLine.setPrefSize(300, 200);
+        chatLine.setPrefHeight(200);
+        chatLine.setPrefWidth(Main.SCREEN_WIDTH / 3);
         chatLine.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
     }
     
@@ -129,6 +132,18 @@ public class GameView extends VBox implements ViewInterface {
         privateObjectiveCardView.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
     }
     
+    private void buildActionButtons() {
+        actionButtons = new HBox();
+        
+        Button passButton = new Button("Pass");
+        passButton.setOnAction(e -> playerController.actionPass());
+        
+        Button exitButton = new Button("Exit");
+        exitButton.setOnAction(e -> playerController.exit());
+        
+        actionButtons.getChildren().addAll(passButton, exitButton);
+    }
+    
 
     @Override
     public void render() {
@@ -143,6 +158,7 @@ public class GameView extends VBox implements ViewInterface {
         buildBalance();
         buildPlayerPatternCard();
         buildPlayerPrivateObjectiveCard();
+        buildActionButtons();
         
         BorderPane firstView = new BorderPane();
         firstView.setPrefHeight(PatternCardView.PATTERNCARD_HEIGHT);
@@ -151,26 +167,25 @@ public class GameView extends VBox implements ViewInterface {
         
         HBox secondView = new HBox();
         secondView.setAlignment(Pos.CENTER);
+        secondView.setPadding(new Insets(0,0,20,0));
         BorderPane thirdView = new BorderPane();
+        thirdView.setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT / 3);
         
         firstView.setCenter(otherPlayerPatternCardViews);
         firstView.setRight(scoreBoard);
-        
-//        HBox combinedToolCards = new HBox();
-//        combinedToolCards.getChildren().addAll(toolCardViews);
-//        VBox combinedToolCardsAndRoundTrack = new VBox();
-//        combinedToolCardsAndRoundTrack.getChildren().addAll(combinedToolCards, roundTrack);
+       
         
         secondView.getChildren().addAll(toolCardViews);
-        secondView.getChildren().add(roundTrack);
         secondView.getChildren().addAll(publicObjectiveCardViews);
+        secondView.getChildren().add(roundTrack);
         
         thirdView.setLeft(chatLine);
         thirdView.setRight(privateObjectiveCardView);
+        thirdView.setBottom(actionButtons);
         
         HBox thirdViewCenterBox = new HBox();
         thirdViewCenterBox.getChildren().addAll(balance, playerPatternCardView);
-        
+        thirdViewCenterBox.setPrefWidth(Main.SCREEN_WIDTH / 3);
         thirdView.setCenter(thirdViewCenterBox);
         
         
