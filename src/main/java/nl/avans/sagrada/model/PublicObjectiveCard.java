@@ -136,6 +136,8 @@ public class PublicObjectiveCard {
                 return calculatePairShades(patternCard, 1, 2, points);
             case 4:
                 return calculateShadeVariety(patternCard, points);
+            case 5:
+                return calculateRowShadeVariety(patternCard, points);
             case 7:
                 return calculateColorVariety(patternCard, points);
             default:
@@ -236,6 +238,35 @@ public class PublicObjectiveCard {
                 varietyList.clear(); // Clear varietyList for next iteration
             } else {
                 break;
+            }
+        }
+
+        return score;
+    }
+
+    private int calculateRowShadeVariety(PatternCard patternCard, int rewardScore) {
+        int score = 0;
+
+        outerloop:
+        for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+            ArrayList<Integer> valueList = new ArrayList<>();
+            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
+                if (patternCard.getPatternCardField(x, y).hasDie()) {
+                    valueList.add(patternCard.getPatternCardField(x, y).getDie().getEyes());
+                }
+            }
+
+            ArrayList<Integer> varietyList = new ArrayList<>();
+            for (int i = 0; i < valueList.size(); i++) {
+                int value = valueList.get(i);
+                if (varietyList.contains(value)) {
+                    continue outerloop;
+                }
+                varietyList.add(value);
+            }
+
+            if (varietyList.size() == 5) {
+                score += rewardScore;
             }
         }
 

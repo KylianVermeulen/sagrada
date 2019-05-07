@@ -17,10 +17,10 @@ public class MainTest {
         GameDie gameDie7 = new GameDie(7, "rood", 1);
         GameDie gameDie8 = new GameDie(8, "rood", 2);
         patternCard.placeDie(1, 1, gameDie1);
-        patternCard.placeDie(1, 2, gameDie2);
-        patternCard.placeDie(1, 3, gameDie3);
-        patternCard.placeDie(1, 4, gameDie4);
-        patternCard.placeDie(2, 1, gameDie5);
+        patternCard.placeDie(2, 1, gameDie2);
+        patternCard.placeDie(3, 1, gameDie3);
+        patternCard.placeDie(4, 1, gameDie4);
+        patternCard.placeDie(5, 1, gameDie5);
         patternCard.placeDie(2, 2, gameDie6);
         patternCard.placeDie(2, 3, gameDie7);
         patternCard.placeDie(2, 4, gameDie8);
@@ -32,6 +32,8 @@ public class MainTest {
                 "POJ3: " + new PublicObjectiveCard(3, "x", "x", 3).calculateScore(patternCard));
         System.out.println(
                 "POJ4: " + new PublicObjectiveCard(4, "x", "x", 3).calculateScore(patternCard));
+        System.out.println(
+                "POJ5: " + new PublicObjectiveCard(5, "x", "x", 3).calculateScore(patternCard));
         System.out.println(
                 "POJ7: " + new PublicObjectiveCard(7, "x", "x", 3).calculateScore(patternCard));
     }
