@@ -299,6 +299,12 @@ public class Player {
         return imagePath;
     }
 
+    /**
+     * Calculate the score for this player.
+     * Gets -1 score for each empty pattern card field.
+     * Gets +1 score for each favor token.
+     * Gets rewardScore for each public objective card.
+     */
     public void calculateScore() {
         int score = 0;
         PatternCardField[][] patternCardFields = patternCard.getPatternCardFields();

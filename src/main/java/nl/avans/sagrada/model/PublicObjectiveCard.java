@@ -124,6 +124,12 @@ public class PublicObjectiveCard {
         this.imagePath = imagePath;
     }
 
+    /**
+     * Calculate score for a pattern card using this public objective card.
+     *
+     * @param patternCard The patterncard.
+     * @return The score.
+     */
     public int calculateScore(PatternCard patternCard) {
         switch (id) {
             case 1:
@@ -141,6 +147,15 @@ public class PublicObjectiveCard {
         }
     }
 
+    /**
+     * Calculate score for a patterncard by val1 and val2.
+     *
+     * @param patternCard The patterncard.
+     * @param val1 Set of values.
+     * @param val2 Set of values.
+     * @param rewardScore The score for each set.
+     * @return The score.
+     */
     private int calculatePairShades(PatternCard patternCard, int val1, int val2, int rewardScore) {
         int score = 0;
 
@@ -179,6 +194,13 @@ public class PublicObjectiveCard {
         return score;
     }
 
+    /**
+     * Calculate the score for a patterncard for each set of 6 values.
+     *
+     * @param patternCard The patterncard.
+     * @param rewardScore The score for each set.
+     * @return The score.
+     */
     private int calculateShadeVariety(PatternCard patternCard, int rewardScore) {
         int score = 0;
 
@@ -224,6 +246,13 @@ public class PublicObjectiveCard {
         return score;
     }
 
+    /**
+     * Calculate the score for a patterncard for each set of 5 colors.
+     *
+     * @param patternCard The patterncard.
+     * @param rewardScore The score for each set.
+     * @return The score.
+     */
     private int calculateColorVariety(PatternCard patternCard, int rewardScore) {
         int score = 0;
 

@@ -326,14 +326,23 @@ public class PatternCardField {
         return this.color;
     }
 
+    /**
+     * @return The game die on this pattern card field.
+     */
     public GameDie getDie() {
         return die;
     }
 
+    /**
+     * @param die Set the game die on this pattern card field.
+     */
     public void setDie(GameDie die) {
         this.die = die;
     }
 
+    /**
+     * @return True when is pattern card field has a placed game die
+     */
     public boolean hasDie() {
         return die != null;
     }
