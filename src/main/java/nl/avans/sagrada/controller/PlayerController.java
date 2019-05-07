@@ -184,8 +184,7 @@ public class PlayerController {
      */
     public void viewPrivateObjectiveCard() {
         Pane pane = new Pane();
-        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView();
-        privateObjectiveCardView.setPlayer(this.player);
+        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView(player);
         privateObjectiveCardView.render();
 
         pane.getChildren().add(privateObjectiveCardView);

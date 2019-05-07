@@ -42,7 +42,7 @@ public class GameView extends VBox implements ViewInterface {
     private Pane scoreBoard;
     private RoundTrackView roundTrackView;
     private ChatLineView chatLineView;
-    private Pane privateObjectiveCardView;
+    private PrivateObjectiveCardView privateObjectiveCardView;
     
     private final int SPACING_BETWEEN_CHILDS = 5;
     
@@ -85,6 +85,7 @@ public class GameView extends VBox implements ViewInterface {
         for (ToolCard toolcard: gameToolCards) {
             ToolCardView toolcardView = new ToolCardView(playerController);
             toolcardView.setToolCard(toolcard);
+            toolcardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
             toolcardView.render();
             
             toolCardViews.add(toolcardView);
@@ -105,6 +106,7 @@ public class GameView extends VBox implements ViewInterface {
         for (PublicObjectiveCard publicObjectiveCard: gamePublicObjectiveCards) {
             PublicObjectiveCardView publicObjectiveCardView = new PublicObjectiveCardView(playerController);
             publicObjectiveCardView.setPublicObjectiveCard(publicObjectiveCard);
+            publicObjectiveCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
             publicObjectiveCardView.render();
             publicObjectiveCardViews.add(publicObjectiveCardView);
         }
@@ -137,9 +139,9 @@ public class GameView extends VBox implements ViewInterface {
     }
     
     private void buildPlayerPrivateObjectiveCard() {
-        privateObjectiveCardView = new Pane();
-        privateObjectiveCardView.setPrefSize(CardView.CARD_WIDTH, CardView.CARD_WIDTH);
-        privateObjectiveCardView.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
+        privateObjectiveCardView = new PrivateObjectiveCardView(player);
+        privateObjectiveCardView.render();
+        privateObjectiveCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
     }
     
     private void buildActionButtons() {
