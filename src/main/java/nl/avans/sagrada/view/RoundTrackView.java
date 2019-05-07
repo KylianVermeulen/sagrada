@@ -26,7 +26,6 @@ public class RoundTrackView extends HBox implements ViewInterface {
         roundTrackFieldViews = new RoundTrackFieldView[10];
         setPrefSize(740, 80);
         setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
-        makeRoundTrackFieldViews();
     }
 
     /**
@@ -34,6 +33,7 @@ public class RoundTrackView extends HBox implements ViewInterface {
      */
     @Override
     public void render() {
+        makeRoundTrackFieldViews();
         for (RoundTrackFieldView roundTrackFieldView : roundTrackFieldViews) {
             roundTrackFieldView.render();
         }
