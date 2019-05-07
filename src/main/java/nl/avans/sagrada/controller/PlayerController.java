@@ -208,11 +208,11 @@ public class PlayerController {
         if (!text.matches("")) {
             if (chatlineDao.timeExistsOfPlayer(chatline) == false) {
                 chatlineDao.addChatline(chatline);
-                ChatLineView chatview = new ChatLineView(this);
-                chatview.addExistingMessages(player.getChatlines());
-                chatview.addMessage(chatline);
-                player.addChatline(chatline);
-                myScene.setContentPane(chatview);
+//                ChatLineView chatview = new ChatLineView(this);
+//                chatview.addExistingMessages(player.getChatlines());
+//                chatview.addMessage(chatline);
+//                player.addChatline(chatline);
+//                myScene.setContentPane(chatview);
             } else {
                 Alert alert = new Alert("Waarschuwing",
                         "Je mag maar 1 keer per seconde een bericht versturen!", AlertType.ERROR);

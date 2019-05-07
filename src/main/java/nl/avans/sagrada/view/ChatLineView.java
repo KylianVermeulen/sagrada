@@ -17,6 +17,7 @@ public class ChatLineView extends VBox implements ViewInterface {
     private final int TEXTFIELD_WIDTH = 300;
     private PlayerController playercontroller;
     private VBox messagebox;
+    private ArrayList<Chatline> chatlines;
 
     /**
      * Constructor
@@ -25,8 +26,12 @@ public class ChatLineView extends VBox implements ViewInterface {
      */
     public ChatLineView(PlayerController playercontroller) {
         this.playercontroller = playercontroller;
+        chatlines = new ArrayList<>();
         messagebox = new VBox();
-        render();
+    }
+    
+    public void setChatLines(ArrayList<Chatline> chatlines) {
+        this.chatlines = chatlines;
     }
 
     /**
@@ -75,18 +80,16 @@ public class ChatLineView extends VBox implements ViewInterface {
      * 
      * @param chatlines Chatline
      */
-    public void addExistingMessages(ArrayList<Chatline> chatlines) {
-        if (chatlines != null) {
-            for (int i = 0; i < chatlines.size(); i++) {
-                addMessage(chatlines.get(i));
-            }
+    public void addExistingMessages() {
+        for (int i = 0; i < chatlines.size(); i++) {
+            addMessage(chatlines.get(i));
         }
-
     }
 
     @Override
     public void render() {
         getChildren().clear();
+        addExistingMessages();
         buildChat();
     }
 }

@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
@@ -38,7 +39,7 @@ public class GameView extends VBox implements ViewInterface {
     
     private Pane scoreBoard;
     private Pane roundTrack;
-    private Pane chatLine;
+    private ChatLineView chatLineView;
     private Pane privateObjectiveCardView;
     
     private final int SPACING_BETWEEN_CHILDS = 15;
@@ -108,10 +109,11 @@ public class GameView extends VBox implements ViewInterface {
     }
     
     private void buildChatLine() {
-        chatLine = new Pane();
-        chatLine.setPrefHeight(200);
-        chatLine.setPrefWidth(300);
-        chatLine.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+        ArrayList<Chatline> chatLines = game.getChatlines();
+        chatLineView = new ChatLineView(playerController);
+        
+        chatLineView.setChatLines(chatLines);
+        chatLineView.render();
     }
     
     private void buildScoreBoard() {
@@ -188,7 +190,7 @@ public class GameView extends VBox implements ViewInterface {
         secondView.getChildren().addAll(publicObjectiveCardViews);
         secondView.getChildren().add(roundTrack);
         
-        thirdView.setLeft(chatLine);
+        thirdView.setLeft(chatLineView);
         thirdView.setRight(privateObjectiveCardView);
         thirdView.setBottom(actionButtons);
         

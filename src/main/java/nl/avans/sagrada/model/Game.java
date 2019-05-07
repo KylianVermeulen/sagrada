@@ -2,6 +2,8 @@ package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
@@ -196,6 +198,11 @@ public class Game {
             return privateColor;
         }
         return "";
+    }
+    
+    public ArrayList<Chatline> getChatlines() {
+        ArrayList<Chatline> chatlines = new ChatlineDao().getChatlinesOfGame(this);
+        return chatlines;
     }
 
     /**
