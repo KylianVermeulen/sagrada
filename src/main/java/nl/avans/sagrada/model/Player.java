@@ -3,6 +3,7 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PlayerDao;
 
 public class Player {
     public static final String STATUS_ABORT = "aborted";
@@ -264,7 +265,34 @@ public class Player {
 	 * set chatlines for player
 	 * @param chatlines
 	 */
-	public void setChatlines(ArrayList<Chatline> chatlines) {
-		this.chatlines = chatlines;
-	}
+    public void setChatlines(ArrayList<Chatline> chatlines) {
+		    this.chatlines = chatlines;
+	   }
+
+    /**
+     * returns the immage's of the private-objectivecard.
+     */
+    public String getImagePath() {
+        String imagePath;
+        switch (privateObjectivecardColor) {
+            case "blauw":
+                imagePath = "/images/privateObjectiveCardColors/blue.png";
+                break;
+            case "groen":
+                imagePath = "/images/privateObjectiveCardColors/green.png";
+                break;
+            case "paars":
+                imagePath = "/images/privateObjectiveCardColors/purple.png";
+                break;
+            case "rood":
+                imagePath = "/images/privateObjectiveCardColors/red.png";
+                break;
+            case "geel":
+                imagePath = "/images/privateObjectiveCardColors/yellow.png";
+                break;
+            default:
+                imagePath = "er is iets mis gegaan";
+        }
+        return imagePath;
+    }
 }
