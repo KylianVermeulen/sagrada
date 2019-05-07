@@ -144,6 +144,8 @@ public class PublicObjectiveCard {
                 return calculateColorVariety(patternCard, points);
             case 8:
                 return calculateColumnShadeVariety(patternCard, points);
+            case 9:
+                return calculateColumnColorVariety(patternCard, points);
             default:
                 return 0;
         }
@@ -400,7 +402,43 @@ public class PublicObjectiveCard {
                 varietyList.add(value); // Add value to varietyList
             }
 
-            if (varietyList.size() == 4) { // Check if there are 5 unique values in varietyList
+            if (varietyList.size() == 4) { // Check if there are 4 unique values in varietyList
+                score += rewardScore; // Increase score
+            }
+        }
+
+        return score;
+    }
+
+    /**
+     * Calculate the score for a patterncard for each unique set of colors in a column.
+     *
+     * @param patternCard The patterncard.
+     * @param rewardScore The score for each set.
+     * @return The score.
+     */
+    private int calculateColumnColorVariety(PatternCard patternCard, int rewardScore) {
+        int score = 0;
+
+        outerloop:
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop though x-pos
+            ArrayList<String> colorList = new ArrayList<>();
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop though y-pos
+                if (patternCard.getPatternCardField(x, y).hasDie()) { // Check if there is a placed die
+                    colorList.add(patternCard.getPatternCardField(x, y).getDie().getColor()); // Add the color to valueList
+                }
+            }
+
+            ArrayList<String> varietyList = new ArrayList<>();
+            for (int i = 0; i < colorList.size(); i++) { // Loop though all y-pos values
+                String color = colorList.get(i); // Value for current y-pos
+                if (varietyList.contains(color)) { // Check if varietyList already contains color
+                    continue outerloop; // Continue in outerloop, next x-pos
+                }
+                varietyList.add(color); // Add color to varietyList
+            }
+
+            if (varietyList.size() == 4) { // Check if there are 4 unique colors in varietyList
                 score += rewardScore; // Increase score
             }
         }
