@@ -23,20 +23,20 @@ public class PlayerController {
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
     }
-    
+
     /**
-     * Handles the logic behind a toolcard payment. The method first checks if
-     * a player has already paid for a toolcard before or not, and if the player has sufficient funds.
+     * Handles the logic behind a toolcard payment. The method first checks if a player has already
+     * paid for a toolcard before or not, and if the player has sufficient funds.
      * <p>
-     * If the toolcard has not received payment before, the player will hand over one favortoken as payment
-     * for the toolcard. This toolcard's status will then be set to "has already been paid for before".
-     * </br>
-     * If the toolcard has received payment before, then the player will hand over two
-     * favortokens as payment for the toolcard.
+     * If the toolcard has not received payment before, the player will hand over one favortoken as
+     * payment for the toolcard. This toolcard's status will then be set to "has already been paid
+     * for before". </br>
+     * If the toolcard has received payment before, then the player will hand over two favortokens
+     * as payment for the toolcard.
      * </p>
      * <p>
-     * If the player has insufficient funds, a message will appear on screen 
-     * informing the player about their lack of funds, and the player will not be able to use this toolcard.
+     * If the player has insufficient funds, a message will appear on screen informing the player
+     * about their lack of funds, and the player will not be able to use this toolcard.
      * </p>
      * 
      * @param game Game
@@ -46,7 +46,7 @@ public class PlayerController {
         FavorTokenDao favorTokenDao = new FavorTokenDao();
         ToolcardDao toolcardDao = new ToolcardDao();
         toolcardDao.toolcardHasPayment(toolcard, game);
-        
+
         if (player.getFavorTokens().size() > 0) {
             if (!toolcard.hasBeenPaidForBefore()) {
                 ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
@@ -63,22 +63,12 @@ public class PlayerController {
                     newFavorTokens.remove(0);
                     player.setFavorTokens(newFavorTokens);
                 } else {
-                    handleToolcardPaymentRejection(game);
+                    // Handle payment rejection via alert #visuals
                 }
             }
         } else {
-            handleToolcardPaymentRejection(game);
+            // Handle payment rejection via alert #visuals
         }
-    }
-
-    /**
-     * Displays a message, informing the player that they cannot use the toolcard due to
-     * insufficient funds.
-     * 
-     * @param game Game
-     */
-    private void handleToolcardPaymentRejection(Game game) {
-        //visuals for unsuccessful payment are done by Ian.
     }
 
     public void actionJoinGame(Account account, Game game) {
@@ -86,7 +76,7 @@ public class PlayerController {
         player.setGame(game);
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
-        } 
+        }
     }
 
     public void viewOptionalPatternCards() {

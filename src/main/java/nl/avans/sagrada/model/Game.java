@@ -282,10 +282,10 @@ public class Game {
         ToolcardDao toolcardDao = new ToolcardDao();
 
         Random random = new Random();
-        
+
         int min = 1;
         int max = 12;
-        
+
         int randomNumber1 = random.nextInt((max - min) + 1) + min;
         int randomNumber2 = random.nextInt((max - min) + 1) + min;
         int randomNumber3 = random.nextInt((max - min) + 1) + min;
@@ -306,11 +306,10 @@ public class Game {
         toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber3), this);
     }
 
-    /**\
-     * assign three random public objectivecards to a game.
-     * first the method makes three random numbers between 1 and 10. 
-     * while some numbers are the same than make new number until all numbers are different.
-     * Then add the public objectivecards to the game.
+    /**
+     * \ assign three random public objectivecards to a game. first the method makes three random
+     * numbers between 1 and 10. while some numbers are the same than make new number until all
+     * numbers are different. Then add the public objectivecards to the game.
      */
     public void assignRandomPublicObjectiveCards() {
         PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();

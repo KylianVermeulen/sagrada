@@ -31,8 +31,7 @@ public class Toolcard {
         this.name = name;
     }
 
-    public void useToolcard() {
-    }
+    public void useToolcard() {}
 
     /**
      * Returns the toolcard id.
@@ -149,8 +148,8 @@ public class Toolcard {
     }
 
     /**
-     * Returns the payment status for the toolcard. 
-     * If true, this toolcard has already been paid for before.
+     * Returns the payment status for the toolcard. If true, this toolcard has already been paid for
+     * before.
      * 
      * @return the payment status for the toolcard
      */
