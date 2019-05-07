@@ -88,7 +88,7 @@ public class PlayerController {
     /**
      * Test function for roundTrack
      */
-    public void showRoundTrack() {
+    public void viewRoundTrack() {
         GameDie gameDie1 = new GameDie(1, "geel", 1);
         GameDie gameDie2 = new GameDie(2, "blauw", 3);
         GameDie gameDie3 = new GameDie(3, "rood", 5);
