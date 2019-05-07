@@ -2,9 +2,12 @@ package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -55,6 +58,7 @@ public class GameView extends VBox implements ViewInterface {
                 PatternCard playerPatternCard = player.getPatternCard();
                 
                 PatternCardView patternCardView = new PatternCardView(playerController);
+                patternCardView.setCenterShape(true);
                 patternCardView.setPatternCard(playerPatternCard);
                 patternCardView.render();
                 otherPlayerPatternCardViews.getChildren().add(patternCardView);
@@ -104,7 +108,8 @@ public class GameView extends VBox implements ViewInterface {
     
     private void buildScoreBoard() {
         scoreBoard = new Pane();
-        scoreBoard.setPrefSize(100, 300);
+        scoreBoard.setPrefSize(300, 300);
+        scoreBoard.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
     }
     
     private void buildBalance() {
@@ -139,26 +144,35 @@ public class GameView extends VBox implements ViewInterface {
         buildPlayerPatternCard();
         buildPlayerPrivateObjectiveCard();
         
-        HBox firstView = new HBox();
+        BorderPane firstView = new BorderPane();
         firstView.setPrefHeight(PatternCardView.PATTERNCARD_HEIGHT);
+        firstView.setPrefWidth(Main.SCREEN_WIDTH);
+        firstView.setPadding(new Insets(0,0,20,0));
+        
         HBox secondView = new HBox();
-        HBox thirdView = new HBox();
+        secondView.setAlignment(Pos.CENTER);
+        BorderPane thirdView = new BorderPane();
         
-        firstView.getChildren().addAll(otherPlayerPatternCardViews);
-        firstView.getChildren().add(scoreBoard);
+        firstView.setCenter(otherPlayerPatternCardViews);
+        firstView.setRight(scoreBoard);
         
-        HBox combinedToolCards = new HBox();
-        combinedToolCards.getChildren().addAll(toolCardViews);
-        VBox combinedToolCardsAndRoundTrack = new VBox();
-        combinedToolCardsAndRoundTrack.getChildren().addAll(combinedToolCards, roundTrack);
+//        HBox combinedToolCards = new HBox();
+//        combinedToolCards.getChildren().addAll(toolCardViews);
+//        VBox combinedToolCardsAndRoundTrack = new VBox();
+//        combinedToolCardsAndRoundTrack.getChildren().addAll(combinedToolCards, roundTrack);
         
-        secondView.getChildren().add(combinedToolCardsAndRoundTrack);
+        secondView.getChildren().addAll(toolCardViews);
+        secondView.getChildren().add(roundTrack);
         secondView.getChildren().addAll(publicObjectiveCardViews);
         
-        thirdView.getChildren().add(chatLine);
-        thirdView.getChildren().add(balance);
-        thirdView.getChildren().add(playerPatternCardView);
-        thirdView.getChildren().add(privateObjectiveCardView);
+        thirdView.setLeft(chatLine);
+        thirdView.setRight(privateObjectiveCardView);
+        
+        HBox thirdViewCenterBox = new HBox();
+        thirdViewCenterBox.getChildren().addAll(balance, playerPatternCardView);
+        
+        thirdView.setCenter(thirdViewCenterBox);
+        
         
         
         getChildren().add(firstView);

@@ -11,8 +11,12 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.AccountDao;
 import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.database.ChecksumDatabase;
+import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.popups.Alert;
 
 public class MyScene extends Scene {
@@ -33,9 +37,16 @@ public class MyScene extends Scene {
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
 
+        PlayerDao playerDao = new PlayerDao();
+        Player player = playerDao.getPlayerById(6);
+        Game game = new GameDao().getGameById(4);
+        player.setGame(game);
+        playerController.setPlayer(player);
+        
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
-        accountController.viewLogin();
+        playerController.viewGame();
+//        accountController.viewLogin();
     }
 
     public AccountController getAccountController() {
