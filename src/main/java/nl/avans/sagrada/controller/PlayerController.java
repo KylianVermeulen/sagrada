@@ -85,7 +85,6 @@ public class PlayerController {
         myScene.setContentPane(pane);
     }
 
-
     /**
      * Test function for roundTrack
      */
