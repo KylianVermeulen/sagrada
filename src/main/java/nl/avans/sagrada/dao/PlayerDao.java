@@ -3,6 +3,7 @@ package nl.avans.sagrada.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
@@ -34,7 +35,7 @@ public class PlayerDao {
                 player.setGame(new GameDao().getGameById(rs.getInt("game_idgame")));
                 player.setPlayerStatus(rs.getString("playstatus_playstatus"));
                 player.setSeqnr(rs.getInt("seqnr"));
-                player.setCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
+                player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
                 player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));
                 player.setScore(rs.getInt("score"));
                 list.add(player);

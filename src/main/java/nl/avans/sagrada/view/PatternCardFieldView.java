@@ -1,6 +1,7 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -36,11 +37,13 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         diceEyesArray();
         resizeImages();
         setOnMouseDragReleased(event -> {
+            System.out.println("runs");
             try {
                 GameDie gameDie = ((GameDie) ((DieView) event.getGestureSource()).getGameDie());
                 patternCardField.placeDie(gameDie);
                 this.render();
             } catch (Exception e) {
+                System.out.println("no");
             }
         });
         addHover();

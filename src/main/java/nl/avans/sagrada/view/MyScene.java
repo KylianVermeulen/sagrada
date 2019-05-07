@@ -31,7 +31,8 @@ public class MyScene extends Scene {
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
-        accountController.viewLogin();
+        playerController.makeClickPlacement();
+//        accountController.viewLogin();
     }
 
     /**
