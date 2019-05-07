@@ -308,8 +308,6 @@ public class Game {
      * above takes place, except now another increase in id happens. </br>
      * If, again, this value is higher than 12, the value gets a decrease of two.
      * </p>
-     * 
-     * @param game Game
      */
     public void assignRandomToolcards() {
         ToolcardDao toolcardDao = new ToolcardDao();

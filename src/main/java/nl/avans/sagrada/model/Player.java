@@ -306,7 +306,7 @@ public class Player {
      * Gets +1 score for each favor token.
      * Gets rewardScore for each public objective card.
      */
-    public void calculateScore() {
+    public int calculateScore() {
         int score = 0;
         PatternCardField[][] patternCardFields = patternCard.getPatternCardFields();
 
@@ -325,12 +325,13 @@ public class Player {
             }
         }
 
-        for (FavorToken favorToken : favorTokens) { // for each favor token +1 score
+        for (FavorToken favorToken : getFavorTokens()) { // for each favor token +1 score
             score += 1;
         }
 
         for (PublicObjectiveCard publicObjectiveCard : game.getPublicObjectiveCards()) {
             score += publicObjectiveCard.calculateScore(patternCard);
         }
+        return score;
     }
 }
