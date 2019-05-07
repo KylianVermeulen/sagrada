@@ -41,6 +41,9 @@ public class MainTest {
                 "POJ5: " + new PublicObjectiveCard(5, "x", "x", 1).calculateScore(patternCard));
         // Expected score: 1
         System.out.println(
+                "POJ6: " + new PublicObjectiveCard(6, "x", "x", 1).calculateScore(patternCard));
+        // Expected score: 1
+        System.out.println(
                 "POJ7: " + new PublicObjectiveCard(7, "x", "x", 1).calculateScore(patternCard));
     }
 }
