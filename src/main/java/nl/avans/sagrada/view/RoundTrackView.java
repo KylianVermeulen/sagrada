@@ -33,6 +33,7 @@ public class RoundTrackView extends HBox implements ViewInterface {
      */
     @Override
     public void render() {
+        getChildren().clear();
         makeRoundTrackFieldViews();
         for (RoundTrackFieldView roundTrackFieldView : roundTrackFieldViews) {
             roundTrackFieldView.render();

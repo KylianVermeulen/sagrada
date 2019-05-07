@@ -29,6 +29,7 @@ public class RoundTrackFieldView extends TilePane implements ViewInterface {
      */
     @Override
     public void render() {
+        getChildren().clear();
         makeSquares();
         replacePaneToDie();
         addPanes();
