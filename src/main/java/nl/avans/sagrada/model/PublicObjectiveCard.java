@@ -43,10 +43,20 @@ public class PublicObjectiveCard {
         this.id = id;
     }
 
+    /**
+     * Returns public objective card name
+     * 
+     * @return name (String)
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets public objective card name
+     * 
+     * @param String name
+     */
     public void setName(String name) {
         this.name = name;
     }
@@ -69,10 +79,20 @@ public class PublicObjectiveCard {
         this.description = description;
     }
     
+    /**
+     * Returns public objective card points
+     * 
+     * @return points (int)
+     */
     public int getPoints() {
         return points;
     }
     
+    /**
+     * Sets the public objective card points
+     * 
+     * @param points int
+     */
     public void setPoints(int points) {
         this.points = points;
     }

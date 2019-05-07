@@ -65,6 +65,12 @@ public class PublicObjectiveCardDao {
         return list;
     }
 
+    /**
+     * returns the id from a public objectivecard.
+     * 
+     * @param id
+     * @return
+     */
     public PublicObjectiveCard getPublicObjectiveCardById(int id) {
         PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard();
         try {
@@ -95,9 +101,8 @@ public class PublicObjectiveCardDao {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
                     "INSERT INTO sharedpublic_objectivecard (idgame, idpublic_objectivecard) VALUES (?, ?)",
-                    "update"), new QueryParameter(QueryParameter.INT, game.getId()));
-            new QueryParameter(QueryParameter.INT, publicObjectiveCard.getId());
-
+                    "update"), new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.INT, publicObjectiveCard.getId()));
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -36,6 +36,9 @@ public class PlayerController {
         player.setGame(game);
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
+            viewPublicObjectiveCards(game);
+        } else {
+            viewPublicObjectiveCards(game);
         }
     }
 

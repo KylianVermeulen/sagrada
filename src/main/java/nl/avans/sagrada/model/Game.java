@@ -313,67 +313,40 @@ public class Game {
         }
     }
 
-    // public void assignRandomPublicObjectiveCards() {
-    // PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
-    // int counter = 0;
-    // int[] randomPublicObjectivecardsIds = new int[3];
-    // double[] randomNumbers = new double[3];
-    //
-    // while (counter < 3) {
-    // randomNumbers[counter] = (Math.random() * 11) + 1;
-    // randomPublicObjectivecardsIds[counter] = (int) Math.round(randomNumbers[counter]);
-    // if ((counter - 1) >= 0) {
-    // if (randomPublicObjectivecardsIds[counter] == randomPublicObjectivecardsIds[counter
-    // - 1]) {
-    // randomPublicObjectivecardsIds[counter]++;
-    // if ((counter - 2) >= 0) {
-    // if (randomPublicObjectivecardsIds[counter] == randomPublicObjectivecardsIds[counter
-    // - 2]) {
-    // randomPublicObjectivecardsIds[counter]++;
-    // if (randomPublicObjectivecardsIds[counter] > 12) {
-    // randomPublicObjectivecardsIds[counter] =
-    // (randomPublicObjectivecardsIds[counter - 2] - 2);
-    // }
-    // }
-    // }
-    // }
-    // } else if (randomPublicObjectivecardsIds[counter] > 12) {
-    // randomPublicObjectivecardsIds[counter] =
-    // (randomPublicObjectivecardsIds[counter - 1] - 2);
-    // if ((counter - 2) >= 0) {
-    // if (randomPublicObjectivecardsIds[counter] == randomPublicObjectivecardsIds[counter
-    // - 2]) {
-    // randomPublicObjectivecardsIds[counter]--;
-    // }
-    // }
-    // }
-    // publicObjectiveCardDao.addPublicObjectiveCardToGame(
-    // publicObjectiveCardDao.getPublicObjectiveCardById(randomPublicObjectivecardsIds[counter]),
-    // this);
-    // counter++;
-    // }
-    // }
-
+    /**\
+     * assign three random public objectivecards to a game.
+     * first the method makes three random numbers between 1 and 10. 
+     * while some numbers are the same than make new number until all numbers are different.
+     * Then add the public objectivecards to the game.
+     */
     public void assignRandomPublicObjectiveCards() {
         PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
 
-        double randomNumber1 = (Math.random() * 9) + 1;
-        double randomNumber2 = (Math.random() * 9) + 1;
-        double randomNumber3 = (Math.random() * 9) + 1;
+        Random random = new Random();
 
-        if (randomNumber1 == randomNumber2 || randomNumber1 == randomNumber3
-                || randomNumber2 == randomNumber3) {
-            assignRandomToolcards();
+        int min = 1;
+        int max = 10;
 
+        int randomNumber1 = random.nextInt((max - min) + 1) + min;
+        int randomNumber2 = random.nextInt((max - min) + 1) + min;
+        int randomNumber3 = random.nextInt((max - min) + 1) + min;
+
+        boolean foundThreeValues = false;
+
+        while (!foundThreeValues) {
+            randomNumber1 = random.nextInt((max - min) + 1) + min;
+            randomNumber2 = random.nextInt((max - min) + 1) + min;
+            randomNumber3 = random.nextInt((max - min) + 1) + min;
+            if (randomNumber1 != randomNumber2 && randomNumber1 != randomNumber3
+                    && randomNumber2 != randomNumber3) {
+                foundThreeValues = true;
+            }
         }
-        int randomToolCardId1 = (int) Math.round(randomNumber1);
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
-                publicObjectiveCardDao.getPublicObjectiveCardById(randomToolCardId1), this);
-        int randomToolCardId2 = (int) Math.round(randomNumber2);
+                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber1), this);
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
-                publicObjectiveCardDao.getPublicObjectiveCardById(randomToolCardId2), this);
-        int randomToolCardId3 = (int) Math.round(randomNumber3);
+                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber2), this);
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
-                publicObjectiveCardDao.getPublicObjectiveCardById(randomToolCardId3), this);
+                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber3), this);
     }
 }
