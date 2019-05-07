@@ -5,17 +5,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
-import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.GameDie;
-import nl.avans.sagrada.model.PatternCard;
-import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.model.PublicObjectiveCard;
-import nl.avans.sagrada.model.Toolcard;
-import nl.avans.sagrada.view.DieView;
-import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.PatternCardView;
-import nl.avans.sagrada.view.PublicObjectiveCardView;
-import nl.avans.sagrada.view.ToolCardView;
+import nl.avans.sagrada.model.*;
+import nl.avans.sagrada.view.*;
 
 public class PlayerController {
     private Player player;
@@ -99,9 +90,9 @@ public class PlayerController {
      * Test function for roundTrack
      */
     public void showRoundTrack() {
-        GameDie gameDie1 = new GameDie(1, "geel");
-        GameDie gameDie2 = new GameDie(3, "blauw");
-        GameDie gameDie3 = new GameDie(5, "rood");
+        GameDie gameDie1 = new GameDie(1, "geel", 1);
+        GameDie gameDie2 = new GameDie(2, "blauw", 3);
+        GameDie gameDie3 = new GameDie(3, "rood", 5);
 
         RoundTrack roundTrack = new RoundTrack();
         roundTrack.addGameDie(gameDie1, 1);
@@ -138,10 +129,6 @@ public class PlayerController {
         patternCardView.render();
         pane.getChildren().add(patternCardView);
         myScene.setContentPane(pane);
-    }
-
-    public void kaasje() {
-        RoundTrack roundTrack = new RoundTrack();
     }
 
     /**

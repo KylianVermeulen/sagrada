@@ -7,9 +7,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.model.RoundTrack;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class RoundTrackView extends HBox {
-
+public class RoundTrackView extends HBox implements ViewInterface {
     private RoundTrack roundTrack;
     private RoundTrackFieldView[] roundTrackFieldViews;
 
@@ -32,6 +32,7 @@ public class RoundTrackView extends HBox {
     /**
      * Renders the RoundTrackFields
      */
+    @Override
     public void render() {
         for (RoundTrackFieldView roundTrackFieldView : roundTrackFieldViews) {
             roundTrackFieldView.render();
