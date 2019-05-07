@@ -17,10 +17,13 @@ public class Player {
     private PatternCard patternCard;
     private ArrayList<PatternCard> optionalPatternCards;
     private ArrayList<FavorToken> favorTokens;
+    private ArrayList<Chatline> chatlines;
     private int score;
     private boolean cheatmode = false;
 
-    public Player() {}
+    public Player() {
+        chatlines = new ArrayList<>();
+    }
 
     /**
      * The id is a unique identifier for each player in the database.
@@ -240,6 +243,33 @@ public class Player {
      */
     public void setCheatmode(boolean cheatmode) {
         this.cheatmode = cheatmode;
+    }
+
+    /**
+     * addChatline to player
+     * 
+     * @param chatline
+     */
+    public void addChatline(Chatline chatline) {
+        chatlines.add(chatline);
+    }
+
+    /**
+     * get chatlines from player
+     * 
+     * @return
+     */
+    public ArrayList<Chatline> getChatlines() {
+        return chatlines;
+    }
+
+    /**
+     * set chatlines for player
+     * 
+     * @param chatlines
+     */
+    public void setChatlines(ArrayList<Chatline> chatlines) {
+        this.chatlines = chatlines;
     }
 
     /**
