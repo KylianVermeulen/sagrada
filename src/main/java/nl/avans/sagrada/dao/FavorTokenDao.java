@@ -9,7 +9,7 @@ import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.model.Toolcard;
+import nl.avans.sagrada.model.ToolCard;
 
 public class FavorTokenDao {
     private DBConnection dbConnection;
@@ -108,7 +108,7 @@ public class FavorTokenDao {
      * @param toolcard Toolcard
      * @param game Game
      */
-    public void setFavortokensForToolcard(FavorToken favorToken, Toolcard toolcard, Game game) {
+    public void setFavortokensForToolcard(FavorToken favorToken, ToolCard toolcard, Game game) {
         ToolcardDao toolcardDao = new ToolcardDao();
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
