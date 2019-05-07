@@ -46,18 +46,14 @@ public class PublicObjectiveCard {
     }
 
     /**
-     * Returns public objective card sequence number
-     *
-     * @return sequence number (int)
+     * @return The name of this public objective card.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Sets the public objective cars sequence number
-     *
-     * @param name String
+     * @param name The name of this public objective card.
      */
     public void setName(String name) {
         this.name = name;
