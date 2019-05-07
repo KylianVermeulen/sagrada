@@ -69,12 +69,14 @@ public class PlayerController {
                     Alert alert = new Alert("Te weinig betaalstenen",
                             "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
                     myScene.addAlertPane(alert);
+                    return;
                 }
             }
         } else {
             Alert alert = new Alert("Te weinig betaalstenen",
                     "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
             myScene.addAlertPane(alert);
+            return;
         }
     }
 
