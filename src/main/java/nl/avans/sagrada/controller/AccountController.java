@@ -12,10 +12,10 @@ import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.InviteDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.model.Account;
-import nl.avans.sagrada.model.enumerations.AccountStatus;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.model.enumerations.AccountStatus;
 import nl.avans.sagrada.view.GameSetupView;
 import nl.avans.sagrada.view.InviteView;
 import nl.avans.sagrada.view.LobbyView;
@@ -181,6 +181,7 @@ public class AccountController {
         game.setId(gameId);
         gameDao.addGame(game);
         game.assignRandomToolcards();
+        game.assignRandomPublicObjectiveCards();
 
         int playerId = playerDao.getNextPlayerId();
         Player player = new Player();

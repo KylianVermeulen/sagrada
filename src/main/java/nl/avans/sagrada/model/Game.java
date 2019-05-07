@@ -5,6 +5,7 @@ import java.util.Random;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
 
 public class Game {
@@ -303,5 +304,42 @@ public class Game {
         toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber1), this);
         toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber2), this);
         toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber3), this);
+    }
+
+    /**\
+     * assign three random public objectivecards to a game.
+     * first the method makes three random numbers between 1 and 10. 
+     * while some numbers are the same than make new number until all numbers are different.
+     * Then add the public objectivecards to the game.
+     */
+    public void assignRandomPublicObjectiveCards() {
+        PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
+
+        Random random = new Random();
+
+        int min = 1;
+        int max = 10;
+
+        int randomNumber1 = random.nextInt((max - min) + 1) + min;
+        int randomNumber2 = random.nextInt((max - min) + 1) + min;
+        int randomNumber3 = random.nextInt((max - min) + 1) + min;
+
+        boolean foundThreeValues = false;
+
+        while (!foundThreeValues) {
+            randomNumber1 = random.nextInt((max - min) + 1) + min;
+            randomNumber2 = random.nextInt((max - min) + 1) + min;
+            randomNumber3 = random.nextInt((max - min) + 1) + min;
+            if (randomNumber1 != randomNumber2 && randomNumber1 != randomNumber3
+                    && randomNumber2 != randomNumber3) {
+                foundThreeValues = true;
+            }
+        }
+        publicObjectiveCardDao.addPublicObjectiveCardToGame(
+                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber1), this);
+        publicObjectiveCardDao.addPublicObjectiveCardToGame(
+                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber2), this);
+        publicObjectiveCardDao.addPublicObjectiveCardToGame(
+                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber3), this);
     }
 }

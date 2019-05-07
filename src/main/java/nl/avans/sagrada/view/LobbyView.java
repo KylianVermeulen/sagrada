@@ -1,10 +1,15 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Game;
@@ -48,25 +53,21 @@ public class LobbyView extends BorderPane implements ViewInterface {
     public void render() {
         buildInviteOverview();
         buildGamesOverview();
+        buildOverview();
         buildNewGameBtn();
         buildLogout();
-
-        VBox vbox = new VBox();
-        Label inviteLabel = new Label("Invites van spelers");
-        Label gameOverviewLabel = new Label("Je openstaande spellen");
-        vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
-        setLeft(vbox);
-        setCenter(newGameButton);
-        setRight(logoutButton);
     }
 
     /**
      * Build the button to make a new game
      */
     private void buildNewGameBtn() {
+        BorderPane pane = new BorderPane();
         newGameButton = new Button("Maak nieuw spel");
         newGameButton.setOnAction(e -> accountController.actionSetupNewGame());
         newGameButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        pane.setCenter(newGameButton);
+        setCenter(pane);
     }
 
     /**
@@ -91,7 +92,23 @@ public class LobbyView extends BorderPane implements ViewInterface {
      * Builds to button to logout
      */
     private void buildLogout() {
+        TilePane pane = new TilePane();
+        pane.setMaxWidth(100);
+        pane.setMinWidth(100);
+
         logoutButton = new Button("Logout");
         logoutButton.setOnAction(e -> accountController.actionLogout());
+
+        pane.setAlignment(Pos.TOP_CENTER);
+        pane.getChildren().add(logoutButton);
+        setRight(pane);
+    }
+
+    private void buildOverview() {
+        VBox vbox = new VBox();
+        Label inviteLabel = new Label("Invites van spelers");
+        Label gameOverviewLabel = new Label("Je openstaande spellen");
+        vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
+        setLeft(vbox);
     }
 }

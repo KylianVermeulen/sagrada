@@ -2,24 +2,32 @@ package nl.avans.sagrada.model;
 
 public class PublicObjectiveCard {
     private int id;
-    private int seqnr;
+    private String name;
     private String description;
+    private int points;
     private String imagePath;
-    
+
+    public PublicObjectiveCard() {
+
+    }
+
     /**
      * Filled constructor
+     * 
      * @param id int
      * @param seqnr int
      * @param description String
      */
-    public PublicObjectiveCard(int id, int seqnr, String description) {
+    public PublicObjectiveCard(int id, String name, String description, int points) {
         this.id = id;
-        this.seqnr = seqnr;
+        this.name = name;
         this.description = description;
+        this.points = points;
     }
 
     /**
      * Returns public objective card id
+     * 
      * @return id (int)
      */
     public int getId() {
@@ -28,6 +36,7 @@ public class PublicObjectiveCard {
 
     /**
      * Sets public objective card id
+     * 
      * @param id int
      */
     public void setId(int id) {
@@ -35,23 +44,26 @@ public class PublicObjectiveCard {
     }
 
     /**
-     * Returns public objective card sequence number
-     * @return sequence number (int)
+     * Returns public objective card name
+     * 
+     * @return name (String)
      */
-    public int getSeqnr() {
-        return seqnr;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the public objective cars sequence number
-     * @param seqnr int
+     * Sets public objective card name
+     * 
+     * @param String name
      */
-    public void setSeqnr(int seqnr) {
-        this.seqnr = seqnr;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
      * Returns the public objective card description
+     * 
      * @return description (String)
      */
     public String getDescription() {
@@ -60,21 +72,42 @@ public class PublicObjectiveCard {
 
     /**
      * Sets the public objective card description
+     * 
      * @param description String
      */
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    /**
+     * Returns public objective card points
+     * 
+     * @return points (int)
+     */
+    public int getPoints() {
+        return points;
+    }
+    
+    /**
+     * Sets the public objective card points
+     * 
+     * @param points int
+     */
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     /**
      * Returns the public objective card image path
+     * 
      * @return image path (String)
      */
     public String getImagePath() {
         int[] ids = new int[10];
         for (int index = 0; index < ids.length; index++) {
             if (getId() == (index + 1)) {
-                setImagePath("/images/publicObjectiveCardImages/publicObjectiveCard" + (index + 1) + ".png");
+                setImagePath("/images/publicObjectiveCardImages/publicObjectiveCard" + (index + 1)
+                        + ".png");
             }
         }
         return imagePath;
@@ -82,6 +115,7 @@ public class PublicObjectiveCard {
 
     /**
      * Sets the public objective card image path
+     * 
      * @param imagePath String
      */
     public void setImagePath(String imagePath) {
