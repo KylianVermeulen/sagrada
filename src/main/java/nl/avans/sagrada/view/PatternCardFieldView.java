@@ -13,8 +13,8 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class PatternCardFieldView extends StackPane implements ViewInterface {
-    private static final int WIDTH = 50;
-    private static final int HEIGHT = 50;
+    private final int FIELD_WIDTH = 40;
+    private final int FIELD_HEIGHT = 40;
     private PatternCard patternCard;
     private PatternCardField patternCardField;
     private PlayerController playerController;
@@ -27,7 +27,7 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      */
     public PatternCardFieldView(PlayerController playerController) {
         this.playerController = playerController;
-        setPrefSize(WIDTH, HEIGHT);
+        setPrefSize(FIELD_WIDTH, FIELD_HEIGHT);
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         setOnMouseClicked(e -> onClick());
 
@@ -71,8 +71,7 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      * Method when the PatternCardField is clicked
      */
     private void onClick() {
-        System.out
-                .println("x: " + patternCardField.getxPos() + " y: " + patternCardField.getyPos());
+
     }
 
     /**
@@ -91,7 +90,10 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      * Adds dice eye image to the PatternCardFieldView
      */
     public void addEyes() {
-        getChildren().add(new ImageView(images.get(patternCardField.getValue() - 1)));
+        ImageView image = new ImageView(images.get(patternCardField.getValue() - 1));
+        image.setFitHeight(FIELD_HEIGHT);
+        image.setFitWidth(FIELD_WIDTH);
+        getChildren().add(image);
     }
 
     /**

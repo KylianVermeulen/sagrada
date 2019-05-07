@@ -16,8 +16,8 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class PatternCardView extends BorderPane implements ViewInterface {
-    public static final int PATTERNCARD_WIDTH = 310;
-    public static final int PATTERNCARD_HEIGHT = 230;
+    public static final int PATTERNCARD_WIDTH = 260;
+    public static final int PATTERNCARD_HEIGHT = 190;
     private PatternCard patternCard;
     private PlayerController playerController;
     private PatternCardFieldView[][] patternCardFieldViews;

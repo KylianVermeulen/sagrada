@@ -17,6 +17,7 @@ public class ChatLineView extends VBox implements ViewInterface {
     private final int TEXTFIELD_WIDTH = 300;
     private PlayerController playercontroller;
     private VBox messagebox;
+    private ArrayList<Chatline> chatlines;
 
     /**
      * Constructor
@@ -25,8 +26,16 @@ public class ChatLineView extends VBox implements ViewInterface {
      */
     public ChatLineView(PlayerController playercontroller) {
         this.playercontroller = playercontroller;
+        chatlines = new ArrayList<>();
         messagebox = new VBox();
-        render();
+    }
+    
+    /**
+     * Sets the chatlines a view needs to show
+     * @param chatlines
+     */
+    public void setChatLines(ArrayList<Chatline> chatlines) {
+        this.chatlines = chatlines;
     }
 
     /**
@@ -39,6 +48,7 @@ public class ChatLineView extends VBox implements ViewInterface {
         chatpane.setMinHeight(CHATPANE_HEIGHT);
         chatpane.setMaxWidth(CHATPANE_WIDTH);
         chatpane.setMinWidth(CHATPANE_WIDTH);
+        chatpane.setVvalue(1.0);
 
         HBox downpane = new HBox();
         TextField textfield = new TextField();
@@ -46,7 +56,7 @@ public class ChatLineView extends VBox implements ViewInterface {
         textfield.setMinHeight(TEXTFIELD_HEIGHT);
         textfield.setMaxWidth(TEXTFIELD_WIDTH);
         textfield.setMinWidth(TEXTFIELD_WIDTH);
-        textfield.setOnAction(e -> playercontroller.actionSendMessage(textfield.getText()));
+        textfield.setOnAction(e -> playercontroller.actionSendMessage(textfield.getText(), this));
 
         downpane.getChildren().add(textfield);
         getChildren().addAll(chatpane, downpane);
@@ -75,18 +85,17 @@ public class ChatLineView extends VBox implements ViewInterface {
      * 
      * @param chatlines Chatline
      */
-    public void addExistingMessages(ArrayList<Chatline> chatlines) {
-        if (chatlines != null) {
-            for (int i = 0; i < chatlines.size(); i++) {
-                addMessage(chatlines.get(i));
-            }
+    public void addExistingMessages() {
+        for (int i = 0; i < chatlines.size(); i++) {
+            addMessage(chatlines.get(i));
         }
-
     }
 
     @Override
     public void render() {
         getChildren().clear();
+        messagebox.getChildren().clear();
+        addExistingMessages();
         buildChat();
     }
 }

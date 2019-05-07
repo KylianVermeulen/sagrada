@@ -45,7 +45,7 @@ public class ChecksumDatabase {
 
     private void handlePlayer() {
         if (accountController.getAccount() != null) {
-            if (accountController.getAccount().accountStatus == AccountStatus.LOBBY) {
+            if (accountController.getAccount().getAccountStatus() == AccountStatus.LOBBY) {
                 accountController.viewLobby();
             }
         }

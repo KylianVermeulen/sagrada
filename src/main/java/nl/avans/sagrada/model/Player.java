@@ -208,6 +208,7 @@ public class Player {
         for (int i = 0; i < patternCard.getDifficulty(); i++) {
             FavorTokenDao favorTokenDao = new FavorTokenDao();
             int favorTokenId = favorTokenDao.getNextFavorTokenId();
+            
             FavorToken favorToken = new FavorToken(favorTokenId, this);
             favorTokenDao.addFavorToken(favorToken);
             favorTokens.add(favorToken);

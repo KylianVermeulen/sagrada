@@ -7,7 +7,7 @@ import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.Toolcard;
+import nl.avans.sagrada.model.ToolCard;
 
 public class ToolcardDao {
     private DBConnection dbConnection;
@@ -26,16 +26,16 @@ public class ToolcardDao {
      * @param game The game to which the toolcards belong
      * @return An ArrayList of toolcards that belong to this game
      */
-    public ArrayList<Toolcard> getToolcardsOfGame(Game game) {
-        ArrayList<Toolcard> list = new ArrayList<>();
+    public ArrayList<ToolCard> getToolcardsOfGame(Game game) {
+        ArrayList<ToolCard> list = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
                     "SELECT toolcard.* FROM toolcard INNER JOIN gametoolcard g on toolcard.idtoolcard = g.idtoolcard WHERE g.idgame=?",
                     "query"), new QueryParameter(QueryParameter.INT, game.getId()));
             while (rs.next()) {
-                Toolcard toolcard = new Toolcard(rs.getInt("idtoolcard"), rs.getString("name"),
-                        rs.getInt("seqnr"), rs.getString("description"));
-                list.add(toolcard);
+                ToolCard toolCard = new ToolCard(rs.getInt("idtoolcard"), rs.getString("name"), rs.getInt("seqnr"),
+                        rs.getString("description"));
+                list.add(toolCard);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,14 +48,14 @@ public class ToolcardDao {
      * 
      * @return An ArrayList containing all Toolcard entries from the database
      */
-    public ArrayList<Toolcard> getAllToolcards() {
-        ArrayList<Toolcard> list = new ArrayList<>();
+    public ArrayList<ToolCard> getAllToolcards() {
+        ArrayList<ToolCard> list = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM toolcard", "query"));
             while (rs.next()) {
-                Toolcard toolcard = new Toolcard(rs.getInt("idtoolcard"), rs.getString("name"),
-                        rs.getInt("seqnr"), rs.getString("description"));
-                list.add(toolcard);
+                ToolCard toolCard = new ToolCard(rs.getInt("idtoolcard"),  rs.getString("name"), rs.getInt("seqnr"),
+                        rs.getString("description"));
+                list.add(toolCard);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,8 +69,8 @@ public class ToolcardDao {
      * @param id The to be returned toolcard's id
      * @return The toolcard that belongs to the id entered as parameter
      */
-    public Toolcard getToolcardById(int id) {
-        Toolcard toolcard = new Toolcard();
+    public ToolCard getToolcardById(int id) {
+        ToolCard toolcard = new ToolCard();
         try {
             ResultSet rs =
                     dbConnection.executeQuery(new Query("SELECT * FROM toolcard WHERE idtoolcard=?",
@@ -95,7 +95,7 @@ public class ToolcardDao {
      * @param toolcard The Toolcard that should be added to a game
      * @param game The Game to which the toolcard should be added
      */
-    public void addToolcardToGame(Toolcard toolcard, Game game) {
+    public void addToolcardToGame(ToolCard toolcard, Game game) {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
                     "INSERT INTO gametoolcard (gametoolcard, idtoolcard, idgame) VALUES (?, ?, ?)",
@@ -163,7 +163,7 @@ public class ToolcardDao {
      * @param toolcard Toolcard
      * @param game Game
      */
-    public void toolcardHasPayment(Toolcard toolcard, Game game) {
+    public void toolcardHasPayment(ToolCard toolcard, Game game) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamefavortoken WHERE gametoolcard=? AND idgame=?",
