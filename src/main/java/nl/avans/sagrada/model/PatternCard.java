@@ -243,4 +243,15 @@ public class PatternCard {
         }
         return patterncardFields;
     }
+
+    /**
+     * Places die on the selected PatternCardField
+     *
+     * @param xPos int
+     * @param yPos int
+     * @param gameDie GameDie
+     */
+    public void placeDie(int xPos, int yPos, GameDie gameDie) {
+        patternCardFields[xPos][yPos].setDie(gameDie);
+    }
 }
