@@ -13,8 +13,8 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class PatternCardFieldView extends StackPane implements ViewInterface {
-    private static final int FIELD_WIDTH = 40;
-    private static final int FIELD_HEIGHT = 40;
+    private final int FIELD_WIDTH = 40;
+    private final int FIELD_HEIGHT = 40;
     private PatternCard patternCard;
     private PatternCardField patternCardField;
     private PlayerController playerController;

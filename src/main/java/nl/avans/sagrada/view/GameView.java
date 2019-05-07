@@ -1,7 +1,6 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,7 +16,6 @@ import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
@@ -29,21 +27,16 @@ public class GameView extends VBox implements ViewInterface {
     private Game game;
     private Player player;
     private PlayerController playerController;
-    
     private HBox otherPlayerPatternCardViews;
     private HBox actionButtons;
     private ArrayList<ToolCardView> toolCardViews;
     private ArrayList<PublicObjectiveCardView> publicObjectiveCardViews;
-    
     private Label balance;
-    
     private PatternCardView playerPatternCardView;
-    
     private Pane scoreBoard;
     private RoundTrackView roundTrackView;
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
-    
     private final int SPACING_BETWEEN_CHILDS = 5;
     
     public GameView(PlayerController playerController, Game game, Player player) {

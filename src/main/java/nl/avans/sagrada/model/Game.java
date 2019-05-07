@@ -2,7 +2,6 @@ package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
@@ -354,7 +353,7 @@ public class Game {
      */
     public boolean everyoneSelectedPatternCard() {
         ArrayList<Player> players = getPlayers();
-        for (Player player: players) {
+        for (Player player : players) {
             if (player.getPatternCard() == null) {
                 return false;
             }
