@@ -17,9 +17,11 @@ import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
+import nl.avans.sagrada.model.RoundTrack;
 import nl.avans.sagrada.model.ToolCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -38,11 +40,11 @@ public class GameView extends VBox implements ViewInterface {
     private PatternCardView playerPatternCardView;
     
     private Pane scoreBoard;
-    private Pane roundTrack;
+    private RoundTrackView roundTrackView;
     private ChatLineView chatLineView;
     private Pane privateObjectiveCardView;
     
-    private final int SPACING_BETWEEN_CHILDS = 15;
+    private final int SPACING_BETWEEN_CHILDS = 5;
     
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
@@ -90,10 +92,29 @@ public class GameView extends VBox implements ViewInterface {
     }
     
     private void buildRoundTrack() {
-        roundTrack = new Pane();
-        roundTrack.setPrefSize(350, 66);
-        roundTrack.setMaxSize(350, 70);
-        roundTrack.setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
+        GameDie gameDie1 = new GameDie(1, "geel", 1);
+        GameDie gameDie2 = new GameDie(2, "blauw", 3);
+        GameDie gameDie3 = new GameDie(3, "rood", 5);
+
+        RoundTrack roundTrack = new RoundTrack();
+        roundTrack.addGameDie(gameDie1, 1);
+        roundTrack.addGameDie(gameDie2, 1);
+        roundTrack.addGameDie(gameDie3, 1);
+
+        roundTrack.addGameDie(gameDie1, 2);
+        roundTrack.addGameDie(gameDie3, 2);
+
+        roundTrack.addGameDie(gameDie1, 3);
+        roundTrack.addGameDie(gameDie2, 3);
+
+        roundTrack.addGameDie(gameDie2, 4);
+        roundTrack.addGameDie(gameDie3, 4);
+
+        roundTrack.addGameDie(gameDie1, 5);
+        roundTrack.addGameDie(gameDie3, 5);
+
+        roundTrackView = new RoundTrackView(roundTrack);
+        roundTrackView.render();
     }
     
     private void buildPublicObjectiveCards() {
@@ -189,7 +210,7 @@ public class GameView extends VBox implements ViewInterface {
         
         secondView.getChildren().addAll(toolCardViews);
         secondView.getChildren().addAll(publicObjectiveCardViews);
-        secondView.getChildren().add(roundTrack);
+        secondView.getChildren().add(roundTrackView);
         
         thirdView.setLeft(chatLineView);
         thirdView.setRight(privateObjectiveCardView);
