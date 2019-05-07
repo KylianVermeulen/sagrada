@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class DBConnection {
     private static Connection connection = null;
-    private static String devDatabaseUrl = "jdbc:mysql://134.209.204.60:3306/sagrada_v22?serverTimezone=Europe/Amsterdam";
+    private static String devDatabaseUrl = "jdbc:mysql://134.209.204.60:3306/sagrada_v30?serverTimezone=Europe/Amsterdam";
     private static String dbPassword = "Sagrada1!";
     private static String dbUser = "sagrada";
     private Properties connectionProperties;
@@ -159,6 +159,36 @@ public class DBConnection {
     public void executeUpdateStatement(PreparedStatement pstmt) throws SQLException {
         pstmt.executeUpdate();
         connection.commit();
+    }
+
+    /**
+     * Creates a PreparedStatement from the given helperQuery's query and fills it with batches of
+     * the HelperQuery's QueryParameters then executes the PreparedStatement in batch and returns
+     * the returned int[]
+     *
+     * @param query The query
+     * @return the return from PreparedStatement.executeBatch();
+     */
+    public int[] executeBatchQuery(Query query) throws SQLException {
+        PreparedStatement pstmt = prepareStatement(query.getSql());
+        List<QueryParameter[]> parametersList = query.getParametersList();
+        for (QueryParameter[] queryParameters : parametersList) {
+            fillStatement(pstmt, queryParameters);
+            pstmt.addBatch();
+        }
+        return executeBatchStatement(pstmt);
+    }
+
+    /**
+     * Executes the given statement in batch and returns the int[]
+     *
+     * @return the result set of the execution
+     * @throws SQLException when executing the statement
+     */
+    public int[] executeBatchStatement(PreparedStatement pstmt) throws SQLException {
+        int[] results = pstmt.executeBatch();
+        connection.commit();
+        return results;
     }
 
     /**

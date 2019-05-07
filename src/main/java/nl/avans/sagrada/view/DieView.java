@@ -16,8 +16,8 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class DieView extends Pane implements ViewInterface {
-    private static final int WIDTH = 35;
-    private static final int HEIGHT = 35;
+    private final int DIE_WIDTH = 40;
+    private final int DIE_HEIGHT = 40;
     private ArrayList<ImageView> images;
     private GameDie gameDie;
 
@@ -26,8 +26,18 @@ public class DieView extends Pane implements ViewInterface {
      */
     public DieView() {
         images = new ArrayList<ImageView>();
+        setPrefSize(DIE_WIDTH, DIE_HEIGHT);
+        setBorder(new Border(
+                new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
+                        new BorderWidths(3))));
+        diceEyesArray();
+        resizeImages();
+    }
+
+    public DieView(GameDie gameDie) {
+        this.gameDie = gameDie;
+        images = new ArrayList<ImageView>();
         setPrefSize(WIDTH, HEIGHT);
-        setMaxSize(WIDTH, HEIGHT);
         setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
         diceEyesArray();
         resizeImages();
@@ -88,8 +98,21 @@ public class DieView extends Pane implements ViewInterface {
      */
     private void resizeImages() {
         for (ImageView image : images) {
-            image.setFitHeight(HEIGHT);
-            image.setFitWidth(WIDTH);
+            image.setFitHeight(DIE_HEIGHT);
+            image.setFitWidth(DIE_WIDTH);
+        }
+    }
+
+    /**
+     * Resized the images to the given width and height
+     *
+     * @param height int
+     * @param width int
+     */
+    public void resizeImages(int height, int width) {
+        for (ImageView image : images) {
+            image.setFitHeight(height);
+            image.setFitWidth(width);
         }
     }
 

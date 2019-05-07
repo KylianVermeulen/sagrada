@@ -22,6 +22,9 @@ public class ToolCardView extends CardView {
     public ToolCardView(PlayerController playerController) {
         super();
         this.playerController = playerController;
+        String css = this.getClass().getResource("/css/style.css").toExternalForm();
+        getStylesheets().add(css);
+        setId("toolcardBackground");
     }
 
     /**
@@ -66,11 +69,11 @@ public class ToolCardView extends CardView {
         Image image = new Image(url);
         StackPane imagePane = new StackPane();
         ImageView imgview = new ImageView(image);
-        imgview.setFitHeight((CardView.CARD_HEIGHT/2));
+        imgview.setFitHeight((CardView.CARD_HEIGHT / 2));
         imgview.setFitWidth(CardView.CARD_WIDTH + 1);
         imgview.setPreserveRatio(false);
         imagePane.getChildren().add(imgview);
-        imagePane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT/2));
+        imagePane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT / 2));
         setCenter(imagePane);
     }
 
@@ -78,12 +81,12 @@ public class ToolCardView extends CardView {
      * Generates a text to display the number at the top of the toolcard.
      */
     public void showNumber() {
-        Text number = new Text(Integer.toString(toolcard.getId()) + "\n" + toolcard.getTitle());
-        number.setFont(Main.SAGRADA_FONT);
-        number.wrappingWidthProperty().set(CardView.CARD_WIDTH);
-        number.setTextAlignment(TextAlignment.CENTER);
+        Text name = new Text(Integer.toString(toolcard.getSeqnr()) + "\n" + toolcard.getName());
+        name.setFont(Main.SAGRADA_FONT);
+        name.wrappingWidthProperty().set(CardView.CARD_WIDTH);
+        name.setTextAlignment(TextAlignment.CENTER);
         StackPane numberPane = new StackPane();
-        numberPane.getChildren().add(number);
+        numberPane.getChildren().add(name);
         numberPane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT / 6));
         setTop(numberPane);
     }
@@ -92,7 +95,7 @@ public class ToolCardView extends CardView {
     public void render() {
         getChildren().clear();
         showNumber();
-        showImage(toolcard.getImageUrl());
+        showImage(toolcard.getImagePath());
         showDescription();
     }
 }
