@@ -16,7 +16,6 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class DieView extends Pane implements ViewInterface {
-
     private final int DIE_WIDTH = 40;
     private final int DIE_HEIGHT = 40;
     private ArrayList<ImageView> images;
