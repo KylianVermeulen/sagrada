@@ -299,4 +299,38 @@ public class Player {
         }
         return imagePath;
     }
+
+    /**
+     * Calculate the score for this player.
+     * Gets -1 score for each empty pattern card field.
+     * Gets +1 score for each favor token.
+     * Gets rewardScore for each public objective card.
+     */
+    public void calculateScore() {
+        int score = 0;
+        PatternCardField[][] patternCardFields = patternCard.getPatternCardFields();
+
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
+                x++) { // Basic calculations for pattern card fields
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+                if (!patternCardFields[x][y]
+                        .hasDie()) { // for each empty pattern card field -1 score
+                    score -= 1;
+                } else { // pattern card field has die
+                    if (patternCardFields[x][y].getDie().getColor()
+                            .equals(privateObjectivecardColor)) { // for each die that has private objective card color +1 score
+                        score += 1;
+                    }
+                }
+            }
+        }
+
+        for (FavorToken favorToken : favorTokens) { // for each favor token +1 score
+            score += 1;
+        }
+
+        for (PublicObjectiveCard publicObjectiveCard : game.getPublicObjectiveCards()) {
+            score += publicObjectiveCard.calculateScore(patternCard);
+        }
+    }
 }
