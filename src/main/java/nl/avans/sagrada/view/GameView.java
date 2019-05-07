@@ -92,26 +92,7 @@ public class GameView extends VBox implements ViewInterface {
     }
     
     private void buildRoundTrack() {
-        GameDie gameDie1 = new GameDie(1, "geel", 1);
-        GameDie gameDie2 = new GameDie(2, "blauw", 3);
-        GameDie gameDie3 = new GameDie(3, "rood", 5);
-
         RoundTrack roundTrack = new RoundTrack();
-        roundTrack.addGameDie(gameDie1, 1);
-        roundTrack.addGameDie(gameDie2, 1);
-        roundTrack.addGameDie(gameDie3, 1);
-
-        roundTrack.addGameDie(gameDie1, 2);
-        roundTrack.addGameDie(gameDie3, 2);
-
-        roundTrack.addGameDie(gameDie1, 3);
-        roundTrack.addGameDie(gameDie2, 3);
-
-        roundTrack.addGameDie(gameDie2, 4);
-        roundTrack.addGameDie(gameDie3, 4);
-
-        roundTrack.addGameDie(gameDie1, 5);
-        roundTrack.addGameDie(gameDie3, 5);
 
         roundTrackView = new RoundTrackView(roundTrack);
         roundTrackView.render();
