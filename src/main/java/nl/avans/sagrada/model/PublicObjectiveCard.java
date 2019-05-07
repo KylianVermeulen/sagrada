@@ -4,11 +4,16 @@ public class PublicObjectiveCard {
     private int id;
     private String name;
     private String description;
-    private String imagePath;
     private int points;
-    
+    private String imagePath;
+
+    public PublicObjectiveCard() {
+
+    }
+
     /**
      * Filled constructor
+     * 
      * @param id int
      * @param seqnr int
      * @param description String
@@ -22,6 +27,7 @@ public class PublicObjectiveCard {
 
     /**
      * Returns public objective card id
+     * 
      * @return id (int)
      */
     public int getId() {
@@ -30,30 +36,34 @@ public class PublicObjectiveCard {
 
     /**
      * Sets public objective card id
+     * 
      * @param id int
      */
     public void setId(int id) {
         this.id = id;
     }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
+
+    /**
+     * Returns public objective card name
+     * 
+     * @return name (String)
+     */
     public String getName() {
         return name;
     }
-    
-    public void setPoints(int points) {
-        this.points = points;
-    }
-    
-    public int getPoints() {
-        return points;
+
+    /**
+     * Sets public objective card name
+     * 
+     * @param String name
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
      * Returns the public objective card description
+     * 
      * @return description (String)
      */
     public String getDescription() {
@@ -62,21 +72,42 @@ public class PublicObjectiveCard {
 
     /**
      * Sets the public objective card description
+     * 
      * @param description String
      */
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    /**
+     * Returns public objective card points
+     * 
+     * @return points (int)
+     */
+    public int getPoints() {
+        return points;
+    }
+    
+    /**
+     * Sets the public objective card points
+     * 
+     * @param points int
+     */
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     /**
      * Returns the public objective card image path
+     * 
      * @return image path (String)
      */
     public String getImagePath() {
         int[] ids = new int[10];
         for (int index = 0; index < ids.length; index++) {
             if (getId() == (index + 1)) {
-                setImagePath("/images/publicObjectiveCardImages/publicObjectiveCard" + (index + 1) + ".png");
+                setImagePath("/images/publicObjectiveCardImages/publicObjectiveCard" + (index + 1)
+                        + ".png");
             }
         }
         return imagePath;
@@ -84,6 +115,7 @@ public class PublicObjectiveCard {
 
     /**
      * Sets the public objective card image path
+     * 
      * @param imagePath String
      */
     public void setImagePath(String imagePath) {
