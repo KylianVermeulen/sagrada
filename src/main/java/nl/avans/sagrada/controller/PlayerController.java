@@ -2,7 +2,6 @@ package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.FavorTokenDao;
@@ -56,11 +55,10 @@ public class PlayerController {
      * If the player has insufficient funds, a message will appear on screen informing the player
      * about their lack of funds, and the player will not be able to use this toolcard.
      * </p>
-     * 
-     * @param game Game
+     *
      * @param toolcard Toolcard
      */
-    public void actionPayForToolcard(Toolcard toolcard) {
+    public void actionPayForToolcard(ToolCard toolcard) {
         FavorTokenDao favorTokenDao = new FavorTokenDao();
         ToolcardDao toolcardDao = new ToolcardDao();
         toolcardDao.toolcardHasPayment(toolcard, player.getGame());
