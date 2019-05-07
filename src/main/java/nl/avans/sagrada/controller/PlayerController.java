@@ -11,6 +11,8 @@ import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.*;
+import nl.avans.sagrada.view.popups.Alert;
+import nl.avans.sagrada.view.popups.AlertType;
 
 public class PlayerController {
     private MyScene myScene;
