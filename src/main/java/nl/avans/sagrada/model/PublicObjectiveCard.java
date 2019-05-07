@@ -264,8 +264,10 @@ public class PublicObjectiveCard {
         for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop through y-pos
             ArrayList<Integer> valueList = new ArrayList<>();
             for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop though x-pos
-                if (patternCard.getPatternCardField(x, y).hasDie()) { // Check if there is a places die
-                    valueList.add(patternCard.getPatternCardField(x, y).getDie().getEyes()); // Add the value to valueList
+                if (patternCard.getPatternCardField(x, y)
+                        .hasDie()) { // Check if there is a places die
+                    valueList.add(patternCard.getPatternCardField(x, y).getDie()
+                            .getEyes()); // Add the value to valueList
                 }
             }
 
@@ -300,8 +302,10 @@ public class PublicObjectiveCard {
         for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop though y-pos
             ArrayList<String> colorList = new ArrayList<>();
             for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop though x-pos
-                if (patternCard.getPatternCardField(x, y).hasDie()) { // Check if there is a placed die
-                    colorList.add(patternCard.getPatternCardField(x, y).getDie().getColor()); // Add the color to colorList
+                if (patternCard.getPatternCardField(x, y)
+                        .hasDie()) { // Check if there is a placed die
+                    colorList.add(patternCard.getPatternCardField(x, y).getDie()
+                            .getColor()); // Add the color to colorList
                 }
             }
 
@@ -388,8 +392,10 @@ public class PublicObjectiveCard {
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop though x-pos
             ArrayList<Integer> valueList = new ArrayList<>();
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop though y-pos
-                if (patternCard.getPatternCardField(x, y).hasDie()) { // Check if there is a placed die
-                    valueList.add(patternCard.getPatternCardField(x, y).getDie().getEyes()); // Add the value to valueList
+                if (patternCard.getPatternCardField(x, y)
+                        .hasDie()) { // Check if there is a placed die
+                    valueList.add(patternCard.getPatternCardField(x, y).getDie()
+                            .getEyes()); // Add the value to valueList
                 }
             }
 
@@ -424,8 +430,10 @@ public class PublicObjectiveCard {
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop though x-pos
             ArrayList<String> colorList = new ArrayList<>();
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop though y-pos
-                if (patternCard.getPatternCardField(x, y).hasDie()) { // Check if there is a placed die
-                    colorList.add(patternCard.getPatternCardField(x, y).getDie().getColor()); // Add the color to valueList
+                if (patternCard.getPatternCardField(x, y)
+                        .hasDie()) { // Check if there is a placed die
+                    colorList.add(patternCard.getPatternCardField(x, y).getDie()
+                            .getColor()); // Add the color to valueList
                 }
             }
 
