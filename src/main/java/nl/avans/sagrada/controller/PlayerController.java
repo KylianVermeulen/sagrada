@@ -27,7 +27,7 @@ public class PlayerController {
         player.setGame(game);
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
-        } 
+        }
     }
 
     public void viewOptionalPatternCards() {
@@ -155,18 +155,6 @@ public class PlayerController {
         Pane pane = new Pane();
         PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView();
         privateObjectiveCardView.setPlayer(this.player);
-        privateObjectiveCardView.render();
-
-        pane.getChildren().add(privateObjectiveCardView);
-        myScene.setContentPane(pane);
-    }
-
-    /**
-     * Example code
-     */
-    public void viewPrivateObjectiveCard() {
-        Pane pane = new Pane();
-        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView(this);
         privateObjectiveCardView.render();
 
         pane.getChildren().add(privateObjectiveCardView);
