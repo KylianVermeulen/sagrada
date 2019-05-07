@@ -22,10 +22,15 @@ public class PlayerController {
         this.myScene = myScene;
     }
     
+    /**
+     * Sets the player for the controller
+     * @param player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
     
+
     public void viewGame() {
         Game game = player.getGame();
         Pane pane = new Pane();
@@ -43,6 +48,7 @@ public class PlayerController {
         }
         else {
             if (!game.everyoneSelectedPatternCard()) {
+                // We don't allow anyone to the game view until everyone has a patterncard
                 Alert alert = new Alert("Nog even wachten", "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
                 myScene.addAlertPane(alert);
             }
@@ -71,6 +77,7 @@ public class PlayerController {
         player.generateFavorTokens();
         Game game = player.getGame();
         if (!game.everyoneSelectedPatternCard()) {
+            // We don't allow anyone to the game view until everyone has a patterncard
             Alert alert = new Alert("Nog even wachten", "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
             myScene.addAlertPane(alert);
             myScene.getAccountController().viewLobby();
@@ -217,10 +224,16 @@ public class PlayerController {
         myScene.setContentPane(dieView);
     }
     
+    /**
+     * Player is passing for a round
+     */
     public void actionPass() {
         
     }
 
+    /**
+     * Players wants to go back to the lobby
+     */
     public void exit() {
         myScene.getAccountController().viewLobby();
     }

@@ -13,8 +13,8 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class PatternCardFieldView extends StackPane implements ViewInterface {
-    private static final int WIDTH = 40;
-    private static final int HEIGHT = 40;
+    private static final int FIELD_WIDTH = 40;
+    private static final int FIELD_HEIGHT = 40;
     private PatternCard patternCard;
     private PatternCardField patternCardField;
     private PlayerController playerController;
@@ -27,7 +27,7 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      */
     public PatternCardFieldView(PlayerController playerController) {
         this.playerController = playerController;
-        setPrefSize(WIDTH, HEIGHT);
+        setPrefSize(FIELD_WIDTH, FIELD_HEIGHT);
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         setOnMouseClicked(e -> onClick());
 
@@ -91,8 +91,8 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      */
     public void addEyes() {
         ImageView image = new ImageView(images.get(patternCardField.getValue() - 1));
-        image.setFitHeight(HEIGHT);
-        image.setFitWidth(WIDTH);
+        image.setFitHeight(FIELD_HEIGHT);
+        image.setFitWidth(FIELD_WIDTH);
         getChildren().add(image);
     }
 

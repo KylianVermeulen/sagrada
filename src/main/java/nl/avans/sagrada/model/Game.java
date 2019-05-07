@@ -201,6 +201,11 @@ public class Game {
         return "";
     }
     
+    /**
+     * Get all the chatlines of a game trough the chatline dao
+     * And returns them
+     * @return ArrayList<Chatline>
+     */
     public ArrayList<Chatline> getChatlines() {
         ArrayList<Chatline> chatlines = new ChatlineDao().getChatlinesOfGame(this);
         return chatlines;
@@ -268,10 +273,18 @@ public class Game {
         }
     }
     
+    /**
+     * Set the toolcards of the current game
+     * @param toolCards
+     */
     public void setToolCards(ArrayList<ToolCard> toolCards) {
         this.toolCards = toolCards;
     }
     
+    /**
+     * Returns the toolcards of the current game
+     * @return ArrayList<ToolCard>
+     */
     public ArrayList<ToolCard> getToolCards() {
         return toolCards;
     }
@@ -334,6 +347,11 @@ public class Game {
         }
     }
 
+    /**
+     * Checks if every player has selected a patterncard
+     * If one player has not selected a patterncard we return false
+     * @return boolean
+     */
     public boolean everyoneSelectedPatternCard() {
         ArrayList<Player> players = getPlayers();
         for (Player player: players) {

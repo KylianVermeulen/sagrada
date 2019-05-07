@@ -30,6 +30,10 @@ public class ChatLineView extends VBox implements ViewInterface {
         messagebox = new VBox();
     }
     
+    /**
+     * Sets the chatlines a view needs to show
+     * @param chatlines
+     */
     public void setChatLines(ArrayList<Chatline> chatlines) {
         this.chatlines = chatlines;
     }

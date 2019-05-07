@@ -22,8 +22,7 @@ public class PrivateObjectiveCardView extends CardView {
 
     /**
      * Filled constructor
-     *
-     * @param playerController PlayerController.
+     * @param Player
      */
     public PrivateObjectiveCardView(Player player) {
         super();
