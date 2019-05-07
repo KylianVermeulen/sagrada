@@ -3,8 +3,6 @@ package nl.avans.sagrada.view;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -71,11 +69,11 @@ public class ToolCardView extends CardView {
         Image image = new Image(url);
         StackPane imagePane = new StackPane();
         ImageView imgview = new ImageView(image);
-        imgview.setFitHeight((CardView.CARD_HEIGHT/2));
+        imgview.setFitHeight((CardView.CARD_HEIGHT / 2));
         imgview.setFitWidth(CardView.CARD_WIDTH + 1);
         imgview.setPreserveRatio(false);
         imagePane.getChildren().add(imgview);
-        imagePane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT/2));
+        imagePane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT / 2));
         setCenter(imagePane);
     }
 

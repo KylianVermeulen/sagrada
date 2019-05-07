@@ -24,10 +24,9 @@ public class PlayerDao {
     public ArrayList<Player> getPlayersOfAccount(Account account) {
         ArrayList<Player> list = new ArrayList<>();
         try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM player WHERE username=?", "query",
-                            new QueryParameter(QueryParameter.STRING, account.getUsername()))
-            );
+            ResultSet rs = dbConnection
+                    .executeQuery(new Query("SELECT * FROM player WHERE username=?", "query",
+                            new QueryParameter(QueryParameter.STRING, account.getUsername())));
             while (rs.next()) {
                 Player player = new Player();
                 Game game = new GameDao().getGameById(rs.getInt("game_idgame"));
@@ -49,12 +48,10 @@ public class PlayerDao {
 
     public void updatePlayer(Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query(
-                            "UPDATE player SET username=?, game_idgame=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
-                            "update"),
-                    new QueryParameter(QueryParameter.STRING,
-                            player.getAccount().getUsername()),
+            ResultSet rs = dbConnection.executeQuery(new Query(
+                    "UPDATE player SET username=?, game_idgame=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
+                    "update"),
+                    new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                     new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
                     new QueryParameter(QueryParameter.INT, player.getSeqnr()),
@@ -62,8 +59,7 @@ public class PlayerDao {
                     new QueryParameter(QueryParameter.STRING,
                             player.getPrivateObjectivecardColor()),
                     new QueryParameter(QueryParameter.INT, player.getScore()),
-                    new QueryParameter(QueryParameter.INT, player.getId())
-            );
+                    new QueryParameter(QueryParameter.INT, player.getId()));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,21 +67,17 @@ public class PlayerDao {
 
     public void addPlayer(Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query(
-                            "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?,?, ?, ?, ?, ?, ?, ?)",
-                            "update"),
-                    new QueryParameter(QueryParameter.INT, player.getId()),
-                    new QueryParameter(QueryParameter.STRING,
-                            player.getAccount().getUsername()),
+            ResultSet rs = dbConnection.executeQuery(new Query(
+                    "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?,?, ?, ?, ?, ?, ?, ?)",
+                    "update"), new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                     new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
                     new QueryParameter(QueryParameter.INT, player.getSeqnr()),
                     new QueryParameter(QueryParameter.BOOLEAN, player.isCurrentPlayer()),
                     new QueryParameter(QueryParameter.STRING,
                             player.getPrivateObjectivecardColor()),
-                    new QueryParameter(QueryParameter.INT, player.getScore())
-            );
+                    new QueryParameter(QueryParameter.INT, player.getScore()));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -94,9 +86,9 @@ public class PlayerDao {
     public Player getPlayerById(int id) {
         Player player = new Player();
         try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM player WHERE idplayer=?", "query",
-                            new QueryParameter(QueryParameter.INT, id)));
+            ResultSet rs =
+                    dbConnection.executeQuery(new Query("SELECT * FROM player WHERE idplayer=?",
+                            "query", new QueryParameter(QueryParameter.INT, id)));
             if (rs.next()) {
                 AccountDao accountDao = new AccountDao();
                 Account account = accountDao.getAccountByUsername(rs.getString("username"));
@@ -135,8 +127,7 @@ public class PlayerDao {
                     new Query("SELECT idplayer FROM player WHERE username=? AND game_idgame=?",
                             "query"),
                     new QueryParameter(QueryParameter.STRING, account.getUsername()),
-                    new QueryParameter(QueryParameter.INT, game.getId())
-            );
+                    new QueryParameter(QueryParameter.INT, game.getId()));
             if (rs.next()) {
                 int playerId = rs.getInt("idplayer");
                 player = getPlayerById(playerId);
@@ -161,8 +152,7 @@ public class PlayerDao {
                     new Query("UPDATE player SET patterncard_idpatterncard=? WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, patternCard.getId()),
-                    new QueryParameter(QueryParameter.INT, player.getId())
-            );
+                    new QueryParameter(QueryParameter.INT, player.getId()));
         } catch (SQLException e) {
             e.printStackTrace();
         }

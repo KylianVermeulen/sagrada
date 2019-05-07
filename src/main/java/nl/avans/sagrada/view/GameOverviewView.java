@@ -27,6 +27,10 @@ public class GameOverviewView extends ScrollPane implements ViewInterface {
     public GameOverviewView(AccountController accountController) {
         this.accountController = accountController;
         setPrefSize(PANE_WIDTH, PANE_HEIGHT);
+        setMaxHeight(PANE_HEIGHT);
+        setMinHeight(PANE_HEIGHT);
+        setMaxWidth(PANE_WIDTH);
+        setMinWidth(PANE_WIDTH);
         setPannable(true);
     }
 

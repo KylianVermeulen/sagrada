@@ -4,28 +4,34 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
 import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.PatternCardView;
+import nl.avans.sagrada.view.PrivateObjectiveCardView;
 import nl.avans.sagrada.view.PublicObjectiveCardView;
 import nl.avans.sagrada.view.ToolCardView;
+import nl.avans.sagrada.view.popups.Alert;
+import nl.avans.sagrada.view.popups.AlertType;
 
 public class PlayerController {
-    private Player player;
     private MyScene myScene;
+    private Player player;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -57,8 +63,8 @@ public class PlayerController {
 
     public void viewOptionalPatternCards() {
         Pane pane = new Pane();
-        ArrayList<PatternCard> patternCards = new PatternCardDao()
-                .getOptionalPatternCardsOfPlayer(player);
+        ArrayList<PatternCard> patternCards =
+                new PatternCardDao().getOptionalPatternCardsOfPlayer(player);
         PatternCardSelectionView patternCardSelectionView = new PatternCardSelectionView(this);
         patternCardSelectionView.setOptionalPatternCards(patternCards);
         patternCardSelectionView.render();
@@ -145,6 +151,19 @@ public class PlayerController {
 
     /**
      * Example code
+     */
+    public void viewPrivateObjectiveCard() {
+        Pane pane = new Pane();
+        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView();
+        privateObjectiveCardView.setPlayer(this.player);
+        privateObjectiveCardView.render();
+
+        pane.getChildren().add(privateObjectiveCardView);
+        myScene.setContentPane(pane);
+    }
+
+    /**
+     * Example code
      *
      * @param player the player to view the PatternCard of.
      */
@@ -175,5 +194,42 @@ public class PlayerController {
 
     public void exit() {
         myScene.getAccountController().viewLobby();
+    }
+    /**
+     * Method that adds a message to the view and database
+     *
+     * @param text String
+     */
+    public void actionSendMessage(String text) {
+        ChatlineDao chatlineDao = new ChatlineDao();
+        Chatline chatline = new Chatline(player, text);
+        chatlineDao.getTime(chatline);
+
+        if (!text.matches("")) {
+            if (chatlineDao.timeExistsOfPlayer(chatline) == false) {
+                chatlineDao.addChatline(chatline);
+                ChatLineView chatview = new ChatLineView(this);
+                chatview.addExistingMessages(player.getChatlines());
+                chatview.addMessage(chatline);
+                player.addChatline(chatline);
+                myScene.setContentPane(chatview);
+            } else {
+                Alert alert = new Alert("Waarschuwing",
+                        "Je mag maar 1 keer per seconde een bericht versturen!", AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
+        } else {
+            Alert alert =
+                    new Alert("Waarschuwing", "Je bericht moet tekst bevatten", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+        }
+    }
+
+    /**
+     * Method to view the chat
+     */
+    public void viewChat() {
+        ChatLineView chatlineview = new ChatLineView(this);
+        myScene.setContentPane(chatlineview);
     }
 }
