@@ -16,8 +16,8 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class PatternCardView extends BorderPane implements ViewInterface {
-    private final int WIDTH = 310;
-    private final int HEIGHT = 230;
+    public static final int PATTERNCARD_WIDTH = 310;
+    public static final int PATTERNCARD_HEIGHT = 230;
     private PatternCard patternCard;
     private PlayerController playerController;
     private PatternCardFieldView[][] patternCardFieldViews;
@@ -31,9 +31,7 @@ public class PatternCardView extends BorderPane implements ViewInterface {
      */
     public PatternCardView(PlayerController playerController) {
         this.playerController = playerController;
-        setPrefSize(WIDTH, HEIGHT);
-        setMaxSize(WIDTH, HEIGHT);
-
+        setPrefSize(PATTERNCARD_WIDTH, PATTERNCARD_HEIGHT);
         setPadding(new Insets(10, 0, 0, 10));
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 
@@ -55,7 +53,8 @@ public class PatternCardView extends BorderPane implements ViewInterface {
     public void render() {
         getChildren().clear();
         patternCardField = new TilePane();
-        patternCardFieldViews = new PatternCardFieldView[PatternCard.CARD_SQUARES_WIDTH][PatternCard.CARD_SQUARES_HEIGHT];
+        patternCardFieldViews = new PatternCardFieldView[PatternCard.CARD_SQUARES_WIDTH + 1][
+                PatternCard.CARD_SQUARES_HEIGHT + 1];
         makePatternCardFieldViews();
 
         setCenter(patternCardField);
@@ -87,8 +86,8 @@ public class PatternCardView extends BorderPane implements ViewInterface {
      * Makes a 2D Array with the PatternCardField and their positions
      */
     private void makePatternCardFieldViews() {
-        for (int y = 0; y < PatternCard.CARD_SQUARES_HEIGHT; y++) {
-            for (int x = 0; x < PatternCard.CARD_SQUARES_WIDTH; x++) {
+        for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
                 PatternCardFieldView patternCardFieldView = new PatternCardFieldView(
                         playerController);
                 patternCardFieldView.setPatternCard(patternCard);

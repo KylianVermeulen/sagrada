@@ -1,37 +1,59 @@
 package nl.avans.sagrada.controller;
 
+import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
-import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.GameDie;
-import nl.avans.sagrada.model.PatternCard;
-import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.model.PublicObjectiveCard;
-import nl.avans.sagrada.model.Toolcard;
-import nl.avans.sagrada.view.DieView;
-import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.PatternCardView;
-import nl.avans.sagrada.view.PublicObjectiveCardView;
-import nl.avans.sagrada.view.ToolCardView;
+import nl.avans.sagrada.model.*;
+import nl.avans.sagrada.view.*;
 
 import java.util.ArrayList;
 
 public class PlayerController {
-    private Player player;
     private MyScene myScene;
+    private Player player;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
     }
 
+    public void actionJoinGame(Account account, Game game) {
+        player = new PlayerDao().getPlayerByAccountAndGame(account, game);
+        player.setGame(game);
+        if (player.getPatternCard() == null) {
+            viewOptionalPatternCards();
+        }
+    }
+
+    public void viewOptionalPatternCards() {
+        Pane pane = new Pane();
+        ArrayList<PatternCard> patternCards =
+                new PatternCardDao().getOptionalPatternCardsOfPlayer(player);
+        PatternCardSelectionView patternCardSelectionView = new PatternCardSelectionView(this);
+        patternCardSelectionView.setOptionalPatternCards(patternCards);
+        patternCardSelectionView.render();
+        pane.getChildren().add(patternCardSelectionView);
+        myScene.setContentPane(pane);
+    }
+
+    public void actionSelectPatternCard(PatternCard patternCard) {
+        PlayerDao playerDao = new PlayerDao();
+        player.setPatternCard(patternCard);
+        playerDao.updateSelectedPatternCard(player, patternCard);
+        player.generateFavorTokens();
+        viewPatternCardOfPlayer(player);
+    }
+
     /**
      * Example code
      *
-     * @param game the game to view the three Toolcard's of.
+     * @param game the game to view the three Toolcards of.
      */
     public void viewToolcards(Game game) {
         ToolcardDao toolcardDao = new ToolcardDao();
@@ -94,6 +116,49 @@ public class PlayerController {
         pane.setLeft(publicObjectiveCardViews[0]);
         pane.setCenter(publicObjectiveCardViews[1]);
         pane.setRight(publicObjectiveCardViews[2]);
+        myScene.setContentPane(pane);
+    }
+
+    /**
+     * Test function for roundTrack
+     */
+    public void viewRoundTrack() {
+        GameDie gameDie1 = new GameDie(1, "geel", 1);
+        GameDie gameDie2 = new GameDie(2, "blauw", 3);
+        GameDie gameDie3 = new GameDie(3, "rood", 5);
+
+        RoundTrack roundTrack = new RoundTrack();
+        roundTrack.addGameDie(gameDie1, 1);
+        roundTrack.addGameDie(gameDie2, 1);
+        roundTrack.addGameDie(gameDie3, 1);
+
+        roundTrack.addGameDie(gameDie1, 2);
+        roundTrack.addGameDie(gameDie3, 2);
+
+        roundTrack.addGameDie(gameDie1, 3);
+        roundTrack.addGameDie(gameDie2, 3);
+
+        roundTrack.addGameDie(gameDie2, 4);
+        roundTrack.addGameDie(gameDie3, 4);
+
+        roundTrack.addGameDie(gameDie1, 5);
+        roundTrack.addGameDie(gameDie3, 5);
+
+        RoundTrackView roundTrackView = new RoundTrackView(roundTrack);
+        roundTrackView.render();
+        myScene.setContentPane(roundTrackView);
+    }
+
+    /**
+     * Example code
+     */
+    public void viewPrivateObjectiveCard() {
+        Pane pane = new Pane();
+        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView();
+        privateObjectiveCardView.setPlayer(this.player);
+        privateObjectiveCardView.render();
+
+        pane.getChildren().add(privateObjectiveCardView);
         myScene.setContentPane(pane);
     }
 
@@ -181,5 +246,43 @@ public class PlayerController {
 
     public void placeDie(GameDie die, PatternCardField patterncardField) {
         patterncardField.placeDie(die);
+    }
+
+    /**
+     * Method that adds a message to the view and database
+     *
+     * @param text String
+     */
+    public void actionSendMessage(String text) {
+        ChatlineDao chatlineDao = new ChatlineDao();
+        Chatline chatline = new Chatline(player, text);
+        chatlineDao.getTime(chatline);
+
+        if (!text.matches("")) {
+            if (chatlineDao.timeExistsOfPlayer(chatline) == false) {
+                chatlineDao.addChatline(chatline);
+                ChatLineView chatview = new ChatLineView(this);
+                chatview.addExistingMessages(player.getChatlines());
+                chatview.addMessage(chatline);
+                player.addChatline(chatline);
+                myScene.setContentPane(chatview);
+            } else {
+                Alert alert = new Alert("Waarschuwing",
+                        "Je mag maar 1 keer per seconde een bericht versturen!", AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
+        } else {
+            Alert alert =
+                    new Alert("Waarschuwing", "Je bericht moet tekst bevatten", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+        }
+    }
+
+    /**
+     * Method to view the chat
+     */
+    public void viewChat() {
+        ChatLineView chatlineview = new ChatLineView(this);
+        myScene.setContentPane(chatlineview);
     }
 }
