@@ -12,6 +12,8 @@ import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.database.ChecksumDatabase;
+import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.view.popups.Alert;
 
 public class MyScene extends Scene {
@@ -37,7 +39,17 @@ public class MyScene extends Scene {
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
-        playerController.makeClickPlacement();
+        //playerController.makeClickPlacement();
+        
+        
+        PatternCard patterncard = new PatternCard(2, true);
+        PatternCardView patterncardview = new PatternCardView(playerController);
+        patterncardview.setPatternCard(patterncard);
+        GameDie gamedie = new GameDie(1, "blauw" , 6);
+        patterncard.placeDie(1, 2, gamedie);
+        patterncardview.render();
+        setContentPane(patterncardview);
+        
 //        accountController.viewLogin();
     }
 

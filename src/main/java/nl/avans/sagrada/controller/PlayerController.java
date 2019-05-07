@@ -16,7 +16,6 @@ import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.*;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
-import java.util.ArrayList;
 
 public class PlayerController {
     private MyScene myScene;

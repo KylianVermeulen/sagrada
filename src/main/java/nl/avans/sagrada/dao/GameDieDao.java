@@ -22,13 +22,13 @@ public class GameDieDao {
     public void placeDie(GameDie die, PatternCardField patterncardfield, Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("UPDATE playerframefield SET player_idplayer=?, position_x=?, position_y=?, idgame=?, dienumber=?, diecolor=?", "update"),
-                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new Query("UPDATE playerframefield SET position_x=?, position_y=?, idgame=?, dienumber=?, diecolor=? WHERE player_idplayer=?", "update"),
                     new QueryParameter(QueryParameter.INT, patterncardfield.getxPos()),
                     new QueryParameter(QueryParameter.INT, patterncardfield.getyPos()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                     new QueryParameter(QueryParameter.INT, die.getNumber()),
-                    new QueryParameter(QueryParameter.STRING, die.getColor())
+                    new QueryParameter(QueryParameter.STRING, die.getColor()),
+                    new QueryParameter(QueryParameter.INT, player.getId())
                     );
         } catch (SQLException e) {
             e.printStackTrace();

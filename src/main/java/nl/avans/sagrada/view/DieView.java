@@ -37,7 +37,7 @@ public class DieView extends Pane implements ViewInterface {
     public DieView(GameDie gameDie) {
         this.gameDie = gameDie;
         images = new ArrayList<ImageView>();
-        setPrefSize(WIDTH, HEIGHT);
+        setPrefSize(DIE_WIDTH, DIE_HEIGHT);
         setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
         diceEyesArray();
         resizeImages();
