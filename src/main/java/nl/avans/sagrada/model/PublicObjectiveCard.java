@@ -248,6 +248,13 @@ public class PublicObjectiveCard {
         return score;
     }
 
+    /**
+     * Calculate the score for a patterncard for each unique set of values in a row.
+     *
+     * @param patternCard The patterncard.
+     * @param rewardScore The score for each set.
+     * @return The score.
+     */
     private int calculateRowShadeVariety(PatternCard patternCard, int rewardScore) {
         int score = 0;
 
@@ -277,6 +284,13 @@ public class PublicObjectiveCard {
         return score;
     }
 
+    /**
+     * Calculate the score for a patterncard for each unique set of colors in a row.
+     *
+     * @param patternCard The patterncard.
+     * @param rewardScore The score for each set.
+     * @return The score.
+     */
     private int calculateRowColorVariety(PatternCard patternCard, int rewardScore) {
         int score = 0;
 
@@ -358,6 +372,13 @@ public class PublicObjectiveCard {
         return score;
     }
 
+    /**
+     * Calculate the score for a patterncard for each unique set of values in a column.
+     *
+     * @param patternCard The patterncard.
+     * @param rewardScore The score for each set.
+     * @return The score.
+     */
     private int calculateColumnShadeVariety(PatternCard patternCard, int rewardScore) {
         int score = 0;
 
