@@ -280,20 +280,28 @@ public class Game {
     public void assignRandomToolcards() {
         ToolcardDao toolcardDao = new ToolcardDao();
 
-        double randomNumber1 = (Math.random() * 11) + 1;
-        double randomNumber2 = (Math.random() * 11) + 1;
-        double randomNumber3 = (Math.random() * 11) + 1;
+        Random random = new Random();
+        
+        int min = 1;
+        int max = 12;
+        
+        int randomNumber1 = random.nextInt((max - min) + 1) + min;
+        int randomNumber2 = random.nextInt((max - min) + 1) + min;
+        int randomNumber3 = random.nextInt((max - min) + 1) + min;
 
-        if (randomNumber1 == randomNumber2 || randomNumber1 == randomNumber3
-                || randomNumber2 == randomNumber3) {
-            assignRandomToolcards();
+        boolean foundThreeValues = false;
 
+        while (!foundThreeValues) {
+            randomNumber1 = random.nextInt((max - min) + 1) + min;
+            randomNumber2 = random.nextInt((max - min) + 1) + min;
+            randomNumber3 = random.nextInt((max - min) + 1) + min;
+            if (randomNumber1 != randomNumber2 && randomNumber1 != randomNumber3
+                    && randomNumber2 != randomNumber3) {
+                foundThreeValues = true;
+            }
         }
-        int randomToolCardId1 = (int) Math.round(randomNumber1);
-        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomToolCardId1), this);
-        int randomToolCardId2 = (int) Math.round(randomNumber2);
-        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomToolCardId2), this);
-        int randomToolCardId3 = (int) Math.round(randomNumber3);
-        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomToolCardId3), this);
+        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber1), this);
+        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber2), this);
+        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber3), this);
     }
 }

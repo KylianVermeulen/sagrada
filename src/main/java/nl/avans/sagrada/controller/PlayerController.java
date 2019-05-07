@@ -2,6 +2,7 @@ package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.FavorTokenDao;
@@ -57,18 +58,19 @@ public class PlayerController {
         
         if (player.getFavorTokens().size() > 0) {
             if (!toolcard.hasBeenPaidForBefore()) {
-                FavorToken favorToken = player.getFavorTokens().get(0);
-                favorTokenDao.setFavortokensForToolcard(favorToken, toolcard, game);
-                player.getFavorTokens().remove(0);
+                ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+                favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard, game);
+                newFavorTokens.remove(0);
+                player.setFavorTokens(newFavorTokens);
                 toolcard.setHasBeenPaidForBefore(true);
             } else {
                 if (player.getFavorTokens().size() > 1) {
-                    FavorToken favorToken = player.getFavorTokens().get(0);
-                    favorTokenDao.setFavortokensForToolcard(favorToken, toolcard, game);
-                    player.getFavorTokens().remove(0);
-                    FavorToken favorToken2 = player.getFavorTokens().get(0);
-                    favorTokenDao.setFavortokensForToolcard(favorToken2, toolcard, game);
-                    player.getFavorTokens().remove(0);
+                    ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+                    favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard, game);
+                    newFavorTokens.remove(0);
+                    favorTokenDao.setFavortokensForToolcard(newFavorTokens.get(0), toolcard, game);
+                    newFavorTokens.remove(0);
+                    player.setFavorTokens(newFavorTokens);
                 } else {
                     handleToolcardPaymentRejection(game);
                 }
@@ -93,6 +95,8 @@ public class PlayerController {
         player.setGame(game);
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
+        } else {
+            viewToolcards(game);
         }
     }
 
@@ -137,6 +141,9 @@ public class PlayerController {
         pane.setLeft(toolcardViews[0]);
         pane.setCenter(toolcardViews[1]);
         pane.setRight(toolcardViews[2]);
+        Button button = new Button("Pay");
+        button.setOnAction(e -> actionPayForToolcard(game, toolcards[0]));
+        pane.setBottom(button);
         myScene.setContentPane(pane);
     }
 

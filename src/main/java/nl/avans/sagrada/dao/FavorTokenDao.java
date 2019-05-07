@@ -31,7 +31,7 @@ public class FavorTokenDao {
         ArrayList<FavorToken> list = new ArrayList<>();
         try {
             ResultSet rs = dbConnection
-                    .executeQuery(new Query("SELECT * FROM gamefavortoken WHERE idplayer=?",
+                    .executeQuery(new Query("SELECT * FROM gamefavortoken WHERE idplayer=? AND gametoolcard IS NULL",
                             "query", new QueryParameter(QueryParameter.INT, player.getId())));
             while (rs.next()) {
                 FavorToken favorToken = new FavorToken(rs.getInt("idfavortoken"), player);

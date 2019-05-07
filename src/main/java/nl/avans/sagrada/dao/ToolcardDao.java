@@ -164,15 +164,15 @@ public class ToolcardDao {
         boolean toolcardHasPayment = toolcard.hasBeenPaidForBefore();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM gamefavortoken WHERE idtoolcard=? AND idgame=?", "query"),
-                    new QueryParameter(QueryParameter.INT, toolcard.getId()),
+                    new Query("SELECT * FROM gamefavortoken WHERE gametoolcard=? AND idgame=?", "query"),
+                    new QueryParameter(QueryParameter.INT, getGameToolcardForToolcardId(toolcard.getId(), game.getId())),
                     new QueryParameter(QueryParameter.INT, game.getId())
             );
             if (rs.next()) {
-                if (rs.getInt("idtoolcard") == 0) {
-                    toolcard.setHasBeenPaidForBefore(true);
-                } else {
+                if (rs.getInt("gametoolcard") == 0) {
                     toolcard.setHasBeenPaidForBefore(false);
+                } else {
+                    toolcard.setHasBeenPaidForBefore(true);
                 }
             }
         } catch (SQLException e) {
