@@ -47,6 +47,8 @@ public class GameView extends VBox implements ViewInterface {
         this.game = game;
         this.playerController = playerController;
         this.player = player;
+        
+        setSpacing(SPACING_BETWEEN_CHILDS);
     }
     
     private void buildOtherPlayerPatternCards() {
@@ -108,7 +110,7 @@ public class GameView extends VBox implements ViewInterface {
     private void buildChatLine() {
         chatLine = new Pane();
         chatLine.setPrefHeight(200);
-        chatLine.setPrefWidth(Main.SCREEN_WIDTH / 3);
+        chatLine.setPrefWidth(300);
         chatLine.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
     }
     
@@ -131,7 +133,7 @@ public class GameView extends VBox implements ViewInterface {
     
     private void buildPlayerPrivateObjectiveCard() {
         privateObjectiveCardView = new Pane();
-        privateObjectiveCardView.setPrefSize((CardView.CARD_WIDTH / 1.2), (CardView.CARD_WIDTH / 4));
+        privateObjectiveCardView.setPrefSize(CardView.CARD_WIDTH, CardView.CARD_WIDTH);
         privateObjectiveCardView.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
     }
     
@@ -147,6 +149,7 @@ public class GameView extends VBox implements ViewInterface {
         actionButtons.getChildren().addAll(passButton, exitButton);
         actionButtons.setAlignment(Pos.BOTTOM_CENTER);
         actionButtons.setSpacing(SPACING_BETWEEN_CHILDS);
+        actionButtons.setPadding(new Insets(40,0,0,0));
     }
     
 
@@ -166,16 +169,16 @@ public class GameView extends VBox implements ViewInterface {
         buildActionButtons();
         
         BorderPane firstView = new BorderPane();
-        firstView.setPrefHeight(PatternCardView.PATTERNCARD_HEIGHT);
+        firstView.setPrefHeight(PatternCardView.PATTERNCARD_HEIGHT - 15);
         firstView.setPrefWidth(Main.SCREEN_WIDTH);
-        firstView.setPadding(new Insets(0,0,20,0));
         
         HBox secondView = new HBox();
         secondView.setAlignment(Pos.CENTER);
-        secondView.setPadding(new Insets(0,0,20,0));
         secondView.setSpacing(SPACING_BETWEEN_CHILDS);
+        secondView.setPrefWidth(Main.SCREEN_WIDTH);
+
         BorderPane thirdView = new BorderPane();
-        thirdView.setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT / 3);
+        thirdView.setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT / 3 - 15);
         
         firstView.setCenter(otherPlayerPatternCardViews);
         firstView.setRight(scoreBoard);
