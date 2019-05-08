@@ -11,7 +11,7 @@ import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.ToolCard;
 
 public class ToolCardView extends CardView {
-    private ToolCard toolcard;
+    private ToolCard toolCard;
     private PlayerController playerController;
 
     /**
@@ -28,28 +28,28 @@ public class ToolCardView extends CardView {
     }
 
     /**
-     * Returns the toolcard that is currently linked to this view.
+     * Returns the toolCard that is currently linked to this view.
      *
-     * @return toolcard that is linked to this view
+     * @return toolCard that is linked to this view
      */
     public ToolCard getToolCard() {
-        return toolcard;
+        return toolCard;
     }
 
     /**
-     * Sets the current toolcard that is linked to this view.
+     * Sets the current toolCard that is linked to this view.
      *
-     * @param toolcard Toolcard
+     * @param toolCard Toolcard
      */
-    public void setToolCard(ToolCard toolcard) {
-        this.toolcard = toolcard;
+    public void setToolCard(ToolCard toolCard) {
+        this.toolCard = toolCard;
     }
 
     /**
-     * Generates a text to display a toolcard's description.
+     * Generates a text to display a toolCard's description.
      */
     public void showDescription() {
-        Text description = new Text(toolcard.getDescription());
+        Text description = new Text(toolCard.getDescription());
         description.setFont(Main.SAGRADA_FONT);
         description.setTextAlignment(TextAlignment.CENTER);
         description.wrappingWidthProperty().set(CardView.CARD_WIDTH);
@@ -61,7 +61,7 @@ public class ToolCardView extends CardView {
     }
 
     /**
-     * Displays the toolcard image.
+     * Displays the toolCard image.
      *
      * @param url String
      */
@@ -78,10 +78,10 @@ public class ToolCardView extends CardView {
     }
 
     /**
-     * Generates a text to display the number at the top of the toolcard.
+     * Generates a text to display the number at the top of the toolCard.
      */
     public void showNumber() {
-        Text name = new Text(Integer.toString(toolcard.getSeqnr()) + "\n" + toolcard.getName());
+        Text name = new Text(Integer.toString(toolCard.getSeqnr()) + "\n" + toolCard.getName());
         name.setFont(Main.SAGRADA_FONT);
         name.wrappingWidthProperty().set(CardView.CARD_WIDTH);
         name.setTextAlignment(TextAlignment.CENTER);
@@ -95,7 +95,7 @@ public class ToolCardView extends CardView {
     public void render() {
         getChildren().clear();
         showNumber();
-        showImage(toolcard.getImagePath());
+        showImage(toolCard.getImagePath());
         showDescription();
     }
 }
