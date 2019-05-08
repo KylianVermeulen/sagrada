@@ -31,7 +31,7 @@ public class ToolCard {
         this.name = name;
     }
 
-    public void useToolcard() {}
+    public void useToolCard() {}
 
     /**
      * Returns the toolcard id.

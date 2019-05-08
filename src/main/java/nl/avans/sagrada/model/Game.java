@@ -7,7 +7,7 @@ import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
-import nl.avans.sagrada.dao.ToolcardDao;
+import nl.avans.sagrada.dao.ToolCardDao;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
@@ -26,10 +26,10 @@ public class Game {
     public Game(int id) {
         this.id = id;
         GameDao gameDao = new GameDao();
-        ToolcardDao toolcardDao = new ToolcardDao();
-        
+        ToolCardDao toolCardDao = new ToolCardDao();
+
         players = gameDao.getPlayersOfGame(this);
-        toolCards = toolcardDao.getToolcardsOfGame(this);
+        toolCards = toolCardDao.getToolCardsOfGame(this);
     }
 
     public Game() {
@@ -151,7 +151,8 @@ public class Game {
      */
     public PublicObjectiveCard[] getPublicObjectiveCards() {
         PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
-        publicObjectiveCards = publicObjectiveCardDao.getAllPublicObjectiveCardsOfGame(this).toArray(new PublicObjectiveCard[3]);
+        publicObjectiveCards = publicObjectiveCardDao.getAllPublicObjectiveCardsOfGame(this)
+                .toArray(new PublicObjectiveCard[3]);
         return publicObjectiveCards;
     }
 
@@ -199,10 +200,10 @@ public class Game {
         }
         return "";
     }
-    
+
     /**
-     * Get all the chatlines of a game trough the chatline dao
-     * And returns them
+     * Get all the chatlines of a game trough the chatline dao And returns them
+     *
      * @return ArrayList<Chatline>
      */
     public ArrayList<Chatline> getChatlines() {
@@ -271,33 +272,32 @@ public class Game {
             playerDao.updatePlayer(player);
         }
     }
-    
-    /**
-     * Set the toolcards of the current game
-     * @param toolCards
-     */
-    public void setToolCards(ArrayList<ToolCard> toolCards) {
-        this.toolCards = toolCards;
-    }
-    
+
     /**
      * Returns the toolcards of the current game
+     *
      * @return ArrayList<ToolCard>
      */
     public ArrayList<ToolCard> getToolCards() {
         return toolCards;
     }
-    
+
+    /**
+     * Set the toolcards of the current game
+     */
+    public void setToolCards(ArrayList<ToolCard> toolCards) {
+        this.toolCards = toolCards;
+    }
+
     /**
      * Assigns three random toolcards to the current game (given as parameter).
      * <p>
      * Firstly, the method makes a total of three random (double) numbers, which in turn are
-     * converted into integers after rounding the doubles. </br>
-     * Then, the method checks whether the toolcardID from the array is the first entry of the array
-     * or not, and, if not, checks if the current id is the same as the previous array entry id. If
-     * these two are the same, the current id gets an increase of one in order to make sure the two
-     * ids are not the same. </br>
-     * If the new value of the current toolcard id is higher than 12, the id gets decreased by 2.
+     * converted into integers after rounding the doubles. </br> Then, the method checks whether the
+     * toolcardID from the array is the first entry of the array or not, and, if not, checks if the
+     * current id is the same as the previous array entry id. If these two are the same, the current
+     * id gets an increase of one in order to make sure the two ids are not the same. </br> If the
+     * new value of the current toolcard id is higher than 12, the id gets decreased by 2.
      * </br>
      * If the current toolcard id is the third array entry, the method ensures that this new value
      * (as described above) is not the same as the first AND second array entries.
@@ -305,12 +305,12 @@ public class Game {
      * <p>
      * If, before the scenario as pictured above takes place, the current toolcard id is the third
      * entry, and the current toolcard id is the same as the first array entry, the same action as
-     * above takes place, except now another increase in id happens. </br>
-     * If, again, this value is higher than 12, the value gets a decrease of two.
+     * above takes place, except now another increase in id happens. </br> If, again, this value is
+     * higher than 12, the value gets a decrease of two.
      * </p>
      */
-    public void assignRandomToolcards() {
-        ToolcardDao toolcardDao = new ToolcardDao();
+    public void assignRandomToolCards() {
+        ToolCardDao toolCardDao = new ToolCardDao();
 
         Random random = new Random();
 
@@ -332,19 +332,18 @@ public class Game {
                 foundThreeValues = true;
             }
         }
-        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber1), this);
-        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber2), this);
-        toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomNumber3), this);
+        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber1), this);
+        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber2), this);
+        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber3), this);
     }
 
-    /**\
-     * assign three random public objectivecards to a game.
-     * first the method makes three random numbers between 1 and 10. 
-     * while some numbers are the same than make new number until all numbers are different.
-     * Then add the public objectivecards to the game.
+    /**
      * \ assign three random public objectivecards to a game. first the method makes three random
      * numbers between 1 and 10. while some numbers are the same than make new number until all
-     * numbers are different. Then add the public objectivecards to the game.
+     * numbers are different. Then add the public objectivecards to the game. \ assign three random
+     * public objectivecards to a game. first the method makes three random numbers between 1 and
+     * 10. while some numbers are the same than make new number until all numbers are different.
+     * Then add the public objectivecards to the game.
      */
     public void assignRandomPublicObjectiveCards() {
         PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
@@ -378,8 +377,9 @@ public class Game {
     }
 
     /**
-     * Checks if every player has selected a patterncard
-     * If one player has not selected a patterncard we return false
+     * Checks if every player has selected a patterncard If one player has not selected a
+     * patterncard we return false
+     *
      * @return boolean
      */
     public boolean everyoneSelectedPatternCard() {
