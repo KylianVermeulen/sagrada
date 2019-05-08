@@ -70,7 +70,7 @@ public class PatternCardField {
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
         if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
+            return !pcd.getColor().equals(color);
         }
         return true;
     }
@@ -87,7 +87,7 @@ public class PatternCardField {
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
         if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
+            return !pcd.getColor().equals(color);
         }
         return true;
     }
@@ -104,7 +104,7 @@ public class PatternCardField {
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
         if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
+            return !pcd.getColor().equals(color);
         }
         return true;
     }
@@ -121,7 +121,7 @@ public class PatternCardField {
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);
         if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
+            return !pcd.getColor().equals(color);
         }
         return true;
     }
@@ -279,7 +279,7 @@ public class PatternCardField {
      *
      * @return Color
      */
-    public Color getColor() {
+    public Color getFXColor() {
         switch (color) {
             case "rood":
                 return Color.RED;
@@ -322,7 +322,7 @@ public class PatternCardField {
      *
      * @return String
      */
-    public String getStringColor() {
+    public String getColor() {
         return this.color;
     }
 
@@ -345,5 +345,50 @@ public class PatternCardField {
      */
     public boolean hasDie() {
         return die != null;
+    }
+
+    public PatternCardField checkNorthEastColorDie() {
+        if (xPos == 5 || yPos == 1) {
+            return null;
+        }
+        GameDie gameDie = patternCard.getPatternCardField(xPos + 1, yPos - 1).getDie();
+        if (gameDie.getColor().equals(color))  {
+            Integer[] loc = {xPos + 1, yPos - 1};
+            return patternCard.getPatternCardField(xPos + 1, yPos - 1);
+        }
+        return null;
+    }
+
+    public PatternCardField checkSouthEastColorDie() {
+        if (xPos == 5 || yPos == 4) {
+            return null;
+        }
+        GameDie gameDie = patternCard.getPatternCardField(xPos + 1, yPos + 1).getDie();
+        if (gameDie.getColor().equals(color))  {
+            return patternCard.getPatternCardField(xPos + 1, yPos + 1);
+        }
+        return null;
+    }
+
+    public PatternCardField checkSouthWestColorDie() {
+        if (xPos == 1 || yPos == 4) {
+            return null;
+        }
+        GameDie gameDie = patternCard.getPatternCardField(xPos - 1, yPos + 1).getDie();
+        if (gameDie.getColor().equals(color))  {
+            return patternCard.getPatternCardField(xPos - 1, yPos + 1);
+        }
+        return null;
+    }
+
+    public PatternCardField checkNorthWestColorDie() {
+        if (xPos == 1 || yPos == 1) {
+            return null;
+        }
+        GameDie gameDie = patternCard.getPatternCardField(xPos - 1, yPos - 1).getDie();
+        if (gameDie.getColor().equals(color))  {
+            return patternCard.getPatternCardField(xPos - 1, yPos - 1);
+        }
+        return null;
     }
 }
