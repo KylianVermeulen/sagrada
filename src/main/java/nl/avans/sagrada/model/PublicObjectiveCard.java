@@ -461,81 +461,78 @@ public class PublicObjectiveCard {
     private int calculateColorDiagonals(PatternCard patternCard, int rewardScore) {
         int score = 0;
 
-        ArrayList<Integer[]> blockedFields = new ArrayList<>();
+        ArrayList<PatternCardField> blockedFields = new ArrayList<>();
         for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
             for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
-                Integer[] locFirst = {x,y};
-                if (blockedFields.contains(locFirst)) {
+                if (blockedFields.contains(patternCard.getPatternCardField(x, y))) {
                     continue;
                 }
-                blockedFields.add(locFirst);
                 if (patternCard.getPatternCardField(x, y).hasDie()) {
                     PatternCardField firstPatternCardField = patternCard.getPatternCardField(x, y);
+                    blockedFields.add(firstPatternCardField);
 
                     ArrayList<PatternCardField> nextIteration = new ArrayList<>();
-                    HashMap<PatternCardField, Integer[]> list = checkColorDiagonals(firstPatternCardField); // FIRST ROUND
-                    for (Map.Entry<PatternCardField, Integer[]> entry : list.entrySet()) {
+                    HashMap<PatternCardField, int[]> list = checkColorDiagonals(firstPatternCardField); // FIRST ROUND
+                    for (Map.Entry<PatternCardField, int[]> entry : list.entrySet()) {
                         PatternCardField patternCardField = entry.getKey();
-                        Integer[] loc = entry.getValue();
-                        if (!blockedFields.contains(loc)) {
-                            blockedFields.add(loc);
+                        if (!blockedFields.contains(patternCardField)) {
+                            blockedFields.add(patternCardField);
+                            nextIteration.add(patternCardField);
                         }
-                        nextIteration.add(patternCardField);
                     }
 
                     if (nextIteration.size() == 0) {
-                        blockedFields.remove(locFirst);
+                        blockedFields.remove(firstPatternCardField);
                         continue;
                     }
 
-                    for (int i = 0; i < nextIteration.size(); i++) { // NEXT ITERATIONS
+                    for (int i = 0; i < nextIteration.size();) { // NEXT ITERATIONS
                         PatternCardField patternCardField = nextIteration.get(i);
-                        HashMap<PatternCardField, Integer[]> listNext = checkColorDiagonals(patternCardField);
-                        for (Map.Entry<PatternCardField, Integer[]> entryNext : listNext.entrySet()) {
+                        HashMap<PatternCardField, int[]> listNext = checkColorDiagonals(patternCardField);
+                        for (Map.Entry<PatternCardField, int[]> entryNext : listNext.entrySet()) {
                             PatternCardField patternCardFieldNext = entryNext.getKey();
-                            Integer[] locNext = entryNext.getValue();
-                            if (!blockedFields.contains(locNext)) {
-                                blockedFields.add(locNext);
+                            if (!blockedFields.contains(patternCardFieldNext)) {
+                                blockedFields.add(patternCardFieldNext);
+                                nextIteration.add(patternCardFieldNext);
                             }
-                            nextIteration.remove(patternCardField);
-                            nextIteration.add(patternCardFieldNext);
                         }
+                        nextIteration.remove(patternCardField);
                     }
                 }
             }
         }
 
-        for (Integer[] loc : blockedFields) {
+        for (PatternCardField patternCardField : blockedFields) {
             score += rewardScore; // Increase score
         }
 
         return score;
     }
 
-    private HashMap<PatternCardField, Integer[]> checkColorDiagonals(PatternCardField patternCardField) {
-        HashMap<PatternCardField, Integer[]> list = new HashMap<>();
+    private HashMap<PatternCardField, int[]> checkColorDiagonals(PatternCardField patternCardField) {
+        HashMap<PatternCardField, int[]> list = new HashMap<>();
 
-        PatternCardField patternCardFieldNE = patternCardField.checkNorthEastColorDie();
+        PatternCardField patternCardFieldNE = patternCardField.checkNorthEastColorDie(patternCardField.getDie().getColor());
         if (patternCardFieldNE != null) {
-            Integer[] loc = {patternCardFieldNE.getxPos(), patternCardFieldNE.getyPos()};
+            int[] loc = {patternCardFieldNE.getxPos(), patternCardFieldNE.getyPos()};
             list.put(patternCardFieldNE, loc);
         }
 
-        PatternCardField patternCardFieldSE = patternCardField.checkSouthEastColorDie();
+        PatternCardField patternCardFieldSE = patternCardField.checkSouthEastColorDie(patternCardField.getDie().getColor());
         if (patternCardFieldSE != null) {
-            Integer[] loc = {patternCardFieldSE.getxPos(), patternCardFieldSE.getyPos()};
+            int[] loc = {patternCardFieldSE.getxPos(), patternCardFieldSE.getyPos()};
             list.put(patternCardFieldSE, loc);
         }
 
-        PatternCardField patternCardFieldSW = patternCardField.checkSouthWestColorDie();
+        PatternCardField patternCardFieldSW = patternCardField.checkSouthWestColorDie(patternCardField.getDie().getColor());
         if (patternCardFieldSW != null) {
-            Integer[] loc = {patternCardFieldSW.getxPos(), patternCardFieldSW.getyPos()};
+            int[] loc = {patternCardFieldSW.getxPos(), patternCardFieldSW.getyPos()};
             list.put(patternCardFieldSW, loc);
         }
 
-        PatternCardField patternCardFieldNW = patternCardField.checkNorthWestColorDie();
+        PatternCardField patternCardFieldNW = patternCardField.checkNorthWestColorDie(patternCardField.getDie().getColor());
         if (patternCardFieldNW != null) {
-            Integer[] loc = {patternCardFieldNW.getxPos(), patternCardFieldNW.getyPos()};
+            int[] loc = {patternCardFieldNW.getxPos(), patternCardFieldNW.getyPos()};
             list.put(patternCardFieldNW, loc);
         }
 

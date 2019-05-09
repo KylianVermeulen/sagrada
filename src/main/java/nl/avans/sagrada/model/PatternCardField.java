@@ -347,7 +347,7 @@ public class PatternCardField {
         return die != null;
     }
 
-    public PatternCardField checkNorthEastColorDie() {
+    public PatternCardField checkNorthEastColorDie(String color) {
         if (xPos == 5 || yPos == 1) {
             return null;
         }
@@ -362,7 +362,7 @@ public class PatternCardField {
         return null;
     }
 
-    public PatternCardField checkSouthEastColorDie() {
+    public PatternCardField checkSouthEastColorDie(String color) {
         if (xPos == 5 || yPos == 4) {
             return null;
         }
@@ -376,7 +376,7 @@ public class PatternCardField {
         return null;
     }
 
-    public PatternCardField checkSouthWestColorDie() {
+    public PatternCardField checkSouthWestColorDie(String color) {
         if (xPos == 1 || yPos == 4) {
             return null;
         }
@@ -390,7 +390,7 @@ public class PatternCardField {
         return null;
     }
 
-    public PatternCardField checkNorthWestColorDie() {
+    public PatternCardField checkNorthWestColorDie(String color) {
         if (xPos == 1 || yPos == 1) {
             return null;
         }
