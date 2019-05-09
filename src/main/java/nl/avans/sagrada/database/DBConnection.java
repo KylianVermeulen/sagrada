@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -217,7 +218,11 @@ public class DBConnection {
                     pstmt.setFloat(i, (float) value);
                     break;
                 case QueryParameter.INT:
-                    pstmt.setInt(i, (int) value);
+                    if (value == null) {
+                        pstmt.setNull(i, Types.INTEGER);
+                    } else {
+                        pstmt.setInt(i, (int) value);
+                    }
                     break;
                 case QueryParameter.STRING:
                     pstmt.setString(i, (String) value);
