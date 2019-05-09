@@ -11,8 +11,8 @@ import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
+import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
@@ -99,10 +99,10 @@ public class GameView extends VBox implements ViewInterface {
 
     private void buildRoundTrack() {
         RoundTrack roundTrack = new RoundTrack();
-        for (GameDie gameDie: game.getTrackDice()) {
+        for (GameDie gameDie : game.getTrackDice()) {
             roundTrack.addGameDie(gameDie);
         }
-        
+
         roundTrackView = new RoundTrackView(roundTrack);
         roundTrackView.render();
     }
@@ -164,18 +164,21 @@ public class GameView extends VBox implements ViewInterface {
     private void buildActionButtons() {
         actionButtons = new HBox();
 
+        Button cheatmodeButton = new Button("Cheatmode");
+        cheatmodeButton.setOnAction(e -> playerController.actionToggleCheatmode());
+
         Button passButton = new Button("Beurt beeindigen");
         passButton.setOnAction(e -> playerController.actionPass());
 
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(e -> playerController.actionExit());
 
-        actionButtons.getChildren().addAll(passButton, exitButton);
+        actionButtons.getChildren().addAll(cheatmodeButton, passButton, exitButton);
         actionButtons.setAlignment(Pos.BOTTOM_CENTER);
         actionButtons.setSpacing(SPACING_BETWEEN_CHILDS);
         actionButtons.setPadding(new Insets(40, 0, 0, 0));
     }
-    
+
     private void buildDieOffer() {
         dieOfferView = new DieOfferView(this.game);
         dieOfferView.render();

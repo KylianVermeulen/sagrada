@@ -239,6 +239,10 @@ public class PlayerController {
         myScene.getAccountController().viewLobby();
     }
 
+    public void actionToggleCheatmode() {
+        player.setCheatmode(!player.isCheatmode());
+    }
+
     /**
      * Method that adds a message to the view and database
      *
