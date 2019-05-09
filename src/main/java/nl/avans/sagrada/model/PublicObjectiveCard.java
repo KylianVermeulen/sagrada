@@ -471,26 +471,36 @@ public class PublicObjectiveCard {
         ArrayList<PatternCardField> blockedFields = new ArrayList<>(); // Fields to not check for anymore
         for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop though x-pos
             for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop though y-pos
-                if (blockedFields.contains(patternCard.getPatternCardField(x, y))) { // Check if pattern card field is blocked
+                if (blockedFields.contains(patternCard
+                        .getPatternCardField(x, y))) { // Check if pattern card field is blocked
                     continue; // Continue to next position
                 }
-                if (patternCard.getPatternCardField(x, y).hasDie()) { // Check if the pattern card field has a die
-                    PatternCardField firstPatternCardField = patternCard.getPatternCardField(x, y); // Get the pattern card field
-                    blockedFields.add(firstPatternCardField); // Add the pattern card field to the blocked fields
+                if (patternCard.getPatternCardField(x, y)
+                        .hasDie()) { // Check if the pattern card field has a die
+                    PatternCardField firstPatternCardField = patternCard
+                            .getPatternCardField(x, y); // Get the pattern card field
+                    blockedFields
+                            .add(firstPatternCardField); // Add the pattern card field to the blocked fields
 
                     ArrayList<PatternCardField> nextIteration = new ArrayList<>();
                     HashMap<PatternCardField, int[]> list = checkColorDiagonals(
                             firstPatternCardField); // Hashmap of diagonally placed same color die
-                    for (Map.Entry<PatternCardField, int[]> entry : list.entrySet()) { // Loop though each same color die
-                        PatternCardField patternCardField = entry.getKey(); // Get the apttern card field from hashmap
-                        if (!blockedFields.contains(patternCardField)) { // Check if pattern card field is blocked
-                            blockedFields.add(patternCardField); // Add pattern card field to blocked fields
-                            nextIteration.add(patternCardField); // Add pattern card field to next iteration
+                    for (Map.Entry<PatternCardField, int[]> entry : list
+                            .entrySet()) { // Loop though each same color die
+                        PatternCardField patternCardField = entry
+                                .getKey(); // Get the apttern card field from hashmap
+                        if (!blockedFields.contains(
+                                patternCardField)) { // Check if pattern card field is blocked
+                            blockedFields
+                                    .add(patternCardField); // Add pattern card field to blocked fields
+                            nextIteration
+                                    .add(patternCardField); // Add pattern card field to next iteration
                         }
                     }
 
                     if (nextIteration.size() == 0) { // Check if next iteration is zero
-                        blockedFields.remove(firstPatternCardField); // Remove first pattern card field from blocked fields
+                        blockedFields
+                                .remove(firstPatternCardField); // Remove first pattern card field from blocked fields
                         continue; // Continue to next position
                     }
 
