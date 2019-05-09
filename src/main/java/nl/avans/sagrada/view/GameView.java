@@ -144,7 +144,7 @@ public class GameView extends VBox implements ViewInterface {
         passButton.setOnAction(e -> playerController.actionPass());
 
         Button exitButton = new Button("Exit");
-        exitButton.setOnAction(e -> playerController.exit());
+        exitButton.setOnAction(e -> playerController.actionExit());
 
         actionButtons.getChildren().addAll(passButton, exitButton);
         actionButtons.setAlignment(Pos.BOTTOM_CENTER);

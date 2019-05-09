@@ -1,35 +1,23 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
-import javafx.geometry.Insets;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
-import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.model.PublicObjectiveCard;
-import nl.avans.sagrada.model.RoundTrack;
 import nl.avans.sagrada.model.ToolCard;
 import nl.avans.sagrada.view.ChatLineView;
-import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
-import nl.avans.sagrada.view.PatternCardView;
-import nl.avans.sagrada.view.PrivateObjectiveCardView;
-import nl.avans.sagrada.view.PublicObjectiveCardView;
-import nl.avans.sagrada.view.RoundTrackView;
-import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
 
@@ -105,143 +93,6 @@ public class PlayerController {
     }
 
     /**
-     * Example code
-     *
-     * @param game the game to view the three Toolcards of.
-     */
-    public void viewToolCards(Game game) {
-        ToolCardDao toolCardDao = new ToolCardDao();
-        BorderPane pane = new BorderPane();
-        ToolCardView[] toolCardViews = new ToolCardView[3];
-        ToolCard[] toolCards = toolCardDao.getToolCardsOfGame(game).toArray(new ToolCard[3]);
-        for (int index = 0; index < toolCardViews.length; index++) {
-            toolCardViews[index] = new ToolCardView(this);
-            toolCardViews[index].setToolCard(toolCards[index]);
-            toolCardViews[index].render();
-        }
-
-        BorderPane.setMargin(toolCardViews[0], new Insets(0, 5, 0, 0));
-        BorderPane.setMargin(toolCardViews[1], new Insets(0, 5, 0, 5));
-        BorderPane.setMargin(toolCardViews[2], new Insets(0, 0, 0, 5));
-        pane.setLeft(toolCardViews[0]);
-        pane.setCenter(toolCardViews[1]);
-        pane.setRight(toolCardViews[2]);
-        myScene.setContentPane(pane);
-    }
-
-    /**
-     * Example code
-     *
-     * @param game the game to view Toolcard of.
-     * @param selection the selected Toolcard to view.
-     */
-    public void viewToolCard(Game game, int selection) {
-        ToolCardDao toolCardDao = new ToolCardDao();
-
-        Pane pane = new Pane();
-        ToolCardView toolCardView = new ToolCardView(this);
-        toolCardView.setToolCard(toolCardDao.getToolCardsOfGame(game).get(selection));
-        toolCardView.render();
-
-        pane.getChildren().add(toolCardView);
-        myScene.setContentPane(pane);
-    }
-
-    /**
-     * Example code
-     *
-     * @param game Game
-     */
-    public void viewPublicObjectiveCards(Game game) {
-        BorderPane pane = new BorderPane();
-        PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
-        PublicObjectiveCardView[] publicObjectiveCardViews = new PublicObjectiveCardView[3];
-        PublicObjectiveCard[] publicObjectiveCards = publicObjectiveCardDao
-                .getAllPublicObjectiveCardsOfGame(game).toArray(new PublicObjectiveCard[3]);
-        for (int index = 0; index < publicObjectiveCardViews.length; index++) {
-            publicObjectiveCardViews[index] = new PublicObjectiveCardView(this);
-            publicObjectiveCardViews[index].setPublicObjectiveCard(publicObjectiveCards[index]);
-            publicObjectiveCardViews[index].render();
-        }
-
-        BorderPane.setMargin(publicObjectiveCardViews[0], new Insets(0, 5, 0, 0));
-        BorderPane.setMargin(publicObjectiveCardViews[1], new Insets(0, 5, 0, 5));
-        BorderPane.setMargin(publicObjectiveCardViews[2], new Insets(0, 0, 0, 5));
-        pane.setLeft(publicObjectiveCardViews[0]);
-        pane.setCenter(publicObjectiveCardViews[1]);
-        pane.setRight(publicObjectiveCardViews[2]);
-        myScene.setContentPane(pane);
-    }
-
-    /**
-     * Test function for roundTrack
-     */
-    public void viewRoundTrack() {
-        GameDie gameDie1 = new GameDie(1, "geel", 1);
-        GameDie gameDie2 = new GameDie(2, "blauw", 3);
-        GameDie gameDie3 = new GameDie(3, "rood", 5);
-
-        RoundTrack roundTrack = new RoundTrack();
-        roundTrack.addGameDie(gameDie1, 1);
-        roundTrack.addGameDie(gameDie2, 1);
-        roundTrack.addGameDie(gameDie3, 1);
-
-        roundTrack.addGameDie(gameDie1, 2);
-        roundTrack.addGameDie(gameDie3, 2);
-
-        roundTrack.addGameDie(gameDie1, 3);
-        roundTrack.addGameDie(gameDie2, 3);
-
-        roundTrack.addGameDie(gameDie2, 4);
-        roundTrack.addGameDie(gameDie3, 4);
-
-        roundTrack.addGameDie(gameDie1, 5);
-        roundTrack.addGameDie(gameDie3, 5);
-
-        RoundTrackView roundTrackView = new RoundTrackView(roundTrack);
-        roundTrackView.render();
-        myScene.setContentPane(roundTrackView);
-    }
-
-    /**
-     * Example code
-     */
-    public void viewPrivateObjectiveCard() {
-        Pane pane = new Pane();
-        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView(player);
-        privateObjectiveCardView.render();
-
-        pane.getChildren().add(privateObjectiveCardView);
-        myScene.setContentPane(pane);
-    }
-
-    /**
-     * Example code
-     *
-     * @param player the player to view the PatternCard of.
-     */
-    public void viewPatternCardOfPlayer(Player player) {
-        Pane pane = new Pane();
-        PatternCard patternCard = player.getPatternCard();
-        PatternCardView patternCardView = new PatternCardView(this);
-        patternCardView.setPatternCard(patternCard);
-        patternCardView.render();
-        pane.getChildren().add(patternCardView);
-        myScene.setContentPane(pane);
-    }
-
-    /**
-     * Example code
-     */
-    public void makeDie() {
-        GameDie gameDie = new GameDie(1, "geel", 6);
-        DieView dieView = new DieView();
-        dieView.setGameDie(gameDie);
-        dieView.render();
-        myScene.setContentPane(dieView);
-    }
-
-    /**
      * Player is passing for a round
      */
     public void actionPass() {
@@ -251,7 +102,7 @@ public class PlayerController {
     /**
      * Players wants to go back to the lobby
      */
-    public void exit() {
+    public void actionExit() {
         myScene.getAccountController().viewLobby();
     }
 
@@ -303,23 +154,21 @@ public class PlayerController {
         ToolCardDao toolCardDao = new ToolCardDao();
         toolCardDao.toolCardHasPayment(toolCard, player.getGame());
 
-        if (player.getFavorTokens().size() > 0) {
+        ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+        if (newFavorTokens.size() > 0) {
             if (!toolCard.hasBeenPaidForBefore()) {
-                ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
                 favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
                         player.getGame());
                 newFavorTokens.remove(0);
                 player.setFavorTokens(newFavorTokens);
                 toolCard.setHasBeenPaidForBefore(true);
             } else {
-                if (player.getFavorTokens().size() > 1) {
-                    ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
-                    favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                            player.getGame());
-                    newFavorTokens.remove(0);
-                    favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                            player.getGame());
-                    newFavorTokens.remove(0);
+                if (newFavorTokens.size() > 1) {
+                    for (int i = 1; i <= 2; i++) {
+                        favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                                player.getGame());
+                        newFavorTokens.remove(0);
+                    }
                     player.setFavorTokens(newFavorTokens);
                 } else {
                     Alert alert = new Alert("Te weinig betaalstenen",
