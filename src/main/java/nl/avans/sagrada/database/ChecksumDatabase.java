@@ -4,23 +4,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import nl.avans.sagrada.AnimationTimerExt;
 import nl.avans.sagrada.controller.AccountController;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.enumerations.AccountStatus;
 
 public class ChecksumDatabase {
     private AnimationTimerExt animationTimerExt;
     private DBConnection dbConnection;
     private AccountController accountController;
+    private PlayerController playerController;
     private String checksumPlayer;
 
-    public ChecksumDatabase(AccountController accountController) {
+    public ChecksumDatabase(AccountController accountController,
+            PlayerController playerController) {
         dbConnection = new DBConnection();
         this.accountController = accountController;
+        this.playerController = playerController;
         createTimer();
         animationTimerExt.start();
     }
 
     private void createTimer() {
-        animationTimerExt = new AnimationTimerExt(6000) {
+        animationTimerExt = new AnimationTimerExt(3000) {
             @Override
             public void handle() {
                 checksumPlayer();
@@ -47,6 +51,12 @@ public class ChecksumDatabase {
         if (accountController.getAccount() != null) {
             if (accountController.getAccount().getAccountStatus() == AccountStatus.LOBBY) {
                 accountController.viewLobby();
+            } else if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
+                if (playerController.getPlayer().getGame() != null) {
+                    if (playerController.getPlayer().getGame().everyoneSelectedPatternCard()) {
+                        playerController.viewGame();
+                    }
+                }
             }
         }
     }
