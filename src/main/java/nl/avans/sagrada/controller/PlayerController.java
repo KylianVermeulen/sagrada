@@ -2,6 +2,7 @@ package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
@@ -18,6 +19,7 @@ import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
+import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
 
@@ -150,7 +152,7 @@ public class PlayerController {
      *
      * @param toolCard The tool card.
      */
-    public void actionPayForToolCard(ToolCard toolCard) {
+    public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolcardview) {
         FavorTokenDao favorTokenDao = new FavorTokenDao();
         ToolCardDao toolCardDao = new ToolCardDao();
         toolCardDao.toolCardHasPayment(toolCard, player.getGame());
@@ -161,6 +163,7 @@ public class PlayerController {
                 favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
                         player.getGame());
                 newFavorTokens.remove(0);
+                toolcardview.addFavorToken(Color.RED);
                 player.setFavorTokens(newFavorTokens);
                 toolCard.setHasBeenPaidForBefore(true);
             } else {
@@ -169,6 +172,7 @@ public class PlayerController {
                         favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
                                 player.getGame());
                         newFavorTokens.remove(0);
+                        toolcardview.addFavorToken(Color.RED);
                     }
                     player.setFavorTokens(newFavorTokens);
                 } else {

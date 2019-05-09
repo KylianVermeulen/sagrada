@@ -1,9 +1,14 @@
 package nl.avans.sagrada.view;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.Main;
@@ -13,6 +18,11 @@ import nl.avans.sagrada.model.ToolCard;
 public class ToolCardView extends CardView {
     private ToolCard toolCard;
     private PlayerController playerController;
+    private TilePane tokenPane;
+    
+    private static final int TOKENPANE_WIDTH = 90;
+    private static final int TOKENPANE_HEIGHT = 30;
+    private static final int TOKENPANE_GAP = 1;
 
     /**
      * Filled constructor
@@ -25,6 +35,7 @@ public class ToolCardView extends CardView {
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         getStylesheets().add(css);
         setId("toolcardBackground");
+        tokenPane = new TilePane();
     }
 
     /**
@@ -86,16 +97,49 @@ public class ToolCardView extends CardView {
         name.wrappingWidthProperty().set(CardView.CARD_WIDTH);
         name.setTextAlignment(TextAlignment.CENTER);
         StackPane numberPane = new StackPane();
-        numberPane.getChildren().add(name);
+        numberPane.getChildren().addAll(name, tokenPane);
         numberPane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT / 6));
         setTop(numberPane);
+    }
+    
+    public void showTokenPane() {
+        tokenPane.setMaxHeight(TOKENPANE_HEIGHT);
+        tokenPane.setMinHeight(TOKENPANE_HEIGHT);
+        tokenPane.setMaxWidth(TOKENPANE_WIDTH);
+        tokenPane.setMinWidth(TOKENPANE_WIDTH);
+        tokenPane.setVgap(TOKENPANE_GAP);
+        tokenPane.setHgap(TOKENPANE_GAP);
     }
 
     @Override
     public void render() {
         getChildren().clear();
+        showTokenPane();
         showNumber();
         showImage(toolCard.getImagePath());
         showDescription();
+        setOnMouseClicked(new MouseListener(toolCard, this));
+    }
+    
+    public void addFavorToken(Color color) {
+        Circle circle = new Circle(7, color);
+        tokenPane.getChildren().add(circle);
+    }
+    
+    private class MouseListener implements EventHandler<MouseEvent>{
+
+        private ToolCard toolcard;
+        private ToolCardView toolcardview;
+        
+        public MouseListener(ToolCard toolcard, ToolCardView toolCardView) {
+            this.toolcard = toolcard;
+            this.toolcardview = toolCardView;
+        }
+        @Override
+        public void handle(MouseEvent e) {
+            playerController.actionPayForToolCard(toolcard, toolcardview);
+            
+        }
+        
     }
 }

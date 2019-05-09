@@ -1,6 +1,7 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
@@ -20,6 +21,7 @@ public class Player {
     private ArrayList<Chatline> chatlines;
     private int score;
     private boolean cheatmode = false;
+    private Color playerColor;
 
     public Player() {
         chatlines = new ArrayList<>();
@@ -334,4 +336,14 @@ public class Player {
         }
         return score;
     }
+
+    public Color getPlayerColor() {
+        return playerColor;
+    }
+
+    public void setPlayerColor(Color playerColor) {
+        this.playerColor = playerColor;
+    }
+    
+    
 }
