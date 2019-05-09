@@ -351,6 +351,9 @@ public class PatternCardField {
         if (xPos == 5 || yPos == 1) {
             return null;
         }
+        if (!patternCard.getPatternCardField(xPos + 1, yPos - 1).hasDie()) {
+            return null;
+        }
         GameDie gameDie = patternCard.getPatternCardField(xPos + 1, yPos - 1).getDie();
         if (gameDie.getColor().equals(color))  {
             Integer[] loc = {xPos + 1, yPos - 1};
@@ -361,6 +364,9 @@ public class PatternCardField {
 
     public PatternCardField checkSouthEastColorDie() {
         if (xPos == 5 || yPos == 4) {
+            return null;
+        }
+        if (!patternCard.getPatternCardField(xPos + 1, yPos + 1).hasDie()) {
             return null;
         }
         GameDie gameDie = patternCard.getPatternCardField(xPos + 1, yPos + 1).getDie();
@@ -374,6 +380,9 @@ public class PatternCardField {
         if (xPos == 1 || yPos == 4) {
             return null;
         }
+        if (!patternCard.getPatternCardField(xPos - 1, yPos + 1).hasDie()) {
+            return null;
+        }
         GameDie gameDie = patternCard.getPatternCardField(xPos - 1, yPos + 1).getDie();
         if (gameDie.getColor().equals(color))  {
             return patternCard.getPatternCardField(xPos - 1, yPos + 1);
@@ -383,6 +392,9 @@ public class PatternCardField {
 
     public PatternCardField checkNorthWestColorDie() {
         if (xPos == 1 || yPos == 1) {
+            return null;
+        }
+        if (!patternCard.getPatternCardField(xPos - 1, yPos - 1).hasDie()) {
             return null;
         }
         GameDie gameDie = patternCard.getPatternCardField(xPos - 1, yPos - 1).getDie();
