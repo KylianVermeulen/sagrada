@@ -290,8 +290,9 @@ public class PlayerController {
      * <p>
      * If the tool card has not received payment before, the player will hand over one favor token
      * as payment for the toolcard. This tool cards status will then be set to "has already been
-     * paid for before". </br> If the tool card has received payment before, then the player will
-     * hand over two favor tokens as payment for the tool card.
+     * paid for before". </br>
+     * If the tool card has received payment before, then the player will hand over two favor tokens
+     * as payment for the tool card.
      * <p>
      * If the player has insufficient funds, a message will appear on screen informing the player
      * about their lack of funds, and the player will not be able to use this tool card.
