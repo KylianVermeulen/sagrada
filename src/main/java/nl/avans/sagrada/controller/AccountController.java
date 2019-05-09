@@ -277,6 +277,7 @@ public class AccountController {
         inviteDao.updateInvite(invite);
         Player player = invite.getPlayer();
         player.setGame(invite.getGame());
+        account.setAccountStatus(AccountStatus.GAME);
         myScene.getPlayerController().setPlayer(player);
         myScene.getPlayerController().viewOptionalPatternCards();
     }
