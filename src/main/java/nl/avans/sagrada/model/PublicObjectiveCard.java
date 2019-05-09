@@ -130,25 +130,25 @@ public class PublicObjectiveCard {
      */
     public int calculateScore(PatternCard patternCard) {
         switch (id) {
-            case 1:
-                return calculatePairShades(patternCard, 3, 4, points);
             case 2:
-                return calculatePairShades(patternCard, 5, 6, points);
-            case 3:
-                return calculatePairShades(patternCard, 1, 2, points);
-            case 4:
-                return calculateShadeVariety(patternCard, points);
+                return calculatePairShades(patternCard, 3, 4, points);
             case 5:
-                return calculateRowShadeVariety(patternCard, points);
-            case 6:
-                return calculateRowColorVariety(patternCard, points);
-            case 7:
-                return calculateColorVariety(patternCard, points);
-            case 8:
-                return calculateColumnShadeVariety(patternCard, points);
+                return calculatePairShades(patternCard, 5, 6, points);
             case 9:
-                return calculateColumnColorVariety(patternCard, points);
+                return calculatePairShades(patternCard, 1, 2, points);
+            case 1:
+                return calculateShadeVariety(patternCard, points);
             case 10:
+                return calculateRowShadeVariety(patternCard, points);
+            case 7:
+                return calculateRowColorVariety(patternCard, points);
+            case 6:
+                return calculateColorVariety(patternCard, points);
+            case 3:
+                return calculateColumnShadeVariety(patternCard, points);
+            case 4:
+                return calculateColumnColorVariety(patternCard, points);
+            case 8:
                 return calculateColorDiagonals(patternCard, points);
             default:
                 return 0;
