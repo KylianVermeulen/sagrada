@@ -2,6 +2,7 @@ package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 import nl.avans.sagrada.dao.PatternCardFieldDao;
 
 public class PatternCard {
@@ -17,6 +18,9 @@ public class PatternCard {
 
     /**
      * Partial constructor
+     *
+     * @param id int
+     * @param standard boolean
      */
     public PatternCard(int id, boolean standard) {
         this.id = id;
@@ -27,6 +31,16 @@ public class PatternCard {
             patternCardFields = makeNewPatternCardFields();
             generateRandomCard();
         }
+    }
+
+    /**
+     * Constructor for emptyPatterncard
+     *
+     * @param id int
+     */
+    public PatternCard(int id) {
+        this.id = id;
+        patternCardFields = makeNewPatternCardFields();
     }
 
     /**

@@ -1,10 +1,12 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
@@ -12,6 +14,8 @@ import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolcardDao;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.*;
+import nl.avans.sagrada.view.popups.Alert;
+import nl.avans.sagrada.view.popups.AlertType;
 
 import java.util.ArrayList;
 
@@ -29,6 +33,16 @@ public class PlayerController {
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
         }
+    }
+
+    public void viewEmptyPatterncard() {
+        PatternCard patternCard = new PatternCard(1);
+        GameDie gameDie = new GameDie(1, "rood", 5);
+        patternCard.placeDie(1, 1, gameDie);
+        PatternCardView patternCardView = new PatternCardView(this);
+        patternCardView.setPatternCard(patternCard);
+        patternCardView.render();
+        myScene.setContentPane(patternCardView);
     }
 
     public void viewOptionalPatternCards() {
@@ -177,7 +191,7 @@ public class PlayerController {
         myScene.setContentPane(pane);
     }
 
-    public void makeClickPlacement() {
+    public void viewClickPlacement() {
         HBox mainPane = new HBox();
         VBox secondPane = new VBox();
 
@@ -190,17 +204,17 @@ public class PlayerController {
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();
 
-        GameDie gameDie1 = new GameDie(1, "geel");
+        GameDie gameDie1 = new GameDie(1, "geel", 1);
         DieView dieView1 = new DieView();
         dieView1.setGameDie(gameDie1);
         dieView1.render();
 
-        GameDie gameDie2 = new GameDie(3, "paars");
+        GameDie gameDie2 = new GameDie(2, "paars", 3);
         DieView dieView2 = new DieView();
         dieView2.setGameDie(gameDie2);
         dieView2.render();
 
-        GameDie gameDie3 = new GameDie(5, "rood");
+        GameDie gameDie3 = new GameDie(3, "rood", 5);
         DieView dieView3 = new DieView();
         dieView3.setGameDie(gameDie3);
         dieView3.render();
@@ -222,9 +236,9 @@ public class PlayerController {
     /**
      * Example code
      */
-    public void makeDie(int eyes, String color) {
+    public void makeDie(int number, int eyes, String color) {
         Pane pane = new Pane();
-        GameDie gameDie = new GameDie(eyes, color);
+        GameDie gameDie = new GameDie(number, color, eyes);
         DieView dieView = new DieView();
         dieView.setGameDie(gameDie);
         dieView.render();
@@ -235,7 +249,9 @@ public class PlayerController {
 
     public void emptyPatternCard() {
         Pane pane = new Pane();
-        PatternCard patternCard = new PatternCard();
+        PatternCard patternCard = new PatternCard(1);
+        GameDie gameDie = new GameDie(1, "rood", 5);
+        patternCard.placeDie(1, 1, gameDie);
         PatternCardView patternCardView = new PatternCardView(this);
         patternCardView.setPatternCard(patternCard);
         patternCardView.render();

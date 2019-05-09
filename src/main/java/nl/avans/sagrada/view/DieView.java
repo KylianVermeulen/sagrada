@@ -1,6 +1,7 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -27,6 +28,7 @@ public class DieView extends Pane implements ViewInterface {
     public DieView() {
         images = new ArrayList<ImageView>();
         setPrefSize(DIE_WIDTH, DIE_HEIGHT);
+        setMaxSize(DIE_WIDTH, DIE_HEIGHT);
         setBorder(new Border(
                 new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
                         new BorderWidths(3))));
@@ -37,7 +39,7 @@ public class DieView extends Pane implements ViewInterface {
     public DieView(GameDie gameDie) {
         this.gameDie = gameDie;
         images = new ArrayList<ImageView>();
-        setPrefSize(WIDTH, HEIGHT);
+        setPrefSize(DIE_WIDTH, DIE_HEIGHT);
         setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
         diceEyesArray();
         resizeImages();
@@ -109,11 +111,13 @@ public class DieView extends Pane implements ViewInterface {
      * @param height int
      * @param width int
      */
-    public void resizeImages(int height, int width) {
+    public void resize(int height, int width) {
         for (ImageView image : images) {
             image.setFitHeight(height);
             image.setFitWidth(width);
         }
+        setPrefSize(height, width);
+        setMaxSize(height, width);
     }
 
     /**
