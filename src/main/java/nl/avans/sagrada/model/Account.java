@@ -178,7 +178,7 @@ public class Account {
                 String playerUsername = player.getAccount().getUsername();
 
                 if (sendingAccountUsername.equals(playerUsername)) {
-                    if (player.getPlayerStatus().equals("challenger")) {
+                    if (player.getPlayerStatus().equals("uitdager")) {
                         // Check if the player was the creator of the game
                         return true;
                     }

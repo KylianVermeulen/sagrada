@@ -1,5 +1,9 @@
 package nl.avans.sagrada.model;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.ChatlineDao;
@@ -22,6 +26,7 @@ public class Game {
     private GameDie[] gameDie;
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
+    private Timestamp creationDate;
 
     public Game(int id) {
         this.id = id;
@@ -100,8 +105,8 @@ public class Game {
     public boolean isActive() {
         for (Player player : players) {
             String playerStatus = player.getPlayerStatus();
-            if (playerStatus.equals("aborted") || playerStatus.equals("finished")
-                    || playerStatus.equals("challengee")) {
+            if (playerStatus.equals("afgebroken") || playerStatus.equals("uitgespeeld")
+                    || playerStatus.equals("uitgedaagde")) {
                 return false;
             }
         }
@@ -391,4 +396,14 @@ public class Game {
         }
         return true;
     }
+
+    public Timestamp getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Timestamp creationDate) {
+        this.creationDate = creationDate;
+    }
+    
+    
 }
