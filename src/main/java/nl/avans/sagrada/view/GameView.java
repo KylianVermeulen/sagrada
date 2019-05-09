@@ -120,7 +120,7 @@ public class GameView extends VBox implements ViewInterface {
     }
 
     private void buildBalance() {
-        balance = new Label("Betaalstenen: " + player.getScore());
+        balance = new Label("Betaalstenen: " + player.getFavorTokens().size());
         balance.setPadding(new Insets(0, 0, 0, 5));
     }
 
