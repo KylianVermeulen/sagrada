@@ -105,8 +105,8 @@ public class Game {
     public boolean isActive() {
         for (Player player : players) {
             String playerStatus = player.getPlayerStatus();
-            if (playerStatus.equals("aborted") || playerStatus.equals("finished")
-                    || playerStatus.equals("challengee")) {
+            if (playerStatus.equals("afgebroken") || playerStatus.equals("uitgespeeld")
+                    || playerStatus.equals("uitgedaagde")) {
                 return false;
             }
         }

@@ -31,7 +31,8 @@ public class InviteDao {
         try {
             ResultSet rs = dbConnection
                     .executeQuery(new Query("SELECT * FROM player WHERE username=?", "query",
-                            new QueryParameter(QueryParameter.STRING, account.getUsername())));
+                            new QueryParameter(QueryParameter.STRING, account.getUsername()))
+            );
             while (rs.next()) {
                 GameDao gameDao = new GameDao();
                 PlayerDao playerDao = new PlayerDao();
@@ -89,7 +90,8 @@ public class InviteDao {
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.STRING, "uitgedaagde"),
                     new QueryParameter(QueryParameter.INT, seqNr),
-                    new QueryParameter(QueryParameter.STRING, privateObjectiveColor));
+                    new QueryParameter(QueryParameter.STRING, privateObjectiveColor)
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,7 +103,8 @@ public class InviteDao {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT MAX(seqnr) AS highestSeqnr FROM player WHERE game_idgame=?",
                             "query"),
-                    new QueryParameter(QueryParameter.INT, game.getId()));
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
             if (rs.next()) {
                 nextSeqnr = rs.getInt("highestSeqnr") + 1;
             }
@@ -119,7 +122,8 @@ public class InviteDao {
                     new Query("UPDATE player SET playstatus_playstatus=?  WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.STRING, invite.getStatus()),
-                    new QueryParameter(QueryParameter.INT, playerId));
+                    new QueryParameter(QueryParameter.INT, playerId)
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
