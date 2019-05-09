@@ -6,7 +6,7 @@ import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 
 public class Player {
-    public static final String STATUS_ABORT = "aborted";
+    public static final String STATUS_ABORT = "afgebroken";
     private int id;
     private Account account;
     private Game game;
