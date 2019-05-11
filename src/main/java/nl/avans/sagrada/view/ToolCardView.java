@@ -1,5 +1,6 @@
 package nl.avans.sagrada.view;
 
+import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -13,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.ToolCard;
 
 public class ToolCardView extends CardView {
@@ -20,9 +22,10 @@ public class ToolCardView extends CardView {
     private PlayerController playerController;
     private TilePane tokenPane;
     
-    private static final int TOKENPANE_WIDTH = 90;
-    private static final int TOKENPANE_HEIGHT = 30;
-    private static final int TOKENPANE_GAP = 1;
+    private final int TOKENPANEWIDTH = 45;
+    private final int TOKENPANEHEIGHT = 10;
+    private final int TOKENPANEGAP = 1;
+    private final double TOKENSIZE = 3.5;
 
     /**
      * Filled constructor
@@ -97,18 +100,19 @@ public class ToolCardView extends CardView {
         name.wrappingWidthProperty().set(CardView.CARD_WIDTH);
         name.setTextAlignment(TextAlignment.CENTER);
         StackPane numberPane = new StackPane();
+        numberPane.setAlignment(tokenPane, Pos.TOP_RIGHT);
         numberPane.getChildren().addAll(name, tokenPane);
         numberPane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT / 6));
         setTop(numberPane);
     }
     
     public void showTokenPane() {
-        tokenPane.setMaxHeight(TOKENPANE_HEIGHT);
-        tokenPane.setMinHeight(TOKENPANE_HEIGHT);
-        tokenPane.setMaxWidth(TOKENPANE_WIDTH);
-        tokenPane.setMinWidth(TOKENPANE_WIDTH);
-        tokenPane.setVgap(TOKENPANE_GAP);
-        tokenPane.setHgap(TOKENPANE_GAP);
+        tokenPane.setMaxHeight(TOKENPANEHEIGHT);
+        tokenPane.setMinHeight(TOKENPANEHEIGHT);
+        tokenPane.setMaxWidth(TOKENPANEWIDTH);
+        tokenPane.setMinWidth(TOKENPANEWIDTH);
+        tokenPane.setVgap(TOKENPANEGAP);
+        tokenPane.setHgap(TOKENPANEGAP);
     }
 
     @Override
@@ -122,8 +126,15 @@ public class ToolCardView extends CardView {
     }
     
     public void addFavorToken(Color color) {
-        Circle circle = new Circle(7, color);
-        tokenPane.getChildren().add(circle);
+        Circle favorToken = new Circle(TOKENSIZE, color);
+        tokenPane.getChildren().add(favorToken);
+    }
+    
+    public void setFavorTokens(ArrayList<FavorToken> favorTokens) {
+        for(int i = 0; i < favorTokens.size(); i++) {
+            Color tokenColor = favorTokens.get(i).getPlayer().getPlayerColor();
+            addFavorToken(tokenColor);
+        }
     }
     
     private class MouseListener implements EventHandler<MouseEvent>{
@@ -138,7 +149,6 @@ public class ToolCardView extends CardView {
         @Override
         public void handle(MouseEvent e) {
             playerController.actionPayForToolCard(toolcard, toolcardview);
-            
         }
         
     }

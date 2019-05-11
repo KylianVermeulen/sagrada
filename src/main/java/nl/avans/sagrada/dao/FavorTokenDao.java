@@ -124,4 +124,27 @@ public class FavorTokenDao {
             e.printStackTrace();
         }
     }
+    
+    public ArrayList<FavorToken> getToolCardTokens(ToolCard toolcard, Game game) {
+        ArrayList<FavorToken> tokens = new ArrayList<>();
+        ToolCardDao toolcarddao = new ToolCardDao();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM gamefavortoken WHERE idgame=? AND gametoolcard=?", "query"), 
+                    new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.INT, toolcarddao.getGameToolCardForToolCardId(toolcard.getId(), game.getId()))
+                    );
+            while(rs.next()) {
+                FavorToken token = new FavorToken();
+                token.setId(rs.getInt("idfavortoken"));
+                token.setPlayer(new PlayerDao().getPlayerById(rs.getInt("idplayer")));
+                token.setGame(new GameDao().getGameById(rs.getInt("idgame")));
+                tokens.add(token);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(tokens);
+        return tokens;
+    }
 }

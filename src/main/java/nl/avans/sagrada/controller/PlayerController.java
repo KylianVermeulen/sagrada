@@ -163,9 +163,9 @@ public class PlayerController {
                 favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
                         player.getGame());
                 newFavorTokens.remove(0);
-                toolcardview.addFavorToken(Color.RED);
                 player.setFavorTokens(newFavorTokens);
                 toolCard.setHasBeenPaidForBefore(true);
+                toolcardview.addFavorToken(player.getPlayerColor());
             } else {
                 if (newFavorTokens.size() > 1) {
                     for (int i = 1; i <= 2; i++) {

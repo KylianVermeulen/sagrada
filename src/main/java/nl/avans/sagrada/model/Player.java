@@ -344,6 +344,4 @@ public class Player {
     public void setPlayerColor(Color playerColor) {
         this.playerColor = playerColor;
     }
-    
-    
 }

@@ -29,6 +29,7 @@ public class ToolCard {
         this.seqnr = seqnr;
         this.description = description;
         this.name = name;
+        favorTokens = new ArrayList<>();
     }
 
     public void useToolCard() {}
@@ -164,5 +165,9 @@ public class ToolCard {
      */
     public void setHasBeenPaidForBefore(boolean hasBeenPaidForBefore) {
         this.hasBeenPaidForBefore = hasBeenPaidForBefore;
+    }
+    
+    public void addFavorToken(FavorToken token) {
+        favorTokens.add(token);
     }
 }
