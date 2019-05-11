@@ -5,9 +5,12 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Game;
@@ -67,6 +70,7 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
     private Button buildButtonToAcceptInvite(Invite invite) {
         Button button = new Button("+");
         button.setOnAction(e -> accountController.actionAcceptInvite(invite));
+        button.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
         return (button);
     }
 
@@ -78,6 +82,7 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
     private Button buildButtonToDenyInvite(Invite invite) {
         Button button = new Button("x");
         button.setOnAction(e -> accountController.actionDenyInvite(invite));
+        button.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
         return (button);
     }
 }

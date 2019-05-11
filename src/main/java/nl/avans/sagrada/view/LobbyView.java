@@ -1,9 +1,11 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -60,6 +62,8 @@ public class LobbyView extends BorderPane implements ViewInterface {
 
     /**
      * Build the button to make a new game
+     * 
+     * @param url
      */
     private void buildNewGameBtn() {
         BorderPane pane = new BorderPane();
@@ -67,6 +71,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
         newGameButton.setOnAction(e -> accountController.actionSetupNewGame());
         newGameButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         pane.setCenter(newGameButton);
+
         setCenter(pane);
     }
 
@@ -101,6 +106,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
 
         pane.setAlignment(Pos.TOP_CENTER);
         pane.getChildren().add(logoutButton);
+        pane.setPadding(new Insets(5, 5, 5, 5));
         setRight(pane);
     }
 
