@@ -7,6 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -20,6 +25,7 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public class InviteOverviewView extends ScrollPane implements ViewInterface {
     private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
     private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2;
+    private final static int BUTTON_WIDTH = 50;
     private ArrayList<Invite> invites;
     private AccountController accountController;
 
@@ -46,11 +52,19 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
     public void render() {
         getChildren().clear();
         VBox vbox = new VBox();
+        vbox.setBackground(new Background(new BackgroundFill(Color.ORANGE, null, null)));
         for (Invite invite : invites) {
             Game game = invite.getGame();
             Pane pane = new HBox();
+            
+            pane.setMaxWidth(PANE_WIDTH);
+            pane.setMinWidth(PANE_WIDTH - 2);
+            pane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+                    CornerRadii.EMPTY, new BorderWidths(2))));
+
             Label label = new Label("Invite voor spel: " + game.getId());
-            label.setPadding(new Insets(5, 4, 5, 4));
+            label.setPadding(new Insets(5, 20, 5, 4));
+            label.setMinWidth(150);
             pane.getChildren().add(label);
 
             Button acceptButton = buildButtonToAcceptInvite(invite);
@@ -71,6 +85,7 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
         Button button = new Button("+");
         button.setOnAction(e -> accountController.actionAcceptInvite(invite));
         button.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
+        button.setMinWidth(BUTTON_WIDTH);
         return (button);
     }
 
@@ -83,6 +98,7 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
         Button button = new Button("x");
         button.setOnAction(e -> accountController.actionDenyInvite(invite));
         button.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+        button.setMinWidth(BUTTON_WIDTH);
         return (button);
     }
 }
