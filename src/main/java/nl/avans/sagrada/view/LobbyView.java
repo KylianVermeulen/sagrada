@@ -123,10 +123,10 @@ public class LobbyView extends BorderPane implements ViewInterface {
 
     private void buildOverview() {
         VBox vbox = new VBox();
-        Label inviteLabel = new Label("Invites van spelers");
+        Label inviteLabel = new Label("Invites van spelers: ");
         inviteLabel.setTextFill(Color.WHITE);
         
-        Label gameOverviewLabel = new Label("Je openstaande spellen");
+        Label gameOverviewLabel = new Label("Je openstaande spellen: ");
         gameOverviewLabel.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);

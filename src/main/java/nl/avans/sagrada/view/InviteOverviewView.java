@@ -52,6 +52,9 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
     public void render() {
         getChildren().clear();
         VBox vbox = new VBox();
+        vbox.setMinHeight(PANE_HEIGHT - 2);
+
+        vbox.setBackground(new Background(new BackgroundFill(Color.BROWN, null, null)));
         for (Invite invite : invites) {
             Game game = invite.getGame();
             Pane pane = new HBox();
