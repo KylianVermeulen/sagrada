@@ -117,6 +117,16 @@ public class GameView extends VBox implements ViewInterface {
         scoreBoard = new Pane();
         scoreBoard.setPrefSize(300, 300);
         scoreBoard.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
+        
+        VBox scoreBoardContent = new VBox();
+        ArrayList<HBox> scoreLines = new ArrayList<HBox>();
+        for (int i = 0; game.getPlayers().size() < i; i++) {
+            HBox playerLine = new HBox();
+            Label playerName = new Label(game.getPlayers().get(i).getAccount().getUsername() + ": ");
+            Label playerScore = new Label(Integer.toString(game.getPlayers().get(i).getScore()));
+            playerLine.getChildren().addAll(playerName, playerScore);
+            scoreLines.add(playerLine);
+        }
     }
 
     private void buildBalance() {
