@@ -70,7 +70,7 @@ public class PatternCardField {
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
         if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
+            return !pcd.getColor().equals(color);
         }
         return true;
     }
@@ -87,7 +87,7 @@ public class PatternCardField {
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
         if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
+            return !pcd.getColor().equals(color);
         }
         return true;
     }
@@ -104,7 +104,7 @@ public class PatternCardField {
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
         if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
+            return !pcd.getColor().equals(color);
         }
         return true;
     }
@@ -121,7 +121,7 @@ public class PatternCardField {
         }
         PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);
         if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
+            return !pcd.getColor().equals(color);
         }
         return true;
     }
@@ -279,7 +279,7 @@ public class PatternCardField {
      *
      * @return Color
      */
-    public Color getColor() {
+    public Color getFXColor() {
         switch (color) {
             case "rood":
                 return Color.RED;
@@ -294,15 +294,6 @@ public class PatternCardField {
             default:
                 return Color.WHITE;
         }
-    }
-
-    /**
-     * Set color string to PatternCardField
-     *
-     * @param color String
-     */
-    public void setColor(String color) {
-        this.color = color;
     }
 
     /**
@@ -322,8 +313,17 @@ public class PatternCardField {
      *
      * @return String
      */
-    public String getStringColor() {
+    public String getColor() {
         return this.color;
+    }
+
+    /**
+     * Set color string to PatternCardField
+     *
+     * @param color String
+     */
+    public void setColor(String color) {
+        this.color = color;
     }
 
     /**
