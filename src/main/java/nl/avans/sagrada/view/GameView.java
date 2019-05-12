@@ -140,7 +140,7 @@ public class GameView extends VBox implements ViewInterface {
             Label playerName = new Label(game.getPlayers().get(i).getAccount().getUsername() + ": ");
             playerName.setFont(new Font("Segoe Script", 20));
             playerName.setTextAlignment(TextAlignment.CENTER);
-            Label playerScore = new Label(Integer.toString(game.getPlayers().get(i).getScore()));
+            Label playerScore = new Label(Integer.toString(game.getPlayers().get(i).calculateScore(true)));
             playerScore.setFont(new Font("Segoe Script", 20));
             playerScore.setTextAlignment(TextAlignment.CENTER);
             playerLine.getChildren().addAll(playerName, playerScore);
