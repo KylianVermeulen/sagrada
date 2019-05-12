@@ -405,5 +405,38 @@ public class Game {
         this.creationDate = creationDate;
     }
     
-    
+    public void setNextPlayer() {
+        Player currentPlayer = turnPlayer;
+        int oldSeqnr = currentPlayer.getSeqnr();
+        currentPlayer.setNextSeqnr();
+
+        for (int i = 0; i < players.size(); i++) {
+            Player playerNextTurn = players.get(i);
+            if (oldSeqnr != (players.size() * 2)) {
+                if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
+                    if (currentPlayer != playerNextTurn) {
+                        currentPlayer.setIsCurrentPlayer(false);
+                        new PlayerDao().updatePlayer(currentPlayer);
+
+                        setTurnPlayer(playerNextTurn);
+                        new GameDao().updateGame(this);
+
+                        playerNextTurn.setIsCurrentPlayer(true);
+                        new PlayerDao().updatePlayer(playerNextTurn);
+                    }
+                }
+            } else {
+                if (playerNextTurn.getSeqnr() == 1) {
+                    currentPlayer.setIsCurrentPlayer(false);
+                    new PlayerDao().updatePlayer(currentPlayer);
+
+                    setTurnPlayer(playerNextTurn);
+                    new GameDao().updateGame(this);
+
+                    playerNextTurn.setIsCurrentPlayer(true);
+                    new PlayerDao().updatePlayer(playerNextTurn);
+                }
+            }
+        }
+    }
 }
