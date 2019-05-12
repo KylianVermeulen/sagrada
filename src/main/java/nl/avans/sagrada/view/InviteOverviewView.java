@@ -52,11 +52,11 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
     public void render() {
         getChildren().clear();
         VBox vbox = new VBox();
-        vbox.setBackground(new Background(new BackgroundFill(Color.ORANGE, null, null)));
         for (Invite invite : invites) {
             Game game = invite.getGame();
             Pane pane = new HBox();
             
+            pane.setBackground(new Background(new BackgroundFill(Color.ROSYBROWN, null, null)));
             pane.setMaxWidth(PANE_WIDTH);
             pane.setMinWidth(PANE_WIDTH - 2);
             pane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
