@@ -132,8 +132,8 @@ public class ToolCardView extends CardView {
     
     public void setFavorTokens(ArrayList<FavorToken> favorTokens) {
         for(int i = 0; i < favorTokens.size(); i++) {
-            Color tokenColor = favorTokens.get(i).getPlayer().getPlayerColor();
-            addFavorToken(tokenColor);
+            Color playerColor = favorTokens.get(i).getPlayer().getPlayerColor();
+            addFavorToken(playerColor);
         }
     }
     

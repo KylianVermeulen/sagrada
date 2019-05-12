@@ -133,7 +133,7 @@ public class FavorTokenDao {
                     new Query("SELECT * FROM gamefavortoken WHERE idgame=? AND gametoolcard=?", "query"), 
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, toolcarddao.getGameToolCardForToolCardId(toolcard.getId(), game.getId()))
-                    );
+            );
             while(rs.next()) {
                 FavorToken token = new FavorToken();
                 token.setId(rs.getInt("idfavortoken"));
