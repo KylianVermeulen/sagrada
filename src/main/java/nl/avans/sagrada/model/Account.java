@@ -1,6 +1,7 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
+import nl.avans.sagrada.dao.AccountDao;
 import nl.avans.sagrada.dao.InviteDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.model.enumerations.AccountStatus;
@@ -203,5 +204,13 @@ public class Account {
      */
     public AccountStatus getAccountStatus() {
         return accountStatus;
+    }
+
+    public int[] getWinLoseCount() {
+        AccountDao accountDao = new AccountDao();
+        int wins = accountDao.getCountWins(this);
+        int loses = accountDao.getCountLoses(this);
+        int[] winsLoses = {wins, loses};
+        return winsLoses;
     }
 }

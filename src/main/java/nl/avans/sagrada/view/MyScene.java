@@ -26,6 +26,7 @@ public class MyScene extends Scene {
     private Pane rootPane;
     private Pane contentPane;
     private ArrayList<Pane> alerts;
+    private ArrayList<Pane> popups;
     private AccountController accountController;
     private PlayerController playerController;
     private ChecksumDatabase checksumDatabase;
@@ -42,6 +43,7 @@ public class MyScene extends Scene {
         rootPane = new StackPane();
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
+        popups = new ArrayList<>();
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
@@ -118,5 +120,20 @@ public class MyScene extends Scene {
         alerts.remove(pane);
         rootPane.getChildren().remove(pane);
         renderAlertPanes();
+    }
+
+    public void addPopupPane(Pane pane) {
+        StackPane.setAlignment(pane, Pos.CENTER);
+        if (popups.size() == 0) {
+            popups.add(pane);
+            rootPane.getChildren().add(pane);
+        }
+    }
+
+    public void removePopupPane() {
+        if (popups.size() == 1) {
+            rootPane.getChildren().remove(popups.get(0));
+            popups.clear();
+        }
     }
 }

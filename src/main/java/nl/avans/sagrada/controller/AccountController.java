@@ -25,6 +25,7 @@ import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.RegisterView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.view.popups.Stats;
 
 public class AccountController {
     private Account account;
@@ -303,6 +304,9 @@ public class AccountController {
      * @param game the game to join
      */
     public void actionJoinGame(Game game) {
+        Stats stats = new Stats(myScene, account);
+        myScene.addPopupPane(stats);
+
         myScene.getPlayerController().actionJoinGame(account, game);
         account.setAccountStatus(AccountStatus.GAME);
     }

@@ -134,4 +134,40 @@ public class AccountDao {
         }
         return false;
     }
+
+    public int getCountWins(Account account) {
+        int count = 0;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT account.username AS playername, COUNT(game_idgame) AS count_wins FROM player JOIN account ON player.username = account.username WHERE playstatus_playstatus = 'Finished' AND score = (SELECT MAX(score) FROM player GROUP BY game_idgame) AND account.username=? GROUP BY playername ORDER BY count_wins;",
+                            "query"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername())
+            );
+            if (rs.next()) {
+                count = rs.getInt("count_wins");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public int getCountLoses(Account account) {
+        int count = 0;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT account.username AS playername, COUNT(game_idgame) AS count_loses FROM player JOIN account ON player.username = account.username WHERE playstatus_playstatus = 'Finished' AND score = (SELECT MIN(score) FROM player GROUP BY game_idgame) AND account.username=? GROUP BY playername ORDER BY count_loses;",
+                            "query"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername())
+            );
+            if (rs.next()) {
+                count = rs.getInt("count_loses");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 }
