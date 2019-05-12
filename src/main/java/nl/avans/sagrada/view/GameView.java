@@ -5,13 +5,18 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Chatline;
@@ -25,6 +30,7 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameView extends VBox implements ViewInterface {
     private final int SPACING_BETWEEN_CHILDS = 5;
+    private final int SCORE_LINE_SPACING = 10;
     private Game game;
     private Player player;
     private PlayerController playerController;
@@ -34,7 +40,7 @@ public class GameView extends VBox implements ViewInterface {
     private ArrayList<PublicObjectiveCardView> publicObjectiveCardViews;
     private Label balance;
     private PatternCardView playerPatternCardView;
-    private Pane scoreBoard;
+    private BorderPane scoreBoard;
     private RoundTrackView roundTrackView;
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
@@ -114,19 +120,36 @@ public class GameView extends VBox implements ViewInterface {
     }
 
     private void buildScoreBoard() {
-        scoreBoard = new Pane();
+        scoreBoard = new BorderPane();
         scoreBoard.setPrefSize(300, 300);
         scoreBoard.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
         
         VBox scoreBoardContent = new VBox();
         ArrayList<HBox> scoreLines = new ArrayList<HBox>();
-        for (int i = 0; game.getPlayers().size() < i; i++) {
+        
+        StackPane scoreTitlePane = new StackPane();
+        Label scoreTitle = new Label("Scoreboard");
+        scoreTitle.setFont(new Font("Segoe Script", 26));
+        scoreTitle.setTextAlignment(TextAlignment.CENTER);
+        scoreTitlePane.getChildren().add(scoreTitle);
+        scoreTitlePane.setAlignment(Pos.CENTER);
+        
+        for (int i = 0; i < game.getPlayers().size(); i++) {
             HBox playerLine = new HBox();
+            playerLine.setSpacing(SCORE_LINE_SPACING);
             Label playerName = new Label(game.getPlayers().get(i).getAccount().getUsername() + ": ");
+            playerName.setFont(new Font("Segoe Script", 20));
+            playerName.setTextAlignment(TextAlignment.CENTER);
             Label playerScore = new Label(Integer.toString(game.getPlayers().get(i).getScore()));
+            playerScore.setFont(new Font("Segoe Script", 20));
+            playerScore.setTextAlignment(TextAlignment.CENTER);
             playerLine.getChildren().addAll(playerName, playerScore);
-            scoreLines.add(playerLine);
+            playerLine.setAlignment(Pos.CENTER);
+            scoreLines.add(i, playerLine);
         }
+        scoreBoardContent.getChildren().addAll(scoreLines);
+        scoreBoard.setTop(scoreTitlePane);
+        scoreBoard.setCenter(scoreBoardContent);
     }
 
     private void buildBalance() {
