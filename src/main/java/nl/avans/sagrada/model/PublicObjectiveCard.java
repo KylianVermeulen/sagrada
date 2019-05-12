@@ -1,6 +1,8 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PublicObjectiveCard {
     private int id;
@@ -128,24 +130,26 @@ public class PublicObjectiveCard {
      */
     public int calculateScore(PatternCard patternCard) {
         switch (id) {
-            case 1:
-                return calculatePairShades(patternCard, 3, 4, points);
             case 2:
-                return calculatePairShades(patternCard, 5, 6, points);
-            case 3:
-                return calculatePairShades(patternCard, 1, 2, points);
-            case 4:
-                return calculateShadeVariety(patternCard, points);
+                return calculatePairShades(patternCard, 3, 4, points);
             case 5:
-                return calculateRowShadeVariety(patternCard, points);
-            case 6:
-                return calculateRowColorVariety(patternCard, points);
-            case 7:
-                return calculateColorVariety(patternCard, points);
-            case 8:
-                return calculateColumnShadeVariety(patternCard, points);
+                return calculatePairShades(patternCard, 5, 6, points);
             case 9:
+                return calculatePairShades(patternCard, 1, 2, points);
+            case 1:
+                return calculateShadeVariety(patternCard, points);
+            case 10:
+                return calculateRowShadeVariety(patternCard, points);
+            case 7:
+                return calculateRowColorVariety(patternCard, points);
+            case 6:
+                return calculateColorVariety(patternCard, points);
+            case 3:
+                return calculateColumnShadeVariety(patternCard, points);
+            case 4:
                 return calculateColumnColorVariety(patternCard, points);
+            case 8:
+                return calculateColorDiagonals(patternCard, points);
             default:
                 return 0;
         }
@@ -452,5 +456,113 @@ public class PublicObjectiveCard {
         }
 
         return score;
+    }
+
+    /**
+     * Calculate the score for each diagonally placed die with the same color.
+     *
+     * @param patternCard The patterncard.
+     * @param rewardScore The score for each color.
+     * @return The score.
+     */
+    private int calculateColorDiagonals(PatternCard patternCard, int rewardScore) {
+        int score = 0;
+
+        ArrayList<PatternCardField> blockedFields = new ArrayList<>(); // Fields to not check for anymore
+        for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) { // Loop though x-pos
+            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) { // Loop though y-pos
+                if (blockedFields.contains(patternCard
+                        .getPatternCardField(x, y))) { // Check if pattern card field is blocked
+                    continue; // Continue to next position
+                }
+                if (patternCard.getPatternCardField(x, y)
+                        .hasDie()) { // Check if the pattern card field has a die
+                    PatternCardField firstPatternCardField = patternCard
+                            .getPatternCardField(x, y); // Get the pattern card field
+                    blockedFields
+                            .add(firstPatternCardField); // Add the pattern card field to the blocked fields
+
+                    ArrayList<PatternCardField> nextIteration = new ArrayList<>();
+                    ArrayList<PatternCardField> list = checkColorDiagonals(patternCard,
+                            firstPatternCardField); // ArrayList of diagonally placed same color die
+                    for (PatternCardField patternCardField : list) { // Loop though each same color die
+                        if (!blockedFields.contains(
+                                patternCardField)) { // Check if pattern card field is blocked
+                            blockedFields
+                                    .add(patternCardField); // Add pattern card field to blocked fields
+                            nextIteration
+                                    .add(patternCardField); // Add pattern card field to next iteration
+                        }
+                    }
+
+                    if (nextIteration.size() == 0) { // Check if next iteration is zero
+                        blockedFields
+                                .remove(firstPatternCardField); // Remove first pattern card field from blocked fields
+                        continue; // Continue to next position
+                    }
+
+                    for (int i = 0; i < nextIteration.size(); ) { // NEXT ITERATIONS
+                        PatternCardField patternCardField = nextIteration.get(i);
+                        ArrayList<PatternCardField> listNext = checkColorDiagonals(patternCard,
+                                patternCardField);
+                        for (PatternCardField patternCardFieldNext : listNext) {
+                            if (!blockedFields.contains(patternCardFieldNext)) {
+                                blockedFields.add(patternCardFieldNext);
+                                nextIteration.add(patternCardFieldNext);
+                            }
+                        }
+                        nextIteration.remove(patternCardField);
+                    }
+                }
+            }
+        }
+
+        for (PatternCardField patternCardField : blockedFields) {
+            score += rewardScore; // Increase score
+        }
+
+        return score;
+    }
+
+    /**
+     * Check for a pattern card field diagonally placed die with the same color. Return a hash map
+     * with the diagonally placed die and xPos/yPos location.
+     *
+     * @param patternCardField The patterncard field.
+     * @return The hash map.
+     */
+    private ArrayList<PatternCardField> checkColorDiagonals(PatternCard patternCard,
+            PatternCardField patternCardField) {
+        ArrayList<PatternCardField> list = new ArrayList<>();
+
+        PatternCardField patternCardFieldNE = patternCard
+                .checkPatternCardFieldNorthEastDieColor(patternCardField,
+                        patternCardField.getDie().getColor());
+        if (patternCardFieldNE != null) {
+            list.add(patternCardFieldNE);
+        }
+
+        PatternCardField patternCardFieldSE = patternCard
+                .checkPatternCardFieldSouthEastDieColor(patternCardField,
+                        patternCardField.getDie().getColor());
+        if (patternCardFieldSE != null) {
+            list.add(patternCardFieldSE);
+        }
+
+        PatternCardField patternCardFieldSW = patternCard
+                .checkPatternCardFieldSouthWestDieColor(patternCardField,
+                        patternCardField.getDie().getColor());
+        if (patternCardFieldSW != null) {
+            list.add(patternCardFieldSW);
+        }
+
+        PatternCardField patternCardFieldNW = patternCard
+                .checkPatternCardFieldNorthWestDieColor(patternCardField,
+                        patternCardField.getDie().getColor());
+        if (patternCardFieldNW != null) {
+            list.add(patternCardFieldNW);
+        }
+
+        return list;
     }
 }
