@@ -106,6 +106,9 @@ public class ToolCardView extends CardView {
         setTop(numberPane);
     }
     
+    /**
+     * Generates a pane that will contain the favortokens
+     */
     public void showTokenPane() {
         tokenPane.setMaxHeight(TOKENPANEHEIGHT);
         tokenPane.setMinHeight(TOKENPANEHEIGHT);
@@ -125,11 +128,19 @@ public class ToolCardView extends CardView {
         setOnMouseClicked(new MouseListener(toolCard, this));
     }
     
+    /**
+     * Method to add a favortoken to the tokenpane
+     * @param color
+     */
     public void addFavorToken(Color color) {
         Circle favorToken = new Circle(TOKENSIZE, color);
         tokenPane.getChildren().add(favorToken);
     }
     
+    /**
+     * Method to add all the paid favortokens to the tokenpane
+     * @param favorTokens
+     */
     public void setFavorTokens(ArrayList<FavorToken> favorTokens) {
         for(int i = 0; i < favorTokens.size(); i++) {
             Color playerColor = favorTokens.get(i).getPlayer().getPlayerColor();
@@ -137,18 +148,28 @@ public class ToolCardView extends CardView {
         }
     }
     
+    /**
+     * Handles MouseEvent
+     * @author Ian
+     *
+     */
     private class MouseListener implements EventHandler<MouseEvent>{
-
-        private ToolCard toolcard;
-        private ToolCardView toolcardview;
+        private ToolCard toolCard;
+        private ToolCardView toolCardView;
         
-        public MouseListener(ToolCard toolcard, ToolCardView toolCardView) {
-            this.toolcard = toolcard;
-            this.toolcardview = toolCardView;
+        /**
+         * Constructor
+         * @param toolcard ToolCard
+         * @param toolCardView ToolCardView
+         */
+        public MouseListener(ToolCard toolCard, ToolCardView toolCardView) {
+            this.toolCard = toolCard;
+            this.toolCardView = toolCardView;
         }
+        
         @Override
         public void handle(MouseEvent e) {
-            playerController.actionPayForToolCard(toolcard, toolcardview);
+            playerController.actionPayForToolCard(toolCard, toolCardView);
         }
         
     }

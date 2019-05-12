@@ -125,6 +125,12 @@ public class FavorTokenDao {
         }
     }
     
+    /**
+     * Method to get all the paid favortokens from a toolcard
+     * @param toolcard ToolCard
+     * @param game Game
+     * @return
+     */
     public ArrayList<FavorToken> getToolCardTokens(ToolCard toolcard, Game game) {
         ArrayList<FavorToken> tokens = new ArrayList<>();
         ToolCardDao toolcarddao = new ToolCardDao();
@@ -144,7 +150,7 @@ public class FavorTokenDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(tokens);
+        
         return tokens;
     }
 }
