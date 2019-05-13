@@ -77,4 +77,12 @@ public class GameDie extends Die {
     public boolean hasColor() {
         return super.getColor() != null;
     }
+    
+    public void setPatternCardField(PatternCardField patternCardField) {
+        this.patternCardField = patternCardField;
+    }
+    
+    public PatternCardField getPatternCardField() {
+        return patternCardField;
+    }
 }

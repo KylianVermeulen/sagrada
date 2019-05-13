@@ -17,15 +17,19 @@ public class ToolCardSnijLiniaal extends ToolCard {
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
         // TODO Auto-generated method stub
         PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
-        PatternCardFieldView sourcePatternCardView = (PatternCardFieldView) event.getSource();
         
-        PatternCardField patternCardFieldSource = sourcePatternCardView.getPatternCardField();
         PatternCardField patternCardField =  patternCardView.getPatternCardField();
+        PatternCardField removeDieField = die.getPatternCardField();
+        
         PatternCard patternCard = patternCardField.getPatternCard();
         
-        patternCard.placeDie(patternCardField, die); 
-        PatternCardField field = patternCard.getPatternCardField(patternCardFieldSource.getxPos(), patternCardFieldSource.getyPos());
-        field.setDie(null);
+        removeDieField = patternCard.getPatternCardField(removeDieField.getxPos(), removeDieField.getyPos());
+        PatternCardField field = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
+        
+        removeDieField.setDie(null); 
+        die.setPatternCardField(field);
+        field.setDie(die);
+        
         return patternCard;
     }
 
