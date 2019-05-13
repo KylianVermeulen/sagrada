@@ -97,7 +97,7 @@ public class PatternCardView extends BorderPane implements ViewInterface {
         Text name = new Text(playerName);
         name.setFill(Color.WHITE);
         name.setFont(PLAYER_NAME_FONT);
-        playerNamePane.setRight(name);
+        playerNamePane.setCenter(name);
         bottomPane.setLeft(playerNamePane);
     }
 
@@ -125,6 +125,4 @@ public class PatternCardView extends BorderPane implements ViewInterface {
             }
         }
     }
-
-
 }
