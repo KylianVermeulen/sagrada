@@ -83,7 +83,7 @@ public class GameView extends VBox implements ViewInterface {
             ArrayList<FavorToken> favorTokens = favorTokenDao.getToolCardTokens(toolCard, game);
             ToolCardView toolCardView = new ToolCardView(playerController);
             toolCardView.setToolCard(toolCard);
-            toolCardView.setFavorTokens(favorTokens);
+            toolCardView.setFavorTokens(favorTokens, game);
             toolCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
             toolCardView.render();
 

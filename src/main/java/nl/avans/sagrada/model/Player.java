@@ -335,10 +335,22 @@ public class Player {
         return playerColor;
     }
 
-    public void setPlayerColor(Color playerColor) {
-        this.playerColor = playerColor;
+    public void setPlayerColor(int i){
+        switch (i) {
+            case 1:
+                playerColor = Color.YELLOW;
+                break;
+            case 2:
+                playerColor = Color.BLUE;
+                break;
+            case 3:
+                playerColor = Color.RED;
+                break;
+            case 4:
+                playerColor = Color.GREEN;
+                break;
+        }
     }
-
     /**
      * Sets the next seqnr for this player bases on the current seqnr and the size of the game.
      */

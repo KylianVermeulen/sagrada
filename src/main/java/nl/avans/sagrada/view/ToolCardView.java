@@ -15,6 +15,7 @@ import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.FavorToken;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.ToolCard;
 
 public class ToolCardView extends CardView {
@@ -141,11 +142,16 @@ public class ToolCardView extends CardView {
      * Method to add all the paid favortokens to the tokenpane
      * @param favorTokens
      */
-    public void setFavorTokens(ArrayList<FavorToken> favorTokens) {
-        for(int i = 0; i < favorTokens.size(); i++) {
-            Color playerColor = favorTokens.get(i).getPlayer().getPlayerColor();
-            addFavorToken(playerColor);
+    public void setFavorTokens(ArrayList<FavorToken> favorTokens, Game game) {
+        for(int i = 0; i < game.getPlayers().size(); i++){
+            for(int e = 0; e < favorTokens.size(); e++) {
+                if(favorTokens.get(e).getPlayer().getId() == game.getPlayers().get(i).getId()){
+                    addFavorToken(game.getPlayers().get(i).getPlayerColor());
+                }
+            }
+
         }
+
     }
     
     /**

@@ -1,8 +1,11 @@
 package nl.avans.sagrada.dao;
 
+import java.security.cert.CertificateParsingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
@@ -98,6 +101,8 @@ public class PlayerDao {
                 player.setSeqnr(rs.getInt("seqnr"));
                 player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
                 player.setAccount(account);
+
+
             }
         } catch (Exception e) {
             player = null;

@@ -3,6 +3,8 @@ package nl.avans.sagrada.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
@@ -146,11 +148,12 @@ public class FavorTokenDao {
                 token.setPlayer(new PlayerDao().getPlayerById(rs.getInt("idplayer")));
                 token.setGame(new GameDao().getGameById(rs.getInt("idgame")));
                 tokens.add(token);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return tokens;
     }
 }

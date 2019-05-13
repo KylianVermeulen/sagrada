@@ -50,6 +50,10 @@ public class PlayerController {
         Game game = new GameDao().getGameById(gameId);
         player.setGame(game);
 
+        for(int i = 0; i < game.getPlayers().size(); i++){
+            game.getPlayers().get(i).setPlayerColor(i);
+        }
+
         if (player.isCurrentPlayer()) {
             game.setTurnPlayer(player);
             Alert alert = new Alert("Speel je beurt", "Je bent nu aan de beurt!", AlertType.SUCCES);

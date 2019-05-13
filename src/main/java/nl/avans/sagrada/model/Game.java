@@ -3,6 +3,8 @@ package nl.avans.sagrada.model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
@@ -14,6 +16,7 @@ public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
     public static final String GAMEMODE_GENERATED = "generate";
     private final String[] privateObjectiveCardColors = {"blauw", "geel", "groen", "paars", "rood"};
+    private final String[] playerColors = {"geel", "blauw", "rood", "groen"};
     private int id;
     private Player turnPlayer;
     private String gamemode;
@@ -38,7 +41,6 @@ public class Game {
         players = new ArrayList<>();
         gamemode = GAMEMODE_NORMAL;
     }
-
 
     /**
      * Get id from Game
