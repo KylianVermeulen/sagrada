@@ -37,6 +37,10 @@ public class ChatLineView extends VBox implements ViewInterface {
     public void setChatLines(ArrayList<Chatline> chatlines) {
         this.chatlines = chatlines;
     }
+    
+    public void addChatline(Chatline chatline) {
+        chatlines.add(chatline);
+    }
 
     /**
      * Method that builds the view for the chat

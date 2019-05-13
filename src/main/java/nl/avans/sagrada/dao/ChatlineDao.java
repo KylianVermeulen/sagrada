@@ -44,6 +44,23 @@ public class ChatlineDao {
         }
     }
 
+    public Chatline getLatestChatlineOfGame(Game game) {
+        Chatline chatline = new Chatline();
+        try {
+            ResultSet rs = dbConnection.executeQuery(new Query(
+                    "SELECT chatline.* FROM chatline JOIN player ON chatline.player_idplayer = player.idplayer WHERE game_idgame=? ORDER BY time DESC LIMIT 1",
+                    "query"), new QueryParameter(QueryParameter.INT, game.getId()));
+            while (rs.next()) {
+                chatline.setPlayer(new PlayerDao().getPlayerById(rs.getInt("player_idplayer")));
+                chatline.setTimestamp(rs.getTimestamp("time"));
+                chatline.setMessage(rs.getString("message"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return chatline;
+    }
+
     /**
      * Method to get all chatlines of a game
      * 
@@ -54,7 +71,7 @@ public class ChatlineDao {
         ArrayList<Chatline> chatlines = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
-                    "SELECT * FROM chatline JOIN player ON chatline.player_idplayer = player.idplayer WHERE game_idgame =?",
+                    "SELECT chatline.* FROM chatline JOIN player ON chatline.player_idplayer = player.idplayer WHERE game_idgame =?",
                     "query"), new QueryParameter(QueryParameter.INT, game.getId()));
 
             while (rs.next()) {
