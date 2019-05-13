@@ -147,8 +147,7 @@ public class PlayerController {
         if (!text.matches("")) {
             if (chatlineDao.timeExistsOfPlayer(chatline) == false) {
                 chatlineDao.addChatline(chatline);
-                ArrayList<Chatline> chatlines = chatlineDao.getChatlinesOfGame(game);
-                chatlineView.setChatLines(chatlines);
+                chatlineView.addChatline(chatline);
                 chatlineView.render();
             } else {
                 Alert alert = new Alert("Waarschuwing",

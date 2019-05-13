@@ -1,12 +1,14 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -36,6 +38,10 @@ public class ChatLineView extends VBox implements ViewInterface {
      */
     public void setChatLines(ArrayList<Chatline> chatlines) {
         this.chatlines = chatlines;
+    }
+    
+    public void addChatline(Chatline chatline) {
+        chatlines.add(chatline);
     }
 
     /**
@@ -86,6 +92,8 @@ public class ChatLineView extends VBox implements ViewInterface {
      * @param chatlines Chatline
      */
     public void addExistingMessages() {
+        ChatlineDao chatlineDao = new ChatlineDao();
+        chatlines = chatlineDao.getChatlinesOfGame(playercontroller.getPlayer().getGame());
         for (int i = 0; i < chatlines.size(); i++) {
             addMessage(chatlines.get(i));
         }
