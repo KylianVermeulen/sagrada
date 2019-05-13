@@ -23,10 +23,10 @@ public class ToolCardView extends CardView {
     private PlayerController playerController;
     private TilePane tokenPane;
     
-    private final int TOKENPANEWIDTH = 45;
-    private final int TOKENPANEHEIGHT = 10;
-    private final int TOKENPANEGAP = 1;
-    private final double TOKENSIZE = 3.5;
+    private final int TOKEN_PANE_WIDTH = 45;
+    private final int TOKEN_PANE_HEIGHT = 10;
+    private final int TOKEN_PANE_GAP = 1;
+    private final double TOKEN_SIZE = 3.5;
 
     /**
      * Filled constructor
@@ -111,12 +111,12 @@ public class ToolCardView extends CardView {
      * Generates a pane that will contain the favortokens
      */
     public void showTokenPane() {
-        tokenPane.setMaxHeight(TOKENPANEHEIGHT);
-        tokenPane.setMinHeight(TOKENPANEHEIGHT);
-        tokenPane.setMaxWidth(TOKENPANEWIDTH);
-        tokenPane.setMinWidth(TOKENPANEWIDTH);
-        tokenPane.setVgap(TOKENPANEGAP);
-        tokenPane.setHgap(TOKENPANEGAP);
+        tokenPane.setMaxHeight(TOKEN_PANE_HEIGHT);
+        tokenPane.setMinHeight(TOKEN_PANE_HEIGHT);
+        tokenPane.setMaxWidth(TOKEN_PANE_WIDTH);
+        tokenPane.setMinWidth(TOKEN_PANE_WIDTH);
+        tokenPane.setVgap(TOKEN_PANE_GAP);
+        tokenPane.setHgap(TOKEN_PANE_GAP);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class ToolCardView extends CardView {
         showNumber();
         showImage(toolCard.getImagePath());
         showDescription();
-        setOnMouseClicked(new MouseListener(toolCard, this));
+        setOnMouseClicked(e -> playerController.actionPayForToolCard(toolCard, this));
     }
     
     /**
@@ -152,31 +152,5 @@ public class ToolCardView extends CardView {
 
         }
 
-    }
-    
-    /**
-     * Handles MouseEvent
-     * @author Ian
-     *
-     */
-    private class MouseListener implements EventHandler<MouseEvent>{
-        private ToolCard toolCard;
-        private ToolCardView toolCardView;
-        
-        /**
-         * Constructor
-         * @param toolcard ToolCard
-         * @param toolCardView ToolCardView
-         */
-        public MouseListener(ToolCard toolCard, ToolCardView toolCardView) {
-            this.toolCard = toolCard;
-            this.toolCardView = toolCardView;
-        }
-        
-        @Override
-        public void handle(MouseEvent e) {
-            playerController.actionPayForToolCard(toolCard, toolCardView);
-        }
-        
     }
 }

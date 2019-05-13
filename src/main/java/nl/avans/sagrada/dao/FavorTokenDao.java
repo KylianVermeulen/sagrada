@@ -148,7 +148,6 @@ public class FavorTokenDao {
                 token.setPlayer(new PlayerDao().getPlayerById(rs.getInt("idplayer")));
                 token.setGame(new GameDao().getGameById(rs.getInt("idgame")));
                 tokens.add(token);
-
             }
         } catch (Exception e) {
             e.printStackTrace();

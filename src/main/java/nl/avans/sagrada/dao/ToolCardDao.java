@@ -185,6 +185,4 @@ public class ToolCardDao {
             e.printStackTrace();
         }
     }
-    
-
 }

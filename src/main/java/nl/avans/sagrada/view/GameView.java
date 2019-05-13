@@ -86,7 +86,6 @@ public class GameView extends VBox implements ViewInterface {
             toolCardView.setFavorTokens(favorTokens, game);
             toolCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
             toolCardView.render();
-
             toolCardViews.add(toolCardView);
         }
     }
