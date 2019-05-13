@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -21,14 +22,16 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
     private final Font SCORE_LINE_FONT = new Font("Segoe Script", 20);
     private final int SCOREBOARD_SIZE = 300;
     private Game game;
+    private PlayerController playerController;
 
     /**
      * Filled Constructor
      * 
      * @param game Game
      */
-    public ScoreBoardView(Game game) {
+    public ScoreBoardView(Game game, PlayerController playerController) {
         this.game = game;
+        this.playerController = playerController;
         setPrefSize(SCOREBOARD_SIZE, SCOREBOARD_SIZE);
         setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
     }
@@ -49,13 +52,23 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
 
         for (int i = 0; i < game.getPlayers().size(); i++) {
             HBox playerLine = new HBox();
+            Label playerScore;
+            String loopUser = game.getPlayers().get(i).getAccount().getUsername();
+            String currentUser = playerController.getPlayer().getAccount().getUsername();
+
             playerLine.setSpacing(SCORE_LINE_SPACING);
             Label playerName =
                     new Label(game.getPlayers().get(i).getAccount().getUsername() + ": ");
             playerName.setFont(SCORE_LINE_FONT);
             playerName.setTextAlignment(TextAlignment.CENTER);
-            Label playerScore =
-                    new Label(Integer.toString(game.getPlayers().get(i).calculateScore(true)));
+
+            if (loopUser.equals(currentUser)) {
+                playerScore =
+                        new Label(Integer.toString(game.getPlayers().get(i).calculateScore(true)));
+            } else {
+                playerScore =
+                        new Label(Integer.toString(game.getPlayers().get(i).calculateScore(false)));
+            }
             playerScore.setFont(SCORE_LINE_FONT);
             playerScore.setTextAlignment(TextAlignment.CENTER);
             playerLine.getChildren().addAll(playerName, playerScore);
