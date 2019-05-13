@@ -15,6 +15,7 @@ public class PatternCard {
     private PatternCardField[][] patternCardFields;
     private ArrayList<String> colors;
 
+
     /**
      * Partial constructor
      *
