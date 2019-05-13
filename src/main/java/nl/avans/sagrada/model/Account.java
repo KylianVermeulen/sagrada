@@ -6,7 +6,7 @@ import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.model.enumerations.AccountStatus;
 
 public class Account {
-    public AccountStatus accountStatus;
+    private AccountStatus accountStatus;
     private String username;
     private String password;
     private ArrayList<Player> players;
@@ -178,7 +178,7 @@ public class Account {
                 String playerUsername = player.getAccount().getUsername();
 
                 if (sendingAccountUsername.equals(playerUsername)) {
-                    if (player.getPlayerStatus().equals("challenger")) {
+                    if (player.getPlayerStatus().equals("uitdager")) {
                         // Check if the player was the creator of the game
                         return true;
                     }
@@ -186,5 +186,22 @@ public class Account {
             }
         }
         return false;
+    }
+    
+    /**
+     * Sets the current account status of the account
+     * The account status could also be referred to as location
+     * @param accountStatus
+     */
+    public void setAccountStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+    
+    /**
+     * Returns the account status
+     * @return accountStatus
+     */
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
     }
 }

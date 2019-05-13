@@ -100,7 +100,6 @@ public class PatternCardDao {
     public void saveOptionalPatternCardsOfPlayer(ArrayList<PatternCard> optionalPatterncards,
             Player player) {
         for (PatternCard patternCard : optionalPatterncards) {
-            System.out.println("" + patternCard.getId());
             try {
                 ResultSet rs = dbConnection.executeQuery(
                         new Query(

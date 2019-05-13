@@ -2,18 +2,19 @@ package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
 
-public class Toolcard {
+public class ToolCard {
     private int id;
     private int seqnr;
     private String description;
     private String imagePath;
     private String name;
     private ArrayList<FavorToken> favorTokens;
+    private boolean hasBeenPaidForBefore;
 
     /**
      * Empty constructor.
      */
-    public Toolcard() {
+    public ToolCard() {
     }
 
     /**
@@ -23,15 +24,14 @@ public class Toolcard {
      * @param seqnr int
      * @param description String
      */
-    public Toolcard(int id, String name, int seqnr, String description) {
+    public ToolCard(int id, String name, int seqnr, String description) {
         this.id = id;
         this.seqnr = seqnr;
         this.description = description;
         this.name = name;
     }
 
-    public void useToolcard() {
-    }
+    public void useToolCard() {}
 
     /**
      * Returns the toolcard id.
@@ -145,5 +145,24 @@ public class Toolcard {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Returns the payment status for the toolcard. If true, this toolcard has already been paid for
+     * before.
+     * 
+     * @return the payment status for the toolcard
+     */
+    public boolean hasBeenPaidForBefore() {
+        return hasBeenPaidForBefore;
+    }
+
+    /**
+     * Sets the payment status for the toolcard.
+     * 
+     * @param hasBeenPaidForBefore boolean
+     */
+    public void setHasBeenPaidForBefore(boolean hasBeenPaidForBefore) {
+        this.hasBeenPaidForBefore = hasBeenPaidForBefore;
     }
 }

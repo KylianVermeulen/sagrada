@@ -5,13 +5,16 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.model.RoundTrack;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class RoundTrackView extends HBox implements ViewInterface {
+public class RoundTrackView extends TilePane implements ViewInterface {
     private RoundTrack roundTrack;
     private RoundTrackFieldView[] roundTrackFieldViews;
+    private final int ROUNDTRACK_WIDTH = 350;
+    private final int ROUNDTRACK_HEIGHT = 66;
 
     /**
      * Full constructor
@@ -24,7 +27,7 @@ public class RoundTrackView extends HBox implements ViewInterface {
 
         // ADD FINAL INT 10
         roundTrackFieldViews = new RoundTrackFieldView[10];
-        setPrefSize(740, 80);
+        setPrefSize(ROUNDTRACK_WIDTH, ROUNDTRACK_HEIGHT);
         setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
     }
 

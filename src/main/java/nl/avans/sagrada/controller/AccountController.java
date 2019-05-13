@@ -1,5 +1,6 @@
 package nl.avans.sagrada.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,6 +32,10 @@ public class AccountController {
 
     public AccountController(MyScene myScene) {
         this.myScene = myScene;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Account getAccount() {
@@ -67,8 +72,8 @@ public class AccountController {
                 this.account = account;
                 viewLobby();
             } else {
-                Alert alert = new Alert("Password ongeldig", "Password is niet geldig.",
-                        AlertType.ERROR);
+                Alert alert =
+                        new Alert("Password ongeldig", "Password is niet geldig.", AlertType.ERROR);
                 myScene.addAlertPane(alert);
             }
         } else {
@@ -103,8 +108,7 @@ public class AccountController {
 
         if (username.length() < 3) {
             Alert alert = new Alert("Username ongeldig",
-                    "Username moet minstens 3 characters zijn.",
-                    AlertType.ERROR);
+                    "Username moet minstens 3 characters zijn.", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
@@ -126,8 +130,7 @@ public class AccountController {
         account.setUsername(username);
         account.setPassword(password);
         if (accountDao.accountExists(account)) {
-            Alert alert = new Alert("Username ongeldig", "Username bestaat al.",
-                    AlertType.ERROR);
+            Alert alert = new Alert("Username ongeldig", "Username bestaat al.", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
@@ -163,7 +166,7 @@ public class AccountController {
 
         pane.getChildren().add(lobbyView);
         myScene.setContentPane(pane);
-        account.accountStatus = AccountStatus.LOBBY;
+        account.setAccountStatus(AccountStatus.LOBBY);
     }
 
     /**
@@ -176,17 +179,19 @@ public class AccountController {
         AccountDao accountDao = new AccountDao();
 
         int gameId = gameDao.getNextGameId();
+        Timestamp creationDate = gameDao.getTime();
         Game game = new Game();
         game.setId(gameId);
+        game.setCreationDate(creationDate);
         gameDao.addGame(game);
-        game.assignRandomToolcards();
+        game.assignRandomToolCards();
         game.assignRandomPublicObjectiveCards();
 
         int playerId = playerDao.getNextPlayerId();
         Player player = new Player();
         player.setId(playerId);
         player.setSeqnr(1);
-        player.setPlayerStatus("challenger");
+        player.setPlayerStatus("uitdager");
         player.setIsCurrentPlayer(true);
         player.setAccount(account);
         player.setGame(game);
@@ -203,7 +208,7 @@ public class AccountController {
 
         pane.getChildren().add(gameSetupView);
         myScene.setContentPane(pane);
-        account.accountStatus = AccountStatus.SETUP;
+        account.setAccountStatus(AccountStatus.SETUP);
     }
 
     /**
@@ -267,9 +272,14 @@ public class AccountController {
      */
     public void actionAcceptInvite(Invite invite) {
         InviteDao inviteDao = new InviteDao();
+
         invite.acceptInvite();
         inviteDao.updateInvite(invite);
-        viewLobby();
+        Player player = invite.getPlayer();
+        player.setGame(invite.getGame());
+        account.setAccountStatus(AccountStatus.GAME);
+        myScene.getPlayerController().setPlayer(player);
+        myScene.getPlayerController().viewOptionalPatternCards();
     }
 
     /**
@@ -291,5 +301,6 @@ public class AccountController {
      */
     public void actionJoinGame(Game game) {
         myScene.getPlayerController().actionJoinGame(account, game);
+        account.setAccountStatus(AccountStatus.GAME);
     }
 }

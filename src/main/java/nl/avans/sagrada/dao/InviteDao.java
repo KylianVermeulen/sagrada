@@ -22,14 +22,15 @@ public class InviteDao {
 
     /**
      * This method will return a list of invites from a given account.
+     * 
      * @param account
      * @return
      */
     public ArrayList<Invite> getInvitesOfAccount(Account account) {
         ArrayList<Invite> invites = new ArrayList<>();
         try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM player WHERE username=?", "query",
+            ResultSet rs = dbConnection
+                    .executeQuery(new Query("SELECT * FROM player WHERE username=?", "query",
                             new QueryParameter(QueryParameter.STRING, account.getUsername()))
             );
             while (rs.next()) {
@@ -42,9 +43,9 @@ public class InviteDao {
                 invite.setPlayer(player);
                 invite.setGame(game);
                 String inviteStatus = rs.getString("playstatus_playstatus");
-                if (inviteStatus.equals("accepted")) {
+                if (inviteStatus.equals("geaccepteerd")) {
                     invite.acceptInvite();
-                } else if (inviteStatus.equals("refused")) {
+                } else if (inviteStatus.equals("geweigerd")) {
                     invite.denyInvite();
                 }
                 // When they do not have accepted or rejected, this is not important for a invite
@@ -67,7 +68,7 @@ public class InviteDao {
         ArrayList<Invite> pendingInvites = new ArrayList<>();
         for (Invite invite : inviteList) {
             Player player = invite.getPlayer();
-            if (player.getPlayerStatus().equals("challengee")) {
+            if (player.getPlayerStatus().equals("uitgedaagde")) {
                 pendingInvites.add(invite);
             }
         }
@@ -82,14 +83,12 @@ public class InviteDao {
             Game game = invite.getGame();
             String privateObjectiveColor = game.getRandomAvailablePrivateColor();
             int seqNr = this.getSeqNrForNextPlayer(game);
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query(
-                            "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, patterncard_idpatterncard, score) VALUES (?, ?, ?, ?, ?, '0', ?, NULL, NULL);",
-                            "update"),
-                    new QueryParameter(QueryParameter.INT, nextPlayerId),
+            ResultSet rs = dbConnection.executeQuery(new Query(
+                    "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, patterncard_idpatterncard, score) VALUES (?, ?, ?, ?, ?, '0', ?, NULL, NULL);",
+                    "update"), new QueryParameter(QueryParameter.INT, nextPlayerId),
                     new QueryParameter(QueryParameter.STRING, username),
                     new QueryParameter(QueryParameter.INT, game.getId()),
-                    new QueryParameter(QueryParameter.STRING, "challengee"),
+                    new QueryParameter(QueryParameter.STRING, "uitgedaagde"),
                     new QueryParameter(QueryParameter.INT, seqNr),
                     new QueryParameter(QueryParameter.STRING, privateObjectiveColor)
             );

@@ -2,8 +2,11 @@ package nl.avans.sagrada.view;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.Main;
@@ -23,6 +26,7 @@ public class PublicObjectiveCardView extends CardView {
         super();
         this.playerController = playerController;
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
+        setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null)));
         getStylesheets().add(css);
         setId("publicObjectiveCard");
     }

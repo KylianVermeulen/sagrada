@@ -16,8 +16,8 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class PatternCardView extends BorderPane implements ViewInterface {
-    public static final int PATTERNCARD_WIDTH = 310;
-    public static final int PATTERNCARD_HEIGHT = 230;
+    public static final int PATTERNCARD_WIDTH = 260;
+    public static final int PATTERNCARD_HEIGHT = 190;
     private PatternCard patternCard;
     private PlayerController playerController;
     private PatternCardFieldView[][] patternCardFieldViews;
@@ -95,7 +95,7 @@ public class PatternCardView extends BorderPane implements ViewInterface {
                 patternCardFieldViews[x][y] = patternCardFieldView;
 
                 Pane paddingPane = new Pane();
-                paddingPane.setPadding(new Insets(5, 5, 5, 5));
+                paddingPane.setPadding(new Insets(5));
                 paddingPane.getChildren().add(patternCardFieldView);
                 patternCardField.getChildren().add(paddingPane);
             }
