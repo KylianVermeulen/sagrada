@@ -2,13 +2,29 @@ package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
 import javafx.geometry.Insets;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import nl.avans.sagrada.dao.*;
-import nl.avans.sagrada.model.*;
-import nl.avans.sagrada.view.*;
+import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
+import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.ToolCardDao;
+import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.model.FavorToken;
+import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.view.ChatLineView;
+import nl.avans.sagrada.view.DieView;
+import nl.avans.sagrada.view.GameView;
+import nl.avans.sagrada.view.MyScene;
+import nl.avans.sagrada.view.PatternCardSelectionView;
+import nl.avans.sagrada.view.PatternCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
 
@@ -69,16 +85,6 @@ public class PlayerController {
         }
     }
 
-    public void viewEmptyPatterncard() {
-        PatternCard patternCard = new PatternCard(1);
-        GameDie gameDie = new GameDie(1, "rood", 5);
-        patternCard.placeDie(1, 1, gameDie);
-        PatternCardView patternCardView = new PatternCardView(this);
-        patternCardView.setPatternCard(patternCard);
-        patternCardView.render();
-        myScene.setContentPane(patternCardView);
-    }
-
     public void viewOptionalPatternCards() {
         Pane pane = new Pane();
         ArrayList<PatternCard> patternCards =
@@ -118,79 +124,6 @@ public class PlayerController {
                     "Je bent nog niet aan de beurt.", AlertType.INFO);
             myScene.addAlertPane(alert);
         }
-    }
-
-    public void viewClickPlacement() {
-        HBox mainPane = new HBox();
-        VBox secondPane = new VBox();
-
-        Pane pane1 = new Pane();
-        Pane pane2 = new Pane();
-        Pane pane3 = new Pane();
-
-        PatternCard patternCard = new PatternCard(1, 0, false);
-        PatternCardView patternCardView = new PatternCardView(this);
-        patternCardView.setPatternCard(patternCard);
-        patternCardView.render();
-
-        GameDie gameDie1 = new GameDie(1, "geel", 1);
-        DieView dieView1 = new DieView();
-        dieView1.setGameDie(gameDie1);
-        dieView1.render();
-
-        GameDie gameDie2 = new GameDie(2, "paars", 3);
-        DieView dieView2 = new DieView();
-        dieView2.setGameDie(gameDie2);
-        dieView2.render();
-
-        GameDie gameDie3 = new GameDie(3, "rood", 5);
-        DieView dieView3 = new DieView();
-        dieView3.setGameDie(gameDie3);
-        dieView3.render();
-
-        pane1.setPadding(new Insets(5));
-        pane2.setPadding(new Insets(5));
-        pane3.setPadding(new Insets(5));
-
-        pane1.getChildren().add(dieView1);
-        pane2.getChildren().add(dieView2);
-        pane3.getChildren().add(dieView3);
-
-        secondPane.setPadding(new Insets(5));
-        secondPane.getChildren().addAll(pane1, pane2, pane3);
-        mainPane.getChildren().addAll(patternCardView, secondPane);
-        myScene.setContentPane(mainPane);
-    }
-
-    /**
-     * Players wants to go back to the lobby
-     */
-    public void makeDie(int number, int eyes, String color) {
-        Pane pane = new Pane();
-        GameDie gameDie = new GameDie(number, color, eyes);
-        DieView dieView = new DieView();
-        dieView.setGameDie(gameDie);
-        dieView.render();
-        pane.getChildren().add(dieView);
-        myScene.setContentPane(pane);
-    }
-
-
-    public void emptyPatternCard() {
-        Pane pane = new Pane();
-        PatternCard patternCard = new PatternCard(1);
-        GameDie gameDie = new GameDie(1, "rood", 5);
-        patternCard.placeDie(1, 1, gameDie);
-        PatternCardView patternCardView = new PatternCardView(this);
-        patternCardView.setPatternCard(patternCard);
-        patternCardView.render();
-
-        pane.getChildren().add(patternCardView);
-        myScene.setContentPane(pane);
-    }
-
-    public void placeDie(GameDie die, PatternCardField patterncardField) {
-        patterncardField.placeDie(die);
     }
 
     public void actionExit() {
@@ -273,5 +206,50 @@ public class PlayerController {
                     "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
             myScene.addAlertPane(alert);
         }
+    }
+
+    /**
+     * Example code
+     */
+    public void viewClickPlacement() {
+        HBox mainPane = new HBox();
+        VBox secondPane = new VBox();
+
+        Pane pane1 = new Pane();
+        Pane pane2 = new Pane();
+        Pane pane3 = new Pane();
+
+        PatternCard patternCard = new PatternCard(1, 0, false);
+        PatternCardView patternCardView = new PatternCardView(this);
+        patternCardView.setPatternCard(patternCard);
+        patternCardView.render();
+
+        GameDie gameDie1 = new GameDie(1, "geel", 1);
+        DieView dieView1 = new DieView();
+        dieView1.setGameDie(gameDie1);
+        dieView1.render();
+
+        GameDie gameDie2 = new GameDie(2, "paars", 3);
+        DieView dieView2 = new DieView();
+        dieView2.setGameDie(gameDie2);
+        dieView2.render();
+
+        GameDie gameDie3 = new GameDie(3, "rood", 5);
+        DieView dieView3 = new DieView();
+        dieView3.setGameDie(gameDie3);
+        dieView3.render();
+
+        pane1.setPadding(new Insets(5));
+        pane2.setPadding(new Insets(5));
+        pane3.setPadding(new Insets(5));
+
+        pane1.getChildren().add(dieView1);
+        pane2.getChildren().add(dieView2);
+        pane3.getChildren().add(dieView3);
+
+        secondPane.setPadding(new Insets(5));
+        secondPane.getChildren().addAll(pane1, pane2, pane3);
+        mainPane.getChildren().addAll(patternCardView, secondPane);
+        myScene.setContentPane(mainPane);
     }
 }

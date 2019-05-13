@@ -34,7 +34,6 @@ public class PatternCardView extends BorderPane implements ViewInterface {
         setPrefSize(PATTERNCARD_WIDTH, PATTERNCARD_HEIGHT);
         setPadding(new Insets(10, 0, 0, 10));
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-
     }
 
     /**

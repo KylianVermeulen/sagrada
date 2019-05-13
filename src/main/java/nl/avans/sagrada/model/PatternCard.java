@@ -2,7 +2,6 @@ package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import nl.avans.sagrada.dao.PatternCardFieldDao;
 
 public class PatternCard {
@@ -19,7 +18,7 @@ public class PatternCard {
     /**
      * Partial constructor
      *
-     * @param id       int
+     * @param id int
      * @param standard boolean
      */
     public PatternCard(int id, boolean standard) {
@@ -34,21 +33,11 @@ public class PatternCard {
     }
 
     /**
-     * Constructor for emptyPatterncard
-     *
-     * @param id int
-     */
-    public PatternCard(int id) {
-        this.id = id;
-        patternCardFields = makeNewPatternCardFields();
-    }
-
-    /**
      * Full constructor
      *
-     * @param id         int
+     * @param id int
      * @param difficulty int
-     * @param standard   boolean
+     * @param standard boolean
      */
     public PatternCard(int id, int difficulty, boolean standard) {
         this.id = id;
@@ -255,7 +244,8 @@ public class PatternCard {
      */
     private PatternCardField[][] makePatternCardFields(
             ArrayList<PatternCardField> patternCardFieldsList) {
-        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH + 1][CARD_SQUARES_HEIGHT + 1];
+        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH + 1][
+                CARD_SQUARES_HEIGHT + 1];
         int i = 0;
         for (int x = 1; x <= CARD_SQUARES_WIDTH; x++) {
             for (int y = 1; y <= CARD_SQUARES_HEIGHT; y++) {
@@ -272,7 +262,8 @@ public class PatternCard {
      * @return PatternCard[][]
      */
     private PatternCardField[][] makeNewPatternCardFields() {
-        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH + 1][CARD_SQUARES_HEIGHT + 1];
+        PatternCardField[][] patterncardFields = new PatternCardField[CARD_SQUARES_WIDTH + 1][
+                CARD_SQUARES_HEIGHT + 1];
         for (int x = 1; x <= CARD_SQUARES_WIDTH; x++) {
             for (int y = 1; y <= CARD_SQUARES_HEIGHT; y++) {
                 PatternCardField patternCardField = new PatternCardField(x, y, this);
@@ -301,17 +292,21 @@ public class PatternCard {
      * @param color The color.
      * @return The pattern card field.
      */
-    public PatternCardField checkPatternCardFieldNorthEastDieColor(PatternCardField patternCardField, String color) {
+    public PatternCardField checkPatternCardFieldNorthEastDieColor(
+            PatternCardField patternCardField, String color) {
         if (patternCardField.getxPos() == 5 || patternCardField.getyPos() == 1) {
             return null;
         }
-        if (!getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() - 1).hasDie()) {
+        if (!getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() - 1)
+                .hasDie()) {
             return null;
         }
-        GameDie gameDie = getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() - 1).getDie();
+        GameDie gameDie = getPatternCardField(patternCardField.getxPos() + 1,
+                patternCardField.getyPos() - 1).getDie();
         if (gameDie.getColor().equals(color)) {
             Integer[] loc = {patternCardField.getxPos() + 1, patternCardField.getyPos() - 1};
-            return getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() - 1);
+            return getPatternCardField(patternCardField.getxPos() + 1,
+                    patternCardField.getyPos() - 1);
         }
         return null;
     }
@@ -324,16 +319,20 @@ public class PatternCard {
      * @param color The color.
      * @return The pattern card field.
      */
-    public PatternCardField checkPatternCardFieldSouthEastDieColor(PatternCardField patternCardField, String color) {
+    public PatternCardField checkPatternCardFieldSouthEastDieColor(
+            PatternCardField patternCardField, String color) {
         if (patternCardField.getxPos() == 5 || patternCardField.getyPos() == 4) {
             return null;
         }
-        if (!getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() + 1).hasDie()) {
+        if (!getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() + 1)
+                .hasDie()) {
             return null;
         }
-        GameDie gameDie = getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() + 1).getDie();
+        GameDie gameDie = getPatternCardField(patternCardField.getxPos() + 1,
+                patternCardField.getyPos() + 1).getDie();
         if (gameDie.getColor().equals(color)) {
-            return getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() + 1);
+            return getPatternCardField(patternCardField.getxPos() + 1,
+                    patternCardField.getyPos() + 1);
         }
         return null;
     }
@@ -346,16 +345,20 @@ public class PatternCard {
      * @param color The color.
      * @return The pattern card field.
      */
-    public PatternCardField checkPatternCardFieldSouthWestDieColor(PatternCardField patternCardField, String color) {
+    public PatternCardField checkPatternCardFieldSouthWestDieColor(
+            PatternCardField patternCardField, String color) {
         if (patternCardField.getxPos() == 1 || patternCardField.getyPos() == 4) {
             return null;
         }
-        if (!getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() + 1).hasDie()) {
+        if (!getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() + 1)
+                .hasDie()) {
             return null;
         }
-        GameDie gameDie = getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() + 1).getDie();
+        GameDie gameDie = getPatternCardField(patternCardField.getxPos() - 1,
+                patternCardField.getyPos() + 1).getDie();
         if (gameDie.getColor().equals(color)) {
-            return getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() + 1);
+            return getPatternCardField(patternCardField.getxPos() - 1,
+                    patternCardField.getyPos() + 1);
         }
         return null;
     }
@@ -368,16 +371,20 @@ public class PatternCard {
      * @param color The color.
      * @return The pattern card field.
      */
-    public PatternCardField checkPatternCardFieldNorthWestDieColor(PatternCardField patternCardField, String color) {
+    public PatternCardField checkPatternCardFieldNorthWestDieColor(
+            PatternCardField patternCardField, String color) {
         if (patternCardField.getxPos() == 1 || patternCardField.getyPos() == 1) {
             return null;
         }
-        if (!getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() - 1).hasDie()) {
+        if (!getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() - 1)
+                .hasDie()) {
             return null;
         }
-        GameDie gameDie = getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() - 1).getDie();
+        GameDie gameDie = getPatternCardField(patternCardField.getxPos() - 1,
+                patternCardField.getyPos() - 1).getDie();
         if (gameDie.getColor().equals(color)) {
-            return getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() - 1);
+            return getPatternCardField(patternCardField.getxPos() - 1,
+                    patternCardField.getyPos() - 1);
         }
         return null;
     }
