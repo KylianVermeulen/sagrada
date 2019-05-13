@@ -24,7 +24,7 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public class GameOverviewView extends ScrollPane implements ViewInterface {
     private final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
     private final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2 - 70;
-    private final static int BUTTON_WIDTH = 50;
+    private final int BUTTON_WIDTH = 50;
     private final int LABEL_WIDTH = 90;
     private ArrayList<Game> games;
     private AccountController accountController;
