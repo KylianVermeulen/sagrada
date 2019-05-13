@@ -31,6 +31,7 @@ import nl.avans.sagrada.view.popups.AlertType;
 public class PlayerController {
     private MyScene myScene;
     private Player player;
+    private ToolCard activeToolCard;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -38,6 +39,10 @@ public class PlayerController {
 
     public Player getPlayer() {
         return player;
+    }
+    
+    public void setActiveToolCard(ToolCard toolcard) {
+        activeToolCard = toolcard;
     }
 
     /**

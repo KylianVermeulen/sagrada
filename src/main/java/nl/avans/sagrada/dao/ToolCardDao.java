@@ -8,6 +8,9 @@ import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardFolieAandrukker;
+import nl.avans.sagrada.model.toolcard.ToolCardRondSnijder;
+import nl.avans.sagrada.model.toolcard.ToolCardSnijLiniaal;
 
 public class ToolCardDao {
     private DBConnection dbConnection;
@@ -33,8 +36,10 @@ public class ToolCardDao {
                     "SELECT toolcard.* FROM toolcard INNER JOIN gametoolcard g on toolcard.idtoolcard = g.idtoolcard WHERE g.idgame=?",
                     "query"), new QueryParameter(QueryParameter.INT, game.getId()));
             while (rs.next()) {
-                ToolCard toolCard = new ToolCard(rs.getInt("idtoolcard"), rs.getString("name"),
-                        rs.getInt("seqnr"),
+                ToolCard toolCard = buildToolCard(
+                        rs.getInt("idtoolcard"), 
+                        rs.getString("name"), 
+                        rs.getInt("seqnr"), 
                         rs.getString("description"));
                 list.add(toolCard);
             }
@@ -54,8 +59,10 @@ public class ToolCardDao {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM toolcard", "query"));
             while (rs.next()) {
-                ToolCard toolCard = new ToolCard(rs.getInt("idtoolcard"), rs.getString("name"),
-                        rs.getInt("seqnr"),
+                ToolCard toolCard = buildToolCard(
+                        rs.getInt("idtoolcard"), 
+                        rs.getString("name"), 
+                        rs.getInt("seqnr"), 
                         rs.getString("description"));
                 list.add(toolCard);
             }
@@ -72,16 +79,17 @@ public class ToolCardDao {
      * @return The tool card that belongs to the id entered as parameter
      */
     public ToolCard getToolCardById(int id) {
-        ToolCard toolCard = new ToolCard();
+        ToolCard toolCard = null;
         try {
             ResultSet rs =
                     dbConnection.executeQuery(new Query("SELECT * FROM toolcard WHERE idtoolcard=?",
                             "query", new QueryParameter(QueryParameter.INT, id)));
             if (rs.next()) {
-                toolCard.setId(rs.getInt("idtoolcard"));
-                toolCard.setName(rs.getString("name"));
-                toolCard.setSeqnr(rs.getInt("seqnr"));
-                toolCard.setDescription(rs.getString("description"));
+                toolCard = buildToolCard(
+                        rs.getInt("idtoolcard"), 
+                        rs.getString("name"), 
+                        rs.getInt("seqnr"), 
+                        rs.getString("description"));
             }
         } catch (Exception e) {
             toolCard = null;
@@ -182,6 +190,22 @@ public class ToolCardDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    
+    private ToolCard buildToolCard(int id, String name, int seqnr, String description) {
+        switch (id) {
+        case 3:
+            ToolCardFolieAandrukker toolcardFolie = new ToolCardFolieAandrukker(id, name, seqnr, description);
+            return toolcardFolie;
+        case 9:
+            ToolCardSnijLiniaal toolcardLini = new ToolCardSnijLiniaal(id, name, seqnr, description);
+            return toolcardLini;
+        case 5:
+            ToolCardRondSnijder toolcardSnij = new ToolCardRondSnijder(id, name, seqnr, description);
+            return toolcardSnij;
+        default:
+            return null;
         }
     }
 }

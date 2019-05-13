@@ -25,6 +25,10 @@ public class ToolCardView extends CardView {
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         getStylesheets().add(css);
         setId("toolcardBackground");
+        
+        setOnMouseClicked(e -> {
+            playerController.setActiveToolCard(toolCard);
+        });
     }
 
     /**

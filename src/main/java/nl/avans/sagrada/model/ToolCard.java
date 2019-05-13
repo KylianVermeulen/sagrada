@@ -2,7 +2,9 @@ package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
 
-public class ToolCard {
+import javafx.event.Event;
+
+public abstract class ToolCard {
     private int id;
     private int seqnr;
     private String description;
@@ -10,6 +12,7 @@ public class ToolCard {
     private String name;
     private ArrayList<FavorToken> favorTokens;
     private boolean hasBeenPaidForBefore;
+    
 
     /**
      * Empty constructor.
@@ -165,4 +168,6 @@ public class ToolCard {
     public void setHasBeenPaidForBefore(boolean hasBeenPaidForBefore) {
         this.hasBeenPaidForBefore = hasBeenPaidForBefore;
     }
+    
+    public abstract boolean handleDrag(Event event);
 }
