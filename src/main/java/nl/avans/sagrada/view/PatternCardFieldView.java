@@ -16,8 +16,8 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class PatternCardFieldView extends StackPane implements ViewInterface {
-    private static final int WIDTH = 50;
-    private static final int HEIGHT = 50;
+    private final int FIELD_WIDTH = 40;
+    private final int FIELD_HEIGHT = 40;
     private PatternCard patternCard;
     private PatternCardField patternCardField;
     private PlayerController playerController;
@@ -135,6 +135,6 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      * Changes the background color of the PatternCardFieldView
      */
     public void addColor() {
-        setBackground(new Background(new BackgroundFill(patternCardField.getColor(), null, null)));
+        setBackground(new Background(new BackgroundFill(patternCardField.getFXColor(), null, null)));
     }
 }

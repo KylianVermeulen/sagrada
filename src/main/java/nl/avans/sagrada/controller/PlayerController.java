@@ -1,13 +1,14 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
-
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
+import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
@@ -17,8 +18,6 @@ import nl.avans.sagrada.view.*;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
 
-import java.util.ArrayList;
-
 public class PlayerController {
     private MyScene myScene;
     private Player player;
@@ -27,11 +26,52 @@ public class PlayerController {
         this.myScene = myScene;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    /**
+     * Sets the player for the controller
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void viewGame() {
+        // Refresh game & player object
+        int gameId = player.getGame().getId();
+        player = new PlayerDao().getPlayerById(player.getId());
+        Game game = new GameDao().getGameById(gameId);
+        player.setGame(game);
+
+        if (player.isCurrentPlayer()) {
+            game.setTurnPlayer(player);
+            Alert alert = new Alert("Speel je beurt", "Je bent nu aan de beurt!", AlertType.SUCCES);
+            myScene.addAlertPane(alert);
+        }
+
+        Pane pane = new Pane();
+        GameView gameView = new GameView(this, game, player);
+        gameView.render();
+        pane.getChildren().add(gameView);
+        myScene.setContentPane(pane);
+    }
+
     public void actionJoinGame(Account account, Game game) {
         player = new PlayerDao().getPlayerByAccountAndGame(account, game);
         player.setGame(game);
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
+        } else {
+            if (!game.everyoneSelectedPatternCard()) {
+                // We don't allow anyone to the game view until everyone has a patterncard
+                Alert alert = new Alert("Nog even wachten",
+                        "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
+                myScene.addAlertPane(alert);
+            } else {
+                viewGame();
+            }
+
         }
     }
 
@@ -61,134 +101,29 @@ public class PlayerController {
         player.setPatternCard(patternCard);
         playerDao.updateSelectedPatternCard(player, patternCard);
         player.generateFavorTokens();
-        viewPatternCardOfPlayer(player);
-    }
-
-    /**
-     * Example code
-     *
-     * @param game the game to view the three Toolcards of.
-     */
-    public void viewToolcards(Game game) {
-        ToolcardDao toolcardDao = new ToolcardDao();
-        BorderPane pane = new BorderPane();
-        ToolCardView[] toolcardViews = new ToolCardView[3];
-        Toolcard[] toolcards = toolcardDao.getToolcardsOfGame(game).toArray(new Toolcard[3]);
-        for (int index = 0; index < toolcardViews.length; index++) {
-            toolcardViews[index] = new ToolCardView(this);
-            toolcardViews[index].setToolCard(toolcards[index]);
-            toolcardViews[index].render();
+        Game game = player.getGame();
+        if (!game.everyoneSelectedPatternCard()) {
+            // We don't allow anyone to the game view until everyone has a patterncard
+            Alert alert = new Alert("Nog even wachten",
+                    "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
+            myScene.addAlertPane(alert);
+            myScene.getAccountController().viewLobby();
+        } else {
+            viewGame();
         }
-
-        BorderPane.setMargin(toolcardViews[0], new Insets(0, 5, 0, 0));
-        BorderPane.setMargin(toolcardViews[1], new Insets(0, 5, 0, 5));
-        BorderPane.setMargin(toolcardViews[2], new Insets(0, 0, 0, 5));
-        pane.setLeft(toolcardViews[0]);
-        pane.setCenter(toolcardViews[1]);
-        pane.setRight(toolcardViews[2]);
-        myScene.setContentPane(pane);
     }
 
     /**
-     * Example code
-     *
-     * @param game the game to view Toolcard of.
-     * @param selection the selected Toolcard to view.
+     * Player is passing for a round
      */
-    public void viewToolcard(Game game, int selection) {
-        ToolcardDao toolcardDao = new ToolcardDao();
-
-        Pane pane = new Pane();
-        ToolCardView toolCardView = new ToolCardView(this);
-        toolCardView.setToolCard(toolcardDao.getToolcardsOfGame(game).get(selection));
-        toolCardView.render();
-
-        pane.getChildren().add(toolCardView);
-        myScene.setContentPane(pane);
-    }
-
-    /**
-     * Example code
-     *
-     * @param game Game
-     */
-    public void viewPublicObjectiveCards(Game game) {
-        BorderPane pane = new BorderPane();
-        PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
-        PublicObjectiveCardView[] publicObjectiveCardViews = new PublicObjectiveCardView[3];
-        PublicObjectiveCard[] publicObjectiveCards = publicObjectiveCardDao
-                .getAllPublicObjectiveCardsOfGame(game).toArray(new PublicObjectiveCard[3]);
-        for (int index = 0; index < publicObjectiveCardViews.length; index++) {
-            publicObjectiveCardViews[index] = new PublicObjectiveCardView(this);
-            publicObjectiveCardViews[index].setPublicObjectiveCard(publicObjectiveCards[index]);
-            publicObjectiveCardViews[index].render();
+    public void actionPass() {
+        if (player.isCurrentPlayer()) {
+            player.getGame().setNextPlayer();
+        } else {
+            Alert alert = new Alert("Nog even wachten",
+                    "Je bent nog niet aan de beurt.", AlertType.INFO);
+            myScene.addAlertPane(alert);
         }
-
-        BorderPane.setMargin(publicObjectiveCardViews[0], new Insets(0, 5, 0, 0));
-        BorderPane.setMargin(publicObjectiveCardViews[1], new Insets(0, 5, 0, 5));
-        BorderPane.setMargin(publicObjectiveCardViews[2], new Insets(0, 0, 0, 5));
-        pane.setLeft(publicObjectiveCardViews[0]);
-        pane.setCenter(publicObjectiveCardViews[1]);
-        pane.setRight(publicObjectiveCardViews[2]);
-        myScene.setContentPane(pane);
-    }
-
-    /**
-     * Test function for roundTrack
-     */
-    public void viewRoundTrack() {
-        GameDie gameDie1 = new GameDie(1, "geel", 1);
-        GameDie gameDie2 = new GameDie(2, "blauw", 3);
-        GameDie gameDie3 = new GameDie(3, "rood", 5);
-
-        RoundTrack roundTrack = new RoundTrack();
-        roundTrack.addGameDie(gameDie1, 1);
-        roundTrack.addGameDie(gameDie2, 1);
-        roundTrack.addGameDie(gameDie3, 1);
-
-        roundTrack.addGameDie(gameDie1, 2);
-        roundTrack.addGameDie(gameDie3, 2);
-
-        roundTrack.addGameDie(gameDie1, 3);
-        roundTrack.addGameDie(gameDie2, 3);
-
-        roundTrack.addGameDie(gameDie2, 4);
-        roundTrack.addGameDie(gameDie3, 4);
-
-        roundTrack.addGameDie(gameDie1, 5);
-        roundTrack.addGameDie(gameDie3, 5);
-
-        RoundTrackView roundTrackView = new RoundTrackView(roundTrack);
-        roundTrackView.render();
-        myScene.setContentPane(roundTrackView);
-    }
-
-    /**
-     * Example code
-     */
-    public void viewPrivateObjectiveCard() {
-        Pane pane = new Pane();
-        PrivateObjectiveCardView privateObjectiveCardView = new PrivateObjectiveCardView();
-        privateObjectiveCardView.setPlayer(this.player);
-        privateObjectiveCardView.render();
-
-        pane.getChildren().add(privateObjectiveCardView);
-        myScene.setContentPane(pane);
-    }
-
-    /**
-     * Example code
-     *
-     * @param player the player to view the PatternCard of.
-     */
-    public void viewPatternCardOfPlayer(Player player) {
-        Pane pane = new Pane();
-        PatternCard patternCard = player.getPatternCard();
-        PatternCardView patternCardView = new PatternCardView(this);
-        patternCardView.setPatternCard(patternCard);
-        patternCardView.render();
-        pane.getChildren().add(patternCardView);
-        myScene.setContentPane(pane);
     }
 
     public void viewClickPlacement() {
@@ -234,7 +169,7 @@ public class PlayerController {
     }
 
     /**
-     * Example code
+     * Players wants to go back to the lobby
      */
     public void makeDie(int number, int eyes, String color) {
         Pane pane = new Pane();
@@ -264,24 +199,27 @@ public class PlayerController {
         patterncardField.placeDie(die);
     }
 
+    public void actionExit() {
+        myScene.getAccountController().viewLobby();
+    }
+
     /**
      * Method that adds a message to the view and database
      *
      * @param text String
      */
-    public void actionSendMessage(String text) {
+    public void actionSendMessage(String text, ChatLineView chatlineView) {
         ChatlineDao chatlineDao = new ChatlineDao();
         Chatline chatline = new Chatline(player, text);
+        Game game = player.getGame();
         chatlineDao.getTime(chatline);
 
         if (!text.matches("")) {
             if (chatlineDao.timeExistsOfPlayer(chatline) == false) {
                 chatlineDao.addChatline(chatline);
-                ChatLineView chatview = new ChatLineView(this);
-                chatview.addExistingMessages(player.getChatlines());
-                chatview.addMessage(chatline);
-                player.addChatline(chatline);
-                myScene.setContentPane(chatview);
+                ArrayList<Chatline> chatlines = chatlineDao.getChatlinesOfGame(game);
+                chatlineView.setChatLines(chatlines);
+                chatlineView.render();
             } else {
                 Alert alert = new Alert("Waarschuwing",
                         "Je mag maar 1 keer per seconde een bericht versturen!", AlertType.ERROR);
@@ -295,10 +233,51 @@ public class PlayerController {
     }
 
     /**
-     * Method to view the chat
+     * Handles the logic behind a tool card payment. The method first checks if a player has already
+     * paid for a tool card before or not, and if the player has sufficient funds.
+     * <p>
+     * If the tool card has not received payment before, the player will hand over one favor token
+     * as payment for the toolcard. This tool cards status will then be set to "has already been
+     * paid for before". </br> If the tool card has received payment before, then the player will
+     * hand over two favor tokens as payment for the tool card.
+     * <p>
+     * If the player has insufficient funds, a message will appear on screen informing the player
+     * about their lack of funds, and the player will not be able to use this tool card.
+     *
+     * @param toolCard The tool card.
      */
-    public void viewChat() {
-        ChatLineView chatlineview = new ChatLineView(this);
-        myScene.setContentPane(chatlineview);
+    public void actionPayForToolCard(ToolCard toolCard) {
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        ToolCardDao toolCardDao = new ToolCardDao();
+        toolCardDao.toolCardHasPayment(toolCard, player.getGame());
+
+        ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+        if (newFavorTokens.size() > 0) {
+            if (!toolCard.hasBeenPaidForBefore()) {
+                favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                        player.getGame());
+                newFavorTokens.remove(0);
+                player.setFavorTokens(newFavorTokens);
+                toolCard.setHasBeenPaidForBefore(true);
+            } else {
+                if (newFavorTokens.size() > 1) {
+                    for (int i = 1; i <= 2; i++) {
+                        favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                                player.getGame());
+                        newFavorTokens.remove(0);
+                    }
+                    player.setFavorTokens(newFavorTokens);
+                } else {
+                    Alert alert = new Alert("Te weinig betaalstenen",
+                            "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
+                            AlertType.ERROR);
+                    myScene.addAlertPane(alert);
+                }
+            }
+        } else {
+            Alert alert = new Alert("Te weinig betaalstenen",
+                    "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+        }
     }
 }

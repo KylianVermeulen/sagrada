@@ -1,11 +1,14 @@
 package nl.avans.sagrada.model;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
+import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
-import nl.avans.sagrada.dao.ToolcardDao;
+import nl.avans.sagrada.dao.PublicObjectiveCardDao;
+import nl.avans.sagrada.dao.ToolCardDao;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
@@ -19,11 +22,16 @@ public class Game {
     private FavorToken[] favorTokens;
     private GameDie[] gameDie;
     private PublicObjectiveCard[] publicObjectiveCards;
+    private ArrayList<ToolCard> toolCards;
+    private Timestamp creationDate;
 
     public Game(int id) {
         this.id = id;
         GameDao gameDao = new GameDao();
+        ToolCardDao toolCardDao = new ToolCardDao();
+
         players = gameDao.getPlayersOfGame(this);
+        toolCards = toolCardDao.getToolCardsOfGame(this);
     }
 
     public Game() {
@@ -94,7 +102,8 @@ public class Game {
     public boolean isActive() {
         for (Player player : players) {
             String playerStatus = player.getPlayerStatus();
-            if (playerStatus.equals("aborted") || playerStatus.equals("finished") || playerStatus.equals("challengee")) {
+            if (playerStatus.equals("afgebroken") || playerStatus.equals("uitgespeeld")
+                    || playerStatus.equals("uitgedaagde")) {
                 return false;
             }
         }
@@ -143,6 +152,9 @@ public class Game {
      * @return PublicObjectiveCard[]
      */
     public PublicObjectiveCard[] getPublicObjectiveCards() {
+        PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
+        publicObjectiveCards = publicObjectiveCardDao.getAllPublicObjectiveCardsOfGame(this)
+                .toArray(new PublicObjectiveCard[3]);
         return publicObjectiveCards;
     }
 
@@ -189,6 +201,16 @@ public class Game {
             return privateColor;
         }
         return "";
+    }
+
+    /**
+     * Get all the chatlines of a game trough the chatline dao And returns them
+     *
+     * @return ArrayList<Chatline>
+     */
+    public ArrayList<Chatline> getChatlines() {
+        ArrayList<Chatline> chatlines = new ChatlineDao().getChatlinesOfGame(this);
+        return chatlines;
     }
 
     /**
@@ -252,64 +274,170 @@ public class Game {
             playerDao.updatePlayer(player);
         }
     }
-    
+
+    /**
+     * Returns the toolcards of the current game
+     *
+     * @return ArrayList<ToolCard>
+     */
+    public ArrayList<ToolCard> getToolCards() {
+        return toolCards;
+    }
+
+    /**
+     * Set the toolcards of the current game
+     */
+    public void setToolCards(ArrayList<ToolCard> toolCards) {
+        this.toolCards = toolCards;
+    }
+
     /**
      * Assigns three random toolcards to the current game (given as parameter).
      * <p>
-     * Firstly, the method makes a total of three random (double) numbers, which
-     * in turn are converted into integers after rounding the doubles.
+     * Firstly, the method makes a total of three random (double) numbers, which in turn are
+     * converted into integers after rounding the doubles. </br> Then, the method checks whether the
+     * toolcardID from the array is the first entry of the array or not, and, if not, checks if the
+     * current id is the same as the previous array entry id. If these two are the same, the current
+     * id gets an increase of one in order to make sure the two ids are not the same. </br> If the
+     * new value of the current toolcard id is higher than 12, the id gets decreased by 2.
      * </br>
-     * Then, the method checks whether the toolcardID from the array is the first
-     * entry of the array or not, and, if not, checks if the current id is the
-     * same as the previous array entry id. If these two are the same, the current id gets
-     * an increase of one in order to make sure the two ids are not the same.
-     * </br> 
-     * If the new value of the current toolcard id is higher than 12, the id gets decreased by 2.
-     * </br>
-     * If the current toolcard id is the third array entry, the method ensures that this
-     * new value (as described above) is not the same as the first AND second array entries.
+     * If the current toolcard id is the third array entry, the method ensures that this new value
+     * (as described above) is not the same as the first AND second array entries.
      * </p>
      * <p>
-     * If, before the scenario as pictured above takes place, the current toolcard id is the third entry,
-     * and the current toolcard id is the same as the first array entry, the same action as above
-     * takes place, except now another increase in id happens.
-     * </br>
-     * If, again, this value is higher than 12, the value gets a decrease of two.
+     * If, before the scenario as pictured above takes place, the current toolcard id is the third
+     * entry, and the current toolcard id is the same as the first array entry, the same action as
+     * above takes place, except now another increase in id happens. </br> If, again, this value is
+     * higher than 12, the value gets a decrease of two.
      * </p>
-     * 
-     * @param game Game
      */
-    public void assignRandomToolcards() {
-        ToolcardDao toolcardDao = new ToolcardDao();
-        int counter = 0;
-        int[] randomToolCardIds = new int[3];
-        double[] randomNumbers = new double[3];
-        
-        while (counter < 3) {
-            randomNumbers[counter] = (Math.random() * 11) + 1;
-            randomToolCardIds[counter] = (int) Math.round(randomNumbers[counter]);
-            if ((counter - 1) >= 0) {
-                if (randomToolCardIds[counter] == randomToolCardIds[counter - 1]) {
-                    randomToolCardIds[counter]++;
-                    if ((counter - 2) >= 0) {
-                        if (randomToolCardIds[counter] == randomToolCardIds[counter - 2]) {
-                            randomToolCardIds[counter]++; 
-                            if (randomToolCardIds[counter] > 12) {
-                                randomToolCardIds[counter] = (randomToolCardIds[counter - 2] - 2);
-                            }
-                        }
+    public void assignRandomToolCards() {
+        ToolCardDao toolCardDao = new ToolCardDao();
+
+        Random random = new Random();
+
+        int min = 1;
+        int max = 12;
+
+        int randomNumber1 = random.nextInt((max - min) + 1) + min;
+        int randomNumber2 = random.nextInt((max - min) + 1) + min;
+        int randomNumber3 = random.nextInt((max - min) + 1) + min;
+
+        boolean foundThreeValues = false;
+
+        while (!foundThreeValues) {
+            randomNumber1 = random.nextInt((max - min) + 1) + min;
+            randomNumber2 = random.nextInt((max - min) + 1) + min;
+            randomNumber3 = random.nextInt((max - min) + 1) + min;
+            if (randomNumber1 != randomNumber2 && randomNumber1 != randomNumber3
+                    && randomNumber2 != randomNumber3) {
+                foundThreeValues = true;
+            }
+        }
+        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber1), this);
+        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber2), this);
+        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber3), this);
+    }
+
+    /**
+     * \ assign three random public objectivecards to a game. first the method makes three random
+     * numbers between 1 and 10. while some numbers are the same than make new number until all
+     * numbers are different. Then add the public objectivecards to the game. \ assign three random
+     * public objectivecards to a game. first the method makes three random numbers between 1 and
+     * 10. while some numbers are the same than make new number until all numbers are different.
+     * Then add the public objectivecards to the game.
+     */
+    public void assignRandomPublicObjectiveCards() {
+        PublicObjectiveCardDao publicObjectiveCardDao = new PublicObjectiveCardDao();
+
+        Random random = new Random();
+
+        int min = 1;
+        int max = 10;
+
+        int randomNumber1 = random.nextInt((max - min) + 1) + min;
+        int randomNumber2 = random.nextInt((max - min) + 1) + min;
+        int randomNumber3 = random.nextInt((max - min) + 1) + min;
+
+        boolean foundThreeValues = false;
+
+        while (!foundThreeValues) {
+            randomNumber1 = random.nextInt((max - min) + 1) + min;
+            randomNumber2 = random.nextInt((max - min) + 1) + min;
+            randomNumber3 = random.nextInt((max - min) + 1) + min;
+            if (randomNumber1 != randomNumber2 && randomNumber1 != randomNumber3
+                    && randomNumber2 != randomNumber3) {
+                foundThreeValues = true;
+            }
+        }
+        publicObjectiveCardDao.addPublicObjectiveCardToGame(
+                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber1), this);
+        publicObjectiveCardDao.addPublicObjectiveCardToGame(
+                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber2), this);
+        publicObjectiveCardDao.addPublicObjectiveCardToGame(
+                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber3), this);
+    }
+
+    /**
+     * Checks if every player has selected a patterncard If one player has not selected a
+     * patterncard we return false
+     *
+     * @return boolean
+     */
+    public boolean everyoneSelectedPatternCard() {
+        ArrayList<Player> players = getPlayers();
+        for (Player player : players) {
+            if (player.getPatternCard() == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Timestamp getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Timestamp creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    /**
+     * Sets the next player as current player in the game. Updates the player and game tables in the
+     * database.
+     */
+    public void setNextPlayer() {
+        Player currentPlayer = turnPlayer;
+        int oldSeqnr = currentPlayer.getSeqnr();
+        currentPlayer.setNextSeqnr();
+
+        for (int i = 0; i < players.size(); i++) {
+            Player playerNextTurn = players.get(i);
+            if (oldSeqnr != (players.size() * 2)) {
+                if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
+                    if (currentPlayer != playerNextTurn) {
+                        currentPlayer.setIsCurrentPlayer(false);
+                        new PlayerDao().updatePlayer(currentPlayer);
+
+                        setTurnPlayer(playerNextTurn);
+                        new GameDao().updateGame(this);
+
+                        playerNextTurn.setIsCurrentPlayer(true);
+                        new PlayerDao().updatePlayer(playerNextTurn);
                     }
                 }
-            } else if (randomToolCardIds[counter] > 12) {
-                randomToolCardIds[counter] = (randomToolCardIds[counter - 1] - 2);
-                if ((counter - 2) >= 0) {
-                    if (randomToolCardIds[counter] == randomToolCardIds[counter - 2]) {
-                        randomToolCardIds[counter]--;
-                    }
+            } else {
+                if (playerNextTurn.getSeqnr() == 1) {
+                    currentPlayer.setIsCurrentPlayer(false);
+                    new PlayerDao().updatePlayer(currentPlayer);
+
+                    setTurnPlayer(playerNextTurn);
+                    new GameDao().updateGame(this);
+
+                    playerNextTurn.setIsCurrentPlayer(true);
+                    new PlayerDao().updatePlayer(playerNextTurn);
                 }
             }
-            toolcardDao.addToolcardToGame(toolcardDao.getToolcardById(randomToolCardIds[counter]), this);
-            counter++;
         }
     }
 }

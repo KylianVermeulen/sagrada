@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -16,7 +17,8 @@ import java.util.logging.Logger;
 
 public class DBConnection {
     private static Connection connection = null;
-    private static String devDatabaseUrl = "jdbc:mysql://134.209.204.60:3306/sagrada_v30?serverTimezone=Europe/Amsterdam";
+    private static String devDatabaseUrl =
+            "jdbc:mysql://134.209.204.60:3306/sagrada_v50?serverTimezone=Europe/Amsterdam";
     private static String dbPassword = "Sagrada1!";
     private static String dbUser = "sagrada";
     private Properties connectionProperties;
@@ -25,7 +27,7 @@ public class DBConnection {
     private List<Query> executedQueries = new ArrayList<>();
 
     /**
-     * Empty  constructor
+     * Empty constructor
      */
     public DBConnection() {
         connectionProperties = new Properties();
@@ -71,8 +73,7 @@ public class DBConnection {
     }
 
     /**
-     * Executes the given Query on this connection based on Query sql and Query first
-     * QueryParameter
+     * Executes the given Query on this connection based on Query sql and Query first QueryParameter
      *
      * @param query Query
      * @return ResultSet
@@ -217,7 +218,11 @@ public class DBConnection {
                     pstmt.setFloat(i, (float) value);
                     break;
                 case QueryParameter.INT:
-                    pstmt.setInt(i, (int) value);
+                    if (value == null) {
+                        pstmt.setNull(i, Types.INTEGER);
+                    } else {
+                        pstmt.setInt(i, (int) value);
+                    }
                     break;
                 case QueryParameter.STRING:
                     pstmt.setString(i, (String) value);
@@ -252,7 +257,8 @@ public class DBConnection {
                 executeQuery(query);
                 returnList.add(query);
             } catch (SQLException e) {
-                i++; //If there's a failure move forward in the queue. If not, the query that ran will no longer be in the list.
+                i++; // If there's a failure move forward in the queue. If not, the query that ran
+                     // will no longer be in the list.
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
             }
         }

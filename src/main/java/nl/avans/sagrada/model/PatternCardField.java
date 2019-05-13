@@ -301,7 +301,7 @@ public class PatternCardField {
      *
      * @return Color
      */
-    public Color getColor() {
+    public Color getFXColor() {
         switch (color) {
             case "rood":
                 return Color.RED;
@@ -316,15 +316,6 @@ public class PatternCardField {
             default:
                 return Color.WHITE;
         }
-    }
-
-    /**
-     * Set color string to PatternCardField
-     *
-     * @param color String
-     */
-    public void setColor(String color) {
-        this.color = color;
     }
 
     /**
@@ -344,20 +335,8 @@ public class PatternCardField {
      *
      * @return String
      */
-    public String getStringColor() {
+    public String getColor() {
         return this.color;
-    }
-
-    /**
-     * Checks if the selected PatternCardField has a die on it
-     *
-     * @return boolean
-     */
-    public boolean hasDie() {
-        if (die == null) {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -538,11 +517,32 @@ public class PatternCardField {
     }
 
     /**
-     * Returns the die on the selected PatternCardField
+     * Set color string to PatternCardField
      *
-     * @return GameDie
+     * @param color String
+     */
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    /**
+     * @return The game die on this pattern card field.
      */
     public GameDie getDie() {
-        return this.die;
+        return die;
+    }
+
+    /**
+     * @param die Set the game die on this pattern card field.
+     */
+    public void setDie(GameDie die) {
+        this.die = die;
+    }
+
+    /**
+     * @return True when is pattern card field has a placed game die
+     */
+    public boolean hasDie() {
+        return die != null;
     }
 }

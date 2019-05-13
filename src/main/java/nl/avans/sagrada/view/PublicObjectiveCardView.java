@@ -2,8 +2,11 @@ package nl.avans.sagrada.view;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.Main;
@@ -23,6 +26,7 @@ public class PublicObjectiveCardView extends CardView {
         super();
         this.playerController = playerController;
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
+        setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null)));
         getStylesheets().add(css);
         setId("publicObjectiveCard");
     }
@@ -66,7 +70,7 @@ public class PublicObjectiveCardView extends CardView {
      * Displays the text at the bottom of the card for the public objective card.
      */
     public void showText() {
-        Text scorePoints = new Text(Integer.toString(publicObjectiveCard.getSeqnr()));
+        Text scorePoints = new Text(Integer.toString(publicObjectiveCard.getPoints()));
         Text description = new Text(publicObjectiveCard.getDescription());
         scorePoints.setFont(Main.SAGRADA_FONT);
         description.setFont(Main.SAGRADA_FONT);

@@ -6,7 +6,7 @@ import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 
 public class Player {
-    public static final String STATUS_ABORT = "aborted";
+    public static final String STATUS_ABORT = "afgebroken";
     private int id;
     private Account account;
     private Game game;
@@ -208,6 +208,7 @@ public class Player {
         for (int i = 0; i < patternCard.getDifficulty(); i++) {
             FavorTokenDao favorTokenDao = new FavorTokenDao();
             int favorTokenId = favorTokenDao.getNextFavorTokenId();
+
             FavorToken favorToken = new FavorToken(favorTokenId, this);
             favorTokenDao.addFavorToken(favorToken);
             favorTokens.add(favorToken);
@@ -247,8 +248,6 @@ public class Player {
 
     /**
      * addChatline to player
-     * 
-     * @param chatline
      */
     public void addChatline(Chatline chatline) {
         chatlines.add(chatline);
@@ -256,8 +255,6 @@ public class Player {
 
     /**
      * get chatlines from player
-     * 
-     * @return
      */
     public ArrayList<Chatline> getChatlines() {
         return chatlines;
@@ -265,8 +262,6 @@ public class Player {
 
     /**
      * set chatlines for player
-     * 
-     * @param chatlines
      */
     public void setChatlines(ArrayList<Chatline> chatlines) {
         this.chatlines = chatlines;
@@ -297,5 +292,93 @@ public class Player {
                 imagePath = "er is iets mis gegaan";
         }
         return imagePath;
+    }
+
+    /**
+     * Calculate the score for this player. Gets -1 score for each empty pattern card field. Gets +1
+     * score for each favor token. Gets rewardScore for each public objective card.
+     */
+    public int calculateScore(boolean privateObjectiveCard) {
+        int score = 0;
+
+        if (privateObjectiveCard) {
+            PatternCardField[][] patternCardFields = patternCard.getPatternCardFields();
+            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
+                    x++) { // Basic calculations for pattern card fields
+                for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+                    if (!patternCardFields[x][y]
+                            .hasDie()) { // for each empty pattern card field -1 score
+                        score -= 1;
+                    } else { // pattern card field has die
+                        if (patternCardFields[x][y].getDie().getColor()
+                                .equals(privateObjectivecardColor)) { // for each die that has private objective card color +1 score
+                            score += 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (FavorToken favorToken : getFavorTokens()) { // for each favor token +1 score
+            score += 1;
+        }
+
+        for (PublicObjectiveCard publicObjectiveCard : game.getPublicObjectiveCards()) {
+            score += publicObjectiveCard.calculateScore(patternCard);
+        }
+        return score;
+    }
+
+    /**
+     * Sets the next seqnr for this player bases on the current seqnr and the size of the game.
+     */
+    public void setNextSeqnr() {
+        int gameSize = getGame().getPlayers().size();
+        int newSeqnr = seqnr;
+        if (newSeqnr == 1) { // SEQNR: 1
+            newSeqnr = newSeqnr + (gameSize * 2 - 1);
+        } else if (newSeqnr == 2) { // SEQNR: 2
+            if (gameSize == 2) { // GAMESIZE: 2
+                newSeqnr = 3;
+            } else if (gameSize == 3) { // GAMESIZE: 3
+                newSeqnr = 5;
+            } else if (gameSize == 4) { // GAMESIZE: 4
+                newSeqnr = 7;
+            }
+        } else if (newSeqnr == 3) { // SEQNR: 3
+            if (gameSize == 2) { //GAMESIZE: 2
+                newSeqnr = 2;
+            } else if (gameSize == 3) { // GAMESIZE: 3
+                newSeqnr = 4;
+            } else if (gameSize == 4) { // GAMESIZE: 4
+                newSeqnr = 6;
+            }
+        } else if (newSeqnr == 4) { // SEQNR: 4
+            if (gameSize == 2) { //GAMESIZE: 2
+                newSeqnr = 1;
+            } else if (gameSize == 3) { // GAMESIZE: 3
+                newSeqnr = 3;
+            } else if (gameSize == 4) { // GAMESIZE: 4
+                newSeqnr = 5;
+            }
+        } else if (newSeqnr == 5) { // SEQNR: 5
+            if (gameSize == 3) { // GAMESIZE: 3
+                newSeqnr = 2;
+            } else if (gameSize == 4) { // GAMESIZE: 4
+                newSeqnr = 4;
+            }
+        } else if (newSeqnr == 6) { // SEQNR: 6
+            if (gameSize == 3) { // GAMESIZE: 3
+                newSeqnr = 1;
+            } else if (gameSize == 4) { // GAMESIZE: 4
+                newSeqnr = 3;
+            }
+        } else if (newSeqnr == 7) {
+            newSeqnr = 2;
+        } else if (newSeqnr == 8) {
+            newSeqnr = 1;
+        }
+        setSeqnr(newSeqnr);
+        new PlayerDao().updatePlayer(this);
     }
 }
