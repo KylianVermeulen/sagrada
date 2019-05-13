@@ -103,14 +103,6 @@ public class PlayerController {
             Alert alert = new Alert("Speel je beurt", "Je bent nu aan de beurt!", AlertType.SUCCES);
             myScene.addAlertPane(alert);
         }
-        
-        PatternCard playerPatternCard = player.getPatternCard();
-        GameDie die1 = new GameDie(1, "geel", 2);
-        GameDie die2 = new GameDie(1, "groen", 3);
-        die1.setPatternCardField(playerPatternCard.getPatternCardField(1, 3));
-        die2.setPatternCardField(playerPatternCard.getPatternCardField(1, 2));
-        playerPatternCard.placeDie(1, 3, die1);
-        playerPatternCard.placeDie(1, 2, die2);
 
         Pane pane = new Pane();
         GameView gameView = new GameView(this, game, player);
@@ -125,6 +117,14 @@ public class PlayerController {
         PatternCardDao PatternCardDao = new PatternCardDao();
         PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
         player.setPatternCard(patternCard);
+        
+        PatternCard playerPatternCard = player.getPatternCard();
+        GameDie die1 = new GameDie(1, "geel", 2);
+        GameDie die2 = new GameDie(1, "groen", 3);
+        die1.setPatternCardField(playerPatternCard.getPatternCardField(1, 3));
+        die2.setPatternCardField(playerPatternCard.getPatternCardField(1, 2));
+        playerPatternCard.placeDie(1, 3, die1);
+        playerPatternCard.placeDie(1, 2, die2);
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
         } else {
