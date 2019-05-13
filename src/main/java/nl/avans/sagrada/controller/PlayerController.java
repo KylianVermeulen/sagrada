@@ -1,9 +1,13 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
+import javafx.geometry.Insets;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
+import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.ToolCardDao;
@@ -11,13 +15,16 @@ import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.ToolCard;
 import nl.avans.sagrada.view.ChatLineView;
+import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
+import nl.avans.sagrada.view.PatternCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
 
@@ -27,6 +34,10 @@ public class PlayerController {
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     /**
@@ -40,9 +51,19 @@ public class PlayerController {
         return player;
     }
 
-
     public void viewGame() {
-        Game game = player.getGame();
+        // Refresh game & player object
+        int gameId = player.getGame().getId();
+        player = new PlayerDao().getPlayerById(player.getId());
+        Game game = new GameDao().getGameById(gameId);
+        player.setGame(game);
+
+        if (player.isCurrentPlayer()) {
+            game.setTurnPlayer(player);
+            Alert alert = new Alert("Speel je beurt", "Je bent nu aan de beurt!", AlertType.SUCCES);
+            myScene.addAlertPane(alert);
+        }
+
         Pane pane = new Pane();
         GameView gameView = new GameView(this, game, player);
         gameView.render();
@@ -100,7 +121,13 @@ public class PlayerController {
      * Player is passing for a round
      */
     public void actionPass() {
-
+        if (player.isCurrentPlayer()) {
+            player.getGame().setNextPlayer();
+        } else {
+            Alert alert = new Alert("Nog even wachten",
+                    "Je bent nog niet aan de beurt.", AlertType.INFO);
+            myScene.addAlertPane(alert);
+        }
     }
 
     /**
@@ -145,9 +172,8 @@ public class PlayerController {
      * <p>
      * If the tool card has not received payment before, the player will hand over one favor token
      * as payment for the toolcard. This tool cards status will then be set to "has already been
-     * paid for before". </br>
-     * If the tool card has received payment before, then the player will hand over two favor tokens
-     * as payment for the tool card.
+     * paid for before". </br> If the tool card has received payment before, then the player will
+     * hand over two favor tokens as payment for the tool card.
      * <p>
      * If the player has insufficient funds, a message will appear on screen informing the player
      * about their lack of funds, and the player will not be able to use this tool card.
@@ -187,5 +213,50 @@ public class PlayerController {
                     "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
             myScene.addAlertPane(alert);
         }
+    }
+
+    /**
+     * Example code
+     */
+    public void viewClickPlacement() {
+        HBox mainPane = new HBox();
+        VBox secondPane = new VBox();
+
+        Pane pane1 = new Pane();
+        Pane pane2 = new Pane();
+        Pane pane3 = new Pane();
+
+        PatternCard patternCard = new PatternCard(1, 0, false);
+        PatternCardView patternCardView = new PatternCardView(this);
+        patternCardView.setPatternCard(patternCard);
+        patternCardView.render();
+
+        GameDie gameDie1 = new GameDie(1, "geel", 1);
+        DieView dieView1 = new DieView();
+        dieView1.setGameDie(gameDie1);
+        dieView1.render();
+
+        GameDie gameDie2 = new GameDie(2, "paars", 3);
+        DieView dieView2 = new DieView();
+        dieView2.setGameDie(gameDie2);
+        dieView2.render();
+
+        GameDie gameDie3 = new GameDie(3, "rood", 5);
+        DieView dieView3 = new DieView();
+        dieView3.setGameDie(gameDie3);
+        dieView3.render();
+
+        pane1.setPadding(new Insets(5));
+        pane2.setPadding(new Insets(5));
+        pane3.setPadding(new Insets(5));
+
+        pane1.getChildren().add(dieView1);
+        pane2.getChildren().add(dieView2);
+        pane3.getChildren().add(dieView3);
+
+        secondPane.setPadding(new Insets(5));
+        secondPane.getChildren().addAll(pane1, pane2, pane3);
+        mainPane.getChildren().addAll(patternCardView, secondPane);
+        myScene.setContentPane(mainPane);
     }
 }

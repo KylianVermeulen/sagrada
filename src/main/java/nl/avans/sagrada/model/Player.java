@@ -208,7 +208,7 @@ public class Player {
         for (int i = 0; i < patternCard.getDifficulty(); i++) {
             FavorTokenDao favorTokenDao = new FavorTokenDao();
             int favorTokenId = favorTokenDao.getNextFavorTokenId();
-            
+
             FavorToken favorToken = new FavorToken(favorTokenId, this);
             favorTokenDao.addFavorToken(favorToken);
             favorTokens.add(favorToken);
@@ -248,8 +248,6 @@ public class Player {
 
     /**
      * addChatline to player
-     * 
-     * @param chatline
      */
     public void addChatline(Chatline chatline) {
         chatlines.add(chatline);
@@ -257,8 +255,6 @@ public class Player {
 
     /**
      * get chatlines from player
-     * 
-     * @return
      */
     public ArrayList<Chatline> getChatlines() {
         return chatlines;
@@ -266,8 +262,6 @@ public class Player {
 
     /**
      * set chatlines for player
-     * 
-     * @param chatlines
      */
     public void setChatlines(ArrayList<Chatline> chatlines) {
         this.chatlines = chatlines;
@@ -301,10 +295,8 @@ public class Player {
     }
 
     /**
-     * Calculate the score for this player.
-     * Gets -1 score for each empty pattern card field.
-     * Gets +1 score for each favor token.
-     * Gets rewardScore for each public objective card.
+     * Calculate the score for this player. Gets -1 score for each empty pattern card field. Gets +1
+     * score for each favor token. Gets rewardScore for each public objective card.
      */
     public int calculateScore(boolean privateObjectiveCard) {
         int score = 0;
@@ -335,5 +327,58 @@ public class Player {
             score += publicObjectiveCard.calculateScore(patternCard);
         }
         return score;
+    }
+
+    /**
+     * Sets the next seqnr for this player bases on the current seqnr and the size of the game.
+     */
+    public void setNextSeqnr() {
+        int gameSize = getGame().getPlayers().size();
+        int newSeqnr = seqnr;
+        if (newSeqnr == 1) { // SEQNR: 1
+            newSeqnr = newSeqnr + (gameSize * 2 - 1);
+        } else if (newSeqnr == 2) { // SEQNR: 2
+            if (gameSize == 2) { // GAMESIZE: 2
+                newSeqnr = 3;
+            } else if (gameSize == 3) { // GAMESIZE: 3
+                newSeqnr = 5;
+            } else if (gameSize == 4) { // GAMESIZE: 4
+                newSeqnr = 7;
+            }
+        } else if (newSeqnr == 3) { // SEQNR: 3
+            if (gameSize == 2) { //GAMESIZE: 2
+                newSeqnr = 2;
+            } else if (gameSize == 3) { // GAMESIZE: 3
+                newSeqnr = 4;
+            } else if (gameSize == 4) { // GAMESIZE: 4
+                newSeqnr = 6;
+            }
+        } else if (newSeqnr == 4) { // SEQNR: 4
+            if (gameSize == 2) { //GAMESIZE: 2
+                newSeqnr = 1;
+            } else if (gameSize == 3) { // GAMESIZE: 3
+                newSeqnr = 3;
+            } else if (gameSize == 4) { // GAMESIZE: 4
+                newSeqnr = 5;
+            }
+        } else if (newSeqnr == 5) { // SEQNR: 5
+            if (gameSize == 3) { // GAMESIZE: 3
+                newSeqnr = 2;
+            } else if (gameSize == 4) { // GAMESIZE: 4
+                newSeqnr = 4;
+            }
+        } else if (newSeqnr == 6) { // SEQNR: 6
+            if (gameSize == 3) { // GAMESIZE: 3
+                newSeqnr = 1;
+            } else if (gameSize == 4) { // GAMESIZE: 4
+                newSeqnr = 3;
+            }
+        } else if (newSeqnr == 7) {
+            newSeqnr = 2;
+        } else if (newSeqnr == 8) {
+            newSeqnr = 1;
+        }
+        setSeqnr(newSeqnr);
+        new PlayerDao().updatePlayer(this);
     }
 }

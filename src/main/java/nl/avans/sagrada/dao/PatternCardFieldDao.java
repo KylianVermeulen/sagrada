@@ -56,7 +56,7 @@ public class PatternCardFieldDao {
                     new QueryParameter(QueryParameter.INT, patternCardFields.get(i).getxPos()),
                     new QueryParameter(QueryParameter.INT, patternCardFields.get(i).getyPos()),
                     new QueryParameter(QueryParameter.STRING,
-                            patternCardFields.get(i).getFXColor()),
+                            patternCardFields.get(i).getColor()),
                     new QueryParameter(QueryParameter.INT, patternCardFields.get(i).getValue())
             };
             queryParametersList.add(queryParameters);
