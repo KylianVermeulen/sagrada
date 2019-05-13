@@ -132,7 +132,7 @@ public class PatternCardField {
     private boolean checkColorAndDieColor(String color, PatternCardField patternCardField, boolean isDie) {
         if (!isDie) {
             if (patternCardField.hasColor()) {
-                return !patternCardField.getStringColor().equals(color);
+                return !patternCardField.getColor().equals(color);
             }
         }
         if (patternCardField.hasDie()) {
