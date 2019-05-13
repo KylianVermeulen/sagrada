@@ -43,6 +43,9 @@ public class LobbyView extends BorderPane implements ViewInterface {
     public LobbyView(AccountController accountController) {
         this.accountController = accountController;
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
+        String css = this.getClass().getResource("/css/lobbyview.css").toExternalForm();
+        getStylesheets().add(css);
+        
         setBackground(
                 new Background(new BackgroundImage(LOBBY_BACKGROUND, BackgroundRepeat.NO_REPEAT,
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));

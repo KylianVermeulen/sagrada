@@ -31,6 +31,8 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
 
     public InviteOverviewView(AccountController accountController) {
         this.accountController = accountController;
+        String css = this.getClass().getResource("/css/lobbyview.css").toExternalForm();
+        getStylesheets().add(css);
         setMaxHeight(PANE_HEIGHT);
         setMinHeight(PANE_HEIGHT);
         setMaxWidth(PANE_WIDTH);
@@ -53,7 +55,6 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
         getChildren().clear();
         VBox vbox = new VBox();
         vbox.setMinHeight(PANE_HEIGHT - 2);
-
         vbox.setBackground(new Background(new BackgroundFill(Color.BROWN, null, null)));
         for (Invite invite : invites) {
             Game game = invite.getGame();
@@ -71,7 +72,9 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
             pane.getChildren().add(label);
 
             Button acceptButton = buildButtonToAcceptInvite(invite);
+            acceptButton.setId("accept-button");
             Button denyButton = buildButtonToDenyInvite(invite);
+            denyButton.setId("deny-button");
 
             pane.getChildren().addAll(acceptButton, denyButton);
             vbox.getChildren().add(pane);
@@ -87,7 +90,6 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
     private Button buildButtonToAcceptInvite(Invite invite) {
         Button button = new Button("+");
         button.setOnAction(e -> accountController.actionAcceptInvite(invite));
-        button.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
         button.setMinWidth(BUTTON_WIDTH);
         return (button);
     }
@@ -100,7 +102,6 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
     private Button buildButtonToDenyInvite(Invite invite) {
         Button button = new Button("x");
         button.setOnAction(e -> accountController.actionDenyInvite(invite));
-        button.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
         button.setMinWidth(BUTTON_WIDTH);
         return (button);
     }

@@ -1,0 +1,25 @@
+#accept-button{
+	-fx-background-color: green;
+}
+#deny-button{
+	-fx-background-color: red;
+}
+#accept-button:hover{
+	-fx-background-color: DARKGREEN;
+}
+#deny-button:hover{
+	-fx-background-color: DARKRED;
+}
+Button{
+	-fx-cursor: hand;
+	-fx-background-color: black;
+	-fx-text-fill: white;
+	-fx-border-color: white;
+	-fx-border-width: 2px;
+}
+Button:hover{
+	-fx-background-color: white;
+	-fx-text-fill: black;
+	-fx-border-color: black;
+	-fx-border-width: 2px;	
+}
