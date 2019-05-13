@@ -15,7 +15,8 @@ public class ChecksumDatabase {
     private String checksumPlayer;
     private String checksumChat;
 
-    public ChecksumDatabase(AccountController accountController, PlayerController playerController) {
+    public ChecksumDatabase(AccountController accountController,
+            PlayerController playerController) {
         dbConnection = new DBConnection();
         this.accountController = accountController;
         this.playerController = playerController;
@@ -24,7 +25,7 @@ public class ChecksumDatabase {
     }
 
     private void createTimer() {
-        animationTimerExt = new AnimationTimerExt(6000) {
+        animationTimerExt = new AnimationTimerExt(3000) {
             @Override
             public void handle() {
                 checksumPlayer();
@@ -67,6 +68,12 @@ public class ChecksumDatabase {
         if (accountController.getAccount() != null) {
             if (accountController.getAccount().getAccountStatus() == AccountStatus.LOBBY) {
                 accountController.viewLobby();
+            } else if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
+                if (playerController.getPlayer().getGame() != null) {
+                    if (playerController.getPlayer().getGame().everyoneSelectedPatternCard()) {
+                        playerController.viewGame();
+                    }
+                }
             }
         }
     }

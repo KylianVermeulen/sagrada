@@ -95,7 +95,7 @@ public class PatternCardView extends BorderPane implements ViewInterface {
                 patternCardFieldViews[x][y] = patternCardFieldView;
 
                 Pane paddingPane = new Pane();
-                paddingPane.setPadding(new Insets(5, 5, 5, 5));
+                paddingPane.setPadding(new Insets(5));
                 paddingPane.getChildren().add(patternCardFieldView);
                 patternCardField.getChildren().add(paddingPane);
             }

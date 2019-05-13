@@ -87,9 +87,8 @@ public class RoundTrackFieldView extends TilePane implements ViewInterface {
         for (int i = 0; i < panes.length; i++) {
             if (gameDies[i] != null) {
                 DieView dieView = new DieView(gameDies[i]);
-                dieView.setPrefSize(20, 20);
                 dieView.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-                dieView.resizeImages(20, 20);
+                dieView.resize(20, 20);
                 dieView.render();
                 panes[i] = dieView;
             }
