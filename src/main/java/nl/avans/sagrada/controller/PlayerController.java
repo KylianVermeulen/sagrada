@@ -63,11 +63,7 @@ public class PlayerController {
             PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
             if (toolcardUseResult != null) {
                 activeToolCard = null;
-                PatternCardView playerPatternCardView = new PatternCardView(this);
-                playerPatternCardView.setPatternCard(toolcardUseResult);
-                playerPatternCardView.render();
-                myScene.setContentPane(playerPatternCardView);
-                
+                viewGame();
             }
             else {
                 Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard", AlertType.ERROR);
@@ -92,6 +88,9 @@ public class PlayerController {
         player = new PlayerDao().getPlayerById(player.getId());
         Game game = new GameDao().getGameById(gameId);
         player.setGame(game);
+        PatternCardDao PatternCardDao = new PatternCardDao();
+        PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
+        player.setPatternCard(patternCard);
 
         if (player.isCurrentPlayer()) {
             game.setTurnPlayer(player);
@@ -104,7 +103,6 @@ public class PlayerController {
         GameDie die2 = new GameDie(1, "groen", 3);
         playerPatternCard.placeDie(1, 3, die1);
         playerPatternCard.placeDie(1, 2, die2);
-        player.setPatternCard(playerPatternCard);
 
         Pane pane = new Pane();
         GameView gameView = new GameView(this, game, player);
@@ -116,6 +114,9 @@ public class PlayerController {
     public void actionJoinGame(Account account, Game game) {
         player = new PlayerDao().getPlayerByAccountAndGame(account, game);
         player.setGame(game);
+        PatternCardDao PatternCardDao = new PatternCardDao();
+        PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
+        player.setPatternCard(patternCard);
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
         } else {

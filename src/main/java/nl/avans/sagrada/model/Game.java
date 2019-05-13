@@ -387,6 +387,9 @@ public class Game {
     public boolean everyoneSelectedPatternCard() {
         ArrayList<Player> players = getPlayers();
         for (Player player : players) {
+            PatternCardDao PatternCardDao = new PatternCardDao();
+            PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
+            player.setPatternCard(patternCard);
             if (player.getPatternCard() == null) {
                 return false;
             }

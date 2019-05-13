@@ -173,8 +173,8 @@ public class Player {
      * @return The patterncard of this player.
      */
     public PatternCard getPatternCard() {
-        PatternCardDao PatternCardDao = new PatternCardDao();
-        patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(this);
+//        PatternCardDao PatternCardDao = new PatternCardDao();
+//        patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(this);
         return patternCard;
     }
 
