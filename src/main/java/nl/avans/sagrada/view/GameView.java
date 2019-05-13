@@ -145,7 +145,7 @@ public class GameView extends VBox implements ViewInterface {
 
     private void buildDice() {
         dice = new TilePane();
-        for (GameDie gameDie : game.getCurrentDice()) {
+        for (GameDie gameDie : game.getRoundDice()) {
             Pane paddingPane = new Pane();
             DieView dieView = new DieView(gameDie);
             dieView.resize(25, 25);
@@ -170,7 +170,7 @@ public class GameView extends VBox implements ViewInterface {
         buildPlayerPatternCard();
         buildPlayerPrivateObjectiveCard();
         buildActionButtons();
-        buildDice();
+//        buildDice();
 
         BorderPane firstView = new BorderPane();
         firstView.setPrefHeight(PatternCardView.PATTERNCARD_HEIGHT - 15);
@@ -187,7 +187,7 @@ public class GameView extends VBox implements ViewInterface {
         firstView.setCenter(otherPlayerPatternCardViews);
         firstView.setRight(scoreBoard);
 
-        secondView.getChildren().add(dice);
+//        secondView.getChildren().add(dice);
         secondView.getChildren().addAll(toolCardViews);
         secondView.getChildren().addAll(publicObjectiveCardViews);
         secondView.getChildren().add(roundTrackView);

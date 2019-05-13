@@ -24,14 +24,15 @@ public class GameDieDao {
      * @param gameId int
      * @param gameDie GameDie
      */
-    public void addDie(int gameId, GameDie gameDie) {
+    public void addDie(int gameId, GameDie gameDie, int round) {
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("INSERT INTO gamedie (idgame, dienumber, diecolor, eyes) VALUES (?, ?, ?, ?)", "update"),
+                    new Query("INSERT INTO gamedie (idgame, dienumber, diecolor, eyes, round) VALUES (?, ?, ?, ?, ?)", "update"),
                     new QueryParameter(QueryParameter.INT, gameId),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor()),
-                    new QueryParameter(QueryParameter.INT, gameDie.getEyes())
+                    new QueryParameter(QueryParameter.INT, gameDie.getEyes()),
+                    new QueryParameter(QueryParameter.INT, round)
             );
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,6 +51,24 @@ public class GameDieDao {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamedie WHERE gamedie_idgame=?", "query"),
                     new QueryParameter(QueryParameter.INT, gameId));
+            while (rs.next()) {
+                GameDie gameDie = new GameDie(rs.getInt("number"), rs.getString("color"), rs.getInt("eyes"));
+                gameDice.add(gameDie);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gameDice;
+    }
+
+    public ArrayList<GameDie> getRoundDice(int gameId, int round) {
+        ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM gamedie WHERE gamedie_idgame=? AND gamedie_round=?", "query"),
+                    new QueryParameter(QueryParameter.INT, gameId),
+                    new QueryParameter(QueryParameter.INT, round)
+            );
             while (rs.next()) {
                 GameDie gameDie = new GameDie(rs.getInt("number"), rs.getString("color"), rs.getInt("eyes"));
                 gameDice.add(gameDie);

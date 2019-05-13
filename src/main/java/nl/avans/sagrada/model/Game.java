@@ -19,8 +19,6 @@ public class Game {
     private Player startPlayer;
     private FavorToken[] favorTokens;
     private ArrayList<GameDie> gameDice;
-    private ArrayList<GameDie> gameDiceBag;
-    private GameDie[] currentDice;
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
     private Timestamp creationDate;
@@ -37,22 +35,14 @@ public class Game {
     public Game() {
         players = new ArrayList<>();
         gameDice = new ArrayList<>();
-        gameDiceBag = new ArrayList<>();
+        round = 1;
         gamemode = GAMEMODE_NORMAL;
     }
 
     /**
      * This runs after all the attributes are in the database.
      */
-    public void initCurrentDice() {
-        int size = getPlayers().size() * 2 + 1;
-        currentDice = new GameDie[size];
-        changeDice();
-    }
 
-    public GameDie[] getCurrentDice() {
-        return this.currentDice;
-    }
 
     /**
      * This generates 90 random dice.
@@ -60,23 +50,21 @@ public class Game {
     public void generateRandomDice() {
         DieDao dieDao = new DieDao();
         GameDieDao gameDieDao = new GameDieDao();
+        int amountOfTurns = 0;
         for (Die die : dieDao.getDice()) {
             GameDie gameDie = new GameDie(die, new Random().nextInt(6) + 1);
             gameDice.add(gameDie);
-            gameDiceBag.add(gameDie);
-            gameDieDao.addDie(id, gameDie);
+            if ((getPlayers().size() * 2 + 1) == amountOfTurns) {
+                round++;
+                amountOfTurns = 0;
+            }
+            gameDieDao.addDie(id, gameDie, round);
+            System.out.println(round);
+            amountOfTurns++;
         }
+        round = 1;
     }
 
-    /**
-     * This changes the dice on the screen. After every turn this is called.
-     */
-    private void changeDice() {
-        for (int i = 0; i < currentDice.length; i++) {
-            currentDice[i] = gameDiceBag.get(0);
-            gameDiceBag.remove(0);
-        }
-    }
 
     /**
      * Get id from Game
@@ -463,7 +451,6 @@ public class Game {
                 }
             }
         }
-        changeDice();
     }
 
 
@@ -477,5 +464,9 @@ public class Game {
 
         playerNextTurn.setIsCurrentPlayer(true);
         new PlayerDao().updatePlayer(playerNextTurn);
+    }
+
+    public ArrayList<GameDie> getRoundDice() {
+        return null;
     }
 }
