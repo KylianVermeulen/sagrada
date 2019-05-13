@@ -1,14 +1,18 @@
 #accept-button{
 	-fx-background-color: green;
+	-fx-border-width: 0px;
 }
 #deny-button{
 	-fx-background-color: red;
+	-fx-border-width: 0px;
 }
 #accept-button:hover{
 	-fx-background-color: DARKGREEN;
+	-fx-border-width: 0px;
 }
 #deny-button:hover{
 	-fx-background-color: DARKRED;
+	-fx-border-width: 0px;
 }
 Button{
 	-fx-cursor: hand;

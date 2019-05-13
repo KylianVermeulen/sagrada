@@ -64,12 +64,11 @@ public class GameOverviewView extends ScrollPane implements ViewInterface {
         VBox vbox = new VBox();       
         vbox.setMinHeight(PANE_HEIGHT - 5);
         vbox.setMinWidth(PANE_WIDTH - 5);
-        vbox.setBackground(new Background(new BackgroundFill(Color.BROWN, null, null)));
         for (Game game : games) {
             HBox hBox = new HBox();
             hBox.setAlignment(Pos.CENTER_RIGHT);
             hBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-                    CornerRadii.EMPTY, new BorderWidths(2))));
+                    CornerRadii.EMPTY, new BorderWidths(1))));
             hBox.setBackground(new Background(new BackgroundFill(Color.ROSYBROWN, null, null)));
 
             Label label = new Label("Game: " + game.getId());

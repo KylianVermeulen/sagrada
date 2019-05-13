@@ -95,6 +95,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private void buildInviteOverview() {
         inviteOverview = new InviteOverviewView(accountController);
         inviteOverview.setInvites(invites);
+//        inviteOverview.setMinWidth(Main.SCREEN_WIDTH);
         inviteOverview.render();
     }
 

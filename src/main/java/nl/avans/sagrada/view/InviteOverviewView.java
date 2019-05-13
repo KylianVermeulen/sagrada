@@ -25,7 +25,7 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public class InviteOverviewView extends ScrollPane implements ViewInterface {
     private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
     private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2;
-    private final int BUTTON_WIDTH = 50;
+    private final int BUTTON_WIDTH = 49;
     private ArrayList<Invite> invites;
     private AccountController accountController;
 
@@ -36,7 +36,7 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
         setMaxHeight(PANE_HEIGHT);
         setMinHeight(PANE_HEIGHT);
         setMaxWidth(PANE_WIDTH);
-        setMinWidth(PANE_WIDTH);
+        setMinWidth(PANE_WIDTH - 2);
         setPannable(true);
     }
 
@@ -54,17 +54,15 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
     public void render() {
         getChildren().clear();
         VBox vbox = new VBox();
-        vbox.setMinHeight(PANE_HEIGHT - 2);
-        vbox.setBackground(new Background(new BackgroundFill(Color.BROWN, null, null)));
         for (Invite invite : invites) {
             Game game = invite.getGame();
             Pane pane = new HBox();
             
             pane.setBackground(new Background(new BackgroundFill(Color.ROSYBROWN, null, null)));
             pane.setMaxWidth(PANE_WIDTH);
-            pane.setMinWidth(PANE_WIDTH - 2);
+            pane.setMinWidth(PANE_WIDTH);
             pane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-                    CornerRadii.EMPTY, new BorderWidths(2))));
+                    CornerRadii.EMPTY, new BorderWidths(1))));
 
             Label label = new Label("Invite voor spel: " + game.getId());
             label.setPadding(new Insets(5, 20, 5, 4));
