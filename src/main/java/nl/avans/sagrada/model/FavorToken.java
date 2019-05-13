@@ -4,7 +4,7 @@ public class FavorToken {
     private int id;
     private Game game;
     private Player player;
-    private Toolcard toolcard;
+    private ToolCard toolCard;
 
     /**
      * Partial constructor, generate favor tokens of player.
@@ -16,6 +16,9 @@ public class FavorToken {
         this.id = id;
         this.player = player;
         this.game = player.getGame();
+    }
+
+    public FavorToken() {
     }
 
     /**
@@ -73,20 +76,20 @@ public class FavorToken {
     }
 
     /**
-     * The toolcard of which this favor token is used for.
+     * The toolCard of which this favor token is used for.
      *
-     * @return The toolcard.
+     * @return The toolCard.
      */
-    public Toolcard getToolcard() {
-        return toolcard;
+    public ToolCard getToolCard() {
+        return toolCard;
     }
 
     /**
-     * The toolcard of which this favor token is used for.
+     * The toolCard of which this favor token is used for.
      *
-     * @param toolcard Must be an existing toolcard in the game of this favor token.
+     * @param toolCard Must be an existing toolCard in the game of this favor token.
      */
-    public void setToolcard(Toolcard toolcard) {
-        this.toolcard = toolcard;
+    public void setToolCard(ToolCard toolCard) {
+        this.toolCard = toolCard;
     }
 }

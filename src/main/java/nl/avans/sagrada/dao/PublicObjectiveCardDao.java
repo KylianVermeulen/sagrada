@@ -31,8 +31,11 @@ public class PublicObjectiveCardDao {
                     .executeQuery(new Query("SELECT * FROM public_objectivecard", "query"));
             while (rs.next()) {
                 PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard(
-                        rs.getInt("idpublic_objectivecard"), rs.getString("name"),
-                        rs.getString("description"), rs.getInt("points"));
+                        rs.getInt("idpublic_objectivecard"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getInt("points")
+                );
                 list.add(publicObjectiveCard);
             }
         } catch (SQLException e) {
@@ -55,8 +58,11 @@ public class PublicObjectiveCardDao {
                     "query"), new QueryParameter(QueryParameter.INT, game.getId()));
             while (rs.next()) {
                 PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard(
-                        rs.getInt("idpublic_objectivecard"), rs.getString("name"),
-                        rs.getString("description"), rs.getInt("points"));
+                        rs.getInt("idpublic_objectivecard"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getInt("points")
+                );
                 list.add(publicObjectiveCard);
             }
         } catch (SQLException e) {
@@ -67,9 +73,6 @@ public class PublicObjectiveCardDao {
 
     /**
      * returns the id from a public objectivecard.
-     * 
-     * @param id
-     * @return
      */
     public PublicObjectiveCard getPublicObjectiveCardById(int id) {
         PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard();
@@ -91,17 +94,17 @@ public class PublicObjectiveCardDao {
     }
 
     /**
-     * Adds a toolcard to a game. Both the toolcard and the game that are subject to this method are
-     * given as parameters.
-     * 
-     * @param toolcard The Toolcard that should be added to a game
-     * @param game The Game to which the toolcard should be added
+     * Adds a toolcard to a game. Both the tool card and the game that are subject to this method
+     * are given as parameters.
+     *
+     * @param publicObjectiveCard The public objective card.
+     * @param game The game.
      */
     public void addPublicObjectiveCardToGame(PublicObjectiveCard publicObjectiveCard, Game game) {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
-                    "INSERT INTO sharedpublic_objectivecard (idgame, idpublic_objectivecard) VALUES (?, ?)",
-                    "update"), new QueryParameter(QueryParameter.INT, game.getId()),
+                            "INSERT INTO sharedpublic_objectivecard (idgame, idpublic_objectivecard) VALUES (?, ?)",
+                            "update"), new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, publicObjectiveCard.getId()));
         } catch (SQLException e) {
             e.printStackTrace();

@@ -8,17 +8,18 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class PatternCardFieldView extends StackPane implements ViewInterface {
-    private static final int WIDTH = 50;
-    private static final int HEIGHT = 50;
+    private final int FIELD_WIDTH = 40;
+    private final int FIELD_HEIGHT = 40;
     private PatternCard patternCard;
     private PatternCardField patternCardField;
     private PlayerController playerController;
-    private ArrayList<Image> images;
+    private ArrayList<ImageView> images;
 
     /**
      * Partial constructor
@@ -27,12 +28,35 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      */
     public PatternCardFieldView(PlayerController playerController) {
         this.playerController = playerController;
-        setPrefSize(WIDTH, HEIGHT);
+        setPrefSize(FIELD_WIDTH, FIELD_HEIGHT);
+        setMaxSize(FIELD_WIDTH, FIELD_HEIGHT);
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-        setOnMouseClicked(e -> onClick());
-
-        images = new ArrayList<Image>();
+        images = new ArrayList<ImageView>();
         diceEyesArray();
+        resizeImages();
+        setOnMouseDragReleased(event -> {
+            try {
+                GameDie gameDie = ((GameDie) ((DieView) event.getGestureSource()).getGameDie());
+                patternCardField.placeDie(gameDie);
+                this.render();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        addHover();
+    }
+
+    /**
+     * Adds hover effect
+     */
+    private void addHover() {
+        setOnMouseDragEntered(e -> {
+            this.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+        });
+        setOnMouseDragExited(e -> {
+            this.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+            this.render();
+        });
     }
 
     /**
@@ -65,39 +89,57 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         if (patternCardField.hasValue()) {
             addEyes();
         }
+        if (patternCardField.hasDie()) {
+            DieView dieView = new DieView();
+            dieView.resize(35, 35);
+            dieView.setGameDie(patternCardField.getDie());
+            dieView.render();
+            getChildren().clear();
+            getChildren().add(dieView);
+        }
     }
 
+
     /**
-     * Method when the PatternCardField is clicked
+     * Resized the images 5px smaller then the pane to prevent it from resizing
      */
-    private void onClick() {
-        System.out
-                .println("x: " + patternCardField.getxPos() + " y: " + patternCardField.getyPos());
+    private void resizeImages() {
+        for (ImageView image : images) {
+            image.setFitHeight(FIELD_HEIGHT - 5);
+            image.setFitWidth(FIELD_WIDTH - 5);
+        }
     }
 
     /**
      * Adds dice eye images to the image array
      */
     private void diceEyesArray() {
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/1.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/2.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/3.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/4.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/5.png")));
-        images.add(new Image(getClass().getResourceAsStream("/images/diceeyes/6.png")));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/1.png"))));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/2.png"))));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/3.png"))));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/4.png"))));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/5.png"))));
+        images.add(
+                new ImageView(new Image(getClass().getResourceAsStream("/images/diceeyes/6.png"))));
     }
 
     /**
      * Adds dice eye image to the PatternCardFieldView
      */
     public void addEyes() {
-        getChildren().add(new ImageView(images.get(patternCardField.getValue() - 1)));
+        getChildren().add(images.get(patternCardField.getValue() - 1));
     }
 
     /**
      * Changes the background color of the PatternCardFieldView
      */
     public void addColor() {
-        setBackground(new Background(new BackgroundFill(patternCardField.getColor(), null, null)));
+        setBackground(
+                new Background(new BackgroundFill(patternCardField.getFXColor(), null, null)));
     }
 }

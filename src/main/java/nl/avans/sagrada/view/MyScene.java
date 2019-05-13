@@ -1,6 +1,7 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
@@ -11,6 +12,9 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.AccountDao;
+import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.database.ChecksumDatabase;
 import nl.avans.sagrada.view.popups.Alert;
 
@@ -29,7 +33,7 @@ public class MyScene extends Scene {
         super(new Pane());
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
-        checksumDatabase = new ChecksumDatabase(accountController);
+        checksumDatabase = new ChecksumDatabase(accountController, playerController);
 
         rootPane = new StackPane();
         contentPane = new Pane();
@@ -61,7 +65,7 @@ public class MyScene extends Scene {
 
     /**
      * Add alert pane to alerts list and call method render all alerts
-     * 
+     *
      * @param pane Pane
      */
     public void addAlertPane(Pane pane) {
@@ -92,7 +96,7 @@ public class MyScene extends Scene {
 
     /**
      * Remove alert pane animation
-     * 
+     *
      * @param pane Pane
      */
     public void removeAlertPaneAnimation(Pane pane) {
@@ -104,7 +108,7 @@ public class MyScene extends Scene {
 
     /**
      * Remove alert from alerts list and call method render all alerts
-     * 
+     *
      * @param pane Pane
      */
     public void removeAlertPane(Pane pane) {

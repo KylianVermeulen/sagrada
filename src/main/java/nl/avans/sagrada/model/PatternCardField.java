@@ -47,166 +47,6 @@ public class PatternCardField {
     }
 
     /**
-     * Checks if the patternCardField neighbor to the selected patternCardField
-     *
-     * @param color String
-     * @return boolean
-     */
-    public boolean checkSidesColor(String color) {
-        return checkSouthColor(color) && checkEastColor(color) && checkNorthColor(color)
-                && checkWestColor(color);
-    }
-
-
-    /**
-     * Checks south of the patternCardField and checks if there is a color
-     *
-     * @param color String
-     * @return boolean
-     */
-    private boolean checkSouthColor(String color) {
-        if (yPos == 4) {
-            return true;
-        }
-        PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
-        if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
-        }
-        return true;
-    }
-
-    /**
-     * Checks north of the patternCardField and checks if there is a color
-     *
-     * @param color String
-     * @return boolean
-     */
-    private boolean checkNorthColor(String color) {
-        if (yPos == 1) {
-            return true;
-        }
-        PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
-        if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
-        }
-        return true;
-    }
-
-    /**
-     * Checks east of the patternCardField and checks if there is a color
-     *
-     * @param color String
-     * @return boolean
-     */
-    private boolean checkEastColor(String color) {
-        if (xPos == 5) {
-            return true;
-        }
-        PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
-        if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
-        }
-        return true;
-    }
-
-    /**
-     * Checks west of the patternCardField and checks if there is a color
-     *
-     * @param color String
-     * @return boolean
-     */
-    private boolean checkWestColor(String color) {
-        if (xPos == 1) {
-            return true;
-        }
-        PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);
-        if (pcd.hasColor()) {
-            return !pcd.getStringColor().equals(color);
-        }
-        return true;
-    }
-
-    /**
-     * Checks if the patternCardField neighbor to the selected patternCardField has an value
-     * (value)
-     *
-     * @param value int
-     * @return boolean
-     */
-    public boolean checkSidesValue(int value) {
-        return checkSouthValue(value) && checkEastValue(value) && checkNorthValue(value)
-                && checkWestValue(value);
-    }
-
-    /**
-     * Checks south of the patternCardField and checks if there is an eye value
-     *
-     * @param value int
-     * @return boolean
-     */
-    private boolean checkSouthValue(int value) {
-        if (yPos == 4) {
-            return true;
-        }
-        PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos + 1);
-        if (pcd.hasValue()) {
-            return !(pcd.getValue() == value);
-        }
-        return true;
-    }
-
-    /**
-     * Checks north of the patternCardField and checks if there is an eye value
-     *
-     * @param value int
-     * @return boolean
-     */
-    private boolean checkNorthValue(int value) {
-        if (yPos == 1) {
-            return true;
-        }
-        PatternCardField pcd = patternCard.getPatternCardField(xPos, yPos - 1);
-        if (pcd.hasValue()) {
-            return !(pcd.getValue() == value);
-        }
-        return true;
-    }
-
-    /**
-     * Checks east of the patternCardField and checks if there is an eye value
-     *
-     * @param value int
-     * @return boolean
-     */
-    private boolean checkEastValue(int value) {
-        if (xPos == 5) {
-            return true;
-        }
-        PatternCardField pcd = patternCard.getPatternCardField(xPos + 1, yPos);
-        if (pcd.hasValue()) {
-            return !(pcd.getValue() == value);
-        }
-        return true;
-    }
-
-    /**
-     * Checks west of the patternCardField and checks if there is an eye value
-     *
-     * @param value int
-     * @return boolean
-     */
-    private boolean checkWestValue(int value) {
-        if (xPos == 1) {
-            return true;
-        }
-        PatternCardField pcd = patternCard.getPatternCardField(xPos - 1, yPos);
-        if (pcd.hasValue()) {
-            return !(pcd.getValue() == value);
-        }
-        return true;
-    }
-
-    /**
      * @return boolean true when color is set
      */
     public boolean hasColor() {
@@ -279,7 +119,7 @@ public class PatternCardField {
      *
      * @return Color
      */
-    public Color getColor() {
+    public Color getFXColor() {
         switch (color) {
             case "rood":
                 return Color.RED;
@@ -294,15 +134,6 @@ public class PatternCardField {
             default:
                 return Color.WHITE;
         }
-    }
-
-    /**
-     * Set color string to PatternCardField
-     *
-     * @param color String
-     */
-    public void setColor(String color) {
-        this.color = color;
     }
 
     /**
@@ -322,7 +153,107 @@ public class PatternCardField {
      *
      * @return String
      */
-    public String getStringColor() {
+    public String getColor() {
         return this.color;
+    }
+
+    /**
+     * Set color string to PatternCardField
+     *
+     * @param color String
+     */
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    /**
+     * Places die on the selected PatternCardField
+     *
+     * @param gameDie GameDie
+     */
+    public void placeDie(GameDie gameDie) {
+        if (patternCard.isFirstTurn()) {
+            if (nextToBorder()) {
+                sideCheckPlaceDie(gameDie);
+                return;
+            }
+            return;
+        }
+        if (hasDie()) {
+            return;
+        }
+        sideCheckPlaceDie(gameDie);
+    }
+
+    /**
+     * Checks if the selected PatternCardField is next to a border
+     *
+     * @return boolean
+     */
+    private boolean nextToBorder() {
+        if (yPos == 1 || yPos == 4 || xPos == 1 || xPos == 5) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the placement is valid
+     *
+     * @param gameDie GameDie
+     */
+    private void sideCheckPlaceDie(GameDie gameDie) {
+        int dieEyes = gameDie.getEyes();
+        String dieStringColor = gameDie.getColor();
+        if (patternCard.checkSidesColor(this, dieStringColor, true) && patternCard.checkSidesValue(this, dieEyes, true)) {
+            if (hasColor()) {
+                if (gameDie.getColor().equals(this.color)) {
+                    checkTurn(gameDie);
+                }
+                return;
+            }
+            if (hasValue()) {
+                if (gameDie.getEyes() == getValue()) {
+                    checkTurn(gameDie);
+                }
+                return;
+            }
+            checkTurn(gameDie);
+        }
+    }
+
+    /**
+     * Checks if it's the first turn if not does a normal turn
+     *
+     * @param gameDie GameDie
+     */
+    private void checkTurn(GameDie gameDie) {
+        if (patternCard.isFirstTurn()) {
+            patternCard.setFirstTurn(false);
+            this.die = gameDie;
+        } else if (patternCard.isNextToDie(this)) {
+            this.die = gameDie;
+        }
+    }
+
+    /**
+     * @return The game die on this pattern card field.
+     */
+    public GameDie getDie() {
+        return die;
+    }
+
+    /**
+     * @param die Set the game die on this pattern card field.
+     */
+    public void setDie(GameDie die) {
+        this.die = die;
+    }
+
+    /**
+     * @return True when is pattern card field has a placed game die
+     */
+    public boolean hasDie() {
+        return die != null;
     }
 }

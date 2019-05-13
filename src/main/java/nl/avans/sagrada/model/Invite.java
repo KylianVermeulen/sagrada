@@ -35,11 +35,11 @@ public class Invite {
      */
     public String getStatus() {
         if (accepted) {
-            return "accepted";
+            return "geaccepteerd";
         } else if (denied) {
-            return "refused";
+            return "geweigerd";
         } else {
-            return "challengee";
+            return "uitgedaagde";
         }
     }
 
