@@ -134,7 +134,7 @@ public class ToolCardView extends CardView {
      * @param color
      */
     public void addFavorToken(Color color) {
-        Circle favorToken = new Circle(TOKENSIZE, color);
+        Circle favorToken = new Circle(TOKEN_SIZE, color);
         tokenPane.getChildren().add(favorToken);
     }
     
