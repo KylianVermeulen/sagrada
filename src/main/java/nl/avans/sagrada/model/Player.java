@@ -301,17 +301,17 @@ public class Player {
     public int calculateScore(boolean privateObjectiveCard) {
         int score = 0;
 
-        if (privateObjectiveCard) {
-            PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields();
-            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
-                    x++) { // Basic calculations for pattern card fields
-                for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
-                    if (!patternCardFields[x][y]
-                            .hasDie()) { // for each empty pattern card field -1 score
-                        score -= 1;
-                    } else { // pattern card field has die
-                        if (patternCardFields[x][y].getDie().getColor()
-                                .equals(privateObjectivecardColor)) { // for each die that has private objective card color +1 score
+        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields();
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
+                x++) { // Basic calculations for pattern card fields
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+                if (!patternCardFields[x][y]
+                        .hasDie()) { // for each empty pattern card field -1 score
+                    score -= 1;
+                } else { // pattern card field has die
+                    if (patternCardFields[x][y].getDie().getColor()
+                            .equals(privateObjectivecardColor)) { // for each die that has private objective card color +1 score
+                        if (privateObjectiveCard) {
                             score += 1;
                         }
                     }
