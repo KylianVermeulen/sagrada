@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
+import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.ToolCardDao;
@@ -31,6 +32,10 @@ public class PlayerController {
         this.myScene = myScene;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     /**
      * Sets the player for the controller
      */
@@ -38,9 +43,19 @@ public class PlayerController {
         this.player = player;
     }
 
-
     public void viewGame() {
-        Game game = player.getGame();
+        // Refresh game & player object
+        int gameId = player.getGame().getId();
+        player = new PlayerDao().getPlayerById(player.getId());
+        Game game = new GameDao().getGameById(gameId);
+        player.setGame(game);
+
+        if (player.isCurrentPlayer()) {
+            game.setTurnPlayer(player);
+            Alert alert = new Alert("Speel je beurt", "Je bent nu aan de beurt!", AlertType.SUCCES);
+            myScene.addAlertPane(alert);
+        }
+
         Pane pane = new Pane();
         GameView gameView = new GameView(this, game, player);
         gameView.render();
@@ -98,7 +113,13 @@ public class PlayerController {
      * Player is passing for a round
      */
     public void actionPass() {
-
+        if (player.isCurrentPlayer()) {
+            player.getGame().setNextPlayer();
+        } else {
+            Alert alert = new Alert("Nog even wachten",
+                    "Je bent nog niet aan de beurt.", AlertType.INFO);
+            myScene.addAlertPane(alert);
+        }
     }
 
     /**
@@ -143,9 +164,8 @@ public class PlayerController {
      * <p>
      * If the tool card has not received payment before, the player will hand over one favor token
      * as payment for the toolcard. This tool cards status will then be set to "has already been
-     * paid for before". </br>
-     * If the tool card has received payment before, then the player will hand over two favor tokens
-     * as payment for the tool card.
+     * paid for before". </br> If the tool card has received payment before, then the player will
+     * hand over two favor tokens as payment for the tool card.
      * <p>
      * If the player has insufficient funds, a message will appear on screen informing the player
      * about their lack of funds, and the player will not be able to use this tool card.

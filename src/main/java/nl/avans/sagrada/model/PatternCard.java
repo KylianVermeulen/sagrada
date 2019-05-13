@@ -254,4 +254,93 @@ public class PatternCard {
     public void placeDie(int xPos, int yPos, GameDie gameDie) {
         patternCardFields[xPos][yPos].setDie(gameDie);
     }
+
+    /**
+     * Check the color of the north east placed die, return null when there is no die and when the
+     * color is not the same. Return the pattern card field when there is a placed die with the same
+     * color.
+     *
+     * @param color The color.
+     * @return The pattern card field.
+     */
+    public PatternCardField checkPatternCardFieldNorthEastDieColor(PatternCardField patternCardField, String color) {
+        if (patternCardField.getxPos() == 5 || patternCardField.getyPos() == 1) {
+            return null;
+        }
+        if (!getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() - 1).hasDie()) {
+            return null;
+        }
+        GameDie gameDie = getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() - 1).getDie();
+        if (gameDie.getColor().equals(color)) {
+            Integer[] loc = {patternCardField.getxPos() + 1, patternCardField.getyPos() - 1};
+            return getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() - 1);
+        }
+        return null;
+    }
+
+    /**
+     * Check the color of the south east placed die, return null when there is no die and when the
+     * color is not the same. Return the pattern card field when there is a placed die with the same
+     * color.
+     *
+     * @param color The color.
+     * @return The pattern card field.
+     */
+    public PatternCardField checkPatternCardFieldSouthEastDieColor(PatternCardField patternCardField, String color) {
+        if (patternCardField.getxPos() == 5 || patternCardField.getyPos() == 4) {
+            return null;
+        }
+        if (!getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() + 1).hasDie()) {
+            return null;
+        }
+        GameDie gameDie = getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() + 1).getDie();
+        if (gameDie.getColor().equals(color)) {
+            return getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos() + 1);
+        }
+        return null;
+    }
+
+    /**
+     * Check the color of the south west placed die, return null when there is no die and when the
+     * color is not the same. Return the pattern card field when there is a placed die with the same
+     * color.
+     *
+     * @param color The color.
+     * @return The pattern card field.
+     */
+    public PatternCardField checkPatternCardFieldSouthWestDieColor(PatternCardField patternCardField, String color) {
+        if (patternCardField.getxPos() == 1 || patternCardField.getyPos() == 4) {
+            return null;
+        }
+        if (!getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() + 1).hasDie()) {
+            return null;
+        }
+        GameDie gameDie = getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() + 1).getDie();
+        if (gameDie.getColor().equals(color)) {
+            return getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() + 1);
+        }
+        return null;
+    }
+
+    /**
+     * Check the color of the north west placed die, return null when there is no die and when the
+     * color is not the same. Return the pattern card field when there is a placed die with the same
+     * color.
+     *
+     * @param color The color.
+     * @return The pattern card field.
+     */
+    public PatternCardField checkPatternCardFieldNorthWestDieColor(PatternCardField patternCardField, String color) {
+        if (patternCardField.getxPos() == 1 || patternCardField.getyPos() == 1) {
+            return null;
+        }
+        if (!getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() - 1).hasDie()) {
+            return null;
+        }
+        GameDie gameDie = getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() - 1).getDie();
+        if (gameDie.getColor().equals(color)) {
+            return getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos() - 1);
+        }
+        return null;
+    }
 }

@@ -36,7 +36,7 @@ public class MyScene extends Scene {
         super(new Pane());
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
-        checksumDatabase = new ChecksumDatabase(accountController);
+        checksumDatabase = new ChecksumDatabase(accountController, playerController);
 
         rootPane = new StackPane();
         contentPane = new Pane();

@@ -100,6 +100,6 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      * Changes the background color of the PatternCardFieldView
      */
     public void addColor() {
-        setBackground(new Background(new BackgroundFill(patternCardField.getColor(), null, null)));
+        setBackground(new Background(new BackgroundFill(patternCardField.getFXColor(), null, null)));
     }
 }
