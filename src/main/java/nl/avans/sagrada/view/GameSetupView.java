@@ -43,7 +43,7 @@ public class GameSetupView extends VBox implements ViewInterface {
     public void render() {
         buidGameSelector();
         buildInviteList();
-        buildStartButton();
+        buildStartAndBackButton();
         Label inviteLabel = new Label("Invite spelers");
         getChildren().addAll(gameSelectorPane, inviteLabel, inviteContainer, startButton);
     }
@@ -103,6 +103,12 @@ public class GameSetupView extends VBox implements ViewInterface {
         startButton = new Button("Opslaan");
         startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         startButton.setOnAction(e -> accountController.actionSendInvites(inviteViews, game));
+    }
+    
+    private void buildBackButton() {
+        startButton = new Button("Back");
+        startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        startButton.setOnAction(e -> accountController.viewLobby());
     }
 
 }
