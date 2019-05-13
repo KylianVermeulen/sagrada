@@ -3,12 +3,8 @@ package nl.avans.sagrada.model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
-import nl.avans.sagrada.dao.ChatlineDao;
-import nl.avans.sagrada.dao.GameDao;
-import nl.avans.sagrada.dao.PatternCardDao;
-import nl.avans.sagrada.dao.PlayerDao;
-import nl.avans.sagrada.dao.PublicObjectiveCardDao;
-import nl.avans.sagrada.dao.ToolCardDao;
+
+import nl.avans.sagrada.dao.*;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
@@ -20,7 +16,7 @@ public class Game {
     private ArrayList<Player> players;
     private Player startPlayer;
     private FavorToken[] favorTokens;
-    private GameDie[] gameDie;
+    private ArrayList<GameDie> gameDice;
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
     private Timestamp creationDate;
@@ -36,7 +32,16 @@ public class Game {
 
     public Game() {
         players = new ArrayList<>();
+        gameDice = new ArrayList<>();
         gamemode = GAMEMODE_NORMAL;
+        generateGameDice();
+    }
+
+    private void generateGameDice() {
+        setGameDice(new GameDieDao().getDice(id));
+        for (GameDie gameDie : gameDice) {
+
+        }
     }
 
 
@@ -133,17 +138,17 @@ public class Game {
      *
      * @return GameDie[]
      */
-    public GameDie[] getGameDie() {
-        return gameDie;
+    public ArrayList<GameDie> getGameDice() {
+        return gameDice;
     }
 
     /**
      * Set gameDice to Game
      *
-     * @param gameDie GameDie[]
+     * @param gameDice GameDie[]
      */
-    public void setGameDie(GameDie[] gameDie) {
-        this.gameDie = gameDie;
+    public void setGameDice(ArrayList<GameDie> gameDice) {
+        this.gameDice = gameDice;
     }
 
     /**

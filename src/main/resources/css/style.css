@@ -28,4 +28,6 @@
     -fx-border-color: #C4923B;
     -fx-border-width: 3;
 }
-
+Button{
+    -fx-background-color: lightblue;
+}

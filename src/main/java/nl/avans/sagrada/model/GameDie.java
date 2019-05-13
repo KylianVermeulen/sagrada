@@ -2,6 +2,8 @@ package nl.avans.sagrada.model;
 
 import javafx.scene.paint.Color;
 
+import java.util.Random;
+
 public class GameDie extends Die {
     private int eyes;
     private int roundTrack;
@@ -11,11 +13,17 @@ public class GameDie extends Die {
     /**
      * Full constructor
      *
-     * @param eyes int
+     * @param eyes  int
      * @param color String
      */
     public GameDie(int number, String color, int eyes) {
         super(number, color);
+        this.eyes = eyes;
+
+    }
+
+    public GameDie(Die die, int eyes) {
+        super(die);
         this.eyes = eyes;
     }
 
@@ -36,6 +44,13 @@ public class GameDie extends Die {
      */
     public int getEyes() {
         return this.eyes;
+    }
+
+    /**
+     * Generates random die
+     */
+    public void generateDie() {
+
     }
 
     /**
