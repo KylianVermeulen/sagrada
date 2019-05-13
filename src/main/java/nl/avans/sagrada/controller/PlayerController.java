@@ -126,6 +126,9 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Players wants to go back to the lobby
+     */
     public void actionExit() {
         myScene.getAccountController().viewLobby();
     }
