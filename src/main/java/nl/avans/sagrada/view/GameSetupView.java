@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
@@ -21,10 +22,12 @@ public class GameSetupView extends VBox implements ViewInterface {
     private final int BUTTON_HEIGHT = 50;
     private AccountController accountController;
     private VBox gameSelectorPane;
+    private HBox bottumButtonPane;
     private ArrayList<Account> accounts;
     private ScrollPane inviteContainer;
     private Game game;
     private Button startButton;
+    private Button backButton;
     private ArrayList<InviteView> inviteViews;
 
     /**
@@ -33,6 +36,8 @@ public class GameSetupView extends VBox implements ViewInterface {
     public GameSetupView(AccountController accountController, ArrayList<Account> accounts,
             Game game) {
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
+        String css = this.getClass().getResource("/css/inviteview.css").toExternalForm();
+        getStylesheets().add(css);
         setPadding(padding);
         this.accountController = accountController;
         this.accounts = accounts;
@@ -45,7 +50,7 @@ public class GameSetupView extends VBox implements ViewInterface {
         buildInviteList();
         buildStartAndBackButton();
         Label inviteLabel = new Label("Invite spelers");
-        getChildren().addAll(gameSelectorPane, inviteLabel, inviteContainer, startButton);
+        getChildren().addAll(gameSelectorPane, inviteLabel, inviteContainer, bottumButtonPane);
     }
 
     /**
@@ -71,7 +76,7 @@ public class GameSetupView extends VBox implements ViewInterface {
         gameSelectorPane = new VBox();
         gameSelectorPane.getChildren().add(label);
         gameSelectorPane.getChildren().addAll(radioButtons);
-        gameSelectorPane.setPrefSize(Main.SCREEN_WIDTH / 3, Main.SCREEN_HEIGHT / 4);
+        gameSelectorPane.setPrefSize(Main.SCREEN_WIDTH / 3, Main.SCREEN_HEIGHT / 7);
         gameSelectorPane.setAlignment(Pos.BASELINE_LEFT);
     }
 
@@ -81,10 +86,13 @@ public class GameSetupView extends VBox implements ViewInterface {
     private void buildInviteList() {
         inviteContainer = new ScrollPane();
         inviteContainer.setPannable(true);
-        inviteContainer.setPrefSize(Main.SCREEN_WIDTH / 3, Main.SCREEN_HEIGHT / 3);
+        inviteContainer.setPrefSize(Main.SCREEN_WIDTH / 3, Main.SCREEN_HEIGHT / 1.5);
 
         inviteViews = new ArrayList<>();
         VBox invites = new VBox();
+
+        invites.setMaxHeight(100);
+        invites.setMinWidth(Main.SCREEN_WIDTH - 22);
 
         for (Account account : accounts) {
             InviteView inviteView = new InviteView(account);
@@ -96,19 +104,19 @@ public class GameSetupView extends VBox implements ViewInterface {
         inviteContainer.setContent(invites);
     }
 
-    /**
-     * Builds the start button
-     */
-    private void buildStartButton() {
+    private void buildStartAndBackButton() {
+        bottumButtonPane = new HBox();
         startButton = new Button("Opslaan");
         startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         startButton.setOnAction(e -> accountController.actionSendInvites(inviteViews, game));
-    }
-    
-    private void buildBackButton() {
-        startButton = new Button("Back");
-        startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        startButton.setOnAction(e -> accountController.viewLobby());
+        startButton.setPadding(padding);
+
+        backButton = new Button("Back");
+        backButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        backButton.setOnAction(e -> accountController.viewLobby());
+        backButton.setPadding(padding);
+
+        bottumButtonPane.getChildren().addAll(startButton, backButton);
     }
 
 }

@@ -1,7 +1,13 @@
 package nl.avans.sagrada.view;
 
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -18,6 +24,8 @@ public class InviteView extends HBox implements ViewInterface {
     public InviteView(Account account) {
         this.account = account;
         setPrefSize(PANE_WIDTH, PANE_HEIGHT);
+        setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+                CornerRadii.EMPTY, new BorderWidths(2))));
     }
 
     @Override
