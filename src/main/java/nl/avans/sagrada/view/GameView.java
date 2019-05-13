@@ -30,7 +30,7 @@ public class GameView extends VBox implements ViewInterface {
     private ArrayList<PublicObjectiveCardView> publicObjectiveCardViews;
     private Label balance;
     private PatternCardView playerPatternCardView;
-    private BorderPane scoreBoard;
+    private ScoreBoardView scoreBoard;
     private RoundTrackView roundTrackView;
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
@@ -113,8 +113,7 @@ public class GameView extends VBox implements ViewInterface {
      * Builds the scoreboard inside of the game view.
      */
     private void buildScoreBoard() {
-        ScoreBoardView scoreBoard = new ScoreBoardView(game);
-        this.scoreBoard = scoreBoard;
+        scoreBoard = new ScoreBoardView(game);
         scoreBoard.render();
     }
 
