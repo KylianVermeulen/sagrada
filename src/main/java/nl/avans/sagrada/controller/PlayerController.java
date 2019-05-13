@@ -60,7 +60,6 @@ public class PlayerController {
     
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField, GameDie gameDie, MouseEvent event) {
         if (activeToolCard != null) {
-            System.out.println("HERE");
             PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
             if (toolcardUseResult != null) {
                 activeToolCard = null;
@@ -89,12 +88,15 @@ public class PlayerController {
     public void viewGame() {
         // Refresh game & player object
         int gameId = player.getGame().getId();
-        player = new PlayerDao().getPlayerById(player.getId());
+//        player = new PlayerDao().getPlayerById(player.getId());
         Game game = new GameDao().getGameById(gameId);
         player.setGame(game);
-        PatternCardDao PatternCardDao = new PatternCardDao();
-        PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
-        player.setPatternCard(patternCard);
+        if (player.getPatternCard() == null) {
+            PatternCardDao PatternCardDao = new PatternCardDao();
+            PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
+            player.setPatternCard(patternCard);
+        }
+
 
         if (player.isCurrentPlayer()) {
             game.setTurnPlayer(player);
