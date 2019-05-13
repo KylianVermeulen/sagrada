@@ -125,7 +125,7 @@ public class GameView extends VBox implements ViewInterface {
         ArrayList<HBox> scoreLines = new ArrayList<HBox>();
         
         StackPane scoreTitlePane = new StackPane();
-        Label scoreTitle = new Label("Scoreboard");
+        Label scoreTitle = new Label("Scorebord");
         scoreTitle.setFont(new Font("Segoe Script", 26));
         scoreTitle.setTextAlignment(TextAlignment.CENTER);
         scoreTitlePane.getChildren().add(scoreTitle);
