@@ -109,9 +109,13 @@ public class GameView extends VBox implements ViewInterface {
         chatLineView.render();
     }
 
+    /**
+     * Builds the scoreboard inside of the game view.
+     */
     private void buildScoreBoard() {
-        scoreBoard = new ScoreboardView(game);
-        ((ViewInterface) scoreBoard).render();
+        ScoreBoardView scoreBoard = new ScoreBoardView(game);
+        this.scoreBoard = scoreBoard;
+        scoreBoard.render();
     }
 
     private void buildBalance() {

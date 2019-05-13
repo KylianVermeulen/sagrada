@@ -15,24 +15,34 @@ import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class ScoreboardView extends BorderPane implements ViewInterface {
+public class ScoreBoardView extends BorderPane implements ViewInterface {
     private final int SCORE_LINE_SPACING = 10;
+    private final Font SCORE_TITLE_FONT = new Font("Segoe Script", 26);
+    private final Font SCORE_LINE_FONT = new Font("Segoe Script", 20);
+    private final int SCOREBOARD_SIZE = 300;
     private Game game;
 
-    public ScoreboardView(Game game) {
+    /**
+     * Filled Constructor
+     * 
+     * @param game Game
+     */
+    public ScoreBoardView(Game game) {
         this.game = game;
-        setPrefSize(300, 300);
+        setPrefSize(SCOREBOARD_SIZE, SCOREBOARD_SIZE);
         setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
-
     }
 
+    /**
+     * Builds the content for the scoreboard view.
+     */
     private void buildContent() {
         VBox scoreBoardContent = new VBox();
         ArrayList<HBox> scoreLines = new ArrayList<HBox>();
 
         StackPane scoreTitlePane = new StackPane();
         Label scoreTitle = new Label("Scorebord");
-        scoreTitle.setFont(new Font("Segoe Script", 26));
+        scoreTitle.setFont(SCORE_TITLE_FONT);
         scoreTitle.setTextAlignment(TextAlignment.CENTER);
         scoreTitlePane.getChildren().add(scoreTitle);
         scoreTitlePane.setAlignment(Pos.CENTER);
@@ -42,11 +52,11 @@ public class ScoreboardView extends BorderPane implements ViewInterface {
             playerLine.setSpacing(SCORE_LINE_SPACING);
             Label playerName =
                     new Label(game.getPlayers().get(i).getAccount().getUsername() + ": ");
-            playerName.setFont(new Font("Segoe Script", 20));
+            playerName.setFont(SCORE_LINE_FONT);
             playerName.setTextAlignment(TextAlignment.CENTER);
             Label playerScore =
                     new Label(Integer.toString(game.getPlayers().get(i).calculateScore(true)));
-            playerScore.setFont(new Font("Segoe Script", 20));
+            playerScore.setFont(SCORE_LINE_FONT);
             playerScore.setTextAlignment(TextAlignment.CENTER);
             playerLine.getChildren().addAll(playerName, playerScore);
             playerLine.setAlignment(Pos.CENTER);
@@ -62,5 +72,4 @@ public class ScoreboardView extends BorderPane implements ViewInterface {
         getChildren().clear();
         buildContent();
     }
-
 }
