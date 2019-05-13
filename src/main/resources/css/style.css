@@ -29,3 +29,34 @@
     -fx-border-width: 3;
 }
 
+
+//login screen
+
+.loginTextfield {
+    -fx-background-color: #FFFFFF;
+    -fx-border-style: none;
+}
+
+.loginLabel {
+    -fx-font-weight: bold;
+}
+
+#loginButton {
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+}
+
+#loginBackground {
+    -fx-background-color: #DCDCDC;
+}
+
+#loginPane {
+    -fx-background-color: #1E90FF;
+    -fx-background-radius: 25;
+}
+
+#loginLogo {
+    -fx-background-image: url("/images/Logo/Sagrada-logo.gif");
+}
+
+
