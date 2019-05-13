@@ -50,28 +50,6 @@ public class GameDieDao {
     }
 
 
-//    public void addPatternCardFields(ArrayList<PatternCardField> patternCardFields, PatternCard patternCard) {
-//        List<QueryParameter[]> queryParametersList = new ArrayList<>();
-//        for (int i = 0; i < 20; i++) { // 20 fields
-//            QueryParameter[] queryParameters = {
-//                    new QueryParameter(QueryParameter.INT, patternCard.getId()),
-//                    new QueryParameter(QueryParameter.INT, patternCardFields.get(i).getxPos()),
-//                    new QueryParameter(QueryParameter.INT, patternCardFields.get(i).getyPos()),
-//                    new QueryParameter(QueryParameter.STRING,
-//                            patternCardFields.get(i).getFXColor()),
-//                    new QueryParameter(QueryParameter.INT, patternCardFields.get(i).getValue())
-//            };
-//            queryParametersList.add(queryParameters);
-//        }
-//        try {
-//            int[] ints = dbConnection.executeBatchQuery(
-//                    new Query("INSERT INTO patterncardfield VALUES (?, ?, ?, ?, ?)", "update",
-//                            queryParametersList));
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 //    public ArrayList<GameDie> getDice(int gameId) {
 //        ArrayList<GameDie> gameDice = new ArrayList<>();
 //        for (Die die : new DieDao().getDice()) {

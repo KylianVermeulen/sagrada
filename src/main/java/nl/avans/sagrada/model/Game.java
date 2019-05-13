@@ -12,6 +12,7 @@ public class Game {
     private final String[] privateObjectiveCardColors = {"blauw", "geel", "groen", "paars", "rood"};
     private int id;
     private Player turnPlayer;
+    private int round = 0;
     private String gamemode;
     private ArrayList<Player> players;
     private Player startPlayer;
@@ -34,16 +35,18 @@ public class Game {
         players = new ArrayList<>();
         gameDice = new ArrayList<>();
         gamemode = GAMEMODE_NORMAL;
-        generateGameDice();
+        generateRandomDice();
     }
 
-    private void generateGameDice() {
-        setGameDice(new GameDieDao().getDice(id));
-        for (GameDie gameDie : gameDice) {
-
+    private void generateRandomDice() {
+        DieDao dieDao = new DieDao();
+        GameDieDao gameDieDao = new GameDieDao();
+        for (Die die : dieDao.getDice()) {
+            GameDie gameDie = new GameDie(die, new Random().nextInt(6) + 1);
+            gameDice.add(gameDie);
+            gameDieDao.addDie(id, gameDie);
         }
     }
-
 
     /**
      * Get id from Game
@@ -421,28 +424,26 @@ public class Game {
             if (oldSeqnr != (players.size() * 2)) {
                 if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
                     if (currentPlayer != playerNextTurn) {
-                        currentPlayer.setIsCurrentPlayer(false);
-                        new PlayerDao().updatePlayer(currentPlayer);
-
-                        setTurnPlayer(playerNextTurn);
-                        new GameDao().updateGame(this);
-
-                        playerNextTurn.setIsCurrentPlayer(true);
-                        new PlayerDao().updatePlayer(playerNextTurn);
+                        duplicateCode(currentPlayer, playerNextTurn);
                     }
                 }
             } else {
                 if (playerNextTurn.getSeqnr() == 1) {
-                    currentPlayer.setIsCurrentPlayer(false);
-                    new PlayerDao().updatePlayer(currentPlayer);
-
-                    setTurnPlayer(playerNextTurn);
-                    new GameDao().updateGame(this);
-
-                    playerNextTurn.setIsCurrentPlayer(true);
-                    new PlayerDao().updatePlayer(playerNextTurn);
+                    duplicateCode(currentPlayer, playerNextTurn);
                 }
             }
         }
+    }
+
+    // TODO: RENAME METHOD
+    private void duplicateCode(Player currentPlayer, Player playerNextTurn) {
+        currentPlayer.setIsCurrentPlayer(false);
+        new PlayerDao().updatePlayer(currentPlayer);
+
+        setTurnPlayer(playerNextTurn);
+        new GameDao().updateGame(this);
+
+        playerNextTurn.setIsCurrentPlayer(true);
+        new PlayerDao().updatePlayer(playerNextTurn);
     }
 }
