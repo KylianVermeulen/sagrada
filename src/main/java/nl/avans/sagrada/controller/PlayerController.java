@@ -120,7 +120,6 @@ public class PlayerController {
         if (!text.matches("")) {
             if (chatlineDao.timeExistsOfPlayer(chatline) == false) {
                 chatlineDao.addChatline(chatline);
-//                ArrayList<Chatline> chatlines = chatlineDao.getChatlinesOfGame(game);
                 chatlineView.addChatline(chatline);
                 chatlineView.render();
             } else {
