@@ -34,9 +34,12 @@ public class ChecksumDatabase {
         };
     }
     
+    /**
+     * Generates a checksum for the chatline table, and checks if this checksum is different from the already existing checksum.
+     */
     private void checksumChat() {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query("checksum table chatline;", "query"));
+            ResultSet rs = dbConnection.executeQuery(new Query("CHECKSUM TABLE chatline;", "query"));
             if (rs.next()) {
                 String checksumChat = rs.getString("Checksum");
                 if (!checksumChat.equals(this.checksumChat)) {
@@ -78,6 +81,9 @@ public class ChecksumDatabase {
         }
     }
     
+    /**
+     * Reloads the gameview when an account is in a game.
+     */
     private void handleChat() {
         if (accountController.getAccount() != null) {
             if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
