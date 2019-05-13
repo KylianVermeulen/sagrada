@@ -1,7 +1,11 @@
 package nl.avans.sagrada.model.toolcard;
 
-import javafx.event.Event;
+import javafx.scene.input.MouseEvent;
+import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class ToolCardSnijLiniaal extends ToolCard {
     
@@ -10,9 +14,23 @@ public class ToolCardSnijLiniaal extends ToolCard {
     }
 
     @Override
-    public boolean handleDrag(Event event) {
+    public PatternCard handleDrag(MouseEvent event, GameDie die) {
         // TODO Auto-generated method stub
-        return false;
+        PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
+        PatternCardFieldView sourcePatternCardView = (PatternCardFieldView) event.getSource();
+        
+        PatternCardField patternCardFieldSource = sourcePatternCardView.getPatternCardField();
+        PatternCardField patternCardField =  patternCardView.getPatternCardField();
+        PatternCard patternCard = patternCardField.getPatternCard();
+        
+        if (patternCard.canPlaceDie(patternCardField, die)) {
+            patternCard.placeDie(patternCardField, die); 
+            patternCard.removeDie(patternCardFieldSource);
+            return patternCard;
+        }
+        else {
+            return null; 
+        }
     }
 
 }

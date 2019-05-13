@@ -1,7 +1,11 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
+
+import javafx.event.Event;
 import javafx.geometry.Insets;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -17,6 +21,7 @@ import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.ToolCard;
 import nl.avans.sagrada.view.ChatLineView;
@@ -42,7 +47,34 @@ public class PlayerController {
     }
     
     public void setActiveToolCard(ToolCard toolcard) {
-        activeToolCard = toolcard;
+        Alert alert = null;
+        if (activeToolCard == null) {
+            activeToolCard = toolcard;
+            alert = new Alert("Active toolcard", "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
+        }
+        else {
+            alert = new Alert("Active toolcard", "Je hebt al een actieve toolcard: " + activeToolCard.getName(), AlertType.ERROR);
+        }
+        myScene.addAlertPane(alert);
+    }
+    
+    public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField, GameDie gameDie, MouseEvent event) {
+        if (activeToolCard != null) {
+            PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
+            if (toolcardUseResult != null) {
+                activeToolCard = null;
+                player.setPatternCard(patternCard);
+//                player.getGame().setNextPlayer();
+                viewGame();
+            }
+            else {
+                Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard", AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
+        }
+        else {
+            patternCardField.placeDie(gameDie); 
+        }   
     }
 
     /**

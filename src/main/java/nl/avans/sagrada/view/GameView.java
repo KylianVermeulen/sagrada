@@ -12,6 +12,7 @@ import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
@@ -124,6 +125,10 @@ public class GameView extends VBox implements ViewInterface {
 
     private void buildPlayerPatternCard() {
         PatternCard playerPatternCard = player.getPatternCard();
+        GameDie die1 = new GameDie(1, "geel", 2);
+        GameDie die2 = new GameDie(1, "groen", 3);
+        playerPatternCard.placeDie(1, 3, die1);
+        playerPatternCard.placeDie(1, 2, die2);
         playerPatternCardView = new PatternCardView(playerController);
         playerPatternCardView.setPatternCard(playerPatternCard);
         playerPatternCardView.render();

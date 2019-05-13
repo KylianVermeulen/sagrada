@@ -256,4 +256,13 @@ public class PatternCardField {
     public boolean hasDie() {
         return die != null;
     }
+
+    public PatternCard getPatternCard() {
+        // TODO Auto-generated method stub
+        return patternCard;
+    }
+
+    public void remove() {
+        die = null;
+    }
 }

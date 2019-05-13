@@ -3,6 +3,7 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 
 import javafx.event.Event;
+import javafx.scene.input.MouseEvent;
 
 public abstract class ToolCard {
     private int id;
@@ -169,5 +170,5 @@ public abstract class ToolCard {
         this.hasBeenPaidForBefore = hasBeenPaidForBefore;
     }
     
-    public abstract boolean handleDrag(Event event);
+    public abstract PatternCard handleDrag(MouseEvent event, GameDie die);
 }

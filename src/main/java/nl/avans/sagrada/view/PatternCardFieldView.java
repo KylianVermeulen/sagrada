@@ -3,6 +3,7 @@ package nl.avans.sagrada.view;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
@@ -36,8 +37,9 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         resizeImages();
         setOnMouseDragReleased(event -> {
             try {
+                MouseEvent dragEvent = (MouseEvent) event;
                 GameDie gameDie = ((GameDie) ((DieView) event.getGestureSource()).getGameDie());
-                patternCardField.placeDie(gameDie);
+                playerController.actionPlaceDie(patternCard, patternCardField, gameDie, dragEvent);
                 this.render();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -141,5 +143,10 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
     public void addColor() {
         setBackground(
                 new Background(new BackgroundFill(patternCardField.getFXColor(), null, null)));
+    }
+
+    public PatternCardField getPatternCardField() {
+        // TODO Auto-generated method stub
+        return patternCardField;
     }
 }

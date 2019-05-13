@@ -3,6 +3,7 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.PatternCardFieldDao;
+import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class PatternCard {
     public static final int CARD_SQUARES_WIDTH = 5;
@@ -270,6 +271,19 @@ public class PatternCard {
         }
         return patterncardFields;
     }
+    
+    public boolean canPlaceDie(PatternCardField patternCardField, GameDie die) {
+        String color = die.getColor();
+        if (
+            checkPatternCardFieldNorthEastDieColor(patternCardField, color) == null && 
+            checkPatternCardFieldSouthEastDieColor(patternCardField, color) == null &&
+            checkPatternCardFieldSouthWestDieColor(patternCardField, color) == null &&
+            checkPatternCardFieldNorthWestDieColor(patternCardField, color) == null) {
+            
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Places die on the selected PatternCardField
@@ -279,7 +293,22 @@ public class PatternCard {
      * @param gameDie GameDie
      */
     public void placeDie(int xPos, int yPos, GameDie gameDie) {
-        patternCardFields[xPos][yPos].placeDie(gameDie);
+        PatternCardField patternCardField = patternCardFields[xPos][yPos]; 
+        patternCardField.placeDie(gameDie);
+    }
+    
+    public void removeDie(PatternCardField patternCardField) {
+        int xPos = patternCardField.getxPos();
+        int yPos = patternCardField.getyPos();
+        
+        patternCardFields[xPos][yPos].setDie(null);
+    }
+    
+    public void placeDie(PatternCardField patternCardField, GameDie die) {
+        int xPos = patternCardField.getxPos();
+        int yPos = patternCardField.getyPos();
+        
+        placeDie(xPos, yPos, die);
     }
 
     /**
