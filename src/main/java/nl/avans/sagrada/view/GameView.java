@@ -1,26 +1,16 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.model.Chatline;
-import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.PatternCard;
-import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.model.PublicObjectiveCard;
-import nl.avans.sagrada.model.RoundTrack;
-import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameView extends VBox implements ViewInterface {
@@ -38,6 +28,7 @@ public class GameView extends VBox implements ViewInterface {
     private RoundTrackView roundTrackView;
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
+    private TilePane dice;
 
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
@@ -152,6 +143,18 @@ public class GameView extends VBox implements ViewInterface {
         actionButtons.setPadding(new Insets(40, 0, 0, 0));
     }
 
+    private void buildDice() {
+        dice = new TilePane();
+        for (GameDie gameDie : game.getCurrentDice()) {
+            Pane paddingPane = new Pane();
+            DieView dieView = new DieView(gameDie);
+            dieView.resize(25, 25);
+            paddingPane.setPadding(new Insets(2));
+            dieView.render();
+            paddingPane.getChildren().add(dieView);
+            dice.getChildren().add(paddingPane);
+        }
+    }
 
     @Override
     public void render() {
@@ -167,6 +170,7 @@ public class GameView extends VBox implements ViewInterface {
         buildPlayerPatternCard();
         buildPlayerPrivateObjectiveCard();
         buildActionButtons();
+        buildDice();
 
         BorderPane firstView = new BorderPane();
         firstView.setPrefHeight(PatternCardView.PATTERNCARD_HEIGHT - 15);
@@ -183,6 +187,7 @@ public class GameView extends VBox implements ViewInterface {
         firstView.setCenter(otherPlayerPatternCardViews);
         firstView.setRight(scoreBoard);
 
+        secondView.getChildren().add(dice);
         secondView.getChildren().addAll(toolCardViews);
         secondView.getChildren().addAll(publicObjectiveCardViews);
         secondView.getChildren().add(roundTrackView);

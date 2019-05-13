@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import nl.avans.sagrada.dao.*;
+import nl.avans.sagrada.view.DieView;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
@@ -12,12 +13,14 @@ public class Game {
     private final String[] privateObjectiveCardColors = {"blauw", "geel", "groen", "paars", "rood"};
     private int id;
     private Player turnPlayer;
-    private int round = 0;
+    private int round;
     private String gamemode;
     private ArrayList<Player> players;
     private Player startPlayer;
     private FavorToken[] favorTokens;
     private ArrayList<GameDie> gameDice;
+    private ArrayList<GameDie> gameDiceBag;
+    private GameDie[] currentDice;
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
     private Timestamp creationDate;
@@ -34,17 +37,44 @@ public class Game {
     public Game() {
         players = new ArrayList<>();
         gameDice = new ArrayList<>();
+        gameDiceBag = new ArrayList<>();
         gamemode = GAMEMODE_NORMAL;
-        generateRandomDice();
     }
 
-    private void generateRandomDice() {
+    /**
+     * This runs after all the attributes are in the database.
+     */
+    public void initCurrentDice() {
+        int size = getPlayers().size() * 2 + 1;
+        currentDice = new GameDie[size];
+        changeDice();
+    }
+
+    public GameDie[] getCurrentDice() {
+        return this.currentDice;
+    }
+
+    /**
+     * This generates 90 random dice.
+     */
+    public void generateRandomDice() {
         DieDao dieDao = new DieDao();
         GameDieDao gameDieDao = new GameDieDao();
         for (Die die : dieDao.getDice()) {
             GameDie gameDie = new GameDie(die, new Random().nextInt(6) + 1);
             gameDice.add(gameDie);
+            gameDiceBag.add(gameDie);
             gameDieDao.addDie(id, gameDie);
+        }
+    }
+
+    /**
+     * This changes the dice on the screen. After every turn this is called.
+     */
+    private void changeDice() {
+        for (int i = 0; i < currentDice.length; i++) {
+            currentDice[i] = gameDiceBag.get(0);
+            gameDiceBag.remove(0);
         }
     }
 
@@ -433,7 +463,9 @@ public class Game {
                 }
             }
         }
+        changeDice();
     }
+
 
     // TODO: RENAME METHOD
     private void duplicateCode(Player currentPlayer, Player playerNextTurn) {

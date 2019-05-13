@@ -1,6 +1,7 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
+
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
@@ -111,6 +112,7 @@ public class PlayerController {
      * Player is passing for a round
      */
     public void actionPass() {
+        System.out.println(player.getGame().getPlayers().size());
         if (player.isCurrentPlayer()) {
             player.getGame().setNextPlayer();
         } else {
