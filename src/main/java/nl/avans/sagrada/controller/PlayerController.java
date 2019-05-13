@@ -63,9 +63,11 @@ public class PlayerController {
             PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
             if (toolcardUseResult != null) {
                 activeToolCard = null;
-                player.setPatternCard(patternCard);
-//                player.getGame().setNextPlayer();
-                viewGame();
+                PatternCardView playerPatternCardView = new PatternCardView(this);
+                playerPatternCardView.setPatternCard(toolcardUseResult);
+                playerPatternCardView.render();
+                myScene.setContentPane(playerPatternCardView);
+                
             }
             else {
                 Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard", AlertType.ERROR);
@@ -96,6 +98,13 @@ public class PlayerController {
             Alert alert = new Alert("Speel je beurt", "Je bent nu aan de beurt!", AlertType.SUCCES);
             myScene.addAlertPane(alert);
         }
+        
+        PatternCard playerPatternCard = player.getPatternCard();
+        GameDie die1 = new GameDie(1, "geel", 2);
+        GameDie die2 = new GameDie(1, "groen", 3);
+        playerPatternCard.placeDie(1, 3, die1);
+        playerPatternCard.placeDie(1, 2, die2);
+        player.setPatternCard(playerPatternCard);
 
         Pane pane = new Pane();
         GameView gameView = new GameView(this, game, player);

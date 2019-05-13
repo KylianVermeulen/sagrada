@@ -125,10 +125,6 @@ public class GameView extends VBox implements ViewInterface {
 
     private void buildPlayerPatternCard() {
         PatternCard playerPatternCard = player.getPatternCard();
-        GameDie die1 = new GameDie(1, "geel", 2);
-        GameDie die2 = new GameDie(1, "groen", 3);
-        playerPatternCard.placeDie(1, 3, die1);
-        playerPatternCard.placeDie(1, 2, die2);
         playerPatternCardView = new PatternCardView(playerController);
         playerPatternCardView.setPatternCard(playerPatternCard);
         playerPatternCardView.render();

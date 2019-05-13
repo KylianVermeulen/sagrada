@@ -23,14 +23,10 @@ public class ToolCardSnijLiniaal extends ToolCard {
         PatternCardField patternCardField =  patternCardView.getPatternCardField();
         PatternCard patternCard = patternCardField.getPatternCard();
         
-        if (patternCard.canPlaceDie(patternCardField, die)) {
-            patternCard.placeDie(patternCardField, die); 
-            patternCard.removeDie(patternCardFieldSource);
-            return patternCard;
-        }
-        else {
-            return null; 
-        }
+        patternCard.placeDie(patternCardField, die); 
+        PatternCardField field = patternCard.getPatternCardField(patternCardFieldSource.getxPos(), patternCardFieldSource.getyPos());
+        field.setDie(null);
+        return patternCard;
     }
 
 }

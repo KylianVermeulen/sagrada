@@ -298,10 +298,7 @@ public class PatternCard {
     }
     
     public void removeDie(PatternCardField patternCardField) {
-        int xPos = patternCardField.getxPos();
-        int yPos = patternCardField.getyPos();
-        
-        patternCardFields[xPos][yPos].setDie(null);
+        patternCardField.setDie(null);
     }
     
     public void placeDie(PatternCardField patternCardField, GameDie die) {
