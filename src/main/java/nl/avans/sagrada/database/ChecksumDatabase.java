@@ -18,6 +18,7 @@ public class ChecksumDatabase {
     public ChecksumDatabase(AccountController accountController, PlayerController playerController) {
         dbConnection = new DBConnection();
         this.accountController = accountController;
+        this.playerController = playerController;
         createTimer();
         animationTimerExt.start();
     }
