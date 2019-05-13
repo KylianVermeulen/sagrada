@@ -46,10 +46,6 @@ public class PlayerController {
     public void setPlayer(Player player) {
         this.player = player;
     }
-    
-    public Player getPlayer() {
-        return player;
-    }
 
     public void viewGame() {
         // Refresh game & player object
