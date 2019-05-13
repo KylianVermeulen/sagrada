@@ -1,8 +1,0 @@
-language: java
-jdk:
-  - openjdk10
-branches:
-  only:
-  - develop
-  - master
-script: "$JOB"

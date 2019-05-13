@@ -26,20 +26,21 @@ public class DieView extends Pane implements ViewInterface {
      * Full constructor
      */
     public DieView() {
-        images = new ArrayList<ImageView>();
-        setPrefSize(DIE_WIDTH, DIE_HEIGHT);
-        setMaxSize(DIE_WIDTH, DIE_HEIGHT);
-        setBorder(new Border(
-                new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
-                        new BorderWidths(3))));
-        diceEyesArray();
-        resizeImages();
+        init();
     }
 
     public DieView(GameDie gameDie) {
         this.gameDie = gameDie;
+        init();
+    }
+
+    private void init() {
         images = new ArrayList<ImageView>();
         setPrefSize(DIE_WIDTH, DIE_HEIGHT);
+        setMaxSize(DIE_WIDTH, DIE_HEIGHT);
+        setOnDragDetected(e -> {
+            startFullDrag();
+        });
         setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
         diceEyesArray();
         resizeImages();
@@ -109,7 +110,7 @@ public class DieView extends Pane implements ViewInterface {
      * Resized the images to the given width and height
      *
      * @param height int
-     * @param width int
+     * @param width  int
      */
     public void resize(int height, int width) {
         for (ImageView image : images) {

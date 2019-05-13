@@ -19,7 +19,7 @@ public class PatternCard {
     /**
      * Partial constructor
      *
-     * @param id int
+     * @param id       int
      * @param standard boolean
      */
     public PatternCard(int id, boolean standard) {
@@ -46,9 +46,9 @@ public class PatternCard {
     /**
      * Full constructor
      *
-     * @param id int
+     * @param id         int
      * @param difficulty int
-     * @param standard boolean
+     * @param standard   boolean
      */
     public PatternCard(int id, int difficulty, boolean standard) {
         this.id = id;
@@ -285,8 +285,8 @@ public class PatternCard {
     /**
      * Places die on the selected PatternCardField
      *
-     * @param xPos int
-     * @param yPos int
+     * @param xPos    int
+     * @param yPos    int
      * @param gameDie GameDie
      */
     public void placeDie(int xPos, int yPos, GameDie gameDie) {
