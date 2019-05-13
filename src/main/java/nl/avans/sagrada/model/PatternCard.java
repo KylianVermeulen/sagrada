@@ -388,4 +388,98 @@ public class PatternCard {
         }
         return null;
     }
+
+    /**
+     * Checks if the patternCardField neighbor to the selected patternCardField
+     *
+     * @param color String
+     * @param isDie boolean
+     * @return boolean
+     */
+    public boolean checkSidesColor(PatternCardField patternCardField, String color, boolean isDie) {
+        return checkSouthColor(patternCardField, color, isDie)
+                && checkEastColor(patternCardField, color, isDie)
+                && checkNorthColor(patternCardField, color, isDie)
+                && checkWestColor(patternCardField, color, isDie);
+    }
+
+    /**
+     * Checks south of the patternCardField and checks if there is a color
+     *
+     * @param color String
+     * @param isDie boolean
+     * @return boolean
+     */
+    private boolean checkSouthColor(PatternCardField patternCardField, String color, boolean isDie) {
+        if (patternCardField.getyPos() == 4) {
+            return true;
+        }
+        PatternCardField patternCardFieldNext = getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos() + 1);
+        return checkColorAndDieColor(patternCardFieldNext, color, isDie);
+    }
+
+    /**
+     * Checks north of the patternCardField and checks if there is a color
+     *
+     * @param color String
+     * @param isDie boolean
+     * @return boolean
+     */
+    private boolean checkNorthColor(PatternCardField patternCardField, String color, boolean isDie) {
+        if (patternCardField.getyPos() == 1) {
+            return true;
+        }
+        PatternCardField patternCardFieldNext = getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos() - 1);
+        return checkColorAndDieColor(patternCardFieldNext, color, isDie);
+    }
+
+    /**
+     * Checks east of the patternCardField and checks if there is a color
+     *
+     * @param color String
+     * @param isDie boolean
+     * @return boolean
+     */
+    private boolean checkEastColor(PatternCardField patternCardField, String color, boolean isDie) {
+        if (patternCardField.getxPos() == 5) {
+            return true;
+        }
+        PatternCardField patternCardFieldNext = getPatternCardField(patternCardField.getxPos() + 1, patternCardField.getyPos());
+        return checkColorAndDieColor(patternCardFieldNext, color, isDie);
+    }
+
+    /**
+     * Checks west of the patternCardField and checks if there is a color
+     *
+     * @param color String
+     * @param isDie boolean
+     * @return boolean
+     */
+    private boolean checkWestColor(PatternCardField patternCardField, String color, boolean isDie) {
+        if (patternCardField.getxPos() == 1) {
+            return true;
+        }
+        PatternCardField patternCardFieldNext = getPatternCardField(patternCardField.getxPos() - 1, patternCardField.getyPos());
+        return checkColorAndDieColor(patternCardFieldNext, color, isDie);
+    }
+
+    /**
+     * Checks if the turn is valid
+     *
+     * @param color String
+     * @param patternCardField PatternCardField
+     * @param isDie boolean
+     * @return
+     */
+    private boolean checkColorAndDieColor(PatternCardField patternCardField, String color, boolean isDie) {
+        if (!isDie) {
+            if (patternCardField.hasColor()) {
+                return !patternCardField.getColor().equals(color);
+            }
+        }
+        if (patternCardField.hasDie()) {
+            return !(patternCardField.getDie().getColor().equals(color));
+        }
+        return true;
+    }
 }
