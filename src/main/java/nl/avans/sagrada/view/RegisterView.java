@@ -15,17 +15,13 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class RegisterView extends BorderPane implements ViewInterface {
     private AccountController accountController;
-    private int backButtonHeight = 35;
-    private int backButtonWidth = 75;
+    private final int BACKBUTTON_HEIGHT = 35;
+    private final int BACKBUTTON_WIDTH = 75;
     private final int BUTTON_WIDTH = 120;
     private final int BUTTON_HEIGHT = 30;
-    private final static int BUTTONWIDTH = 120;
-    private final static int BUTTONHEIGHT = 30;
     private final int TEXTFIELD_WIDTH = 200;
     private final int TEXTFIELD_HEIGHT = 25;
-    private final int LEFTPANE_WIDTH = 313;
-    private final int LOGOPANE_WIDHT = 313;
-    private final int LOGOPANE_HEIGHT = 110;
+    private final int LEFT_PANE_WIDTH = 313;
     private VBox registerPane;
     private Pane backPane;
 
@@ -110,7 +106,7 @@ public class RegisterView extends BorderPane implements ViewInterface {
     private void buildBackPane(){
         backPane = new Pane();
         Button backButton = new Button();
-        backButton.setPrefSize(backButtonWidth, backButtonHeight);
+        backButton.setPrefSize(BACKBUTTON_WIDTH, BACKBUTTON_HEIGHT);
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         backButton.getStylesheets().add(css);
         backButton.setId("backButton");
@@ -123,8 +119,8 @@ public class RegisterView extends BorderPane implements ViewInterface {
      */
     private void buildLeftPane(){
         BorderPane leftPane = new BorderPane();
-        leftPane.setMaxWidth(LEFTPANE_WIDTH);
-        leftPane.setMinWidth(LEFTPANE_WIDTH);
+        leftPane.setMaxWidth(LEFT_PANE_WIDTH);
+        leftPane.setMinWidth(LEFT_PANE_WIDTH);
         leftPane.setId("registerLeftPane");
         leftPane.setLeft(registerPane);
         leftPane.setTop(backPane);
