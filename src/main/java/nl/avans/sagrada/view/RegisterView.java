@@ -6,17 +6,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class RegisterView extends BorderPane implements ViewInterface {
     private AccountController accountController;
-    private final int BACKBUTTON_HEIGHT = 35;
-    private final int BACKBUTTON_WIDTH = 75;
+    private final int BACK_BUTTON_HEIGHT = 35;
+    private final int BACK_BUTTON_WIDTH = 75;
     private final int BUTTON_WIDTH = 120;
     private final int BUTTON_HEIGHT = 30;
     private final int TEXTFIELD_WIDTH = 200;
@@ -106,7 +106,7 @@ public class RegisterView extends BorderPane implements ViewInterface {
     private void buildBackPane(){
         backPane = new Pane();
         Button backButton = new Button();
-        backButton.setPrefSize(BACKBUTTON_WIDTH, BACKBUTTON_HEIGHT);
+        backButton.setPrefSize(BACK_BUTTON_WIDTH, BACK_BUTTON_HEIGHT);
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         backButton.getStylesheets().add(css);
         backButton.setId("backButton");
