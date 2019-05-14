@@ -3,6 +3,7 @@ package nl.avans.sagrada.dao;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -91,15 +92,15 @@ public class GameDieDao {
     /**
      * Gets all the dice from a game.
      *
-     * @param gameId int
+     * @param game Game
      * @return ArrayList<GameDie>
      */
-    public ArrayList<GameDie> getDice(int gameId) {
+    public ArrayList<GameDie> getDiceFromGame(Game game) {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamedie WHERE idgame=?", "query"),
-                    new QueryParameter(QueryParameter.INT, gameId)
+                    new QueryParameter(QueryParameter.INT, game.getId())
             );
             while (rs.next()) {
                 GameDie gameDie = new GameDie(rs.getInt("number"), rs.getString("color"),
@@ -115,17 +116,17 @@ public class GameDieDao {
     /**
      * Gets the die from a game
      *
-     * @param gameId int
+     * @param game Game
      * @param die GameDie
      * @return GameDie
      */
-    public GameDie getDie(int gameId, GameDie die) {
+    public GameDie getDie(Game game, GameDie die) {
         GameDie gameDie = null;
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamedie WHERE idgame=? AND dienumber=? AND diecolor=?",
                             "query"),
-                    new QueryParameter(QueryParameter.INT, gameId),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, die.getNumber()),
                     new QueryParameter(QueryParameter.STRING, die.getColor())
             );
@@ -142,16 +143,16 @@ public class GameDieDao {
     /**
      * Gets the dice for a round from a game
      *
-     * @param gameId int
+     * @param game Game
      * @param round int
      * @return ArrayList<GameDie>
      */
-    public ArrayList<GameDie> getRoundDice(int gameId, int round) {
+    public ArrayList<GameDie> getRoundDices(Game game, int round) {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamedie WHERE idgame=? AND round=?", "query"),
-                    new QueryParameter(QueryParameter.INT, gameId),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, round)
             );
             while (rs.next()) {

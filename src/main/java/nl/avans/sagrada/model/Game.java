@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.DieDao;
 import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
@@ -23,7 +25,7 @@ public class Game {
     private ArrayList<Player> players;
     private Player startPlayer;
     private FavorToken[] favorTokens;
-    private ArrayList<GameDie> gameDice;
+    private ArrayList<GameDie> gameDices;
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
     private Timestamp creationDate;
@@ -39,7 +41,7 @@ public class Game {
 
     public Game() {
         players = new ArrayList<>();
-        gameDice = new ArrayList<>();
+        gameDices = new ArrayList<>();
         round = 1;
         gamemode = GAMEMODE_NORMAL;
     }
@@ -52,7 +54,7 @@ public class Game {
         GameDieDao gameDieDao = new GameDieDao();
         for (Die die : dieDao.getDice()) {
             GameDie gameDie = new GameDie(die, new Random().nextInt(6) + 1);
-            gameDice.add(gameDie);
+            gameDices.add(gameDie);
             gameDieDao.addDie(id, gameDie);
         }
     }
@@ -60,13 +62,13 @@ public class Game {
     /**
      * Adds random rounds to the gameDice
      */
-    public void addRandomRounds() {
+    public void addRandomRoundsToGameDices() {
         for (int i = 1; i <= 10; i++) {
             for (int j = 0; j < (getPlayers().size() * 2 + 1); j++) {
                 boolean hasDie = false;
                 while (!hasDie) {
-                    GameDie randomGameDie = gameDice.get(new Random().nextInt(gameDice.size()));
-                    GameDie checkDie = new GameDieDao().getDie(id, randomGameDie);
+                    GameDie randomGameDie = gameDices.get(new Random().nextInt(gameDices.size()));
+                    GameDie checkDie = new GameDieDao().getDie(this, randomGameDie);
                     if (checkDie.getRound() == 0) {
                         new GameDieDao().updateDie(id, randomGameDie, i);
                         hasDie = true;
@@ -169,17 +171,17 @@ public class Game {
      *
      * @return GameDie[]
      */
-    public ArrayList<GameDie> getGameDice() {
-        return gameDice;
+    public ArrayList<GameDie> gameDices() {
+        return gameDices;
     }
 
     /**
      * Set gameDice to Game
      *
-     * @param gameDice GameDie[]
+     * @param gameDices GameDie[]
      */
-    public void setGameDice(ArrayList<GameDie> gameDice) {
-        this.gameDice = gameDice;
+    public void setGameDices(ArrayList<GameDie> gameDices) {
+        this.gameDices = gameDices;
     }
 
     /**
@@ -485,8 +487,8 @@ public class Game {
      *
      * @return ArrayList<GameDie>
      */
-    public ArrayList<GameDie> getRoundDice() {
-        return new GameDieDao().getRoundDice(id, round);
+    public ArrayList<GameDie> getRoundDices() {
+        return new GameDieDao().getRoundDices(this, round);
     }
 
 }
