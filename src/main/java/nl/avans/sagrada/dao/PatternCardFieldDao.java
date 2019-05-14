@@ -23,6 +23,13 @@ public class PatternCardFieldDao {
         dbConnection = new DBConnection();
     }
 
+    /**
+     * Gets the PatternCard fields of a PatternCard
+     * The players is needed to get all the dies of the patterncard placed by the player
+     * @param PatternCard
+     * @param Player
+     * @return ArrayList<PatternCardField>
+     */
     public ArrayList<PatternCardField> getPatternCardFieldsOfPatterncard(PatternCard patternCard, Player player) {
         ArrayList<PatternCardField> list = new ArrayList<>();
 
@@ -56,6 +63,8 @@ public class PatternCardFieldDao {
 
     /**
      * Add all patterncardfields to the database using batch query.
+     * @param ArrayList<PatternCardField>
+     * @param PatternCard
      */
     public void addPatternCardFields(ArrayList<PatternCardField> patternCardFields,
             PatternCard patternCard) {
