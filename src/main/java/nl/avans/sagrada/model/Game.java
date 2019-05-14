@@ -55,7 +55,7 @@ public class Game {
         for (Die die : dieDao.getDice()) {
             GameDie gameDie = new GameDie(die, new Random().nextInt(6) + 1);
             gameDices.add(gameDie);
-            gameDieDao.addDie(id, gameDie);
+            gameDieDao.addDie(this, gameDie);
         }
     }
 
@@ -70,7 +70,7 @@ public class Game {
                     GameDie randomGameDie = gameDices.get(new Random().nextInt(gameDices.size()));
                     GameDie checkDie = new GameDieDao().getDie(this, randomGameDie);
                     if (checkDie.getRound() == 0) {
-                        new GameDieDao().updateDie(id, randomGameDie, i);
+                        new GameDieDao().updateDie(this, randomGameDie, i);
                         hasDie = true;
                     }
                 }

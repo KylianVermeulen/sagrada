@@ -24,16 +24,16 @@ public class GameDieDao {
     /**
      * Adds gamedie to game in the database
      *
-     * @param gameId int
+     * @param game Game
      * @param gameDie GameDie
      */
-    public void addDie(int gameId, GameDie gameDie) {
+    public void addDie(Game game, GameDie gameDie) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
                             "INSERT INTO gamedie (idgame, dienumber, diecolor, eyes) VALUES (?, ?, ?, ?)",
                             "update"),
-                    new QueryParameter(QueryParameter.INT, gameId),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor()),
                     new QueryParameter(QueryParameter.INT, gameDie.getEyes())
@@ -46,16 +46,16 @@ public class GameDieDao {
     /**
      * Adds a gameDie and it's attributes to the database.
      *
-     * @param gameId int
+     * @param game Game
      * @param gameDie GameDie
      */
-    public void addDie(int gameId, GameDie gameDie, int round) {
+    public void addDie(Game game, GameDie gameDie, int round) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
                             "INSERT INTO gamedie (idgame, dienumber, diecolor, eyes, round) VALUES (?, ?, ?, ?, ?)",
                             "update"),
-                    new QueryParameter(QueryParameter.INT, gameId),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor()),
                     new QueryParameter(QueryParameter.INT, gameDie.getEyes()),
@@ -69,18 +69,18 @@ public class GameDieDao {
     /**
      * Updates the die with a given round
      *
-     * @param gameId int
+     * @param game Game
      * @param gameDie GameDie
      * @param round int
      */
-    public void updateDie(int gameId, GameDie gameDie, int round) {
+    public void updateDie(Game game, GameDie gameDie, int round) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
                             "UPDATE gamedie SET round=? WHERE idgame=? AND dienumber=? AND diecolor=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, round),
-                    new QueryParameter(QueryParameter.INT, gameId),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor())
             );
