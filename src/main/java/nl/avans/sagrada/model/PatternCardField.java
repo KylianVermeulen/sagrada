@@ -287,7 +287,7 @@ public class PatternCardField {
      * Checks if it's the first turn if not does a normal turn
      *
      * @param gameDie GameDie
-     * @return true
+     * @return boolean
      */
     private boolean checkTurn(GameDie gameDie) {
         if (patternCard.isFirstTurn()) {
