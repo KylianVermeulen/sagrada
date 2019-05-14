@@ -37,7 +37,6 @@ public class RegisterView extends BorderPane implements ViewInterface {
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         getStylesheets().add(css);
         setId("registerBackground");
-        setPrefSize(1280, 800);
     }
 
     /**
