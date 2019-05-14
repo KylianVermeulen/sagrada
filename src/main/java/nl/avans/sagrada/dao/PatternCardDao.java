@@ -39,7 +39,7 @@ public class PatternCardDao {
                             rs.getInt("idpatterncard"),
                             rs.getInt("difficulty"), 
                             rs.getBoolean("standard"),
-                        player
+                            player
                         );
                 return patternCard;
             }
@@ -89,7 +89,8 @@ public class PatternCardDao {
                         rs.getInt("idpatterncard"),
                         rs.getInt("difficulty"), 
                         rs.getBoolean("standard"),
-                        player);
+                        player
+                     );
                 list.add(patternCard);
             }
         } catch (SQLException e) {

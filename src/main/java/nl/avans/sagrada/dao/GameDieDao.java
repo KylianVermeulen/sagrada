@@ -22,7 +22,4 @@ public class GameDieDao {
     public GameDieDao() {
         dbConnection = new DBConnection();
     }
-
-
-
 }

@@ -286,8 +286,7 @@ public class PlayerController {
         else {
             Alert alert = new Alert("Active toolcard", "Je hebt al een actieve toolcard: " + activeToolCard.getName(), AlertType.ERROR);
             myScene.addAlertPane(alert);
-        }
-        
+        }   
     }
 
     /**

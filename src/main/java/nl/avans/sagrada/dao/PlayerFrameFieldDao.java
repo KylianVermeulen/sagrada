@@ -44,13 +44,13 @@ public class PlayerFrameFieldDao {
                 die = new GameDie(
                         rs.getInt("gamedie.dienumber"), 
                         rs.getString("gamedie.diecolor"), 
-                        rs.getInt("eyes"));
+                        rs.getInt("eyes")
+                    );
             }
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e.getMessage());
         }
-        
         return die;
     }
     

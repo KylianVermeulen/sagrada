@@ -50,7 +50,8 @@ public class ToolCardDao {
                         rs.getInt("idtoolcard"), 
                         rs.getString("name"), 
                         rs.getInt("seqnr"), 
-                        rs.getString("description"));
+                        rs.getString("description")
+                    );
                 list.add(toolCard);
             }
         } catch (SQLException e) {
@@ -73,7 +74,8 @@ public class ToolCardDao {
                         rs.getInt("idtoolcard"), 
                         rs.getString("name"), 
                         rs.getInt("seqnr"), 
-                        rs.getString("description"));
+                        rs.getString("description")
+                    );
                 list.add(toolCard);
             }
         } catch (SQLException e) {
@@ -99,7 +101,8 @@ public class ToolCardDao {
                         rs.getInt("idtoolcard"), 
                         rs.getString("name"), 
                         rs.getInt("seqnr"), 
-                        rs.getString("description"));
+                        rs.getString("description")
+                    );
             }
         } catch (Exception e) {
             toolCard = null;
