@@ -17,6 +17,7 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.enumerations.AccountStatus;
+import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.GameSetupView;
 import nl.avans.sagrada.view.InviteView;
 import nl.avans.sagrada.view.LobbyView;
@@ -51,6 +52,24 @@ public class AccountController {
         LoginView loginView = new LoginView(this);
         loginView.render();
         pane.getChildren().add(loginView);
+        myScene.setContentPane(pane);
+    }
+
+    /**
+     * Displays the view after a game is finished. The user can see their scores and then go or back
+     * to the lobbyscreen or view the statistics.
+     */
+    public void viewEndgame() {
+        Pane pane = new Pane();
+        GameDao gameDao = new GameDao();
+        Player player = new PlayerDao().getPlayerById(1);
+        player.setGame(gameDao.getGameById(1));
+        Player winplayer = gameDao.bestFinalScore(player.getGame());
+        myScene.getPlayerController().setPlayer(player);
+        EndgameView endgame =
+                new EndgameView(gameDao.getGameById(1), myScene.getPlayerController(), winplayer, this);
+        endgame.render();
+        pane.getChildren().add(endgame);
         myScene.setContentPane(pane);
     }
 
