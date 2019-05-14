@@ -7,8 +7,11 @@ import java.util.List;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
+import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
+import nl.avans.sagrada.model.Player;
 
 public class PatternCardFieldDao {
     private DBConnection dbConnection;
@@ -20,8 +23,10 @@ public class PatternCardFieldDao {
         dbConnection = new DBConnection();
     }
 
-    public ArrayList<PatternCardField> getPatternCardFieldsOfPatterncard(PatternCard patternCard) {
+    public ArrayList<PatternCardField> getPatternCardFieldsOfPatterncard(PatternCard patternCard, Player player) {
         ArrayList<PatternCardField> list = new ArrayList<>();
+        Game game = player.getGame();
+        PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
@@ -36,6 +41,10 @@ public class PatternCardFieldDao {
                 int value = rs.getInt("value");
                 PatternCardField patternCardField = new PatternCardField(xpos, ypos, color, value,
                         patternCard);
+                GameDie die = playerFrameFieldDao.getGameDieOfField(patternCardField, player, player.getGame());
+                if (die != null) {
+                    patternCardField.setDie(die);
+                }
                 list.add(patternCardField);
             }
         } catch (SQLException e) {
@@ -43,6 +52,8 @@ public class PatternCardFieldDao {
         }
         return list;
     }
+    
+    
 
     /**
      * Add all patterncardfields to the database using batch query.

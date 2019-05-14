@@ -15,6 +15,7 @@ public class PatternCard {
     private boolean standard;
     private PatternCardField[][] patternCardFields;
     private ArrayList<String> colors;
+    private Player player;
 
     /**
      * Partial constructor
@@ -22,9 +23,10 @@ public class PatternCard {
      * @param id int
      * @param standard boolean
      */
-    public PatternCard(int id, boolean standard) {
+    public PatternCard(int id, boolean standard, Player player) {
         this.id = id;
         this.standard = standard;
+        this.player = player;
         if (standard) {
             patternCardFields = getPatternCardFields();
         } else {
@@ -45,6 +47,22 @@ public class PatternCard {
         this.difficulty = difficulty;
         this.standard = standard;
         patternCardFields = getPatternCardFields();
+    }
+    
+    public PatternCard(int id, int difficulty, boolean standard, Player player) {
+        this.id = id;
+        this.difficulty = difficulty;
+        this.standard = standard;
+        this.player = player;
+        patternCardFields = getPatternCardFields();
+    }
+    
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     /**
@@ -199,8 +217,7 @@ public class PatternCard {
      */
     public PatternCardField[][] getPatternCardFields() {
         PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
-        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao
-                .getPatternCardFieldsOfPatterncard(this);
+        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao.getPatternCardFieldsOfPatterncard(this, player);
         return makePatternCardFields(patternCardFieldsList);
     }
 

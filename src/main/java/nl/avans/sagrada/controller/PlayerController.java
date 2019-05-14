@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.ToolCardDao;
@@ -91,7 +92,9 @@ public class PlayerController {
                 }
                 patternCardField.placeDie(gameDie); 
             }
-        }   
+        }
+        GameDieDao gameDieDao = new GameDieDao();
+        gameDieDao.updateDieLocation(gameDie, patternCardField, player);
     }
 
     /**
@@ -111,6 +114,8 @@ public class PlayerController {
             PatternCardDao PatternCardDao = new PatternCardDao();
             PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
             player.setPatternCard(patternCard);
+            patternCard.setPlayer(player);
+            patternCard.setGame(game);
         }
 
 
