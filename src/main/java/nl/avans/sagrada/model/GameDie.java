@@ -10,9 +10,9 @@ public class GameDie extends Die {
 
     /**
      * Full constructor
-     *
-     * @param eyes int
+     * @param number the id of the die
      * @param color String
+     * @param int eye
      */
     public GameDie(int number, String color, int eyes) {
         super(number, color);

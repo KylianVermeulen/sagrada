@@ -18,14 +18,15 @@ public class ToolCardSnijLiniaal extends ToolCard {
         PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
         
         PatternCardField patternCardField =  patternCardView.getPatternCardField();
-        if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)) {
-            PatternCard patternCard = patternCardField.getPatternCard();
-            
-            PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
-            PatternCardField field = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
-            
-            removeDieField.setDie(null);
-            
+        PatternCard patternCard = patternCardField.getPatternCard();
+        PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
+        removeDieField.setDie(null);
+        
+        PatternCardField field = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
+        
+        if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
+            && patternCard.checkSidesColor(field, die.getColor(), true) && patternCard.checkSidesValue(field, die.getEyes(), true)) {
+
             die.setPatternCardField(field);
             field.setDie(die);
             

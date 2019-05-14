@@ -132,12 +132,15 @@ public class PlayerController {
         
         PatternCard playerPatternCard = player.getPatternCard();
         GameDie die1 = new GameDie(1, "geel", 2);
-        GameDie die2 = new GameDie(1, "groen", 3);
+        GameDie die2 = new GameDie(2, "groen", 3);
+        GameDie die3 = new GameDie(3, "groen", 2);
         die1.setPatternCardField(playerPatternCard.getPatternCardField(1, 3));
         die2.setPatternCardField(playerPatternCard.getPatternCardField(1, 2));
+        die3.setPatternCardField(playerPatternCard.getPatternCardField(3, 2));
         
         playerPatternCard.placeDie(1, 3, die1);
         playerPatternCard.placeDie(1, 2, die2);
+        playerPatternCard.placeDie(3, 2, die3);
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
         } else {
