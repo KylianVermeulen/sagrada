@@ -11,9 +11,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.FavorTokenDao;
@@ -38,7 +36,7 @@ public class GameView extends VBox implements ViewInterface {
     private ArrayList<PublicObjectiveCardView> publicObjectiveCardViews;
     private Label balance;
     private PatternCardView playerPatternCardView;
-    private Pane scoreBoard;
+    private ScoreBoardView scoreBoard;
     private RoundTrackView roundTrackView;
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
@@ -65,6 +63,7 @@ public class GameView extends VBox implements ViewInterface {
 
                 PatternCardView patternCardView = new PatternCardView(playerController);
                 patternCardView.setCenterShape(true);
+                patternCardView.setPlayerName(otherPlayerUsername);
                 patternCardView.setPatternCard(playerPatternCard);
                 patternCardView.render();
                 otherPlayerPatternCardViews.getChildren().add(patternCardView);
@@ -102,8 +101,8 @@ public class GameView extends VBox implements ViewInterface {
         PublicObjectiveCard[] gamePublicObjectiveCards = game.getPublicObjectiveCards();
 
         for (PublicObjectiveCard publicObjectiveCard : gamePublicObjectiveCards) {
-            PublicObjectiveCardView publicObjectiveCardView = new PublicObjectiveCardView(
-                    playerController);
+            PublicObjectiveCardView publicObjectiveCardView =
+                    new PublicObjectiveCardView(playerController);
             publicObjectiveCardView.setPublicObjectiveCard(publicObjectiveCard);
             publicObjectiveCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
             publicObjectiveCardView.render();
@@ -119,10 +118,12 @@ public class GameView extends VBox implements ViewInterface {
         chatLineView.render();
     }
 
+    /**
+     * Builds the scoreboard inside of the game view.
+     */
     private void buildScoreBoard() {
-        scoreBoard = new Pane();
-        scoreBoard.setPrefSize(300, 300);
-        scoreBoard.setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
+        scoreBoard = new ScoreBoardView(game, playerController);
+        scoreBoard.render();
     }
 
     private void buildBalance() {
@@ -134,6 +135,7 @@ public class GameView extends VBox implements ViewInterface {
         PatternCard playerPatternCard = player.getPatternCard();
         playerPatternCardView = new PatternCardView(playerController);
         playerPatternCardView.setPatternCard(playerPatternCard);
+        playerPatternCardView.setPlayerName(player.getAccount().getUsername());
         playerPatternCardView.render();
     }
 
