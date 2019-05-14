@@ -22,6 +22,11 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public class LoginView extends BorderPane implements ViewInterface {
     private final static int BUTTONWIDTH = 120;
     private final static int BUTTONHEIGHT = 30;
+    private final int TEXTFIELD_WIDTH = 200;
+    private final int TEXTFIELD_HEIGHT = 25;
+    private final int LEFTPANE_WIDTH = 313;
+    private final int LOGOPANE_WIDHT = 313;
+    private final int LOGOPANE_HEIGHT = 110;
 
     private AccountController accountController;
 
@@ -51,10 +56,10 @@ public class LoginView extends BorderPane implements ViewInterface {
         userName.setPadding(new Insets(10, 20, 10, 20));
         userName.getStyleClass().add("loginLabel");
         TextField userTextField = new TextField();
-        userTextField.setMaxHeight(25);
-        userTextField.setMinHeight(25);
-        userTextField.setMaxWidth(200);
-        userTextField.setMinWidth(200);
+        userTextField.setMaxHeight(TEXTFIELD_HEIGHT);
+        userTextField.setMinHeight(TEXTFIELD_HEIGHT);
+        userTextField.setMaxWidth(TEXTFIELD_WIDTH);
+        userTextField.setMinWidth(TEXTFIELD_WIDTH);
         userTextField.getStyleClass().add("loginTextfield");
         userHBox.setTop(userName);
         userHBox.setAlignment(userName, Pos.CENTER);
@@ -65,10 +70,10 @@ public class LoginView extends BorderPane implements ViewInterface {
         PasswordField passwordTextField = new PasswordField();
         password.getStyleClass().add("loginLabel");
         password.setPadding(new Insets(10, 20, 10, 20));
-        passwordTextField.setMaxHeight(25);
-        passwordTextField.setMinHeight(25);
-        passwordTextField.setMaxWidth(200);
-        passwordTextField.setMinWidth(200);
+        passwordTextField.setMaxHeight(TEXTFIELD_HEIGHT);
+        passwordTextField.setMinHeight(TEXTFIELD_HEIGHT);
+        passwordTextField.setMaxWidth(TEXTFIELD_WIDTH);
+        passwordTextField.setMinWidth(TEXTFIELD_WIDTH);
         passwordTextField.getStyleClass().add("loginTextfield");
         passwordHBox.setTop(password);
         passwordHBox.setAlignment(password, Pos.CENTER);
@@ -88,31 +93,22 @@ public class LoginView extends BorderPane implements ViewInterface {
         registerLabel.setPadding(new Insets(20, 0, 0, 0));
         registerLabel.setOnMouseClicked(e -> accountController.viewRegister());
 
-
-
-        BorderPane topPane = new BorderPane();
-        topPane.setMaxHeight(130);
-        topPane.setMinHeight(130);
-        topPane.setMaxWidth(1280);
-        topPane.setMinWidth(1280);
         Pane logoPane = new Pane();
-        logoPane.setMaxHeight(110);
-        logoPane.setMinHeight(110);
-        logoPane.setMaxWidth(313);
-        logoPane.setMinWidth(313);
+        logoPane.setMaxHeight(LOGOPANE_HEIGHT);
+        logoPane.setMinHeight(LOGOPANE_HEIGHT);
+        logoPane.setMaxWidth(LOGOPANE_WIDHT);
+        logoPane.setMinWidth(LOGOPANE_WIDHT);
         logoPane.setPadding(new Insets(25));
         logoPane.setId("loginLogo");
-        topPane.setCenter(logoPane);
 
         loginPane.getChildren().addAll(userHBox, passwordHBox, loginButton, registerLabel);
 
         BorderPane pane = new BorderPane();
-        pane.setMaxWidth(313);
-        pane.setMinWidth(313);
+        pane.setMaxWidth(LEFTPANE_WIDTH);
+        pane.setMinWidth(LEFTPANE_WIDTH);
         pane.setId("leftPane");
         pane.setLeft(loginPane);
         pane.setTop(logoPane);
         setLeft(pane);
-
     }
 }
