@@ -19,6 +19,12 @@ public class GameDieDao {
         dbConnection = new DBConnection();
     }
 
+    /**
+     * Adds gamedie to game in the database
+     *
+     * @param gameId int
+     * @param gameDie GameDie
+     */
     public void addDie(int gameId, GameDie gameDie) {
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -36,7 +42,7 @@ public class GameDieDao {
     /**
      * Adds a gameDie and it's attributes to the database.
      *
-     * @param gameId  int
+     * @param gameId int
      * @param gameDie GameDie
      */
     public void addDie(int gameId, GameDie gameDie, int round) {
@@ -54,9 +60,13 @@ public class GameDieDao {
         }
     }
 
-
-//    new Query("UPDATE player SET patterncard_idpatterncard=? WHERE idplayer=?", "update"),
-
+    /**
+     * Updates the die with a given round
+     *
+     * @param gameId int
+     * @param gameDie GameDie
+     * @param round int
+     */
     public void updateDie(int gameId, GameDie gameDie, int round) {
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -94,6 +104,13 @@ public class GameDieDao {
         return gameDice;
     }
 
+    /**
+     * Gets the die from a game
+     *
+     * @param gameId int
+     * @param die GameDie
+     * @return GameDie
+     */
     public GameDie getDie(int gameId, GameDie die) {
         GameDie gameDie = null;
         try {
@@ -112,6 +129,13 @@ public class GameDieDao {
         return gameDie;
     }
 
+    /**
+     * Gets the dice for a round from a game
+     *
+     * @param gameId int
+     * @param round int
+     * @return ArrayList<GameDie>
+     */
     public ArrayList<GameDie> getRoundDice(int gameId, int round) {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {

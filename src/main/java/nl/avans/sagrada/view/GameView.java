@@ -143,6 +143,9 @@ public class GameView extends VBox implements ViewInterface {
         actionButtons.setPadding(new Insets(40, 0, 0, 0));
     }
 
+    /**
+     * Builds the panes with the dice
+     */
     private void buildDice() {
         dice = new TilePane();
         for (GameDie gameDie : game.getRoundDice()) {

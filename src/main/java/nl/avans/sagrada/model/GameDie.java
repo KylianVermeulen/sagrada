@@ -13,7 +13,7 @@ public class GameDie extends Die {
     /**
      * Full constructor
      *
-     * @param eyes  int
+     * @param eyes int
      * @param color String
      */
     public GameDie(int number, String color, int eyes) {
@@ -22,6 +22,14 @@ public class GameDie extends Die {
 
     }
 
+    /**
+     * Constructor with round
+     *
+     * @param number int
+     * @param color String
+     * @param eyes int
+     * @param round int
+     */
     public GameDie(int number, String color, int eyes, int round) {
         super(number, color);
         this.eyes = eyes;
@@ -29,11 +37,24 @@ public class GameDie extends Die {
 
     }
 
+    /**
+     * Constructor with die
+     *
+     * @param die Die
+     * @param eyes int
+     */
     public GameDie(Die die, int eyes) {
         super(die);
         this.eyes = eyes;
     }
 
+    /**
+     * Constructor with die and round
+     *
+     * @param die Die
+     * @param eyes int
+     * @param round int
+     */
     public GameDie(Die die, int eyes, int round) {
         super(die);
         this.eyes = eyes;
@@ -106,6 +127,11 @@ public class GameDie extends Die {
         return super.getColor() != null;
     }
 
+    /**
+     * Gets the round
+     *
+     * @return int
+     */
     public int getRound() {
         return this.round;
     }

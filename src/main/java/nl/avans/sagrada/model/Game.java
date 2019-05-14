@@ -40,6 +40,9 @@ public class Game {
     }
 
 
+    /**
+     * Adds the dice to the database and the array in game
+     */
     public void addDice() {
         DieDao dieDao = new DieDao();
         GameDieDao gameDieDao = new GameDieDao();
@@ -50,6 +53,9 @@ public class Game {
         }
     }
 
+    /**
+     * Adds random rounds to the gameDice
+     */
     public void addRandomRounds() {
         for (int i = 1; i <= 10; i++) {
             for (int j = 0; j < (getPlayers().size() * 2 + 1); j++) {
@@ -65,33 +71,6 @@ public class Game {
             }
         }
     }
-
-//    /**
-//     * This generates 90 random dice.
-//     */
-//    public void generateRandomDice() {
-//        DieDao dieDao = new DieDao();
-//        GameDieDao gameDieDao = new GameDieDao();
-//        int amountOfTurns = 0;
-//        for (Die die : dieDao.getDice()) {
-//            GameDie gameDie = new GameDie(die, new Random().nextInt(6) + 1);
-//            gameDice.add(gameDie);
-//            if (!(round > 10)) {
-//                System.out.println(round);
-//                gameDieDao.addDie(id, gameDie, round);
-//                if ((getPlayers().size() * 2 + 1) == amountOfTurns) {
-//                    round++;
-//                    amountOfTurns = 0;
-//                }
-//            } else {
-//                gameDieDao.addDie(id, gameDie);
-//            }
-//
-//            amountOfTurns++;
-//        }
-//        round = 1;
-//    }
-
 
     /**
      * Get id from Game
@@ -493,6 +472,11 @@ public class Game {
         new PlayerDao().updatePlayer(playerNextTurn);
     }
 
+    /**
+     * Gets the dice from a round
+     *
+     * @return ArrayList<GameDie>
+     */
     public ArrayList<GameDie> getRoundDice() {
         return new GameDieDao().getRoundDice(id, round);
     }

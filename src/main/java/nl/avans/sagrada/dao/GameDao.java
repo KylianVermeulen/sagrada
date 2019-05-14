@@ -129,32 +129,6 @@ public class GameDao {
         return players;
     }
 
-    /**
-     * This method will return a list of players for a certain game given as parameter.
-     *
-     * @param game The game object to retrieve the players of.
-     * @return A list of players.
-     */
-    public ArrayList<GameDie> getGameDiceOfGame(Game game) {
-        GameDieDao playerDao = new GameDieDao();
-        ArrayList<GameDie> gameDice = new ArrayList<>();
-//        try {
-//            ResultSet rs = dbConnection.executeQuery(
-//                    new Query("SELECT idplayer FROM player WHERE game_idgame=?", "query"),
-//                    new QueryParameter(QueryParameter.INT, game.getId())
-//            );
-//            while (rs.next()) {
-//                int playerId = rs.getInt("idplayer");
-//                Player player = playerDao.getPlayerById(playerId);
-//                player.setGame(game);
-//                players.add(player);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        return gameDice;
-    }
-
     public Timestamp getTime() {
         Timestamp timestamp = null;
         try {
