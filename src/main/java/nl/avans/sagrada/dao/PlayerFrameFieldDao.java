@@ -19,13 +19,13 @@ public class PlayerFrameFieldDao {
     
     public GameDie getGameDieOfField(PatternCardField patternCardField, Player player, Game game) {
         GameDie die = null;
-        
+
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
                         "SELECT gamedie.dienumber, gamedie.diecolor, gamedie.eyes FROM playerframefield "
                         + "JOIN gamedie ON gamedie.idgame = playerframefield.idgame "
-                        + "JOIN die ON gamedie.dienumber = die.number AND gamedie.diecolor = die.color"
-                        + "WHERE player_idplayer=? AND position_x=? AND position_y=? AND idgame=?", "query"
+                        + "JOIN die ON gamedie.dienumber = die.number AND gamedie.diecolor = die.color "
+                        + "WHERE player_idplayer=? AND position_x=? AND position_y=? AND gamedie.idgame=?", "query"
                     ),
                         new QueryParameter(QueryParameter.INT, player.getId()),
                         new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
@@ -37,10 +37,10 @@ public class PlayerFrameFieldDao {
                         rs.getInt("gamedie.dienumber"), 
                         rs.getString("gamedie.diecolor"), 
                         rs.getInt("eyes"));
-                die.setPatternCardField(patternCardField);
             }
         } catch (Exception e) {
             // TODO: handle exception
+            System.out.println(e.getMessage());
         }
         
         return die;

@@ -43,6 +43,7 @@ public class PatternCardFieldDao {
                         patternCard);
                 GameDie die = playerFrameFieldDao.getGameDieOfField(patternCardField, player, player.getGame());
                 if (die != null) {
+                    die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                 }
                 list.add(patternCardField);

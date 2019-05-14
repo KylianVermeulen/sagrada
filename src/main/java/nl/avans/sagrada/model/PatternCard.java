@@ -23,10 +23,9 @@ public class PatternCard {
      * @param id int
      * @param standard boolean
      */
-    public PatternCard(int id, boolean standard, Player player) {
+    public PatternCard(int id, boolean standard) {
         this.id = id;
         this.standard = standard;
-        this.player = player;
         if (standard) {
             patternCardFields = getPatternCardFields();
         } else {
