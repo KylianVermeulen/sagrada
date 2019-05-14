@@ -17,3 +17,9 @@ CheckBox:hover{
 	-fx-border-color: white;
 	-fx-cursor: hand;
 }
+RadioButton:hover{
+	-fx-background-color:DARKGRAY;
+	-fx-text-fill: white;
+	-fx-border-color: white;
+	-fx-cursor: hand;
+}
