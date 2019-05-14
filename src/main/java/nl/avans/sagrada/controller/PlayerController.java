@@ -48,7 +48,7 @@ public class PlayerController {
     
     /**
      * Sets the active toolcard for the player
-     * If there already is a active toolcard we show a error
+     * And prints a message to the client that the toolcard is active
      * @param toolcard
      */
     public void setActiveToolCard(ToolCard toolcard) {
@@ -56,9 +56,6 @@ public class PlayerController {
         if (activeToolCard == null) {
             activeToolCard = toolcard;
             alert = new Alert("Active toolcard", "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
-        }
-        else {
-            alert = new Alert("Active toolcard", "Je hebt al een actieve toolcard: " + activeToolCard.getName(), AlertType.ERROR);
         }
         myScene.addAlertPane(alert);
     }
@@ -259,48 +256,55 @@ public class PlayerController {
      * @param toolCard The tool card.
      */
     public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolcardview) {
-        FavorTokenDao favorTokenDao = new FavorTokenDao();
-        ToolCardDao toolCardDao = new ToolCardDao();
-        toolCardDao.toolCardHasPayment(toolCard, player.getGame());
+        if (activeToolCard != null) {
+            FavorTokenDao favorTokenDao = new FavorTokenDao();
+            ToolCardDao toolCardDao = new ToolCardDao();
+            toolCardDao.toolCardHasPayment(toolCard, player.getGame());
 
-        ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
-        for(int i = 0; i < player.getGame().getPlayers().size(); i++){
-            if(player.getId() == player.getGame().getPlayers().get(i).getId()){
-                player.setPlayerColor(i);
-            }
-        }
-        if (newFavorTokens.size() > 0) {
-            if (!toolCard.hasBeenPaidForBefore()) {
-                favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                        player.getGame());
-                newFavorTokens.remove(0);
-                player.setFavorTokens(newFavorTokens);
-                toolCard.setHasBeenPaidForBefore(true);
-                toolcardview.addFavorToken(player.getPlayerColor());
-                setActiveToolCard(toolCard);
-            } else {
-                if (newFavorTokens.size() > 1) {
-                    for (int i = 1; i <= 2; i++) {
-                        favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                                player.getGame());
-                        newFavorTokens.remove(0);
-                        toolcardview.addFavorToken(player.getPlayerColor());
-                        // Here is the favor token added
-                        setActiveToolCard(toolCard);
-                    }
-                    player.setFavorTokens(newFavorTokens);
-                } else {
-                    Alert alert = new Alert("Te weinig betaalstenen",
-                            "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
-                            AlertType.ERROR);
-                    myScene.addAlertPane(alert);
+            ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+            for(int i = 0; i < player.getGame().getPlayers().size(); i++){
+                if(player.getId() == player.getGame().getPlayers().get(i).getId()){
+                    player.setPlayerColor(i);
                 }
             }
-        } else {
-            Alert alert = new Alert("Te weinig betaalstenen",
-                    "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
+            if (newFavorTokens.size() > 0) {
+                if (!toolCard.hasBeenPaidForBefore()) {
+                    favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                            player.getGame());
+                    newFavorTokens.remove(0);
+                    player.setFavorTokens(newFavorTokens);
+                    toolCard.setHasBeenPaidForBefore(true);
+                    toolcardview.addFavorToken(player.getPlayerColor());
+                    setActiveToolCard(toolCard);
+                } else {
+                    if (newFavorTokens.size() > 1) {
+                        for (int i = 1; i <= 2; i++) {
+                            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                                    player.getGame());
+                            newFavorTokens.remove(0);
+                            toolcardview.addFavorToken(player.getPlayerColor());
+                            // Here is the favor token added
+                            setActiveToolCard(toolCard);
+                        }
+                        player.setFavorTokens(newFavorTokens);
+                    } else {
+                        Alert alert = new Alert("Te weinig betaalstenen",
+                                "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
+                                AlertType.ERROR);
+                        myScene.addAlertPane(alert);
+                    }
+                }
+            } else {
+                Alert alert = new Alert("Te weinig betaalstenen",
+                        "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
+        }
+        else {
+            Alert alert = new Alert("Active toolcard", "Je hebt al een actieve toolcard: " + activeToolCard.getName(), AlertType.ERROR);
             myScene.addAlertPane(alert);
         }
+        
     }
 
     /**
