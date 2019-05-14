@@ -12,6 +12,8 @@
 
 #registerLabel {
     -fx-underline: true;
+    -fx-font-size: 14;
+    -fx-font-family: "Bookman Old Style";
 }
 
 #ObjectiveCardDescription {
@@ -27,6 +29,42 @@
     -fx-background-color: #ffe599;
     -fx-border-color: #C4923B;
     -fx-border-width: 3;
+}
+
+.loginTextfield {
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 1;
+    -fx-border-color: Black;
+}
+
+.loginLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-font-family: "Bookman Old Style";
+}
+
+#loginButton {
+    -fx-font-weight: bold;
+    -fx-background-color: black;
+    -fx-font-family: "Bookman Old Style";
+    -fx-font-size: 14;
+    -fx-text-fill: lightgray;
+}
+#loginButton:hover{
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+}
+
+#loginBackground {
+    -fx-background-image: url("/images/Logo/sagrada.png")
+}
+
+#loginLogo {
+    -fx-background-image: url("/images/Logo/Sagrada-logo.gif");
+}
+
+#leftPane {
+    -fx-background-color: #FFFFFF;
 }
 
 #statsButton {
