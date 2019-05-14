@@ -56,7 +56,7 @@ public class PlayerController {
         Game game = new GameDao().getGameById(gameId);
         player.setGame(game);
 
-        for(int i = 0; i < game.getPlayers().size(); i++){
+        for (int i = 0; i < game.getPlayers().size(); i++) {
             game.getPlayers().get(i).setPlayerColor(i);
         }
 
@@ -89,6 +89,10 @@ public class PlayerController {
             }
 
         }
+    }
+
+    public void viewTest() {
+        myScene.setContentPane(new PatternCardSelectionView(this));
     }
 
     public void viewOptionalPatternCards() {
@@ -187,8 +191,8 @@ public class PlayerController {
         toolCardDao.toolCardHasPayment(toolCard, player.getGame());
 
         ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
-        for(int i = 0; i < player.getGame().getPlayers().size(); i++){
-            if(player.getId() == player.getGame().getPlayers().get(i).getId()){
+        for (int i = 0; i < player.getGame().getPlayers().size(); i++) {
+            if (player.getId() == player.getGame().getPlayers().get(i).getId()) {
                 player.setPlayerColor(i);
             }
         }
