@@ -7,7 +7,7 @@ import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardFolieAandrukker;
 import nl.avans.sagrada.model.toolcard.ToolCardRondSnijder;
 import nl.avans.sagrada.model.toolcard.ToolCardSnijLiniaal;

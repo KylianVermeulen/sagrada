@@ -1,9 +1,12 @@
-package nl.avans.sagrada.model;
+package nl.avans.sagrada.model.toolcard;
 
 import java.util.ArrayList;
 
 import javafx.event.Event;
 import javafx.scene.input.MouseEvent;
+import nl.avans.sagrada.model.FavorToken;
+import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.PatternCard;
 
 public abstract class ToolCard {
     private int id;

@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 
 public class ToolCardView extends CardView {
     private ToolCard toolCard;

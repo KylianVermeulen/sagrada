@@ -4,7 +4,6 @@ import javafx.scene.input.MouseEvent;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
-import nl.avans.sagrada.model.ToolCard;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class ToolCardSnijLiniaal extends ToolCard {

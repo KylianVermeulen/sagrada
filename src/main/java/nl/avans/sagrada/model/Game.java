@@ -9,6 +9,7 @@ import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolCardDao;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";

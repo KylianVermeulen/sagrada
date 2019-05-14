@@ -4,7 +4,6 @@ import javafx.event.Event;
 import javafx.scene.input.MouseEvent;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
-import nl.avans.sagrada.model.ToolCard;
 
 public class ToolCardRondSnijder extends ToolCard {
     
