@@ -1,6 +1,7 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -25,19 +26,21 @@ public class DieView extends Pane implements ViewInterface {
      * Full constructor
      */
     public DieView() {
-        images = new ArrayList<ImageView>();
-        setPrefSize(DIE_WIDTH, DIE_HEIGHT);
-        setBorder(new Border(
-                new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
-                        new BorderWidths(3))));
-        diceEyesArray();
-        resizeImages();
+        init();
     }
 
     public DieView(GameDie gameDie) {
         this.gameDie = gameDie;
+        init();
+    }
+
+    private void init() {
         images = new ArrayList<ImageView>();
         setPrefSize(DIE_WIDTH, DIE_HEIGHT);
+        setMaxSize(DIE_WIDTH, DIE_HEIGHT);
+        setOnDragDetected(e -> {
+            startFullDrag();
+        });
         setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
         diceEyesArray();
         resizeImages();
@@ -76,6 +79,15 @@ public class DieView extends Pane implements ViewInterface {
     }
 
     /**
+     * Returns the gameDie
+     *
+     * @return GameDie
+     */
+    public GameDie getGameDie() {
+        return this.gameDie;
+    }
+
+    /**
      * Sets the gameDie of the View
      *
      * @param gameDie GameDie
@@ -98,13 +110,15 @@ public class DieView extends Pane implements ViewInterface {
      * Resized the images to the given width and height
      *
      * @param height int
-     * @param width int
+     * @param width  int
      */
-    public void resizeImages(int height, int width) {
+    public void resize(int height, int width) {
         for (ImageView image : images) {
             image.setFitHeight(height);
             image.setFitWidth(width);
         }
+        setPrefSize(height, width);
+        setMaxSize(height, width);
     }
 
     /**

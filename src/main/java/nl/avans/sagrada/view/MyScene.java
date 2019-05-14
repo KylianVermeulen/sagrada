@@ -1,6 +1,7 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
@@ -8,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
@@ -66,7 +68,7 @@ public class MyScene extends Scene {
 
     /**
      * Add alert pane to alerts list and call method render all alerts
-     * 
+     *
      * @param pane Pane
      */
     public void addAlertPane(Pane pane) {
@@ -97,7 +99,7 @@ public class MyScene extends Scene {
 
     /**
      * Remove alert pane animation
-     * 
+     *
      * @param pane Pane
      */
     public void removeAlertPaneAnimation(Pane pane) {
@@ -109,7 +111,7 @@ public class MyScene extends Scene {
 
     /**
      * Remove alert from alerts list and call method render all alerts
-     * 
+     *
      * @param pane Pane
      */
     public void removeAlertPane(Pane pane) {

@@ -1,6 +1,7 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
@@ -20,6 +21,7 @@ public class Player {
     private ArrayList<Chatline> chatlines;
     private int score;
     private boolean cheatmode = false;
+    private Color playerColor;
 
     public Player() {
         chatlines = new ArrayList<>();
@@ -301,17 +303,17 @@ public class Player {
     public int calculateScore(boolean privateObjectiveCard) {
         int score = 0;
 
-        if (privateObjectiveCard) {
-            PatternCardField[][] patternCardFields = patternCard.getPatternCardFields();
-            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
-                    x++) { // Basic calculations for pattern card fields
-                for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
-                    if (!patternCardFields[x][y]
-                            .hasDie()) { // for each empty pattern card field -1 score
-                        score -= 1;
-                    } else { // pattern card field has die
-                        if (patternCardFields[x][y].getDie().getColor()
-                                .equals(privateObjectivecardColor)) { // for each die that has private objective card color +1 score
+        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields();
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
+                x++) { // Basic calculations for pattern card fields
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+                if (!patternCardFields[x][y]
+                        .hasDie()) { // for each empty pattern card field -1 score
+                    score -= 1;
+                } else { // pattern card field has die
+                    if (patternCardFields[x][y].getDie().getColor()
+                            .equals(privateObjectivecardColor)) { // for each die that has private objective card color +1 score
+                        if (privateObjectiveCard) {
                             score += 1;
                         }
                     }
@@ -329,6 +331,29 @@ public class Player {
         return score;
     }
 
+    /**
+     * Method to get the player his color
+     */
+    public Color getPlayerColor() {
+        return playerColor;
+    }
+
+    public void setPlayerColor(int i){
+        switch (i) {
+            case 0:
+                playerColor = Color.YELLOW;
+                break;
+            case 1:
+                playerColor = Color.BLUE;
+                break;
+            case 2:
+                playerColor = Color.RED;
+                break;
+            case 3:
+                playerColor = Color.GREEN;
+                break;
+        }
+    }
     /**
      * Sets the next seqnr for this player bases on the current seqnr and the size of the game.
      */

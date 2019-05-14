@@ -28,6 +28,10 @@
     -fx-border-color: #C4923B;
     -fx-border-width: 3;
 }
-Button{
-    -fx-background-color: lightblue;
+
+#statsButton {
+    -fx-background-image: url("/images/lobby/STATS.jpg");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
 }

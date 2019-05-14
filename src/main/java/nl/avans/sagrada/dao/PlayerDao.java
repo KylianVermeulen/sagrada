@@ -49,8 +49,8 @@ public class PlayerDao {
     public void updatePlayer(Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
-                    "UPDATE player SET username=?, game_idgame=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
-                    "update"),
+                            "UPDATE player SET username=?, game_idgame=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
+                            "update"),
                     new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                     new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
@@ -68,8 +68,8 @@ public class PlayerDao {
     public void addPlayer(Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
-                    "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?,?, ?, ?, ?, ?, ?, ?)",
-                    "update"), new QueryParameter(QueryParameter.INT, player.getId()),
+                            "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?,?, ?, ?, ?, ?, ?, ?)",
+                            "update"), new QueryParameter(QueryParameter.INT, player.getId()),
                     new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                     new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
