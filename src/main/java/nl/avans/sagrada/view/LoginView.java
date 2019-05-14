@@ -39,6 +39,7 @@ public class LoginView extends BorderPane implements ViewInterface {
      * (vbox) pane", which has a title, a username textfield, a password textfield, a login button
      * and a register text. The button actions are handled by the AccountController.
      */
+    @Override
     public void render() {
         getChildren().clear();
         buildLoginPane();
