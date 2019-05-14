@@ -10,7 +10,7 @@ import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 
 public class FavorTokenDao {
     private DBConnection dbConnection;
