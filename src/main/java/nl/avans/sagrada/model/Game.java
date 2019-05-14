@@ -1,9 +1,6 @@
 package nl.avans.sagrada.model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.ChatlineDao;
@@ -12,11 +9,13 @@ import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolCardDao;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
     public static final String GAMEMODE_GENERATED = "generate";
     private final String[] privateObjectiveCardColors = {"blauw", "geel", "groen", "paars", "rood"};
+    private final String[] playerColors = {"geel", "blauw", "rood", "groen"};
     private int id;
     private Player turnPlayer;
     private String gamemode;
@@ -41,7 +40,6 @@ public class Game {
         players = new ArrayList<>();
         gamemode = GAMEMODE_NORMAL;
     }
-
 
     /**
      * Get id from Game
@@ -343,7 +341,7 @@ public class Game {
     }
 
     /**
-     * \ assign three random public objectivecards to a game. first the method makes three random
+     * assign three random public objectivecards to a game. first the method makes three random
      * numbers between 1 and 10. while some numbers are the same than make new number until all
      * numbers are different. Then add the public objectivecards to the game. \ assign three random
      * public objectivecards to a game. first the method makes three random numbers between 1 and
@@ -358,9 +356,9 @@ public class Game {
         int min = 1;
         int max = 10;
 
-        int randomNumber1 = random.nextInt((max - min) + 1) + min;
-        int randomNumber2 = random.nextInt((max - min) + 1) + min;
-        int randomNumber3 = random.nextInt((max - min) + 1) + min;
+        int randomNumber1 = 0;
+        int randomNumber2 = 0;
+        int randomNumber3 = 0;
 
         boolean foundThreeValues = false;
 
@@ -404,6 +402,43 @@ public class Game {
     public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
     }
-    
-    
+
+    /**
+     * Sets the next player as current player in the game. Updates the player and game tables in the
+     * database.
+     */
+    public void setNextPlayer() {
+        Player currentPlayer = turnPlayer;
+        int oldSeqnr = currentPlayer.getSeqnr();
+        currentPlayer.setNextSeqnr();
+
+        for (int i = 0; i < players.size(); i++) {
+            Player playerNextTurn = players.get(i);
+            if (oldSeqnr != (players.size() * 2)) {
+                if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
+                    if (currentPlayer != playerNextTurn) {
+                        currentPlayer.setIsCurrentPlayer(false);
+                        new PlayerDao().updatePlayer(currentPlayer);
+
+                        setTurnPlayer(playerNextTurn);
+                        new GameDao().updateGame(this);
+
+                        playerNextTurn.setIsCurrentPlayer(true);
+                        new PlayerDao().updatePlayer(playerNextTurn);
+                    }
+                }
+            } else {
+                if (playerNextTurn.getSeqnr() == 1) {
+                    currentPlayer.setIsCurrentPlayer(false);
+                    new PlayerDao().updatePlayer(currentPlayer);
+
+                    setTurnPlayer(playerNextTurn);
+                    new GameDao().updateGame(this);
+
+                    playerNextTurn.setIsCurrentPlayer(true);
+                    new PlayerDao().updatePlayer(playerNextTurn);
+                }
+            }
+        }
+    }
 }

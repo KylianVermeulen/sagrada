@@ -158,10 +158,12 @@ public class AccountController {
         account = accountDao.getAccountByUsername(account.getUsername());
         ArrayList<Invite> pendingInvites = account.getPendingInvites();
         ArrayList<Game> games = account.getActiveGames();
+        ArrayList<Account> accounts = accountDao.getAllAccounts();
 
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);
         lobbyView.setGames(games);
+        lobbyView.setAccounts(accounts);
         lobbyView.render();
 
         pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));

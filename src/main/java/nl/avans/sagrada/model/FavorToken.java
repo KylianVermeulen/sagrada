@@ -1,5 +1,7 @@
 package nl.avans.sagrada.model;
 
+import nl.avans.sagrada.model.toolcard.ToolCard;
+
 public class FavorToken {
     private int id;
     private Game game;

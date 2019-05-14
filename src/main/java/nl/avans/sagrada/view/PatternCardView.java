@@ -11,7 +11,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -23,6 +27,10 @@ public class PatternCardView extends BorderPane implements ViewInterface {
     private PatternCardFieldView[][] patternCardFieldViews;
     private TilePane patternCardField;
     private HBox difficultyBar;
+    private BorderPane playerNamePane;
+    private BorderPane bottomPane;
+    private String playerName;
+    private final Font PLAYER_NAME_FONT = new Font("Segoe Script", 20);
 
     /**
      * Partial constructor
@@ -31,6 +39,7 @@ public class PatternCardView extends BorderPane implements ViewInterface {
      */
     public PatternCardView(PlayerController playerController) {
         this.playerController = playerController;
+        bottomPane = new BorderPane();
         setPrefSize(PATTERNCARD_WIDTH, PATTERNCARD_HEIGHT);
         setPadding(new Insets(10, 0, 0, 10));
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
@@ -57,7 +66,9 @@ public class PatternCardView extends BorderPane implements ViewInterface {
         makePatternCardFieldViews();
 
         setCenter(patternCardField);
+        showPlayerName();
         showDifficulty();
+        setBottom(bottomPane);
     }
 
     /**
@@ -78,7 +89,20 @@ public class PatternCardView extends BorderPane implements ViewInterface {
         GridPane difficultyBarWrapper = new GridPane();
         difficultyBarWrapper.getChildren().add(difficultyBar);
         difficultyBarWrapper.setAlignment(Pos.BOTTOM_RIGHT);
-        setBottom(difficultyBarWrapper);
+        bottomPane.setRight(difficultyBarWrapper);
+    }
+
+    private void showPlayerName() {
+        playerNamePane = new BorderPane();
+        Text name = new Text(playerName);
+        name.setFill(Color.WHITE);
+        name.setFont(PLAYER_NAME_FONT);
+        playerNamePane.setCenter(name);
+        bottomPane.setLeft(playerNamePane);
+    }
+
+    public void setPlayerName(String name) {
+        this.playerName = name;
     }
 
     /**
@@ -95,7 +119,7 @@ public class PatternCardView extends BorderPane implements ViewInterface {
                 patternCardFieldViews[x][y] = patternCardFieldView;
 
                 Pane paddingPane = new Pane();
-                paddingPane.setPadding(new Insets(5, 5, 5, 5));
+                paddingPane.setPadding(new Insets(5));
                 paddingPane.getChildren().add(patternCardFieldView);
                 patternCardField.getChildren().add(paddingPane);
             }

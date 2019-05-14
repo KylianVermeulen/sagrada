@@ -67,4 +67,9 @@
     -fx-background-color: #FFFFFF;
 }
 
-
+#statsButton {
+    -fx-background-image: url("/images/lobby/STATS.jpg");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
