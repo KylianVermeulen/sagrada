@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
@@ -24,6 +25,7 @@ import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
+import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.PatternCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
@@ -53,6 +55,10 @@ public class PlayerController {
         player = new PlayerDao().getPlayerById(player.getId());
         Game game = new GameDao().getGameById(gameId);
         player.setGame(game);
+
+        for(int i = 0; i < game.getPlayers().size(); i++){
+            game.getPlayers().get(i).setPlayerColor(i);
+        }
 
         if (player.isCurrentPlayer()) {
             game.setTurnPlayer(player);
@@ -175,12 +181,17 @@ public class PlayerController {
      *
      * @param toolCard The tool card.
      */
-    public void actionPayForToolCard(ToolCard toolCard) {
+    public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolcardview) {
         FavorTokenDao favorTokenDao = new FavorTokenDao();
         ToolCardDao toolCardDao = new ToolCardDao();
         toolCardDao.toolCardHasPayment(toolCard, player.getGame());
 
         ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+        for(int i = 0; i < player.getGame().getPlayers().size(); i++){
+            if(player.getId() == player.getGame().getPlayers().get(i).getId()){
+                player.setPlayerColor(i);
+            }
+        }
         if (newFavorTokens.size() > 0) {
             if (!toolCard.hasBeenPaidForBefore()) {
                 favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
@@ -188,12 +199,14 @@ public class PlayerController {
                 newFavorTokens.remove(0);
                 player.setFavorTokens(newFavorTokens);
                 toolCard.setHasBeenPaidForBefore(true);
+                toolcardview.addFavorToken(player.getPlayerColor());
             } else {
                 if (newFavorTokens.size() > 1) {
                     for (int i = 1; i <= 2; i++) {
                         favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
                                 player.getGame());
                         newFavorTokens.remove(0);
+                        toolcardview.addFavorToken(player.getPlayerColor());
                     }
                     player.setFavorTokens(newFavorTokens);
                 } else {
