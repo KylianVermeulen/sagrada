@@ -22,13 +22,18 @@ public class PrivateObjectiveCardView extends CardView {
 
     /**
      * Filled constructor
-     * @param Player
+     *
+     * @param player Player
      */
     public PrivateObjectiveCardView(Player player) {
         super();
         this.player = player;
     }
 
+    /**
+     * Sets the player
+     * @param player Player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -41,6 +46,14 @@ public class PrivateObjectiveCardView extends CardView {
         getChildren().clear();
         showImage(player.getImagePath());
         showText();
+    }
+
+    /**
+     * Shows privateObjectiveCard without the text
+     */
+    public void viewWithoutText() {
+        getChildren().clear();
+        showImage(player.getImagePath());
     }
 
     /**

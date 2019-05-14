@@ -99,7 +99,6 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         }
     }
 
-
     /**
      * Resized the images 5px smaller then the pane to prevent it from resizing
      */

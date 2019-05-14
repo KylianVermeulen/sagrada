@@ -91,10 +91,6 @@ public class PlayerController {
         }
     }
 
-    public void viewTest() {
-        myScene.setContentPane(new PatternCardSelectionView(this));
-    }
-
     public void viewOptionalPatternCards() {
         Pane pane = new Pane();
         ArrayList<PatternCard> patternCards =

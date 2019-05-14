@@ -4,7 +4,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -41,6 +46,7 @@ public class PatternCardView extends BorderPane implements ViewInterface {
         this.playerController = playerController;
         bottomPane = new BorderPane();
         setPrefSize(PATTERNCARD_WIDTH, PATTERNCARD_HEIGHT);
+        setMaxSize(PATTERNCARD_WIDTH, PATTERNCARD_HEIGHT);
         setPadding(new Insets(10, 0, 0, 10));
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
     }
