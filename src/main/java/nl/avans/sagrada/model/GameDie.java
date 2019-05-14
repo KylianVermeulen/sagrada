@@ -22,9 +22,22 @@ public class GameDie extends Die {
 
     }
 
+    public GameDie(int number, String color, int eyes, int round) {
+        super(number, color);
+        this.eyes = eyes;
+        this.round = round;
+
+    }
+
     public GameDie(Die die, int eyes) {
         super(die);
         this.eyes = eyes;
+    }
+
+    public GameDie(Die die, int eyes, int round) {
+        super(die);
+        this.eyes = eyes;
+        this.round = round;
     }
 
     /**
@@ -91,5 +104,9 @@ public class GameDie extends Die {
      */
     public boolean hasColor() {
         return super.getColor() != null;
+    }
+
+    public int getRound() {
+        return this.round;
     }
 }

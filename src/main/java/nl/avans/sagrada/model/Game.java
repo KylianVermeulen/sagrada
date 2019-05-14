@@ -13,7 +13,7 @@ public class Game {
     private final String[] privateObjectiveCardColors = {"blauw", "geel", "groen", "paars", "rood"};
     private int id;
     private Player turnPlayer;
-    private int round;
+    private int round = 1;
     private String gamemode;
     private ArrayList<Player> players;
     private Player startPlayer;
@@ -39,31 +39,58 @@ public class Game {
         gamemode = GAMEMODE_NORMAL;
     }
 
-    /**
-     * This runs after all the attributes are in the database.
-     */
 
-
-    /**
-     * This generates 90 random dice.
-     */
-    public void generateRandomDice() {
+    public void addDice() {
         DieDao dieDao = new DieDao();
         GameDieDao gameDieDao = new GameDieDao();
-        int amountOfTurns = 0;
         for (Die die : dieDao.getDice()) {
             GameDie gameDie = new GameDie(die, new Random().nextInt(6) + 1);
             gameDice.add(gameDie);
-            if ((getPlayers().size() * 2 + 1) == amountOfTurns) {
-                round++;
-                amountOfTurns = 0;
-            }
-            gameDieDao.addDie(id, gameDie, round);
-            System.out.println(round);
-            amountOfTurns++;
+            gameDieDao.addDie(id, gameDie);
         }
-        round = 1;
     }
+
+    public void addRandomRounds() {
+        for (int i = 1; i <= 10; i++) {
+            for (int j = 0; j < (getPlayers().size() * 2 + 1); j++) {
+                boolean hasDie = false;
+                while (!hasDie) {
+                    GameDie randomGameDie = gameDice.get(new Random().nextInt(gameDice.size()));
+                    GameDie checkDie = new GameDieDao().getDie(id, randomGameDie);
+                    if (checkDie.getRound() == 0) {
+                        new GameDieDao().updateDie(id, randomGameDie, i);
+                        hasDie = true;
+                    }
+                }
+            }
+        }
+    }
+
+//    /**
+//     * This generates 90 random dice.
+//     */
+//    public void generateRandomDice() {
+//        DieDao dieDao = new DieDao();
+//        GameDieDao gameDieDao = new GameDieDao();
+//        int amountOfTurns = 0;
+//        for (Die die : dieDao.getDice()) {
+//            GameDie gameDie = new GameDie(die, new Random().nextInt(6) + 1);
+//            gameDice.add(gameDie);
+//            if (!(round > 10)) {
+//                System.out.println(round);
+//                gameDieDao.addDie(id, gameDie, round);
+//                if ((getPlayers().size() * 2 + 1) == amountOfTurns) {
+//                    round++;
+//                    amountOfTurns = 0;
+//                }
+//            } else {
+//                gameDieDao.addDie(id, gameDie);
+//            }
+//
+//            amountOfTurns++;
+//        }
+//        round = 1;
+//    }
 
 
     /**
@@ -467,6 +494,7 @@ public class Game {
     }
 
     public ArrayList<GameDie> getRoundDice() {
-        return null;
+        return new GameDieDao().getRoundDice(id, round);
     }
+
 }
