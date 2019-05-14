@@ -14,8 +14,8 @@ import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class LoginView extends BorderPane implements ViewInterface {
-    private final static int BUTTONWIDTH = 120;
-    private final static int BUTTONHEIGHT = 30;
+    private final int BUTTON_WIDTH = 120;
+    private final int BUTTON_HEIGHT = 30;
     private final int TEXTFIELD_WIDTH = 200;
     private final int TEXTFIELD_HEIGHT = 25;
     private final int LEFTPANE_WIDTH = 313;
@@ -82,7 +82,7 @@ public class LoginView extends BorderPane implements ViewInterface {
         passwordHBox.setPadding(new Insets(12, 12, 20, 12));
 
         Button loginButton = new Button("Login");
-        loginButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
+        loginButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         loginButton.setOnAction(e -> accountController.actionLogin(userTextField.getText(), passwordTextField.getText()));
         loginButton.setId("loginButton");
         loginButton.setPadding(new Insets(8, 12, 8, 12));
