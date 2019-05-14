@@ -10,13 +10,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.RoundTrack;
-import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameView extends VBox implements ViewInterface {
@@ -51,7 +54,9 @@ public class GameView extends VBox implements ViewInterface {
         for (Player player : players) {
             String currentPlayerUsername = this.player.getAccount().getUsername();
             String otherPlayerUsername = player.getAccount().getUsername();
-
+            PatternCardDao PatternCardDao = new PatternCardDao();
+            PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
+            player.setPatternCard(patternCard);
             if (!currentPlayerUsername.equals(otherPlayerUsername)) {
                 PatternCard playerPatternCard = player.getPatternCard();
 
@@ -67,16 +72,18 @@ public class GameView extends VBox implements ViewInterface {
 
     private void buildToolCards() {
         toolCardViews = new ArrayList<>();
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
 
         ArrayList<ToolCard> gameToolCards = new ArrayList<>();
         gameToolCards = game.getToolCards();
 
         for (ToolCard toolCard : gameToolCards) {
+            ArrayList<FavorToken> favorTokens = favorTokenDao.getToolCardTokens(toolCard, game);
             ToolCardView toolCardView = new ToolCardView(playerController);
             toolCardView.setToolCard(toolCard);
+            toolCardView.setFavorTokens(favorTokens, game);
             toolCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
             toolCardView.render();
-
             toolCardViews.add(toolCardView);
         }
     }
