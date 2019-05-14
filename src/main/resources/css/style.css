@@ -12,6 +12,7 @@
 
 #registerLabel {
     -fx-underline: true;
+    -fx-font-size: 15;
 }
 
 #ObjectiveCardDescription {
@@ -34,29 +35,32 @@
 
 .loginTextfield {
     -fx-background-color: #FFFFFF;
-    -fx-border-style: none;
+    -fx-border-color: #
 }
 
 .loginLabel {
     -fx-font-weight: bold;
+    -fx-font-size: 20;
 }
 
 #loginButton {
     -fx-font-weight: bold;
     -fx-background-radius: 12;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
 }
 
 #loginBackground {
-    -fx-background-color: #DCDCDC;
-}
-
-#loginPane {
-    -fx-background-color: #1E90FF;
-    -fx-background-radius: 25;
+    -fx-background-image: url("/images/Logo/sagrada.png")
 }
 
 #loginLogo {
     -fx-background-image: url("/images/Logo/Sagrada-logo.gif");
+}
+
+#leftPane {
+    -fx-background-color: #DCDCDC;
+
 }
 
 

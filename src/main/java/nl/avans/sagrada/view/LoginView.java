@@ -31,6 +31,7 @@ public class LoginView extends BorderPane implements ViewInterface {
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         getStylesheets().add(css);
         setId("loginBackground");
+        setPrefSize(1280, 800);
     }
 
     /**
@@ -43,10 +44,11 @@ public class LoginView extends BorderPane implements ViewInterface {
         VBox loginPane = new VBox();
         loginPane.setId("loginPane");
         loginPane.setAlignment(Pos.CENTER);
-        loginPane.setMaxHeight(350);
-        loginPane.setMinHeight(350);
-        loginPane.setMaxWidth(400);
-        loginPane.setMinWidth(400);
+        loginPane.setPadding(new Insets(10, 10, 100, 20));
+//        loginPane.setMaxHeight(800);
+//        loginPane.setMinHeight(800);
+//        loginPane.setMaxWidth(300);
+//        loginPane.setMinWidth(300);
         
         BorderPane userHBox = new BorderPane();
         Label userName = new Label("Username");
@@ -88,7 +90,9 @@ public class LoginView extends BorderPane implements ViewInterface {
         registerLabel.setId("registerLabel");
         registerLabel.setPadding(new Insets(20, 0, 0, 0));
         registerLabel.setOnMouseClicked(e -> accountController.viewRegister());
-        
+
+
+
         BorderPane topPane = new BorderPane();
         topPane.setMaxHeight(130);
         topPane.setMinHeight(130);
@@ -104,23 +108,14 @@ public class LoginView extends BorderPane implements ViewInterface {
         topPane.setCenter(logoPane);
 
         loginPane.getChildren().addAll(userHBox, passwordHBox, loginButton, registerLabel);
-        
-        //makeTitle();
-        setTop(topPane);
-        setCenter(loginPane);
-        setAlignment(logoPane, Pos.CENTER);
-    }
 
-    private void makeTitle() {
-        Text scenetitle = new Text("Sagrada");
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        setTop(scenetitle);
+        BorderPane pane = new BorderPane();
+        pane.setMaxWidth(300);
+        pane.setMinWidth(300);
+        pane.setId("leftPane");
+        pane.setLeft(loginPane);
+        pane.setTop(logoPane);
+        setLeft(pane);
 
     }
-    
-    private void showTop() {
-       
-        
-    }
-
 }
