@@ -26,7 +26,6 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private final int BUTTON_HEIGHT = 40;
     private final Image LOBBY_BACKGROUND =
             new Image("/images/backgrounds/lobbybackground-goede-hoogte.png");
-
     private AccountController accountController;
     private ArrayList<Game> games;
     private ArrayList<Invite> invites;
@@ -85,7 +84,6 @@ public class LobbyView extends BorderPane implements ViewInterface {
         newGameButton.setOnAction(e -> accountController.actionSetupNewGame());
         newGameButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         pane.setCenter(newGameButton);
-
         setCenter(pane);
     }
 
@@ -95,7 +93,6 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private void buildInviteOverview() {
         inviteOverview = new InviteOverviewView(accountController);
         inviteOverview.setInvites(invites);
-//        inviteOverview.setMinWidth(Main.SCREEN_WIDTH);
         inviteOverview.render();
     }
 

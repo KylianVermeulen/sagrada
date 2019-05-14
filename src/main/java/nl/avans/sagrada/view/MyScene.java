@@ -12,9 +12,6 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.AccountDao;
-import nl.avans.sagrada.dao.GameDao;
-import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.database.ChecksumDatabase;
 import nl.avans.sagrada.view.popups.Alert;
 
@@ -42,7 +39,6 @@ public class MyScene extends Scene {
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
         accountController.viewLogin();
-//        accountController.viewLobby();
     }
 
     public AccountController getAccountController() {

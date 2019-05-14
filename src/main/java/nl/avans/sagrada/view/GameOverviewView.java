@@ -62,8 +62,8 @@ public class GameOverviewView extends ScrollPane implements ViewInterface {
     public void render() {
         getChildren().clear();
         VBox vbox = new VBox();       
-        vbox.setMinHeight(PANE_HEIGHT - 5);
-        vbox.setMinWidth(PANE_WIDTH - 5);
+        vbox.setMinHeight(PANE_HEIGHT - 2);
+        vbox.setMinWidth(PANE_WIDTH - 2);
         for (Game game : games) {
             HBox hBox = new HBox();
             hBox.setAlignment(Pos.CENTER_RIGHT);
