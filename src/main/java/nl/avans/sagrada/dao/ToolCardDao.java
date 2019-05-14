@@ -8,8 +8,17 @@ import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
+import nl.avans.sagrada.model.toolcard.ToolCardEglomiseBorstel;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
 import nl.avans.sagrada.model.toolcard.ToolCardFolieAandrukker;
+import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
+import nl.avans.sagrada.model.toolcard.ToolCardLoodHamer;
+import nl.avans.sagrada.model.toolcard.ToolCardLoodOpenHaler;
+import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
 import nl.avans.sagrada.model.toolcard.ToolCardRondSnijder;
+import nl.avans.sagrada.model.toolcard.ToolCardSchuurBlok;
 import nl.avans.sagrada.model.toolcard.ToolCardSnijLiniaal;
 
 public class ToolCardDao {
@@ -195,15 +204,42 @@ public class ToolCardDao {
     
     private ToolCard buildToolCard(int id, String name, int seqnr, String description) {
         switch (id) {
+        case 1:
+            ToolCardDriePuntStang toolCardDirPunt = new ToolCardDriePuntStang(id, name, seqnr, description);
+            return toolCardDirPunt;
+        case 2:
+            ToolCardEglomiseBorstel toolCardEglo = new ToolCardEglomiseBorstel(id, name, seqnr, description);
+            return toolCardEglo;
         case 3:
-            ToolCardFolieAandrukker toolcardFolie = new ToolCardFolieAandrukker(id, name, seqnr, description);
-            return toolcardFolie;
-        case 9:
-            ToolCardSnijLiniaal toolcardLini = new ToolCardSnijLiniaal(id, name, seqnr, description);
-            return toolcardLini;
+            ToolCardFolieAandrukker toolCardFolie = new ToolCardFolieAandrukker(id, name, seqnr, description);
+            return toolCardFolie;
+        case 4:
+            ToolCardLoodOpenHaler toolCardLood = new ToolCardLoodOpenHaler(id, name, seqnr, description);
+            return toolCardLood;
         case 5:
-            ToolCardRondSnijder toolcardSnij = new ToolCardRondSnijder(id, name, seqnr, description);
-            return toolcardSnij;
+            ToolCardRondSnijder toolCardSnij = new ToolCardRondSnijder(id, name, seqnr, description);
+            return toolCardSnij;
+        case 6:
+            ToolCardFluxBorstel toolCardFlux = new ToolCardFluxBorstel(id, name, seqnr, description);
+            return toolCardFlux;
+        case 7:
+            ToolCardLoodHamer toolCardLoodHamer = new ToolCardLoodHamer(id, name, seqnr, description);
+            return toolCardLoodHamer;
+        case 8:
+            ToolCardGlasBreekTang toolCardGlas = new ToolCardGlasBreekTang(id, name, seqnr, description);
+            return toolCardGlas;
+        case 9:
+            ToolCardSnijLiniaal toolCardLini = new ToolCardSnijLiniaal(id, name, seqnr, description);
+            return toolCardLini;
+        case 10:
+            ToolCardSchuurBlok toolCardSchuur = new ToolCardSchuurBlok(id, name, seqnr, description);
+            return toolCardSchuur;
+        case 11:
+            ToolCardFluxVerwijderaar toolCardFluxVerwijderaar = new ToolCardFluxVerwijderaar(id, name, seqnr, description);
+            return toolCardFluxVerwijderaar;
+        case 12:
+            ToolCardOlieGlasSnijder toolCardOlieGlasSnijder = new ToolCardOlieGlasSnijder(id, name, seqnr, description);
+            return toolCardOlieGlasSnijder;
         default:
             return null;
         }

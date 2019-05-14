@@ -16,13 +16,6 @@ public abstract class ToolCard {
     private String name;
     private ArrayList<FavorToken> favorTokens;
     private boolean hasBeenPaidForBefore;
-    
-
-    /**
-     * Empty constructor.
-     */
-    public ToolCard() {
-    }
 
     /**
      * Filled constructor.
