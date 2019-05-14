@@ -54,7 +54,7 @@ public class ChatlineDao {
         ArrayList<Chatline> chatlines = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
-                    "SELECT * FROM chatline JOIN player ON chatline.player_idplayer = player.idplayer WHERE game_idgame =?",
+                    "SELECT chatline.* FROM chatline JOIN player ON chatline.player_idplayer = player.idplayer WHERE game_idgame =? ORDER BY time ASC",
                     "query"), new QueryParameter(QueryParameter.INT, game.getId()));
 
             while (rs.next()) {

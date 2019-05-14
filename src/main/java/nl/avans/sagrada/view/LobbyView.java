@@ -17,8 +17,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
+import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
+import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class LobbyView extends BorderPane implements ViewInterface {
@@ -29,8 +31,10 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private AccountController accountController;
     private ArrayList<Game> games;
     private ArrayList<Invite> invites;
+    private ArrayList<Account> accounts;
     private InviteOverviewView inviteOverview;
     private GameOverviewView gameOverview;
+    private AccountOverviewView accountOverview;
     private Button newGameButton;
     private Button logoutButton;
     private BackgroundSize size =
@@ -64,13 +68,21 @@ public class LobbyView extends BorderPane implements ViewInterface {
         this.games = games;
     }
 
+    /**
+     * Set all the accounts that have been registered.
+     */
+    public void setAccounts(ArrayList<Account> accounts) {
+        this.accounts = accounts;
+    }
+
     @Override
     public void render() {
         buildInviteOverview();
         buildGamesOverview();
-        buildOverview();
+        buildAccountsOverview();
         buildNewGameBtn();
         buildLogout();
+        buildOverview();
     }
 
     /**
@@ -106,6 +118,15 @@ public class LobbyView extends BorderPane implements ViewInterface {
     }
 
     /**
+     * Builds the overview of all accounts.
+     */
+    private void buildAccountsOverview() {
+        accountOverview = new AccountOverviewView(accountController);
+        accountOverview.setAccounts(accounts);
+        accountOverview.render();
+    }
+
+    /**
      * Builds to button to logout
      */
     private void buildLogout() {
@@ -118,18 +139,24 @@ public class LobbyView extends BorderPane implements ViewInterface {
 
         pane.setAlignment(Pos.TOP_CENTER);
         pane.getChildren().add(logoutButton);
-        pane.setPadding(new Insets(5, 5, 5, 5));
-        setRight(pane);
     }
 
+    /**
+     * Builds the lobby overview.
+     */
     private void buildOverview() {
         VBox vbox = new VBox();
-        Label inviteLabel = new Label("Invites van spelers: ");
+        VBox vbox2 = new VBox();
+        Label playerLabel = new Label("Alle accounts");
+        Label inviteLabel = new Label("Invites van spelers");
         inviteLabel.setTextFill(Color.WHITE);
-        
-        Label gameOverviewLabel = new Label("Je openstaande spellen: ");
+        Label gameOverviewLabel = new Label("Je openstaande spellen");
         gameOverviewLabel.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);
+        vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview);
+        vbox2.setAlignment(Pos.CENTER_RIGHT);
+        vbox2.setPadding(new Insets(0, 20, 0, 0));
+        setRight(vbox2);
     }
 }

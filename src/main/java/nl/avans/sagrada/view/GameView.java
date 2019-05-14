@@ -1,16 +1,22 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
@@ -57,6 +63,7 @@ public class GameView extends VBox implements ViewInterface {
 
                 PatternCardView patternCardView = new PatternCardView(playerController);
                 patternCardView.setCenterShape(true);
+                patternCardView.setPlayerName(otherPlayerUsername);
                 patternCardView.setPatternCard(playerPatternCard);
                 patternCardView.render();
                 otherPlayerPatternCardViews.getChildren().add(patternCardView);
@@ -66,16 +73,18 @@ public class GameView extends VBox implements ViewInterface {
 
     private void buildToolCards() {
         toolCardViews = new ArrayList<>();
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
 
         ArrayList<ToolCard> gameToolCards = new ArrayList<>();
         gameToolCards = game.getToolCards();
 
         for (ToolCard toolCard : gameToolCards) {
+            ArrayList<FavorToken> favorTokens = favorTokenDao.getToolCardTokens(toolCard, game);
             ToolCardView toolCardView = new ToolCardView(playerController);
             toolCardView.setToolCard(toolCard);
+            toolCardView.setFavorTokens(favorTokens, game);
             toolCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
             toolCardView.render();
-
             toolCardViews.add(toolCardView);
         }
     }
@@ -126,6 +135,7 @@ public class GameView extends VBox implements ViewInterface {
         PatternCard playerPatternCard = player.getPatternCard();
         playerPatternCardView = new PatternCardView(playerController);
         playerPatternCardView.setPatternCard(playerPatternCard);
+        playerPatternCardView.setPlayerName(player.getAccount().getUsername());
         playerPatternCardView.render();
     }
 
