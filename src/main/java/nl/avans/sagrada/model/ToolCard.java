@@ -29,6 +29,7 @@ public class ToolCard {
         this.seqnr = seqnr;
         this.description = description;
         this.name = name;
+        favorTokens = new ArrayList<>();
     }
 
     public void useToolCard() {}

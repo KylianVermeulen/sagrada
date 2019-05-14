@@ -13,6 +13,7 @@ public class ChecksumDatabase {
     private AccountController accountController;
     private PlayerController playerController;
     private String checksumPlayer;
+    private String checksumChat;
 
     public ChecksumDatabase(AccountController accountController,
             PlayerController playerController) {
@@ -28,8 +29,27 @@ public class ChecksumDatabase {
             @Override
             public void handle() {
                 checksumPlayer();
+                checksumChat();
             }
         };
+    }
+    
+    /**
+     * Generates a checksum for the chatline table, and checks if this checksum is different from the already existing checksum.
+     */
+    private void checksumChat() {
+        try {
+            ResultSet rs = dbConnection.executeQuery(new Query("CHECKSUM TABLE chatline;", "query"));
+            if (rs.next()) {
+                String checksumChat = rs.getString("Checksum");
+                if (!checksumChat.equals(this.checksumChat)) {
+                    handleChat();
+                }
+                this.checksumChat = checksumChat;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void checksumPlayer() {
@@ -57,6 +77,17 @@ public class ChecksumDatabase {
                         playerController.viewGame();
                     }
                 }
+            }
+        }
+    }
+    
+    /**
+     * Reloads the gameview when an account is in a game.
+     */
+    private void handleChat() {
+        if (accountController.getAccount() != null) {
+            if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
+                playerController.viewGame();
             }
         }
     }
