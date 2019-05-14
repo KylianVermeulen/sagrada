@@ -36,3 +36,35 @@
     -fx-background-position: center;
 }
 
+#registerBackground {
+    -fx-background-image: url("/images/background/sagrada.png");
+}
+
+#registerButton {
+    -fx-font-weight: bold;
+    -fx-background-color: black;
+    -fx-font-family: "Bookman Old Style";
+    -fx-font-size: 14;
+    -fx-text-fill: lightgray;
+}
+
+#registerButton:hover {
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+}
+
+#registerLeftPane {
+    -fx-background-color: #FFFFFF;
+}
+
+.registerTextField {
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 1;
+    -fx-border-color: Black;
+}
+
+.registerLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-font-family: "Bookman Old Style";
+}

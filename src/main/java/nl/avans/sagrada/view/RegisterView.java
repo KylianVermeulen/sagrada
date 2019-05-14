@@ -6,19 +6,28 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class RegisterView extends VBox implements ViewInterface {
+public class RegisterView extends BorderPane implements ViewInterface {
     private AccountController accountController;
     private int backButtonHeight = 35;
     private int backButtonWidth = 75;
+    private final int BUTTON_WIDTH = 120;
+    private final int BUTTON_HEIGHT = 30;
+    private final static int BUTTONWIDTH = 120;
+    private final static int BUTTONHEIGHT = 30;
+    private final int TEXTFIELD_WIDTH = 200;
+    private final int TEXTFIELD_HEIGHT = 25;
+    private final int LEFTPANE_WIDTH = 313;
+    private final int LOGOPANE_WIDHT = 313;
+    private final int LOGOPANE_HEIGHT = 110;
+    private VBox registerPane;
+    private Pane backPane;
 
     /**
      * RegisterView constructor. Sets the RegisterView pane size to the screensize and generates the
@@ -26,10 +35,13 @@ public class RegisterView extends VBox implements ViewInterface {
      *
      * @param accountController AccountController
      */
-
     public RegisterView(AccountController accountController) {
         this.accountController = accountController;
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
+        String css = this.getClass().getResource("/css/style.css").toExternalForm();
+        getStylesheets().add(css);
+        setId("registerBackground");
+        setPrefSize(1280, 800);
     }
 
     /**
@@ -41,45 +53,81 @@ public class RegisterView extends VBox implements ViewInterface {
     @Override
     public void render() {
         getChildren().clear();
-        TextField usernameInput = new TextField();
-        PasswordField passwordInput = new PasswordField();
-        Button registerButton = new Button("Register");
-        Label registerText = new Label("Register");
-        Label usernameText = new Label("Username:");
-        Label passwordText = new Label("Password:");
-        Button backButton = new Button();
+        buildRegisterPane();
+        buildBackPane();
+        buildLeftPane();
+    }
 
-        registerText.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+    /**
+     * Method to build the registerPane
+     */
+    private void buildRegisterPane(){
+        registerPane = new VBox();
+        registerPane.setAlignment(Pos.CENTER);
+        registerPane.setPadding(new Insets(10, 10, 100, 20));
+
+        BorderPane userPane = new BorderPane();
+        Label usernameText = new Label("Username:");
         usernameText.setPadding(new Insets(10, 20, 10, 20));
+        usernameText.getStyleClass().add("registerLabel");
+        TextField usernameInput = new TextField();
+        usernameInput.setMaxHeight(TEXTFIELD_HEIGHT);
+        usernameInput.setMinHeight(TEXTFIELD_HEIGHT);
+        usernameInput.setMaxWidth(TEXTFIELD_WIDTH);
+        usernameInput.setMinWidth(TEXTFIELD_WIDTH);
+        usernameInput.getStyleClass().add("registerTextField");
+        userPane.setAlignment(usernameText, Pos.CENTER);
+        userPane.setTop(usernameText);
+        userPane.setCenter(usernameInput);
+
+        BorderPane passwordPane = new BorderPane();
+        Label passwordText = new Label("Password:");
         passwordText.setPadding(new Insets(10, 20, 10, 20));
+        passwordText.getStyleClass().add("registerLabel");
+        PasswordField passwordInput = new PasswordField();
+        passwordInput.setMaxHeight(TEXTFIELD_HEIGHT);
+        passwordInput.setMinHeight(TEXTFIELD_HEIGHT);
+        passwordInput.setMaxWidth(TEXTFIELD_WIDTH);
+        passwordInput.setMinWidth(TEXTFIELD_WIDTH);
+        passwordInput.getStyleClass().add("registerTextField");
+        passwordPane.setAlignment(passwordText, Pos.CENTER);
+        passwordPane.setTop(passwordText);
+        passwordPane.setCenter(passwordInput);
+        passwordPane.setPadding(new Insets(12, 12, 20, 12));
+
+        Button registerButton = new Button("Register");
+        registerButton.setOnAction(
+                e -> accountController.actionRegister(usernameInput.getText(), passwordInput.getText()));
+        registerButton.setId("registerButton");
+        registerButton.setPadding(new Insets(8, 12, 8, 12));
+        registerButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        registerPane.getChildren().addAll(userPane, passwordPane, registerButton);
+    }
+
+    /**
+     * Method to build the backPane
+     */
+    private void buildBackPane(){
+        backPane = new Pane();
+        Button backButton = new Button();
         backButton.setPrefSize(backButtonWidth, backButtonHeight);
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         backButton.getStylesheets().add(css);
         backButton.setId("backButton");
         backButton.setOnAction(e -> accountController.viewLogin());
-
-        registerButton.setOnAction(
-                e -> accountController.actionRegister(usernameInput.getText(), passwordInput.getText()));
-
-        VBox vbox = new VBox();
-        HBox hbox1 = new HBox();
-        HBox hbox2 = new HBox();
-        FlowPane backButtonPane = new FlowPane();
-
-        hbox1.setAlignment(Pos.CENTER);
-        hbox2.setAlignment(Pos.CENTER);
-        backButtonPane.setAlignment(Pos.TOP_LEFT);
-        vbox.setAlignment(Pos.CENTER);
-
-        hbox1.getChildren().addAll(usernameText, usernameInput);
-        hbox2.getChildren().addAll(passwordText, passwordInput);
-        vbox.getChildren().addAll(registerText, hbox1, hbox2, registerButton);
-        backButtonPane.getChildren().add(backButton);
-
-        vbox.setPadding(new Insets(321, 0, 0,
-                0)); //Dit moet later aangepast worden om precies het midden te verkrijgen (net als bij login scherm)
-
-        getChildren().addAll(backButtonPane, vbox);
+        backPane.getChildren().add(backButton);
     }
 
+    /**
+     * Method to build the leftPane
+     */
+    private void buildLeftPane(){
+        BorderPane leftPane = new BorderPane();
+        leftPane.setMaxWidth(LEFTPANE_WIDTH);
+        leftPane.setMinWidth(LEFTPANE_WIDTH);
+        leftPane.setId("registerLeftPane");
+        leftPane.setLeft(registerPane);
+        leftPane.setTop(backPane);
+        setLeft(leftPane);
+    }
 }
