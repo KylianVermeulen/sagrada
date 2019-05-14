@@ -304,10 +304,12 @@ public class AccountController {
      * @param game the game to join
      */
     public void actionJoinGame(Game game) {
-        Stats stats = new Stats(myScene, account);
-        myScene.addPopupPane(stats);
-
         myScene.getPlayerController().actionJoinGame(account, game);
         account.setAccountStatus(AccountStatus.GAME);
+    }
+
+    public void viewStats(Account account) {
+        Stats stats = new Stats(myScene, account);
+        myScene.addPopupPane(stats);
     }
 }

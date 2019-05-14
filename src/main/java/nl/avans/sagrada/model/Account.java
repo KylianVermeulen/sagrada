@@ -213,4 +213,20 @@ public class Account {
         int[] winsLoses = {wins, loses};
         return winsLoses;
     }
+
+    public int getHighestScore() {
+        return new AccountDao().getHighestScore(this);
+    }
+
+    public String getMostUsedColor() {
+        return new AccountDao().getMoseUsedColor(this);
+    }
+
+    public int getMostUsedValue() {
+        return new AccountDao().getMostUsedValue(this);
+    }
+
+    public int getCountDifferentPlayedAccounts() {
+        return new AccountDao().getCountDifferentPlayedAccounts(this);
+    }
 }

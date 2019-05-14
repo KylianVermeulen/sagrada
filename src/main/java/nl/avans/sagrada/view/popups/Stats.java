@@ -20,6 +20,10 @@ public class Stats extends Popup {
     private MyScene myScene;
     private final int wins;
     private final int loses;
+    private final int highestScore;
+    private final String mostUsedColor;
+    private final int mostUsedValue;
+    private final int countAccounts;
 
     public Stats(MyScene myScene, Account account) {
         super(WIDTH_STATS, HEIGHT_STATS);
@@ -28,6 +32,10 @@ public class Stats extends Popup {
         int[] winsLoses = account.getWinLoseCount();
         this.wins = winsLoses[0];
         this.loses = winsLoses[1];
+        this.highestScore = account.getHighestScore();
+        this.mostUsedColor = account.getMostUsedColor();
+        this.mostUsedValue= account.getMostUsedValue();
+        this.countAccounts = account.getCountDifferentPlayedAccounts();
 
         setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
         setBackground(new Background(
@@ -45,14 +53,35 @@ public class Stats extends Popup {
         vBox.setPadding(new Insets(20));
         vBox.setAlignment(Pos.CENTER);
 
-        Label titleLabel = new Label("win:lose : " + wins + ":" + loses);
-        titleLabel.setTextFill(Color.web("#000"));
-        titleLabel.setFont(Font.font("sans-serif", FontWeight.MEDIUM, 18));
+        Label label1 = new Label("win:lose : " + wins + ":" + loses);
+        label1.setTextFill(Color.web("#000"));
+        label1.setFont(Font.font("sans-serif", FontWeight.MEDIUM, 18));
+
+        Label label2 = new Label("Hoogste score: " + highestScore);
+        label2.setTextFill(Color.web("#000"));
+        label2.setFont(Font.font("sans-serif", FontWeight.MEDIUM, 18));
+
+        Label label3 = new Label("Meest gebruikte kleur: " + mostUsedColor);
+        label3.setTextFill(Color.web("#000"));
+        label3.setFont(Font.font("sans-serif", FontWeight.MEDIUM, 18));
+
+        Label label4 = new Label("Meest gebruikte value: " + mostUsedValue);
+        label4.setTextFill(Color.web("#000"));
+        label4.setFont(Font.font("sans-serif", FontWeight.MEDIUM, 18));
+
+        Label label5 = new Label("Aantal gespeelde accounts: " + countAccounts);
+        label5.setTextFill(Color.web("#000"));
+        label5.setFont(Font.font("sans-serif", FontWeight.MEDIUM, 18));
 
         Button button = new Button("Close");
         button.setOnAction(e -> myScene.removePopupPane());
+        VBox.setMargin(button, new Insets(20, 0, 0, 0));
 
-        vBox.getChildren().add(titleLabel);
+        vBox.getChildren().add(label1);
+        vBox.getChildren().add(label2);
+        vBox.getChildren().add(label3);
+        vBox.getChildren().add(label4);
+        vBox.getChildren().add(label5);
         vBox.getChildren().add(button);
         getChildren().add(vBox);
     }
