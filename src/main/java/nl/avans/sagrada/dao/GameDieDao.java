@@ -23,25 +23,6 @@ public class GameDieDao {
         dbConnection = new DBConnection();
     }
 
-    /**
-     * Updates the location of one die
-     * @param die
-     * @param patterncardfield
-     * @param player
-     */
-    public void updateDieLocation(GameDie die, PatternCardField patterncardfield, Player player) {
-        try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=? ", "update"),
-                    new QueryParameter(QueryParameter.INT, die.getNumber()),
-                    new QueryParameter(QueryParameter.STRING, die.getColor()),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getId()),
-                    new QueryParameter(QueryParameter.INT, patterncardfield.getyPos()),
-                    new QueryParameter(QueryParameter.INT, patterncardfield.getxPos()),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getId())
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
+
 }

@@ -13,6 +13,7 @@ import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
@@ -56,8 +57,8 @@ public class PlayerController {
         if (activeToolCard == null) {
             activeToolCard = toolcard;
             alert = new Alert("Active toolcard", "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
-        }
-        myScene.addAlertPane(alert);
+            myScene.addAlertPane(alert);
+        }      
     }
     
     /**
@@ -88,10 +89,10 @@ public class PlayerController {
                     gameDie.setPatternCardField(patternCardField);
                 }
                 patternCardField.placeDie(gameDie); 
+                PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
             }
         }
-        GameDieDao gameDieDao = new GameDieDao();
-        gameDieDao.updateDieLocation(gameDie, patternCardField, player);
     }
 
     /**
@@ -256,7 +257,7 @@ public class PlayerController {
      * @param toolCard The tool card.
      */
     public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolcardview) {
-        if (activeToolCard != null) {
+        if (activeToolCard == null) {
             FavorTokenDao favorTokenDao = new FavorTokenDao();
             ToolCardDao toolCardDao = new ToolCardDao();
             toolCardDao.toolCardHasPayment(toolCard, player.getGame());
