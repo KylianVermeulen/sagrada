@@ -15,10 +15,10 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class AccountOverviewView extends ScrollPane implements ViewInterface {
-    private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
-    private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT;
-    private static final int STAT_BUTTON_HEIGHT = 50;
-    private static final int STAT_BUTTON_WIDTH = 50;
+    private final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
+    private final int PANE_HEIGHT = Main.SCREEN_HEIGHT;
+    private final int STAT_BUTTON_HEIGHT = 50;
+    private final int STAT_BUTTON_WIDTH = 50;
     private ArrayList<Account> accounts;
     private AccountController accountController;
 
@@ -72,5 +72,4 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
         button.setPrefSize(STAT_BUTTON_WIDTH, STAT_BUTTON_HEIGHT);
         return button;
     }
-
 }
