@@ -7,8 +7,11 @@ import java.util.List;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
+import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
+import nl.avans.sagrada.model.Player;
 
 public class PatternCardFieldDao {
     private DBConnection dbConnection;
@@ -20,8 +23,17 @@ public class PatternCardFieldDao {
         dbConnection = new DBConnection();
     }
 
-    public ArrayList<PatternCardField> getPatternCardFieldsOfPatterncard(PatternCard patternCard) {
+    /**
+     * Gets the PatternCard fields of a PatternCard
+     * The players is needed to get all the dies of the patterncard placed by the player
+     * @param PatternCard
+     * @param Player
+     * @return ArrayList<PatternCardField>
+     */
+    public ArrayList<PatternCardField> getPatternCardFieldsOfPatterncard(PatternCard patternCard, Player player) {
         ArrayList<PatternCardField> list = new ArrayList<>();
+
+        PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
@@ -36,16 +48,23 @@ public class PatternCardFieldDao {
                 int value = rs.getInt("value");
                 PatternCardField patternCardField = new PatternCardField(xpos, ypos, color, value,
                         patternCard);
+                GameDie die = playerFrameFieldDao.getGameDieOfField(patternCardField, player);
+                if (die != null) {
+                    die.setPatternCardField(patternCardField);
+                    patternCardField.setDie(die);
+                }
                 list.add(patternCardField);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
-    }
+    } 
 
     /**
      * Add all patterncardfields to the database using batch query.
+     * @param ArrayList<PatternCardField>
+     * @param PatternCard
      */
     public void addPatternCardFields(ArrayList<PatternCardField> patternCardFields,
             PatternCard patternCard) {

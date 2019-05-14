@@ -3,7 +3,13 @@ package nl.avans.sagrada.model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
-import nl.avans.sagrada.dao.*;
+import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.PublicObjectiveCardDao;
+import nl.avans.sagrada.dao.ToolCardDao;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
@@ -370,7 +376,7 @@ public class Game {
     }
 
     /**
-     * \ assign three random public objectivecards to a game. first the method makes three random
+     * assign three random public objectivecards to a game. first the method makes three random
      * numbers between 1 and 10. while some numbers are the same than make new number until all
      * numbers are different. Then add the public objectivecards to the game. \ assign three random
      * public objectivecards to a game. first the method makes three random numbers between 1 and
@@ -385,9 +391,9 @@ public class Game {
         int min = 1;
         int max = 10;
 
-        int randomNumber1 = random.nextInt((max - min) + 1) + min;
-        int randomNumber2 = random.nextInt((max - min) + 1) + min;
-        int randomNumber3 = random.nextInt((max - min) + 1) + min;
+        int randomNumber1 = 0;
+        int randomNumber2 = 0;
+        int randomNumber3 = 0;
 
         boolean foundThreeValues = false;
 

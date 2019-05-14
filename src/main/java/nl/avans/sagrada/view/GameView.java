@@ -1,17 +1,16 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import nl.avans.sagrada.Main;
-import nl.avans.sagrada.controller.PlayerController;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import nl.avans.sagrada.Main;
+import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
@@ -20,7 +19,7 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.RoundTrack;
-import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameView extends VBox implements ViewInterface {
@@ -55,7 +54,9 @@ public class GameView extends VBox implements ViewInterface {
         for (Player player : players) {
             String currentPlayerUsername = this.player.getAccount().getUsername();
             String otherPlayerUsername = player.getAccount().getUsername();
-
+            PatternCardDao PatternCardDao = new PatternCardDao();
+            PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
+            player.setPatternCard(patternCard);
             if (!currentPlayerUsername.equals(otherPlayerUsername)) {
                 PatternCard playerPatternCard = player.getPatternCard();
 
