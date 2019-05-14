@@ -23,7 +23,13 @@ public class GameDieDao {
         dbConnection = new DBConnection();
     }
 
-    public void placeDie(GameDie die, PatternCardField patterncardfield, Player player) {
+    /**
+     * Updates the location of one die
+     * @param die
+     * @param patterncardfield
+     * @param player
+     */
+    public void updateDieLocation(GameDie die, PatternCardField patterncardfield, Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=? ", "update"),

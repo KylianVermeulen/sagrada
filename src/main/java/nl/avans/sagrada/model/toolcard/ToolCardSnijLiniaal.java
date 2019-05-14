@@ -15,27 +15,27 @@ public class ToolCardSnijLiniaal extends ToolCard {
     @Override
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
         // TODO Auto-generated method stub
-        PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
-        
-        PatternCardField patternCardField =  patternCardView.getPatternCardField();
-        PatternCard patternCard = patternCardField.getPatternCard();
-        PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
-        removeDieField.setDie(null);
-        
-        PatternCardField field = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
-        
-        if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
-            && patternCard.checkSidesColor(field, die.getColor(), true) && patternCard.checkSidesValue(field, die.getEyes(), true)) {
-
-            die.setPatternCardField(field);
-            field.setDie(die);
+        try {
+            PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
             
-            return patternCard;
-        }
-        else {
-            return null;
-        }
+            PatternCardField patternCardField =  patternCardView.getPatternCardField();
+            PatternCard patternCard = patternCardField.getPatternCard();
+            PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
+            removeDieField.setDie(null);
+            
+            PatternCardField field = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
+            
+            if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
+                && patternCard.checkSidesColor(field, die.getColor(), true) && patternCard.checkSidesValue(field, die.getEyes(), true)) {
 
+                die.setPatternCardField(field);
+                field.setDie(die);
+                
+                return patternCard;
+            }
+        } catch (Exception e) {}
+
+        return null;
     }
 
 }
