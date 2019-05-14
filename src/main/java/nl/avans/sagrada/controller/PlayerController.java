@@ -58,6 +58,14 @@ public class PlayerController {
         myScene.addAlertPane(alert);
     }
     
+    /**
+     * Handels the placement of a die on the patterncard
+     * Also handels the toolcard drag handle
+     * @param patternCard
+     * @param patternCardField
+     * @param gameDie
+     * @param event
+     */
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField, GameDie gameDie, MouseEvent event) {
         if (activeToolCard != null) {
             PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
@@ -73,6 +81,10 @@ public class PlayerController {
         }
         else {
             if (gameDie.getPatternCardField() == null) {
+                if (patternCardField.canPlaceDie(gameDie)) {
+                    patternCardField.setDie(gameDie);
+                    gameDie.setPatternCardField(patternCardField);
+                }
                 patternCardField.placeDie(gameDie); 
             }
         }   
@@ -123,6 +135,7 @@ public class PlayerController {
         GameDie die2 = new GameDie(1, "groen", 3);
         die1.setPatternCardField(playerPatternCard.getPatternCardField(1, 3));
         die2.setPatternCardField(playerPatternCard.getPatternCardField(1, 2));
+        
         playerPatternCard.placeDie(1, 3, die1);
         playerPatternCard.placeDie(1, 2, die2);
         if (player.getPatternCard() == null) {
