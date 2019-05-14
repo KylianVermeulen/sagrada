@@ -47,7 +47,6 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
         for (Account account : accounts) {
             Pane pane = new Pane();
             Label label = new Label("Account: " + account.getUsername());
-            System.out.println(account.getUsername());
             label.setPadding(new Insets(20, 4, 20, 65));
 
             Button statsButton = buildButtonToViewStatsOfAccount(account);
