@@ -1,11 +1,9 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
@@ -14,9 +12,9 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.ToolCard;
 
 public class ToolCardView extends CardView {
     private ToolCard toolCard;
@@ -39,6 +37,9 @@ public class ToolCardView extends CardView {
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         getStylesheets().add(css);
         setId("toolcardBackground");
+        setOnMouseClicked(e -> {
+            playerController.setActiveToolCard(toolCard);
+        });
         tokenPane = new TilePane();
     }
 

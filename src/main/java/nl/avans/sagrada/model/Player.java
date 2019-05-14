@@ -172,7 +172,8 @@ public class Player {
     }
 
     /**
-     * @return The patterncard of this player.
+     * Get the selected patterncard of the player
+     * @return PatternCard
      */
     public PatternCard getPatternCard() {
         PatternCardDao PatternCardDao = new PatternCardDao();

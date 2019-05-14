@@ -10,9 +10,9 @@ public class GameDie extends Die {
 
     /**
      * Full constructor
-     *
-     * @param eyes int
+     * @param number the id of the die
      * @param color String
+     * @param int eye
      */
     public GameDie(int number, String color, int eyes) {
         super(number, color);
@@ -76,5 +76,21 @@ public class GameDie extends Die {
      */
     public boolean hasColor() {
         return super.getColor() != null;
+    }
+    
+    /**
+     * Sets the patterncardfield a die is located on
+     * @param patternCardField
+     */
+    public void setPatternCardField(PatternCardField patternCardField) {
+        this.patternCardField = patternCardField;
+    }
+    
+    /**
+     * Returns the patterncardfield the die in on
+     * @return
+     */
+    public PatternCardField getPatternCardField() {
+        return patternCardField;
     }
 }
