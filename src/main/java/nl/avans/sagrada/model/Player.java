@@ -337,16 +337,16 @@ public class Player {
 
     public void setPlayerColor(int i){
         switch (i) {
-            case 1:
+            case 0:
                 playerColor = Color.YELLOW;
                 break;
-            case 2:
+            case 1:
                 playerColor = Color.BLUE;
                 break;
-            case 3:
+            case 2:
                 playerColor = Color.RED;
                 break;
-            case 4:
+            case 3:
                 playerColor = Color.GREEN;
                 break;
         }
