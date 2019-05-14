@@ -138,7 +138,8 @@ public class PatternCardDao {
                 PatternCard patternCard = new PatternCard(
                         rs.getInt("idpatterncard"),
                         rs.getInt("difficulty"), 
-                        rs.getBoolean("standard"));
+                        rs.getBoolean("standard")
+                     );
                 list.add(patternCard);
             }
         } catch (SQLException e) {
