@@ -3,8 +3,6 @@ package nl.avans.sagrada.model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
-
-import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;

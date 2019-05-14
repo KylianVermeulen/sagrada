@@ -331,6 +331,9 @@ public class Player {
         return score;
     }
 
+    /**
+     * Method to get the player his color
+     */
     public Color getPlayerColor() {
         return playerColor;
     }

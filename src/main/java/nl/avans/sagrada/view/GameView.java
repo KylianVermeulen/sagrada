@@ -207,6 +207,4 @@ public class GameView extends VBox implements ViewInterface {
         getChildren().add(secondView);
         getChildren().add(thirdView);
     }
-    
-    
 }

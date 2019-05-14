@@ -1,6 +1,5 @@
 package nl.avans.sagrada.dao;
 
-import java.security.cert.CertificateParsingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

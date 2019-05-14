@@ -166,8 +166,4 @@ public class ToolCard {
     public void setHasBeenPaidForBefore(boolean hasBeenPaidForBefore) {
         this.hasBeenPaidForBefore = hasBeenPaidForBefore;
     }
-    
-    public void addFavorToken(FavorToken token) {
-        favorTokens.add(token);
-    }
 }
