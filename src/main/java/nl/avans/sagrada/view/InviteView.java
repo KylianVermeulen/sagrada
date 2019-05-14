@@ -36,6 +36,7 @@ public class InviteView extends HBox implements ViewInterface {
     public void render() {
         checkbox = new CheckBox(account.getUsername());
         checkbox.setMinWidth(Main.SCREEN_WIDTH - 26);
+        checkbox.setMinHeight(30);
         getChildren().add(checkbox);
     }
 
