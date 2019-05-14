@@ -78,10 +78,18 @@ public class GameDie extends Die {
         return super.getColor() != null;
     }
     
+    /**
+     * Sets the patterncardfield a die is located on
+     * @param patternCardField
+     */
     public void setPatternCardField(PatternCardField patternCardField) {
         this.patternCardField = patternCardField;
     }
     
+    /**
+     * Returns the patterncardfield the die in on
+     * @return
+     */
     public PatternCardField getPatternCardField() {
         return patternCardField;
     }

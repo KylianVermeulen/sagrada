@@ -145,8 +145,11 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
                 new Background(new BackgroundFill(patternCardField.getFXColor(), null, null)));
     }
 
+    /**
+     * Returns the patterncardfield that the view contains
+     * @return PatternCardField
+     */
     public PatternCardField getPatternCardField() {
-        // TODO Auto-generated method stub
         return patternCardField;
     }
 }

@@ -1,8 +1,6 @@
 package nl.avans.sagrada.model.toolcard;
 
 import java.util.ArrayList;
-
-import javafx.event.Event;
 import javafx.scene.input.MouseEvent;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.GameDie;
@@ -166,5 +164,14 @@ public abstract class ToolCard {
         this.hasBeenPaidForBefore = hasBeenPaidForBefore;
     }
     
+    /**
+     * Handels the drag event
+     * So we can handle the toolcard ability
+     * <p>
+     * The event.getSource or event.getTaget contains the field that we are going to drop the die on
+     * @param event
+     * @param die
+     * @return PatternCard
+     */
     public abstract PatternCard handleDrag(MouseEvent event, GameDie die);
 }

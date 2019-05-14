@@ -271,19 +271,6 @@ public class PatternCard {
         }
         return patterncardFields;
     }
-    
-    public boolean canPlaceDie(PatternCardField patternCardField, GameDie die) {
-        String color = die.getColor();
-        if (
-            checkPatternCardFieldNorthEastDieColor(patternCardField, color) == null && 
-            checkPatternCardFieldSouthEastDieColor(patternCardField, color) == null &&
-            checkPatternCardFieldSouthWestDieColor(patternCardField, color) == null &&
-            checkPatternCardFieldNorthWestDieColor(patternCardField, color) == null) {
-            
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Places die on the selected PatternCardField
@@ -297,10 +284,19 @@ public class PatternCard {
         patternCardField.placeDie(gameDie);
     }
     
+    /**
+     * Removed the die from the patterncardfield
+     * @param patternCardField
+     */
     public void removeDie(PatternCardField patternCardField) {
         patternCardField.setDie(null);
     }
     
+    /**
+     * Places a die on the patterncard field
+     * @param patternCardField
+     * @param die
+     */
     public void placeDie(PatternCardField patternCardField, GameDie die) {
         int xPos = patternCardField.getxPos();
         int yPos = patternCardField.getyPos();

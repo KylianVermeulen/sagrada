@@ -1,10 +1,7 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
-
-import javafx.event.Event;
 import javafx.geometry.Insets;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -46,6 +43,11 @@ public class PlayerController {
         return player;
     }
     
+    /**
+     * Sets the active toolcard for the player
+     * If there already is a active toolcard we show a error
+     * @param toolcard
+     */
     public void setActiveToolCard(ToolCard toolcard) {
         Alert alert = null;
         if (activeToolCard == null) {
