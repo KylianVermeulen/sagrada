@@ -61,6 +61,7 @@ public class GameView extends VBox implements ViewInterface {
 
                 PatternCardView patternCardView = new PatternCardView(playerController);
                 patternCardView.setCenterShape(true);
+                patternCardView.setPlayerName(otherPlayerUsername);
                 patternCardView.setPatternCard(playerPatternCard);
                 patternCardView.render();
                 otherPlayerPatternCardViews.getChildren().add(patternCardView);
@@ -130,6 +131,7 @@ public class GameView extends VBox implements ViewInterface {
         PatternCard playerPatternCard = player.getPatternCard();
         playerPatternCardView = new PatternCardView(playerController);
         playerPatternCardView.setPatternCard(playerPatternCard);
+        playerPatternCardView.setPlayerName(player.getAccount().getUsername());
         playerPatternCardView.render();
     }
 
