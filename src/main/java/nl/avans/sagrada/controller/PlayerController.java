@@ -1,10 +1,10 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
@@ -56,7 +56,7 @@ public class PlayerController {
         Game game = new GameDao().getGameById(gameId);
         player.setGame(game);
 
-        for(int i = 0; i < game.getPlayers().size(); i++){
+        for (int i = 0; i < game.getPlayers().size(); i++) {
             game.getPlayers().get(i).setPlayerColor(i);
         }
 
@@ -123,7 +123,6 @@ public class PlayerController {
      * Player is passing for a round
      */
     public void actionPass() {
-        System.out.println(player.getGame().getPlayers().size());
         if (player.isCurrentPlayer()) {
             player.getGame().setNextPlayer();
         } else {
@@ -188,8 +187,8 @@ public class PlayerController {
         toolCardDao.toolCardHasPayment(toolCard, player.getGame());
 
         ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
-        for(int i = 0; i < player.getGame().getPlayers().size(); i++){
-            if(player.getId() == player.getGame().getPlayers().get(i).getId()){
+        for (int i = 0; i < player.getGame().getPlayers().size(); i++) {
+            if (player.getId() == player.getGame().getPlayers().get(i).getId()) {
                 player.setPlayerColor(i);
             }
         }

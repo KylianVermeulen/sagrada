@@ -3,9 +3,7 @@ package nl.avans.sagrada.model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
-
 import nl.avans.sagrada.dao.*;
-import nl.avans.sagrada.view.DieView;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
@@ -448,20 +446,24 @@ public class Game {
             if (oldSeqnr != (players.size() * 2)) {
                 if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
                     if (currentPlayer != playerNextTurn) {
-                        duplicateCode(currentPlayer, playerNextTurn);
+                        updatePlayer(currentPlayer, playerNextTurn);
                     }
                 }
             } else {
                 if (playerNextTurn.getSeqnr() == 1) {
-                    duplicateCode(currentPlayer, playerNextTurn);
+                    updatePlayer(currentPlayer, playerNextTurn);
                 }
             }
         }
     }
 
-
-    // TODO: RENAME METHOD
-    private void duplicateCode(Player currentPlayer, Player playerNextTurn) {
+    /**
+     * Updates player to currentPlayer
+     *
+     * @param currentPlayer Player
+     * @param playerNextTurn Player
+     */
+    private void updatePlayer(Player currentPlayer, Player playerNextTurn) {
         currentPlayer.setIsCurrentPlayer(false);
         new PlayerDao().updatePlayer(currentPlayer);
 
