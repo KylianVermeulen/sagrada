@@ -341,7 +341,7 @@ public class Game {
     }
 
     /**
-     * \ assign three random public objectivecards to a game. first the method makes three random
+     * assign three random public objectivecards to a game. first the method makes three random
      * numbers between 1 and 10. while some numbers are the same than make new number until all
      * numbers are different. Then add the public objectivecards to the game. \ assign three random
      * public objectivecards to a game. first the method makes three random numbers between 1 and
@@ -356,9 +356,9 @@ public class Game {
         int min = 1;
         int max = 10;
 
-        int randomNumber1 = random.nextInt((max - min) + 1) + min;
-        int randomNumber2 = random.nextInt((max - min) + 1) + min;
-        int randomNumber3 = random.nextInt((max - min) + 1) + min;
+        int randomNumber1 = 0;
+        int randomNumber2 = 0;
+        int randomNumber3 = 0;
 
         boolean foundThreeValues = false;
 
@@ -388,9 +388,6 @@ public class Game {
     public boolean everyoneSelectedPatternCard() {
         ArrayList<Player> players = getPlayers();
         for (Player player : players) {
-            PatternCardDao PatternCardDao = new PatternCardDao();
-            PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
-            player.setPatternCard(patternCard);
             if (player.getPatternCard() == null) {
                 return false;
             }

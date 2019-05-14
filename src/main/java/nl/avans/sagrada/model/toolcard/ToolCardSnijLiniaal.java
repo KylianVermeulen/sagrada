@@ -27,17 +27,17 @@ public class ToolCardSnijLiniaal extends ToolCard {
             PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
 
             
-            PatternCardField field = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
+            patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
             
             if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
-                && patternCard.checkSidesColor(field, die.getColor(), true) && patternCard.checkSidesValue(field, die.getEyes(), true)) {
-
+                && patternCard.checkSidesColor(patternCardField, die.getColor(), true) && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
+                // If the new location meats the new requirements we can make those changes
                 removeDieField.setDie(null);
                 playerFrameFieldDao.removeDie(die, removeDieField, player);
                 
-                die.setPatternCardField(field);
-                field.setDie(die);
-                playerFrameFieldDao.addDieToField(die, field, player);
+                die.setPatternCardField(patternCardField);
+                patternCardField.setDie(die);
+                playerFrameFieldDao.addDieToField(die, patternCardField, player);
                 
                 return patternCard;
             }

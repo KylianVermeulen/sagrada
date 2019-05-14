@@ -108,13 +108,6 @@ public class PlayerController {
         player = new PlayerDao().getPlayerById(player.getId());
         Game game = new GameDao().getGameById(gameId);
         player.setGame(game);
-//        if (player.getPatternCard() == null) {
-//            PatternCardDao PatternCardDao = new PatternCardDao();
-//            PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
-//            player.setPatternCard(patternCard);
-//            patternCard.setPlayer(player);
-//        }
-
 
         for(int i = 0; i < game.getPlayers().size(); i++){
             game.getPlayers().get(i).setPlayerColor(i);
@@ -139,18 +132,7 @@ public class PlayerController {
         PatternCardDao PatternCardDao = new PatternCardDao();
         PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
         player.setPatternCard(patternCard);
-        
-        PatternCard playerPatternCard = player.getPatternCard();
-//        GameDie die1 = new GameDie(1, "geel", 2);
-//        GameDie die2 = new GameDie(2, "groen", 3);
-//        GameDie die3 = new GameDie(3, "groen", 2);
-//        die1.setPatternCardField(playerPatternCard.getPatternCardField(1, 3));
-//        die2.setPatternCardField(playerPatternCard.getPatternCardField(1, 2));
-//        die3.setPatternCardField(playerPatternCard.getPatternCardField(3, 2));
-//        
-//        playerPatternCard.placeDie(1, 3, die1);
-//        playerPatternCard.placeDie(1, 2, die2);
-//        playerPatternCard.placeDie(3, 2, die3);
+
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
         } else {

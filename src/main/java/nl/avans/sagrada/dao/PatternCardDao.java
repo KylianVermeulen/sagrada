@@ -36,9 +36,9 @@ public class PatternCardDao {
             );
             if (rs.next()) {
                 patternCard = new PatternCard(
-                        rs.getInt("idpatterncard"),
-                        rs.getInt("difficulty"), 
-                        rs.getBoolean("standard"),
+                            rs.getInt("idpatterncard"),
+                            rs.getInt("difficulty"), 
+                            rs.getBoolean("standard"),
                         player
                         );
                 return patternCard;

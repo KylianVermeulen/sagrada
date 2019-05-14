@@ -203,6 +203,15 @@ public class ToolCardDao {
         }
     }
     
+    /**
+     * Builds to toolcard based on the id
+     * This is so the toolcard will contains the correct handleDrag method
+     * @param id
+     * @param name
+     * @param seqnr
+     * @param description
+     * @return ToolCard
+     */
     private ToolCard buildToolCard(int id, String name, int seqnr, String description) {
         switch (id) {
         case 1:

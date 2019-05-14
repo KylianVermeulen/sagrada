@@ -280,8 +280,7 @@ public class PatternCardField {
             return true;
         }
         return false;
-    }
-    
+    }   
 
     /**
      * Checks if it's the first turn if not does a normal turn

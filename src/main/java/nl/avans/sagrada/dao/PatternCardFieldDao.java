@@ -25,7 +25,7 @@ public class PatternCardFieldDao {
 
     public ArrayList<PatternCardField> getPatternCardFieldsOfPatterncard(PatternCard patternCard, Player player) {
         ArrayList<PatternCardField> list = new ArrayList<>();
-        Game game = player.getGame();
+
         PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -41,7 +41,7 @@ public class PatternCardFieldDao {
                 int value = rs.getInt("value");
                 PatternCardField patternCardField = new PatternCardField(xpos, ypos, color, value,
                         patternCard);
-                GameDie die = playerFrameFieldDao.getGameDieOfField(patternCardField, player, player.getGame());
+                GameDie die = playerFrameFieldDao.getGameDieOfField(patternCardField, player);
                 if (die != null) {
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
@@ -52,9 +52,7 @@ public class PatternCardFieldDao {
             e.printStackTrace();
         }
         return list;
-    }
-    
-    
+    } 
 
     /**
      * Add all patterncardfields to the database using batch query.

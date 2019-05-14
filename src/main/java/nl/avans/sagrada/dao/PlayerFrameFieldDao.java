@@ -18,10 +18,17 @@ public class PlayerFrameFieldDao {
         dbConnection = new DBConnection();
     }
     
-    public GameDie getGameDieOfField(PatternCardField patternCardField, Player player, Game game) {
+    /**
+     * Gets the gameDie of a field
+     * @param patternCardField
+     * @param player
+     * @return GameDie
+     */
+    public GameDie getGameDieOfField(PatternCardField patternCardField, Player player) {
         GameDie die = null;
 
         try {
+            Game game = player.getGame();
             ResultSet rs = dbConnection.executeQuery(new Query(
                         "SELECT gamedie.dienumber, gamedie.diecolor, gamedie.eyes FROM playerframefield "
                         + "JOIN gamedie ON gamedie.idgame = playerframefield.idgame "
@@ -69,6 +76,12 @@ public class PlayerFrameFieldDao {
         }
     }
     
+    /**
+     * Adds a die to a field
+     * @param die
+     * @param patternCardField
+     * @param player
+     */
     public void addDieToField(GameDie die, PatternCardField patternCardField, Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
