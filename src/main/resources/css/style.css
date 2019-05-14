@@ -12,7 +12,8 @@
 
 #registerLabel {
     -fx-underline: true;
-    -fx-font-size: 15;
+    -fx-font-size: 14;
+    -fx-font-family: "Bookman Old Style";
 }
 
 #ObjectiveCardDescription {
@@ -31,23 +32,30 @@
 }
 
 
-//login screen
+
 
 .loginTextfield {
     -fx-background-color: #FFFFFF;
-    -fx-border-color: #
+    -fx-border-width: 1;
+    -fx-border-color: Black;
 }
 
 .loginLabel {
     -fx-font-weight: bold;
     -fx-font-size: 20;
+    -fx-font-family: "Bookman Old Style";
 }
 
 #loginButton {
     -fx-font-weight: bold;
-    -fx-background-radius: 12;
-    -fx-background-color: #FFFFFF;
-    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+    -fx-background-color: black;
+    -fx-font-family: "Bookman Old Style";
+    -fx-font-size: 14;
+    -fx-text-fill: lightgray;
+}
+#loginButton:hover{
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
 }
 
 #loginBackground {
@@ -59,7 +67,7 @@
 }
 
 #leftPane {
-    -fx-background-color: #DCDCDC;
+    -fx-background-color: #FFFFFF;
 
 }
 

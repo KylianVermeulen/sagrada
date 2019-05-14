@@ -45,10 +45,6 @@ public class LoginView extends BorderPane implements ViewInterface {
         loginPane.setId("loginPane");
         loginPane.setAlignment(Pos.CENTER);
         loginPane.setPadding(new Insets(10, 10, 100, 20));
-//        loginPane.setMaxHeight(800);
-//        loginPane.setMinHeight(800);
-//        loginPane.setMaxWidth(300);
-//        loginPane.setMinWidth(300);
         
         BorderPane userHBox = new BorderPane();
         Label userName = new Label("Username");
@@ -83,6 +79,7 @@ public class LoginView extends BorderPane implements ViewInterface {
         loginButton.setPrefSize(BUTTONWIDTH, BUTTONHEIGHT);
         loginButton.setOnAction(e -> accountController.actionLogin(userTextField.getText(), passwordTextField.getText()));
         loginButton.setId("loginButton");
+        loginButton.setPadding(new Insets(8, 12, 8, 12));
         
         Label registerLabel = new Label("If you don't have an account click here");
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
@@ -110,8 +107,8 @@ public class LoginView extends BorderPane implements ViewInterface {
         loginPane.getChildren().addAll(userHBox, passwordHBox, loginButton, registerLabel);
 
         BorderPane pane = new BorderPane();
-        pane.setMaxWidth(300);
-        pane.setMinWidth(300);
+        pane.setMaxWidth(313);
+        pane.setMinWidth(313);
         pane.setId("leftPane");
         pane.setLeft(loginPane);
         pane.setTop(logoPane);
