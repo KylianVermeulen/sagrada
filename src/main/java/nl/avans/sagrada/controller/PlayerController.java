@@ -26,6 +26,7 @@ import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
+import nl.avans.sagrada.view.PatternCardFieldView;
 import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.PatternCardView;
@@ -64,26 +65,32 @@ public class PlayerController {
      */
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
             GameDie gameDie, MouseEvent event) {
-        if (activeToolCard != null) {
-            PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
-            if (toolcardUseResult != null) {
-                activeToolCard = null;
-                player.setPatternCard(toolcardUseResult);
-                viewGame();
+        
+        Player playerEvent = patternCard.getPlayer();
+        
+        if (playerEvent.getId() == player.getId()) {
+            // Check if the player from the 
+            if (activeToolCard != null) {
+                PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
+                if (toolcardUseResult != null) {
+                    activeToolCard = null;
+                    player.setPatternCard(toolcardUseResult);
+                    viewGame();
+                } else {
+                    Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
+                            AlertType.ERROR);
+                    myScene.addAlertPane(alert);
+                }
             } else {
-                Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
-                        AlertType.ERROR);
-                myScene.addAlertPane(alert);
-            }
-        } else {
-            if (gameDie.getPatternCardField() == null) {
-                if (patternCardField.canPlaceDie(gameDie)) {
-                    patternCardField.setDie(gameDie);
-                    gameDie.setPatternCardField(patternCardField);
-                    
-                    patternCardField.placeDie(gameDie);
-                    PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-                    playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
+                if (gameDie.getPatternCardField() == null) {
+                    if (patternCardField.canPlaceDie(gameDie)) {
+                        patternCardField.setDie(gameDie);
+                        gameDie.setPatternCardField(patternCardField);
+                        
+                        patternCardField.placeDie(gameDie);
+                        PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                        playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
+                    }
                 }
             }
         }
