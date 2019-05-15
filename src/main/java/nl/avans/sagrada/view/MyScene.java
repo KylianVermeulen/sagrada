@@ -13,13 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.AccountDao;
-import nl.avans.sagrada.dao.GameDao;
-import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.database.ChecksumDatabase;
-import nl.avans.sagrada.model.Account;
-import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.popups.Alert;
 
 public class MyScene extends Scene {

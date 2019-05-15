@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.DieDao;
 import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
@@ -18,11 +20,12 @@ public class Game {
     private final String[] playerColors = {"geel", "blauw", "rood", "groen"};
     private int id;
     private Player turnPlayer;
+    private int round = 1;
     private String gamemode;
     private ArrayList<Player> players;
     private Player startPlayer;
     private FavorToken[] favorTokens;
-    private GameDie[] gameDie;
+    private ArrayList<GameDie> gameDice;
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
     private Timestamp creationDate;
@@ -38,7 +41,41 @@ public class Game {
 
     public Game() {
         players = new ArrayList<>();
+        gameDice = new ArrayList<>();
+        round = 1;
         gamemode = GAMEMODE_NORMAL;
+    }
+
+    /**
+     * Adds the dice to the database and the array in game
+     */
+    public void addDice() {
+        DieDao dieDao = new DieDao();
+        GameDieDao gameDieDao = new GameDieDao();
+        for (Die die : dieDao.getDice()) {
+            GameDie gameDie = new GameDie(die, new Random().nextInt(6) + 1);
+            gameDice.add(gameDie);
+            gameDieDao.addDie(this, gameDie);
+        }
+    }
+
+    /**
+     * Adds random rounds to the gameDice
+     */
+    public void addRandomRoundsToGameDice() {
+        for (int i = 1; i <= 10; i++) {
+            for (int j = 0; j < (getPlayers().size() * 2 + 1); j++) {
+                boolean hasDie = false;
+                while (!hasDie) {
+                    GameDie randomGameDie = gameDice.get(new Random().nextInt(gameDice.size()));
+                    GameDie checkDie = new GameDieDao().getDie(this, randomGameDie);
+                    if (checkDie.getRound() == 0) {
+                        new GameDieDao().updateDie(this, randomGameDie, i);
+                        hasDie = true;
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -134,17 +171,17 @@ public class Game {
      *
      * @return GameDie[]
      */
-    public GameDie[] getGameDie() {
-        return gameDie;
+    public ArrayList<GameDie> gameDice() {
+        return gameDice;
     }
 
     /**
      * Set gameDice to Game
      *
-     * @param gameDie GameDie[]
+     * @param gameDice GameDie[]
      */
-    public void setGameDie(GameDie[] gameDie) {
-        this.gameDie = gameDie;
+    public void setGameDice(ArrayList<GameDie> gameDice) {
+        this.gameDice = gameDice;
     }
 
     /**
@@ -417,28 +454,42 @@ public class Game {
             if (oldSeqnr != (players.size() * 2)) {
                 if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
                     if (currentPlayer != playerNextTurn) {
-                        currentPlayer.setIsCurrentPlayer(false);
-                        new PlayerDao().updatePlayer(currentPlayer);
-
-                        setTurnPlayer(playerNextTurn);
-                        new GameDao().updateGame(this);
-
-                        playerNextTurn.setIsCurrentPlayer(true);
-                        new PlayerDao().updatePlayer(playerNextTurn);
+                        updatePlayer(currentPlayer, playerNextTurn);
                     }
                 }
             } else {
                 if (playerNextTurn.getSeqnr() == 1) {
-                    currentPlayer.setIsCurrentPlayer(false);
-                    new PlayerDao().updatePlayer(currentPlayer);
-
-                    setTurnPlayer(playerNextTurn);
-                    new GameDao().updateGame(this);
-
-                    playerNextTurn.setIsCurrentPlayer(true);
-                    new PlayerDao().updatePlayer(playerNextTurn);
+                    updatePlayer(currentPlayer, playerNextTurn);
                 }
             }
         }
     }
+
+    /**
+     * Updates player to currentPlayer
+     *
+     * @param currentPlayer Player
+     * @param playerNextTurn Player
+     */
+    private void updatePlayer(Player currentPlayer, Player playerNextTurn) {
+        PlayerDao playerDao = new PlayerDao();
+        currentPlayer.setIsCurrentPlayer(false);
+        playerDao.updatePlayer(currentPlayer);
+
+        setTurnPlayer(playerNextTurn);
+        new GameDao().updateGame(this);
+
+        playerNextTurn.setIsCurrentPlayer(true);
+        playerDao.updatePlayer(playerNextTurn);
+    }
+
+    /**
+     * Gets the dice from a round
+     *
+     * @return ArrayList<GameDie>
+     */
+    public ArrayList<GameDie> getRoundDice() {
+        return new GameDieDao().getRoundDice(this, round);
+    }
+
 }

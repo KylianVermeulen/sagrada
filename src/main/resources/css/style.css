@@ -30,6 +30,9 @@
     -fx-border-color: #C4923B;
     -fx-border-width: 3;
 }
+Button{
+	-fx-cursor: hand;
+}
 
 .loginTextfield {
     -fx-background-color: #FFFFFF;
