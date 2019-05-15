@@ -10,13 +10,53 @@ public class GameDie extends Die {
 
     /**
      * Full constructor
+     *
      * @param number the id of the die
      * @param color String
-     * @param int eye
+     * @param eyes int
      */
     public GameDie(int number, String color, int eyes) {
         super(number, color);
         this.eyes = eyes;
+
+    }
+
+    /**
+     * Constructor with round
+     *
+     * @param number int
+     * @param color String
+     * @param eyes int
+     * @param round int
+     */
+    public GameDie(int number, String color, int eyes, int round) {
+        super(number, color);
+        this.eyes = eyes;
+        this.round = round;
+    }
+
+    /**
+     * Constructor with die
+     *
+     * @param die Die
+     * @param eyes int
+     */
+    public GameDie(Die die, int eyes) {
+        super(die);
+        this.eyes = eyes;
+    }
+
+    /**
+     * Constructor with die and round
+     *
+     * @param die Die
+     * @param eyes int
+     * @param round int
+     */
+    public GameDie(Die die, int eyes, int round) {
+        super(die);
+        this.eyes = eyes;
+        this.round = round;
     }
 
     /**
@@ -77,18 +117,25 @@ public class GameDie extends Die {
     public boolean hasColor() {
         return super.getColor() != null;
     }
-    
+
+    /**
+     * Gets the round
+     *
+     * @return int
+     */
+    public int getRound() {
+        return this.round;
+    }
+
     /**
      * Sets the patterncardfield a die is located on
-     * @param patternCardField
      */
     public void setPatternCardField(PatternCardField patternCardField) {
         this.patternCardField = patternCardField;
     }
-    
+
     /**
      * Returns the patterncardfield the die in on
-     * @return
      */
     public PatternCardField getPatternCardField() {
         return patternCardField;

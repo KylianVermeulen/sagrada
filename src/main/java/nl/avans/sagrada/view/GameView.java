@@ -159,7 +159,6 @@ public class GameView extends VBox implements ViewInterface {
         actionButtons.setPadding(new Insets(40, 0, 0, 0));
     }
 
-
     @Override
     public void render() {
         getChildren().clear();
@@ -194,8 +193,10 @@ public class GameView extends VBox implements ViewInterface {
         secondView.getChildren().addAll(publicObjectiveCardViews);
         secondView.getChildren().add(roundTrackView);
 
+        HBox rightThirdView = new HBox();
+        rightThirdView.getChildren().addAll(new DieOfferView(this.game), privateObjectiveCardView);
         thirdView.setLeft(chatLineView);
-        thirdView.setRight(privateObjectiveCardView);
+        thirdView.setRight(rightThirdView);
         thirdView.setBottom(actionButtons);
 
         HBox thirdViewCenterBox = new HBox();
