@@ -41,7 +41,6 @@ public class EndgameView extends BorderPane implements ViewInterface {
         this.winplayer = player;
         this.accountcontroller = accountcontroller;
 
-
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
         String css = this.getClass().getResource("/css/endgameview.css").toExternalForm();
         getStylesheets().add(css);
