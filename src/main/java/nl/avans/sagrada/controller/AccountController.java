@@ -167,7 +167,6 @@ public class AccountController {
         lobbyView.setAccounts(accounts);
         lobbyView.render();
 
-        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(lobbyView);
         myScene.setContentPane(pane);
         account.setAccountStatus(AccountStatus.LOBBY);
