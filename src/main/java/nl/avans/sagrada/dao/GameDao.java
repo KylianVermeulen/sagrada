@@ -146,7 +146,7 @@ public class GameDao {
                     "query"), new QueryParameter(QueryParameter.INT, game.getId()));
 
             while (rs.next()) {
-                int playerid = rs.getInt("idplayer");
+                int playerId = rs.getInt("idplayer");
                 player = new PlayerDao().getPlayerById(playerid);
             }
         } catch (Exception e) {
