@@ -153,7 +153,7 @@ public class GameDieDao {
      * @param round int
      * @return ArrayList<GameDie>
      */
-    public ArrayList<GameDie> getRoundDices(Game game, int round) {
+    public ArrayList<GameDie> getRoundDice(Game game, int round) {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {
             ResultSet rs = dbConnection.executeQuery(

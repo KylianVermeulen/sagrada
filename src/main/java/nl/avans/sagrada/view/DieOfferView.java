@@ -23,7 +23,7 @@ public class DieOfferView extends TilePane {
      * Builds the panes with the dice
      */
     private void buildDice() {
-        for (GameDie gameDie : game.getRoundDices()) {
+        for (GameDie gameDie : game.getRoundDice()) {
             Pane paddingPane = new Pane();
             DieView dieView = new DieView(gameDie);
             dieView.resize(25, 25);

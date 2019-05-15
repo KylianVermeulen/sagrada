@@ -25,7 +25,7 @@ public class Game {
     private ArrayList<Player> players;
     private Player startPlayer;
     private FavorToken[] favorTokens;
-    private ArrayList<GameDie> gameDices;
+    private ArrayList<GameDie> gameDice;
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
     private Timestamp creationDate;
@@ -41,7 +41,7 @@ public class Game {
 
     public Game() {
         players = new ArrayList<>();
-        gameDices = new ArrayList<>();
+        gameDice = new ArrayList<>();
         round = 1;
         gamemode = GAMEMODE_NORMAL;
     }
@@ -54,7 +54,7 @@ public class Game {
         GameDieDao gameDieDao = new GameDieDao();
         for (Die die : dieDao.getDice()) {
             GameDie gameDie = new GameDie(die, new Random().nextInt(6) + 1);
-            gameDices.add(gameDie);
+            gameDice.add(gameDie);
             gameDieDao.addDie(this, gameDie);
         }
     }
@@ -62,12 +62,12 @@ public class Game {
     /**
      * Adds random rounds to the gameDice
      */
-    public void addRandomRoundsToGameDices() {
+    public void addRandomRoundsToGameDice() {
         for (int i = 1; i <= 10; i++) {
             for (int j = 0; j < (getPlayers().size() * 2 + 1); j++) {
                 boolean hasDie = false;
                 while (!hasDie) {
-                    GameDie randomGameDie = gameDices.get(new Random().nextInt(gameDices.size()));
+                    GameDie randomGameDie = gameDice.get(new Random().nextInt(gameDice.size()));
                     GameDie checkDie = new GameDieDao().getDie(this, randomGameDie);
                     if (checkDie.getRound() == 0) {
                         new GameDieDao().updateDie(this, randomGameDie, i);
@@ -171,17 +171,17 @@ public class Game {
      *
      * @return GameDie[]
      */
-    public ArrayList<GameDie> gameDices() {
-        return gameDices;
+    public ArrayList<GameDie> gameDice() {
+        return gameDice;
     }
 
     /**
      * Set gameDice to Game
      *
-     * @param gameDices GameDie[]
+     * @param gameDice GameDie[]
      */
-    public void setGameDices(ArrayList<GameDie> gameDices) {
-        this.gameDices = gameDices;
+    public void setGameDice(ArrayList<GameDie> gameDice) {
+        this.gameDice = gameDice;
     }
 
     /**
@@ -488,8 +488,8 @@ public class Game {
      *
      * @return ArrayList<GameDie>
      */
-    public ArrayList<GameDie> getRoundDices() {
-        return new GameDieDao().getRoundDices(this, round);
+    public ArrayList<GameDie> getRoundDice() {
+        return new GameDieDao().getRoundDice(this, round);
     }
 
 }
