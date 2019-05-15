@@ -1,6 +1,7 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -24,6 +25,8 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public class PatternCardSelectionView extends BorderPane implements ViewInterface {
     private PlayerController playerController;
     private ArrayList<PatternCard> optionalPatternCards;
+    private final int BUTTON_WIDTH = 100;
+    private final int BUTTON_HEIGHT = 40;
     private ArrayList<PatternCardView> patternCardViews = new ArrayList<>();
 
     public PatternCardSelectionView(PlayerController playerController) {
@@ -55,8 +58,7 @@ public class PatternCardSelectionView extends BorderPane implements ViewInterfac
             PatternCardView patternCardView = new PatternCardView(playerController);
             patternCardView.setPatternCard(patternCard);
             patternCardView.render();
-            patternCardView.setPrefWidth(PatternCardView.PATTERNCARD_WIDTH + 7);
-            patternCardView.setMaxWidth(PatternCardView.PATTERNCARD_WIDTH + 7);
+            patternCardView.setId("patternCard");
             patternCardViews.add(patternCardView);
             tilePane.getChildren().add(patternCardView);
         }
@@ -67,14 +69,14 @@ public class PatternCardSelectionView extends BorderPane implements ViewInterfac
         button.setOnAction(e -> {
             int i = 0;
             for (PatternCardView patternCardView : patternCardViews) {
-                if (patternCardView.getBorder() != null) {
+                if (patternCardView.getStylesheets().size() != 0) {
                     playerController.actionSelectPatternCard(optionalPatternCards.get(i));
                     return;
                 }
                 i++;
             }
         });
-        button.setPrefSize(100, 40);
+        button.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         BorderPane chooseCardButton = new BorderPane();
         chooseCardButton.setCenter(button);
         chooseCardButton.setPadding(new Insets(50, 50, 50, 50));
@@ -99,42 +101,33 @@ public class PatternCardSelectionView extends BorderPane implements ViewInterfac
      * Adds a border to the clicked patternCard and removes them from the others
      */
     private void setBorderOnClicked() {
+        String css = this.getClass().getResource("/css/patterncardselection.css").toExternalForm();
         patternCardViews.get(0).setOnMouseClicked(e -> {
-            patternCardViews.get(0).setBorder(new Border(
-                    new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
-                            new BorderWidths(3.5))));
-            patternCardViews.get(1).setBorder(null);
-            patternCardViews.get(2).setBorder(null);
-            patternCardViews.get(3).setBorder(null);
-
+            patternCardViews.get(0).getStylesheets().add(css);
+            patternCardViews.get(1).getStylesheets().clear();
+            patternCardViews.get(2).getStylesheets().clear();
+            patternCardViews.get(3).getStylesheets().clear();
         });
 
         patternCardViews.get(1).setOnMouseClicked(e -> {
-            patternCardViews.get(1).setBorder(new Border(
-                    new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
-                            new BorderWidths(3.5))));
-            patternCardViews.get(0).setBorder(null);
-            patternCardViews.get(2).setBorder(null);
-            patternCardViews.get(3).setBorder(null);
+            patternCardViews.get(1).getStylesheets().add(css);
+            patternCardViews.get(0).getStylesheets().clear();
+            patternCardViews.get(2).getStylesheets().clear();
+            patternCardViews.get(3).getStylesheets().clear();
         });
 
         patternCardViews.get(2).setOnMouseClicked(e -> {
-            patternCardViews.get(2).setBorder(new Border(
-                    new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
-                            new BorderWidths(3.5))));
-            patternCardViews.get(1).setBorder(null);
-            patternCardViews.get(0).setBorder(null);
-            patternCardViews.get(3).setBorder(null);
+            patternCardViews.get(2).getStylesheets().add(css);
+            patternCardViews.get(1).getStylesheets().clear();
+            patternCardViews.get(0).getStylesheets().clear();
+            patternCardViews.get(3).getStylesheets().clear();
         });
 
         patternCardViews.get(3).setOnMouseClicked(e -> {
-            patternCardViews.get(3).setBorder(new Border(
-                    new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
-                            new BorderWidths(3.5))));
-            patternCardViews.get(1).setBorder(null);
-            patternCardViews.get(2).setBorder(null);
-            patternCardViews.get(0).setBorder(null);
-
+            patternCardViews.get(3).getStylesheets().add(css);
+            patternCardViews.get(1).getStylesheets().clear();
+            patternCardViews.get(2).getStylesheets().clear();
+            patternCardViews.get(0).getStylesheets().clear();
         });
     }
 }
