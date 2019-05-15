@@ -472,14 +472,15 @@ public class Game {
      * @param playerNextTurn Player
      */
     private void updatePlayer(Player currentPlayer, Player playerNextTurn) {
+        PlayerDao playerDao = new PlayerDao();
         currentPlayer.setIsCurrentPlayer(false);
-        new PlayerDao().updatePlayer(currentPlayer);
+        playerDao.updatePlayer(currentPlayer);
 
         setTurnPlayer(playerNextTurn);
         new GameDao().updateGame(this);
 
         playerNextTurn.setIsCurrentPlayer(true);
-        new PlayerDao().updatePlayer(playerNextTurn);
+        playerDao.updatePlayer(playerNextTurn);
     }
 
     /**

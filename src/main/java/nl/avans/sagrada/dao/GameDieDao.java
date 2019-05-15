@@ -103,8 +103,11 @@ public class GameDieDao {
                     new QueryParameter(QueryParameter.INT, game.getId())
             );
             while (rs.next()) {
-                GameDie gameDie = new GameDie(rs.getInt("number"), rs.getString("color"),
-                        rs.getInt("eyes"));
+                GameDie gameDie = new GameDie(
+                        rs.getInt("number"),
+                        rs.getString("color"),
+                        rs.getInt("eyes")
+                );
                 gameDice.add(gameDie);
             }
         } catch (Exception e) {
@@ -131,8 +134,11 @@ public class GameDieDao {
                     new QueryParameter(QueryParameter.STRING, die.getColor())
             );
             while (rs.next()) {
-                gameDie = new GameDie(rs.getInt("dienumber"), rs.getString("diecolor"),
-                        rs.getInt("eyes"), rs.getInt("round"));
+                gameDie = new GameDie(
+                        rs.getInt("dienumber"),
+                        rs.getString("diecolor"),
+                        rs.getInt("eyes"), rs.getInt("round")
+                );
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,8 +162,11 @@ public class GameDieDao {
                     new QueryParameter(QueryParameter.INT, round)
             );
             while (rs.next()) {
-                GameDie gameDie = new GameDie(rs.getInt("dienumber"), rs.getString("diecolor"),
-                        rs.getInt("eyes"));
+                GameDie gameDie = new GameDie(
+                        rs.getInt("dienumber"),
+                        rs.getString("diecolor"),
+                        rs.getInt("eyes")
+                );
                 gameDice.add(gameDie);
             }
         } catch (Exception e) {

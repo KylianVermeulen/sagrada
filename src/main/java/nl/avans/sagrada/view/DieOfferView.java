@@ -9,6 +9,11 @@ import nl.avans.sagrada.model.GameDie;
 public class DieOfferView extends TilePane {
     private Game game;
 
+    /**
+     * Full Constructor
+     *
+     * @param game Game
+     */
     public DieOfferView(Game game) {
         this.game = game;
         buildDice();
