@@ -12,6 +12,8 @@
 
 #registerLabel {
     -fx-underline: true;
+    -fx-font-size: 14;
+    -fx-font-family: "Bookman Old Style";
 }
 
 #ObjectiveCardDescription {
@@ -28,6 +30,45 @@
     -fx-border-color: #C4923B;
     -fx-border-width: 3;
 }
+Button{
+	-fx-cursor: hand;
+}
+
+.loginTextfield {
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 1;
+    -fx-border-color: Black;
+}
+
+.loginLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-font-family: "Bookman Old Style";
+}
+
+#loginButton {
+    -fx-font-weight: bold;
+    -fx-background-color: black;
+    -fx-font-family: "Bookman Old Style";
+    -fx-font-size: 14;
+    -fx-text-fill: lightgray;
+}
+#loginButton:hover{
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+}
+
+#loginBackground {
+    -fx-background-image: url("/images/Logo/sagrada.png")
+}
+
+#loginLogo {
+    -fx-background-image: url("/images/Logo/Sagrada-logo.gif");
+}
+
+#leftPane {
+    -fx-background-color: #FFFFFF;
+}
 
 #statsButton {
     -fx-background-image: url("/images/lobby/STATS.jpg");
@@ -36,3 +77,35 @@
     -fx-background-position: center;
 }
 
+#registerBackground {
+    -fx-background-image: url("/images/background/sagrada.png");
+}
+
+#registerButton {
+    -fx-font-weight: bold;
+    -fx-background-color: black;
+    -fx-font-family: "Bookman Old Style";
+    -fx-font-size: 14;
+    -fx-text-fill: lightgray;
+}
+
+#registerButton:hover {
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+}
+
+#registerLeftPane {
+    -fx-background-color: #FFFFFF;
+}
+
+.registerTextField {
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 1;
+    -fx-border-color: Black;
+}
+
+.registerLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-font-family: "Bookman Old Style";
+}

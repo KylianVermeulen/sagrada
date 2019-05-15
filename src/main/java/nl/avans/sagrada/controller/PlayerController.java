@@ -2,15 +2,16 @@ package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
 import javafx.geometry.Insets;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
@@ -18,8 +19,9 @@ import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.GameView;
@@ -33,6 +35,7 @@ import nl.avans.sagrada.view.popups.AlertType;
 public class PlayerController {
     private MyScene myScene;
     private Player player;
+    private ToolCard activeToolCard;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -40,6 +43,49 @@ public class PlayerController {
 
     public Player getPlayer() {
         return player;
+    }
+
+    /**
+     * Sets the active toolcard for the player And prints a message to the client that the toolcard
+     * is active
+     */
+    public void setActiveToolCard(ToolCard toolcard) {
+        Alert alert = null;
+        if (activeToolCard == null) {
+            activeToolCard = toolcard;
+            alert = new Alert("Active toolcard",
+                    "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
+            myScene.addAlertPane(alert);
+        }
+    }
+
+    /**
+     * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
+     */
+    public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
+            GameDie gameDie, MouseEvent event) {
+        if (activeToolCard != null) {
+            PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
+            if (toolcardUseResult != null) {
+                activeToolCard = null;
+                player.setPatternCard(toolcardUseResult);
+                viewGame();
+            } else {
+                Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
+                        AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
+        } else {
+            if (gameDie.getPatternCardField() == null) {
+                if (patternCardField.canPlaceDie(gameDie)) {
+                    patternCardField.setDie(gameDie);
+                    gameDie.setPatternCardField(patternCardField);
+                }
+                patternCardField.placeDie(gameDie);
+                PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
+            }
+        }
     }
 
     /**
@@ -76,6 +122,10 @@ public class PlayerController {
     public void actionJoinGame(Account account, Game game) {
         player = new PlayerDao().getPlayerByAccountAndGame(account, game);
         player.setGame(game);
+        PatternCardDao PatternCardDao = new PatternCardDao();
+        PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
+        player.setPatternCard(patternCard);
+
         if (player.getPatternCard() == null) {
             viewOptionalPatternCards();
         } else {
@@ -182,43 +232,54 @@ public class PlayerController {
      * @param toolCard The tool card.
      */
     public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolcardview) {
-        FavorTokenDao favorTokenDao = new FavorTokenDao();
-        ToolCardDao toolCardDao = new ToolCardDao();
-        toolCardDao.toolCardHasPayment(toolCard, player.getGame());
+        if (activeToolCard == null) {
+            FavorTokenDao favorTokenDao = new FavorTokenDao();
+            ToolCardDao toolCardDao = new ToolCardDao();
+            toolCardDao.toolCardHasPayment(toolCard, player.getGame());
 
-        ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
-        for (int i = 0; i < player.getGame().getPlayers().size(); i++) {
-            if (player.getId() == player.getGame().getPlayers().get(i).getId()) {
-                player.setPlayerColor(i);
-            }
-        }
-        if (newFavorTokens.size() > 0) {
-            if (!toolCard.hasBeenPaidForBefore()) {
-                favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                        player.getGame());
-                newFavorTokens.remove(0);
-                player.setFavorTokens(newFavorTokens);
-                toolCard.setHasBeenPaidForBefore(true);
-                toolcardview.addFavorToken(player.getPlayerColor());
-            } else {
-                if (newFavorTokens.size() > 1) {
-                    for (int i = 1; i <= 2; i++) {
-                        favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                                player.getGame());
-                        newFavorTokens.remove(0);
-                        toolcardview.addFavorToken(player.getPlayerColor());
-                    }
-                    player.setFavorTokens(newFavorTokens);
-                } else {
-                    Alert alert = new Alert("Te weinig betaalstenen",
-                            "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
-                            AlertType.ERROR);
-                    myScene.addAlertPane(alert);
+            ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+            for (int i = 0; i < player.getGame().getPlayers().size(); i++) {
+                if (player.getId() == player.getGame().getPlayers().get(i).getId()) {
+                    player.setPlayerColor(i);
                 }
             }
+            if (newFavorTokens.size() > 0) {
+                if (!toolCard.hasBeenPaidForBefore()) {
+                    favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                            player.getGame());
+                    newFavorTokens.remove(0);
+                    player.setFavorTokens(newFavorTokens);
+                    toolCard.setHasBeenPaidForBefore(true);
+                    toolcardview.addFavorToken(player.getPlayerColor());
+                    setActiveToolCard(toolCard);
+                } else {
+                    if (newFavorTokens.size() > 1) {
+                        for (int i = 1; i <= 2; i++) {
+                            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                                    player.getGame());
+                            newFavorTokens.remove(0);
+                            toolcardview.addFavorToken(player.getPlayerColor());
+                            // Here is the favor token added
+                            setActiveToolCard(toolCard);
+                        }
+                        player.setFavorTokens(newFavorTokens);
+                    } else {
+                        Alert alert = new Alert("Te weinig betaalstenen",
+                                "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
+                                AlertType.ERROR);
+                        myScene.addAlertPane(alert);
+                    }
+                }
+            } else {
+                Alert alert = new Alert("Te weinig betaalstenen",
+                        "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
+                        AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
         } else {
-            Alert alert = new Alert("Te weinig betaalstenen",
-                    "Je hebt niet genoeg betaalstenen om deze kaart te kopen!", AlertType.ERROR);
+            Alert alert = new Alert("Active toolcard",
+                    "Je hebt al een actieve toolcard: " + activeToolCard.getName(),
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
         }
     }

@@ -5,8 +5,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -22,6 +26,8 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public class LobbyView extends BorderPane implements ViewInterface {
     private final int BUTTON_WIDTH = 150;
     private final int BUTTON_HEIGHT = 40;
+    private final Image LOBBY_BACKGROUND =
+            new Image("/images/backgrounds/lobbybackground-goede-hoogte.png");
     private AccountController accountController;
     private ArrayList<Game> games;
     private ArrayList<Invite> invites;
@@ -31,6 +37,8 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private AccountOverviewView accountOverview;
     private Button newGameButton;
     private Button logoutButton;
+    private BackgroundSize size =
+            new BackgroundSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT, false, false, true, false);
 
     /**
      * Constructor
@@ -38,6 +46,12 @@ public class LobbyView extends BorderPane implements ViewInterface {
     public LobbyView(AccountController accountController) {
         this.accountController = accountController;
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
+        String css = this.getClass().getResource("/css/lobbyview.css").toExternalForm();
+        getStylesheets().add(css);
+        
+        setBackground(
+                new Background(new BackgroundImage(LOBBY_BACKGROUND, BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
     }
 
     /**
@@ -73,6 +87,8 @@ public class LobbyView extends BorderPane implements ViewInterface {
 
     /**
      * Build the button to make a new game
+     * 
+     * @param url
      */
     private void buildNewGameBtn() {
         BorderPane pane = new BorderPane();
@@ -133,7 +149,9 @@ public class LobbyView extends BorderPane implements ViewInterface {
         VBox vbox2 = new VBox();
         Label playerLabel = new Label("Alle accounts");
         Label inviteLabel = new Label("Invites van spelers");
+        inviteLabel.setTextFill(Color.WHITE);
         Label gameOverviewLabel = new Label("Je openstaande spellen");
+        gameOverviewLabel.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);
         vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview);
