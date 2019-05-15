@@ -268,7 +268,7 @@ public class AccountController {
         myScene.addAlertPane(alert);
         players = gameDao.getPlayersOfGame(game);
         game.setPlayers(players);
-        game.addRandomRoundsToGameDices();
+        game.addRandomRoundsToGameDice();
         game.setOptionPatternCardsForPlayers();
         viewLobby();
     }
