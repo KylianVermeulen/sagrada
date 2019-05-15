@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class DBConnection {
     private static Connection connection = null;
     private static String devDatabaseUrl =
-            "jdbc:mysql://134.209.204.60:3306/sagrada_jelles?serverTimezone=Europe/Amsterdam";
+            "jdbc:mysql://134.209.204.60:3306/sagrada_v50?serverTimezone=Europe/Amsterdam";
     private static String dbPassword = "Sagrada1!";
     private static String dbUser = "sagrada";
     private Properties connectionProperties;
@@ -73,7 +73,8 @@ public class DBConnection {
     }
 
     /**
-     * Executes the given Query on this connection based on Query sql and Query first QueryParameter
+     * Executes the given Query on this connection based on Query sql and Query first
+     * QueryParameter
      *
      * @param query Query
      * @return ResultSet
@@ -258,7 +259,7 @@ public class DBConnection {
                 returnList.add(query);
             } catch (SQLException e) {
                 i++; // If there's a failure move forward in the queue. If not, the query that ran
-                     // will no longer be in the list.
+                // will no longer be in the list.
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
             }
         }
