@@ -80,10 +80,11 @@ public class PlayerController {
                 if (patternCardField.canPlaceDie(gameDie)) {
                     patternCardField.setDie(gameDie);
                     gameDie.setPatternCardField(patternCardField);
+                    
+                    patternCardField.placeDie(gameDie);
+                    PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                    playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
                 }
-                patternCardField.placeDie(gameDie);
-                PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-                playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
             }
         }
     }
