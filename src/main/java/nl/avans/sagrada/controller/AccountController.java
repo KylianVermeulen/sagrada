@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -189,6 +190,7 @@ public class AccountController {
         gameDao.addGame(game);
         game.assignRandomToolCards();
         game.assignRandomPublicObjectiveCards();
+        game.addDice();
 
         int playerId = playerDao.getNextPlayerId();
         Player player = new Player();
@@ -266,6 +268,7 @@ public class AccountController {
         myScene.addAlertPane(alert);
         players = gameDao.getPlayersOfGame(game);
         game.setPlayers(players);
+        game.addRandomRoundsToGameDice();
         game.setOptionPatternCardsForPlayers();
         viewLobby();
     }
