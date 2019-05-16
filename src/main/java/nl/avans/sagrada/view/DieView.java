@@ -1,9 +1,9 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -21,7 +22,7 @@ public class DieView extends Pane implements ViewInterface {
     private final int DIE_HEIGHT = 40;
     private ArrayList<ImageView> images;
     private GameDie gameDie;
-
+    private PlayerController playerController;
     /**
      * Full constructor
      */
@@ -29,9 +30,19 @@ public class DieView extends Pane implements ViewInterface {
         init();
     }
 
-    public DieView(GameDie gameDie) {
+    public DieView(GameDie gameDie, PlayerController playerController) {
+        this.playerController = playerController;
         this.gameDie = gameDie;
         init();
+        setOnMouseClicked(event -> {
+            try {
+                MouseEvent clickEvent = (MouseEvent) event;
+                playerController.actionChangeDie(clickEvent, gameDie);
+
+            } catch (Exception e){
+
+            }
+        });
     }
 
     private void init() {
