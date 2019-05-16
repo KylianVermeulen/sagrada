@@ -3,6 +3,7 @@ package nl.avans.sagrada.dao;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.model.Die;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
