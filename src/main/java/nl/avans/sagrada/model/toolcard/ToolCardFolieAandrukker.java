@@ -8,8 +8,6 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
-import java.util.regex.Pattern;
-
 public class ToolCardFolieAandrukker extends ToolCard {
     
     public ToolCardFolieAandrukker(int id, String name, int seqnr, String description) {
@@ -18,7 +16,6 @@ public class ToolCardFolieAandrukker extends ToolCard {
 
     @Override
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
-        // TODO Auto-generated method stub
         try {
             PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
             PatternCardFieldView patternCardFieldView = (PatternCardFieldView) event.getTarget();
@@ -28,7 +25,6 @@ public class ToolCardFolieAandrukker extends ToolCard {
             Player player = patternCard.getPlayer();
 
             PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
-
             patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
 
             if(patternCardField.hasDie() == false && patternCard.checkSidesColor(patternCardField, die.getColor(), true) && patternCard.checkSidesColor(patternCardField, die.getColor(), false) && patternCard.isNextToDie(patternCardField) == true){
