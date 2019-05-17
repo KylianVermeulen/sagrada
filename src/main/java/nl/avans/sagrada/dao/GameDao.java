@@ -143,11 +143,11 @@ public class GameDao {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
                     "SELECT idplayer, max(score) FROM player WHERE game_idgame=? GROUP BY idplayer ORDER BY score desc LIMIT 1",
-                    "query"), new QueryParameter(QueryParameter.INT, game.getId()));
-
+                    "query"), new QueryParameter(QueryParameter.INT, game.getId())
+            );
             while (rs.next()) {
-                int playerid = rs.getInt("idplayer");
-                player = new PlayerDao().getPlayerById(playerid);
+                int playerId = rs.getInt("idplayer");
+                player = new PlayerDao().getPlayerById(playerId);
             }
         } catch (Exception e) {
             e.printStackTrace();

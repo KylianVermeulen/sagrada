@@ -21,6 +21,7 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.ToolCard;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
+import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
@@ -120,8 +121,8 @@ public class PlayerController {
         if (player.isCurrentPlayer()) {
             player.getGame().setNextPlayer();
         } else {
-            Alert alert = new Alert("Nog even wachten",
-                    "Je bent nog niet aan de beurt.", AlertType.INFO);
+            Alert alert =
+                    new Alert("Nog even wachten", "Je bent nog niet aan de beurt.", AlertType.INFO);
             myScene.addAlertPane(alert);
         }
     }
@@ -167,8 +168,9 @@ public class PlayerController {
      * <p>
      * If the tool card has not received payment before, the player will hand over one favor token
      * as payment for the toolcard. This tool cards status will then be set to "has already been
-     * paid for before". </br> If the tool card has received payment before, then the player will
-     * hand over two favor tokens as payment for the tool card.
+     * paid for before". </br>
+     * If the tool card has received payment before, then the player will hand over two favor tokens
+     * as payment for the tool card.
      * <p>
      * If the player has insufficient funds, a message will appear on screen informing the player
      * about their lack of funds, and the player will not be able to use this tool card.
@@ -253,5 +255,23 @@ public class PlayerController {
         secondPane.getChildren().addAll(pane1, pane2, pane3);
         mainPane.getChildren().addAll(patternCardView, secondPane);
         myScene.setContentPane(mainPane);
+    }
+
+    /**
+     * Displays the view after a game is finished. The user can see their scores and then go or back
+     * to the lobbyscreen or view the statistics.
+     */
+    public void viewEndgame(AccountController accountcontroller) {
+        Pane pane = new Pane();
+        GameDao gameDao = new GameDao();
+        Player player = new PlayerDao().getPlayerById(1);
+        player.setGame(gameDao.getGameById(1));
+        Player winplayer = gameDao.bestFinalScore(player.getGame());
+        myScene.getPlayerController().setPlayer(player);
+        EndgameView endgame = new EndgameView(gameDao.getGameById(1), myScene.getPlayerController(),
+                winplayer, accountcontroller);
+        endgame.render();
+        pane.getChildren().add(endgame);
+        myScene.setContentPane(pane);
     }
 }
