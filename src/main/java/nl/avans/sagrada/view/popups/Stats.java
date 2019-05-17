@@ -72,7 +72,7 @@ public class Stats extends Popup {
         labelMostUsedColor.setTextFill(Color.web("#000"));
         labelMostUsedColor.setFont(Font.font("sans-serif", FontWeight.MEDIUM, 18));
 
-        Label labelMostUsedValue = new Label("Meest gebruikte value: " + mostUsedValue);
+        Label labelMostUsedValue = new Label("Meest gebruikte aantal ogen: " + mostUsedValue);
         labelMostUsedValue.setTextFill(Color.web("#000"));
         labelMostUsedValue.setFont(Font.font("sans-serif", FontWeight.MEDIUM, 18));
 
