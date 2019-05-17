@@ -147,7 +147,11 @@ public class GameDao {
             );
             while (rs.next()) {
                 int playerId = rs.getInt("idplayer");
+<<<<<<< HEAD
                 player = new PlayerDao().getPlayerById(playerId);
+=======
+                player = new PlayerDao().getPlayerById(playerid);
+>>>>>>> baf500fdef263db592677741750dd85bae8aae99
             }
         } catch (Exception e) {
             e.printStackTrace();
