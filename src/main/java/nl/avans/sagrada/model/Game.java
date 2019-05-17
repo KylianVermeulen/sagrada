@@ -492,6 +492,10 @@ public class Game {
         return new GameDieDao().getRoundDice(this);
     }
 
+    /**
+     * Gets the current round the game is on
+     * @return int
+     */
     public int getRound() {
         return round;
     }
