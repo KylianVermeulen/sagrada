@@ -28,6 +28,7 @@ import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.PatternCardView;
+import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
 
@@ -45,46 +46,51 @@ public class PlayerController {
     }
 
     /**
-     * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
-     */
-    public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
-            GameDie gameDie, MouseEvent event) {
-        
-        Player playerEvent = patternCard.getPlayer();
-        
-        if (playerEvent.getId() == player.getId()) {
-            // Check if the player from the 
-            if (activeToolCard != null) {
-                PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
-                if (toolcardUseResult != null) {
-                    actionPayForToolCard(activeToolCard);
-                    activeToolCard = null;
-                    player.setPatternCard(toolcardUseResult);
-                    viewGame();
-                } else {
-                    Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
-                            AlertType.ERROR);
-                    myScene.addAlertPane(alert);
-                }
-            } else {
-                if (gameDie.getPatternCardField() == null) {
-                    if (patternCardField.canPlaceDie(gameDie)) {
-                        gameDie.setPatternCardField(patternCardField);
-                        patternCardField.setDie(gameDie);
-                        
-                        PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-                        playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Sets the player for the controller
      */
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    /**
+     * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
+     */
+    public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
+            GameDie gameDie, MouseEvent event) {
+
+        Player playerEvent = patternCard.getPlayer();
+
+        if (playerEvent.getId() == player.getId()) {
+            if (player.isCurrentPlayer()) {
+                if (activeToolCard != null) {
+                    PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
+                    if (toolcardUseResult != null) {
+                        activeToolCard = null;
+                        player.setPatternCard(toolcardUseResult);
+                        viewGame();
+                    } else {
+                        Alert alert = new Alert("Helaas",
+                                "Dit kan niet wat je probeert met de toolcard",
+                                AlertType.ERROR);
+                        myScene.addAlertPane(alert);
+                    }
+                } else {
+                    if (gameDie.getPatternCardField() == null) {
+                        if (patternCardField.canPlaceDie(gameDie)) {
+                            gameDie.setPatternCardField(patternCardField);
+                            patternCardField.setDie(gameDie);
+
+                            PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                            playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
+                        }
+                    }
+                }
+            } else {
+                Alert alert = new Alert("Nog even wachten",
+                        "Je bent nog niet aan de beurt.", AlertType.INFO);
+                myScene.addAlertPane(alert);
+            }
+        }
     }
 
     public void viewGame() {

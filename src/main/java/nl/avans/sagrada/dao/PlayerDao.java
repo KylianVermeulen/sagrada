@@ -156,4 +156,34 @@ public class PlayerDao {
             e.printStackTrace();
         }
     }
+
+    public boolean hasPlacedDieInRound() {
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("", "query")
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean hasUsedToolcardInRound(Player player) {
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT * FROM gamefavortoken where gametoolcard IS NOT NULL AND round=? AND idplayer=?;",
+                            "query"
+                    ),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getRound()),
+                    new QueryParameter(QueryParameter.INT, player.getId())
+            );
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
