@@ -192,4 +192,19 @@ public class GameDieDao {
             e.printStackTrace();
         }
     }
+    
+    public void updateRemainingDieForRound(int newDieNumber, String newDieColor, int newEyes, Game game, int round) {
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("UPDATE gamedie SET dienumber=?, diecolor=?, eyes=? WHERE idgame=? AND round=?", "update"),
+                    new QueryParameter(QueryParameter.INT, newDieNumber),
+                    new QueryParameter(QueryParameter.STRING, newDieColor),
+                    new QueryParameter(QueryParameter.INT, newEyes),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.INT, round)
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
