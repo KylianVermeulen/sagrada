@@ -1,7 +1,6 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
@@ -9,7 +8,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
@@ -119,6 +117,10 @@ public class MyScene extends Scene {
     public void addPopupPane(Pane pane) {
         StackPane.setAlignment(pane, Pos.CENTER);
         if (popups.size() == 0) {
+            popups.add(pane);
+            rootPane.getChildren().add(pane);
+        } else {
+            removePopupPane();
             popups.add(pane);
             rootPane.getChildren().add(pane);
         }
