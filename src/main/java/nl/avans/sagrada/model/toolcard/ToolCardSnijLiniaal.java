@@ -1,6 +1,7 @@
 package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.PatternCardFieldView;
@@ -41,5 +42,9 @@ public class ToolCardSnijLiniaal extends ToolCard {
         } catch (Exception e) {}
 
         return null;
+    }
+
+    @Override
+    public void handleClick(MouseEvent event, Game game, Player player, PlayerController playerController) {
     }
 }

@@ -37,6 +37,7 @@ public class GameView extends VBox implements ViewInterface {
     private RoundTrackView roundTrackView;
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
+    private DieOfferView dieOfferView;
 
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
@@ -158,6 +159,11 @@ public class GameView extends VBox implements ViewInterface {
         actionButtons.setSpacing(SPACING_BETWEEN_CHILDS);
         actionButtons.setPadding(new Insets(40, 0, 0, 0));
     }
+    
+    private void buildDieOffer() {
+        dieOfferView = new DieOfferView(this.game, playerController);
+        dieOfferView.render();
+    }
 
     @Override
     public void render() {
@@ -173,6 +179,7 @@ public class GameView extends VBox implements ViewInterface {
         buildPlayerPatternCard();
         buildPlayerPrivateObjectiveCard();
         buildActionButtons();
+        buildDieOffer();
 
         BorderPane firstView = new BorderPane();
         firstView.setPrefHeight(PatternCardView.PATTERNCARD_HEIGHT - 15);
@@ -194,7 +201,7 @@ public class GameView extends VBox implements ViewInterface {
         secondView.getChildren().add(roundTrackView);
 
         HBox rightThirdView = new HBox();
-        rightThirdView.getChildren().addAll(new DieOfferView(this.game, playerController), privateObjectiveCardView);
+        rightThirdView.getChildren().addAll(dieOfferView, privateObjectiveCardView);
         thirdView.setLeft(chatLineView);
         thirdView.setRight(rightThirdView);
         thirdView.setBottom(actionButtons);

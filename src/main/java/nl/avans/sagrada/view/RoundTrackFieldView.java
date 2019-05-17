@@ -3,6 +3,7 @@ package nl.avans.sagrada.view;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.RoundTrack;
 import nl.avans.sagrada.model.RoundTrackField;
@@ -12,6 +13,7 @@ public class RoundTrackFieldView extends TilePane implements ViewInterface {
     private Pane[] panes;
     private RoundTrack roundTrack;
     private RoundTrackField roundTrackField;
+    private PlayerController playerController;
 
     /**
      * Full Constructor
@@ -86,7 +88,7 @@ public class RoundTrackFieldView extends TilePane implements ViewInterface {
         GameDie[] gameDies = roundTrackField.getGameDies();
         for (int i = 0; i < panes.length; i++) {
             if (gameDies[i] != null) {
-                DieView dieView = new DieView(gameDies[i]);
+                DieView dieView = new DieView(gameDies[i], playerController);
                 dieView.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
                 dieView.resize(20, 20);
                 dieView.render();

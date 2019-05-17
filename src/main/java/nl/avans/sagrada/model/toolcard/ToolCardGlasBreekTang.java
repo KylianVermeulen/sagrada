@@ -1,8 +1,11 @@
 package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
+import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.Player;
 
 public class ToolCardGlasBreekTang extends ToolCard {
     
@@ -16,4 +19,8 @@ public class ToolCardGlasBreekTang extends ToolCard {
         return null;
     }
 
+    @Override
+    public void handleClick(MouseEvent event, Game game, Player player, PlayerController playerController) {
+        
+    }
 }

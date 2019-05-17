@@ -150,16 +150,15 @@ public class GameDieDao {
      * Gets the dice for a round from a game
      *
      * @param game Game
-     * @param round int
      * @return ArrayList<GameDie>
      */
-    public ArrayList<GameDie> getRoundDice(Game game, int round) {
+    public ArrayList<GameDie> getRoundDice(Game game) {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamedie WHERE idgame=? AND round=?", "query"),
                     new QueryParameter(QueryParameter.INT, game.getId()),
-                    new QueryParameter(QueryParameter.INT, round)
+                    new QueryParameter(QueryParameter.INT, game.getRound())
             );
             while (rs.next()) {
                 GameDie gameDie = new GameDie(
@@ -175,6 +174,12 @@ public class GameDieDao {
         return gameDice;
     }
 
+    /**
+     * Places a die on the patterncardfield in the db
+     * @param die
+     * @param patterncardfield
+     * @param player
+     */
     public void placeDie(GameDie die, PatternCardField patterncardfield, Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(

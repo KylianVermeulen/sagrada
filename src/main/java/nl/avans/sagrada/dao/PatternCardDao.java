@@ -41,9 +41,7 @@ public class PatternCardDao {
                             rs.getBoolean("standard"),
                             player
                         );
-                return patternCard;
             }
-            return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }

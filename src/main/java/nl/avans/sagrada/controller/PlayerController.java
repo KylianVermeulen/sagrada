@@ -84,10 +84,9 @@ public class PlayerController {
             } else {
                 if (gameDie.getPatternCardField() == null) {
                     if (patternCardField.canPlaceDie(gameDie)) {
-                        patternCardField.setDie(gameDie);
                         gameDie.setPatternCardField(patternCardField);
+                        patternCardField.setDie(gameDie);
                         
-                        patternCardField.placeDie(gameDie);
                         PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                         playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
                     }
@@ -96,9 +95,9 @@ public class PlayerController {
         }
     }
 
-    public void actionChangeDie(MouseEvent event, GameDie gameDie){
+    public void actionChangeDie(MouseEvent event){
         if(activeToolCard.getId() == 1){
-            activeToolCard.handleDrag(event, gameDie);
+            activeToolCard.handleClick(event, player.getGame(), player, this);
         }
     }
 
@@ -211,7 +210,6 @@ public class PlayerController {
     public void actionSendMessage(String text, ChatLineView chatlineView) {
         ChatlineDao chatlineDao = new ChatlineDao();
         Chatline chatline = new Chatline(player, text);
-        Game game = player.getGame();
         chatlineDao.getTime(chatline);
 
         if (!text.matches("")) {

@@ -409,7 +409,7 @@ public class Game {
             }
         }
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
-                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber1), this);
+                publicObjectiveCardDao.getPublicObjectiveCardById(1), this);
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
                 publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber2), this);
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
@@ -489,7 +489,15 @@ public class Game {
      * @return ArrayList<GameDie>
      */
     public ArrayList<GameDie> getRoundDice() {
-        return new GameDieDao().getRoundDice(this, round);
+        return new GameDieDao().getRoundDice(this);
+    }
+
+    /**
+     * Gets the current round the game is on
+     * @return int
+     */
+    public int getRound() {
+        return round;
     }
 
 }
