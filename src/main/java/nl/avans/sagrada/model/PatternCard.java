@@ -53,7 +53,7 @@ public class PatternCard {
         this.difficulty = difficulty;
         this.standard = standard;
         this.player = player;
-        patternCardFields = getPatternCardFields();
+        patternCardFields = getPatternCardFields(player);
     }
     
     public void setPlayer(Player player) {
@@ -214,9 +214,20 @@ public class PatternCard {
      *
      * @return PatternCardField[]
      */
-    public PatternCardField[][] getPatternCardFields() {
+    public PatternCardField[][] getPatternCardFields(Player player) {
         PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
         ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao.getPatternCardFieldsOfPatterncard(this, player);
+        return makePatternCardFields(patternCardFieldsList);
+    }
+
+    /**
+     * Get patternCardFields from standard optional PatternCard
+     *
+     * @return PatternCardField[]
+     */
+    public PatternCardField[][] getPatternCardFields() {
+        PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
+        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao.getPatternCardFieldsOfPatterncard(this);
         return makePatternCardFields(patternCardFieldsList);
     }
 
