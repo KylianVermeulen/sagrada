@@ -489,7 +489,11 @@ public class Game {
      * @return ArrayList<GameDie>
      */
     public ArrayList<GameDie> getRoundDice() {
-        return new GameDieDao().getRoundDice(this, round);
+        return new GameDieDao().getRoundDice(this);
+    }
+
+    public int getRound() {
+        return round;
     }
 
 }

@@ -30,10 +30,9 @@ public class PlayerFrameFieldDao {
         try {
             Game game = player.getGame();
             ResultSet rs = dbConnection.executeQuery(new Query(
-                        "SELECT gamedie.dienumber, gamedie.diecolor, gamedie.eyes FROM playerframefield "
-                        + "JOIN gamedie ON gamedie.idgame = playerframefield.idgame "
-                        + "JOIN die ON gamedie.dienumber = die.number AND gamedie.diecolor = die.color "
-                        + "WHERE player_idplayer=? AND position_x=? AND position_y=? AND gamedie.idgame=?", "query"
+                        "SELECT playerframefield.idgame, player_idplayer, position_x, position_y, playerframefield.dienumber, playerframefield.diecolor, gamedie.eyes FROM playerframefield\n" + 
+                        "JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber AND gamedie.diecolor=playerframefield.diecolor\n" + 
+                        "WHERE player_idplayer=? AND position_x=? AND position_y=? AND playerframefield.idgame=?", "query"
                     ),
                         new QueryParameter(QueryParameter.INT, player.getId()),
                         new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
@@ -42,14 +41,14 @@ public class PlayerFrameFieldDao {
                     );
             if (rs.next()) {
                 die = new GameDie(
-                        rs.getInt("gamedie.dienumber"), 
-                        rs.getString("gamedie.diecolor"), 
+                        rs.getInt("dienumber"), 
+                        rs.getString("diecolor"), 
                         rs.getInt("eyes")
                     );
             }
         } catch (Exception e) {
             // TODO: handle exception
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return die;
     }
