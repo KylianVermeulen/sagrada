@@ -35,7 +35,6 @@ public class GameSetupView extends VBox implements ViewInterface {
     private final int BUTTON_HEIGHT = 50;
     private final Image inviteview_background =
             new Image("/images/backgrounds/gamesetupviewbackground-goede-hoogte.png");
-
     private AccountController accountController;
     private VBox gameSelectorPane;
     private HBox bottumButtonPane;
