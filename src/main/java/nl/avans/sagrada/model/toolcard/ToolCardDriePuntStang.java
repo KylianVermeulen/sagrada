@@ -16,22 +16,7 @@ public class ToolCardDriePuntStang extends ToolCard {
     }
 
     @Override
-    public void handleDieChange(MouseEvent event, Game game, GameDie gameDie) {
-        try {
-            PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-            DieView dieView = (DieView) event.getTarget();
-
-            GameDie die1 = dieView.getGameDie();
-            DieOfferView dieOfferView = new DieOfferView();
-            for(int i = 0; i < )
-
-
-
-
-        } catch (Exception e){
-
-        }
+    public PatternCard handleDrag(MouseEvent event, GameDie die) {
         return null;
     }
-
 }

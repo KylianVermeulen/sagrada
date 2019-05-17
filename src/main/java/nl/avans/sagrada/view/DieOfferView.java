@@ -3,6 +3,7 @@ package nl.avans.sagrada.view;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 

@@ -194,7 +194,7 @@ public class GameView extends VBox implements ViewInterface {
         secondView.getChildren().add(roundTrackView);
 
         HBox rightThirdView = new HBox();
-        rightThirdView.getChildren().addAll(new DieOfferView(this.game), privateObjectiveCardView);
+        rightThirdView.getChildren().addAll(new DieOfferView(this.game, playerController), privateObjectiveCardView);
         thirdView.setLeft(chatLineView);
         thirdView.setRight(rightThirdView);
         thirdView.setBottom(actionButtons);

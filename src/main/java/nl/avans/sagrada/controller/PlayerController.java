@@ -60,12 +60,6 @@ public class PlayerController {
         }
     }
 
-    public void actionChangeDie(MouseEvent event, GameDie gameDie){
-        if(activeToolCard.getId() == 1){
-            activeToolCard.handleDieChange(event, player.getGame(), gameDie);
-        }
-    }
-
     /**
      * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
      */

@@ -22,7 +22,6 @@ public class DieView extends Pane implements ViewInterface {
     private final int DIE_HEIGHT = 40;
     private ArrayList<ImageView> images;
     private GameDie gameDie;
-    private PlayerController playerController;
     /**
      * Full constructor
      */
@@ -30,19 +29,9 @@ public class DieView extends Pane implements ViewInterface {
         init();
     }
 
-    public DieView(GameDie gameDie, PlayerController playerController) {
-        this.playerController = playerController;
+    public DieView(GameDie gameDie) {
         this.gameDie = gameDie;
         init();
-        setOnMouseClicked(event -> {
-            try {
-                MouseEvent clickEvent = (MouseEvent) event;
-                playerController.actionChangeDie(clickEvent, gameDie);
-
-            } catch (Exception e){
-
-            }
-        });
     }
 
     private void init() {
