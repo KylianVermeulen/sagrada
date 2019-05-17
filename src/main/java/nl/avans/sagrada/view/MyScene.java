@@ -1,7 +1,6 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
@@ -9,7 +8,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
@@ -20,6 +18,7 @@ public class MyScene extends Scene {
     private Pane rootPane;
     private Pane contentPane;
     private ArrayList<Pane> alerts;
+    private ArrayList<Pane> popups;
     private AccountController accountController;
     private PlayerController playerController;
     private ChecksumDatabase checksumDatabase;
@@ -36,6 +35,7 @@ public class MyScene extends Scene {
         rootPane = new StackPane();
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
+        popups = new ArrayList<>();
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
@@ -112,5 +112,24 @@ public class MyScene extends Scene {
         alerts.remove(pane);
         rootPane.getChildren().remove(pane);
         renderAlertPanes();
+    }
+
+    public void addPopupPane(Pane pane) {
+        StackPane.setAlignment(pane, Pos.CENTER);
+        if (popups.size() == 0) {
+            popups.add(pane);
+            rootPane.getChildren().add(pane);
+        } else {
+            removePopupPane();
+            popups.add(pane);
+            rootPane.getChildren().add(pane);
+        }
+    }
+
+    public void removePopupPane() {
+        if (popups.size() == 1) {
+            rootPane.getChildren().remove(popups.get(0));
+            popups.clear();
+        }
     }
 }
