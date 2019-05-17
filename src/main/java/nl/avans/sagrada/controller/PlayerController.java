@@ -96,6 +96,12 @@ public class PlayerController {
         }
     }
 
+    public void actionChangeDie(MouseEvent event, GameDie gameDie){
+        if(activeToolCard.getId() == 1){
+            activeToolCard.handleDrag(event, gameDie);
+        }
+    }
+
     /**
      * Sets the player for the controller
      */

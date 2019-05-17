@@ -17,6 +17,7 @@ public class ToolCardDriePuntStang extends ToolCard {
 
     @Override
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
+
         return null;
     }
 }
