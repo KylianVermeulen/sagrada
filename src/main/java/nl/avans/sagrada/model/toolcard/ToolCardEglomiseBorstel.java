@@ -23,10 +23,6 @@ public class ToolCardEglomiseBorstel extends ToolCard {
         PatternCard patternCard = targetField.getPatternCard();
         Player player = patternCard.getPlayer();
 
-        String dieColor = die.getColor();
-        int dieEyes = die.getEyes();
-        int targetValue = targetField.getValue();
-
         if (!targetField.hasDie() && patternCard.checkSidesValue(targetField, die.getEyes(), true)
                 && patternCard.isNextToDie(targetField)) {
             if (targetField.hasValue()) {
@@ -40,10 +36,8 @@ public class ToolCardEglomiseBorstel extends ToolCard {
             targetField.setDie(die);
             playerFrameFieldDao.addDieToField(die, targetField, player);
 
-
             return patternCard;
         }
         return null;
     }
-
 }
