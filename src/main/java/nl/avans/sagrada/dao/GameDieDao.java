@@ -150,7 +150,6 @@ public class GameDieDao {
      * Gets the dice for a round from a game
      *
      * @param game Game
-     * @param round int
      * @return ArrayList<GameDie>
      */
     public ArrayList<GameDie> getRoundDice(Game game) {
@@ -175,6 +174,12 @@ public class GameDieDao {
         return gameDice;
     }
 
+    /**
+     * Places a die on the patterncardfield in the db
+     * @param die
+     * @param patterncardfield
+     * @param player
+     */
     public void placeDie(GameDie die, PatternCardField patterncardfield, Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
