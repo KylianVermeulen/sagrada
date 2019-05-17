@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -18,6 +19,7 @@ public class GameOverviewView extends ScrollPane implements ViewInterface {
     private final int LABEL_WIDTH = 90;
     private ArrayList<Game> games;
     private AccountController accountController;
+    private PlayerController playerController;
 
     /**
      * Partial constructor

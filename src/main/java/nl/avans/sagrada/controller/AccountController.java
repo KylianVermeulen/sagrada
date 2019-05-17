@@ -305,4 +305,6 @@ public class AccountController {
         myScene.getPlayerController().actionJoinGame(account, game);
         account.setAccountStatus(AccountStatus.GAME);
     }
+    
+    
 }

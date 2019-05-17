@@ -260,18 +260,19 @@ public class PlayerController {
     /**
      * Displays the view after a game is finished. The user can see their scores and then go or back
      * to the lobbyscreen or view the statistics.
-     */
-    public void viewEndgame(AccountController accountcontroller) {
-        Pane pane = new Pane();
+     */    
+    public void viewEndgame() {
         GameDao gameDao = new GameDao();
-        Player player = new PlayerDao().getPlayerById(1);
-        player.setGame(gameDao.getGameById(1));
-        Player winplayer = gameDao.bestFinalScore(player.getGame());
-        myScene.getPlayerController().setPlayer(player);
-        EndgameView endgame = new EndgameView(gameDao.getGameById(1), myScene.getPlayerController(),
-                winplayer, accountcontroller);
-        endgame.render();
-        pane.getChildren().add(endgame);
+        Game game = player.getGame();
+        Player winPlayer = gameDao.bestFinalScore(game);
+        Pane pane = new Pane();
+        EndgameView endgameView = new EndgameView(game, this, winPlayer);
+        endgameView.render();
+        pane.getChildren().add(endgameView);
         myScene.setContentPane(pane);
+    }
+    
+    public void actionBackToLobby() {
+        myScene.getAccountController().viewLobby();
     }
 }

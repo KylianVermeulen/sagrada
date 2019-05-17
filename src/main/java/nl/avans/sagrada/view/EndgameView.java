@@ -15,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import nl.avans.sagrada.Main;
-import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
@@ -32,14 +31,11 @@ public class EndgameView extends BorderPane implements ViewInterface {
     private Label victoryLabel;
     private ScoreBoardView endScore;
     private Player winplayer;
-    private AccountController accountcontroller;
 
-    public EndgameView(Game game, PlayerController playercontroller, Player player,
-            AccountController accountcontroller) {
+    public EndgameView(Game game, PlayerController playercontroller, Player winplayer) {
         this.game = game;
         this.playerController = playercontroller;
-        this.winplayer = player;
-        this.accountcontroller = accountcontroller;
+        this.winplayer = winplayer;
 
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
         String css = this.getClass().getResource("/css/endgameview.css").toExternalForm();
@@ -83,6 +79,7 @@ public class EndgameView extends BorderPane implements ViewInterface {
     }
 
     private void setLobbyAndStatisticsButton() {
+        
         HBox buttonBar = new HBox();
         buttonBar.setSpacing(300);
         buttonBar.setMinHeight(200);
@@ -97,7 +94,7 @@ public class EndgameView extends BorderPane implements ViewInterface {
         lobbyButton.setPrefSize(button_width, button_height);
         lobbyButton.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
                 CornerRadii.EMPTY, new BorderWidths(5))));
-        lobbyButton.setOnAction(e -> accountcontroller.viewLobby());
+        lobbyButton.setOnAction(e -> playerController.actionBackToLobby());
 
         buttonBar.getChildren().addAll(statisticsButton, lobbyButton);
 
