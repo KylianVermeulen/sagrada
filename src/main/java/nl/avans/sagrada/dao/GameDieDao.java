@@ -70,8 +70,9 @@ public class GameDieDao {
     public void updateDie(Game game, GameDie gameDie, int round) {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
-                    "UPDATE gamedie SET round=? WHERE idgame=? AND dienumber=? AND diecolor=?",
+                    "UPDATE gamedie SET round=?, SET eyes=? WHERE idgame=? AND dienumber=? AND diecolor=?",
                     "update"), new QueryParameter(QueryParameter.INT, round),
+                    new QueryParameter(QueryParameter.INT, gameDie.getEyes()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor()));
@@ -173,54 +174,5 @@ public class GameDieDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Updates the amount of eyes for a certain die.
-     * 
-     * @param newEyes int
-     * @param game Game
-     * @param round int
-     * @param gameDie GameDie
-     */
-    public void updateDieEyes(int newEyes, Game game, int round, GameDie gameDie) {
-        try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query(
-                            "UPDATE gamedie SET eyes=? WHERE idgame=? AND round=? AND dienumber=?",
-                            "update"),
-                    new QueryParameter(QueryParameter.INT, newEyes),
-                    new QueryParameter(QueryParameter.INT, game.getId()),
-                    new QueryParameter(QueryParameter.INT, round),
-                    new QueryParameter(QueryParameter.INT, gameDie.getNumber()));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Returns a die's amount of eyes.
-     * 
-     * @param game Game
-     * @param round int
-     * @param gameDie GameDie
-     * @return int: amount of eyes
-     */
-    public int getDieEyes(Game game, int round, GameDie gameDie) {
-        int eyes = 0;
-        try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM gamedie WHERE idgame=? AND round=? AND dienumber=?",
-                            "query"),
-                    new QueryParameter(QueryParameter.INT, game.getId()),
-                    new QueryParameter(QueryParameter.INT, round),
-                    new QueryParameter(QueryParameter.INT, gameDie.getNumber()));
-            while (rs.next()) {
-                eyes = rs.getInt("eyes");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return eyes;
     }
 }

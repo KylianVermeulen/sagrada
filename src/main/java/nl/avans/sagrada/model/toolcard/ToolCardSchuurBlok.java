@@ -1,7 +1,9 @@
 package nl.avans.sagrada.model.toolcard;
 
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.input.MouseEvent;
-import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.GameDie;
@@ -11,12 +13,9 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class ToolCardSchuurBlok extends ToolCard {
-    private PlayerController playerController;
 
-    public ToolCardSchuurBlok(int id, String name, int seqnr, String description,
-            PlayerController playerController) {
+    public ToolCardSchuurBlok(int id, String name, int seqnr, String description) {
         super(id, name, seqnr, description);
-        this.playerController = playerController;
     }
 
     @Override
@@ -30,54 +29,32 @@ public class ToolCardSchuurBlok extends ToolCard {
             PatternCard patternCard = patternCardField.getPatternCard();
             Player player = patternCard.getPlayer();
 
-            patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(),
-                    patternCardField.getyPos());
-
-            int newEyes = 0;
             int eyes = die.getEyes();
             switch (eyes) {
                 case 1:
-                    gameDieDao.updateDieEyes(6, playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    newEyes = gameDieDao.getDieEyes(playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    die.setEyes(newEyes);
+                    die.setEyes(6);
+                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
                 case 2:
-                    gameDieDao.updateDieEyes(5, playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    newEyes = gameDieDao.getDieEyes(playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    die.setEyes(newEyes);
+                    die.setEyes(5);
+                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
                 case 3:
-                    gameDieDao.updateDieEyes(4, playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    newEyes = gameDieDao.getDieEyes(playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    die.setEyes(newEyes);
+                    die.setEyes(4);
+                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
                 case 4:
-                    gameDieDao.updateDieEyes(3, playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    newEyes = gameDieDao.getDieEyes(playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    die.setEyes(newEyes);
+                    die.setEyes(3);
+                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
                 case 5:
-                    gameDieDao.updateDieEyes(2, playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    newEyes = gameDieDao.getDieEyes(playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    die.setEyes(newEyes);
+                    die.setEyes(2);
+                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
                 case 6:
-                    gameDieDao.updateDieEyes(1, playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    newEyes = gameDieDao.getDieEyes(playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    die.setEyes(newEyes);
+                    die.setEyes(1);
+                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
                 default:
-                    gameDieDao.updateDieEyes(3, playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    newEyes = gameDieDao.getDieEyes(playerController.getPlayer().getGame(),
-                            die.getRound(), die);
-                    die.setEyes(newEyes);
+                    Logger logger = Logger.getLogger(ToolCardSchuurBlok.class.getName());
+                    FileHandler fileHandler = new FileHandler("schuurblok-java/log");
+                    logger.log(Level.WARNING, "Could not receive correct amount of die eyes.");
+                    logger.setLevel(Level.WARNING);
+                    logger.addHandler(fileHandler);
             }
             die.setPatternCardField(patternCardField);
             patternCardField.setDie(die);

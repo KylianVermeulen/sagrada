@@ -26,7 +26,6 @@ import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.PatternCardFieldView;
 import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.PatternCardView;
