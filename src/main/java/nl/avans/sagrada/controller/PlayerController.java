@@ -84,10 +84,9 @@ public class PlayerController {
             } else {
                 if (gameDie.getPatternCardField() == null) {
                     if (patternCardField.canPlaceDie(gameDie)) {
-                        patternCardField.setDie(gameDie);
                         gameDie.setPatternCardField(patternCardField);
+                        patternCardField.setDie(gameDie);
                         
-                        patternCardField.placeDie(gameDie);
                         PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                         playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
                     }
@@ -205,7 +204,6 @@ public class PlayerController {
     public void actionSendMessage(String text, ChatLineView chatlineView) {
         ChatlineDao chatlineDao = new ChatlineDao();
         Chatline chatline = new Chatline(player, text);
-        Game game = player.getGame();
         chatlineDao.getTime(chatline);
 
         if (!text.matches("")) {
