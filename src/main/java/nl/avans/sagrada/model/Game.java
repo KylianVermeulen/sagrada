@@ -372,7 +372,7 @@ public class Game {
                 foundThreeValues = true;
             }
         }
-        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber1), this);
+        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(1), this);
         toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber2), this);
         toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber3), this);
     }
@@ -409,7 +409,7 @@ public class Game {
             }
         }
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
-                publicObjectiveCardDao.getPublicObjectiveCardById(1), this);
+                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber1), this);
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
                 publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber2), this);
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
