@@ -28,28 +28,11 @@ public class ToolCardSchuurBlok extends ToolCard {
 
             if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
                     && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
-                    && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
-                int eyes = die.getEyes();
-                switch (eyes) {
-                    case 1:
-                        die.setEyes(6);
-                        gameDieDao.updateDieEyes(player.getGame(), die);
-                    case 2:
-                        die.setEyes(5);
-                        gameDieDao.updateDieEyes(player.getGame(), die);
-                    case 3:
-                        die.setEyes(4);
-                        gameDieDao.updateDieEyes(player.getGame(), die);
-                    case 4:
-                        die.setEyes(3);
-                        gameDieDao.updateDieEyes(player.getGame(), die);
-                    case 5:
-                        die.setEyes(2);
-                        gameDieDao.updateDieEyes(player.getGame(), die);
-                    case 6:
-                        die.setEyes(1);
-                        gameDieDao.updateDieEyes(player.getGame(), die);
-                }
+                    && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {               
+                int newEyes = (7 - die.getEyes());
+                
+                die.setEyes(newEyes);
+                gameDieDao.updateDieEyes(player.getGame(), die);   
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
