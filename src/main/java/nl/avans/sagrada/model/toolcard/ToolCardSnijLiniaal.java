@@ -42,8 +42,6 @@ public class ToolCardSnijLiniaal extends ToolCard {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
-
 }

@@ -2,7 +2,6 @@ package nl.avans.sagrada.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
@@ -28,16 +27,15 @@ public class PlayerFrameFieldDao {
         GameDie die = null;
         try {
             Game game = player.getGame();
-            ResultSet rs = dbConnection.executeQuery(new Query(
-                        "SELECT playerframefield.idgame, player_idplayer, position_x, position_y, playerframefield.dienumber, playerframefield.diecolor, gamedie.eyes FROM playerframefield\n" + 
-                        "JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber AND gamedie.diecolor=playerframefield.diecolor\n" + 
-                        "WHERE player_idplayer=? AND position_x=? AND position_y=? AND playerframefield.idgame=?", "query"
-                    ),
-                        new QueryParameter(QueryParameter.INT, player.getId()),
-                        new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
-                        new QueryParameter(QueryParameter.INT, patternCardField.getyPos()),
-                        new QueryParameter(QueryParameter.INT, game.getId())
-                    );
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT playerframefield.idgame, player_idplayer, position_x, position_y, playerframefield.dienumber, playerframefield.diecolor, g.eyes FROM playerframefield INNER JOIN gamedie g on playerframefield.idgame = g.idgame and playerframefield.dienumber = g.dienumber and playerframefield.diecolor = g.diecolor WHERE player_idplayer=? AND position_x=? AND position_y=? AND playerframefield.idgame=?",
+                            "query"),
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
+                    new QueryParameter(QueryParameter.INT, patternCardField.getyPos()),
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
             if (rs.next()) {
                 die = new GameDie(
                         rs.getInt("dienumber"), 
