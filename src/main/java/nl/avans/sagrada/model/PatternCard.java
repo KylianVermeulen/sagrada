@@ -53,7 +53,7 @@ public class PatternCard {
         this.difficulty = difficulty;
         this.standard = standard;
         this.player = player;
-        patternCardFields = getPatternCardFields();
+        patternCardFields = getPatternCardFields(player);
     }
     
     public void setPlayer(Player player) {
@@ -130,8 +130,8 @@ public class PatternCard {
      * method will run again
      */
     private void addRandomValue() {
-        int xPos = rnd.nextInt(4) + 1;
-        int yPos = rnd.nextInt(3) + 1;
+        int xPos = rnd.nextInt(CARD_SQUARES_WIDTH) + 1;
+        int yPos = rnd.nextInt(CARD_SQUARES_HEIGHT) + 1;
         int value = rnd.nextInt(6) + 1;
         if (!patternCardFields[xPos][yPos].hasFieldAttributes() && checkSidesValue(patternCardFields[xPos][yPos], value, false)) {
             patternCardFields[xPos][yPos].setValue(value);
@@ -145,8 +145,8 @@ public class PatternCard {
      * method will run again
      */
     private void addRandomColor() {
-        int xPos = rnd.nextInt(4) + 1;
-        int yPos = rnd.nextInt(3) + 1;
+        int xPos = rnd.nextInt(CARD_SQUARES_WIDTH) + 1;
+        int yPos = rnd.nextInt(CARD_SQUARES_HEIGHT) + 1;
         String color = colors.get(rnd.nextInt(colors.size()));
         if (!patternCardFields[xPos][yPos].hasFieldAttributes() && checkSidesColor(patternCardFields[xPos][yPos], color, false)) {
             patternCardFields[xPos][yPos].setColor(color);
@@ -214,9 +214,20 @@ public class PatternCard {
      *
      * @return PatternCardField[]
      */
-    public PatternCardField[][] getPatternCardFields() {
+    public PatternCardField[][] getPatternCardFields(Player player) {
         PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
         ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao.getPatternCardFieldsOfPatterncard(this, player);
+        return makePatternCardFields(patternCardFieldsList);
+    }
+
+    /**
+     * Get patternCardFields from standard optional PatternCard
+     *
+     * @return PatternCardField[]
+     */
+    public PatternCardField[][] getPatternCardFields() {
+        PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
+        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao.getPatternCardFieldsOfPatterncard(this);
         return makePatternCardFields(patternCardFieldsList);
     }
 
