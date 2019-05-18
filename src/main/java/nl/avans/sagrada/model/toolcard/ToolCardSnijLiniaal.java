@@ -24,6 +24,7 @@ public class ToolCardSnijLiniaal extends ToolCard {
             PatternCardField patternCardField =  patternCardView.getPatternCardField();
             PatternCard patternCard = patternCardField.getPatternCard();
             Player player =patternCard.getPlayer();
+            
             PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
 
             
@@ -41,7 +42,9 @@ public class ToolCardSnijLiniaal extends ToolCard {
                 
                 return patternCard;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return null;
     }
