@@ -1,24 +1,33 @@
 package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
-import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.PatternCardField;
+import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class ToolCardLoodHamer extends ToolCard {
-    private PlayerController playerController;
     
-    public ToolCardLoodHamer(int id, String name, int seqnr, String description, PlayerController playerController) {
+    public ToolCardLoodHamer(int id, String name, int seqnr, String description) {
         super(id, name, seqnr, description);
-        this.playerController = playerController;
     }
 
     @Override
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
-        GameDao gameDao = new GameDao();
-        if () {
+        try {
+            PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+            PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
             
+            PatternCardField patternCardField = patternCardView.getPatternCardField();
+            PatternCard patternCard = patternCardField.getPatternCard();
+            Player player = patternCard.getPlayer();
+            
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
