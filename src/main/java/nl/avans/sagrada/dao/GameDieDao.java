@@ -183,14 +183,14 @@ public class GameDieDao {
      * @param round int
      * @param gameDie GameDie
      */
-    public void updateDieEyes(Game game, GameDie gameDie, int round) {
+    public void updateDieEyes(Game game, GameDie gameDie) {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
                     "UPDATE gamedie SET eyes=? WHERE idgame=? AND round=? AND dienumber=?",
                     "update"),
                     new QueryParameter(QueryParameter.INT, gameDie.getEyes()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
-                    new QueryParameter(QueryParameter.INT, round),
+                    new QueryParameter(QueryParameter.INT, game.getRound()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()));   
         } catch (SQLException e) {
             e.printStackTrace();

@@ -33,7 +33,7 @@ public class ToolCardSchuurBlok extends ToolCard {
             switch (eyes) {
                 case 1:
                     die.setEyes(6);
-                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die);
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
@@ -41,7 +41,7 @@ public class ToolCardSchuurBlok extends ToolCard {
                     return patternCard;
                 case 2:
                     die.setEyes(5);
-                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die);
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
@@ -49,7 +49,7 @@ public class ToolCardSchuurBlok extends ToolCard {
                     return patternCard;
                 case 3:
                     die.setEyes(4);
-                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die);
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
@@ -57,7 +57,7 @@ public class ToolCardSchuurBlok extends ToolCard {
                     return patternCard;
                 case 4:
                     die.setEyes(3);
-                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die);
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
@@ -65,7 +65,7 @@ public class ToolCardSchuurBlok extends ToolCard {
                     return patternCard;
                 case 5:
                     die.setEyes(2);
-                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die);
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
@@ -73,7 +73,7 @@ public class ToolCardSchuurBlok extends ToolCard {
                     return patternCard;
                 case 6:
                     die.setEyes(1);
-                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die);
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
