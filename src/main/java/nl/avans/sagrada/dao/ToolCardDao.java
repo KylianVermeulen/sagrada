@@ -52,6 +52,8 @@ public class ToolCardDao {
                         rs.getInt("seqnr"), 
                         rs.getString("description")
                     );
+                boolean hasBeenPaidForBefore = toolCardHasPayment(toolCard, game);
+                toolCard.setHasBeenPaidForBefore(hasBeenPaidForBefore);
                 list.add(toolCard);
             }
         } catch (SQLException e) {
@@ -180,13 +182,13 @@ public class ToolCardDao {
 
     /**
      * Checks if a toolcard has already received payment before. If the toolcard has received
-     * payment before, the method will set a flag in the toolcard, notifying the game that this
-     * toolcard has already recieved payment before. Otherwise it will set this flag to false.
+     * payment before we return true
      *
      * @param toolCard Toolcard
      * @param game Game
+     * @return boolean
      */
-    public void toolCardHasPayment(ToolCard toolCard, Game game) {
+    public boolean toolCardHasPayment(ToolCard toolCard, Game game) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamefavortoken WHERE gametoolcard=? AND idgame=?",
@@ -196,14 +198,15 @@ public class ToolCardDao {
                     new QueryParameter(QueryParameter.INT, game.getId()));
             if (rs.next()) {
                 if (rs.getInt("gametoolcard") == 0) {
-                    toolCard.setHasBeenPaidForBefore(false);
+                    return false;
                 } else {
-                    toolCard.setHasBeenPaidForBefore(true);
+                    return true;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
     
     /**
