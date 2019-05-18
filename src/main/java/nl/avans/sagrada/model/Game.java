@@ -372,11 +372,9 @@ public class Game {
                 foundThreeValues = true;
             }
         }
-        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(11), this);
-
-//        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber1), this);
-//        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber2), this);
-//        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber3), this);
+        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber1), this);
+        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber2), this);
+        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber3), this);
     }
 
     /**
