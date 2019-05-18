@@ -137,7 +137,7 @@ public class GameDieDao {
                 gameDie = new GameDie(
                         rs.getInt("dienumber"),
                         rs.getString("diecolor"),
-                        rs.getInt("eyes"), 
+                        rs.getInt("eyes"),
                         rs.getInt("round")
                 );
             }
@@ -149,6 +149,7 @@ public class GameDieDao {
 
     /**
      * Gets the dice for a round from a game
+     *
      * @param game Game
      * @return ArrayList<GameDie>
      */
@@ -175,25 +176,26 @@ public class GameDieDao {
         }
         return gameDice;
     }
-    
+
     /**
      * Gets all the available dice of a round
-     * @param game
+     *
      * @return ArrayList<GameDie>
      */
     public ArrayList<GameDie> getAvailableDiceOfRound(Game game) {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT gamedie.* FROM sagrada_peter.playerframefield\n" + 
-                            "RIGHT JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber \n" + 
-                            "AND \n" + 
-                            "gamedie.diecolor = playerframefield.diecolor\n" + 
-                            "WHERE player_idplayer IS NULL \n" + 
-                            "AND playerframefield.idgame IS NULL\n" + 
-                            "AND playerframefield.position_x IS NULL\n" + 
-                            "AND playerframefield.position_y IS NULL\n" + 
-                            "AND gamedie.idgame = ?\n" + 
+                    new Query("SELECT gamedie.* FROM sagrada_peter.playerframefield\n" +
+                            "RIGHT JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber \n"
+                            +
+                            "AND \n" +
+                            "gamedie.diecolor = playerframefield.diecolor\n" +
+                            "WHERE player_idplayer IS NULL \n" +
+                            "AND playerframefield.idgame IS NULL\n" +
+                            "AND playerframefield.position_x IS NULL\n" +
+                            "AND playerframefield.position_y IS NULL\n" +
+                            "AND gamedie.idgame = ?\n" +
                             "AND gamedie.round = ?", "query"),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, game.getRound())
@@ -235,13 +237,13 @@ public class GameDieDao {
     }
 
     /**
-     * Replaces a die eyes with the given random newEyes
+     * Replaces a die eyes with the given eyes
      *
      * @param game Game
      * @param gameDie GameDie
      * @param newEyes int
      */
-    public void rerollDie(Game game, GameDie gameDie, int newEyes) {
+    public void changeDieEyes(Game game, GameDie gameDie, int newEyes) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(

@@ -99,7 +99,7 @@ public class Fluxborstel extends Popup {
     private void rerollDice(int index) {
         GameDieDao gameDieDao = new GameDieDao();
         int newEyes = new Random().nextInt(6) + 1;
-        gameDieDao.rerollDie(game, gameDice.get(index), newEyes);
+        gameDieDao.changeDieEyes(game, gameDice.get(index), newEyes);
         myScene.removePopupPane();
         playerController.viewGame();
     }
