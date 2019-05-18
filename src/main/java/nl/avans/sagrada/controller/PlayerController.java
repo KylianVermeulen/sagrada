@@ -47,20 +47,6 @@ public class PlayerController {
     }
 
     /**
-     * Sets the active toolcard for the player And prints a message to the client that the toolcard
-     * is active
-     */
-    public void setActiveToolCard(ToolCard toolcard) {
-        Alert alert = null;
-        if (activeToolCard == null) {
-            activeToolCard = toolcard;
-            alert = new Alert("Active toolcard",
-                    "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
-            myScene.addAlertPane(alert);
-        }
-    }
-
-    /**
      * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
      */
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
@@ -75,6 +61,7 @@ public class PlayerController {
                 if (toolcardUseResult != null) {
                     activeToolCard = null;
                     player.setPatternCard(toolcardUseResult);
+                    actionPayForToolCard(activeToolCard);
                     viewGame();
                 } else {
                     Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
@@ -222,7 +209,29 @@ public class PlayerController {
             myScene.addAlertPane(alert);
         }
     }
-
+    
+    /**
+     * Sets the active toolcard if there can be paid for
+     * @param toolCard
+     * @param toolcardview
+     */
+    public void setActiveToolCard(ToolCard toolCard, ToolCardView toolcardview) {
+        if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) || 
+                !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
+            activeToolCard = toolCard;
+            Alert alert = new Alert("Active toolcard",
+                    "Je hebt een actieve toolcard: " + activeToolCard.getName(),
+                    AlertType.ERROR);
+            myScene.addAlertPane(alert);
+        }
+        else {
+            Alert alert = new Alert("Te weinig betaalstenen",
+                    "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
+                    AlertType.ERROR);
+            myScene.addAlertPane(alert);
+        }
+    }
+    
     /**
      * Handles the logic behind a tool card payment. The method first checks if a player has already
      * paid for a tool card before or not, and if the player has sufficient funds.
@@ -237,7 +246,12 @@ public class PlayerController {
      *
      * @param toolCard The tool card.
      */
-    public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolcardview) {
+    public void actionPayForToolCard(ToolCard toolCard) {
+        if (activeToolCard != null) {
+            
+        }
+        
+        
         if (activeToolCard == null) {
             FavorTokenDao favorTokenDao = new FavorTokenDao();
             ToolCardDao toolCardDao = new ToolCardDao();
