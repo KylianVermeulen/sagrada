@@ -212,6 +212,8 @@ public class PlayerController {
 
     /**
      * Sets the active toolcard if there can be paid for
+     *
+     * @param toolCard ToolCard
      */
     public void setActiveToolCard(ToolCard toolCard) {
         if (activeToolCard != null) {
