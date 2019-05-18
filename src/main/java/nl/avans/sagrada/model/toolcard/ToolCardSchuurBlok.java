@@ -1,8 +1,5 @@
 package nl.avans.sagrada.model.toolcard;
 
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.input.MouseEvent;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
@@ -80,11 +77,7 @@ public class ToolCardSchuurBlok extends ToolCard {
 
                     return patternCard;
                 default:
-                    Logger logger = Logger.getLogger(ToolCardSchuurBlok.class.getName());
-                    FileHandler fileHandler = new FileHandler("schuurblok-java/log");
-                    logger.log(Level.WARNING, "Could not receive correct amount of die eyes.");
-                    logger.setLevel(Level.WARNING);
-                    logger.addHandler(fileHandler);
+                    return null;
             }
         } catch (Exception e) {
         }
