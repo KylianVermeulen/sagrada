@@ -1,15 +1,37 @@
 package nl.avans.sagrada.controller;
 
-import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import nl.avans.sagrada.dao.*;
-import nl.avans.sagrada.model.*;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.PlayerFrameFieldDao;
+import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
+import nl.avans.sagrada.dao.ToolCardDao;
+import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.PatternCardField;
+import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.toolcard.ToolCard;
-import nl.avans.sagrada.view.*;
+import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.model.FavorToken;
+import nl.avans.sagrada.view.DieView;
+import nl.avans.sagrada.view.DriePuntStang;
+import nl.avans.sagrada.view.GameView;
+import nl.avans.sagrada.view.PatternCardSelectionView;
+import nl.avans.sagrada.view.ChatLineView;
+import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.view.ToolCardView;
+import nl.avans.sagrada.view.PatternCardView;
+import java.util.ArrayList;
 
 public class PlayerController {
     private MyScene myScene;
@@ -46,7 +68,7 @@ public class PlayerController {
      * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
      */
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
-            GameDie gameDie, MouseEvent event) {
+                               GameDie gameDie, MouseEvent event) {
         
         Player playerEvent = patternCard.getPlayer();
         
@@ -84,26 +106,12 @@ public class PlayerController {
      */
     public void actionChangeDie(MouseEvent event, DieView dieView){
         if(activeToolCard != null && activeToolCard.getId() == 1){
-            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, event, dieView);
+            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, event, dieView, activeToolCard);
             myScene.addPopupPane(driePuntStang);
         }
     }
 
-    /**
-     * Method to change the die value of a GameDie
-     * @param event MouseEvent
-     * @param i int
-     */
-    public void actionChangeDieEyes(MouseEvent event, int i){
-        GameDie toolCardResult = activeToolCard.handleClick(event, this, i);
-        if(toolCardResult != null){
-            GameDieDao gameDieDao = new GameDieDao();
-            gameDieDao.changeDieEyes(player.getGame(), toolCardResult);
-            activeToolCard = null;
-            myScene.removePopupPane();
-            viewGame();
-        }
-    }
+
 
     /**
      * Sets the player for the controller

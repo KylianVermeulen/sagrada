@@ -8,30 +8,35 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.GameDieDao;
+import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.view.popups.Popup;
 
 public class DriePuntStang extends Popup {
-    private final int BORDERPANE_HEIGHT = 800;
-    private final int BORDERPANE_WIDTH = 1280;
-    private final int BUTTONPANE_HEIGHT = 70;
-    private final int BUTTONPANE_WIDTH = 1280;
+    private final int BORDER_PANE_HEIGHT = 800;
+    private final int BORDER_PANE_WIDTH = 1280;
+    private final int BUTTON_PANE_HEIGHT = 70;
+    private final int BUTTON_PANE_WIDTH = 1280;
     private final int BUTTON_HEIGHT = 25;
     private final int BUTTON_WIDTH = 50;
     private MyScene myScene;
     private PlayerController playerController;
     private DieView dieView;
+    private ToolCard activeToolCard;
     private MouseEvent event;
     private Button plusButton;
     private Button minButton;
     private Button backButton;
     private BorderPane buttonPane;
 
-    public DriePuntStang(MyScene myScene, PlayerController playerController, MouseEvent event, DieView dieView){
+    public DriePuntStang(MyScene myScene, PlayerController playerController, MouseEvent event, DieView dieView, ToolCard activeToolCard){
         super(0, 0,1280, 800);
         this.myScene = myScene;
         this.playerController = playerController;
         this.event = event;
         this.dieView = dieView;
+        this.activeToolCard = activeToolCard;
 
         setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
@@ -56,7 +61,7 @@ public class DriePuntStang extends Popup {
         plusButton.setMaxWidth(BUTTON_WIDTH);
         plusButton.setMinWidth(BUTTON_WIDTH);
         plusButton.setOnAction(e -> {
-            playerController.actionChangeDieEyes(event, 1);
+            actionChangeDieEyes(event, 1);
         });
         minButton = new Button("-");
         minButton.setMaxHeight(BUTTON_HEIGHT);
@@ -64,7 +69,7 @@ public class DriePuntStang extends Popup {
         minButton.setMaxWidth(BUTTON_WIDTH);
         minButton.setMinWidth(BUTTON_WIDTH);
         minButton.setOnAction(e -> {
-            playerController.actionChangeDieEyes(event, 0);
+            actionChangeDieEyes(event, 0);
         });
         backButton = new Button("cancel");
         backButton.setMaxHeight(BUTTON_HEIGHT);
@@ -81,10 +86,10 @@ public class DriePuntStang extends Popup {
      */
     private void buildButtonPane(){
         buttonPane = new BorderPane();
-        buttonPane.setMaxHeight(BUTTONPANE_HEIGHT);
-        buttonPane.setMinHeight(BUTTONPANE_HEIGHT);
-        buttonPane.setMaxWidth(BUTTONPANE_WIDTH);
-        buttonPane.setMinWidth(BUTTONPANE_WIDTH);
+        buttonPane.setMaxHeight(BUTTON_PANE_HEIGHT);
+        buttonPane.setMinHeight(BUTTON_PANE_HEIGHT);
+        buttonPane.setMaxWidth(BUTTON_PANE_WIDTH);
+        buttonPane.setMinWidth(BUTTON_PANE_WIDTH);
 
         HBox centerButtonsPane = new HBox();
         centerButtonsPane.getChildren().addAll(plusButton, minButton);
@@ -97,13 +102,29 @@ public class DriePuntStang extends Popup {
      */
     private void buildBorderPane(){
         BorderPane borderPane = new BorderPane();
-        borderPane.setMaxHeight(BORDERPANE_HEIGHT);
-        borderPane.setMinHeight(BORDERPANE_HEIGHT);
-        borderPane.setMaxWidth(BORDERPANE_WIDTH);
-        borderPane.setMinWidth(BORDERPANE_WIDTH);
+        borderPane.setMaxHeight(BORDER_PANE_HEIGHT);
+        borderPane.setMinHeight(BORDER_PANE_HEIGHT);
+        borderPane.setMaxWidth(BORDER_PANE_WIDTH);
+        borderPane.setMinWidth(BORDER_PANE_WIDTH);
 
         borderPane.setCenter(dieView);
         borderPane.setBottom(buttonPane);
         getChildren().add(borderPane);
+    }
+
+    /**
+     * Method to change the die value of a GameDie
+     * @param event MouseEvent
+     * @param i int
+     */
+    public void actionChangeDieEyes(MouseEvent event, int i){
+        GameDie toolCardResult = activeToolCard.handleClick(event, playerController, i);
+        if(toolCardResult != null){
+            GameDieDao gameDieDao = new GameDieDao();
+            gameDieDao.changeDieEyes(playerController.getPlayer().getGame(), toolCardResult);
+            activeToolCard = null;
+            myScene.removePopupPane();
+            playerController.viewGame();
+        }
     }
 }
