@@ -16,7 +16,6 @@ public class ToolCardSnijLiniaal extends ToolCard {
 
     @Override
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
-        // TODO Auto-generated method stub
         try {
             if (die.getIsOnOfferTable()) {
                 PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();

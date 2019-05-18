@@ -175,6 +175,11 @@ public class GameDieDao {
         return gameDice;
     }
     
+    /**
+     * Gets all the available dice of a round
+     * @param game
+     * @return ArrayList<GameDie>
+     */
     public ArrayList<GameDie> getAvailableDiceOfRound(Game game) {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {
