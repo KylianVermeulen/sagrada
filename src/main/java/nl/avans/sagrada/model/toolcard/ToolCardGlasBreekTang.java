@@ -20,7 +20,7 @@ public class ToolCardGlasBreekTang extends ToolCard {
     }
 
     @Override
-    public void handleClick(MouseEvent event, Game game, Player player, PlayerController playerController) {
-        
+    public GameDie handleClick(MouseEvent event, Game game, Player player, PlayerController playerController) {
+        return null;
     }
 }

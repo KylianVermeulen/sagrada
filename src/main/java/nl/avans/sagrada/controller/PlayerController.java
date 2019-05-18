@@ -2,17 +2,13 @@ package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import nl.avans.sagrada.dao.ChatlineDao;
-import nl.avans.sagrada.dao.FavorTokenDao;
-import nl.avans.sagrada.dao.GameDao;
-import nl.avans.sagrada.dao.PatternCardDao;
-import nl.avans.sagrada.dao.PlayerDao;
-import nl.avans.sagrada.dao.PlayerFrameFieldDao;
-import nl.avans.sagrada.dao.ToolCardDao;
+import nl.avans.sagrada.dao.*;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
@@ -22,16 +18,10 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
-import nl.avans.sagrada.view.ChatLineView;
-import nl.avans.sagrada.view.DieView;
-import nl.avans.sagrada.view.GameView;
-import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.PatternCardFieldView;
-import nl.avans.sagrada.view.PatternCardSelectionView;
-import nl.avans.sagrada.view.ToolCardView;
-import nl.avans.sagrada.view.PatternCardView;
+import nl.avans.sagrada.view.*;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.view.popups.Popup;
 
 public class PlayerController {
     private MyScene myScene;
@@ -44,6 +34,10 @@ public class PlayerController {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public MyScene getMyScene() {
+        return myScene;
     }
 
     /**
@@ -97,7 +91,34 @@ public class PlayerController {
 
     public void actionChangeDie(MouseEvent event){
         if(activeToolCard.getId() == 1){
-            activeToolCard.handleClick(event, player.getGame(), player, this);
+           Popup popup = new Popup(300, 300, 300, 300) {
+                @Override
+                public void render() {
+                    BorderPane borderPane = new BorderPane();
+                    Pane buttonPane = new Pane();
+                    Button plusButton = new Button("+");
+                    Button minButton = new Button("-");
+                    buttonPane.getChildren().addAll(plusButton, minButton);
+                    DieOfferView dieOfferView = new DieOfferView(player.getGame(), this);
+                    borderPane.setCenter(dieOfferView);
+                    borderPane.setBottom(buttonPane);
+                }
+            };
+            myScene.addPopupPane(popup);
+            popup.render();
+            GameDie toolCardResult = activeToolCard.handleClick(event, player.getGame(), player, this);
+            if(toolCardResult != null){
+                GameDieDao gameDieDao = new GameDieDao();
+                activeToolCard = null;
+                gameDieDao.changeDieEyes(player.getGame(), toolCardResult);
+                viewGame();
+            } else {
+                Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
+                        AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
+        } else {
+
         }
     }
 
