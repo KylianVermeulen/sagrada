@@ -55,7 +55,6 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
             Label playerScore;
             String loopUser = game.getPlayers().get(i).getAccount().getUsername();
             String currentUser = playerController.getPlayer().getAccount().getUsername();
-
             playerLine.setSpacing(SCORE_LINE_SPACING);
             Label playerName =
                     new Label(game.getPlayers().get(i).getAccount().getUsername() + ": ");
