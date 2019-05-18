@@ -78,9 +78,11 @@ public class InviteDao {
     public void addInvite(Invite invite) {
         try {
             PlayerDao playerDao = new PlayerDao();
+            GameDao gameDao = new GameDao();
             int nextPlayerId = playerDao.getNextPlayerId();
             String username = invite.getInvitedAccount().getUsername();
             Game game = invite.getGame();
+            game.setPlayers(gameDao.getPlayersOfGame(game));
             String privateObjectiveColor = game.getRandomAvailablePrivateColor();
             int seqNr = this.getSeqNrForNextPlayer(game);
             ResultSet rs = dbConnection.executeQuery(new Query(
