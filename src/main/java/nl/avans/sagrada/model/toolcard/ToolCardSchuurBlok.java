@@ -34,48 +34,26 @@ public class ToolCardSchuurBlok extends ToolCard {
                     case 1:
                         die.setEyes(6);
                         gameDieDao.updateDieEyes(player.getGame(), die);
-                        die.setPatternCardField(patternCardField);
-                        patternCardField.setDie(die);
-                        playerFrameFieldDao.addDieToField(die, patternCardField, player);
-                        return patternCard;
                     case 2:
                         die.setEyes(5);
                         gameDieDao.updateDieEyes(player.getGame(), die);
-                        die.setPatternCardField(patternCardField);
-                        patternCardField.setDie(die);
-                        playerFrameFieldDao.addDieToField(die, patternCardField, player);
-                        return patternCard;
                     case 3:
                         die.setEyes(4);
                         gameDieDao.updateDieEyes(player.getGame(), die);
-                        die.setPatternCardField(patternCardField);
-                        patternCardField.setDie(die);
-                        playerFrameFieldDao.addDieToField(die, patternCardField, player);
-                        return patternCard;
                     case 4:
                         die.setEyes(3);
                         gameDieDao.updateDieEyes(player.getGame(), die);
-                        die.setPatternCardField(patternCardField);
-                        patternCardField.setDie(die);
-                        playerFrameFieldDao.addDieToField(die, patternCardField, player);
-                        return patternCard;
                     case 5:
                         die.setEyes(2);
                         gameDieDao.updateDieEyes(player.getGame(), die);
-                        die.setPatternCardField(patternCardField);
-                        patternCardField.setDie(die);
-                        playerFrameFieldDao.addDieToField(die, patternCardField, player);
-                        return patternCard;
                     case 6:
                         die.setEyes(1);
                         gameDieDao.updateDieEyes(player.getGame(), die);
-                        die.setPatternCardField(patternCardField);
-                        patternCardField.setDie(die);
-                        playerFrameFieldDao.addDieToField(die, patternCardField, player);
-                        return patternCard;
-                    default:
-                        return null;
                 }
+                die.setPatternCardField(patternCardField);
+                patternCardField.setDie(die);
+                playerFrameFieldDao.addDieToField(die, patternCardField, player);
+                return patternCard;
             }
         } catch (Exception e) {
             e.printStackTrace();
