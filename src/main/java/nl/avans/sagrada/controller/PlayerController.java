@@ -168,8 +168,8 @@ public class PlayerController {
         if (player.isCurrentPlayer()) {
             player.getGame().setNextPlayer();
         } else {
-            Alert alert =
-                    new Alert("Nog even wachten", "Je bent nog niet aan de beurt.", AlertType.INFO);
+            Alert alert = new Alert("Nog even wachten", "Je bent nog niet aan de beurt.",
+                    AlertType.INFO);
             myScene.addAlertPane(alert);
         }
     }

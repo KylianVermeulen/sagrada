@@ -56,7 +56,6 @@ public class AccountController {
         myScene.setContentPane(pane);
     }
 
-
     /**
      * Login a user using a username and password obtained by the view. Checks the username and
      * password from the database.
