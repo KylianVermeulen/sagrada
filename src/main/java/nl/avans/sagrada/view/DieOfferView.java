@@ -5,8 +5,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class DieOfferView extends TilePane {
+public class DieOfferView extends TilePane implements ViewInterface {
     private Game game;
 
     /**
@@ -16,7 +17,7 @@ public class DieOfferView extends TilePane {
      */
     public DieOfferView(Game game) {
         this.game = game;
-        buildDice();
+        
     }
 
     /**
@@ -32,5 +33,10 @@ public class DieOfferView extends TilePane {
             paddingPane.getChildren().add(dieView);
             this.getChildren().add(paddingPane);
         }
+    }
+
+    @Override
+    public void render() {
+        buildDice();
     }
 }

@@ -71,8 +71,9 @@ public class GameDao {
         try {
             ResultSet rs =
                     dbConnection.executeQuery(
-                            new Query("INSERT INTO game (idgame, creationdate) VALUES (?, ?)",
-                                    "update"),
+                            new Query(
+                                    "INSERT INTO game (idgame, creationdate) VALUES (?, ?)",
+                                    "update"), 
                             new QueryParameter(QueryParameter.INT, game.getId()),
                             new QueryParameter(QueryParameter.TIMESTAMP, game.getCreationDate())
                     );
@@ -133,7 +134,6 @@ public class GameDao {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT NOW()", "query")
             );
-
             while (rs.next()) {
                 timestamp = rs.getTimestamp("NOW()");
             }
@@ -143,5 +143,24 @@ public class GameDao {
         }
 
         return timestamp;
+    }
+
+    public Player bestFinalScore(Game game) {
+        Player player = null;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT idplayer, max(score) FROM player WHERE game_idgame=? GROUP BY idplayer ORDER BY score desc LIMIT 1",
+                            "query"),
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
+            if (rs.next()) {
+                int playerId = rs.getInt("idplayer");
+                player = new PlayerDao().getPlayerById(playerId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return player;
     }
 }

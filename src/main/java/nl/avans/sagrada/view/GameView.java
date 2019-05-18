@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
+import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
@@ -27,6 +28,7 @@ public class GameView extends VBox implements ViewInterface {
     private Game game;
     private Player player;
     private PlayerController playerController;
+    private AccountController accountController;
     private HBox otherPlayerPatternCardViews;
     private HBox actionButtons;
     private ArrayList<ToolCardView> toolCardViews;
@@ -37,6 +39,7 @@ public class GameView extends VBox implements ViewInterface {
     private RoundTrackView roundTrackView;
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
+    private DieOfferView dieOfferView;
 
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
@@ -158,6 +161,11 @@ public class GameView extends VBox implements ViewInterface {
         actionButtons.setSpacing(SPACING_BETWEEN_CHILDS);
         actionButtons.setPadding(new Insets(40, 0, 0, 0));
     }
+    
+    private void buildDieOffer() {
+        dieOfferView = new DieOfferView(this.game);
+        dieOfferView.render();
+    }
 
     @Override
     public void render() {
@@ -173,6 +181,7 @@ public class GameView extends VBox implements ViewInterface {
         buildPlayerPatternCard();
         buildPlayerPrivateObjectiveCard();
         buildActionButtons();
+        buildDieOffer();
 
         BorderPane firstView = new BorderPane();
         firstView.setPrefHeight(PatternCardView.PATTERNCARD_HEIGHT - 15);
@@ -194,7 +203,7 @@ public class GameView extends VBox implements ViewInterface {
         secondView.getChildren().add(roundTrackView);
 
         HBox rightThirdView = new HBox();
-        rightThirdView.getChildren().addAll(new DieOfferView(this.game), privateObjectiveCardView);
+        rightThirdView.getChildren().addAll(dieOfferView, privateObjectiveCardView);
         thirdView.setLeft(chatLineView);
         thirdView.setRight(rightThirdView);
         thirdView.setBottom(actionButtons);
