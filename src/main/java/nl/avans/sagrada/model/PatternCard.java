@@ -3,6 +3,7 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.PatternCardFieldDao;
+import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class PatternCard {
     public static final int CARD_SQUARES_WIDTH = 5;
@@ -14,6 +15,7 @@ public class PatternCard {
     private boolean standard;
     private PatternCardField[][] patternCardFields;
     private ArrayList<String> colors;
+    private Player player;
 
     /**
      * Partial constructor
@@ -44,6 +46,22 @@ public class PatternCard {
         this.difficulty = difficulty;
         this.standard = standard;
         patternCardFields = getPatternCardFields();
+    }
+    
+    public PatternCard(int id, int difficulty, boolean standard, Player player) {
+        this.id = id;
+        this.difficulty = difficulty;
+        this.standard = standard;
+        this.player = player;
+        patternCardFields = getPatternCardFields(player);
+    }
+    
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     /**
@@ -196,10 +214,20 @@ public class PatternCard {
      *
      * @return PatternCardField[]
      */
+    public PatternCardField[][] getPatternCardFields(Player player) {
+        PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
+        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao.getPatternCardFieldsOfPatterncard(this, player);
+        return makePatternCardFields(patternCardFieldsList);
+    }
+
+    /**
+     * Get patternCardFields from standard optional PatternCard
+     *
+     * @return PatternCardField[]
+     */
     public PatternCardField[][] getPatternCardFields() {
         PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
-        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao
-                .getPatternCardFieldsOfPatterncard(this);
+        ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao.getPatternCardFieldsOfPatterncard(this);
         return makePatternCardFields(patternCardFieldsList);
     }
 
@@ -279,7 +307,28 @@ public class PatternCard {
      * @param gameDie GameDie
      */
     public void placeDie(int xPos, int yPos, GameDie gameDie) {
-        patternCardFields[xPos][yPos].placeDie(gameDie);
+        PatternCardField patternCardField = patternCardFields[xPos][yPos]; 
+        patternCardField.placeDie(gameDie);
+    }
+    
+    /**
+     * Removed the die from the patterncardfield
+     * @param patternCardField
+     */
+    public void removeDie(PatternCardField patternCardField) {
+        patternCardField.setDie(null);
+    }
+    
+    /**
+     * Places a die on the patterncard field
+     * @param patternCardField
+     * @param die
+     */
+    public void placeDie(PatternCardField patternCardField, GameDie die) {
+        int xPos = patternCardField.getxPos();
+        int yPos = patternCardField.getyPos();
+        
+        placeDie(xPos, yPos, die);
     }
 
     /**

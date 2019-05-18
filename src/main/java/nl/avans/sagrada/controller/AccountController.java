@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -25,6 +26,7 @@ import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.RegisterView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.view.popups.Stats;
 
 public class AccountController {
     private Account account;
@@ -159,13 +161,14 @@ public class AccountController {
         account = accountDao.getAccountByUsername(account.getUsername());
         ArrayList<Invite> pendingInvites = account.getPendingInvites();
         ArrayList<Game> games = account.getActiveGames();
+        ArrayList<Account> accounts = accountDao.getAllAccounts();
 
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);
         lobbyView.setGames(games);
+        lobbyView.setAccounts(accounts);
         lobbyView.render();
 
-        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.getChildren().add(lobbyView);
         myScene.setContentPane(pane);
         account.setAccountStatus(AccountStatus.LOBBY);
@@ -188,6 +191,7 @@ public class AccountController {
         gameDao.addGame(game);
         game.assignRandomToolCards();
         game.assignRandomPublicObjectiveCards();
+        game.addDice();
 
         int playerId = playerDao.getNextPlayerId();
         Player player = new Player();
@@ -265,6 +269,7 @@ public class AccountController {
         myScene.addAlertPane(alert);
         players = gameDao.getPlayersOfGame(game);
         game.setPlayers(players);
+        game.addRandomRoundsToGameDice();
         game.setOptionPatternCardsForPlayers();
         viewLobby();
     }
@@ -304,5 +309,10 @@ public class AccountController {
     public void actionJoinGame(Game game) {
         myScene.getPlayerController().actionJoinGame(account, game);
         account.setAccountStatus(AccountStatus.GAME);
+    }
+
+    public void viewStats(Account account) {
+        Stats stats = new Stats(myScene, account);
+        myScene.addPopupPane(stats);
     }
 }

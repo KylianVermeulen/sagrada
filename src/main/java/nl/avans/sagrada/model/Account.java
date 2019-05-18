@@ -1,6 +1,7 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
+import nl.avans.sagrada.dao.AccountDao;
 import nl.avans.sagrada.dao.InviteDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.model.enumerations.AccountStatus;
@@ -187,21 +188,70 @@ public class Account {
         }
         return false;
     }
-    
-    /**
-     * Sets the current account status of the account
-     * The account status could also be referred to as location
-     * @param accountStatus
-     */
-    public void setAccountStatus(AccountStatus accountStatus) {
-        this.accountStatus = accountStatus;
-    }
-    
+
     /**
      * Returns the account status
+     *
      * @return accountStatus
      */
     public AccountStatus getAccountStatus() {
         return accountStatus;
+    }
+
+    /**
+     * Sets the current account status of the account The account status could also be referred to
+     * as location
+     */
+    public void setAccountStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
+    /**
+     * Gets the win lose count of this player.
+     *
+     * @return Win lose count.
+     */
+    public int[] getWinLoseCount() {
+        AccountDao accountDao = new AccountDao();
+        int wins = accountDao.getCountWins(this);
+        int loses = accountDao.getCountLoses(this);
+        int[] winsLoses = {wins, loses};
+        return winsLoses;
+    }
+
+    /**
+     * Gets the highest score of this player.
+     *
+     * @return Highest score.
+     */
+    public int getHighestScore() {
+        return new AccountDao().getHighestScore(this);
+    }
+
+    /**
+     * Gets the most used color of this player.
+     *
+     * @return Most used color.
+     */
+    public String getMostUsedColor() {
+        return new AccountDao().getMoseUsedColor(this);
+    }
+
+    /**
+     * Gets the most used value of this player.
+     *
+     * @return Most used value.
+     */
+    public int getMostUsedValue() {
+        return new AccountDao().getMostUsedValue(this);
+    }
+
+    /**
+     * Gets the count of different played accounts.
+     *
+     * @return Count of different played accounts.
+     */
+    public int getCountDifferentPlayedAccounts() {
+        return new AccountDao().getCountDifferentPlayedAccounts(this);
     }
 }

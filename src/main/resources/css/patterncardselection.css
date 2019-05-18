@@ -1,0 +1,6 @@
+#patternCard {
+    -fx-background-color: gray;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, black, 20, 0, 0, 0);
+}

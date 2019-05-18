@@ -73,7 +73,8 @@ public class DBConnection {
     }
 
     /**
-     * Executes the given Query on this connection based on Query sql and Query first QueryParameter
+     * Executes the given Query on this connection based on Query sql and Query first
+     * QueryParameter
      *
      * @param query Query
      * @return ResultSet
@@ -258,7 +259,7 @@ public class DBConnection {
                 returnList.add(query);
             } catch (SQLException e) {
                 i++; // If there's a failure move forward in the queue. If not, the query that ran
-                     // will no longer be in the list.
+                // will no longer be in the list.
                 Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
             }
         }

@@ -6,8 +6,21 @@ import java.util.ArrayList;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
+import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
+import nl.avans.sagrada.model.toolcard.ToolCardEglomiseBorstel;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
+import nl.avans.sagrada.model.toolcard.ToolCardFolieAandrukker;
+import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
+import nl.avans.sagrada.model.toolcard.ToolCardLoodHamer;
+import nl.avans.sagrada.model.toolcard.ToolCardLoodOpenHaler;
+import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
+import nl.avans.sagrada.model.toolcard.ToolCardRondSnijder;
+import nl.avans.sagrada.model.toolcard.ToolCardSchuurBlok;
+import nl.avans.sagrada.model.toolcard.ToolCardSnijLiniaal;
 
 public class ToolCardDao {
     private DBConnection dbConnection;
@@ -33,9 +46,14 @@ public class ToolCardDao {
                     "SELECT toolcard.* FROM toolcard INNER JOIN gametoolcard g on toolcard.idtoolcard = g.idtoolcard WHERE g.idgame=?",
                     "query"), new QueryParameter(QueryParameter.INT, game.getId()));
             while (rs.next()) {
-                ToolCard toolCard = new ToolCard(rs.getInt("idtoolcard"), rs.getString("name"),
-                        rs.getInt("seqnr"),
-                        rs.getString("description"));
+                ToolCard toolCard = buildToolCard(
+                        rs.getInt("idtoolcard"), 
+                        rs.getString("name"), 
+                        rs.getInt("seqnr"), 
+                        rs.getString("description")
+                    );
+                boolean hasBeenPaidForBefore = toolCardHasPayment(toolCard, game);
+                toolCard.setHasBeenPaidForBefore(hasBeenPaidForBefore);
                 list.add(toolCard);
             }
         } catch (SQLException e) {
@@ -54,9 +72,12 @@ public class ToolCardDao {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM toolcard", "query"));
             while (rs.next()) {
-                ToolCard toolCard = new ToolCard(rs.getInt("idtoolcard"), rs.getString("name"),
-                        rs.getInt("seqnr"),
-                        rs.getString("description"));
+                ToolCard toolCard = buildToolCard(
+                        rs.getInt("idtoolcard"), 
+                        rs.getString("name"), 
+                        rs.getInt("seqnr"), 
+                        rs.getString("description")
+                    );
                 list.add(toolCard);
             }
         } catch (SQLException e) {
@@ -72,16 +93,18 @@ public class ToolCardDao {
      * @return The tool card that belongs to the id entered as parameter
      */
     public ToolCard getToolCardById(int id) {
-        ToolCard toolCard = new ToolCard();
+        ToolCard toolCard = null;
         try {
             ResultSet rs =
                     dbConnection.executeQuery(new Query("SELECT * FROM toolcard WHERE idtoolcard=?",
                             "query", new QueryParameter(QueryParameter.INT, id)));
             if (rs.next()) {
-                toolCard.setId(rs.getInt("idtoolcard"));
-                toolCard.setName(rs.getString("name"));
-                toolCard.setSeqnr(rs.getInt("seqnr"));
-                toolCard.setDescription(rs.getString("description"));
+                toolCard = buildToolCard(
+                        rs.getInt("idtoolcard"), 
+                        rs.getString("name"), 
+                        rs.getInt("seqnr"), 
+                        rs.getString("description")
+                    );
             }
         } catch (Exception e) {
             toolCard = null;
@@ -159,13 +182,13 @@ public class ToolCardDao {
 
     /**
      * Checks if a toolcard has already received payment before. If the toolcard has received
-     * payment before, the method will set a flag in the toolcard, notifying the game that this
-     * toolcard has already recieved payment before. Otherwise it will set this flag to false.
+     * payment before we return true
      *
      * @param toolCard Toolcard
      * @param game Game
+     * @return boolean
      */
-    public void toolCardHasPayment(ToolCard toolCard, Game game) {
+    public boolean toolCardHasPayment(ToolCard toolCard, Game game) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamefavortoken WHERE gametoolcard=? AND idgame=?",
@@ -175,13 +198,66 @@ public class ToolCardDao {
                     new QueryParameter(QueryParameter.INT, game.getId()));
             if (rs.next()) {
                 if (rs.getInt("gametoolcard") == 0) {
-                    toolCard.setHasBeenPaidForBefore(false);
+                    return false;
                 } else {
-                    toolCard.setHasBeenPaidForBefore(true);
+                    return true;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return false;
+    }
+    
+    /**
+     * Builds to toolcard based on the id
+     * This is so the toolcard will contains the correct handleDrag method
+     * @param id
+     * @param name
+     * @param seqnr
+     * @param description
+     * @return ToolCard
+     */
+    private ToolCard buildToolCard(int id, String name, int seqnr, String description) {
+        switch (id) {
+        case 1:
+            ToolCardDriePuntStang toolCardDirPunt = new ToolCardDriePuntStang(id, name, seqnr, description);
+            return toolCardDirPunt;
+        case 2:
+            ToolCardEglomiseBorstel toolCardEglo = new ToolCardEglomiseBorstel(id, name, seqnr, description);
+            return toolCardEglo;
+        case 3:
+            ToolCardFolieAandrukker toolCardFolie = new ToolCardFolieAandrukker(id, name, seqnr, description);
+            return toolCardFolie;
+        case 4:
+            ToolCardLoodOpenHaler toolCardLood = new ToolCardLoodOpenHaler(id, name, seqnr, description);
+            return toolCardLood;
+        case 5:
+            ToolCardRondSnijder toolCardSnij = new ToolCardRondSnijder(id, name, seqnr, description);
+            return toolCardSnij;
+        case 6:
+            ToolCardFluxBorstel toolCardFlux = new ToolCardFluxBorstel(id, name, seqnr, description);
+            return toolCardFlux;
+        case 7:
+            ToolCardLoodHamer toolCardLoodHamer = new ToolCardLoodHamer(id, name, seqnr, description);
+            return toolCardLoodHamer;
+        case 8:
+            ToolCardGlasBreekTang toolCardGlas = new ToolCardGlasBreekTang(id, name, seqnr, description);
+            return toolCardGlas;
+        case 9:
+            ToolCardSnijLiniaal toolCardLini = new ToolCardSnijLiniaal(id, name, seqnr, description);
+            return toolCardLini;
+        case 10:
+            ToolCardSchuurBlok toolCardSchuur = new ToolCardSchuurBlok(id, name, seqnr, description);
+            return toolCardSchuur;
+        case 11:
+            ToolCardFluxVerwijderaar toolCardFluxVerwijderaar = new ToolCardFluxVerwijderaar(id, name, seqnr, description);
+            return toolCardFluxVerwijderaar;
+        case 12:
+            ToolCardOlieGlasSnijder toolCardOlieGlasSnijder = new ToolCardOlieGlasSnijder(id, name, seqnr, description);
+            return toolCardOlieGlasSnijder;
+        default:
+            return null;
         }
     }
 }

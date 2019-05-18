@@ -1,28 +1,43 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
+import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
+import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class LobbyView extends BorderPane implements ViewInterface {
     private final int BUTTON_WIDTH = 150;
     private final int BUTTON_HEIGHT = 40;
+    private final Image LOBBY_BACKGROUND =
+            new Image("/images/backgrounds/lobbybackground-goede-hoogte.png");
     private AccountController accountController;
     private ArrayList<Game> games;
     private ArrayList<Invite> invites;
+    private ArrayList<Account> accounts;
     private InviteOverviewView inviteOverview;
     private GameOverviewView gameOverview;
+    private AccountOverviewView accountOverview;
     private Button newGameButton;
     private Button logoutButton;
+    private BackgroundSize size =
+            new BackgroundSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT, false, false, true, false);
 
     /**
      * Constructor
@@ -30,6 +45,12 @@ public class LobbyView extends BorderPane implements ViewInterface {
     public LobbyView(AccountController accountController) {
         this.accountController = accountController;
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
+        String css = this.getClass().getResource("/css/lobbyview.css").toExternalForm();
+        getStylesheets().add(css);
+        
+        setBackground(
+                new Background(new BackgroundImage(LOBBY_BACKGROUND, BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
     }
 
     /**
@@ -46,17 +67,27 @@ public class LobbyView extends BorderPane implements ViewInterface {
         this.games = games;
     }
 
+    /**
+     * Set all the accounts that have been registered.
+     */
+    public void setAccounts(ArrayList<Account> accounts) {
+        this.accounts = accounts;
+    }
+
     @Override
     public void render() {
         buildInviteOverview();
         buildGamesOverview();
-        buildOverview();
+        buildAccountsOverview();
         buildNewGameBtn();
         buildLogout();
+        buildOverview();
     }
 
     /**
      * Build the button to make a new game
+     * 
+     * @param url
      */
     private void buildNewGameBtn() {
         BorderPane pane = new BorderPane();
@@ -86,6 +117,15 @@ public class LobbyView extends BorderPane implements ViewInterface {
     }
 
     /**
+     * Builds the overview of all accounts.
+     */
+    private void buildAccountsOverview() {
+        accountOverview = new AccountOverviewView(accountController);
+        accountOverview.setAccounts(accounts);
+        accountOverview.render();
+    }
+
+    /**
      * Builds to button to logout
      */
     private void buildLogout() {
@@ -98,14 +138,24 @@ public class LobbyView extends BorderPane implements ViewInterface {
 
         pane.setAlignment(Pos.TOP_CENTER);
         pane.getChildren().add(logoutButton);
-        setRight(pane);
     }
 
+    /**
+     * Builds the lobby overview.
+     */
     private void buildOverview() {
         VBox vbox = new VBox();
+        VBox vbox2 = new VBox();
+        Label playerLabel = new Label("Alle accounts");
         Label inviteLabel = new Label("Invites van spelers");
+        inviteLabel.setTextFill(Color.WHITE);
         Label gameOverviewLabel = new Label("Je openstaande spellen");
+        gameOverviewLabel.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);
+        vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview);
+        vbox2.setAlignment(Pos.CENTER_RIGHT);
+        vbox2.setPadding(new Insets(0, 20, 0, 0));
+        setRight(vbox2);
     }
 }
