@@ -20,8 +20,12 @@ public class ToolCardFluxVerwijderaar extends ToolCard {
     }
 
     @Override
-    public GameDie handleClick(MouseEvent event, Game game, Player player, PlayerController playerController) {
+    public GameDie increaseEyes(MouseEvent event, Game game, Player player, PlayerController playerController) {
         return null;
     }
 
+    @Override
+    public GameDie decreaseEyes(MouseEvent event, Game game, Player player, PlayerController playerController) {
+        return null;
+    }
 }

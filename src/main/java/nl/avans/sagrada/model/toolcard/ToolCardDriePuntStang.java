@@ -26,31 +26,18 @@ public class ToolCardDriePuntStang extends ToolCard {
     }
 
     @Override
-    public GameDie handleClick(MouseEvent event, Game game, Player player, PlayerController playerController) {
-        this.playerController = playerController;
-        DieView targetDieView = (DieView) event.getTarget();
-        GameDie targetDie = targetDieView.getGameDie();
-
-
-
+    public GameDie increaseEyes(MouseEvent event, Game game, Player player, PlayerController playerController) {
+        DieView dieView = (DieView) event.getTarget();
+        GameDie targetDie = dieView.getGameDie();
+        targetDie.setEyes(targetDie.getEyes() + 1);
         return targetDie;
     }
 
-    public GameDie increaseDieEyes(GameDie gameDie){
-        if(gameDie.getEyes() != 6){
-            gameDie.setEyes(gameDie.getEyes() + 1);
-            playerController.getMyScene().removePopupPane();
-            return gameDie;
-        }
-        return null;
-    }
-
-    public GameDie decreaseDieEyes(GameDie gameDie){
-        if(gameDie.getEyes() != 1){
-            gameDie.setEyes(gameDie.getEyes() -1);
-            playerController.getMyScene().removePopupPane();
-            return gameDie;
-        }
-        return null;
+    @Override
+    public GameDie decreaseEyes(MouseEvent event, Game game, Player player, PlayerController playerController) {
+        DieView dieView = (DieView) event.getTarget();
+        GameDie targetDie = dieView.getGameDie();
+        targetDie.setEyes(targetDie.getEyes() - 1);
+        return targetDie;
     }
 }

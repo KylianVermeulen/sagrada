@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
@@ -38,10 +37,8 @@ public class ToolCardView extends CardView {
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         getStylesheets().add(css);
         setId("toolcardBackground");
-        setOnMouseClicked(event -> {
-            MouseEvent clickEvent = (MouseEvent) event;
+        setOnMouseClicked(e -> {
             playerController.setActiveToolCard(toolCard);
-            playerController.actionChangeDie(event);
         });
         tokenPane = new TilePane();
     }
