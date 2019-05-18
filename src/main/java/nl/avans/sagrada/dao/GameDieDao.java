@@ -240,9 +240,7 @@ public class GameDieDao {
     /**
      * Updates the amount of eyes for a certain die.
      * 
-     * @param newEyes int
      * @param game Game
-     * @param round int
      * @param gameDie GameDie
      */
     public void updateDieEyes(Game game, GameDie gameDie) {
