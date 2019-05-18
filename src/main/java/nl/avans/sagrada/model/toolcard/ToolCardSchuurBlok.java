@@ -34,7 +34,6 @@ public class ToolCardSchuurBlok extends ToolCard {
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
-
                     return patternCard;
                 case 2:
                     die.setEyes(5);
@@ -42,7 +41,6 @@ public class ToolCardSchuurBlok extends ToolCard {
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
-
                     return patternCard;
                 case 3:
                     die.setEyes(4);
@@ -50,7 +48,6 @@ public class ToolCardSchuurBlok extends ToolCard {
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
-
                     return patternCard;
                 case 4:
                     die.setEyes(3);
@@ -58,7 +55,6 @@ public class ToolCardSchuurBlok extends ToolCard {
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
-
                     return patternCard;
                 case 5:
                     die.setEyes(2);
@@ -66,7 +62,6 @@ public class ToolCardSchuurBlok extends ToolCard {
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
-
                     return patternCard;
                 case 6:
                     die.setEyes(1);
@@ -74,12 +69,12 @@ public class ToolCardSchuurBlok extends ToolCard {
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
-
                     return patternCard;
                 default:
                     return null;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
