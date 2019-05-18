@@ -126,7 +126,7 @@ public class GameSetupView extends VBox implements ViewInterface {
         VBox invites = new VBox();
 
         invites.setMaxHeight(100);
-        invites.setMinWidth(Main.SCREEN_WIDTH - 30);
+        invites.setMinWidth(Main.SCREEN_WIDTH - 100);
 
         for (Account account : accounts) {
             InviteView inviteView = new InviteView(account);
