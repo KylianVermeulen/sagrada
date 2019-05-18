@@ -1,5 +1,7 @@
 package nl.avans.sagrada.dao;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
@@ -7,9 +9,6 @@ import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
-
-import java.sql.ResultSet;
-import java.util.ArrayList;
 
 public class InviteDao {
     private DBConnection dbConnection;
