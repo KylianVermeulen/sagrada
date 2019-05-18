@@ -12,7 +12,6 @@ import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
-import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
@@ -26,9 +25,7 @@ import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.PatternCardFieldView;
 import nl.avans.sagrada.view.PatternCardSelectionView;
-import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.PatternCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
@@ -215,13 +212,26 @@ public class PlayerController {
      * @param toolCard
      */
     public void setActiveToolCard(ToolCard toolCard) {
-        if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) || 
+        if (activeToolCard != null) {
+            if (toolCard.getId() == activeToolCard.getId()) {
+                Alert alert = new Alert("Active toolcard",
+                        "Je hebt nu geen active toolcard meer",
+                        AlertType.INFO);
+                myScene.addAlertPane(alert);
+            }
+        }
+        else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) || 
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
             activeToolCard = toolCard;
             Alert alert = new Alert("Active toolcard",
                     "Je hebt een actieve toolcard: " + activeToolCard.getName(),
-                    AlertType.ERROR);
+                    AlertType.INFO);
+            Alert alertInfo = new Alert("ToolCard info", 
+                    "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
+                    AlertType.INFO
+                );
             myScene.addAlertPane(alert);
+            myScene.addAlertPane(alertInfo);
         }
         else {
             Alert alert = new Alert("Te weinig betaalstenen",

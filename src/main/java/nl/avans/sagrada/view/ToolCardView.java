@@ -125,7 +125,7 @@ public class ToolCardView extends CardView {
         showImage(toolCard.getImagePath());
         showDescription();
         setOnMouseClicked(e -> {
-            playerController.setActiveToolCard(toolCard, this);
+            playerController.setActiveToolCard(toolCard);
         });
     }
     
