@@ -57,33 +57,45 @@ public class PlayerController {
      */
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
             GameDie gameDie, MouseEvent event) {
-
+        PlayerDao playerDao = new PlayerDao();
         Player playerEvent = patternCard.getPlayer();
 
         if (playerEvent.getId() == player.getId()) {
             if (player.isCurrentPlayer()) {
-                if (activeToolCard != null) {
-                    PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
-                    if (toolcardUseResult != null) {
-                        activeToolCard = null;
-                        player.setPatternCard(toolcardUseResult);
-                        viewGame();
+                if (playerDao.getCountPlacedDieInRound(player) < 2) {
+                    if (playerDao.hasUsedToolcardInRound(player) && playerDao.getCountPlacedDieInRound(player) != 2) {
+                        if (activeToolCard != null) {
+                            PatternCard toolcardUseResult = activeToolCard
+                                    .handleDrag(event, gameDie);
+                            if (toolcardUseResult != null) {
+                                activeToolCard = null;
+                                player.setPatternCard(toolcardUseResult);
+                                viewGame();
+                            } else {
+                                Alert alert = new Alert("Helaas",
+                                        "Dit kan niet wat je probeert met de toolcard",
+                                        AlertType.ERROR);
+                                myScene.addAlertPane(alert);
+                            }
+                        } else {
+                            if (gameDie.getPatternCardField() == null) {
+                                if (patternCardField.canPlaceDie(gameDie)) {
+                                    gameDie.setPatternCardField(patternCardField);
+                                    patternCardField.setDie(gameDie);
+
+                                    PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                                    playerFrameFieldDao
+                                            .addDieToField(gameDie, patternCardField, player);
+                                }
+                            }
+                        }
                     } else {
-                        Alert alert = new Alert("Helaas",
-                                "Dit kan niet wat je probeert met de toolcard",
-                                AlertType.ERROR);
+                        Alert alert = new Alert("inner", "", AlertType.INFO);
                         myScene.addAlertPane(alert);
                     }
                 } else {
-                    if (gameDie.getPatternCardField() == null) {
-                        if (patternCardField.canPlaceDie(gameDie)) {
-                            gameDie.setPatternCardField(patternCardField);
-                            patternCardField.setDie(gameDie);
-
-                            PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-                            playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
-                        }
-                    }
+                    Alert alert = new Alert("outer", "", AlertType.INFO);
+                    myScene.addAlertPane(alert);
                 }
             } else {
                 Alert alert = new Alert("Nog even wachten",

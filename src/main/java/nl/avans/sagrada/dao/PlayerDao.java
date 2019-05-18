@@ -157,25 +157,33 @@ public class PlayerDao {
         }
     }
 
-    public boolean hasPlacedDieInRound() {
+    public int getCountPlacedDieInRound(Player player) {
+        int count = 0;
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("", "query")
+                    new Query(
+                            "SELECT * FROM playerframefield INNER JOIN player p on playerframefield.player_idplayer = p.idplayer WHERE seqnr=? AND player_idplayer=?",
+                            "query"),
+                    new QueryParameter(QueryParameter.INT, player.getSeqnr()),
+                    new QueryParameter(QueryParameter.INT, player.getId())
             );
+            while (rs.next()) {
+                count++;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return count;
     }
 
     public boolean hasUsedToolcardInRound(Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT * FROM gamefavortoken where gametoolcard IS NOT NULL AND round=? AND idplayer=?;",
+                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer where gametoolcard IS NOT NULL AND seqnr=? AND p.idplayer=?",
                             "query"
                     ),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getRound()),
+                    new QueryParameter(QueryParameter.INT, player.getSeqnr()),
                     new QueryParameter(QueryParameter.INT, player.getId())
             );
             if (rs.next()) {
