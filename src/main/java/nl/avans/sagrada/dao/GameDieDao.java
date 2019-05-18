@@ -164,7 +164,8 @@ public class GameDieDao {
                 GameDie gameDie = new GameDie(
                         rs.getInt("dienumber"),
                         rs.getString("diecolor"),
-                        rs.getInt("eyes")
+                        rs.getInt("eyes"),
+                        rs.getInt("round")
                 );
                 gameDice.add(gameDie);
             }
@@ -176,9 +177,6 @@ public class GameDieDao {
 
     /**
      * Places a die on the patterncardfield in the db
-     * @param die
-     * @param patterncardfield
-     * @param player
      */
     public void placeDie(GameDie die, PatternCardField patterncardfield, Player player) {
         try {
@@ -194,6 +192,29 @@ public class GameDieDao {
                     new QueryParameter(QueryParameter.INT, player.getGame().getId())
             );
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Replaces a die eyes with the given random newEyes
+     *
+     * @param game Game
+     * @param gameDie GameDie
+     * @param newEyes int
+     */
+    public void rerollDie(Game game, GameDie gameDie, int newEyes) {
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "UPDATE gamedie SET eyes=? WHERE idgame=? AND dienumber=? AND diecolor=?",
+                            "update"),
+                    new QueryParameter(QueryParameter.INT, newEyes),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
+                    new QueryParameter(QueryParameter.STRING, gameDie.getColor())
+            );
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

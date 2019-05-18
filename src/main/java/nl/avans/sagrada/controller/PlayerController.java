@@ -54,28 +54,26 @@ public class PlayerController {
 
         if (playerEvent.getId() == player.getId()) {
             // Check if the player from the 
-            if (activeToolCard != null) {
-                PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
-                if (toolcardUseResult != null) {
-                    actionPayForToolCard(activeToolCard);
-                    activeToolCard = null;
-                    player.setPatternCard(toolcardUseResult);
-                    viewGame();
-                } else {
-                    Alert alert = new Alert("Helaas",
-                            "Dit kan niet wat je probeert met de toolcard",
-                            AlertType.ERROR);
-                    myScene.addAlertPane(alert);
-                }
+            PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
+            if (toolcardUseResult != null) {
+                actionPayForToolCard(activeToolCard);
+                activeToolCard = null;
+                player.setPatternCard(toolcardUseResult);
+                viewGame();
             } else {
-                if (gameDie.getPatternCardField() == null) {
-                    if (patternCardField.canPlaceDie(gameDie)) {
-                        gameDie.setPatternCardField(patternCardField);
-                        patternCardField.setDie(gameDie);
+                Alert alert = new Alert("Helaas",
+                        "Dit kan niet wat je probeert met de toolcard",
+                        AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
+        } else {
+            if (gameDie.getPatternCardField() == null) {
+                if (patternCardField.canPlaceDie(gameDie)) {
+                    gameDie.setPatternCardField(patternCardField);
+                    patternCardField.setDie(gameDie);
 
-                        PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-                        playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
-                    }
+                    PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                    playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
                 }
             }
         }
@@ -224,7 +222,8 @@ public class PlayerController {
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
             activeToolCard = toolCard;
             if (toolCard.getId() == 6) {
-                Fluxborstel fluxborstelPopup = new Fluxborstel(myScene, getPlayer().getGame());
+                Fluxborstel fluxborstelPopup = new Fluxborstel(myScene, getPlayer().getGame(),
+                        this);
                 myScene.addPopupPane(fluxborstelPopup);
             }
             Alert alert = new Alert("Active toolcard",
