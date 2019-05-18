@@ -13,8 +13,18 @@ public class Die {
     /**
      * Full constructor, initializes all instance variables.
      *
+     * @param die Die;
+     */
+    public Die(Die die) {
+        this.number = die.getNumber();
+        this.color = die.getColor();
+    }
+
+    /**
+     * Full constructor, initializes all instance variables.
+     *
      * @param number The number of this die.
-     * @param color The color of this die.
+     * @param color  The color of this die.
      */
     public Die(int number, String color) {
         this.number = number;

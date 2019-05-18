@@ -147,6 +147,29 @@ public class PatternCardField {
         }
         return hasValue();
     }
+    
+    /**
+     * Checks if the die can be placed based on the attributes that are
+     * On the patterncardfield
+     * @param die
+     * @return boolean
+     */
+    public boolean canPlaceDieByAttributes(GameDie die) {
+        if (hasFieldAttributes() == false) {
+            return true;
+        }
+        else if (hasColor()) {
+            if (getColor().equals(die.getColor())) {
+                return true;
+            }
+        }
+        else if (hasValue()) {
+            if (getValue() == die.getEyes()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Return the color as a String value
@@ -168,22 +191,56 @@ public class PatternCardField {
 
     /**
      * Places die on the selected PatternCardField
+     * Returns a boolean if the die is placed
      *
      * @param gameDie GameDie
+     * @return boolean
      */
-    public void placeDie(GameDie gameDie) {
+    public boolean placeDie(GameDie gameDie) {
         if (patternCard.isFirstTurn()) {
             if (nextToBorder()) {
-                sideCheckPlaceDie(gameDie);
-                return;
+                if (sideCheckPlaceDie(gameDie)) {
+                    if (sideCheckPlaceDie(gameDie)) {
+                        gameDie.setPatternCardField(this);
+                        setDie(gameDie);
+                        return true;
+                    }
+                }
             }
-            return;
         }
-        if (hasDie()) {
-            return;
+        if (hasDie() == false) {
+            if (sideCheckPlaceDie(gameDie)) {
+                gameDie.setPatternCardField(this);
+                setDie(gameDie);
+                return true;
+            }
         }
-        sideCheckPlaceDie(gameDie);
+        return false;
     }
+    
+    /**
+     * Checks if we can place a die on the current patterncard field
+     * @param gameDie
+     * @return boolean
+     */
+    public boolean canPlaceDie(GameDie gameDie) {
+        if (patternCard.isFirstTurn()) {
+            if (nextToBorder()) {
+                if (sideCheckPlaceDie(gameDie)) {
+                    if (checkTurn(gameDie)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else if (hasDie() == false) {
+            if (sideCheckPlaceDie(gameDie)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 
     /**
      * Checks if the selected PatternCardField is next to a border
@@ -199,40 +256,47 @@ public class PatternCardField {
 
     /**
      * Checks if the placement is valid
+     * Based on the side check
      *
      * @param gameDie GameDie
+     * @return boolean
      */
-    private void sideCheckPlaceDie(GameDie gameDie) {
+    private boolean sideCheckPlaceDie(GameDie gameDie) {
         int dieEyes = gameDie.getEyes();
         String dieStringColor = gameDie.getColor();
         if (patternCard.checkSidesColor(this, dieStringColor, true) && patternCard.checkSidesValue(this, dieEyes, true)) {
             if (hasColor()) {
                 if (gameDie.getColor().equals(this.color)) {
-                    checkTurn(gameDie);
+                    return true;
                 }
-                return;
+                return false;
             }
             if (hasValue()) {
                 if (gameDie.getEyes() == getValue()) {
-                    checkTurn(gameDie);
+                    return true;
                 }
-                return;
+                return false;
             }
-            checkTurn(gameDie);
+            return true;
         }
-    }
+        return false;
+    }   
 
     /**
      * Checks if it's the first turn if not does a normal turn
      *
      * @param gameDie GameDie
+     * @return boolean
      */
-    private void checkTurn(GameDie gameDie) {
+    private boolean checkTurn(GameDie gameDie) {
         if (patternCard.isFirstTurn()) {
             patternCard.setFirstTurn(false);
-            this.die = gameDie;
+            return true;
         } else if (patternCard.isNextToDie(this)) {
-            this.die = gameDie;
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
@@ -255,5 +319,20 @@ public class PatternCardField {
      */
     public boolean hasDie() {
         return die != null;
+    }
+
+    /**
+     * Gets the patterncard that the PatternCardField is a child of
+     * @return PatternCard
+     */
+    public PatternCard getPatternCard() {
+        return patternCard;
+    }
+
+    /**
+     * Removes the die from the view
+     */
+    public void remove() {
+        die = null;
     }
 }

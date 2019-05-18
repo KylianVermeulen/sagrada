@@ -9,14 +9,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
+import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.RoundTrack;
-import nl.avans.sagrada.model.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameView extends VBox implements ViewInterface {
@@ -24,6 +28,7 @@ public class GameView extends VBox implements ViewInterface {
     private Game game;
     private Player player;
     private PlayerController playerController;
+    private AccountController accountController;
     private HBox otherPlayerPatternCardViews;
     private HBox actionButtons;
     private ArrayList<ToolCardView> toolCardViews;
@@ -34,6 +39,7 @@ public class GameView extends VBox implements ViewInterface {
     private RoundTrackView roundTrackView;
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
+    private DieOfferView dieOfferView;
 
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
@@ -51,12 +57,15 @@ public class GameView extends VBox implements ViewInterface {
         for (Player player : players) {
             String currentPlayerUsername = this.player.getAccount().getUsername();
             String otherPlayerUsername = player.getAccount().getUsername();
-
+            PatternCardDao PatternCardDao = new PatternCardDao();
+            PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
+            player.setPatternCard(patternCard);
             if (!currentPlayerUsername.equals(otherPlayerUsername)) {
                 PatternCard playerPatternCard = player.getPatternCard();
 
                 PatternCardView patternCardView = new PatternCardView(playerController);
                 patternCardView.setCenterShape(true);
+                patternCardView.setPlayerName(otherPlayerUsername);
                 patternCardView.setPatternCard(playerPatternCard);
                 patternCardView.render();
                 otherPlayerPatternCardViews.getChildren().add(patternCardView);
@@ -66,16 +75,18 @@ public class GameView extends VBox implements ViewInterface {
 
     private void buildToolCards() {
         toolCardViews = new ArrayList<>();
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
 
         ArrayList<ToolCard> gameToolCards = new ArrayList<>();
         gameToolCards = game.getToolCards();
 
         for (ToolCard toolCard : gameToolCards) {
+            ArrayList<FavorToken> favorTokens = favorTokenDao.getToolCardTokens(toolCard, game);
             ToolCardView toolCardView = new ToolCardView(playerController);
             toolCardView.setToolCard(toolCard);
+            toolCardView.setFavorTokens(favorTokens, game);
             toolCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
             toolCardView.render();
-
             toolCardViews.add(toolCardView);
         }
     }
@@ -126,6 +137,7 @@ public class GameView extends VBox implements ViewInterface {
         PatternCard playerPatternCard = player.getPatternCard();
         playerPatternCardView = new PatternCardView(playerController);
         playerPatternCardView.setPatternCard(playerPatternCard);
+        playerPatternCardView.setPlayerName(player.getAccount().getUsername());
         playerPatternCardView.render();
     }
 
@@ -149,7 +161,11 @@ public class GameView extends VBox implements ViewInterface {
         actionButtons.setSpacing(SPACING_BETWEEN_CHILDS);
         actionButtons.setPadding(new Insets(40, 0, 0, 0));
     }
-
+    
+    private void buildDieOffer() {
+        dieOfferView = new DieOfferView(this.game);
+        dieOfferView.render();
+    }
 
     @Override
     public void render() {
@@ -165,6 +181,7 @@ public class GameView extends VBox implements ViewInterface {
         buildPlayerPatternCard();
         buildPlayerPrivateObjectiveCard();
         buildActionButtons();
+        buildDieOffer();
 
         BorderPane firstView = new BorderPane();
         firstView.setPrefHeight(PatternCardView.PATTERNCARD_HEIGHT - 15);
@@ -185,8 +202,10 @@ public class GameView extends VBox implements ViewInterface {
         secondView.getChildren().addAll(publicObjectiveCardViews);
         secondView.getChildren().add(roundTrackView);
 
+        HBox rightThirdView = new HBox();
+        rightThirdView.getChildren().addAll(dieOfferView, privateObjectiveCardView);
         thirdView.setLeft(chatLineView);
-        thirdView.setRight(privateObjectiveCardView);
+        thirdView.setRight(rightThirdView);
         thirdView.setBottom(actionButtons);
 
         HBox thirdViewCenterBox = new HBox();
