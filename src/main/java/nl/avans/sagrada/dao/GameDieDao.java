@@ -71,7 +71,7 @@ public class GameDieDao {
      * @param game Game
      * @param gameDie GameDie
      */
-    public void changeDieEyes(Game game, GameDie gameDie){
+    public void updateDie(Game game, GameDie gameDie){
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(

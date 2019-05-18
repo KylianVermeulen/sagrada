@@ -38,7 +38,7 @@ public class DieView extends Pane implements ViewInterface {
         setOnMouseClicked(event ->  {
             try {
                 MouseEvent clickEvent = (MouseEvent) event;
-                playerController.actionChangeDie(event, this);
+                playerController.actionClickDie(event, this);
             } catch (Exception e){
                 e.printStackTrace();
             }

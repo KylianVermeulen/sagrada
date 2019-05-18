@@ -104,7 +104,7 @@ public class PlayerController {
      * @param event MouseEvent
      * @param dieView DieView
      */
-    public void actionChangeDie(MouseEvent event, DieView dieView){
+    public void actionClickDie(MouseEvent event, DieView dieView){
         if(activeToolCard != null && activeToolCard.getId() == 1){
             DriePuntStang driePuntStang = new DriePuntStang(myScene, this, event, dieView, activeToolCard);
             myScene.addPopupPane(driePuntStang);

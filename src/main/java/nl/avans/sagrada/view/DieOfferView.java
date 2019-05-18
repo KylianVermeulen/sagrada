@@ -19,7 +19,7 @@ public class DieOfferView extends TilePane implements ViewInterface {
      *
      * @param game Game
      */
-    public DieOfferView(Game game) {
+    public DieOfferView(Game game, PlayerController playerController) {
         this.playerController = playerController;
         this.game = game;
     }
