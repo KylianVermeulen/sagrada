@@ -111,8 +111,6 @@ public class PlayerController {
         }
     }
 
-
-
     /**
      * Sets the player for the controller
      */
