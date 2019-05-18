@@ -26,7 +26,6 @@ public class PlayerFrameFieldDao {
      */
     public GameDie getGameDieOfField(PatternCardField patternCardField, Player player) {
         GameDie die = null;
-
         try {
             Game game = player.getGame();
             ResultSet rs = dbConnection.executeQuery(new Query(
@@ -45,6 +44,7 @@ public class PlayerFrameFieldDao {
                         rs.getString("diecolor"), 
                         rs.getInt("eyes")
                     );
+                die.setIsOnOfferTable(false);
             }
         } catch (Exception e) {
             // TODO: handle exception
@@ -96,6 +96,7 @@ public class PlayerFrameFieldDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        die.setIsOnOfferTable(false);
     }
     
     /**
