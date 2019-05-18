@@ -120,8 +120,12 @@ public class GameDieDao {
                     new QueryParameter(QueryParameter.INT, die.getNumber()),
                     new QueryParameter(QueryParameter.STRING, die.getColor()));
             while (rs.next()) {
-                gameDie = new GameDie(rs.getInt("dienumber"), rs.getString("diecolor"),
-                        rs.getInt("eyes"), rs.getInt("round"));
+                gameDie = new GameDie(
+                        rs.getInt("dienumber"),
+                        rs.getString("diecolor"),
+                        rs.getInt("eyes"), 
+                        rs.getInt("round")
+                );
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,7 +135,6 @@ public class GameDieDao {
 
     /**
      * Gets the dice for a round from a game
-     *
      * @param game Game
      * @return ArrayList<GameDie>
      */
@@ -143,8 +146,49 @@ public class GameDieDao {
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, game.getRound()));
             while (rs.next()) {
-                GameDie gameDie = new GameDie(rs.getInt("dienumber"), rs.getString("diecolor"),
-                        rs.getInt("eyes"));
+                GameDie gameDie = new GameDie(
+                        rs.getInt("dienumber"),
+                        rs.getString("diecolor"),
+                        rs.getInt("eyes")
+                );
+                gameDie.setIsOnOfferTable(true);
+                gameDice.add(gameDie);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gameDice;
+    }
+    
+    /**
+     * Gets all the available dice of a round
+     * @param game
+     * @return ArrayList<GameDie>
+     */
+    public ArrayList<GameDie> getAvailableDiceOfRound(Game game) {
+        ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT gamedie.* FROM sagrada_peter.playerframefield\n" + 
+                            "RIGHT JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber \n" + 
+                            "AND \n" + 
+                            "gamedie.diecolor = playerframefield.diecolor\n" + 
+                            "WHERE player_idplayer IS NULL \n" + 
+                            "AND playerframefield.idgame IS NULL\n" + 
+                            "AND playerframefield.position_x IS NULL\n" + 
+                            "AND playerframefield.position_y IS NULL\n" + 
+                            "AND gamedie.idgame = ?\n" + 
+                            "AND gamedie.round = ?", "query"),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.INT, game.getRound())
+            );
+            while (rs.next()) {
+                GameDie gameDie = new GameDie(
+                        rs.getInt("dienumber"),
+                        rs.getString("diecolor"),
+                        rs.getInt("eyes")
+                );
+                gameDie.setIsOnOfferTable(true);
                 gameDice.add(gameDie);
             }
         } catch (Exception e) {
