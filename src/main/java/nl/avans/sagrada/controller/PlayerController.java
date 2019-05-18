@@ -83,43 +83,18 @@ public class PlayerController {
     }
 
     public void actionChangeDie(MouseEvent event, DieView dieView){
-        if(activeToolCard.getId() == 1){
-            Popup popup = new Popup(300, 300, 300, 300) {
-                @Override
-                public void render() {
-                    BorderPane borderPane = new BorderPane();
-                    Pane buttonPane = new Pane();
-                    Button plusButton = new Button("+");
-                    plusButton.setOnAction(e -> increaseDieEyes(event));
-                    Button minButton = new Button("-");
-                    minButton.setOnAction(e -> decreaseDieEyes(event));
-                    buttonPane.getChildren().addAll(plusButton, minButton);
-                    borderPane.setCenter(dieView);
-                    borderPane.setBottom(buttonPane);
-                }
-            };
-            popup.render();
-            myScene.addPopupPane(popup);
-        }
-    }
-
-    public void increaseDieEyes(MouseEvent event){
-        GameDie toolCardResult = activeToolCard.increaseEyes(event, player.getGame(), player, PlayerController.this);
-        if(toolCardResult != null){
-            GameDieDao gameDieDao = new GameDieDao();
-            activeToolCard = null;
-            gameDieDao.changeDieEyes(player.getGame(), toolCardResult);
-            viewGame();
-        }
-    }
-
-    public void decreaseDieEyes(MouseEvent event){
-        GameDie toolCardResult = activeToolCard.decreaseEyes(event, player.getGame(), player, PlayerController.this);
-        if(toolCardResult != null){
-            GameDieDao gameDieDao = new GameDieDao();
-            activeToolCard = null;
-            gameDieDao.changeDieEyes(player.getGame(), toolCardResult);
-            viewGame();
+        if(activeToolCard != null && activeToolCard.getId() == 1){
+           GameDie toolCardResult = activeToolCard.handleClick(event, player.getGame(), this, dieView);
+           if(toolCardResult != null){
+               GameDieDao gameDieDao = new GameDieDao();
+               gameDieDao.changeDieEyes(player.getGame(), toolCardResult);
+               activeToolCard = null;
+               viewGame();
+           }
+        } else {
+            Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
+                    AlertType.ERROR);
+            myScene.addAlertPane(alert);
         }
     }
 

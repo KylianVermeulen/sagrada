@@ -2,6 +2,7 @@ package nl.avans.sagrada.model.toolcard;
 
 import java.util.ArrayList;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.*;
 
@@ -175,7 +176,5 @@ public abstract class ToolCard {
      */
     public abstract PatternCard handleDrag(MouseEvent event, GameDie die);
 
-    public abstract GameDie increaseEyes(MouseEvent event, Game game, Player player, PlayerController playerController);
-
-    public abstract GameDie decreaseEyes(MouseEvent event, Game game, Player player, PlayerController playerController);
+    public abstract GameDie handleClick(MouseEvent event, Game game, PlayerController playerController, Pane pane);
 }

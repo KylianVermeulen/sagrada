@@ -1,6 +1,7 @@
 package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.*;
@@ -45,12 +46,7 @@ public class ToolCardSnijLiniaal extends ToolCard {
     }
 
     @Override
-    public GameDie increaseEyes(MouseEvent event, Game game, Player player, PlayerController playerController) {
-        return null;
-    }
-
-    @Override
-    public GameDie decreaseEyes(MouseEvent event, Game game, Player player, PlayerController playerController) {
+    public GameDie handleClick(MouseEvent event, Game game, PlayerController playerController, Pane pane) {
         return null;
     }
 }

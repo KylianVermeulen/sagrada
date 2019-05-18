@@ -2,6 +2,7 @@ package nl.avans.sagrada.model.toolcard;
 
 import javafx.event.Event;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
@@ -21,12 +22,7 @@ public class ToolCardRondSnijder extends ToolCard {
     }
 
     @Override
-    public GameDie increaseEyes(MouseEvent event, Game game, Player player, PlayerController playerController) {
-        return null;
-    }
-
-    @Override
-    public GameDie decreaseEyes(MouseEvent event, Game game, Player player, PlayerController playerController) {
+    public GameDie handleClick(MouseEvent event, Game game, PlayerController playerController, Pane pane) {
         return null;
     }
 }
