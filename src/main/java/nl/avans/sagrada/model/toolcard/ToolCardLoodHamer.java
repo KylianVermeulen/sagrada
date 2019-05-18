@@ -1,12 +1,9 @@
 package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
-import nl.avans.sagrada.model.Player;
 
 public class ToolCardLoodHamer extends ToolCard {
     

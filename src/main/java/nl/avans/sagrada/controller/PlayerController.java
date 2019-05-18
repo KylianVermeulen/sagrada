@@ -2,17 +2,14 @@ package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.*;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.view.*;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
-import nl.avans.sagrada.view.popups.Popup;
 
 public class PlayerController {
     private MyScene myScene;
@@ -157,7 +154,6 @@ public class PlayerController {
             } else {
                 viewGame();
             }
-
         }
     }
 

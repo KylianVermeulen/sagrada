@@ -1,20 +1,11 @@
 package nl.avans.sagrada.model.toolcard;
 
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.model.*;
-import nl.avans.sagrada.view.DieOfferView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
-import nl.avans.sagrada.view.popups.Popup;
-
-import java.util.concurrent.TimeUnit;
 
 public class ToolCardDriePuntStang extends ToolCard {
     PlayerController playerController;
