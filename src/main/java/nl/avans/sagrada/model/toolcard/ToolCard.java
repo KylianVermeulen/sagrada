@@ -176,5 +176,5 @@ public abstract class ToolCard {
      */
     public abstract PatternCard handleDrag(MouseEvent event, GameDie die);
 
-    public abstract GameDie handleClick(MouseEvent event, Game game, PlayerController playerController, Pane pane);
+    public abstract GameDie handleClick(MouseEvent event, PlayerController playerController, int i);
 }

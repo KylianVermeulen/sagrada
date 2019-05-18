@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.*;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.model.toolcard.ToolCard;
@@ -82,19 +80,31 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Method to render the DriePuntStang popup
+     * @param event MouseEvent
+     * @param dieView DieView
+     */
     public void actionChangeDie(MouseEvent event, DieView dieView){
         if(activeToolCard != null && activeToolCard.getId() == 1){
-           GameDie toolCardResult = activeToolCard.handleClick(event, player.getGame(), this, dieView);
-           if(toolCardResult != null){
-               GameDieDao gameDieDao = new GameDieDao();
-               gameDieDao.changeDieEyes(player.getGame(), toolCardResult);
-               activeToolCard = null;
-               viewGame();
-           }
-        } else {
-            Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
-                    AlertType.ERROR);
-            myScene.addAlertPane(alert);
+            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, event, dieView);
+            myScene.addPopupPane(driePuntStang);
+        }
+    }
+
+    /**
+     * Method to change the die value of a GameDie
+     * @param event MouseEvent
+     * @param i int
+     */
+    public void actionChangeDieEyes(MouseEvent event, int i){
+        GameDie toolCardResult = activeToolCard.handleClick(event, this, i);
+        if(toolCardResult != null){
+            GameDieDao gameDieDao = new GameDieDao();
+            gameDieDao.changeDieEyes(player.getGame(), toolCardResult);
+            activeToolCard = null;
+            myScene.removePopupPane();
+            viewGame();
         }
     }
 

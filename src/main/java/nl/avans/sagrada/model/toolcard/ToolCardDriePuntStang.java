@@ -3,16 +3,21 @@ package nl.avans.sagrada.model.toolcard;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.DieOfferView;
 import nl.avans.sagrada.view.DieView;
+import nl.avans.sagrada.view.popups.Alert;
+import nl.avans.sagrada.view.popups.AlertType;
 import nl.avans.sagrada.view.popups.Popup;
 
+import java.util.concurrent.TimeUnit;
+
 public class ToolCardDriePuntStang extends ToolCard {
-    GameDie targetDie;
+    PlayerController playerController;
 
     public ToolCardDriePuntStang(int id, String name, int seqnr, String description) {
         super(id, name, seqnr, description);
@@ -24,50 +29,41 @@ public class ToolCardDriePuntStang extends ToolCard {
     }
 
     @Override
-    public GameDie handleClick(MouseEvent event, Game game, PlayerController playerController, Pane pane) {
-        try{
-            DieView dieView = (DieView) event.getTarget();
-            targetDie = dieView.getGameDie();
-            Popup popup = new Popup(300, 300, 300, 300) {
-                @Override
-                public void render() {
-                    BorderPane borderPane = new BorderPane();
-                    borderPane.setMaxHeight(300);
-                    borderPane.setMinHeight(300);
-                    borderPane.setMaxWidth(300);
-                    borderPane.setMinWidth(300);
-                    Pane buttonPane = new Pane();
-                    buttonPane.setMaxHeight(70);
-                    buttonPane.setMinHeight(70);
-                    buttonPane.setMaxWidth(300);
-                    buttonPane.setMinWidth(300);
-                    Button plusButton = new Button("+");
-                    plusButton.setOnAction(e -> {
-                        increaseEyes(targetDie);
-                    });
-                    Button minButton = new Button("-");
-                    minButton.setOnAction(e -> {
-                        decreaseEyes(targetDie);
-                    });
-                    buttonPane.getChildren().addAll(plusButton, minButton);
-                    borderPane.setCenter(pane);
-                    borderPane.setBottom(buttonPane);
-                    getChildren().add(borderPane);
-                }
-            };
-            popup.render();
-            playerController.getMyScene().addPopupPane(popup);
-        } catch (Exception e){
+    public GameDie handleClick(MouseEvent event, PlayerController playerController, int i) {
+        this.playerController = playerController;
+        DieView dieView = (DieView) event.getTarget();
+        GameDie targetDie = dieView.getGameDie();
+        if (i == 1) {
+            if(targetDie.getEyes() != 6){
+                increaseEyes(targetDie);
+                return targetDie;
+            } else {
+                Alert alert = new Alert("Helaas", "je kan de ogen van deze dobbelsteen niet verhogen", AlertType.ERROR);
+                playerController.getMyScene().addAlertPane(alert);
+            }
         }
 
-        return targetDie;
+        if (i == 0) {
+            if(targetDie.getEyes() != 1){
+                decreaseEyes(targetDie);
+                return targetDie;
+            } else {
+                Alert alert = new Alert("Helaas", "je kan de ogen van deze dobbelsteen niet verlagen", AlertType.ERROR);
+                playerController.getMyScene().addAlertPane(alert);
+            }
+        }
+        return null;
     }
 
-    private void increaseEyes(GameDie targetDie){
-        targetDie.setEyes(targetDie.getEyes() + 1);
+    private void increaseEyes(GameDie targetDie) {
+        if (targetDie.getEyes() != 6) {
+            targetDie.setEyes(targetDie.getEyes() + 1);
+        }
     }
 
-    private void decreaseEyes(GameDie targetDie){
-        targetDie.setEyes(targetDie.getEyes() - 1);
+    private void decreaseEyes(GameDie targetDie) {
+        if (targetDie.getEyes() != 1) {
+            targetDie.setEyes(targetDie.getEyes() - 1);
+        }
     }
 }

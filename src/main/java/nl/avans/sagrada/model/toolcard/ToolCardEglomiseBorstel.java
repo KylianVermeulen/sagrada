@@ -21,7 +21,7 @@ public class ToolCardEglomiseBorstel extends ToolCard {
     }
 
     @Override
-    public GameDie handleClick(MouseEvent event, Game game, PlayerController playerController, Pane pane) {
+    public GameDie handleClick(MouseEvent event, PlayerController playerController, int i) {
         return null;
     }
 }
