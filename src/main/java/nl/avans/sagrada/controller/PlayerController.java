@@ -54,27 +54,29 @@ public class PlayerController {
         Player playerEvent = patternCard.getPlayer();
 
         if (playerEvent.getId() == player.getId()) {
-            // Check if the player from the 
-            PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
-            if (toolcardUseResult != null) {
-                actionPayForToolCard(activeToolCard);
-                activeToolCard = null;
-                player.setPatternCard(toolcardUseResult);
-                viewGame();
+            // Check if the player from the
+            if (activeToolCard != null) {
+                PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
+                if (toolcardUseResult != null) {
+                    actionPayForToolCard(activeToolCard);
+                    activeToolCard = null;
+                    player.setPatternCard(toolcardUseResult);
+                    viewGame();
+                } else {
+                    Alert alert = new Alert("Helaas",
+                            "Dit kan niet wat je probeert met de toolcard",
+                            AlertType.ERROR);
+                    myScene.addAlertPane(alert);
+                }
             } else {
-                Alert alert = new Alert("Helaas",
-                        "Dit kan niet wat je probeert met de toolcard",
-                        AlertType.ERROR);
-                myScene.addAlertPane(alert);
-            }
-        } else {
-            if (gameDie.getPatternCardField() == null) {
-                if (patternCardField.canPlaceDie(gameDie)) {
-                    gameDie.setPatternCardField(patternCardField);
-                    patternCardField.setDie(gameDie);
+                if (gameDie.getPatternCardField() == null) {
+                    if (patternCardField.canPlaceDie(gameDie)) {
+                        gameDie.setPatternCardField(patternCardField);
+                        patternCardField.setDie(gameDie);
 
-                    PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-                    playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
+                        PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                        playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
+                    }
                 }
             }
         }
@@ -314,7 +316,7 @@ public class PlayerController {
     /**
      * Displays the view after a game is finished. The user can see their scores and then go or back
      * to the lobbyscreen or view the statistics.
-     */    
+     */
     public void viewEndgame() {
         GameDao gameDao = new GameDao();
         Game game = player.getGame();
@@ -325,7 +327,7 @@ public class PlayerController {
         pane.getChildren().add(endgameView);
         myScene.setContentPane(pane);
     }
-    
+
     public void actionBackToLobby() {
         myScene.getAccountController().viewLobby();
     }
