@@ -48,7 +48,6 @@ public class PlayerController {
      */
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
             GameDie gameDie, MouseEvent event) {
-        
         Player playerEvent = patternCard.getPlayer();
         
         if (playerEvent.getId() == player.getId()) {
