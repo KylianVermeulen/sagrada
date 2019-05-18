@@ -59,9 +59,9 @@ public class PlayerController {
             if (activeToolCard != null) {
                 PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
                 if (toolcardUseResult != null) {
+                    actionPayForToolCard(activeToolCard);
                     activeToolCard = null;
                     player.setPatternCard(toolcardUseResult);
-                    actionPayForToolCard(activeToolCard);
                     viewGame();
                 } else {
                     Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
@@ -213,9 +213,8 @@ public class PlayerController {
     /**
      * Sets the active toolcard if there can be paid for
      * @param toolCard
-     * @param toolcardview
      */
-    public void setActiveToolCard(ToolCard toolCard, ToolCardView toolcardview) {
+    public void setActiveToolCard(ToolCard toolCard) {
         if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) || 
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
             activeToolCard = toolCard;
@@ -233,74 +232,24 @@ public class PlayerController {
     }
     
     /**
-     * Handles the logic behind a tool card payment. The method first checks if a player has already
-     * paid for a tool card before or not, and if the player has sufficient funds.
-     * <p>
-     * If the tool card has not received payment before, the player will hand over one favor token
-     * as payment for the toolcard. This tool cards status will then be set to "has already been
-     * paid for before". </br> If the tool card has received payment before, then the player will
-     * hand over two favor tokens as payment for the tool card.
-     * <p>
-     * If the player has insufficient funds, a message will appear on screen informing the player
-     * about their lack of funds, and the player will not be able to use this tool card.
-     *
+     * Controlls the amount of favor tokens that needs to be paid
      * @param toolCard The tool card.
      */
     public void actionPayForToolCard(ToolCard toolCard) {
-        if (activeToolCard != null) {
-            
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+        if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)) {
+            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                    player.getGame());
+            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(1), toolCard,
+                    player.getGame());
+            newFavorTokens.remove(0);
+            newFavorTokens.remove(1);
         }
-        
-        
-        if (activeToolCard == null) {
-            FavorTokenDao favorTokenDao = new FavorTokenDao();
-            ToolCardDao toolCardDao = new ToolCardDao();
-            toolCardDao.toolCardHasPayment(toolCard, player.getGame());
-
-            ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
-            for (int i = 0; i < player.getGame().getPlayers().size(); i++) {
-                if (player.getId() == player.getGame().getPlayers().get(i).getId()) {
-                    player.setPlayerColor(i);
-                }
-            }
-            if (newFavorTokens.size() > 0) {
-                if (!toolCard.hasBeenPaidForBefore()) {
-                    favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                            player.getGame());
-                    newFavorTokens.remove(0);
-                    player.setFavorTokens(newFavorTokens);
-                    toolCard.setHasBeenPaidForBefore(true);
-                    toolcardview.addFavorToken(player.getPlayerColor());
-                    setActiveToolCard(toolCard);
-                } else {
-                    if (newFavorTokens.size() > 1) {
-                        for (int i = 1; i <= 2; i++) {
-                            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                                    player.getGame());
-                            newFavorTokens.remove(0);
-                            toolcardview.addFavorToken(player.getPlayerColor());
-                            // Here is the favor token added
-                            setActiveToolCard(toolCard);
-                        }
-                        player.setFavorTokens(newFavorTokens);
-                    } else {
-                        Alert alert = new Alert("Te weinig betaalstenen",
-                                "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
-                                AlertType.ERROR);
-                        myScene.addAlertPane(alert);
-                    }
-                }
-            } else {
-                Alert alert = new Alert("Te weinig betaalstenen",
-                        "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
-                        AlertType.ERROR);
-                myScene.addAlertPane(alert);
-            }
-        } else {
-            Alert alert = new Alert("Active toolcard",
-                    "Je hebt al een actieve toolcard: " + activeToolCard.getName(),
-                    AlertType.ERROR);
-            myScene.addAlertPane(alert);
+        else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
+            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                    player.getGame());
+            newFavorTokens.remove(0);
         }
     }
 
