@@ -29,6 +29,7 @@ import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.PatternCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.view.popups.Fluxborstel;
 
 public class PlayerController {
     private MyScene myScene;
@@ -48,9 +49,9 @@ public class PlayerController {
      */
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
             GameDie gameDie, MouseEvent event) {
-        
+
         Player playerEvent = patternCard.getPlayer();
-        
+
         if (playerEvent.getId() == player.getId()) {
             // Check if the player from the 
             if (activeToolCard != null) {
@@ -61,7 +62,8 @@ public class PlayerController {
                     player.setPatternCard(toolcardUseResult);
                     viewGame();
                 } else {
-                    Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
+                    Alert alert = new Alert("Helaas",
+                            "Dit kan niet wat je probeert met de toolcard",
                             AlertType.ERROR);
                     myScene.addAlertPane(alert);
                 }
@@ -70,7 +72,7 @@ public class PlayerController {
                     if (patternCardField.canPlaceDie(gameDie)) {
                         gameDie.setPatternCardField(patternCardField);
                         patternCardField.setDie(gameDie);
-                        
+
                         PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                         playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
                     }
@@ -206,10 +208,9 @@ public class PlayerController {
             myScene.addAlertPane(alert);
         }
     }
-    
+
     /**
      * Sets the active toolcard if there can be paid for
-     * @param toolCard
      */
     public void setActiveToolCard(ToolCard toolCard) {
         if (activeToolCard != null) {
@@ -219,30 +220,33 @@ public class PlayerController {
                         AlertType.INFO);
                 myScene.addAlertPane(alert);
             }
-        }
-        else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) || 
+        } else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) ||
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
             activeToolCard = toolCard;
+            if (toolCard.getId() == 6) {
+                Fluxborstel fluxborstelPopup = new Fluxborstel(myScene, getPlayer().getGame());
+                myScene.addPopupPane(fluxborstelPopup);
+            }
             Alert alert = new Alert("Active toolcard",
                     "Je hebt een actieve toolcard: " + activeToolCard.getName(),
                     AlertType.INFO);
-            Alert alertInfo = new Alert("ToolCard info", 
+            Alert alertInfo = new Alert("ToolCard info",
                     "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
                     AlertType.INFO
-                );
+            );
             myScene.addAlertPane(alert);
             myScene.addAlertPane(alertInfo);
-        }
-        else {
+        } else {
             Alert alert = new Alert("Te weinig betaalstenen",
                     "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
                     AlertType.ERROR);
             myScene.addAlertPane(alert);
         }
     }
-    
+
     /**
      * Controlls the amount of favor tokens that needs to be paid
+     *
      * @param toolCard The tool card.
      */
     public void actionPayForToolCard(ToolCard toolCard) {
@@ -255,8 +259,7 @@ public class PlayerController {
                     player.getGame());
             newFavorTokens.remove(0);
             newFavorTokens.remove(1);
-        }
-        else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
+        } else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
             favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
                     player.getGame());
             newFavorTokens.remove(0);

@@ -372,9 +372,9 @@ public class Game {
                 foundThreeValues = true;
             }
         }
-        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber1), this);
-        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber2), this);
-        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber3), this);
+        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(6), this);
+//        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber2), this);
+//        toolCardDao.addToolCardToGame(toolCardDao.getToolCardById(randomNumber3), this);
     }
 
     /**
@@ -494,6 +494,7 @@ public class Game {
 
     /**
      * Gets the current round the game is on
+     *
      * @return int
      */
     public int getRound() {
