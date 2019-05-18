@@ -32,11 +32,12 @@ public class GameDieDao {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
                             "INSERT INTO gamedie (idgame, dienumber, diecolor, eyes) VALUES (?, ?, ?, ?)",
-                            "update"), 
+                            "update"),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor()),
-                    new QueryParameter(QueryParameter.INT, gameDie.getEyes()));
+                    new QueryParameter(QueryParameter.INT, gameDie.getEyes())
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,12 +54,13 @@ public class GameDieDao {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
                             "INSERT INTO gamedie (idgame, dienumber, diecolor, eyes, round) VALUES (?, ?, ?, ?, ?)",
-                            "update"), 
+                            "update"),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor()),
                     new QueryParameter(QueryParameter.INT, gameDie.getEyes()),
-                    new QueryParameter(QueryParameter.INT, round));
+                    new QueryParameter(QueryParameter.INT, round)
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,11 +78,12 @@ public class GameDieDao {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
                             "UPDATE gamedie SET round=? WHERE idgame=? AND dienumber=? AND diecolor=?",
-                            "update"), 
+                            "update"),
                     new QueryParameter(QueryParameter.INT, round),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
-                    new QueryParameter(QueryParameter.STRING, gameDie.getColor()));
+                    new QueryParameter(QueryParameter.STRING, gameDie.getColor())
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -155,7 +158,8 @@ public class GameDieDao {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamedie WHERE idgame=? AND round=?", "query"),
                     new QueryParameter(QueryParameter.INT, game.getId()),
-                    new QueryParameter(QueryParameter.INT, game.getRound()));
+                    new QueryParameter(QueryParameter.INT, game.getRound())
+            );
             while (rs.next()) {
                 GameDie gameDie = new GameDie(
                         rs.getInt("dienumber"),
@@ -219,8 +223,8 @@ public class GameDieDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=? ",
-                            "update"), 
+                            "UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=?",
+                            "update"),
                     new QueryParameter(QueryParameter.INT, die.getNumber()),
                     new QueryParameter(QueryParameter.STRING, die.getColor()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getId()),
