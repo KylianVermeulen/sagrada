@@ -180,6 +180,7 @@ public class GameDieDao {
     /**
      * Gets all the available dice of a round
      *
+     * @param game Game
      * @return ArrayList<GameDie>
      */
     public ArrayList<GameDie> getAvailableDiceOfRound(Game game) {
@@ -217,6 +218,10 @@ public class GameDieDao {
 
     /**
      * Places a die on the patterncardfield in the db
+     *
+     * @param die GameDie
+     * @param patterncardfield PatterncardField
+     * @param player Player
      */
     public void placeDie(GameDie die, PatternCardField patterncardfield, Player player) {
         try {
