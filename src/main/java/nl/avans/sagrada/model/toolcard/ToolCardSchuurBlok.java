@@ -28,27 +28,57 @@ public class ToolCardSchuurBlok extends ToolCard {
             PatternCardField patternCardField = patternCardView.getPatternCardField();
             PatternCard patternCard = patternCardField.getPatternCard();
             Player player = patternCard.getPlayer();
-
+            
             int eyes = die.getEyes();
             switch (eyes) {
                 case 1:
                     die.setEyes(6);
-                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    die.setPatternCardField(patternCardField);
+                    patternCardField.setDie(die);
+                    playerFrameFieldDao.addDieToField(die, patternCardField, player);
+
+                    return patternCard;
                 case 2:
                     die.setEyes(5);
-                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    die.setPatternCardField(patternCardField);
+                    patternCardField.setDie(die);
+                    playerFrameFieldDao.addDieToField(die, patternCardField, player);
+
+                    return patternCard;
                 case 3:
                     die.setEyes(4);
-                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    die.setPatternCardField(patternCardField);
+                    patternCardField.setDie(die);
+                    playerFrameFieldDao.addDieToField(die, patternCardField, player);
+
+                    return patternCard;
                 case 4:
                     die.setEyes(3);
-                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    die.setPatternCardField(patternCardField);
+                    patternCardField.setDie(die);
+                    playerFrameFieldDao.addDieToField(die, patternCardField, player);
+
+                    return patternCard;
                 case 5:
                     die.setEyes(2);
-                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    die.setPatternCardField(patternCardField);
+                    patternCardField.setDie(die);
+                    playerFrameFieldDao.addDieToField(die, patternCardField, player);
+
+                    return patternCard;
                 case 6:
                     die.setEyes(1);
-                    gameDieDao.updateDie(player.getGame(), die, die.getRound());
+                    gameDieDao.updateDieEyes(player.getGame(), die, die.getRound());
+                    die.setPatternCardField(patternCardField);
+                    patternCardField.setDie(die);
+                    playerFrameFieldDao.addDieToField(die, patternCardField, player);
+
+                    return patternCard;
                 default:
                     Logger logger = Logger.getLogger(ToolCardSchuurBlok.class.getName());
                     FileHandler fileHandler = new FileHandler("schuurblok-java/log");
@@ -56,11 +86,6 @@ public class ToolCardSchuurBlok extends ToolCard {
                     logger.setLevel(Level.WARNING);
                     logger.addHandler(fileHandler);
             }
-            die.setPatternCardField(patternCardField);
-            patternCardField.setDie(die);
-            playerFrameFieldDao.addDieToField(die, patternCardField, player);
-
-            return patternCard;
         } catch (Exception e) {
         }
         return null;
