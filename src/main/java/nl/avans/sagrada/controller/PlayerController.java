@@ -23,6 +23,7 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
+import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
@@ -167,8 +168,8 @@ public class PlayerController {
         if (player.isCurrentPlayer()) {
             player.getGame().setNextPlayer();
         } else {
-            Alert alert = new Alert("Nog even wachten",
-                    "Je bent nog niet aan de beurt.", AlertType.INFO);
+            Alert alert = new Alert("Nog even wachten", "Je bent nog niet aan de beurt.",
+                    AlertType.INFO);
             myScene.addAlertPane(alert);
         }
     }
@@ -308,5 +309,24 @@ public class PlayerController {
         secondPane.getChildren().addAll(pane1, pane2, pane3);
         mainPane.getChildren().addAll(patternCardView, secondPane);
         myScene.setContentPane(mainPane);
+    }
+
+    /**
+     * Displays the view after a game is finished. The user can see their scores and then go or back
+     * to the lobbyscreen or view the statistics.
+     */    
+    public void viewEndgame() {
+        GameDao gameDao = new GameDao();
+        Game game = player.getGame();
+        Player winPlayer = gameDao.bestFinalScore(game);
+        Pane pane = new Pane();
+        EndgameView endgameView = new EndgameView(game, this, winPlayer);
+        endgameView.render();
+        pane.getChildren().add(endgameView);
+        myScene.setContentPane(pane);
+    }
+    
+    public void actionBackToLobby() {
+        myScene.getAccountController().viewLobby();
     }
 }
