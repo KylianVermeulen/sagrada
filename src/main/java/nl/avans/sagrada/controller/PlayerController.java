@@ -36,7 +36,6 @@ import java.util.ArrayList;
 public class PlayerController {
     private MyScene myScene;
     private Player player;
-
     private ToolCard activeToolCard;
 
     public PlayerController(MyScene myScene) {
