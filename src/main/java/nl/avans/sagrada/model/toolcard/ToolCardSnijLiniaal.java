@@ -2,7 +2,10 @@ package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
-import nl.avans.sagrada.model.*;
+import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.PatternCardField;
+import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class ToolCardSnijLiniaal extends ToolCard {

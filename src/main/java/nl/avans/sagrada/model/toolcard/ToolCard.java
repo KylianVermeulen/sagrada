@@ -2,9 +2,9 @@ package nl.avans.sagrada.model.toolcard;
 
 import java.util.ArrayList;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.model.*;
+import nl.avans.sagrada.model.FavorToken;
+import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.PatternCard;
 
 public abstract class ToolCard {
     private int id;
@@ -14,6 +14,7 @@ public abstract class ToolCard {
     private String name;
     private ArrayList<FavorToken> favorTokens;
     private boolean hasBeenPaidForBefore;
+
 
     /**
      * Filled constructor.
