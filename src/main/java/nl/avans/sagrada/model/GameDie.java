@@ -170,14 +170,20 @@ public class GameDie extends Die {
         return isOnOfferTable;
     }
 
-    public int getRoundTrack() {
-        return roundTrack;
-    }
-
+    /**
+     * Sets the round track number.
+     *
+     * @param roundTrack Int
+     */
     public void setRoundTrack(int roundTrack) {
         this.roundTrack = roundTrack;
     }
 
+    /**
+     * Return true when round track is not null.
+     *
+     * @return Boolean
+     */
     public boolean hasRoundTrack() {
         return roundTrack != 0;
     }

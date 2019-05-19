@@ -116,6 +116,12 @@ public class GameDieDao {
         return gameDice;
     }
 
+    /**
+     * Gets the dice from the round track in game.
+     *
+     * @param game The game.
+     * @return The dice.
+     */
     public ArrayList<GameDie> getDiceOfRoundTrackFromGame(Game game) {
         ArrayList<GameDie> gameDice = new ArrayList<>();
         try {
