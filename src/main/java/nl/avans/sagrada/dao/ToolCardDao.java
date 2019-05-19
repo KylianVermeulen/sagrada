@@ -86,56 +86,6 @@ public class ToolCardDao {
     }
 
     /**
-     * Method to get all toolcards that need the handleClick method
-     * @return
-     */
-    public ArrayList<ToolCard> getClickToolCards(){
-        ArrayList<ToolCard> clickToolCards = new ArrayList<>();
-        try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM toolcard WHERE idtoolcard IN(1)", "query")
-            );
-            while (rs.next()){
-                ToolCard toolCard = buildToolCard(
-                        rs.getInt("idtoolcard"),
-                        rs.getString("name"),
-                        rs.getInt("seqnr"),
-                        rs.getString("description")
-                );
-                clickToolCards.add(toolCard);
-            }
-        } catch (Exception e){
-
-        }
-        return clickToolCards;
-    }
-
-    /**
-     * Method to get all toolcards that need the handleDrag method
-     * @return
-     */
-    public ArrayList<ToolCard> getDragToolCards(){
-        ArrayList<ToolCard> dragToolCards = new ArrayList<>();
-        try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM toolcard WHERE idtoolcard IN()", "query")
-            );
-            while (rs.next()){
-                ToolCard toolCard = buildToolCard(
-                        rs.getInt("idtoolcard"),
-                        rs.getString("name"),
-                        rs.getInt("seqnr"),
-                        rs.getString("description")
-                );
-                dragToolCards.add(toolCard);
-            }
-        } catch (Exception e){
-
-        }
-        return dragToolCards;
-    }
-
-    /**
      * Returns the tool card that belongs to the given id.
      *
      * @param id The to be returned tool cards id
