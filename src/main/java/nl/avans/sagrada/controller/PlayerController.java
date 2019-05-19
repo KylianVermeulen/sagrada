@@ -63,7 +63,7 @@ public class PlayerController {
                     actionPayForToolCard(activeToolCard);
                     activeToolCard = null;
                     player.setPatternCard(toolcardUseResult);
-                    gameDie.setPlacedOnPatternCard(true);
+                    gameDie.setIsOnOfferTable(false);;
                     viewGame();
                 } else {
                     Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
@@ -78,7 +78,7 @@ public class PlayerController {
                         
                         PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                         playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
-                        gameDie.setPlacedOnPatternCard(true);
+                        gameDie.setIsOnOfferTable(false);
                     }
                 }
             }
@@ -230,24 +230,45 @@ public class PlayerController {
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
             activeToolCard = toolCard;
             if (activeToolCard instanceof ToolCardLoodHamer) {
+                System.out.println("is instance of LoodHamer");
+                System.out.println(player.getSeqnr());
                 if (player.getSeqnr() > player.getGame().getPlayers().size()) {
+                    System.out.println("is tweede beurt");
                     GameDieDao gameDieDao = new GameDieDao();
-                    for (GameDie gameDie : gameDieDao.getRoundDice(player.getGame())) {
+                    for (GameDie gameDie : gameDieDao.getAvailableDiceOfRound(player.getGame())) {
                         gameDie.setEyes(new Random().nextInt(6) + 1);
                         gameDieDao.updateDieEyes(player.getGame(), gameDie);
-                        viewGame();
+                        System.out.println(gameDie.getEyes());
                     }
+                    System.out.println("Bekijkt nu game opniuew");
+                    viewGame();
+                    Alert alert = new Alert("Active toolcard",
+                            "Je hebt een actieve toolcard: " + activeToolCard.getName(),
+                            AlertType.INFO);
+                    Alert alertInfo = new Alert("ToolCard info", 
+                            "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
+                            AlertType.INFO
+                    );
+                myScene.addAlertPane(alert);
+                myScene.addAlertPane(alertInfo);
+                } else {
+                    Alert alert = new Alert("Je kunt deze toolcard niet gebruiken",
+                            "Dit mag alleen tijdens je tweede beurt!",
+                            AlertType.ERROR);
+                    myScene.addAlertPane(alert);
+                    activeToolCard = null;
                 }
-            }
-            Alert alert = new Alert("Active toolcard",
-                    "Je hebt een actieve toolcard: " + activeToolCard.getName(),
-                    AlertType.INFO);
-            Alert alertInfo = new Alert("ToolCard info", 
-                    "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
-                    AlertType.INFO
+            } else {
+                Alert alert = new Alert("Active toolcard",
+                        "Je hebt een actieve toolcard: " + activeToolCard.getName(),
+                        AlertType.INFO);
+                Alert alertInfo = new Alert("ToolCard info", 
+                        "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
+                        AlertType.INFO
                 );
             myScene.addAlertPane(alert);
             myScene.addAlertPane(alertInfo);
+            }
         }
         else {
             Alert alert = new Alert("Te weinig betaalstenen",

@@ -8,7 +8,6 @@ public class GameDie extends Die {
     private int round;
     private boolean isOnOfferTable;
     private PatternCardField patternCardField;
-    private boolean isPlacedOnPatternCard;
 
     /**
      * Full constructor
@@ -153,14 +152,6 @@ public class GameDie extends Die {
      */
     public PatternCardField getPatternCardField() {
         return patternCardField;
-    }
-
-    public boolean isPlacedOnPatternCard() {
-        return isPlacedOnPatternCard;
-    }
-
-    public void setPlacedOnPatternCard(boolean isPlacedOnPatternCard) {
-        this.isPlacedOnPatternCard = isPlacedOnPatternCard;
     }
     
     /**

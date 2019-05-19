@@ -9,7 +9,7 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class ToolCardLoodHamer extends ToolCard {
-    
+
     public ToolCardLoodHamer(int id, String name, int seqnr, String description) {
         super(id, name, seqnr, description);
     }
@@ -19,16 +19,20 @@ public class ToolCardLoodHamer extends ToolCard {
         try {
             PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
             PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
-            
+
             PatternCardField patternCardField = patternCardView.getPatternCardField();
             PatternCard patternCard = patternCardField.getPatternCard();
             Player player = patternCard.getPlayer();
-            
-            die.setPatternCardField(patternCardField);
-            patternCardField.setDie(die);
-            playerFrameFieldDao.addDieToField(die, patternCardField, player);
-            
-            return patternCard;
+
+            if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
+                    && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
+                    && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
+                die.setPatternCardField(patternCardField);
+                patternCardField.setDie(die);
+                playerFrameFieldDao.addDieToField(die, patternCardField, player);
+
+                return patternCard;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
