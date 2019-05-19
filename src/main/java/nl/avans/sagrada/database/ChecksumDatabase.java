@@ -56,6 +56,9 @@ public class ChecksumDatabase {
         }
     }
 
+    /**
+     * Generates a checksum for the player table, and checks if this checksum is different from the already existing checksum.
+     */
     private void checksumPlayer() {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("checksum table player;", "query"));
@@ -71,6 +74,9 @@ public class ChecksumDatabase {
         }
     }
 
+    /**
+     * Generates a checksum for the player frame field table, and checks if this checksum is different from the already existing checksum.
+     */
     private void checksumPlayerFrameField() {
         try {
             ResultSet rs = dbConnection
@@ -87,6 +93,9 @@ public class ChecksumDatabase {
         }
     }
 
+    /**
+     * Handles the player table checksum change
+     */
     private void handlePlayer() {
         if (!refreshed) {
             if (accountController.getAccount() != null) {
@@ -104,9 +113,9 @@ public class ChecksumDatabase {
             }
         }
     }
-    
+
     /**
-     * Reloads the gameview when an account is in a game.
+     * Handles the chat table checksum change
      */
     private void handleChat() {
         if (!refreshed) {
@@ -119,6 +128,9 @@ public class ChecksumDatabase {
         }
     }
 
+    /**
+     * Handles the player frame field table checksum change
+     */
     private void handlePlayerFrameField() {
         if (!refreshed) {
             if (accountController.getAccount() != null) {
