@@ -18,6 +18,7 @@ import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
 
@@ -31,6 +32,7 @@ public class Fluxborstel extends Popup {
     private Game game;
     private Text textTop;
     private Text textBot;
+    private ToolCard toolCard;
     private PlayerController playerController;
     private ArrayList<DieView> dieViews;
     private ArrayList<GameDie> gameDice;
@@ -42,11 +44,13 @@ public class Fluxborstel extends Popup {
      * @param game Game
      * @param playerController PlayerController
      */
-    public Fluxborstel(MyScene myScene, Game game, PlayerController playerController) {
+    public Fluxborstel(MyScene myScene, Game game, PlayerController playerController,
+            ToolCard toolCard) {
         super(WIDTH_FLUXBORSTEL, HEIGHT_FLUXBORSTEL);
         this.myScene = myScene;
         this.game = game;
         this.playerController = playerController;
+        this.toolCard = toolCard;
 
         setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
         setBackground(new Background(
@@ -98,9 +102,12 @@ public class Fluxborstel extends Popup {
      */
     private void rerollDice(int index) {
         GameDieDao gameDieDao = new GameDieDao();
+        GameDie gameDie = gameDice.get(index);
         int newEyes = new Random().nextInt(6) + 1;
-        gameDieDao.changeDieEyes(game, gameDice.get(index), newEyes);
+        gameDie.setEyes(newEyes);
+        gameDieDao.updateGameDieEyes(game, gameDie);
         myScene.removePopupPane();
+        playerController.actionPayForToolCard(toolCard);
         playerController.viewGame();
     }
 }

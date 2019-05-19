@@ -237,19 +237,18 @@ public class GameDieDao {
     }
 
     /**
-     * Replaces a die eyes with the given eyes
+     * Replaces a die eyes with the eyes of the given GameDie
      *
      * @param game Game
      * @param gameDie GameDie
-     * @param newEyes int
      */
-    public void changeDieEyes(Game game, GameDie gameDie, int newEyes) {
+    public void updateGameDieEyes(Game game, GameDie gameDie) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
                             "UPDATE gamedie SET eyes=? WHERE idgame=? AND dienumber=? AND diecolor=?",
                             "update"),
-                    new QueryParameter(QueryParameter.INT, newEyes),
+                    new QueryParameter(QueryParameter.INT, gameDie.getEyes()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor())

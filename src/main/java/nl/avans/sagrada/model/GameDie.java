@@ -144,21 +144,24 @@ public class GameDie extends Die {
     public PatternCardField getPatternCardField() {
         return patternCardField;
     }
-    
+
     /**
      * Sets if the gamedie is on the offer table
-     * @param onTable
      */
     public void setIsOnOfferTable(boolean onTable) {
         isOnOfferTable = onTable;
     }
-    
+
     /**
      * Returns a boolean if the die is currently on the offer table
+     *
      * @return boolean
      */
     public boolean getIsOnOfferTable() {
         return isOnOfferTable;
     }
-    
+
+    public void setEyes(int newEyes) {
+        this.eyes = newEyes;
+    }
 }

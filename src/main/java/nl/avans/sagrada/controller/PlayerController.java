@@ -226,7 +226,7 @@ public class PlayerController {
             activeToolCard = toolCard;
             if (toolCard.getId() == 6) {
                 Fluxborstel fluxborstelPopup = new Fluxborstel(myScene, getPlayer().getGame(),
-                        this);
+                        this, activeToolCard);
                 myScene.addPopupPane(fluxborstelPopup);
             }
             Alert alert = new Alert("Active toolcard",
