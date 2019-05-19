@@ -134,4 +134,145 @@ public class AccountDao {
         }
         return false;
     }
+
+    /**
+     * Gets the count of wins from the database by account.
+     *
+     * @param account The account.
+     * @return Count of wins.
+     */
+    public int getCountWins(Account account) {
+        int count = 0;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT account.username AS playername, COUNT(game_idgame) AS count_wins FROM player JOIN account ON player.username = account.username WHERE playstatus_playstatus = 'Finished' AND score = (SELECT MAX(score) FROM player GROUP BY game_idgame) AND account.username=? GROUP BY playername ORDER BY count_wins;",
+                            "query"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername())
+            );
+            if (rs.next()) {
+                count = rs.getInt("count_wins");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    /**
+     * Gets the count of loses from the database by account.
+     *
+     * @param account The account.
+     * @return Count of loses.
+     */
+    public int getCountLoses(Account account) {
+        int count = 0;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT account.username AS playername, COUNT(game_idgame) AS count_loses FROM player JOIN account ON player.username = account.username WHERE playstatus_playstatus = 'Finished' AND score = (SELECT MIN(score) FROM player GROUP BY game_idgame) AND account.username=? GROUP BY playername ORDER BY count_loses;",
+                            "query"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername())
+            );
+            if (rs.next()) {
+                count = rs.getInt("count_loses");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    /**
+     * Gets the highest score from the database by account.
+     *
+     * @param account The account.
+     * @return Highest score.
+     */
+    public int getHighestScore(Account account) {
+        int score = 0;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT account.username AS playername, MAX(score) AS hoogste_score FROM player JOIN account ON account.username = player.username WHERE account.username=? GROUP BY playername;",
+                            "query"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername())
+            );
+            if (rs.next()) {
+                score = rs.getInt("hoogste_score");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return score;
+    }
+
+    /**
+     * Gets the most used color from the database by account.
+     *
+     * @param account The account.
+     * @return Most used color.
+     */
+    public String getMoseUsedColor(Account account) {
+        String color = "";
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT account.username AS playername, diecolor AS meest_gebruikte_kleur, COUNT(diecolor) AS aantal_keer_gebruikt FROM player JOIN account ON account.username = player.username JOIN playerframefield ON player.idplayer = playerframefield.player_idplayer WHERE diecolor IS NOT NULL AND account.username=? GROUP BY playername, diecolor ORDER BY aantal_keer_gebruikt LIMIT 1;",
+                            "query"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername())
+            );
+            if (rs.next()) {
+                color = rs.getString("meest_gebruikte_kleur");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return color;
+    }
+
+    /**
+     * Gets the most used value from the database by account.
+     *
+     * @param account The account.
+     * @return Most used value.
+     */
+    public int getMostUsedValue(Account account) {
+        int value = 0;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT account.username AS playername, dienumber AS meest_gebruikte_waarde, COUNT(dienumber) AS aantal_keer_gebruikt FROM player JOIN account ON account.username = player.username JOIN playerframefield ON player.idplayer = playerframefield.player_idplayer WHERE account.username=? AND dienumber IS NOT NULL GROUP BY playername, dienumber ORDER BY aantal_keer_gebruikt LIMIT 1;",
+                            "query"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername())
+            );
+            if (rs.next()) {
+                value = rs.getInt("meest_gebruikte_waarde");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    /**
+     * Gets the count of different played accounts by account.
+     *
+     * @param account The account.
+     * @return Count of different played accounts.
+     */
+    public int getCountDifferentPlayedAccounts(Account account) {
+        int count = 0;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT account.username AS playername, COUNT(DISTINCT idplayer) AS aantal_verschillende_tegenstanders FROM player JOIN account ON account.username = player.username WHERE player.username=? GROUP BY playername ORDER BY aantal_verschillende_tegenstanders;",
+                            "query"),
+                    new QueryParameter(QueryParameter.STRING, account.getUsername())
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 }

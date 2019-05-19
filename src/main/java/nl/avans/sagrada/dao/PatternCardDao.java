@@ -35,11 +35,13 @@ public class PatternCardDao {
                     new QueryParameter(QueryParameter.INT, player.getId())
             );
             if (rs.next()) {
-                patternCard = new PatternCard(rs.getInt("idpatterncard"),
-                        rs.getInt("difficulty"), rs.getBoolean("standard"));
-                return patternCard;
+                patternCard = new PatternCard(
+                            rs.getInt("idpatterncard"),
+                            rs.getInt("difficulty"), 
+                            rs.getBoolean("standard"),
+                            player
+                        );
             }
-            return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,8 +83,12 @@ public class PatternCardDao {
                     new QueryParameter(QueryParameter.INT, player.getId())
             );
             while (rs.next()) {
-                PatternCard patternCard = new PatternCard(rs.getInt("idpatterncard"),
-                        rs.getInt("difficulty"), rs.getBoolean("standard"));
+                PatternCard patternCard = new PatternCard(
+                        rs.getInt("idpatterncard"),
+                        rs.getInt("difficulty"), 
+                        rs.getBoolean("standard"),
+                        player
+                     );
                 list.add(patternCard);
             }
         } catch (SQLException e) {
@@ -127,8 +133,11 @@ public class PatternCardDao {
                     new QueryParameter(QueryParameter.BOOLEAN, true)
             );
             while (rs.next()) {
-                PatternCard patternCard = new PatternCard(rs.getInt("idpatterncard"),
-                        rs.getInt("difficulty"), rs.getBoolean("standard"));
+                PatternCard patternCard = new PatternCard(
+                        rs.getInt("idpatterncard"),
+                        rs.getInt("difficulty"), 
+                        rs.getBoolean("standard")
+                     );
                 list.add(patternCard);
             }
         } catch (SQLException e) {
