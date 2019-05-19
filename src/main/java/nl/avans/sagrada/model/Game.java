@@ -58,7 +58,16 @@ public class Game {
             gameDieDao.addDie(this, gameDie);
         }
     }
-
+    
+    /**
+     * Returns the gamedice for this game.
+     * 
+     * @return ArrayList GameDie
+     */
+    public ArrayList<GameDie> getGameDice() {
+        return gameDice;
+    }
+    
     /**
      * Adds random rounds to the gameDice
      */
@@ -490,6 +499,15 @@ public class Game {
      */
     public ArrayList<GameDie> getRoundDice() {
         return new GameDieDao().getRoundDice(this, round);
+    }
+    
+    /**
+     * Returns the current round.
+     * 
+     * @return round int
+     */
+    public int getRound() {
+        return round;
     }
 
 }

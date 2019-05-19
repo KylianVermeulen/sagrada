@@ -193,16 +193,23 @@ public class GameDieDao {
         }
     }
     
-    public void updateRemainingDieForRound(int newDieNumber, String newDieColor, int newEyes, Game game, int round) {
+   /**
+    * Updates the amount of eyes for a certain die.
+    * 
+    * @param game Game
+    * @param gameDie GameDie
+    */
+    public void updateDieEyes(Game game, GameDie gameDie) {
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("UPDATE gamedie SET dienumber=?, diecolor=?, eyes=? WHERE idgame=? AND round=?", "update"),
-                    new QueryParameter(QueryParameter.INT, newDieNumber),
-                    new QueryParameter(QueryParameter.STRING, newDieColor),
-                    new QueryParameter(QueryParameter.INT, newEyes),
+                    new Query(
+                            "UPDATE gamedie SET eyes=? WHERE idgame=? AND round=? AND dienumber=?",
+                            "update"),
+                    new QueryParameter(QueryParameter.INT, gameDie.getEyes()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
-                    new QueryParameter(QueryParameter.INT, round)
-            );
+                    new QueryParameter(QueryParameter.INT, game.getRound()),
+                    new QueryParameter(QueryParameter.INT, gameDie.getNumber())
+            );   
         } catch (SQLException e) {
             e.printStackTrace();
         }

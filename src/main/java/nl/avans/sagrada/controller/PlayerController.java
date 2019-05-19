@@ -1,6 +1,7 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
+import java.util.Random;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -9,6 +10,7 @@ import javafx.scene.layout.VBox;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
@@ -22,6 +24,7 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardLoodHamer;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.GameView;
@@ -51,9 +54,19 @@ public class PlayerController {
      * is active
      */
     public void setActiveToolCard(ToolCard toolcard) {
+        GameDieDao gameDieDao = new GameDieDao();
         Alert alert = null;
         if (activeToolCard == null) {
             activeToolCard = toolcard;
+            if (activeToolCard instanceof ToolCardLoodHamer) {
+                if (player.getSeqnr() > player.getGame().getPlayers().size()) {
+                    for (GameDie gameDie : gameDieDao.getRoundDice(player.getGame(), player.getGame().getRound())) {
+                        gameDie.setEyes(new Random().nextInt(6) + 1);
+                        gameDieDao.updateDieEyes(player.getGame(), gameDie);
+                        viewGame();
+                    }
+                }
+            }
             alert = new Alert("Active toolcard",
                     "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
             myScene.addAlertPane(alert);
@@ -75,6 +88,7 @@ public class PlayerController {
                 if (toolcardUseResult != null) {
                     activeToolCard = null;
                     player.setPatternCard(toolcardUseResult);
+                    gameDie.setPlacedOnPatternCard(true);
                     viewGame();
                 } else {
                     Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
@@ -90,6 +104,7 @@ public class PlayerController {
                         patternCardField.placeDie(gameDie);
                         PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                         playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
+                        gameDie.setPlacedOnPatternCard(true);
                     }
                 }
             }

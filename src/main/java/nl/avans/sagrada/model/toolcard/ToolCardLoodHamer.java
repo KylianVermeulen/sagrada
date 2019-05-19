@@ -24,8 +24,11 @@ public class ToolCardLoodHamer extends ToolCard {
             PatternCard patternCard = patternCardField.getPatternCard();
             Player player = patternCard.getPlayer();
             
+            die.setPatternCardField(patternCardField);
+            patternCardField.setDie(die);
+            playerFrameFieldDao.addDieToField(die, patternCardField, player);
             
-
+            return patternCard;
         } catch (Exception e) {
             e.printStackTrace();
         }

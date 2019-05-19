@@ -7,6 +7,7 @@ public class GameDie extends Die {
     private int roundTrack;
     private int round;
     private PatternCardField patternCardField;
+    private boolean isPlacedOnPatternCard;
 
     /**
      * Full constructor
@@ -18,7 +19,6 @@ public class GameDie extends Die {
     public GameDie(int number, String color, int eyes) {
         super(number, color);
         this.eyes = eyes;
-
     }
 
     /**
@@ -76,6 +76,15 @@ public class GameDie extends Die {
      */
     public int getEyes() {
         return this.eyes;
+    }
+
+    /**
+     * Sets the eyes for a die.
+     * 
+     * @param eyes int
+     */
+    public void setEyes(int eyes) {
+        this.eyes = eyes;
     }
 
     /**
@@ -139,5 +148,13 @@ public class GameDie extends Die {
      */
     public PatternCardField getPatternCardField() {
         return patternCardField;
+    }
+
+    public boolean isPlacedOnPatternCard() {
+        return isPlacedOnPatternCard;
+    }
+
+    public void setPlacedOnPatternCard(boolean isPlacedOnPatternCard) {
+        this.isPlacedOnPatternCard = isPlacedOnPatternCard;
     }
 }
