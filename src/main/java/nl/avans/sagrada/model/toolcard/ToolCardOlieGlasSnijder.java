@@ -34,7 +34,7 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
                 }
             }
             if (!roundTrackDiceColors.contains(die.getColor())) {
-                return null;
+                return new PatternCard(0);
             }
 
             patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());

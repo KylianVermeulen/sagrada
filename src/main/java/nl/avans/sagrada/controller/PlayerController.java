@@ -57,6 +57,11 @@ public class PlayerController {
             if (activeToolCard != null) {
                 PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
                 if (toolcardUseResult != null) {
+                    if (toolcardUseResult.getId() == 0) {
+                        Alert alert = new Alert("1 van de 2", "Plaats nog een dobbelsteen",
+                                AlertType.SUCCES);
+                        myScene.addAlertPane(alert);
+                    }
                     actionPayForToolCard(activeToolCard);
                     activeToolCard = null;
                     player.setPatternCard(toolcardUseResult);

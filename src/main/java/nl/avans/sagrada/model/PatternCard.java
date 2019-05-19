@@ -3,7 +3,6 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.PatternCardFieldDao;
-import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class PatternCard {
     public static final int CARD_SQUARES_WIDTH = 5;
@@ -55,7 +54,14 @@ public class PatternCard {
         this.player = player;
         patternCardFields = getPatternCardFields(player);
     }
-    
+
+    /**
+     * Constructor for id 0 pattern card to use in tool card with double place die.
+     */
+    public PatternCard(int id) {
+        this.id = id;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
     }
