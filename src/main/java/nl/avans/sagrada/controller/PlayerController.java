@@ -45,6 +45,13 @@ public class PlayerController {
     }
 
     /**
+     * Sets the active toolcard to null
+     */
+    public void setActiveToolCardNull(){
+        activeToolCard = null;
+    }
+
+    /**
      * Sets the active toolcard for the player And prints a message to the client that the toolcard
      * is active
      */
