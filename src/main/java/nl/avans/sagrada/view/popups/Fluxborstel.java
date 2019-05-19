@@ -108,7 +108,7 @@ public class Fluxborstel extends Popup {
         gameDieDao.updateGameDieEyes(game, gameDie);
         myScene.removePopupPane();
         playerController.actionPayForToolCard(toolCard);
-        playerController.setActiveToolCard(null);
+        playerController.setActiveToolCardNull();
         playerController.viewGame();
     }
 }

@@ -211,6 +211,13 @@ public class PlayerController {
     }
 
     /**
+     * Sets activeToolCard to null
+     */
+    public void setActiveToolCardNull() {
+        activeToolCard = null;
+    }
+
+    /**
      * Sets the active toolcard if there can be paid for
      */
     public void setActiveToolCard(ToolCard toolCard) {
