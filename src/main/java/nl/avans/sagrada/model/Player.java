@@ -272,7 +272,7 @@ public class Player {
         this.chatlines = chatlines;
     }
 
-    public boolean isUsedToolcard() {
+    public boolean hasUsedToolcard() {
         return usedToolcard;
     }
 
@@ -280,7 +280,7 @@ public class Player {
         this.usedToolcard = usedToolcard;
     }
 
-    public boolean isPlacedDie() {
+    public boolean hasPlacedDie() {
         return placedDie;
     }
 

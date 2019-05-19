@@ -120,8 +120,8 @@ public class FavorTokenDao {
                     new QueryParameter(QueryParameter.INT,
                             toolCardDao.getGameToolCardForToolCardId(toolCard.getId(),
                                     game.getId())),
-                    new QueryParameter(QueryParameter.INT, favorToken.getId()),
-                    new QueryParameter(QueryParameter.INT, game.getRound())
+                    new QueryParameter(QueryParameter.INT, game.getRound()),
+                    new QueryParameter(QueryParameter.INT, favorToken.getId())
             );
         } catch (SQLException e) {
             e.printStackTrace();

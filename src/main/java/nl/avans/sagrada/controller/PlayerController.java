@@ -90,7 +90,7 @@ public class PlayerController {
                     }
                 } else {
                     player.setPlacedDie(true);
-                    if (player.isUsedToolcard()) {
+                    if (player.hasUsedToolcard()) {
                         player.getGame().setNextPlayer();
                         Alert alert = new Alert("Helaas", "Je hebt je beurt al gespeeld.", AlertType.INFO);
                         myScene.addAlertPane(alert);
@@ -267,7 +267,7 @@ public class PlayerController {
                 }
             } else {
                 player.setUsedToolcard(true);
-                if (player.isPlacedDie()) {
+                if (player.hasPlacedDie()) {
                     player.getGame().setNextPlayer();
                     Alert alert = new Alert("Helaas", "Je hebt je beurt al gespeeld.",
                             AlertType.INFO);
