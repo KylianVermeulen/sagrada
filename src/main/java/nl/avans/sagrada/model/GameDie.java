@@ -169,5 +169,8 @@ public class GameDie extends Die {
     public boolean getIsOnOfferTable() {
         return isOnOfferTable;
     }
-    
+
+    public boolean hasRoundTrack() {
+        return roundTrack != 0;
+    }
 }
