@@ -62,6 +62,7 @@ public class DriePuntStang extends Popup {
         buildButtonPane();
         buildDieView();
         buildBorderPane();
+        setOnBorderClicked();
     }
 
     /**
@@ -118,6 +119,7 @@ public class DriePuntStang extends Popup {
     }
 
     private void buildDieView() {
+        String css = this.getClass().getResource("/css/DieViewSelection.css").toExternalForm();
         dieViews = new ArrayList<>();
         gameDice = new ArrayList<>();
 
@@ -128,16 +130,12 @@ public class DriePuntStang extends Popup {
         rootPane.setPrefSize(super.getwidth(), super.getheight());
         int index = 0;
         for (GameDie gameDie : game.getRoundDice()) {
-            int i = index;
             Pane paddingPane = new Pane();
             DieView dieView = new DieView(gameDie);
             dieViews.add(dieView);
             gameDice.add(gameDie);
             dieView.resize(25, 25);
             paddingPane.setPadding(new Insets(20));
-            dieView.setOnMouseClicked(e -> {
-                dieView.setSelected(true);
-            });
             dieView.render();
             paddingPane.getChildren().add(dieView);
             diePane.getChildren().add(paddingPane);
@@ -147,13 +145,13 @@ public class DriePuntStang extends Popup {
         getChildren().add(rootPane);
     }
 
-    public void increaseEyes() {
+    private void increaseEyes() {
         GameDieDao gameDieDao = new GameDieDao();
         if (activeToolCard != null) {
             for (int index = 0; index < dieViews.size(); index++) {
                 GameDie gameDie = dieViews.get(index).getGameDie();
                 //increase die eye value
-                if (dieViews.get(index).isSelected() == true) {
+                if (dieViews.get(index).getStylesheets().size() != 0) {
                     if (gameDie.getEyes() != 6) {
                         activeToolCard = null;
                         gameDie.setEyes(gameDie.getEyes() + 1);
@@ -170,12 +168,12 @@ public class DriePuntStang extends Popup {
         }
     }
 
-    public void decreaseEyes(){
+    private void decreaseEyes(){
         GameDieDao gameDieDao = new GameDieDao();
         if (activeToolCard != null) {
             for (int index = 0; index < dieViews.size(); index++) {
                 GameDie gameDie = dieViews.get(index).getGameDie();
-                if (dieViews.get(index).isSelected() == true) {
+                if (dieViews.get(index).getStylesheets().size() != 0) {
                     //decrease die eye value
                     if (gameDie.getEyes() != 1) {
                         gameDie.setEyes(gameDie.getEyes() - 1);
@@ -190,6 +188,20 @@ public class DriePuntStang extends Popup {
                     }
                 }
             }
+        }
+    }
+
+    private void setOnBorderClicked(){
+        String css = this.getClass().getResource("/css/DieViewSelection.css").toExternalForm();
+        for (DieView dieView : dieViews){
+            dieView.setOnMouseClicked(e -> {
+                dieView.getStylesheets().add(css);
+                for(DieView dieView1 : dieViews){
+                    if(dieView.getGameDie() != dieView1.getGameDie()){
+                        dieView1.getStylesheets().clear();
+                    }
+                }
+            });
         }
     }
 }
