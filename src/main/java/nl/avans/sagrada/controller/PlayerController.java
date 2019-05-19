@@ -61,41 +61,34 @@ public class PlayerController {
 
         if (playerEvent.getId() == player.getId()) {
             if (player.isCurrentPlayer()) {
-                if (playerDao.getCountPlacedDieInRound(player) < 2) {
-                    if (!playerDao.hasUsedToolcardInRound(player)
-                            && playerDao.getCountPlacedDieInRound(player) < 1) {
-                        if (activeToolCard != null) {
-                            PatternCard toolcardUseResult = activeToolCard
-                                    .handleDrag(event, gameDie);
-                            if (toolcardUseResult != null) {
-                                activeToolCard = null;
-                                player.setPatternCard(toolcardUseResult);
-                                viewGame();
-                            } else {
-                                Alert alert = new Alert("Helaas",
-                                        "Dit kan niet wat je probeert met de toolcard",
-                                        AlertType.ERROR);
-                                myScene.addAlertPane(alert);
-                            }
+                if (activeToolCard != null || playerDao.getCountPlacedDieInTurnRound(player) < 1) {
+                    if (activeToolCard != null) {
+                        PatternCard toolcardUseResult = activeToolCard
+                                .handleDrag(event, gameDie);
+                        if (toolcardUseResult != null) {
+                            activeToolCard = null;
+                            player.setPatternCard(toolcardUseResult);
+                            viewGame();
                         } else {
-                            if (gameDie.getPatternCardField() == null) {
-                                if (patternCardField.canPlaceDie(gameDie)) {
-                                    gameDie.setPatternCardField(patternCardField);
-                                    patternCardField.setDie(gameDie);
-
-                                    PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-                                    playerFrameFieldDao
-                                            .addDieToField(gameDie, patternCardField, player);
-                                }
-                            }
+                            Alert alert = new Alert("Helaas",
+                                    "Dit kan niet wat je probeert met de toolcard",
+                                    AlertType.ERROR);
+                            myScene.addAlertPane(alert);
                         }
                     } else {
-                        Alert alert = new Alert("Helaas", "Je hebt al een dobbelsteen geplaats!",
-                                AlertType.INFO);
-                        myScene.addAlertPane(alert);
+                        if (gameDie.getPatternCardField() == null) {
+                            if (patternCardField.canPlaceDie(gameDie)) {
+                                gameDie.setPatternCardField(patternCardField);
+                                patternCardField.setDie(gameDie);
+
+                                PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                                playerFrameFieldDao
+                                        .addDieToField(gameDie, patternCardField, player);
+                            }
+                        }
                     }
                 } else {
-                    Alert alert = new Alert("Helaas", "Je hebt al je beurt gespeeld!",
+                    Alert alert = new Alert("Helaas", "Je hebt el een dobbelsteen geplaatst.",
                             AlertType.INFO);
                     myScene.addAlertPane(alert);
                 }
@@ -104,8 +97,12 @@ public class PlayerController {
                         "Je bent nog niet aan de beurt.", AlertType.INFO);
                 myScene.addAlertPane(alert);
             }
+        } else {
+            Alert alert = new Alert("Helaas", "Dit is niet jouw patroonkaart.", AlertType.ERROR);
+            myScene.addAlertPane(alert);
         }
     }
+
 
     public void viewGame() {
         // Refresh game & player object
@@ -233,7 +230,7 @@ public class PlayerController {
      * @param toolCard
      */
     public void setActiveToolCard(ToolCard toolCard) {
-        if (!new PlayerDao().hasUsedToolcardInRound(player)) {
+        if (!new PlayerDao().hasUsedToolCardInTurnRound(player)) {
             if (activeToolCard != null) {
                 if (toolCard.getId() == activeToolCard.getId()) {
                     Alert alert = new Alert("Active toolcard",
@@ -260,7 +257,7 @@ public class PlayerController {
                 myScene.addAlertPane(alert);
             }
         } else {
-            Alert alert = new Alert("Helaas", "Je hebt deze beurt al een toolcard gebruikt!",
+            Alert alert = new Alert("Helaas", "Je hebt deze beurt al een toolcard gebruikt.",
                     AlertType.INFO);
             myScene.addAlertPane(alert);
         }

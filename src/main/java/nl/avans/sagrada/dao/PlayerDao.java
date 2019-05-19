@@ -157,15 +157,16 @@ public class PlayerDao {
         }
     }
 
-    public int getCountPlacedDieInRound(Player player) {
+    public int getCountPlacedDieInTurnRound(Player player) {
         int count = 0;
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT * FROM playerframefield INNER JOIN player p on playerframefield.player_idplayer = p.idplayer WHERE seqnr=? AND player_idplayer=?",
+                            "SELECT * FROM playerframefield INNER JOIN player p on playerframefield.player_idplayer = p.idplayer INNER JOIN gamedie g on playerframefield.idgame = g.idgame and playerframefield.dienumber = g.dienumber and playerframefield.diecolor = g.diecolor WHERE seqnr=? AND player_idplayer=? AND round=?",
                             "query"),
                     new QueryParameter(QueryParameter.INT, player.getSeqnr()),
-                    new QueryParameter(QueryParameter.INT, player.getId())
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getRound())
             );
             while (rs.next()) {
                 count++;
@@ -176,15 +177,16 @@ public class PlayerDao {
         return count;
     }
 
-    public boolean hasUsedToolcardInRound(Player player) {
+    public boolean hasUsedToolCardInTurnRound(Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer where gametoolcard IS NOT NULL AND seqnr=? AND p.idplayer=?",
+                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN game g on gamefavortoken.idgame = g.idgame WHERE gametoolcard IS NOT NULL AND seqnr=? AND p.idplayer=? AND round=?",
                             "query"
                     ),
                     new QueryParameter(QueryParameter.INT, player.getSeqnr()),
-                    new QueryParameter(QueryParameter.INT, player.getId())
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getRound())
             );
             if (rs.next()) {
                 return true;
