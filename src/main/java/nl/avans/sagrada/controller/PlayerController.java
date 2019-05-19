@@ -21,6 +21,7 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.GameView;
@@ -222,6 +223,20 @@ public class PlayerController {
         else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) || 
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
             activeToolCard = toolCard;
+            if (activeToolCard instanceof ToolCardGlasBreekTang) {
+                if (player.getSeqnr() < player.getGame().getPlayers().size()) {
+                    for (int i = 0; i < 2; i++) {
+                        //plaats dobbelsteen nummer 1.
+                        //wacht voor dobbelsteen nummer 2 plaatsing
+                        
+                        //plaats dobbelsteen nummer 2
+                        //handle nu de betaling van de toolcard
+                        //zet activeToolCard op null
+                    }
+                    player.setSeqnr((player.getGame().getPlayers().size() + player.getSeqnr() + 1));
+                    //zet de seqNr van de speler zo, dat hij niet meer aan de beurt komt tijdens deze ronde.
+                }
+            }
             Alert alert = new Alert("Active toolcard",
                     "Je hebt een actieve toolcard: " + activeToolCard.getName(),
                     AlertType.INFO);
