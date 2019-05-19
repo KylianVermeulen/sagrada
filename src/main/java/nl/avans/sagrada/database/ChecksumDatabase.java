@@ -12,8 +12,10 @@ public class ChecksumDatabase {
     private DBConnection dbConnection;
     private AccountController accountController;
     private PlayerController playerController;
+    private boolean refreshed = false;
     private String checksumPlayer;
     private String checksumChat;
+    private String checksumPlayerFrameField;
 
     public ChecksumDatabase(AccountController accountController,
             PlayerController playerController) {
@@ -30,6 +32,8 @@ public class ChecksumDatabase {
             public void handle() {
                 checksumPlayer();
                 checksumChat();
+                checksumPlayerFrameField();
+                refreshed = false;
             }
         };
     }
@@ -67,14 +71,34 @@ public class ChecksumDatabase {
         }
     }
 
+    private void checksumPlayerFrameField() {
+        try {
+            ResultSet rs = dbConnection
+                    .executeQuery(new Query("checksum table playerframefield;", "query"));
+            if (rs.next()) {
+                String checksumPlayerFrameField = rs.getString("Checksum");
+                if (!checksumPlayerFrameField.equals(this.checksumPlayerFrameField)) {
+                    handlePlayerFrameField();
+                }
+                this.checksumPlayerFrameField = checksumPlayerFrameField;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void handlePlayer() {
-        if (accountController.getAccount() != null) {
-            if (accountController.getAccount().getAccountStatus() == AccountStatus.LOBBY) {
-                accountController.viewLobby();
-            } else if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
-                if (playerController.getPlayer().getGame() != null) {
-                    if (playerController.getPlayer().getGame().everyoneSelectedPatternCard()) {
-                        playerController.viewGame();
+        if (!refreshed) {
+            if (accountController.getAccount() != null) {
+                if (accountController.getAccount().getAccountStatus() == AccountStatus.LOBBY) {
+                    accountController.viewLobby();
+                    refreshed = true;
+                } else if (accountController.getAccount().getAccountStatus()
+                        == AccountStatus.GAME) {
+                    if (playerController.getPlayer().getGame() != null) {
+                        if (playerController.getPlayer().getGame().everyoneSelectedPatternCard()) {
+                            playerController.viewGame();
+                        }
                     }
                 }
             }
@@ -85,9 +109,23 @@ public class ChecksumDatabase {
      * Reloads the gameview when an account is in a game.
      */
     private void handleChat() {
-        if (accountController.getAccount() != null) {
-            if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
-                playerController.viewGame();
+        if (!refreshed) {
+            if (accountController.getAccount() != null) {
+                if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
+                    playerController.viewGame();
+                    refreshed = true;
+                }
+            }
+        }
+    }
+
+    private void handlePlayerFrameField() {
+        if (!refreshed) {
+            if (accountController.getAccount() != null) {
+                if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
+                    playerController.viewGame();
+                    refreshed = true;
+                }
             }
         }
     }

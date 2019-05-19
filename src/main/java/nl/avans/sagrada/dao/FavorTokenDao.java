@@ -113,14 +113,16 @@ public class FavorTokenDao {
         ToolCardDao toolCardDao = new ToolCardDao();
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
-                            "UPDATE gamefavortoken SET idfavortoken=?, idgame=?, idplayer=?, gametoolcard=? WHERE idfavortoken=?",
+                            "UPDATE gamefavortoken SET idfavortoken=?, idgame=?, idplayer=?, gametoolcard=?, round=? WHERE idfavortoken=?",
                             "update"), new QueryParameter(QueryParameter.INT, favorToken.getId()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, favorToken.getPlayer().getId()),
                     new QueryParameter(QueryParameter.INT,
                             toolCardDao.getGameToolCardForToolCardId(toolCard.getId(),
                                     game.getId())),
-                    new QueryParameter(QueryParameter.INT, favorToken.getId()));
+                    new QueryParameter(QueryParameter.INT, favorToken.getId()),
+                    new QueryParameter(QueryParameter.INT, game.getRound())
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }

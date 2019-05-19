@@ -63,11 +63,12 @@ public class PlayerController {
             if (player.isCurrentPlayer()) {
                 if (activeToolCard != null || playerDao.getCountPlacedDieInTurnRound(player) < 1) {
                     if (activeToolCard != null) {
-                        PatternCard toolcardUseResult = activeToolCard
+                        PatternCard toolCardUseResult = activeToolCard
                                 .handleDrag(event, gameDie);
-                        if (toolcardUseResult != null) {
+                        if (toolCardUseResult != null) {
+                            actionPayForToolCard(activeToolCard);
                             activeToolCard = null;
-                            player.setPatternCard(toolcardUseResult);
+                            player.setPatternCard(toolCardUseResult);
                             viewGame();
                         } else {
                             Alert alert = new Alert("Helaas",
@@ -88,7 +89,7 @@ public class PlayerController {
                         }
                     }
                 } else {
-                    Alert alert = new Alert("Helaas", "Je hebt el een dobbelsteen geplaatst.",
+                    Alert alert = new Alert("Helaas", "Je hebt al een dobbelsteen geplaatst.",
                             AlertType.INFO);
                     myScene.addAlertPane(alert);
                 }
