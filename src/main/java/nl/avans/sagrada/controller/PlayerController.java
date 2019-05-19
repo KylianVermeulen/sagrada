@@ -44,7 +44,6 @@ public class PlayerController {
         return player;
     }
 
-
     /**
      * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
      */
