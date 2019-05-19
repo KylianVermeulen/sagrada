@@ -364,7 +364,7 @@ public class Game {
         boolean foundThreeValues = false;
 
         while (!foundThreeValues) {
-            randomNumber1 = 9;
+            randomNumber1 = random.nextInt((max - min) + 1) + min;
             randomNumber2 = random.nextInt((max - min) + 1) + min;
             randomNumber3 = random.nextInt((max - min) + 1) + min;
             if (randomNumber1 != randomNumber2 && randomNumber1 != randomNumber3

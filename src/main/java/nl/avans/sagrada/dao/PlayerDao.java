@@ -157,6 +157,12 @@ public class PlayerDao {
         }
     }
 
+    /**
+     * Gets the count of placed die from a player in a turn of a round.
+     *
+     * @param player The player.
+     * @return Count of placed die.
+     */
     public int getCountPlacedDieInTurnRound(Player player) {
         int count = 0;
         try {
@@ -177,6 +183,12 @@ public class PlayerDao {
         return count;
     }
 
+    /**
+     * Returns true when a player has already used a tool card in a turn of a round.
+     *
+     * @param player The player.
+     * @return Boolean
+     */
     public boolean hasUsedToolCardInTurnRound(Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
