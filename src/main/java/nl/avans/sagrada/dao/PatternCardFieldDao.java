@@ -58,7 +58,39 @@ public class PatternCardFieldDao {
             e.printStackTrace();
         }
         return list;
-    } 
+    }
+
+    /**
+     * Gets the PatternCard fields of a PatternCard without a assigned player for optional pattern cards.
+     *
+     * @param PatternCard
+     * @param Player
+     * @return ArrayList<PatternCardField>
+     */
+    public ArrayList<PatternCardField> getPatternCardFieldsOfPatterncard(PatternCard patternCard) {
+        ArrayList<PatternCardField> list = new ArrayList<>();
+
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT * FROM patterncardfield WHERE patterncard_idpatterncard=? ORDER BY position_x, position_y",
+                            "query"),
+                    new QueryParameter(QueryParameter.INT, patternCard.getId())
+            );
+            while (rs.next()) {
+                int xpos = rs.getInt("position_x");
+                int ypos = rs.getInt("position_y");
+                String color = rs.getString("color");
+                int value = rs.getInt("value");
+                PatternCardField patternCardField = new PatternCardField(xpos, ypos, color, value,
+                        patternCard);
+                list.add(patternCardField);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     /**
      * Add all patterncardfields to the database using batch query.

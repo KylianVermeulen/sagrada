@@ -489,7 +489,15 @@ public class Game {
      * @return ArrayList<GameDie>
      */
     public ArrayList<GameDie> getRoundDice() {
-        return new GameDieDao().getRoundDice(this, round);
+        return new GameDieDao().getAvailableDiceOfRound(this);
+    }
+
+    /**
+     * Gets the current round the game is on
+     * @return int
+     */
+    public int getRound() {
+        return round;
     }
 
 }

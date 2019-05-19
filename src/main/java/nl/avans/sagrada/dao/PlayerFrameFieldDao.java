@@ -25,30 +25,28 @@ public class PlayerFrameFieldDao {
      */
     public GameDie getGameDieOfField(PatternCardField patternCardField, Player player) {
         GameDie die = null;
-
         try {
             Game game = player.getGame();
-            ResultSet rs = dbConnection.executeQuery(new Query(
-                        "SELECT gamedie.dienumber, gamedie.diecolor, gamedie.eyes FROM playerframefield "
-                        + "JOIN gamedie ON gamedie.idgame = playerframefield.idgame "
-                        + "JOIN die ON gamedie.dienumber = die.number AND gamedie.diecolor = die.color "
-                        + "WHERE player_idplayer=? AND position_x=? AND position_y=? AND gamedie.idgame=?", "query"
-                    ),
-                        new QueryParameter(QueryParameter.INT, player.getId()),
-                        new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
-                        new QueryParameter(QueryParameter.INT, patternCardField.getyPos()),
-                        new QueryParameter(QueryParameter.INT, game.getId())
-                    );
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT playerframefield.idgame, player_idplayer, position_x, position_y, playerframefield.dienumber, playerframefield.diecolor, g.eyes FROM playerframefield INNER JOIN gamedie g on playerframefield.idgame = g.idgame and playerframefield.dienumber = g.dienumber and playerframefield.diecolor = g.diecolor WHERE player_idplayer=? AND position_x=? AND position_y=? AND playerframefield.idgame=?",
+                            "query"),
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
+                    new QueryParameter(QueryParameter.INT, patternCardField.getyPos()),
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
             if (rs.next()) {
                 die = new GameDie(
-                        rs.getInt("gamedie.dienumber"), 
-                        rs.getString("gamedie.diecolor"), 
+                        rs.getInt("dienumber"), 
+                        rs.getString("diecolor"), 
                         rs.getInt("eyes")
                     );
+                die.setIsOnOfferTable(false);
             }
         } catch (Exception e) {
             // TODO: handle exception
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return die;
     }
@@ -96,6 +94,7 @@ public class PlayerFrameFieldDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        die.setIsOnOfferTable(false);
     }
     
     /**

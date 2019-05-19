@@ -1,0 +1,14 @@
+Label{
+	-fx-font-weight: bold;
+}
+Button{
+	-fx-cursor: hand;
+	-fx-background-color: black;
+	-fx-text-fill: white;
+	
+}
+Button{
+	-fx-cursor: hand;
+	-fx-background-color: white;
+	-fx-text-fill: black;
+}

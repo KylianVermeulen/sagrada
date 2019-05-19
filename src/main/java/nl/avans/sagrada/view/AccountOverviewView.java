@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
@@ -17,8 +18,7 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public class AccountOverviewView extends ScrollPane implements ViewInterface {
     private final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
     private final int PANE_HEIGHT = Main.SCREEN_HEIGHT;
-    private final int STAT_BUTTON_HEIGHT = 50;
-    private final int STAT_BUTTON_WIDTH = 50;
+    private final int LABEL_WIDTH = 200;
     private ArrayList<Account> accounts;
     private AccountController accountController;
 
@@ -45,15 +45,16 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
         getChildren().clear();
         VBox vbox = new VBox();
         for (Account account : accounts) {
-            Pane pane = new Pane();
+            HBox hBox = new HBox();
             Label label = new Label("Account: " + account.getUsername());
-            label.setPadding(new Insets(20, 4, 20, 65));
+            label.setPrefWidth(LABEL_WIDTH);
+            label.setPadding(new Insets(0, 20, 0, 20));
 
             Button statsButton = buildButtonToViewStatsOfAccount(account);
 
-            pane.getChildren().add(statsButton);
-            pane.getChildren().add(label);
-            vbox.getChildren().add(pane);
+            hBox.getChildren().add(label);
+            hBox.getChildren().add(statsButton);
+            vbox.getChildren().add(hBox);
         }
         setContent(vbox);
     }
@@ -64,11 +65,8 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
      * @return Button
      */
     private Button buildButtonToViewStatsOfAccount(Account account) {
-        Button button = new Button();
-        String css = this.getClass().getResource("/css/style.css").toExternalForm();
-        button.getStylesheets().add(css);
-        button.setId("statsButton");
-        button.setPrefSize(STAT_BUTTON_WIDTH, STAT_BUTTON_HEIGHT);
+        Button button = new Button("Stats");
+        button.setOnAction(e -> accountController.viewStats(account));
         return button;
     }
 }
