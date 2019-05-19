@@ -15,7 +15,6 @@ public abstract class ToolCard {
     private ArrayList<FavorToken> favorTokens;
     private boolean hasBeenPaidForBefore;
 
-
     /**
      * Filled constructor.
      *
