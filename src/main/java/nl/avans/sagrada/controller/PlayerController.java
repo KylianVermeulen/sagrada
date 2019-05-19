@@ -79,7 +79,6 @@ public class PlayerController {
                     } else {
                         if (gameDie.getPatternCardField() == null) {
                             if (patternCardField.canPlaceDie(gameDie)) {
-                                player.setPlacedDie(true);
                                 gameDie.setPatternCardField(patternCardField);
                                 patternCardField.setDie(gameDie);
 
@@ -90,12 +89,6 @@ public class PlayerController {
                         }
                     }
                 } else {
-                    player.setPlacedDie(true);
-                    if (player.hasUsedToolcard()) {
-                        player.getGame().setNextPlayer();
-                        Alert alert = new Alert("Helaas", "Je hebt je beurt al gespeeld.", AlertType.INFO);
-                        myScene.addAlertPane(alert);
-                    }
                     Alert alert = new Alert("Helaas", "Je hebt al een dobbelsteen geplaatst.",
                             AlertType.INFO);
                     myScene.addAlertPane(alert);
@@ -200,6 +193,13 @@ public class PlayerController {
     }
 
     /**
+     * Check if a player has options to play
+     */
+    public void actionCheckPass() {
+        //TODO: check if a player has played this round
+    }
+
+    /**
      * Players wants to go back to the lobby
      */
     public void actionExit() {
@@ -267,18 +267,10 @@ public class PlayerController {
                     myScene.addAlertPane(alert);
                 }
             } else {
-                player.setUsedToolcard(true);
-                if (player.hasPlacedDie()) {
-                    player.getGame().setNextPlayer();
-                    Alert alert = new Alert("Helaas", "Je hebt je beurt al gespeeld.",
-                            AlertType.INFO);
-                    myScene.addAlertPane(alert);
-                } else {
-                    Alert alert = new Alert("Helaas",
-                            "Je hebt deze beurt al een toolcard gebruikt.",
-                            AlertType.INFO);
-                    myScene.addAlertPane(alert);
-                }
+                Alert alert = new Alert("Helaas",
+                        "Je hebt deze beurt al een toolcard gebruikt.",
+                        AlertType.INFO);
+                myScene.addAlertPane(alert);
             }
         } else {
             Alert alert = new Alert("Nog even wachten", "Je bent nog niet aan de beurt.",
@@ -292,7 +284,6 @@ public class PlayerController {
      * @param toolCard The tool card.
      */
     public void actionPayForToolCard(ToolCard toolCard) {
-        player.setUsedToolcard(true);
         FavorTokenDao favorTokenDao = new FavorTokenDao();
         ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
         if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)) {
