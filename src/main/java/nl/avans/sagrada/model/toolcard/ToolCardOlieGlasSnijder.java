@@ -56,6 +56,7 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
                     countDie++;
                     return null;
                 } else {
+                    countDie = 0;
                     return patternCard;
                 }
             }
