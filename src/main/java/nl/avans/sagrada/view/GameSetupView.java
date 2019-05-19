@@ -34,10 +34,10 @@ public class GameSetupView extends VBox implements ViewInterface {
     private final int BUTTON_WIDTH = 100;
     private final int BUTTON_HEIGHT = 50;
     private final Image inviteview_background =
-            new Image("/images/backgrounds/gamesetupviewbackground-goede-hoogte.png");
+            new Image("/images/backgrounds/setup-game-view-background.png");
     private AccountController accountController;
     private VBox gameSelectorPane;
-    private HBox bottumButtonPane;
+    private HBox bottomButtonPane;
     private ArrayList<Account> accounts;
     private ScrollPane inviteContainer;
     private Game game;
@@ -73,7 +73,7 @@ public class GameSetupView extends VBox implements ViewInterface {
         Label inviteLabel = new Label("Invite spelers: ");
         inviteLabel.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
 
-        getChildren().addAll(gameSelectorPane, inviteLabel, inviteContainer, bottumButtonPane);
+        getChildren().addAll(gameSelectorPane, inviteLabel, inviteContainer, bottomButtonPane);
     }
 
     /**
@@ -86,7 +86,8 @@ public class GameSetupView extends VBox implements ViewInterface {
         radioButtons[0].setPadding(new Insets(5, 0, 5, 10));
         radioButtons[0].setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         radioButtons[0].setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-                CornerRadii.EMPTY, new BorderWidths(2))));
+                CornerRadii.EMPTY, new BorderWidths(2))
+        ));
         radioButtons[0].setMinWidth(Main.SCREEN_WIDTH - 30);
         radioButtons[0].setOnAction(e -> {
             game.setGamemode(Game.GAMEMODE_NORMAL);
@@ -95,7 +96,8 @@ public class GameSetupView extends VBox implements ViewInterface {
         radioButtons[1].setPadding(new Insets(5, 0, 5, 10));
         radioButtons[1].setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         radioButtons[1].setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-                CornerRadii.EMPTY, new BorderWidths(2))));
+                CornerRadii.EMPTY, new BorderWidths(2))
+        ));
         radioButtons[1].setMinWidth(Main.SCREEN_WIDTH - 30);
         radioButtons[1].setOnAction(e -> {
             game.setGamemode(Game.GAMEMODE_GENERATED);
@@ -143,10 +145,10 @@ public class GameSetupView extends VBox implements ViewInterface {
      * back to the LobbyView.
      */
     private void buildStartAndBackButton() {
-        bottumButtonPane = new HBox();
-        bottumButtonPane.setSpacing(1060);
-        bottumButtonPane.setMinHeight(80);
-        bottumButtonPane.setAlignment(Pos.CENTER);
+        bottomButtonPane = new HBox();
+        bottomButtonPane.setSpacing(1060);
+        bottomButtonPane.setMinHeight(80);
+        bottomButtonPane.setAlignment(Pos.CENTER);
 
         startButton = new Button("Opslaan");
         startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -157,7 +159,7 @@ public class GameSetupView extends VBox implements ViewInterface {
         backButton.setOnAction(e -> accountController.viewLobby());
         backButton.setPadding(padding);
 
-        bottumButtonPane.getChildren().addAll(startButton, backButton);
+        bottomButtonPane.getChildren().addAll(startButton, backButton);
     }
 
 }
