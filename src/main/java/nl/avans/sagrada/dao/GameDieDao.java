@@ -184,7 +184,7 @@ public class GameDieDao {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT gamedie.* FROM sagrada_peter.playerframefield\n" + 
+                    new Query("SELECT gamedie.* FROM playerframefield\n" + 
                             "RIGHT JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber \n" + 
                             "AND \n" + 
                             "gamedie.diecolor = playerframefield.diecolor\n" + 
