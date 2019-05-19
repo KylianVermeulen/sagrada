@@ -184,16 +184,15 @@ public class GameDieDao {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT gamedie.* FROM playerframefield\n" + 
-                            "RIGHT JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber \n" + 
-                            "AND \n" + 
-                            "gamedie.diecolor = playerframefield.diecolor\n" + 
-                            "WHERE player_idplayer IS NULL \n" + 
-                            "AND playerframefield.idgame IS NULL\n" + 
-                            "AND playerframefield.position_x IS NULL\n" + 
-                            "AND playerframefield.position_y IS NULL\n" + 
-                            "AND gamedie.idgame = ?\n" + 
-                            "AND gamedie.round = ?", "query"),
+                    new Query("SELECT gamedie.* \n" + 
+                            "FROM gamedie \n" + 
+                            "LEFT JOIN \n" + 
+                            "playerframefield ON gamedie.dienumber = playerframefield.dienumber \n" + 
+                            "AND gamedie.idgame = playerframefield.idgame \n" + 
+                            "AND gamedie.diecolor = playerframefield.diecolor \n" + 
+                            "WHERE \n" + 
+                            "(playerframefield.dienumber IS NULL AND playerframefield.diecolor IS NULL AND playerframefield.idgame IS NULL) \n" + 
+                            "AND gamedie.idgame=? AND round=?", "query"),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, game.getRound())
             );
@@ -203,7 +202,6 @@ public class GameDieDao {
                         rs.getString("diecolor"),
                         rs.getInt("eyes")
                 );
-                System.out.println("I have returned a die!");
                 gameDie.setIsOnOfferTable(true);
                 gameDice.add(gameDie);
             }

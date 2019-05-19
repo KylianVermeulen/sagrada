@@ -230,17 +230,12 @@ public class PlayerController {
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
             activeToolCard = toolCard;
             if (activeToolCard instanceof ToolCardLoodHamer) {
-                System.out.println("is instance of LoodHamer");
-                System.out.println(player.getSeqnr());
                 if (player.getSeqnr() > player.getGame().getPlayers().size()) {
-                    System.out.println("is tweede beurt");
                     GameDieDao gameDieDao = new GameDieDao();
                     for (GameDie gameDie : gameDieDao.getAvailableDiceOfRound(player.getGame())) {
                         gameDie.setEyes(new Random().nextInt(6) + 1);
                         gameDieDao.updateDieEyes(player.getGame(), gameDie);
-                        System.out.println(gameDie.getEyes());
                     }
-                    System.out.println("Bekijkt nu game opniuew");
                     viewGame();
                     Alert alert = new Alert("Active toolcard",
                             "Je hebt een actieve toolcard: " + activeToolCard.getName(),
