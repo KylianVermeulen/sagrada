@@ -137,7 +137,8 @@ public class GameDieDao {
                 gameDie = new GameDie(
                         rs.getInt("dienumber"),
                         rs.getString("diecolor"),
-                        rs.getInt("eyes"), rs.getInt("round")
+                        rs.getInt("eyes"),
+                        rs.getInt("round")
                 );
             }
         } catch (Exception e) {
@@ -148,18 +149,16 @@ public class GameDieDao {
 
     /**
      * Gets the dice for a round from a game
-     *
      * @param game Game
-     * @param round int
      * @return ArrayList<GameDie>
      */
-    public ArrayList<GameDie> getRoundDice(Game game, int round) {
+    public ArrayList<GameDie> getRoundDice(Game game) {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM gamedie WHERE idgame=? AND round=?", "query"),
                     new QueryParameter(QueryParameter.INT, game.getId()),
-                    new QueryParameter(QueryParameter.INT, round)
+                    new QueryParameter(QueryParameter.INT, game.getRound())
             );
             while (rs.next()) {
                 GameDie gameDie = new GameDie(
@@ -167,6 +166,44 @@ public class GameDieDao {
                         rs.getString("diecolor"),
                         rs.getInt("eyes")
                 );
+                gameDie.setIsOnOfferTable(true);
+                gameDice.add(gameDie);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gameDice;
+    }
+    
+    /**
+     * Gets all the available dice of a round
+     * @param game
+     * @return ArrayList<GameDie>
+     */
+    public ArrayList<GameDie> getAvailableDiceOfRound(Game game) {
+        ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT gamedie.* FROM sagrada_peter.playerframefield\n" + 
+                            "RIGHT JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber \n" + 
+                            "AND \n" + 
+                            "gamedie.diecolor = playerframefield.diecolor\n" + 
+                            "WHERE player_idplayer IS NULL \n" + 
+                            "AND playerframefield.idgame IS NULL\n" + 
+                            "AND playerframefield.position_x IS NULL\n" + 
+                            "AND playerframefield.position_y IS NULL\n" + 
+                            "AND gamedie.idgame = ?\n" + 
+                            "AND gamedie.round = ?", "query"),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.INT, game.getRound())
+            );
+            while (rs.next()) {
+                GameDie gameDie = new GameDie(
+                        rs.getInt("dienumber"),
+                        rs.getString("diecolor"),
+                        rs.getInt("eyes")
+                );
+                gameDie.setIsOnOfferTable(true);
                 gameDice.add(gameDie);
             }
         } catch (Exception e) {
@@ -175,11 +212,18 @@ public class GameDieDao {
         return gameDice;
     }
 
+    /**
+     * Places a die on the patterncardfield in the db
+     * 
+     * @param die
+     * @param patterncardfield
+     * @param player
+     */
     public void placeDie(GameDie die, PatternCardField patterncardfield, Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=? ",
+                            "UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, die.getNumber()),
                     new QueryParameter(QueryParameter.STRING, die.getColor()),
@@ -193,12 +237,12 @@ public class GameDieDao {
         }
     }
     
-   /**
-    * Updates the amount of eyes for a certain die.
-    * 
-    * @param game Game
-    * @param gameDie GameDie
-    */
+    /**
+     * Updates the amount of eyes for a certain die.
+     * 
+     * @param game Game
+     * @param gameDie GameDie
+     */
     public void updateDieEyes(Game game, GameDie gameDie) {
         try {
             ResultSet rs = dbConnection.executeQuery(

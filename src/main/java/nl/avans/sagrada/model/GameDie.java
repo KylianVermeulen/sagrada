@@ -6,6 +6,7 @@ public class GameDie extends Die {
     private int eyes;
     private int roundTrack;
     private int round;
+    private boolean isOnOfferTable;
     private PatternCardField patternCardField;
     private boolean isPlacedOnPatternCard;
 
@@ -19,6 +20,7 @@ public class GameDie extends Die {
     public GameDie(int number, String color, int eyes) {
         super(number, color);
         this.eyes = eyes;
+        isOnOfferTable = false;
     }
 
     /**
@@ -33,6 +35,7 @@ public class GameDie extends Die {
         super(number, color);
         this.eyes = eyes;
         this.round = round;
+        isOnOfferTable = false;
     }
 
     /**
@@ -44,6 +47,7 @@ public class GameDie extends Die {
     public GameDie(Die die, int eyes) {
         super(die);
         this.eyes = eyes;
+        isOnOfferTable = false;
     }
 
     /**
@@ -57,6 +61,7 @@ public class GameDie extends Die {
         super(die);
         this.eyes = eyes;
         this.round = round;
+        isOnOfferTable = false;
     }
 
     /**
@@ -156,5 +161,21 @@ public class GameDie extends Die {
 
     public void setPlacedOnPatternCard(boolean isPlacedOnPatternCard) {
         this.isPlacedOnPatternCard = isPlacedOnPatternCard;
+    }
+    
+    /**
+     * Sets if the gamedie is on the offer table
+     * @param onTable
+     */
+    public void setIsOnOfferTable(boolean onTable) {
+        isOnOfferTable = onTable;
+    }
+    
+    /**
+     * Returns a boolean if the die is currently on the offer table
+     * @return boolean
+     */
+    public boolean getIsOnOfferTable() {
+        return isOnOfferTable;
     }
 }
