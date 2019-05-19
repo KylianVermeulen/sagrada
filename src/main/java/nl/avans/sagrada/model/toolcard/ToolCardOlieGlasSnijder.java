@@ -2,10 +2,8 @@ package nl.avans.sagrada.model.toolcard;
 
 import java.util.ArrayList;
 import javafx.scene.input.MouseEvent;
-import nl.avans.sagrada.dao.DieDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
-import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
@@ -28,13 +26,11 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
             PatternCardField patternCardField =  patternCardView.getPatternCardField();
             PatternCard patternCard = patternCardField.getPatternCard();
             Player player = patternCard.getPlayer();
-            ArrayList<GameDie> dice = gameDieDao.getDiceFromGame(player.getGame());
+            ArrayList<GameDie> dice = gameDieDao.getDiceOfRoundTrackFromGame(player.getGame());
             ArrayList<String> roundTrackDiceColors = new ArrayList<>();
-            for (GameDie gameDieArray : dice) {
-                if (gameDieArray.hasRoundTrack()) {
-                    if (!roundTrackDiceColors.contains(gameDieArray.getColor())) {
-                        roundTrackDiceColors.add(gameDieArray.getColor());
-                    }
+            for (GameDie gameDie : dice) {
+                if (!roundTrackDiceColors.contains(gameDie.getColor())) {
+                    roundTrackDiceColors.add(gameDie.getColor());
                 }
             }
             if (!roundTrackDiceColors.contains(die.getColor())) {

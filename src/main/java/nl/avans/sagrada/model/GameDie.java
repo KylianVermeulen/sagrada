@@ -170,6 +170,14 @@ public class GameDie extends Die {
         return isOnOfferTable;
     }
 
+    public int getRoundTrack() {
+        return roundTrack;
+    }
+
+    public void setRoundTrack(int roundTrack) {
+        this.roundTrack = roundTrack;
+    }
+
     public boolean hasRoundTrack() {
         return roundTrack != 0;
     }
