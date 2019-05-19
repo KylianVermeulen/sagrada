@@ -69,7 +69,7 @@ public class PlayerController {
         Player playerEvent = patternCard.getPlayer();
         
         if (playerEvent.getId() == player.getId()) {
-            // Check if the player from the 
+            // Check if the player from the               
             if (activeToolCard != null) {
                 PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
                 if (toolcardUseResult != null) {

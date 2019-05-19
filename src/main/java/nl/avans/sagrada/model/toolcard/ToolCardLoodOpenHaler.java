@@ -9,7 +9,6 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class ToolCardLoodOpenHaler extends ToolCard {
-    private int numberOfDices = 2;
 
     public ToolCardLoodOpenHaler(int id, String name, int seqnr, String description) {
         super(id, name, seqnr, description);
@@ -17,8 +16,6 @@ public class ToolCardLoodOpenHaler extends ToolCard {
 
     @Override
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
-        while(numberOfDices > 0) {
-            try {
                 PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                 PatternCardFieldView patternCardFieldView = (PatternCardFieldView) event.getTarget();
 
@@ -39,14 +36,7 @@ public class ToolCardLoodOpenHaler extends ToolCard {
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
 
                     return patternCard;
-
-//                    return patternCard;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-//            return null;
-        }
+                }       
         return null;
         }
 }
