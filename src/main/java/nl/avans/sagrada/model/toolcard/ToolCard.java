@@ -175,5 +175,4 @@ public abstract class ToolCard {
      * @return PatternCard
      */
     public abstract PatternCard handleDrag(MouseEvent event, GameDie die);
-
 }

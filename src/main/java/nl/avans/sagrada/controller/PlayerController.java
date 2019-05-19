@@ -40,10 +40,6 @@ public class PlayerController {
         return player;
     }
 
-    public MyScene getMyScene() {
-        return myScene;
-    }
-
     /**
      * Sets the active toolcard to null
      */

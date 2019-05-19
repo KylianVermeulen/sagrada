@@ -3,7 +3,6 @@ package nl.avans.sagrada.view;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.RoundTrack;
 import nl.avans.sagrada.model.RoundTrackField;
@@ -13,7 +12,6 @@ public class RoundTrackFieldView extends TilePane implements ViewInterface {
     private Pane[] panes;
     private RoundTrack roundTrack;
     private RoundTrackField roundTrackField;
-    private PlayerController playerController;
 
     /**
      * Full Constructor

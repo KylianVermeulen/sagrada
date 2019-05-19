@@ -3,7 +3,6 @@ package nl.avans.sagrada.view;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -13,7 +12,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 

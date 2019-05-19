@@ -1,7 +1,6 @@
 package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
-import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.view.PatternCardFieldView;

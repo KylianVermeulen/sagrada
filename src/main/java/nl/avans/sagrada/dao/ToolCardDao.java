@@ -21,8 +21,6 @@ import nl.avans.sagrada.model.toolcard.ToolCardRondSnijder;
 import nl.avans.sagrada.model.toolcard.ToolCardSchuurBlok;
 import nl.avans.sagrada.model.toolcard.ToolCardSnijLiniaal;
 
-import javax.tools.Tool;
-
 public class ToolCardDao {
     private DBConnection dbConnection;
 
