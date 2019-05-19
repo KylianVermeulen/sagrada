@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.model.Game;
@@ -21,10 +22,10 @@ import nl.avans.sagrada.view.popups.Popup;
 import java.util.ArrayList;
 
 public class DriePuntStang extends Popup {
-    private final int BORDER_PANE_HEIGHT = 800;
-    private final int BORDER_PANE_WIDTH = 1280;
+    private final int BORDER_PANE_HEIGHT = 350;
+    private final int BORDER_PANE_WIDTH = 500;
     private final int BUTTON_PANE_HEIGHT = 70;
-    private final int BUTTON_PANE_WIDTH = 1280;
+    private final int BUTTON_PANE_SPACING = 10;
     private final int BUTTON_HEIGHT = 25;
     private final int BUTTON_WIDTH = 50;
     private MyScene myScene;
@@ -35,12 +36,14 @@ public class DriePuntStang extends Popup {
     private ToolCard activeToolCard;
     private HBox diePane;
     private VBox rootPane;
+    private BorderPane textPane;
     private Button plusButton;
     private Button minButton;
-    private BorderPane buttonPane;
+    private HBox buttonPane;
+    private Text uitleg;
 
     public DriePuntStang(MyScene myScene, PlayerController playerController, Game game, ToolCard activeToolCard) {
-        super(0, 0, 1280, 800);
+        super(0, 0, 500, 350);
         this.myScene = myScene;
         this.playerController = playerController;
         this.game = game;
@@ -49,6 +52,9 @@ public class DriePuntStang extends Popup {
         setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         this.render();
+        String css = this.getClass().getResource("/css/style.css").toExternalForm();
+        getStylesheets().add(css);
+        setId("ToolCardDriePuntTang");
     }
 
     @Override
@@ -56,6 +62,7 @@ public class DriePuntStang extends Popup {
         buildButtons();
         buildButtonPane();
         buildDieView();
+        buildText();
         buildBorderPane();
         setOnBorderClicked();
     }
@@ -69,6 +76,7 @@ public class DriePuntStang extends Popup {
         plusButton.setMinHeight(BUTTON_HEIGHT);
         plusButton.setMaxWidth(BUTTON_WIDTH);
         plusButton.setMinWidth(BUTTON_WIDTH);
+        plusButton.getStyleClass().add("DriePuntTangButton");
         plusButton.setOnAction(e -> {
             increaseEyes();
         });
@@ -77,6 +85,7 @@ public class DriePuntStang extends Popup {
         minButton.setMinHeight(BUTTON_HEIGHT);
         minButton.setMaxWidth(BUTTON_WIDTH);
         minButton.setMinWidth(BUTTON_WIDTH);
+        minButton.getStyleClass().add("DriePuntTangButton");
         minButton.setOnAction(e -> {
             decreaseEyes();
         });
@@ -86,15 +95,12 @@ public class DriePuntStang extends Popup {
      * method to build the ButtonPane
      */
     private void buildButtonPane() {
-        buttonPane = new BorderPane();
+        buttonPane = new HBox();
+        buttonPane.setSpacing(BUTTON_PANE_SPACING);
+        buttonPane.setAlignment(Pos.CENTER);
         buttonPane.setMaxHeight(BUTTON_PANE_HEIGHT);
         buttonPane.setMinHeight(BUTTON_PANE_HEIGHT);
-        buttonPane.setMaxWidth(BUTTON_PANE_WIDTH);
-        buttonPane.setMinWidth(BUTTON_PANE_WIDTH);
-
-        HBox centerButtonsPane = new HBox();
-        centerButtonsPane.getChildren().addAll(plusButton, minButton);
-        buttonPane.setCenter(centerButtonsPane);
+        buttonPane.getChildren().addAll(plusButton, minButton);
     }
 
     /**
@@ -107,9 +113,23 @@ public class DriePuntStang extends Popup {
         borderPane.setMaxWidth(BORDER_PANE_WIDTH);
         borderPane.setMinWidth(BORDER_PANE_WIDTH);
 
-        borderPane.setCenter(diePane);
+        borderPane.setAlignment(textPane, Pos.CENTER);
+        borderPane.setTop(textPane);
+        borderPane.setAlignment(rootPane, Pos.CENTER);
+        borderPane.setCenter(rootPane);
+        borderPane.setAlignment(buttonPane, Pos.CENTER);
         borderPane.setBottom(buttonPane);
         getChildren().add(borderPane);
+    }
+
+    private void buildText(){
+        uitleg = new Text();
+        uitleg.setText("Klik op een dobbelsteen en verlaag of verhoog het aantal ogen met de knoppen");
+        uitleg.getStyleClass().add("DriePuntTangText");
+        textPane = new BorderPane();
+        textPane.setCenter(uitleg);
+        textPane.setMaxHeight(25);
+        textPane.setMinHeight(25);
     }
 
     private void buildDieView() {
@@ -121,8 +141,7 @@ public class DriePuntStang extends Popup {
         diePane.setAlignment(Pos.CENTER);
         rootPane = new VBox();
         rootPane.setAlignment(Pos.CENTER);
-        rootPane.setPrefSize(super.getwidth(), super.getheight());
-        int index = 0;
+        rootPane.setPrefSize(super.getWidth(), super.getHeight());
         for (GameDie gameDie : game.getRoundDice()) {
             Pane paddingPane = new Pane();
             DieView dieView = new DieView(gameDie);
@@ -133,10 +152,8 @@ public class DriePuntStang extends Popup {
             dieView.render();
             paddingPane.getChildren().add(dieView);
             diePane.getChildren().add(paddingPane);
-            index++;
         }
         rootPane.getChildren().add(diePane);
-        getChildren().add(rootPane);
     }
 
     /**
