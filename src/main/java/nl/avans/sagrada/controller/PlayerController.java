@@ -89,6 +89,12 @@ public class PlayerController {
                         }
                     }
                 } else {
+                    player.setPlacedDie(true);
+                    if (player.isUsedToolcard()) {
+                        player.getGame().setNextPlayer();
+                        Alert alert = new Alert("Helaas", "Je hebt je beurt al gespeeld.", AlertType.INFO);
+                        myScene.addAlertPane(alert);
+                    }
                     Alert alert = new Alert("Helaas", "Je hebt al een dobbelsteen geplaatst.",
                             AlertType.INFO);
                     myScene.addAlertPane(alert);
@@ -258,9 +264,16 @@ public class PlayerController {
                 myScene.addAlertPane(alert);
             }
         } else {
-            Alert alert = new Alert("Helaas", "Je hebt deze beurt al een toolcard gebruikt.",
-                    AlertType.INFO);
-            myScene.addAlertPane(alert);
+            player.setUsedToolcard(true);
+            if (player.isPlacedDie()) {
+                player.getGame().setNextPlayer();
+                Alert alert = new Alert("Helaas", "Je hebt je beurt al gespeeld.", AlertType.INFO);
+                myScene.addAlertPane(alert);
+            } else {
+                Alert alert = new Alert("Helaas", "Je hebt deze beurt al een toolcard gebruikt.",
+                        AlertType.INFO);
+                myScene.addAlertPane(alert);
+            }
         }
     }
     

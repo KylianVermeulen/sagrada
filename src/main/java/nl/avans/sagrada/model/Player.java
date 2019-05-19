@@ -22,6 +22,8 @@ public class Player {
     private int score;
     private boolean cheatmode = false;
     private Color playerColor;
+    private boolean usedToolcard;
+    private boolean placedDie;
 
     public Player() {
         chatlines = new ArrayList<>();
@@ -268,6 +270,22 @@ public class Player {
      */
     public void setChatlines(ArrayList<Chatline> chatlines) {
         this.chatlines = chatlines;
+    }
+
+    public boolean isUsedToolcard() {
+        return usedToolcard;
+    }
+
+    public void setUsedToolcard(boolean usedToolcard) {
+        this.usedToolcard = usedToolcard;
+    }
+
+    public boolean isPlacedDie() {
+        return placedDie;
+    }
+
+    public void setPlacedDie(boolean placedDie) {
+        this.placedDie = placedDie;
     }
 
     /**
