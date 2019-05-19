@@ -272,18 +272,38 @@ public class Player {
         this.chatlines = chatlines;
     }
 
+    /**
+     * Returns true when player has already used a tool card this turn.
+     *
+     * @return Boolean
+     */
     public boolean hasUsedToolcard() {
         return usedToolcard;
     }
 
+    /**
+     * Sets true when player has already used a tool card this turn.
+     *
+     * @param usedToolcard Boolean
+     */
     public void setUsedToolcard(boolean usedToolcard) {
         this.usedToolcard = usedToolcard;
     }
 
+    /**
+     * Returns true when player has already placed a die this turn.
+     *
+     * @return Boolean
+     */
     public boolean hasPlacedDie() {
         return placedDie;
     }
 
+    /**
+     * Sets true when player has already placed a die this turn.
+     *
+     * @param placedDie Boolean
+     */
     public void setPlacedDie(boolean placedDie) {
         this.placedDie = placedDie;
     }

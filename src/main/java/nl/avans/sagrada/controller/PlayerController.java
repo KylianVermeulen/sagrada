@@ -79,6 +79,7 @@ public class PlayerController {
                     } else {
                         if (gameDie.getPatternCardField() == null) {
                             if (patternCardField.canPlaceDie(gameDie)) {
+                                player.setPlacedDie(true);
                                 gameDie.setPatternCardField(patternCardField);
                                 patternCardField.setDie(gameDie);
 
@@ -291,6 +292,7 @@ public class PlayerController {
      * @param toolCard The tool card.
      */
     public void actionPayForToolCard(ToolCard toolCard) {
+        player.setUsedToolcard(true);
         FavorTokenDao favorTokenDao = new FavorTokenDao();
         ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
         if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)) {

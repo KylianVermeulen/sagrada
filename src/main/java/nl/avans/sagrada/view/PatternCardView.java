@@ -109,6 +109,11 @@ public class PatternCardView extends BorderPane implements ViewInterface {
         this.playerName = name;
     }
 
+    /**
+     * Sets if the pattern card is of the current players turn.
+     *
+     * @param currentPlayer True when current player.
+     */
     public void setCurrentPlayer(boolean currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
