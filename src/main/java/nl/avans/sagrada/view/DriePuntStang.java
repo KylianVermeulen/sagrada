@@ -3,7 +3,6 @@ package nl.avans.sagrada.view;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -28,24 +27,20 @@ public class DriePuntStang extends Popup {
     private final int BUTTON_PANE_WIDTH = 1280;
     private final int BUTTON_HEIGHT = 25;
     private final int BUTTON_WIDTH = 50;
-    private boolean dieSelected;
     private MyScene myScene;
     private ArrayList<DieView> dieViews;
     private ArrayList<GameDie> gameDice;
     private Game game;
     private PlayerController playerController;
     private ToolCard activeToolCard;
-    private MouseEvent event;
     private HBox diePane;
     private VBox rootPane;
     private Button plusButton;
     private Button minButton;
-    private Button backButton;
     private BorderPane buttonPane;
 
     public DriePuntStang(MyScene myScene, PlayerController playerController, Game game, ToolCard activeToolCard) {
         super(0, 0, 1280, 800);
-        dieSelected = false;
         this.myScene = myScene;
         this.playerController = playerController;
         this.game = game;
@@ -99,7 +94,6 @@ public class DriePuntStang extends Popup {
 
         HBox centerButtonsPane = new HBox();
         centerButtonsPane.getChildren().addAll(plusButton, minButton);
-        buttonPane.setLeft(backButton);
         buttonPane.setCenter(centerButtonsPane);
     }
 
@@ -145,6 +139,9 @@ public class DriePuntStang extends Popup {
         getChildren().add(rootPane);
     }
 
+    /**
+     * Increases the eye value of a selected die
+     */
     private void increaseEyes() {
         GameDieDao gameDieDao = new GameDieDao();
         if (activeToolCard != null) {
@@ -168,6 +165,9 @@ public class DriePuntStang extends Popup {
         }
     }
 
+    /**
+     * Decreases the eye value of a selected die
+     */
     private void decreaseEyes(){
         GameDieDao gameDieDao = new GameDieDao();
         if (activeToolCard != null) {
@@ -191,6 +191,9 @@ public class DriePuntStang extends Popup {
         }
     }
 
+    /**
+     * sets the mouseclick action for the dieviews
+     */
     private void setOnBorderClicked(){
         String css = this.getClass().getResource("/css/DieViewSelection.css").toExternalForm();
         for (DieView dieView : dieViews){
