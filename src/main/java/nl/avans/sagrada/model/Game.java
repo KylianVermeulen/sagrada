@@ -508,4 +508,12 @@ public class Game {
     public int getRound() {
         return round;
     }
+    
+    public void rerollRoundDice() {
+        GameDieDao gameDieDao = new GameDieDao();
+        for (GameDie gameDie : gameDieDao.getAvailableDiceOfRound(this)) {
+            gameDie.setEyes(new Random().nextInt(6) + 1);
+            gameDieDao.updateDieEyes(this, gameDie);
+        }
+    }
 }

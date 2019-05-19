@@ -63,7 +63,7 @@ public class PlayerController {
                     actionPayForToolCard(activeToolCard);
                     activeToolCard = null;
                     player.setPatternCard(toolcardUseResult);
-                    gameDie.setIsOnOfferTable(false);;
+                    gameDie.setIsOnOfferTable(false);
                     viewGame();
                 } else {
                     Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
@@ -231,11 +231,7 @@ public class PlayerController {
             activeToolCard = toolCard;
             if (activeToolCard instanceof ToolCardLoodHamer) {
                 if (player.getSeqnr() > player.getGame().getPlayers().size()) {
-                    GameDieDao gameDieDao = new GameDieDao();
-                    for (GameDie gameDie : gameDieDao.getAvailableDiceOfRound(player.getGame())) {
-                        gameDie.setEyes(new Random().nextInt(6) + 1);
-                        gameDieDao.updateDieEyes(player.getGame(), gameDie);
-                    }
+                    player.getGame().rerollRoundDice();
                     viewGame();
                     Alert alert = new Alert("Active toolcard",
                             "Je hebt een actieve toolcard: " + activeToolCard.getName(),
