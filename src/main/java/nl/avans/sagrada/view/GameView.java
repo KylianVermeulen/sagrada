@@ -161,7 +161,7 @@ public class GameView extends VBox implements ViewInterface {
     }
     
     private void buildDieOffer() {
-        dieOfferView = new DieOfferView(this.game, playerController);
+        dieOfferView = new DieOfferView(this.game);
         dieOfferView.render();
     }
 

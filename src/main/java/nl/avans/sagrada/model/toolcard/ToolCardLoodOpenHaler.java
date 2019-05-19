@@ -16,9 +16,4 @@ public class ToolCardLoodOpenHaler extends ToolCard {
         // TODO Auto-generated method stub
         return null;
     }
-
-    @Override
-    public GameDie handleClick(MouseEvent event, PlayerController playerController, int i) {
-        return null;
-    }
 }

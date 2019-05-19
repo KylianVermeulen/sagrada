@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
-import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
@@ -21,6 +20,8 @@ import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
 import nl.avans.sagrada.model.toolcard.ToolCardRondSnijder;
 import nl.avans.sagrada.model.toolcard.ToolCardSchuurBlok;
 import nl.avans.sagrada.model.toolcard.ToolCardSnijLiniaal;
+
+import javax.tools.Tool;
 
 public class ToolCardDao {
     private DBConnection dbConnection;
@@ -82,6 +83,56 @@ public class ToolCardDao {
             e.printStackTrace();
         }
         return list;
+    }
+
+    /**
+     * Method to get all toolcards that need the handleClick method
+     * @return
+     */
+    public ArrayList<ToolCard> getClickToolCards(){
+        ArrayList<ToolCard> clickToolCards = new ArrayList<>();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM toolcard WHERE idtoolcard IN(1)", "query")
+            );
+            while (rs.next()){
+                ToolCard toolCard = buildToolCard(
+                        rs.getInt("idtoolcard"),
+                        rs.getString("name"),
+                        rs.getInt("seqnr"),
+                        rs.getString("description")
+                );
+                clickToolCards.add(toolCard);
+            }
+        } catch (Exception e){
+
+        }
+        return clickToolCards;
+    }
+
+    /**
+     * Method to get all toolcards that need the handleDrag method
+     * @return
+     */
+    public ArrayList<ToolCard> getDragToolCards(){
+        ArrayList<ToolCard> dragToolCards = new ArrayList<>();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM toolcard WHERE idtoolcard IN()", "query")
+            );
+            while (rs.next()){
+                ToolCard toolCard = buildToolCard(
+                        rs.getInt("idtoolcard"),
+                        rs.getString("name"),
+                        rs.getInt("seqnr"),
+                        rs.getString("description")
+                );
+                dragToolCards.add(toolCard);
+            }
+        } catch (Exception e){
+
+        }
+        return dragToolCards;
     }
 
     /**

@@ -22,7 +22,7 @@ public class DieView extends Pane implements ViewInterface {
     private final int DIE_HEIGHT = 40;
     private ArrayList<ImageView> images;
     private GameDie gameDie;
-    private  PlayerController playerController;
+    private boolean selected;
 
     /**
      * Full constructor
@@ -31,18 +31,10 @@ public class DieView extends Pane implements ViewInterface {
         init();
     }
 
-    public DieView(GameDie gameDie, PlayerController playerController) {
-        this.playerController = playerController;
+    public DieView(GameDie gameDie) {
+        selected = false;
         this.gameDie = gameDie;
         init();
-        setOnMouseClicked(event ->  {
-            try {
-                MouseEvent clickEvent = (MouseEvent) event;
-                playerController.actionClickDie(event, this);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
     }
 
     private void init() {
@@ -105,6 +97,22 @@ public class DieView extends Pane implements ViewInterface {
      */
     public void setGameDie(GameDie gameDie) {
         this.gameDie = gameDie;
+    }
+
+    /**
+     * Method to get the selected boolean
+     * @return
+     */
+    public boolean isSelected() {
+        return selected;
+    }
+
+    /**
+     * Sets the selected boolean value
+     * @param selected
+     */
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     /**

@@ -43,9 +43,4 @@ public class ToolCardSnijLiniaal extends ToolCard {
 
         return null;
     }
-
-    @Override
-    public GameDie handleClick(MouseEvent event, PlayerController playerController, int i) {
-        return null;
-    }
 }

@@ -102,3 +102,11 @@ Button{
     -fx-font-size: 20;
     -fx-font-family: "Bookman Old Style";
 }
+
+.dieViewSelected {
+    -fx-background-color: gray;
+}
+
+.dieViewNotSelected {
+    -fx-background-color: none;
+}

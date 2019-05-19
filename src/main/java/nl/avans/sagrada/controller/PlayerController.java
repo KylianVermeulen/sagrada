@@ -12,15 +12,8 @@ import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.ToolCardDao;
-import nl.avans.sagrada.model.GameDie;
-import nl.avans.sagrada.model.PatternCard;
-import nl.avans.sagrada.model.PatternCardField;
-import nl.avans.sagrada.model.Player;
-import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.*;
 import nl.avans.sagrada.model.toolcard.ToolCard;
-import nl.avans.sagrada.model.Account;
-import nl.avans.sagrada.model.Chatline;
-import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.GameView;
@@ -36,6 +29,7 @@ import java.util.ArrayList;
 public class PlayerController {
     private MyScene myScene;
     private Player player;
+
     private ToolCard activeToolCard;
 
     public PlayerController(MyScene myScene) {
@@ -61,6 +55,10 @@ public class PlayerController {
             alert = new Alert("Active toolcard",
                     "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
             myScene.addAlertPane(alert);
+            if(activeToolCard.getId() == 1){
+                DriePuntStang driePuntStang = new DriePuntStang(myScene, this , player.getGame(), activeToolCard);
+                myScene.addPopupPane(driePuntStang);
+            }
         }
     }
 
@@ -69,12 +67,12 @@ public class PlayerController {
      */
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
                                GameDie gameDie, MouseEvent event) {
-        
+
         Player playerEvent = patternCard.getPlayer();
-        
+        //check if the ToolCard needs the click method
         if (playerEvent.getId() == player.getId()) {
-            // Check if the player from the 
-            if (activeToolCard != null && activeToolCard.getId() != 1) {
+            // Check if the player from the
+            if (activeToolCard != null) {
                 PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
                 if (toolcardUseResult != null) {
                     activeToolCard = null;
@@ -85,6 +83,7 @@ public class PlayerController {
                             AlertType.ERROR);
                     myScene.addAlertPane(alert);
                 }
+
             } else {
                 if (gameDie.getPatternCardField() == null) {
                     if (patternCardField.canPlaceDie(gameDie)) {
@@ -96,18 +95,6 @@ public class PlayerController {
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * Method to render the DriePuntStang popup
-     * @param event MouseEvent
-     * @param dieView DieView
-     */
-    public void actionClickDie(MouseEvent event, DieView dieView){
-        if(activeToolCard != null && activeToolCard.getId() == 1){
-            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, event, dieView, activeToolCard);
-            myScene.addPopupPane(driePuntStang);
         }
     }
 
