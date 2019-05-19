@@ -228,7 +228,7 @@ public class PlayerController {
             activeToolCard = toolCard;
             if (toolCard.getId() == 11) {
                 Fluxverwijderaar fluxverwijderaar = new Fluxverwijderaar(myScene,
-                        getPlayer().getGame(), this);
+                        getPlayer().getGame(), this, activeToolCard);
                 myScene.addPopupPane(fluxverwijderaar);
             }
             Alert alert = new Alert("Active toolcard",
