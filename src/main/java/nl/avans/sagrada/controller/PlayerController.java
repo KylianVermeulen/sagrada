@@ -21,6 +21,7 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.GameView;
@@ -47,13 +48,6 @@ public class PlayerController {
     }
 
     /**
-     * Sets the active toolcard to null
-     */
-    public void setActiveToolCardNull(){
-        activeToolCard = null;
-    }
-
-    /**
      * Sets the active toolcard for the player And prints a message to the client that the toolcard
      * is active
      */
@@ -64,11 +58,18 @@ public class PlayerController {
             alert = new Alert("Active toolcard",
                     "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
             myScene.addAlertPane(alert);
-            if(activeToolCard.getId() == 1){
+            if(activeToolCard instanceof ToolCardDriePuntStang){
                 DriePuntStang driePuntStang = new DriePuntStang(myScene, this , player.getGame(), activeToolCard);
                 myScene.addPopupPane(driePuntStang);
             }
         }
+    }
+
+    /**
+     * Sets the active toolcard to null
+     */
+    public void setActiveToolCardNull(){
+        activeToolCard = null;
     }
 
     /**
@@ -78,7 +79,6 @@ public class PlayerController {
                                GameDie gameDie, MouseEvent event) {
 
         Player playerEvent = patternCard.getPlayer();
-        //check if the ToolCard needs the click method
         if (playerEvent.getId() == player.getId()) {
             // Check if the player from the
             if (activeToolCard != null) {
@@ -92,7 +92,6 @@ public class PlayerController {
                             AlertType.ERROR);
                     myScene.addAlertPane(alert);
                 }
-
             } else {
                 if (gameDie.getPatternCardField() == null) {
                     if (patternCardField.canPlaceDie(gameDie)) {

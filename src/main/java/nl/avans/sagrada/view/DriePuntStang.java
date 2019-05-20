@@ -40,10 +40,10 @@ public class DriePuntStang extends Popup {
     private Button plusButton;
     private Button minButton;
     private HBox buttonPane;
-    private Text uitleg;
+    private Text uitlegText;
 
     public DriePuntStang(MyScene myScene, PlayerController playerController, Game game, ToolCard activeToolCard) {
-        super(0, 0, 500, 350);
+        super(500, 350);
         this.myScene = myScene;
         this.playerController = playerController;
         this.game = game;
@@ -59,6 +59,7 @@ public class DriePuntStang extends Popup {
 
     @Override
     public void render() {
+        getChildren().clear();
         buildButtons();
         buildButtonPane();
         buildDieView();
@@ -123,11 +124,11 @@ public class DriePuntStang extends Popup {
     }
 
     private void buildText(){
-        uitleg = new Text();
-        uitleg.setText("Klik op een dobbelsteen en verlaag of verhoog het aantal ogen met de knoppen");
-        uitleg.getStyleClass().add("DriePuntTangText");
+        uitlegText = new Text();
+        uitlegText.setText("Klik op een dobbelsteen en verlaag of verhoog het aantal ogen met de knoppen");
+        uitlegText.getStyleClass().add("DriePuntTangText");
         textPane = new BorderPane();
-        textPane.setCenter(uitleg);
+        textPane.setCenter(uitlegText);
         textPane.setMaxHeight(25);
         textPane.setMinHeight(25);
     }
