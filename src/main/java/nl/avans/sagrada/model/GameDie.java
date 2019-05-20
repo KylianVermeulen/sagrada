@@ -92,14 +92,6 @@ public class GameDie extends Die {
     }
 
     /**
-     * Sets the eye value
-     * @param eyes int
-     */
-    public void setEyes(int eyes) {
-        this.eyes = eyes;
-    }
-
-    /**
      * The JavaFX color from a die.
      *
      * @return Color object JavaFX.
