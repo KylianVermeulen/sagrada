@@ -56,10 +56,20 @@ public class PlayerController {
             // Check if the player from the 
             if (activeToolCard != null) {
                 PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
+                PatternCard toolcardUseResult2 = null;
+                if (activeToolCard instanceof ToolCardGlasBreekTang) {
+                    if (!activeToolCard.isActionIsFinished()) {
+                        toolcardUseResult2 = activeToolCard.handleDrag(event, gameDie);
+                    }
+                }
                 if (toolcardUseResult != null) {
                     actionPayForToolCard(activeToolCard);
                     activeToolCard = null;
                     player.setPatternCard(toolcardUseResult);
+                    if (toolcardUseResult != null) {
+                        player.setPatternCard(toolcardUseResult2);
+                        player.setSeqnr((player.getGame().getPlayers().size() * 2) + player.getSeqnr() + 1);
+                    }
                     viewGame();
                 } else {
                     Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
@@ -224,20 +234,6 @@ public class PlayerController {
         else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) || 
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
             activeToolCard = toolCard;
-            if (activeToolCard instanceof ToolCardGlasBreekTang) {
-                if (player.getSeqnr() < player.getGame().getPlayers().size()) {
-                    for (int i = 0; i < 2; i++) {
-                        //plaats dobbelsteen nummer 1.
-                        //wacht voor dobbelsteen nummer 2 plaatsing
-                        
-                        //plaats dobbelsteen nummer 2
-                        //handle nu de betaling van de toolcard
-                        //zet activeToolCard op null
-                    }
-                    player.setSeqnr((player.getGame().getPlayers().size() + player.getSeqnr() + 1));
-                    //zet de seqNr van de speler zo, dat hij niet meer aan de beurt komt tijdens deze ronde.
-                }
-            }
             Alert alert = new Alert("Active toolcard",
                     "Je hebt een actieve toolcard: " + activeToolCard.getName(),
                     AlertType.INFO);

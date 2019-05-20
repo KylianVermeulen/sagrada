@@ -14,6 +14,7 @@ public abstract class ToolCard {
     private String name;
     private ArrayList<FavorToken> favorTokens;
     private boolean hasBeenPaidForBefore;
+    private boolean actionIsFinished;
 
     /**
      * Filled constructor.
@@ -28,6 +29,7 @@ public abstract class ToolCard {
         this.description = description;
         this.name = name;
         favorTokens = new ArrayList<>();
+        actionIsFinished = false;
     }
 
     public void useToolCard() {}
@@ -165,6 +167,24 @@ public abstract class ToolCard {
         this.hasBeenPaidForBefore = hasBeenPaidForBefore;
     }
     
+    /**
+     * Returns if the toolcard's action is finished or not.
+     * 
+     * @return boolean
+     */
+    public boolean isActionIsFinished() {
+        return actionIsFinished;
+    }
+
+    /**
+     * Sets if the toolcard's action is finished or not.
+     * 
+     * @param actionIsFinished boolean
+     */
+    public void setActionIsFinished(boolean actionIsFinished) {
+        this.actionIsFinished = actionIsFinished;
+    }
+
     /**
      * Handels the drag event
      * So we can handle the toolcard ability
