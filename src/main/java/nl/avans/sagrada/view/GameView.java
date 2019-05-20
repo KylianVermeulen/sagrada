@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
+import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
@@ -27,6 +28,7 @@ public class GameView extends VBox implements ViewInterface {
     private Game game;
     private Player player;
     private PlayerController playerController;
+    private AccountController accountController;
     private HBox otherPlayerPatternCardViews;
     private HBox actionButtons;
     private ArrayList<ToolCardView> toolCardViews;
@@ -64,6 +66,11 @@ public class GameView extends VBox implements ViewInterface {
                 PatternCardView patternCardView = new PatternCardView(playerController);
                 patternCardView.setCenterShape(true);
                 patternCardView.setPlayerName(otherPlayerUsername);
+                if (player.isCurrentPlayer()) {
+                    patternCardView.setCurrentPlayer(true);
+                } else {
+                    patternCardView.setCurrentPlayer(false);
+                }
                 patternCardView.setPatternCard(playerPatternCard);
                 patternCardView.render();
                 otherPlayerPatternCardViews.getChildren().add(patternCardView);
@@ -136,6 +143,11 @@ public class GameView extends VBox implements ViewInterface {
         playerPatternCardView = new PatternCardView(playerController);
         playerPatternCardView.setPatternCard(playerPatternCard);
         playerPatternCardView.setPlayerName(player.getAccount().getUsername());
+        if (player.isCurrentPlayer()) {
+            playerPatternCardView.setCurrentPlayer(true);
+        } else {
+            playerPatternCardView.setCurrentPlayer(false);
+        }
         playerPatternCardView.render();
     }
 

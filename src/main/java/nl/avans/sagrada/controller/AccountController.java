@@ -191,6 +191,7 @@ public class AccountController {
         game.assignRandomToolCards();
         game.assignRandomPublicObjectiveCards();
         game.addDice();
+        game.setPlayers(gameDao.getPlayersOfGame(game));
 
         int playerId = playerDao.getNextPlayerId();
         Player player = new Player();
