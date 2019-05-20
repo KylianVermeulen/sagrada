@@ -12,7 +12,7 @@ public class ChecksumDatabase {
     private DBConnection dbConnection;
     private AccountController accountController;
     private PlayerController playerController;
-    private boolean refreshed = false;
+    private boolean refreshed;
     private String checksumPlayer;
     private String checksumChat;
     private String checksumPlayerFrameField;
@@ -22,6 +22,7 @@ public class ChecksumDatabase {
         dbConnection = new DBConnection();
         this.accountController = accountController;
         this.playerController = playerController;
+        this.refreshed = false;
         createTimer();
         animationTimerExt.start();
     }
