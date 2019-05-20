@@ -27,7 +27,7 @@ public class ToolCardFolieAandrukker extends ToolCard {
             PatternCardField removeDieField = die.getPatternCardField();
             patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
 
-            if(patternCardField.hasDie() == false && patternCard.checkSidesColor(patternCardField, die.getColor(), true) && patternCard.checkSidesColor(patternCardField, die.getColor(), false) && patternCard.isNextToDie(patternCardField) == true){
+            if(patternCardField.hasDie() == false && patternCard.checkSidesColor(patternCardField, die.getColor(), true) && patternCard.isNextToDie(patternCardField) == true){
                 removeDieField.setDie(null);
                 playerFrameFieldDao.removeDie(die, removeDieField, player);
 
@@ -38,7 +38,6 @@ public class ToolCardFolieAandrukker extends ToolCard {
                 return patternCard;
             }
         } catch (Exception e){
-
         }
         return null;
     }
