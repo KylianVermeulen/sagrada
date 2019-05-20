@@ -208,4 +208,21 @@ public class PlayerDao {
         }
         return false;
     }
+
+    /**
+     * updates the score of the player in the database
+     * @param player Player
+     * @param game Game
+     */
+    public void updateScore(Player player, Game game){
+        try{
+            new Query("UPDATE player SET score=? WHERE idplayer=? AND game_idgame", "update",
+            new QueryParameter(QueryParameter.INT, player.getScore()),
+            new QueryParameter(QueryParameter.INT, player.getId()),
+            new QueryParameter(QueryParameter.INT, game.getId())
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
