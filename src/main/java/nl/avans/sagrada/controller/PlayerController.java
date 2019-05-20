@@ -54,18 +54,14 @@ public class PlayerController {
         Player playerEvent = patternCard.getPlayer();
         
         if (playerEvent.getId() == player.getId()) {
-            // Check if the player from the 
+            // Check if the player from the               
             if (activeToolCard != null) {
                 PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
                 if (toolcardUseResult != null) {
-                    if (!activeToolCard.isDone() && activeToolCard instanceof ToolCardOlieGlasSnijder) {
-                        Alert alert = new Alert("1 van de 2", "Plaats nog een dobbelsteen",
-                                AlertType.SUCCES);
-                        myScene.addAlertPane(alert);
+                    if (activeToolCard.getIsDone()) {
+                        actionPayForToolCard(activeToolCard);
+                        activeToolCard = null;
                     }
-                    actionPayForToolCard(activeToolCard);
-                    activeToolCard.setDone(false);
-                    activeToolCard = null;
                     player.setPatternCard(toolcardUseResult);
                     viewGame();
                 } else {
@@ -222,6 +218,7 @@ public class PlayerController {
     public void setActiveToolCard(ToolCard toolCard) {
         if (activeToolCard != null) {
             if (toolCard.getId() == activeToolCard.getId()) {
+                activeToolCard = null;
                 Alert alert = new Alert("Active toolcard",
                         "Je hebt nu geen active toolcard meer",
                         AlertType.INFO);
@@ -230,16 +227,24 @@ public class PlayerController {
         }
         else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) || 
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
-            activeToolCard = toolCard;
-            Alert alert = new Alert("Active toolcard",
-                    "Je hebt een actieve toolcard: " + activeToolCard.getName(),
-                    AlertType.INFO);
-            Alert alertInfo = new Alert("ToolCard info", 
-                    "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
-                    AlertType.INFO
-                );
-            myScene.addAlertPane(alert);
-            myScene.addAlertPane(alertInfo);
+            if (toolCard.hasRequirementsToRun(this)) {
+                activeToolCard = toolCard;
+                Alert alert = new Alert("Active toolcard",
+                        "Je hebt een actieve toolcard: " + activeToolCard.getName(),
+                        AlertType.INFO);
+                Alert alertInfo = new Alert("ToolCard info", 
+                        "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
+                        AlertType.INFO
+                    );
+                myScene.addAlertPane(alert);
+                myScene.addAlertPane(alertInfo);   
+            }
+            else {
+                Alert alert = new Alert("ToolCard",
+                        "Je voldoet niet aan de eisen!",
+                        AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
         }
         else {
             Alert alert = new Alert("Te weinig betaalstenen",

@@ -1,6 +1,7 @@
 package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
@@ -25,7 +26,7 @@ public class ToolCardSnijLiniaal extends ToolCard {
                 Player player =patternCard.getPlayer();
                 
                 patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
-                
+
                 if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
                     && patternCard.checkSidesColor(patternCardField, die.getColor(), true) && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
                     // If the new location meats the new requirements we can make those changes
@@ -35,7 +36,7 @@ public class ToolCardSnijLiniaal extends ToolCard {
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
-                    
+                    setIsDone(true);
                     return patternCard;
                 }   
             }
@@ -43,5 +44,11 @@ public class ToolCardSnijLiniaal extends ToolCard {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean hasRequirementsToRun(PlayerController playerController) {
+        // TODO Auto-generated method stub
+        return true;
     }
 }
