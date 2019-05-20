@@ -66,7 +66,6 @@ public class PlayerController {
                         activeToolCard = null;
                     }
                     player.setPatternCard(toolcardUseResult);
-                    gameDie.setIsOnOfferTable(false);
                     viewGame();
                 } else {
                     Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
@@ -81,7 +80,6 @@ public class PlayerController {
                         
                         PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                         playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
-                        gameDie.setIsOnOfferTable(false);
                     }
                 }
             }
