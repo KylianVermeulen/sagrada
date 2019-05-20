@@ -4,12 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -18,9 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -35,6 +28,7 @@ public class PatternCardView extends BorderPane implements ViewInterface {
     private BorderPane playerNamePane;
     private BorderPane bottomPane;
     private String playerName;
+    private boolean currentPlayer;
     private final Font PLAYER_NAME_FONT = new Font("Segoe Script", 20);
 
     /**
@@ -101,7 +95,11 @@ public class PatternCardView extends BorderPane implements ViewInterface {
     private void showPlayerName() {
         playerNamePane = new BorderPane();
         Text name = new Text(playerName);
-        name.setFill(Color.WHITE);
+        if (!currentPlayer) {
+            name.setFill(Color.WHITE);
+        } else {
+            name.setFill(Color.YELLOW);
+        }
         name.setFont(PLAYER_NAME_FONT);
         playerNamePane.setCenter(name);
         bottomPane.setLeft(playerNamePane);
@@ -109,6 +107,15 @@ public class PatternCardView extends BorderPane implements ViewInterface {
 
     public void setPlayerName(String name) {
         this.playerName = name;
+    }
+
+    /**
+     * Sets if the pattern card is of the current players turn.
+     *
+     * @param currentPlayer True when current player.
+     */
+    public void setCurrentPlayer(boolean currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     /**
