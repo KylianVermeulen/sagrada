@@ -35,7 +35,7 @@ public class ToolCardFolieAandrukker extends ToolCard {
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
-
+                setIsDone(true);
                 return patternCard;
             }
         } catch (Exception e){
