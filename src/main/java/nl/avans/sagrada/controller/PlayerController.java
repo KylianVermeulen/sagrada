@@ -12,6 +12,7 @@ import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
+import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
@@ -21,6 +22,18 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
+import nl.avans.sagrada.model.toolcard.ToolCardEglomiseBorstel;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
+import nl.avans.sagrada.model.toolcard.ToolCardFolieAandrukker;
+import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
+import nl.avans.sagrada.model.toolcard.ToolCardLoodHamer;
+import nl.avans.sagrada.model.toolcard.ToolCardLoodOpenHaler;
+import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
+import nl.avans.sagrada.model.toolcard.ToolCardRondSnijder;
+import nl.avans.sagrada.model.toolcard.ToolCardSchuurBlok;
+import nl.avans.sagrada.model.toolcard.ToolCardSnijLiniaal;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.EndgameView;
@@ -45,49 +58,69 @@ public class PlayerController {
     }
 
     /**
-     * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
-     */
-    public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
-            GameDie gameDie, MouseEvent event) {
-        
-        Player playerEvent = patternCard.getPlayer();
-        
-        if (playerEvent.getId() == player.getId()) {
-            // Check if the player from the               
-            if (activeToolCard != null) {
-                PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
-                if (toolcardUseResult != null) {
-                    if (activeToolCard.getIsDone()) {
-                        actionPayForToolCard(activeToolCard);
-                        activeToolCard = null;
-                    }
-                    player.setPatternCard(toolcardUseResult);
-                    viewGame();
-                } else {
-                    Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
-                            AlertType.ERROR);
-                    myScene.addAlertPane(alert);
-                }
-            } else {
-                if (gameDie.getPatternCardField() == null) {
-                    if (patternCardField.canPlaceDie(gameDie)) {
-                        gameDie.setPatternCardField(patternCardField);
-                        patternCardField.setDie(gameDie);
-                        
-                        PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-                        playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Sets the player for the controller
      */
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    /**
+     * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
+     */
+    public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
+            GameDie gameDie, MouseEvent event) {
+        PlayerDao playerDao = new PlayerDao();
+        Player playerEvent = patternCard.getPlayer();
+
+        if (playerEvent.getId() == player.getId()) {
+            if (player.isCurrentPlayer()) {
+                if (activeToolCard != null || playerDao.getCountPlacedDieInTurnRound(player) < 1) {
+                    if (activeToolCard != null) {
+                        PatternCard toolCardUseResult = activeToolCard
+                                .handleDrag(event, gameDie);
+                        if (toolCardUseResult != null) {
+                            if (activeToolCard.getIsDone()) {
+                                actionPayForToolCard(activeToolCard);
+                                activeToolCard = null;
+                                actionCheckPass();
+                            }
+                            player.setPatternCard(toolcardUseResult);
+                            viewGame();
+                        } else {
+                            Alert alert = new Alert("Helaas",
+                                    "Dit kan niet wat je probeert met de toolcard",
+                                    AlertType.ERROR);
+                            myScene.addAlertPane(alert);
+                        }
+                    } else {
+                        if (gameDie.getPatternCardField() == null) {
+                            if (patternCardField.canPlaceDie(gameDie)) {
+                                gameDie.setPatternCardField(patternCardField);
+                                patternCardField.setDie(gameDie);
+
+                                PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                                playerFrameFieldDao
+                                        .addDieToField(gameDie, patternCardField, player);
+                                actionCheckPass();
+                            }
+                        }
+                    }
+                } else {
+                    Alert alert = new Alert("Helaas", "Je hebt al een dobbelsteen geplaatst.",
+                            AlertType.INFO);
+                    myScene.addAlertPane(alert);
+                }
+            } else {
+                Alert alert = new Alert("Nog even wachten",
+                        "Je bent nog niet aan de beurt.", AlertType.INFO);
+                myScene.addAlertPane(alert);
+            }
+        } else {
+            Alert alert = new Alert("Helaas", "Dit is niet jouw patroonkaart.", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+        }
+    }
+
 
     public void viewGame() {
         // Refresh game & player object
@@ -177,6 +210,67 @@ public class PlayerController {
     }
 
     /**
+     * Check if a player has options to play, if not call actionPass
+     */
+    public void actionCheckPass() {
+        PlayerDao playerDao = new PlayerDao();
+        ToolCardDao toolCardDao = new ToolCardDao();
+        if (playerDao.hasUsedToolCardInTurnRound(player)) {
+            ToolCard toolCard = toolCardDao.getUsedToolCardOfPlayerInTurnOfRound(player);
+            int count = playerDao.getCountPlacedDieInTurnRound(player);
+            if (toolCard instanceof ToolCardDriePuntStang) {
+                if (count >= 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardEglomiseBorstel) {
+                if (count > 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardFolieAandrukker) {
+                if (count > 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardLoodOpenHaler) {
+                if (count > 2) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardRondSnijder) {
+                if (count >= 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardFluxBorstel) {
+                if (count >= 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardLoodHamer) {
+                if (count >= 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardGlasBreekTang) {
+                if (count > 2) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardSnijLiniaal) {
+                if (count > 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardSchuurBlok) {
+                if (count > 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardFluxVerwijderaar) {
+                if (count >= 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardOlieGlasSnijder) {
+                if (count > 2) {
+                    actionPass();
+                }
+            }
+        }
+    }
+
+    /**
      * Players wants to go back to the lobby
      */
     public void actionExit() {
@@ -215,40 +309,51 @@ public class PlayerController {
      * @param toolCard
      */
     public void setActiveToolCard(ToolCard toolCard) {
-        if (activeToolCard != null) {
-            if (toolCard.getId() == activeToolCard.getId()) {
-                activeToolCard = null;
-                Alert alert = new Alert("Active toolcard",
-                        "Je hebt nu geen active toolcard meer",
+        if (player.isCurrentPlayer()) {
+            if (!new PlayerDao().hasUsedToolCardInTurnRound(player)) {
+                if (activeToolCard != null) {
+                    if (toolCard.getId() == activeToolCard.getId()) {
+                        activeToolCard = null;
+                        Alert alert = new Alert("Active toolcard",
+                                "Je hebt nu geen active toolcard meer",
+                                AlertType.INFO);
+                        myScene.addAlertPane(alert);
+                    }
+                } else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)
+                        ||
+                        !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
+                    if (toolCard.hasRequirementsToRun(this)) {
+                        activeToolCard = toolCard;
+                        Alert alert = new Alert("Active toolcard",
+                                "Je hebt een actieve toolcard: " + activeToolCard.getName(),
+                                AlertType.INFO);
+                        Alert alertInfo = new Alert("ToolCard info",
+                                "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
+                                AlertType.INFO
+                        );
+                        myScene.addAlertPane(alert);
+                        myScene.addAlertPane(alertInfo);
+                    } else {
+                    Alert alert = new Alert("ToolCard",
+                            "Je voldoet niet aan de eisen!",
+                            AlertType.ERROR);
+                    myScene.addAlertPane(alert);
+                    }
+                } else {
+                    Alert alert = new Alert("Te weinig betaalstenen",
+                            "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
+                            AlertType.ERROR);
+                    myScene.addAlertPane(alert);
+                }
+            } else {
+                Alert alert = new Alert("Helaas",
+                        "Je hebt deze beurt al een toolcard gebruikt.",
                         AlertType.INFO);
                 myScene.addAlertPane(alert);
             }
-        }
-        else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) || 
-                !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
-            if (toolCard.hasRequirementsToRun(this)) {
-                activeToolCard = toolCard;
-                Alert alert = new Alert("Active toolcard",
-                        "Je hebt een actieve toolcard: " + activeToolCard.getName(),
-                        AlertType.INFO);
-                Alert alertInfo = new Alert("ToolCard info", 
-                        "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
-                        AlertType.INFO
-                    );
-                myScene.addAlertPane(alert);
-                myScene.addAlertPane(alertInfo);   
-            }
-            else {
-                Alert alert = new Alert("ToolCard",
-                        "Je voldoet niet aan de eisen!",
-                        AlertType.ERROR);
-                myScene.addAlertPane(alert);
-            }
-        }
-        else {
-            Alert alert = new Alert("Te weinig betaalstenen",
-                    "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
-                    AlertType.ERROR);
+        } else {
+            Alert alert = new Alert("Nog even wachten", "Je bent nog niet aan de beurt.",
+                    AlertType.INFO);
             myScene.addAlertPane(alert);
         }
     }

@@ -156,4 +156,56 @@ public class PlayerDao {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Gets the count of placed die from a player in a turn of a round.
+     *
+     * @param player The player.
+     * @return Count of placed die.
+     */
+    public int getCountPlacedDieInTurnRound(Player player) {
+        int count = 0;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT * FROM playerframefield INNER JOIN player p on playerframefield.player_idplayer = p.idplayer INNER JOIN gamedie g on playerframefield.idgame = g.idgame and playerframefield.dienumber = g.dienumber and playerframefield.diecolor = g.diecolor WHERE seqnr=? AND player_idplayer=? AND round=?",
+                            "query"),
+                    new QueryParameter(QueryParameter.INT, player.getSeqnr()),
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getRound())
+            );
+            while (rs.next()) {
+                count++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    /**
+     * Returns true when a player has already used a tool card in a turn of a round.
+     *
+     * @param player The player.
+     * @return Boolean
+     */
+    public boolean hasUsedToolCardInTurnRound(Player player) {
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN game g on gamefavortoken.idgame = g.idgame WHERE gametoolcard IS NOT NULL AND seqnr=? AND p.idplayer=? AND round=?",
+                            "query"
+                    ),
+                    new QueryParameter(QueryParameter.INT, player.getSeqnr()),
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getRound())
+            );
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
