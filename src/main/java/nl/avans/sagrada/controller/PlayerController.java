@@ -60,13 +60,14 @@ public class PlayerController {
                 if (activeToolCard instanceof ToolCardGlasBreekTang) {
                     if (!activeToolCard.isActionIsFinished()) {
                         toolcardUseResult2 = activeToolCard.handleDrag(event, gameDie);
+                        activeToolCard.setActionIsFinished(true);
                     }
                 }
                 if (toolcardUseResult != null) {
                     actionPayForToolCard(activeToolCard);
                     activeToolCard = null;
                     player.setPatternCard(toolcardUseResult);
-                    if (toolcardUseResult != null) {
+                    if (toolcardUseResult2 != null) {
                         player.setPatternCard(toolcardUseResult2);
                         player.setSeqnr((player.getGame().getPlayers().size() * 2) + player.getSeqnr() + 1);
                     }
