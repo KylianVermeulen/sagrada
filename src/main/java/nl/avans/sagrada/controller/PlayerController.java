@@ -208,7 +208,7 @@ public class PlayerController {
     }
 
     /**
-     * Check if a player has options to play
+     * Check if a player has options to play, if not call actionPass
      */
     public void actionCheckPass() {
         PlayerDao playerDao = new PlayerDao();

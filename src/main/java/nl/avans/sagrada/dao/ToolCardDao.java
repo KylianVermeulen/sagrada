@@ -261,6 +261,12 @@ public class ToolCardDao {
         }
     }
 
+    /**
+     * This method will return the used tool card of a player in a turn of round in a game.
+     *
+     * @param player The player
+     * @return The tool card.
+     */
     public ToolCard getUsedToolCardOfPlayerInTurnOfRound(Player player) {
         ToolCard toolCard = null;
         try {
