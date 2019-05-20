@@ -53,24 +53,16 @@ public class PlayerController {
         Player playerEvent = patternCard.getPlayer();
         
         if (playerEvent.getId() == player.getId()) {
-            // Check if the player from the 
+            // Check if the player from the               
             if (activeToolCard != null) {
                 PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
-                PatternCard toolcardUseResult2 = null;
-                if (activeToolCard instanceof ToolCardGlasBreekTang) {
-                    if (!activeToolCard.isActionIsFinished()) {
-                        toolcardUseResult2 = activeToolCard.handleDrag(event, gameDie);
-                        activeToolCard.setActionIsFinished(true);
-                    }
-                }
                 if (toolcardUseResult != null) {
-                    actionPayForToolCard(activeToolCard);
-                    activeToolCard = null;
-                    player.setPatternCard(toolcardUseResult);
-                    if (toolcardUseResult2 != null) {
-                        player.setPatternCard(toolcardUseResult2);
-                        player.setSeqnr((player.getGame().getPlayers().size() * 2) + player.getSeqnr() + 1);
+                    if (activeToolCard.getIsDone()) {
+                        activeToolCard = null;
+                        actionPayForToolCard(activeToolCard);
+                        activeToolCard = null;
                     }
+                    player.setPatternCard(toolcardUseResult);
                     viewGame();
                 } else {
                     Alert alert = new Alert("Helaas", "Dit kan niet wat je probeert met de toolcard",
@@ -226,6 +218,7 @@ public class PlayerController {
     public void setActiveToolCard(ToolCard toolCard) {
         if (activeToolCard != null) {
             if (toolCard.getId() == activeToolCard.getId()) {
+                activeToolCard = null;
                 Alert alert = new Alert("Active toolcard",
                         "Je hebt nu geen active toolcard meer",
                         AlertType.INFO);
@@ -234,16 +227,24 @@ public class PlayerController {
         }
         else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) || 
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
-            activeToolCard = toolCard;
-            Alert alert = new Alert("Active toolcard",
-                    "Je hebt een actieve toolcard: " + activeToolCard.getName(),
-                    AlertType.INFO);
-            Alert alertInfo = new Alert("ToolCard info", 
-                    "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
-                    AlertType.INFO
-                );
-            myScene.addAlertPane(alert);
-            myScene.addAlertPane(alertInfo);
+            if (toolCard.hasRequirementsToRun(this)) {
+                activeToolCard = toolCard;
+                Alert alert = new Alert("Active toolcard",
+                        "Je hebt een actieve toolcard: " + activeToolCard.getName(),
+                        AlertType.INFO);
+                Alert alertInfo = new Alert("ToolCard info", 
+                        "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
+                        AlertType.INFO
+                    );
+                myScene.addAlertPane(alert);
+                myScene.addAlertPane(alertInfo);   
+            }
+            else {
+                Alert alert = new Alert("ToolCard",
+                        "Je voldoet niet aan de eisen!",
+                        AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
         }
         else {
             Alert alert = new Alert("Te weinig betaalstenen",
