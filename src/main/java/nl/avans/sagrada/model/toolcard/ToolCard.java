@@ -14,6 +14,7 @@ public abstract class ToolCard {
     private String name;
     private ArrayList<FavorToken> favorTokens;
     private boolean hasBeenPaidForBefore;
+    private boolean isDone;
 
     /**
      * Filled constructor.
@@ -28,6 +29,7 @@ public abstract class ToolCard {
         this.description = description;
         this.name = name;
         favorTokens = new ArrayList<>();
+        isDone = false;
     }
 
     public void useToolCard() {}
@@ -175,4 +177,12 @@ public abstract class ToolCard {
      * @return PatternCard
      */
     public abstract PatternCard handleDrag(MouseEvent event, GameDie die);
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
+    }
 }

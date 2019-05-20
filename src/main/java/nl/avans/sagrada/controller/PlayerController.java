@@ -21,6 +21,7 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.EndgameView;
@@ -57,12 +58,13 @@ public class PlayerController {
             if (activeToolCard != null) {
                 PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
                 if (toolcardUseResult != null) {
-                    if (toolcardUseResult.getId() == 0) {
+                    if (!activeToolCard.isDone() && activeToolCard instanceof ToolCardOlieGlasSnijder) {
                         Alert alert = new Alert("1 van de 2", "Plaats nog een dobbelsteen",
                                 AlertType.SUCCES);
                         myScene.addAlertPane(alert);
                     }
                     actionPayForToolCard(activeToolCard);
+                    activeToolCard.setDone(false);
                     activeToolCard = null;
                     player.setPatternCard(toolcardUseResult);
                     viewGame();

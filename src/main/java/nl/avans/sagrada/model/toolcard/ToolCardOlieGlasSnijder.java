@@ -11,11 +11,11 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class ToolCardOlieGlasSnijder extends ToolCard {
-    private int countDie;
+    private int numberOfUses;
     
     public ToolCardOlieGlasSnijder(int id, String name, int seqnr, String description) {
         super(id, name, seqnr, description);
-        countDie = 0;
+        numberOfUses = 0;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
                 }
             }
             if (!roundTrackDiceColors.contains(die.getColor())) {
-                return new PatternCard(0);
+                return null;
             }
 
             patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
@@ -48,13 +48,14 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
 
-                if (countDie == 0) {
-                    countDie++;
-                    return null;
+                numberOfUses++;
+                if (numberOfUses >= 2) {
+                    numberOfUses = 0;
+                    setDone(true);
                 } else {
-                    countDie = 0;
-                    return patternCard;
+                    setDone(false);
                 }
+                return patternCard;
             }
         }
         return null;
