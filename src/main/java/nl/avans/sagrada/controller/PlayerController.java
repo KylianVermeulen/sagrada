@@ -73,7 +73,9 @@ public class PlayerController {
             if (activeToolCard != null) {
                 PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
                 if (toolcardUseResult != null) {
-                    activeToolCard = null;
+                    if (activeToolCard.getIsDone()) {
+                        activeToolCard = null;
+                    }
                     player.setPatternCard(toolcardUseResult);
                     viewGame();
                 } else {

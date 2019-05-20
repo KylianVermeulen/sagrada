@@ -39,6 +39,8 @@ public class ToolCardSnijLiniaal extends ToolCard {
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
                 
+                setIsDone(true);
+                
                 return patternCard;
             }
         } catch (Exception e) {}
