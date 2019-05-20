@@ -29,7 +29,7 @@ public class ToolCardLoodOpenHaler extends ToolCard {
         PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
         patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
         
-        if (patternCardField.placeDie(die) && die.getPatternCardField() != null) {
+        if (patternCardField.canPlaceDie(die) && die.getPatternCardField() != null) {
             // If the new location matches the new requirements we can make those changes
             removeDieField.setDie(null);
             playerFrameFieldDao.removeDie(die, removeDieField, player);
@@ -43,6 +43,10 @@ public class ToolCardLoodOpenHaler extends ToolCard {
         }       
         return null;
     }
+    
+    /**
+     * Checks if the toolcard is done
+     */
     private void handleNumberOfUses() {
         if (numberOfUses >= 2) {
             setIsDone(true);
@@ -67,6 +71,7 @@ public class ToolCardLoodOpenHaler extends ToolCard {
             }
         }
         if (numberOfFoundDie >= 2) {
+            // We need a minimum of 2 dice
             return true;
         }
         else {

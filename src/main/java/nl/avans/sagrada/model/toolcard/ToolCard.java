@@ -184,7 +184,7 @@ public abstract class ToolCard {
     public abstract boolean hasRequirementsToRun(PlayerController playerController);
     
     public void setIsDone(boolean isDone) {
-        this.isDone = true;
+        this.isDone = isDone;
     }
     
     /**
