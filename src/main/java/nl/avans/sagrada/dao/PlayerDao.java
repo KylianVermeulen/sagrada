@@ -216,10 +216,11 @@ public class PlayerDao {
      */
     public void updateScore(Player player, Game game){
         try{
-            new Query("UPDATE player SET score=? WHERE idplayer=? AND game_idgame", "update",
-            new QueryParameter(QueryParameter.INT, player.getScore()),
-            new QueryParameter(QueryParameter.INT, player.getId()),
-            new QueryParameter(QueryParameter.INT, game.getId())
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("UPDATE player SET score=? WHERE idplayer=? AND game_idgame=?", "update"),
+                    new QueryParameter(QueryParameter.INT, player.getScore()),
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, game.getId())
             );
         } catch (Exception e) {
             e.printStackTrace();
