@@ -218,6 +218,7 @@ public class PlayerController {
      * @param toolCard
      */
     public void setActiveToolCard(ToolCard toolCard) {
+        PlayerDao playerDao = new PlayerDao();
         if (activeToolCard != null) {
             if (toolCard.getId() == activeToolCard.getId()) {
                 Alert alert = new Alert("Active toolcard",
@@ -230,24 +231,31 @@ public class PlayerController {
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
             activeToolCard = toolCard;
             if (activeToolCard instanceof ToolCardLoodHamer) {
-                if (player.getSeqnr() > player.getGame().getPlayers().size()) {
-                    player.getGame().rerollRoundDice();
-                    viewGame();
-                    Alert alert = new Alert("Active toolcard",
-                            "Je hebt een actieve toolcard: " + activeToolCard.getName(),
-                            AlertType.INFO);
-                    Alert alertInfo = new Alert("ToolCard info", 
-                            "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
-                            AlertType.INFO
-                    );
-                myScene.addAlertPane(alert);
-                myScene.addAlertPane(alertInfo);
+                if (activeToolCard != null && playerDao.getCountPlacedDieInTurnRound(player) < 1) {
+                    if (player.getSeqnr() > player.getGame().getPlayers().size()) {
+                        player.getGame().rerollRoundDice();
+                        viewGame();
+                        Alert alert = new Alert("Active toolcard",
+                                "Je hebt een actieve toolcard: " + activeToolCard.getName(),
+                                AlertType.INFO);
+                        Alert alertInfo = new Alert("ToolCard info", 
+                                "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
+                                AlertType.INFO
+                        );
+                        myScene.addAlertPane(alert);
+                        myScene.addAlertPane(alertInfo);
+                    } else {
+                        Alert alert = new Alert("Je kunt deze toolcard niet gebruiken",
+                                "Dit mag alleen tijdens je tweede beurt!",
+                                AlertType.ERROR);
+                        myScene.addAlertPane(alert);
+                        activeToolCard = null;
+                    }
                 } else {
-                    Alert alert = new Alert("Je kunt deze toolcard niet gebruiken",
-                            "Dit mag alleen tijdens je tweede beurt!",
+                    Alert alert = new Alert("Kan toolcard niet gebruiken",
+                            "Je mag de toolcard alleen gebruiken voor het plaatsen van een steen!",
                             AlertType.ERROR);
                     myScene.addAlertPane(alert);
-                    activeToolCard = null;
                 }
             } else {
                 Alert alert = new Alert("Active toolcard",
