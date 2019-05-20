@@ -256,6 +256,7 @@ public class PlayerController {
                             "Je mag de toolcard alleen gebruiken voor het plaatsen van een steen!",
                             AlertType.ERROR);
                     myScene.addAlertPane(alert);
+                    activeToolCard = null;
                 }
             } else {
                 Alert alert = new Alert("Active toolcard",
