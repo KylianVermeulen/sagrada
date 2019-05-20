@@ -54,15 +54,13 @@ public class ToolCardLoodOpenHaler extends ToolCard {
 
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        // TODO Auto-generated method stub
         Player player = playerController.getPlayer();
         PatternCard patternCard = player.getPatternCard();
-        PatternCardField[][] patternCardFields = patternCard.getPatternCardFields();
-        
+
         int numberOfFoundDie = 0;
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
-                PatternCardField currentPatternCardField = patternCardFields[x][y];
+                PatternCardField currentPatternCardField = patternCard.getPatternCardField(x, y);
                 if (currentPatternCardField.getDie() != null) {
                     numberOfFoundDie++;
                 }
