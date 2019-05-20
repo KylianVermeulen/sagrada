@@ -10,39 +10,53 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class ToolCardGlasBreekTang extends ToolCard {
+    private int numberOfUses;
 
     public ToolCardGlasBreekTang(int id, String name, int seqnr, String description) {
         super(id, name, seqnr, description);
+        numberOfUses = 0;
     }
 
     @Override
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
         try {
             PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-            PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
+            PatternCardFieldView patternCardFieldView = (PatternCardFieldView) event.getTarget();
 
-            PatternCardField patternCardField = patternCardView.getPatternCardField();
+            PatternCardField patternCardField = patternCardFieldView.getPatternCardField();
             PatternCard patternCard = patternCardField.getPatternCard();
             Player player = patternCard.getPlayer();
 
-            if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
-                    && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
-                    && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
+            if (patternCardField.placeDie(die) && die.getPatternCardField() != null) {
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
-
+                numberOfUses++;
+                handleNumberOfUses(player);
                 return patternCard;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
 
+    private void handleNumberOfUses(Player player) {
+        if (numberOfUses >= 2) {
+            setIsDone(true);
+            player.setSeqnr(((player.getGame().getPlayers().size() * 2) + player.getSeqnr()));
+        } else {
+            setIsDone(false);
+        }
+    }
+
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        // TODO Auto-generated method stub
-        return true;
+        Player player = playerController.getPlayer();
+        if (player.getSeqnr() <= player.getGame().getPlayers().size()) {
+            return true;
+        }
+        return false;
     }
 
 }

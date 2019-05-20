@@ -237,7 +237,7 @@ public class PlayerController {
                         AlertType.INFO
                     );
                 myScene.addAlertPane(alert);
-                myScene.addAlertPane(alertInfo);   
+                myScene.addAlertPane(alertInfo);
             }
             else {
                 Alert alert = new Alert("ToolCard",
