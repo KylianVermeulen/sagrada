@@ -22,6 +22,8 @@ import nl.avans.sagrada.view.popups.Popup;
 import java.util.ArrayList;
 
 public class DriePuntStang extends Popup {
+    private static final int POPUP_HEIGHT = 350;
+    private static final int POPUP_WIDTH = 500;
     private final int BORDER_PANE_HEIGHT = 350;
     private final int BORDER_PANE_WIDTH = 500;
     private final int BUTTON_PANE_HEIGHT = 70;
@@ -43,7 +45,7 @@ public class DriePuntStang extends Popup {
     private Text uitlegText;
 
     public DriePuntStang(MyScene myScene, PlayerController playerController, Game game, ToolCard activeToolCard) {
-        super(500, 350);
+        super(POPUP_WIDTH, POPUP_HEIGHT);
         this.myScene = myScene;
         this.playerController = playerController;
         this.game = game;
