@@ -17,35 +17,32 @@ public class ToolCardSnijLiniaal extends ToolCard {
 
     @Override
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
-        // TODO Auto-generated method stub
         try {
-            PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-            PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
-            
-            PatternCardField patternCardField =  patternCardView.getPatternCardField();
-            PatternCard patternCard = patternCardField.getPatternCard();
-            Player player =patternCard.getPlayer();
-            PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
+            if (die.getIsOnOfferTable()) {
+                PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
+                
+                PatternCardField patternCardField =  patternCardView.getPatternCardField();
+                PatternCard patternCard = patternCardField.getPatternCard();
+                Player player =patternCard.getPlayer();
+                
+                patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
 
-            
-            patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
-            
-            if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
-                && patternCard.checkSidesColor(patternCardField, die.getColor(), true) && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
-                // If the new location meats the new requirements we can make those changes
-                removeDieField.setDie(null);
-                playerFrameFieldDao.removeDie(die, removeDieField, player);
-                
-                die.setPatternCardField(patternCardField);
-                patternCardField.setDie(die);
-                playerFrameFieldDao.addDieToField(die, patternCardField, player);
-                
-                setIsDone(true);
-                
-                return patternCard;
+                if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
+                    && patternCard.checkSidesColor(patternCardField, die.getColor(), true) && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
+                    // If the new location meats the new requirements we can make those changes
+                    PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                    
+                    die.setIsOnOfferTable(false);
+                    die.setPatternCardField(patternCardField);
+                    patternCardField.setDie(die);
+                    playerFrameFieldDao.addDieToField(die, patternCardField, player);
+                    setIsDone(true);
+                    return patternCard;
+                }   
             }
-        } catch (Exception e) {}
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -54,5 +51,4 @@ public class ToolCardSnijLiniaal extends ToolCard {
         // TODO Auto-generated method stub
         return true;
     }
-
 }
