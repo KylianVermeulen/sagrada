@@ -239,6 +239,12 @@ public class PlayerController {
                 myScene.addAlertPane(alert);
                 myScene.addAlertPane(alertInfo);   
             }
+            else {
+                Alert alert = new Alert("ToolCard",
+                        "Je voldoet niet aan de eisen!",
+                        AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
         }
         else {
             Alert alert = new Alert("Te weinig betaalstenen",
