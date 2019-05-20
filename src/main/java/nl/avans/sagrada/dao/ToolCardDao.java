@@ -266,7 +266,7 @@ public class ToolCardDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN gametoolcard g2 on gamefavortoken.gametoolcard = g2.gametoolcard INNER JOIN game g on gamefavortoken.idgame = g.idgame INNER JOIN toolcard t on g2.idtoolcard = t.idtoolcard WHERE gamefavortoken.gametoolcard IS NOT NULL AND seqnr=? AND p.idplayer=? AND round=?",
+                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN gametoolcard g2 on gamefavortoken.gametoolcard = g2.gametoolcard INNER JOIN game g on gamefavortoken.idgame = g.idgame INNER JOIN toolcard t on g2.idtoolcard = t.idtoolcard WHERE gamefavortoken.gametoolcard IS NOT NULL AND p.seqnr=? AND p.idplayer=? AND round=?",
                             "query"),
                     new QueryParameter(QueryParameter.INT, player.getSeqnr()),
                     new QueryParameter(QueryParameter.INT, player.getId()),

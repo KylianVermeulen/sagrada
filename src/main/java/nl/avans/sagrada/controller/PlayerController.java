@@ -83,6 +83,7 @@ public class PlayerController {
                             activeToolCard = null;
                             player.setPatternCard(toolCardUseResult);
                             viewGame();
+                            actionCheckPass();
                         } else {
                             Alert alert = new Alert("Helaas",
                                     "Dit kan niet wat je probeert met de toolcard",
@@ -367,7 +368,6 @@ public class PlayerController {
                     player.getGame());
             newFavorTokens.remove(0);
         }
-        actionCheckPass();
     }
 
     /**
