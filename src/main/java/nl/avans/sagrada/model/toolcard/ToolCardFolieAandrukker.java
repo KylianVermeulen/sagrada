@@ -26,7 +26,6 @@ public class ToolCardFolieAandrukker extends ToolCard {
             Player player = patternCard.getPlayer();
 
             PatternCardField removeDieField = die.getPatternCardField();
-            patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
 
             if(!patternCardField.hasDie() && patternCard.checkSidesColor(patternCardField, die.getColor(), true) && patternCard.isNextToDie(patternCardField)){
                 removeDieField.setDie(null);
