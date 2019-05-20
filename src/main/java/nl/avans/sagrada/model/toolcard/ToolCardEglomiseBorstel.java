@@ -1,6 +1,7 @@
 package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
@@ -39,5 +40,11 @@ public class ToolCardEglomiseBorstel extends ToolCard {
             return patternCard;
         }
         return null;
+    }
+
+    @Override
+    public boolean hasRequirementsToRun(PlayerController playerController) {
+        // TODO Auto-generated method stub
+        return true;
     }
 }
