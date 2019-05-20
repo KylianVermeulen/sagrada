@@ -7,7 +7,19 @@ import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.toolcard.*;
+import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
+import nl.avans.sagrada.model.toolcard.ToolCardEglomiseBorstel;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
+import nl.avans.sagrada.model.toolcard.ToolCardFolieAandrukker;
+import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
+import nl.avans.sagrada.model.toolcard.ToolCardLoodHamer;
+import nl.avans.sagrada.model.toolcard.ToolCardLoodOpenHaler;
+import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
+import nl.avans.sagrada.model.toolcard.ToolCardRondSnijder;
+import nl.avans.sagrada.model.toolcard.ToolCardSchuurBlok;
+import nl.avans.sagrada.model.toolcard.ToolCardSnijLiniaal;
 
 public class ToolCardDao {
     private DBConnection dbConnection;
