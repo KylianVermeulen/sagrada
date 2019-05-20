@@ -137,7 +137,7 @@ public class GameDieDao {
                 gameDie = new GameDie(
                         rs.getInt("dienumber"),
                         rs.getString("diecolor"),
-                        rs.getInt("eyes"), 
+                        rs.getInt("eyes"),
                         rs.getInt("round")
                 );
             }
@@ -184,16 +184,15 @@ public class GameDieDao {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT gamedie.* FROM sagrada_peter.playerframefield\n" + 
-                            "RIGHT JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber \n" + 
-                            "AND \n" + 
-                            "gamedie.diecolor = playerframefield.diecolor\n" + 
-                            "WHERE player_idplayer IS NULL \n" + 
-                            "AND playerframefield.idgame IS NULL\n" + 
-                            "AND playerframefield.position_x IS NULL\n" + 
-                            "AND playerframefield.position_y IS NULL\n" + 
-                            "AND gamedie.idgame = ?\n" + 
-                            "AND gamedie.round = ?", "query"),
+                    new Query("SELECT gamedie.* \n" + 
+                            "FROM gamedie \n" + 
+                            "LEFT JOIN \n" + 
+                            "playerframefield ON gamedie.dienumber = playerframefield.dienumber \n" + 
+                            "AND gamedie.idgame = playerframefield.idgame \n" + 
+                            "AND gamedie.diecolor = playerframefield.diecolor \n" + 
+                            "WHERE \n" + 
+                            "(playerframefield.dienumber IS NULL AND playerframefield.diecolor IS NULL AND playerframefield.idgame IS NULL) \n" + 
+                            "AND gamedie.idgame=? AND round=?", "query"),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, game.getRound())
             );
@@ -214,6 +213,7 @@ public class GameDieDao {
 
     /**
      * Places a die on the patterncardfield in the db
+     * 
      * @param die
      * @param patterncardfield
      * @param player
@@ -222,7 +222,7 @@ public class GameDieDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=? ",
+                            "UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, die.getNumber()),
                     new QueryParameter(QueryParameter.STRING, die.getColor()),
@@ -231,6 +231,28 @@ public class GameDieDao {
                     new QueryParameter(QueryParameter.INT, patterncardfield.getxPos()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getId())
             );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Updates the amount of eyes for a certain die.
+     * 
+     * @param game Game
+     * @param gameDie GameDie
+     */
+    public void updateDieEyes(Game game, GameDie gameDie) {
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "UPDATE gamedie SET eyes=? WHERE idgame=? AND round=? AND dienumber=?",
+                            "update"),
+                    new QueryParameter(QueryParameter.INT, gameDie.getEyes()),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.INT, game.getRound()),
+                    new QueryParameter(QueryParameter.INT, gameDie.getNumber())
+            );   
         } catch (SQLException e) {
             e.printStackTrace();
         }
