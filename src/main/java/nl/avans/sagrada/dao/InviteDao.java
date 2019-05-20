@@ -91,7 +91,7 @@ public class InviteDao {
                     new QueryParameter(QueryParameter.STRING, username),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.STRING, "uitgedaagde"),
-                    new QueryParameter(QueryParameter.INT, seqNr),
+                    new QueryParameter(QueryParameter.INT, 0),
                     new QueryParameter(QueryParameter.STRING, privateObjectiveColor)
             );
         } catch (Exception e) {

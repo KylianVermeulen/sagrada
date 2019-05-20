@@ -74,6 +74,7 @@ public class PlayerController {
 
         if (playerEvent.getId() == player.getId()) {
             if (player.isCurrentPlayer()) {
+                System.out.println(playerDao.getCountPlacedDieInTurnRound(player));
                 if (activeToolCard != null || playerDao.getCountPlacedDieInTurnRound(player) < 1) {
                     if (activeToolCard != null) {
                         PatternCard toolCardUseResult = activeToolCard
@@ -84,7 +85,7 @@ public class PlayerController {
                                 activeToolCard = null;
                                 actionCheckPass();
                             }
-                            player.setPatternCard(toolcardUseResult);
+                            player.setPatternCard(toolCardUseResult);
                             viewGame();
                         } else {
                             Alert alert = new Alert("Helaas",
@@ -197,10 +198,14 @@ public class PlayerController {
     }
 
     /**
-     * Player is passing for a round
+     * Player is passing for a turn
      */
     public void actionPass() {
+        Game playerGame = player.getGame();
         if (player.isCurrentPlayer()) {
+            if (playerGame.didAllPlayersHadTwoTurns()) {
+                playerGame.nextRound();
+            }
             player.getGame().setNextPlayer();
         } else {
             Alert alert = new Alert("Nog even wachten", "Je bent nog niet aan de beurt.",
@@ -267,6 +272,9 @@ public class PlayerController {
                     actionPass();
                 }
             }
+        }
+        else {
+            actionPass();
         }
     }
 

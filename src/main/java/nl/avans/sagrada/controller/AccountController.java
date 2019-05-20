@@ -196,7 +196,7 @@ public class AccountController {
         int playerId = playerDao.getNextPlayerId();
         Player player = new Player();
         player.setId(playerId);
-        player.setSeqnr(1);
+        player.setSeqnr(0);
         player.setPlayerStatus("uitdager");
         player.setIsCurrentPlayer(true);
         player.setAccount(account);

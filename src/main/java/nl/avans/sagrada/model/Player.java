@@ -397,52 +397,17 @@ public class Player {
      * Sets the next seqnr for this player bases on the current seqnr and the size of the game.
      */
     public void setNextSeqnr() {
-        int gameSize = getGame().getPlayers().size();
-        int newSeqnr = seqnr;
-        if (newSeqnr == 1) { // SEQNR: 1
-            newSeqnr = newSeqnr + (gameSize * 2 - 1);
-        } else if (newSeqnr == 2) { // SEQNR: 2
-            if (gameSize == 2) { // GAMESIZE: 2
-                newSeqnr = 3;
-            } else if (gameSize == 3) { // GAMESIZE: 3
-                newSeqnr = 5;
-            } else if (gameSize == 4) { // GAMESIZE: 4
-                newSeqnr = 7;
-            }
-        } else if (newSeqnr == 3) { // SEQNR: 3
-            if (gameSize == 2) { //GAMESIZE: 2
-                newSeqnr = 2;
-            } else if (gameSize == 3) { // GAMESIZE: 3
-                newSeqnr = 4;
-            } else if (gameSize == 4) { // GAMESIZE: 4
-                newSeqnr = 6;
-            }
-        } else if (newSeqnr == 4) { // SEQNR: 4
-            if (gameSize == 2) { //GAMESIZE: 2
-                newSeqnr = 1;
-            } else if (gameSize == 3) { // GAMESIZE: 3
-                newSeqnr = 3;
-            } else if (gameSize == 4) { // GAMESIZE: 4
-                newSeqnr = 5;
-            }
-        } else if (newSeqnr == 5) { // SEQNR: 5
-            if (gameSize == 3) { // GAMESIZE: 3
-                newSeqnr = 2;
-            } else if (gameSize == 4) { // GAMESIZE: 4
-                newSeqnr = 4;
-            }
-        } else if (newSeqnr == 6) { // SEQNR: 6
-            if (gameSize == 3) { // GAMESIZE: 3
-                newSeqnr = 1;
-            } else if (gameSize == 4) { // GAMESIZE: 4
-                newSeqnr = 3;
-            }
-        } else if (newSeqnr == 7) {
-            newSeqnr = 2;
-        } else if (newSeqnr == 8) {
-            newSeqnr = 1;
-        }
-        setSeqnr(newSeqnr);
+        seqnr++;
         new PlayerDao().updatePlayer(this);
+    }
+    
+    public boolean hadTwoTurns() {
+        int roundTurns = getSeqnr() / getGame().getRound();
+        if (roundTurns == 2) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

@@ -499,5 +499,30 @@ public class Game {
     public int getRound() {
         return round;
     }
+    
+    /**
+     * Checks if all players had 2 turns
+     * @return boolean
+     */
+    public boolean didAllPlayersHadTwoTurns() {
+        ArrayList<Player> players = getPlayers();
+        boolean hadTwoTurns = false;
+        for (Player player: players) {
+            if (player.hadTwoTurns()) {
+                hadTwoTurns = true;
+            }
+            else {
+                hadTwoTurns = false;
+            }
+        }
+        return hadTwoTurns;
+    }
+    
+    public void nextRound() {
+        GameDao gameDao = new GameDao();
+        round++;
+        System.out.println("ROUND TO: " + round);
+        gameDao.updateGame(this);
+    }
 
 }
