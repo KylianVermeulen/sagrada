@@ -2,6 +2,7 @@ package nl.avans.sagrada.model.toolcard;
 
 import java.util.ArrayList;
 import javafx.scene.input.MouseEvent;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
@@ -14,6 +15,7 @@ public abstract class ToolCard {
     private String name;
     private ArrayList<FavorToken> favorTokens;
     private boolean hasBeenPaidForBefore;
+    private boolean isDone;
 
     /**
      * Filled constructor.
@@ -26,11 +28,14 @@ public abstract class ToolCard {
         this.id = id;
         this.seqnr = seqnr;
         this.description = description;
+        isDone= false;
         this.name = name;
         favorTokens = new ArrayList<>();
     }
 
-    public void useToolCard() {}
+    public void useToolCard() {
+        isDone = false;
+    }
 
     /**
      * Returns the toolcard id.
@@ -175,4 +180,18 @@ public abstract class ToolCard {
      * @return PatternCard
      */
     public abstract PatternCard handleDrag(MouseEvent event, GameDie die);
+    
+    public abstract boolean hasRequirementsToRun(PlayerController playerController);
+    
+    public void setIsDone(boolean isDone) {
+        this.isDone = true;
+    }
+    
+    /**
+     * If the toolcard has been used and has no more things to do, we return true
+     * @return
+     */
+    public boolean getIsDone() {
+        return isDone;
+    }
 }

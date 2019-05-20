@@ -56,12 +56,15 @@ public class PlayerController {
         Player playerEvent = patternCard.getPlayer();
         
         if (playerEvent.getId() == player.getId()) {
-            // Check if the player from the 
+            // Check if the player from the               
             if (activeToolCard != null) {
                 PatternCard toolcardUseResult = activeToolCard.handleDrag(event, gameDie);
                 if (toolcardUseResult != null) {
-                    actionPayForToolCard(activeToolCard);
-                    activeToolCard = null;
+                    if (activeToolCard.getIsDone()) {
+                        activeToolCard = null;
+                        actionPayForToolCard(activeToolCard);
+                        activeToolCard = null;
+                    }
                     player.setPatternCard(toolcardUseResult);
                     gameDie.setIsOnOfferTable(false);
                     viewGame();
@@ -218,9 +221,9 @@ public class PlayerController {
      * @param toolCard
      */
     public void setActiveToolCard(ToolCard toolCard) {
-        PlayerDao playerDao = new PlayerDao();
         if (activeToolCard != null) {
             if (toolCard.getId() == activeToolCard.getId()) {
+                activeToolCard = null;
                 Alert alert = new Alert("Active toolcard",
                         "Je hebt nu geen active toolcard meer",
                         AlertType.INFO);
@@ -229,36 +232,8 @@ public class PlayerController {
         }
         else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2) || 
                 !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
-            activeToolCard = toolCard;
-            if (activeToolCard instanceof ToolCardLoodHamer) {
-                if (activeToolCard != null && playerDao.getCountPlacedDieInTurnRound(player) < 1) {
-                    if (player.getSeqnr() > player.getGame().getPlayers().size()) {
-                        player.getGame().rerollRoundDice();
-                        viewGame();
-                        Alert alert = new Alert("Active toolcard",
-                                "Je hebt een actieve toolcard: " + activeToolCard.getName(),
-                                AlertType.INFO);
-                        Alert alertInfo = new Alert("ToolCard info", 
-                                "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
-                                AlertType.INFO
-                        );
-                        myScene.addAlertPane(alert);
-                        myScene.addAlertPane(alertInfo);
-                    } else {
-                        Alert alert = new Alert("Je kunt deze toolcard niet gebruiken",
-                                "Dit mag alleen tijdens je tweede beurt!",
-                                AlertType.ERROR);
-                        myScene.addAlertPane(alert);
-                        activeToolCard = null;
-                    }
-                } else {
-                    Alert alert = new Alert("Kan toolcard niet gebruiken",
-                            "Je mag de toolcard alleen gebruiken voor het plaatsen van een steen!",
-                            AlertType.ERROR);
-                    myScene.addAlertPane(alert);
-                    activeToolCard = null;
-                }
-            } else {
+            if (toolCard.hasRequirementsToRun(this)) {
+                activeToolCard = toolCard;
                 Alert alert = new Alert("Active toolcard",
                         "Je hebt een actieve toolcard: " + activeToolCard.getName(),
                         AlertType.INFO);
@@ -268,6 +243,12 @@ public class PlayerController {
                 );
             myScene.addAlertPane(alert);
             myScene.addAlertPane(alertInfo);
+            }
+            else {
+                Alert alert = new Alert("ToolCard",
+                        "Je voldoet niet aan de eisen!",
+                        AlertType.ERROR);
+                myScene.addAlertPane(alert);
             }
         }
         else {
