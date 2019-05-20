@@ -12,6 +12,7 @@ import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
+import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
@@ -21,6 +22,18 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
+import nl.avans.sagrada.model.toolcard.ToolCardEglomiseBorstel;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
+import nl.avans.sagrada.model.toolcard.ToolCardFolieAandrukker;
+import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
+import nl.avans.sagrada.model.toolcard.ToolCardLoodHamer;
+import nl.avans.sagrada.model.toolcard.ToolCardLoodOpenHaler;
+import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
+import nl.avans.sagrada.model.toolcard.ToolCardRondSnijder;
+import nl.avans.sagrada.model.toolcard.ToolCardSchuurBlok;
+import nl.avans.sagrada.model.toolcard.ToolCardSnijLiniaal;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.EndgameView;
@@ -85,6 +98,7 @@ public class PlayerController {
                                 PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                                 playerFrameFieldDao
                                         .addDieToField(gameDie, patternCardField, player);
+                                actionCheckPass();
                             }
                         }
                     }
@@ -196,7 +210,61 @@ public class PlayerController {
      * Check if a player has options to play
      */
     public void actionCheckPass() {
-        //TODO: check if a player has played this round
+        PlayerDao playerDao = new PlayerDao();
+        ToolCardDao toolCardDao = new ToolCardDao();
+        if (playerDao.hasUsedToolCardInTurnRound(player)) {
+            ToolCard toolCard = toolCardDao.getUsedToolCardOfPlayerInTurnOfRound(player);
+            int count = playerDao.getCountPlacedDieInTurnRound(player);
+            if (toolCard instanceof ToolCardDriePuntStang) {
+                if (count >= 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardEglomiseBorstel) {
+                if (count > 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardFolieAandrukker) {
+                if (count > 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardLoodOpenHaler) {
+                if (count > 2) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardRondSnijder) {
+                if (count >= 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardFluxBorstel) {
+                if (count >= 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardLoodHamer) {
+                if (count >= 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardGlasBreekTang) {
+                if (count > 2) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardSnijLiniaal) {
+                if (count > 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardSchuurBlok) {
+                if (count > 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardFluxVerwijderaar) {
+                if (count >= 1) {
+                    actionPass();
+                }
+            } else if (toolCard instanceof ToolCardOlieGlasSnijder) {
+                if (count > 2) {
+                    actionPass();
+                }
+            }
+        }
     }
 
     /**
@@ -299,6 +367,7 @@ public class PlayerController {
                     player.getGame());
             newFavorTokens.remove(0);
         }
+        actionCheckPass();
     }
 
     /**
