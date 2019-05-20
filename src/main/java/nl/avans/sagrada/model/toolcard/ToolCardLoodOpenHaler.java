@@ -1,6 +1,7 @@
 package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
@@ -28,7 +29,7 @@ public class ToolCardLoodOpenHaler extends ToolCard {
         PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
         patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
         
-        if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die) && patternCard.checkSidesColor(patternCardField, die.getColor(), true)&& patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
+        if (patternCardField.placeDie(die) && die.getPatternCardField() != null) {
             // If the new location matches the new requirements we can make those changes
             removeDieField.setDie(null);
             playerFrameFieldDao.removeDie(die, removeDieField, player);
@@ -50,4 +51,30 @@ public class ToolCardLoodOpenHaler extends ToolCard {
             setIsDone(false);
         }
     }
+
+    @Override
+    public boolean hasRequirementsToRun(PlayerController playerController) {
+        // TODO Auto-generated method stub
+        Player player = playerController.getPlayer();
+        PatternCard patternCard = player.getPatternCard();
+        PatternCardField[][] patternCardFields = patternCard.getPatternCardFields();
+        
+        int numberOfFoundDie = 0;
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+                PatternCardField currentPatternCardField = patternCardFields[x][y];
+                if (currentPatternCardField.getDie() != null) {
+                    numberOfFoundDie++;
+                }
+            }
+        }
+        if (numberOfFoundDie >= 2) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    
 }

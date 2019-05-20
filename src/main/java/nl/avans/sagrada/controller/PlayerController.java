@@ -53,10 +53,16 @@ public class PlayerController {
     public void setActiveToolCard(ToolCard toolcard) {
         Alert alert = null;
         if (activeToolCard == null) {
-            activeToolCard = toolcard;
-            alert = new Alert("Active toolcard",
-                    "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
-            myScene.addAlertPane(alert);
+            if (toolcard.hasRequirementsToRun(this)) {
+                activeToolCard = toolcard;
+                alert = new Alert("Active toolcard",
+                        "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
+                myScene.addAlertPane(alert);
+            }
+            else {
+                alert = new Alert("Toolcard", "U voldoet niet aan de eisen voor deze toolcard", AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
         }
     }
 
