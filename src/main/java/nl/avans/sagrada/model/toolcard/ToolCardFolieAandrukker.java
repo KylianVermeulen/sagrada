@@ -38,6 +38,7 @@ public class ToolCardFolieAandrukker extends ToolCard {
                 return patternCard;
             }
         } catch (Exception e){
+            e.printStackTrace();
         }
         return null;
     }
