@@ -201,11 +201,7 @@ public class PlayerController {
      * Player is passing for a turn
      */
     public void actionPass() {
-        Game playerGame = player.getGame();
         if (player.isCurrentPlayer()) {
-            if (playerGame.didAllPlayersHadTwoTurns()) {
-                playerGame.nextRound();
-            }
             player.getGame().setNextPlayer();
         } else {
             Alert alert = new Alert("Nog even wachten", "Je bent nog niet aan de beurt.",
@@ -272,9 +268,6 @@ public class PlayerController {
                     actionPass();
                 }
             }
-        }
-        else {
-            actionPass();
         }
     }
 
