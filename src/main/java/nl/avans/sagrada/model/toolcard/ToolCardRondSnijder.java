@@ -2,6 +2,7 @@ package nl.avans.sagrada.model.toolcard;
 
 import javafx.event.Event;
 import javafx.scene.input.MouseEvent;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 
@@ -15,6 +16,12 @@ public class ToolCardRondSnijder extends ToolCard {
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public boolean hasRequirementsToRun(PlayerController playerController) {
+        // TODO Auto-generated method stub
+        return true;
     }
 
 }
