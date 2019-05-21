@@ -160,7 +160,7 @@ public class GameView extends VBox implements ViewInterface {
     private void buildActionButtons() {
         actionButtons = new HBox();
 
-        Button passButton = new Button("Pass");
+        Button passButton = new Button("Beurt beeindigen");
         passButton.setOnAction(e -> playerController.actionPass());
 
         Button exitButton = new Button("Exit");
