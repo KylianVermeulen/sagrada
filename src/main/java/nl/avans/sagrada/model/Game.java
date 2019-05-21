@@ -447,7 +447,7 @@ public class Game {
     public void setNextPlayer() {
         Player currentPlayer = turnPlayer;
         int oldSeqnr = currentPlayer.getSeqnr();
-        if (turnPlayer.needsNewSeqNr()) {
+        if (turnPlayer.needsNewSeqnr()) {
             currentPlayer.setNextSeqnr();
         }
 
@@ -458,9 +458,11 @@ public class Game {
                     if (currentPlayer != playerNextTurn) {
                         updatePlayer(currentPlayer, playerNextTurn);
                     }
-                } else if (playerNextTurn.getSeqnr() == oldSeqnr + 2) {
-                    if (currentPlayer != playerNextTurn) {
-                        updatePlayer(currentPlayer, playerNextTurn);
+                } else if (this.getPlayers().size() != oldSeqnr + 1) {
+                    if (playerNextTurn.getSeqnr() == oldSeqnr + 2) {
+                        if (currentPlayer != playerNextTurn) {
+                            updatePlayer(currentPlayer, playerNextTurn);
+                        }
                     }
                 }
             } else {

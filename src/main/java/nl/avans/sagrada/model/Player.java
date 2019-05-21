@@ -24,10 +24,11 @@ public class Player {
     private Color playerColor;
     private boolean usedToolcard;
     private boolean placedDie;
-    private boolean needsNewSeqNr;
+    private boolean needsNewSeqnr;
 
     public Player() {
         chatlines = new ArrayList<>();
+        needsNewSeqnr = true;
     }
 
     /**
@@ -447,11 +448,21 @@ public class Player {
         new PlayerDao().updatePlayer(this);
     }
     
-    public boolean needsNewSeqNr() {
-        return needsNewSeqNr;
+    /**
+     * Returns whether or not a new sequence number (as in: a change in sequence number) is required for this player.
+     * 
+     * @return boolean
+     */
+    public boolean needsNewSeqnr() {
+        return needsNewSeqnr;
     }
     
-    public void setNeedsNewSeqNr(boolean needsNewSeqNr) {
-        this.needsNewSeqNr = needsNewSeqNr;
+    /**
+     * Sets whether or not a new sequence number (as in: a change in sequence number) is required for this player.
+     * 
+     * @param needsNewSeqnr boolean
+     */
+    public void setNeedsNewSeqnr(boolean needsNewSeqnr) {
+        this.needsNewSeqnr = needsNewSeqnr;
     }
 }
