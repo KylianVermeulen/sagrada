@@ -218,6 +218,37 @@ public class GameDieDao {
         }
         return gameDice;
     }
+    
+    /**
+     * Gets the dice from the round track in game.
+     *
+     * @param game The game.
+     * @return The dice.
+     */
+    public ArrayList<GameDie> getDiceOnRoundTrackFromGame(Game game) {
+        ArrayList<GameDie> gameDice = new ArrayList<>();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM gamedie WHERE idgame=? AND roundtrack IS NOT NULL AND round < ?", "query"),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.INT, game.getRound())
+            );
+            while (rs.next()) {
+                GameDie gameDie = new GameDie(
+                        rs.getInt("dienumber"),
+                        rs.getString("diecolor"),
+                        rs.getInt("eyes")
+                );
+                gameDie.setOnRoundTrack(rs.getBoolean("roundtrack"));
+                gameDie.setIsOnOfferTable(false);
+                gameDie.setRound(rs.getInt("round"));
+                gameDice.add(gameDie);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return gameDice;
+    }
 
     /**
      * Places a die on the patterncardfield in the db

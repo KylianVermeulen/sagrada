@@ -519,6 +519,11 @@ public class Game {
             gameDieDao.updateDie(this, die);
         }
     }
+    
+    public ArrayList<GameDie> getTrackDice() {
+        ArrayList<GameDie> dice = new GameDieDao().getDiceOnRoundTrackFromGame(this);
+        return dice;
+    }
 
     /**
      * Sets the current round of a game

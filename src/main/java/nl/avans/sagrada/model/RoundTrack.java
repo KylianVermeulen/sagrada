@@ -46,7 +46,8 @@ public class RoundTrack {
      * @param gameDie GameDie
      * @param round int
      */
-    public void addGameDie(GameDie gameDie, int round) {
-        roundTrackFields[round - 1].addDie(gameDie);
+    public void addGameDie(GameDie gameDie) {
+        int round = gameDie.getRound();
+        roundTrackFields[round].addDie(gameDie);
     }
 }
