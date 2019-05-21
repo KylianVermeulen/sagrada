@@ -460,7 +460,7 @@ public class Game {
                     }
                 }
             } else {
-                if (currentPlayer.getSeqnr() == 1) {
+                if (playerNextTurn.getSeqnr() == 1) {
                     updatePlayer(currentPlayer, playerNextTurn);
                     nextRound();
                 }
