@@ -29,6 +29,7 @@ public class Game {
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
     private Timestamp creationDate;
+    private boolean needsNewSeqNr;
 
     public Game(int id) {
         this.id = id;
@@ -37,6 +38,7 @@ public class Game {
 
         players = gameDao.getPlayersOfGame(this);
         toolCards = toolCardDao.getToolCardsOfGame(this);
+        needsNewSeqNr = true;
     }
 
     public Game() {
@@ -447,12 +449,18 @@ public class Game {
     public void setNextPlayer() {
         Player currentPlayer = turnPlayer;
         int oldSeqnr = currentPlayer.getSeqnr();
-        currentPlayer.setNextSeqnr();
+        if (needsNewSeqNr) {
+            currentPlayer.setNextSeqnr();
+        }
 
         for (int i = 0; i < players.size(); i++) {
             Player playerNextTurn = players.get(i);
             if (oldSeqnr != (players.size() * 2)) {
                 if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
+                    if (currentPlayer != playerNextTurn) {
+                        updatePlayer(currentPlayer, playerNextTurn);
+                    }
+                } else if (playerNextTurn.getSeqnr() == oldSeqnr + 2) {
                     if (currentPlayer != playerNextTurn) {
                         updatePlayer(currentPlayer, playerNextTurn);
                     }
@@ -498,6 +506,14 @@ public class Game {
      */
     public int getRound() {
         return round;
+    }
+    
+    public boolean needsNewSeqNr() {
+        return needsNewSeqNr;
+    }
+    
+    public void setNeedsNewSeqNr(boolean needsNewSeqNr) {
+        this.needsNewSeqNr = needsNewSeqNr;
     }
 
 }
