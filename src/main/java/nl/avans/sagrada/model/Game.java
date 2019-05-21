@@ -70,7 +70,8 @@ public class Game {
                     GameDie randomGameDie = gameDice.get(new Random().nextInt(gameDice.size()));
                     GameDie checkDie = new GameDieDao().getDie(this, randomGameDie);
                     if (checkDie.getRound() == 0) {
-                        new GameDieDao().updateDie(this, randomGameDie, i);
+                        randomGameDie.setRound(i);
+                        new GameDieDao().updateDie(this, randomGameDie);
                         hasDie = true;
                     }
                 }
@@ -512,7 +513,8 @@ public class Game {
         GameDieDao gameDieDao = new GameDieDao();
         for(GameDie die: dice) {
             die.setOnRoundTrack(true);
-            gameDieDao.updateDie(this, die, round);
+            die.setRound(round);
+            gameDieDao.updateDie(this, die);
         }
     }
 

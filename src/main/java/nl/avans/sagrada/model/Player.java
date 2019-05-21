@@ -307,6 +307,20 @@ public class Player {
     public void setPlacedDie(boolean placedDie) {
         this.placedDie = placedDie;
     }
+    
+    /**
+     * Checks if it is the first turn of the player
+     * @return boolean
+     */
+    public boolean isFirstTurn() {
+        int numberOfPlayers = game.getPlayers().size();
+        if (seqnr > numberOfPlayers) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     /**
      * returns the immage's of the private-objectivecard.

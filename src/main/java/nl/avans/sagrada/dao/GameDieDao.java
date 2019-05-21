@@ -73,14 +73,15 @@ public class GameDieDao {
      * @param gameDie GameDie
      * @param round int
      */
-    public void updateDie(Game game, GameDie gameDie, int round) {
+    public void updateDie(Game game, GameDie gameDie) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "UPDATE gamedie SET round=?, roundtrack=? WHERE idgame=? AND dienumber=? AND diecolor=?",
+                            "UPDATE gamedie SET round=?, roundtrack=?, inFirstTurn=? WHERE idgame=? AND dienumber=? AND diecolor=?",
                             "update"),
-                    new QueryParameter(QueryParameter.INT, round),
-                    new QueryParameter(QueryParameter.INT, gameDie.isOnRoundTrack() ? round : null),
+                    new QueryParameter(QueryParameter.INT, gameDie.getRound()),
+                    new QueryParameter(QueryParameter.INT, gameDie.isOnRoundTrack() ? gameDie.getRound() : null),
+                    new QueryParameter(QueryParameter.BOOLEAN, gameDie.isInFirstTurn()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor())
@@ -109,6 +110,7 @@ public class GameDieDao {
                         rs.getString("color"),
                         rs.getInt("eyes")
                 );
+                gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
                 gameDice.add(gameDie);
             }
         } catch (Exception e) {
@@ -141,6 +143,7 @@ public class GameDieDao {
                         rs.getInt("eyes"),
                         rs.getInt("round")
                 );
+                gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,6 +171,8 @@ public class GameDieDao {
                         rs.getInt("eyes")
                 );
                 gameDie.setIsOnOfferTable(true);
+                gameDie.setRound(rs.getInt("round"));
+                gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
                 gameDice.add(gameDie);
             }
         } catch (Exception e) {
@@ -203,6 +208,8 @@ public class GameDieDao {
                         rs.getString("diecolor"),
                         rs.getInt("eyes")
                 );
+                gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
+                gameDie.setRound(rs.getInt("round"));
                 gameDie.setIsOnOfferTable(true);
                 gameDice.add(gameDie);
             }

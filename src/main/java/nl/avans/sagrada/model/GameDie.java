@@ -7,6 +7,7 @@ public class GameDie extends Die {
     private boolean roundTrack;
     private int round;
     private boolean isOnOfferTable;
+    private boolean inFirstTurn;
     private PatternCardField patternCardField;
 
     /**
@@ -20,6 +21,7 @@ public class GameDie extends Die {
         super(number, color);
         this.eyes = eyes;
         isOnOfferTable = false;
+        inFirstTurn = false;
     }
 
     /**
@@ -176,6 +178,18 @@ public class GameDie extends Die {
     
     public boolean isOnRoundTrack() {
         return roundTrack;
+    }
+    
+    public void setInFirstTurn(boolean inFirstTurn) {
+        this.inFirstTurn = inFirstTurn;
+    }
+    
+    public boolean isInFirstTurn() {
+        return inFirstTurn;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
     
 }

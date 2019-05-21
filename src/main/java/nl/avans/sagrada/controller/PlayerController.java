@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
@@ -79,7 +80,9 @@ public class PlayerController {
                         PatternCard toolCardUseResult = activeToolCard
                                 .handleDrag(event, gameDie);
                         if (toolCardUseResult != null) {
+                            new GameDieDao().updateDie(player.getGame(), gameDie);
                             if (activeToolCard.getIsDone()) {
+                                gameDie.setInFirstTurn(player.isFirstTurn());
                                 actionPayForToolCard(activeToolCard);
                                 activeToolCard = null;
                             }
@@ -94,12 +97,15 @@ public class PlayerController {
                     } else {
                         if (gameDie.getPatternCardField() == null) {
                             if (patternCardField.canPlaceDie(gameDie)) {
+                                gameDie.setInFirstTurn(player.isFirstTurn());
                                 gameDie.setPatternCardField(patternCardField);
                                 patternCardField.setDie(gameDie);
 
                                 PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                                 playerFrameFieldDao
                                         .addDieToField(gameDie, patternCardField, player);
+                                
+                                new GameDieDao().updateDie(player.getGame(), gameDie);
                             }
                         }
                     }
