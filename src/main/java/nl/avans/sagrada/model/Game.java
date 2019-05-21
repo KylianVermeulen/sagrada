@@ -358,9 +358,9 @@ public class Game {
         int min = 1;
         int max = 12;
 
-        int randomNumber1 = random.nextInt((max - min) + 1) + min;
-        int randomNumber2 = random.nextInt((max - min) + 1) + min;
-        int randomNumber3 = random.nextInt((max - min) + 1) + min;
+        int randomNumber1 = 0;
+        int randomNumber2 = 0;
+        int randomNumber3 = 0;
 
         boolean foundThreeValues = false;
 
@@ -499,7 +499,8 @@ public class Game {
      * @return int
      */
     public int getRound() {
-        return round;
+        GameDao gameDao = new GameDao();
+        return gameDao.getCurrentRound(this);
     }
     
     public void nextRound() {
@@ -509,8 +510,9 @@ public class Game {
     }
     
     private void placeDiceOfOfferTableOnRoundTrack() {
-        ArrayList<GameDie> dice = getRoundDice();
         GameDieDao gameDieDao = new GameDieDao();
+        ArrayList<GameDie> dice = getRoundDice();
+        
         for(GameDie die: dice) {
             die.setOnRoundTrack(true);
             die.setRound(round);

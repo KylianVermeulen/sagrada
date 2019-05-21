@@ -180,8 +180,8 @@ public class GameDao {
                                 "query"),
                         new QueryParameter(QueryParameter.INT, game.getId())
                     );
-            if (rs.next()) {
-                currentRound = rs.getInt("round") + 1;
+            while (rs.next()) {
+                currentRound++;
             }
         } catch (Exception e) {
         }
