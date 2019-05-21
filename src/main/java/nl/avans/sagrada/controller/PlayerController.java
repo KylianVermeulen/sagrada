@@ -347,6 +347,10 @@ public class PlayerController {
                         );
                         myScene.addAlertPane(alert);
                         myScene.addAlertPane(alertInfo);
+                        if(activeToolCard.getId() == 1){
+                            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(), activeToolCard);
+                            myScene.addPopupPane(driePuntStang);
+                        }
                     } else {
                     Alert alert = new Alert("ToolCard",
                             "Je voldoet niet aan de eisen!",

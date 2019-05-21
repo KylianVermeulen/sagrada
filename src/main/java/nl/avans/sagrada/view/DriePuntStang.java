@@ -170,12 +170,12 @@ public class DriePuntStang extends Popup {
                 //increase die eye value
                 if (dieViews.get(index).getStylesheets().size() != 0) {
                     if (gameDie.getEyes() != 6) {
-                        activeToolCard = null;
                         gameDie.setEyes(gameDie.getEyes() + 1);
                         gameDieDao.updateDieEyes(game, gameDie);
                         myScene.removePopupPane();
                         playerController.actionPayForToolCard(activeToolCard);
                         activeToolCard.setIsDone(true);
+                        activeToolCard = null;
                         playerController.setActiveToolCardNull();
                         playerController.viewGame();
                         return;
