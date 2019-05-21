@@ -99,7 +99,7 @@ public class PlayerController {
                                 activeToolCard = null;
                                 actionCheckPass();
                             }
-                            player.setPatternCard(toolcardUseResult);
+                            player.setPatternCard(toolCardUseResult);
                             viewGame();
                         } else {
                             Alert alert = new Alert("Helaas",
