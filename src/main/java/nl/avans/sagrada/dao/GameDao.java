@@ -170,7 +170,7 @@ public class GameDao {
     /**
      * Gets the current round of a game
      * @param game
-     * @return round
+     * @return int
      */
     public int getCurrentRound(Game game) {
         int currentRound = 1;

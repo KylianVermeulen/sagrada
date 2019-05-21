@@ -67,7 +67,7 @@ public class GameDieDao {
     }
 
     /**
-     * Updates the die with a given round
+     * Updates the die
      *
      * @param game Game
      * @param gameDie GameDie
@@ -223,7 +223,7 @@ public class GameDieDao {
      * Gets the dice from the round track in game.
      *
      * @param game The game.
-     * @return The dice.
+     * @return ArrayList<GameDie>
      */
     public ArrayList<GameDie> getDiceOnRoundTrackFromGame(Game game) {
         ArrayList<GameDie> gameDice = new ArrayList<>();

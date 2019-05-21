@@ -503,12 +503,18 @@ public class Game {
         return gameDao.getCurrentRound(this);
     }
     
+    /**
+     * Put the game in the second round by calling the placeDiceOfOfferTableOnRoundTrack
+     */
     public void nextRound() {
         GameDao gameDao = new GameDao();
         placeDiceOfOfferTableOnRoundTrack();
         round = gameDao.getCurrentRound(this);
     }
     
+    /**
+     * Places all dices that are left for offer on the roundTrack
+     */
     private void placeDiceOfOfferTableOnRoundTrack() {
         GameDieDao gameDieDao = new GameDieDao();
         ArrayList<GameDie> dice = getRoundDice();
@@ -520,6 +526,10 @@ public class Game {
         }
     }
     
+    /**
+     * Gets all dices that are on the roundTrack
+     * @return ArrayList<GameDie>
+     */
     public ArrayList<GameDie> getTrackDice() {
         ArrayList<GameDie> dice = new GameDieDao().getDiceOnRoundTrackFromGame(this);
         return dice;
