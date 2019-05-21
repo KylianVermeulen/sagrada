@@ -480,25 +480,15 @@ public class Game {
      * @param playerNextTurn Player
      */
     private void updatePlayer(Player currentPlayer, Player playerNextTurn) {
-        int oldRound = round - 1;
-        
         PlayerDao playerDao = new PlayerDao();
         currentPlayer.setIsCurrentPlayer(false);
         playerDao.updatePlayer(currentPlayer);
 
-        if (oldRound != 0) {
-            if (currentPlayer.getSeqnr() == 1) {
-                setTurnPlayer(startPlayer);
-                new GameDao().updateGame(this);
-                startPlayer.setIsCurrentPlayer(true);
-                playerDao.updatePlayer(startPlayer);
-            } else {
-                setTurnPlayer(playerNextTurn);
-                new GameDao().updateGame(this);
-                playerNextTurn.setIsCurrentPlayer(true);
-                playerDao.updatePlayer(playerNextTurn);
-            }
-        }
+        setTurnPlayer(playerNextTurn);
+        new GameDao().updateGame(this);
+
+        playerNextTurn.setIsCurrentPlayer(true);
+        playerDao.updatePlayer(playerNextTurn);
     }
 
     /**
