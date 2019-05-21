@@ -455,11 +455,12 @@ public class Game {
             if (oldSeqnr != (players.size() * 2)) {
                 if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
                     if (currentPlayer != playerNextTurn) {
+                        System.out.println("SEQNR: " + playerNextTurn.getSeqnr());
                         updatePlayer(currentPlayer, playerNextTurn);
                     }
                 }
             } else {
-                if (playerNextTurn.getSeqnr() == 1) {
+                if (currentPlayer.getSeqnr() == 1) {
                     updatePlayer(currentPlayer, playerNextTurn);
                     nextRound();
                 }
@@ -541,6 +542,14 @@ public class Game {
      */
     public void setRound(int currentRound) {
         round = currentRound;
+    }
+
+    // Finishes a game by changing the status of all players
+    public void finishGame() {
+        ArrayList<Player> players = getPlayers();
+        for (Player player: players) {
+            player.setPlayerStatus("uitgespeeld");
+        }
     }
 
 }

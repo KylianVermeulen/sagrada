@@ -177,12 +177,12 @@ public class GameDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                         new Query(
-                                "SELECT DISTINCT(round) FROM gamedie WHERE roundtrack IS NOT NULL OR roundtrack = 0 AND idgame = ?",
+                                "SELECT DISTINCT(round) FROM gamedie WHERE roundtrack IS NOT NULL OR roundtrack = 0 AND idgame = ? ORDER BY round DESC LIMIT 1",
                                 "query"),
                         new QueryParameter(QueryParameter.INT, game.getId())
                     );
-            while (rs.next()) {
-                currentRound++;
+            if (rs.next()) {
+                currentRound = rs.getInt("round") + 1;
             }
         } catch (Exception e) {
         }

@@ -142,12 +142,17 @@ public class PlayerController {
             Alert alert = new Alert("Speel je beurt", "Je bent nu aan de beurt!", AlertType.SUCCES);
             myScene.addAlertPane(alert);
         }
-
-        Pane pane = new Pane();
-        GameView gameView = new GameView(this, game, player);
-        gameView.render();
-        pane.getChildren().add(gameView);
-        myScene.setContentPane(pane);
+        if (game.getRound() == 11) {
+            game.finishGame();
+            viewEndgame();
+        }
+        else {
+            Pane pane = new Pane();
+            GameView gameView = new GameView(this, game, player);
+            gameView.render();
+            pane.getChildren().add(gameView);
+            myScene.setContentPane(pane);
+        }
     }
 
     public void actionJoinGame(Account account, Game game) {
