@@ -314,7 +314,7 @@ public class Player {
      */
     public boolean isFirstTurn() {
         int numberOfPlayers = game.getPlayers().size();
-        if (seqnr > numberOfPlayers) {
+        if (seqnr <= numberOfPlayers) {
             return true;
         }
         else {
