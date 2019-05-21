@@ -29,7 +29,6 @@ public class Game {
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
     private Timestamp creationDate;
-    private boolean needsNewSeqNr;
 
     public Game(int id) {
         this.id = id;
@@ -38,7 +37,6 @@ public class Game {
 
         players = gameDao.getPlayersOfGame(this);
         toolCards = toolCardDao.getToolCardsOfGame(this);
-        needsNewSeqNr = true;
     }
 
     public Game() {
@@ -449,7 +447,7 @@ public class Game {
     public void setNextPlayer() {
         Player currentPlayer = turnPlayer;
         int oldSeqnr = currentPlayer.getSeqnr();
-        if (needsNewSeqNr) {
+        if (turnPlayer.needsNewSeqNr()) {
             currentPlayer.setNextSeqnr();
         }
 
@@ -507,13 +505,4 @@ public class Game {
     public int getRound() {
         return round;
     }
-    
-    public boolean needsNewSeqNr() {
-        return needsNewSeqNr;
-    }
-    
-    public void setNeedsNewSeqNr(boolean needsNewSeqNr) {
-        this.needsNewSeqNr = needsNewSeqNr;
-    }
-
 }

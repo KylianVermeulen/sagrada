@@ -24,6 +24,7 @@ public class Player {
     private Color playerColor;
     private boolean usedToolcard;
     private boolean placedDie;
+    private boolean needsNewSeqNr;
 
     public Player() {
         chatlines = new ArrayList<>();
@@ -444,5 +445,13 @@ public class Player {
         }
         setSeqnr(newSeqnr);
         new PlayerDao().updatePlayer(this);
+    }
+    
+    public boolean needsNewSeqNr() {
+        return needsNewSeqNr;
+    }
+    
+    public void setNeedsNewSeqNr(boolean needsNewSeqNr) {
+        this.needsNewSeqNr = needsNewSeqNr;
     }
 }

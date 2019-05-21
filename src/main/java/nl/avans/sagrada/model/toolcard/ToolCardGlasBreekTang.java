@@ -44,7 +44,7 @@ public class ToolCardGlasBreekTang extends ToolCard {
     private void handleNumberOfUses(Player player) {
         if (numberOfUses >= 2) {
             setIsDone(true);
-            player.getGame().setNeedsNewSeqNr(false);
+            player.setNeedsNewSeqNr(false);
         } else {
             setIsDone(false);
         }
