@@ -45,7 +45,6 @@ public class ToolCardFolieAandrukker extends ToolCard {
 
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        // TODO Auto-generated method stub
         return true;
     }
 }
