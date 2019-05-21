@@ -58,5 +58,4 @@ public class ToolCardGlasBreekTang extends ToolCard {
         }
         return false;
     }
-
 }

@@ -28,7 +28,7 @@ public abstract class ToolCard {
         this.id = id;
         this.seqnr = seqnr;
         this.description = description;
-        isDone= false;
+        isDone = false;
         this.name = name;
         favorTokens = new ArrayList<>();
     }
@@ -180,11 +180,16 @@ public abstract class ToolCard {
      * @return PatternCard
      */
     public abstract PatternCard handleDrag(MouseEvent event, GameDie die);
-    
+
+    /**
+     * Checks if the toolcard can run
+     * @param playerController
+     * @return boolean
+     */
     public abstract boolean hasRequirementsToRun(PlayerController playerController);
     
     public void setIsDone(boolean isDone) {
-        this.isDone = true;
+        this.isDone = isDone;
     }
     
     /**

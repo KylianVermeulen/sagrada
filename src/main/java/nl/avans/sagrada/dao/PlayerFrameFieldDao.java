@@ -82,8 +82,7 @@ public class PlayerFrameFieldDao {
     public void addDieToField(GameDie die, PatternCardField patternCardField, Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
-                        "INSERT INTO playerframefield (player_idplayer, position_x, position_y, idgame, dienumber, diecolor) "
-                        + "VALUES (?, ?, ?, ?, ?, ?)", "update",
+                        "INSERT INTO playerframefield (player_idplayer, position_x, position_y, idgame, dienumber, diecolor) VALUES (?, ?, ?, ?, ?, ?)", "update",
                         new QueryParameter(QueryParameter.INT, player.getId()),
                         new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
                         new QueryParameter(QueryParameter.INT, patternCardField.getyPos()),
