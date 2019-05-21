@@ -80,7 +80,7 @@ public class GameDieDao {
                             "UPDATE gamedie SET round=?, roundtrack=? WHERE idgame=? AND dienumber=? AND diecolor=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, round),
-                    new QueryParameter(QueryParameter.BOOLEAN, gameDie.isOnRoundTrack()),
+                    new QueryParameter(QueryParameter.INT, gameDie.isOnRoundTrack() ? round : null),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor())

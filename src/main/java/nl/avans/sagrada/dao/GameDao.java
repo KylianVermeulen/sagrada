@@ -37,8 +37,9 @@ public class GameDao {
                 game = new Game(rs.getInt("idgame"));
                 game.setRound(getCurrentRound(game));
             }
-            System.out.println("No record for game with gameid: " + gameId);
-            return null;
+            else {
+                System.out.println("No record for game with gameid: " + gameId);
+            }            
         } catch (SQLException e) {
             e.printStackTrace();
         }
