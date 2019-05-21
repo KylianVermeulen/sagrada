@@ -347,7 +347,7 @@ public class PlayerController {
                         );
                         myScene.addAlertPane(alert);
                         myScene.addAlertPane(alertInfo);
-                        if(activeToolCard.getId() == 1){
+                        if(activeToolCard instanceof ToolCardDriePuntStang){
                             DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(), activeToolCard);
                             myScene.addPopupPane(driePuntStang);
                         }
