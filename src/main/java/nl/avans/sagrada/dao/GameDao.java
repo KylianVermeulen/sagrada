@@ -27,21 +27,22 @@ public class GameDao {
      * @return A new game object.
      */
     public Game getGameById(int gameId) {
+        Game game = null;
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM game WHERE idgame=?", "query"),
                     new QueryParameter(QueryParameter.INT, gameId)
             );
             if (rs.next()) {
-                Game game = new Game(rs.getInt("idgame"));
-                return game;
+                game = new Game(rs.getInt("idgame"));
+                game.setRound(getCurrentRound(game));
             }
             System.out.println("No record for game with gameid: " + gameId);
             return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return game;
     }
 
     /**
@@ -162,5 +163,27 @@ public class GameDao {
             e.printStackTrace();
         }
         return player;
+    }
+
+    /**
+     * Gets the current round of a game
+     * @param game
+     * @return round
+     */
+    public int getCurrentRound(Game game) {
+        int currentRound = 1;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                        new Query(
+                                "SELECT DISTINCT(round) FROM gamedie WHERE roundtrack IS NOT NULL OR roundtrack = 0 AND idgame = ?",
+                                "query"),
+                        new QueryParameter(QueryParameter.INT, game.getId())
+                    );
+            if (rs.next()) {
+                currentRound = rs.getInt("round") + 1;
+            }
+        } catch (Exception e) {
+        }
+        return currentRound;
     }
 }

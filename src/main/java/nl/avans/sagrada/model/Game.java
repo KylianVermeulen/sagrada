@@ -503,9 +503,25 @@ public class Game {
     
     public void nextRound() {
         GameDao gameDao = new GameDao();
-        round++;
-        System.out.println("ROUND TO: " + round);
-        gameDao.updateGame(this);
+        placeDiceOfOfferTableOnRoundTrack();
+        round = gameDao.getCurrentRound(this);
+    }
+    
+    private void placeDiceOfOfferTableOnRoundTrack() {
+        ArrayList<GameDie> dice = getRoundDice();
+        GameDieDao gameDieDao = new GameDieDao();
+        for(GameDie die: dice) {
+            die.setOnRoundTrack(true);
+            gameDieDao.updateDie(this, die, round);
+        }
+    }
+
+    /**
+     * Sets the current round of a game
+     * @param currentRound
+     */
+    public void setRound(int currentRound) {
+        round = currentRound;
     }
 
 }

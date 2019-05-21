@@ -77,9 +77,10 @@ public class GameDieDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "UPDATE gamedie SET round=? WHERE idgame=? AND dienumber=? AND diecolor=?",
+                            "UPDATE gamedie SET round=?, roundtrack=? WHERE idgame=? AND dienumber=? AND diecolor=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, round),
+                    new QueryParameter(QueryParameter.BOOLEAN, gameDie.isOnRoundTrack()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor())

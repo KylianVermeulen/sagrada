@@ -75,7 +75,7 @@ public class PlayerController {
         if (playerEvent.getId() == player.getId()) {
             if (player.isCurrentPlayer()) {
                 System.out.println(playerDao.getCountPlacedDieInTurnRound(player));
-                if (activeToolCard != null || playerDao.getCountPlacedDieInTurnRound(player) < 1) {
+                if (activeToolCard != null) {
                     if (activeToolCard != null) {
                         PatternCard toolCardUseResult = activeToolCard
                                 .handleDrag(event, gameDie);

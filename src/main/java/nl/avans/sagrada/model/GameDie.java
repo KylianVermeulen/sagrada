@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 
 public class GameDie extends Die {
     private int eyes;
-    private int roundTrack;
+    private boolean roundTrack;
     private int round;
     private boolean isOnOfferTable;
     private PatternCardField patternCardField;
@@ -168,6 +168,14 @@ public class GameDie extends Die {
      */
     public boolean getIsOnOfferTable() {
         return isOnOfferTable;
+    }
+
+    public void setOnRoundTrack(boolean onRoundTrack) {
+        roundTrack = onRoundTrack;
+    }
+    
+    public boolean isOnRoundTrack() {
+        return roundTrack;
     }
     
 }
