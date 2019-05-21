@@ -9,6 +9,10 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
+/**
+ * Verplaats een dobbelsteen in je raam. Je mag de voorwaarden voor kleur negeren. Je moet alle
+ * andere voorwaarden nog steeds respecteren.
+ */
 public class ToolCardEglomiseBorstel extends ToolCard {
 
     public ToolCardEglomiseBorstel(int id, String name, int seqnr, String description) {
@@ -44,7 +48,6 @@ public class ToolCardEglomiseBorstel extends ToolCard {
 
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        // TODO Auto-generated method stub
         return true;
     }
 }
