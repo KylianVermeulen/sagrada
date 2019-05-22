@@ -185,6 +185,7 @@ public class GameDao {
                 currentRound = rs.getInt("round") + 1;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return currentRound;
     }
