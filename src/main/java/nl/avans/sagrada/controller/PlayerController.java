@@ -257,53 +257,7 @@ public class PlayerController {
      * @param toolCard
      */
     public void setActiveToolCard(ToolCard toolCard) {
-        if (player.isCurrentPlayer()) {
-            if (!new PlayerDao().hasUsedToolCardInTurnRound(player)) {
-                if (activeToolCard != null) {
-                    if (toolCard.getId() == activeToolCard.getId()) {
-                        activeToolCard = null;
-                        Alert alert = new Alert("Active toolcard",
-                                "Je hebt nu geen active toolcard meer",
-                                AlertType.INFO);
-                        myScene.addAlertPane(alert);
-                    }
-                } else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)
-                        ||
-                        !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
-                    if (toolCard.hasRequirementsToRun(this)) {
-                        activeToolCard = toolCard;
-                        Alert alert = new Alert("Active toolcard",
-                                "Je hebt een actieve toolcard: " + activeToolCard.getName(),
-                                AlertType.INFO);
-                        Alert alertInfo = new Alert("ToolCard info",
-                                "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
-                                AlertType.INFO
-                        );
-                        myScene.addAlertPane(alert);
-                        myScene.addAlertPane(alertInfo);
-                    } else {
-                    Alert alert = new Alert("ToolCard",
-                            "Je voldoet niet aan de eisen!",
-                            AlertType.ERROR);
-                    myScene.addAlertPane(alert);
-                    }
-                } else {
-                    Alert alert = new Alert("Te weinig betaalstenen",
-                            "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
-                            AlertType.ERROR);
-                    myScene.addAlertPane(alert);
-                }
-            } else {
-                Alert alert = new Alert("Helaas",
-                        "Je hebt deze beurt al een toolcard gebruikt.",
-                        AlertType.INFO);
-                myScene.addAlertPane(alert);
-            }
-        } else {
-            Alert alert = new Alert("Nog even wachten", "Je bent nog niet aan de beurt.",
-                    AlertType.INFO);
-            myScene.addAlertPane(alert);
-        }
+        activeToolCard = toolCard;
     }
     
     /**
@@ -313,19 +267,72 @@ public class PlayerController {
     public void actionPayForToolCard(ToolCard toolCard) {
         FavorTokenDao favorTokenDao = new FavorTokenDao();
         ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
-        if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)) {
-            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                    player.getGame());
-            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(1), toolCard,
-                    player.getGame());
-            newFavorTokens.remove(0);
-            newFavorTokens.remove(1);
+        boolean isPaidFor = false;
+        if (!player.isCurrentPlayer()) {
+            Alert alert = new Alert("Nog even wachten", "Je bent nog niet aan de beurt.",
+                    AlertType.INFO);
+            myScene.addAlertPane(alert);
+            return;
         }
-        else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
-            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                    player.getGame());
-            newFavorTokens.remove(0);
+        if (activeToolCard != null) {
+            if (toolCard.getId() == activeToolCard.getId()) {
+                activeToolCard = null;
+                Alert alert = new Alert("Active toolcard",
+                        "Je hebt nu geen active toolcard meer",
+                        AlertType.INFO);
+                myScene.addAlertPane(alert);
+                return;
+            }
         }
+
+        if (!player.hasUsedToolcardInCurrentRound()) {
+            if (toolCard.hasRequirementsToRun(this)) {
+                if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)) {
+                    favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                            player.getGame());
+                    favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(1), toolCard,
+                            player.getGame());
+                    newFavorTokens.remove(0);
+                    newFavorTokens.remove(1);
+                    isPaidFor = true;
+                }
+                else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
+                    favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                            player.getGame());
+                    newFavorTokens.remove(0);
+                    isPaidFor = true;
+                }  
+                
+                if (isPaidFor) {
+                    setActiveToolCard(toolCard);
+                    Alert alert = new Alert("ToolCard",
+                                "Je hebt een active toolcard: " + toolCard.getName(),
+                                AlertType.INFO
+                            );
+                    myScene.addAlertPane(alert);
+                }
+                else {
+                    Alert alert = new Alert("Te weinig betaalstenen",
+                            "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
+                            AlertType.ERROR);
+                    myScene.addAlertPane(alert);
+                    return;
+                }
+            }
+            else {
+                Alert alert = new Alert("ToolCard",
+                        "Je voldoet niet aan de eisen!",
+                        AlertType.ERROR);
+                myScene.addAlertPane(alert);
+            }
+        }
+        else {
+            Alert alert = new Alert("Helaas",
+                    "Je hebt deze beurt al een toolcard gebruikt.",
+                    AlertType.INFO);
+            myScene.addAlertPane(alert);
+        }
+
     }
 
     /**
