@@ -27,7 +27,7 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
             PatternCardField patternCardField =  patternCardView.getPatternCardField();
             PatternCard patternCard = patternCardField.getPatternCard();
             Player player = patternCard.getPlayer();
-            ArrayList<GameDie> dice = gameDieDao.getDiceOfRoundTrackFromGame(player.getGame());
+            ArrayList<GameDie> dice = gameDieDao.getDiceOnRoundTrackFromGame(player.getGame());
             ArrayList<String> roundTrackDiceColors = new ArrayList<>();
             for (GameDie gameDie : dice) {
                 if (!roundTrackDiceColors.contains(gameDie.getColor())) {
@@ -40,7 +40,7 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
 
             patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
 
-            if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
+            if (!patternCardField.hasDie() && patternCardField.canPlaceDieByAttributes(die)
                     && patternCard.checkSidesColor(patternCardField, die.getColor(), true) && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
                 PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
 
@@ -64,7 +64,6 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
 
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        // TODO Auto-generated method stub
         return true;
     }
 }

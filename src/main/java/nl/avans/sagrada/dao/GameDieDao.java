@@ -119,34 +119,6 @@ public class GameDieDao {
     }
 
     /**
-     * Gets the dice from the round track in game.
-     *
-     * @param game The game.
-     * @return The dice.
-     */
-    public ArrayList<GameDie> getDiceOfRoundTrackFromGame(Game game) {
-        ArrayList<GameDie> gameDice = new ArrayList<>();
-        try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM gamedie WHERE idgame=? AND roundtrack IS NOT NULL", "query"),
-                    new QueryParameter(QueryParameter.INT, game.getId())
-            );
-            while (rs.next()) {
-                GameDie gameDie = new GameDie(
-                        rs.getInt("dienumber"),
-                        rs.getString("diecolor"),
-                        rs.getInt("eyes")
-                );
-                gameDie.setOnRoundTrack(rs.getBoolean("roundtrack"));
-                gameDice.add(gameDie);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return gameDice;
-    }
-
-    /**
      * Gets the die from a game
      *
      * @param game Game
