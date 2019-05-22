@@ -16,6 +16,7 @@ import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
@@ -98,7 +99,10 @@ public class GameView extends VBox implements ViewInterface {
 
     private void buildRoundTrack() {
         RoundTrack roundTrack = new RoundTrack();
-
+        for (GameDie gameDie: game.getTrackDice()) {
+            roundTrack.addGameDie(gameDie);
+        }
+        
         roundTrackView = new RoundTrackView(roundTrack);
         roundTrackView.render();
     }
@@ -160,7 +164,7 @@ public class GameView extends VBox implements ViewInterface {
     private void buildActionButtons() {
         actionButtons = new HBox();
 
-        Button passButton = new Button("Pass");
+        Button passButton = new Button("Beurt beeindigen");
         passButton.setOnAction(e -> playerController.actionPass());
 
         Button exitButton = new Button("Exit");

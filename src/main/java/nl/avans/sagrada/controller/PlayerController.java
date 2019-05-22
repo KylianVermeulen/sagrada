@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.dao.GameDao;
+import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
@@ -94,10 +95,11 @@ public class PlayerController {
                         PatternCard toolCardUseResult = activeToolCard
                                 .handleDrag(event, gameDie);
                         if (toolCardUseResult != null) {
+                            new GameDieDao().updateDie(player.getGame(), gameDie);
                             if (activeToolCard.getIsDone()) {
+                                gameDie.setInFirstTurn(player.isFirstTurn());
                                 actionPayForToolCard(activeToolCard);
                                 activeToolCard = null;
-                                actionCheckPass();
                             }
                             player.setPatternCard(toolCardUseResult);
                             viewGame();
@@ -110,13 +112,15 @@ public class PlayerController {
                     } else {
                         if (gameDie.getPatternCardField() == null) {
                             if (patternCardField.canPlaceDie(gameDie)) {
+                                gameDie.setInFirstTurn(player.isFirstTurn());
                                 gameDie.setPatternCardField(patternCardField);
                                 patternCardField.setDie(gameDie);
 
                                 PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                                 playerFrameFieldDao
                                         .addDieToField(gameDie, patternCardField, player);
-                                actionCheckPass();
+                                
+                                new GameDieDao().updateDie(player.getGame(), gameDie);
                             }
                         }
                     }
@@ -153,12 +157,17 @@ public class PlayerController {
             Alert alert = new Alert("Speel je beurt", "Je bent nu aan de beurt!", AlertType.SUCCES);
             myScene.addAlertPane(alert);
         }
-
-        Pane pane = new Pane();
-        GameView gameView = new GameView(this, game, player);
-        gameView.render();
-        pane.getChildren().add(gameView);
-        myScene.setContentPane(pane);
+        if (game.getRound() == 11) {
+            game.finishGame();
+            viewEndgame();
+        }
+        else {
+            Pane pane = new Pane();
+            GameView gameView = new GameView(this, game, player);
+            gameView.render();
+            pane.getChildren().add(gameView);
+            myScene.setContentPane(pane);
+        }
     }
 
     public void actionJoinGame(Account account, Game game) {
@@ -211,7 +220,7 @@ public class PlayerController {
     }
 
     /**
-     * Player is passing for a round
+     * Player is passing for a turn
      */
     public void actionPass() {
         if (player.isCurrentPlayer()) {
@@ -220,67 +229,6 @@ public class PlayerController {
             Alert alert = new Alert("Nog even wachten", "Je bent nog niet aan de beurt.",
                     AlertType.INFO);
             myScene.addAlertPane(alert);
-        }
-    }
-
-    /**
-     * Check if a player has options to play, if not call actionPass
-     */
-    public void actionCheckPass() {
-        PlayerDao playerDao = new PlayerDao();
-        ToolCardDao toolCardDao = new ToolCardDao();
-        if (playerDao.hasUsedToolCardInTurnRound(player)) {
-            ToolCard toolCard = toolCardDao.getUsedToolCardOfPlayerInTurnOfRound(player);
-            int count = playerDao.getCountPlacedDieInTurnRound(player);
-            if (toolCard instanceof ToolCardDriePuntStang) {
-                if (count >= 1) {
-                    actionPass();
-                }
-            } else if (toolCard instanceof ToolCardEglomiseBorstel) {
-                if (count > 1) {
-                    actionPass();
-                }
-            } else if (toolCard instanceof ToolCardFolieAandrukker) {
-                if (count > 1) {
-                    actionPass();
-                }
-            } else if (toolCard instanceof ToolCardLoodOpenHaler) {
-                if (count > 2) {
-                    actionPass();
-                }
-            } else if (toolCard instanceof ToolCardRondSnijder) {
-                if (count >= 1) {
-                    actionPass();
-                }
-            } else if (toolCard instanceof ToolCardFluxBorstel) {
-                if (count >= 1) {
-                    actionPass();
-                }
-            } else if (toolCard instanceof ToolCardLoodHamer) {
-                if (count >= 1) {
-                    actionPass();
-                }
-            } else if (toolCard instanceof ToolCardGlasBreekTang) {
-                if (count > 2) {
-                    actionPass();
-                }
-            } else if (toolCard instanceof ToolCardSnijLiniaal) {
-                if (count > 1) {
-                    actionPass();
-                }
-            } else if (toolCard instanceof ToolCardSchuurBlok) {
-                if (count > 1) {
-                    actionPass();
-                }
-            } else if (toolCard instanceof ToolCardFluxVerwijderaar) {
-                if (count >= 1) {
-                    actionPass();
-                }
-            } else if (toolCard instanceof ToolCardOlieGlasSnijder) {
-                if (count > 2) {
-                    actionPass();
-                }
-            }
         }
     }
 
@@ -396,51 +344,6 @@ public class PlayerController {
                     player.getGame());
             newFavorTokens.remove(0);
         }
-    }
-
-    /**
-     * Example code
-     */
-    public void viewClickPlacement() {
-        HBox mainPane = new HBox();
-        VBox secondPane = new VBox();
-
-        Pane pane1 = new Pane();
-        Pane pane2 = new Pane();
-        Pane pane3 = new Pane();
-
-        PatternCard patternCard = new PatternCard(1, 0, false);
-        PatternCardView patternCardView = new PatternCardView(this);
-        patternCardView.setPatternCard(patternCard);
-        patternCardView.render();
-
-        GameDie gameDie1 = new GameDie(1, "geel", 1);
-        DieView dieView1 = new DieView();
-        dieView1.setGameDie(gameDie1);
-        dieView1.render();
-
-        GameDie gameDie2 = new GameDie(2, "paars", 3);
-        DieView dieView2 = new DieView();
-        dieView2.setGameDie(gameDie2);
-        dieView2.render();
-
-        GameDie gameDie3 = new GameDie(3, "rood", 5);
-        DieView dieView3 = new DieView();
-        dieView3.setGameDie(gameDie3);
-        dieView3.render();
-
-        pane1.setPadding(new Insets(5));
-        pane2.setPadding(new Insets(5));
-        pane3.setPadding(new Insets(5));
-
-        pane1.getChildren().add(dieView1);
-        pane2.getChildren().add(dieView2);
-        pane3.getChildren().add(dieView3);
-
-        secondPane.setPadding(new Insets(5));
-        secondPane.getChildren().addAll(pane1, pane2, pane3);
-        mainPane.getChildren().addAll(patternCardView, secondPane);
-        myScene.setContentPane(mainPane);
     }
 
     /**

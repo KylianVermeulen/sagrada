@@ -9,6 +9,9 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
+/**
+ * Verplaats exact 2 dobbelstenen. Je moet hierbij alle voorwaarden van plaatsing respecteren.
+ */
 public class ToolCardLoodOpenHaler extends ToolCard {
     private int numberOfUses;
 
@@ -26,9 +29,12 @@ public class ToolCardLoodOpenHaler extends ToolCard {
         PatternCard patternCard = patternCardField.getPatternCard();
         Player player = patternCard.getPlayer();
 
-        PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
-        patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
-        
+        PatternCardField removeDieField = patternCard
+                .getPatternCardField(die.getPatternCardField().getxPos(),
+                        die.getPatternCardField().getyPos());
+        patternCardField = patternCard
+                .getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
+
         if (patternCardField.canPlaceDie(die) && die.getPatternCardField() != null) {
             // If the new location matches the new requirements we can make those changes
             removeDieField.setDie(null);
@@ -40,18 +46,17 @@ public class ToolCardLoodOpenHaler extends ToolCard {
             numberOfUses++;
             handleNumberOfUses();
             return patternCard;
-        }       
+        }
         return null;
     }
-    
+
     /**
      * Checks if the toolcard is done
      */
     private void handleNumberOfUses() {
         if (numberOfUses >= 2) {
             setIsDone(true);
-        }
-        else {
+        } else {
             setIsDone(false);
         }
     }
@@ -73,8 +78,7 @@ public class ToolCardLoodOpenHaler extends ToolCard {
         if (numberOfFoundDie >= 2) {
             // We need a minimum of 2 dice
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

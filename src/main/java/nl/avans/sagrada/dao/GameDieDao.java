@@ -67,19 +67,21 @@ public class GameDieDao {
     }
 
     /**
-     * Updates the die with a given round
+     * Updates the die
      *
      * @param game Game
      * @param gameDie GameDie
      * @param round int
      */
-    public void updateDie(Game game, GameDie gameDie, int round) {
+    public void updateDie(Game game, GameDie gameDie) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "UPDATE gamedie SET round=? WHERE idgame=? AND dienumber=? AND diecolor=?",
+                            "UPDATE gamedie SET round=?, roundtrack=?, inFirstTurn=? WHERE idgame=? AND dienumber=? AND diecolor=?",
                             "update"),
-                    new QueryParameter(QueryParameter.INT, round),
+                    new QueryParameter(QueryParameter.INT, gameDie.getRound()),
+                    new QueryParameter(QueryParameter.INT, gameDie.isOnRoundTrack() ? gameDie.getRound() : null),
+                    new QueryParameter(QueryParameter.BOOLEAN, gameDie.isInFirstTurn()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
                     new QueryParameter(QueryParameter.STRING, gameDie.getColor())
@@ -108,6 +110,7 @@ public class GameDieDao {
                         rs.getString("color"),
                         rs.getInt("eyes")
                 );
+                gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
                 gameDice.add(gameDie);
             }
         } catch (Exception e) {
@@ -140,6 +143,7 @@ public class GameDieDao {
                         rs.getInt("eyes"),
                         rs.getInt("round")
                 );
+                gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,6 +171,8 @@ public class GameDieDao {
                         rs.getInt("eyes")
                 );
                 gameDie.setIsOnOfferTable(true);
+                gameDie.setRound(rs.getInt("round"));
+                gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
                 gameDice.add(gameDie);
             }
         } catch (Exception e) {
@@ -202,10 +208,43 @@ public class GameDieDao {
                         rs.getString("diecolor"),
                         rs.getInt("eyes")
                 );
+                gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
+                gameDie.setRound(rs.getInt("round"));
                 gameDie.setIsOnOfferTable(true);
                 gameDice.add(gameDie);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gameDice;
+    }
+    
+    /**
+     * Gets the dice from the round track in game.
+     *
+     * @param game The game.
+     * @return ArrayList<GameDie>
+     */
+    public ArrayList<GameDie> getDiceOnRoundTrackFromGame(Game game) {
+        ArrayList<GameDie> gameDice = new ArrayList<>();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM gamedie WHERE idgame=? AND roundtrack IS NOT NULL AND round < ?", "query"),
+                    new QueryParameter(QueryParameter.INT, game.getId()),
+                    new QueryParameter(QueryParameter.INT, game.getRound())
+            );
+            while (rs.next()) {
+                GameDie gameDie = new GameDie(
+                        rs.getInt("dienumber"),
+                        rs.getString("diecolor"),
+                        rs.getInt("eyes")
+                );
+                gameDie.setOnRoundTrack(rs.getBoolean("roundtrack"));
+                gameDie.setIsOnOfferTable(false);
+                gameDie.setRound(rs.getInt("round"));
+                gameDice.add(gameDie);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return gameDice;
