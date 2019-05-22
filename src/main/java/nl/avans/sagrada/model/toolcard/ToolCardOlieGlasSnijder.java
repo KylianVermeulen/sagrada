@@ -2,9 +2,9 @@ package nl.avans.sagrada.model.toolcard;
 
 import java.util.ArrayList;
 import javafx.scene.input.MouseEvent;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
-import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
@@ -13,7 +13,7 @@ import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class ToolCardOlieGlasSnijder extends ToolCard {
     private int numberOfUses;
-    
+
     public ToolCardOlieGlasSnijder(int id, String name, int seqnr, String description) {
         super(id, name, seqnr, description);
         numberOfUses = 0;
@@ -21,12 +21,17 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
 
     @Override
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
-        if (die.getIsOnOfferTable()) {
-            GameDieDao gameDieDao = new GameDieDao();;
-            PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
-            PatternCardField patternCardField =  patternCardView.getPatternCardField();
+        if (die.getPatternCardField() != null) {
+            GameDieDao gameDieDao = new GameDieDao();
+            PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+
+            PatternCardFieldView patternCardFieldView = (PatternCardFieldView) event.getTarget();
+            PatternCardField patternCardField = patternCardFieldView.getPatternCardField();
             PatternCard patternCard = patternCardField.getPatternCard();
+            PatternCardField removeDieField = die.getPatternCardField();
             Player player = patternCard.getPlayer();
+
+
             ArrayList<GameDie> dice = gameDieDao.getDiceOnRoundTrackFromGame(player.getGame());
             ArrayList<String> roundTrackDiceColors = new ArrayList<>();
             for (GameDie gameDie : dice) {
@@ -38,13 +43,16 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
                 return null;
             }
 
-            patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
+            patternCardField = patternCard
+                    .getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
 
             if (!patternCardField.hasDie() && patternCardField.canPlaceDieByAttributes(die)
-                    && patternCard.checkSidesColor(patternCardField, die.getColor(), true) && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
-                PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                    && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
+                    && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
 
-                die.setIsOnOfferTable(false);
+                removeDieField.setDie(null);
+                playerFrameFieldDao.removeDie(die, removeDieField, player);
+
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
@@ -64,6 +72,10 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
 
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        return true;
+        if (playerController.getPlayer().getGame().getRoundDice().size() >= 2) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
