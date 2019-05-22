@@ -461,16 +461,7 @@ public class Game {
                 }
             } else {
                 if (currentPlayer.getId() != playerNextTurn.getId()) {
-                    
-                    PlayerDao playerDao = new PlayerDao();
-                    currentPlayer.setIsCurrentPlayer(true);
-                    playerDao.updatePlayer(currentPlayer);
-
-                    setTurnPlayer(currentPlayer);
-                    new GameDao().updateGame(this);
-
-                    playerNextTurn.setIsCurrentPlayer(false);
-                    playerDao.updatePlayer(playerNextTurn);
+                    updatePlayer(playerNextTurn, currentPlayer);
                     
                     nextRound();
                 }
