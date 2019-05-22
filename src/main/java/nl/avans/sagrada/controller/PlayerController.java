@@ -288,6 +288,13 @@ public class PlayerController {
             myScene.addAlertPane(alert);
             return;
         }
+        if (player.hasUsedToolcardInCurrentRound()) {
+            Alert alert = new Alert("ToolCard",
+                    "Je hebt al een toolcard gebruikt!",
+                    AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
         if (activeToolCard == null) {
             FavorTokenDao favorTokenDao = new FavorTokenDao();
             ToolCardDao toolCardDao = new ToolCardDao();
