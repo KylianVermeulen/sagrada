@@ -455,7 +455,6 @@ public class Game {
             if (oldSeqnr < (players.size() * 2)) {
                 if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
                     if (currentPlayer.getId() != playerNextTurn.getId()) {
-                        System.out.println("SEQNR: " + playerNextTurn.getSeqnr());
                         updatePlayer(currentPlayer, playerNextTurn);
                     }
                 }
