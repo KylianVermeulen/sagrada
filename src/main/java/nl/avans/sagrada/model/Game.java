@@ -452,16 +452,26 @@ public class Game {
 
         for (int i = 0; i < players.size(); i++) {
             Player playerNextTurn = players.get(i);
-            if (oldSeqnr != (players.size() * 2)) {
+            if (oldSeqnr < (players.size() * 2)) { // This check 
                 if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
-                    if (currentPlayer != playerNextTurn) {
+                    if (currentPlayer.getId() != playerNextTurn.getId()) {
                         System.out.println("SEQNR: " + playerNextTurn.getSeqnr());
                         updatePlayer(currentPlayer, playerNextTurn);
                     }
                 }
             } else {
-                if (playerNextTurn.getSeqnr() == 1) {
-                    updatePlayer(currentPlayer, playerNextTurn);
+                if (currentPlayer.getId() != playerNextTurn.getId()) {
+                    
+                    PlayerDao playerDao = new PlayerDao();
+                    currentPlayer.setIsCurrentPlayer(true);
+                    playerDao.updatePlayer(currentPlayer);
+
+                    setTurnPlayer(currentPlayer);
+                    new GameDao().updateGame(this);
+
+                    playerNextTurn.setIsCurrentPlayer(false);
+                    playerDao.updatePlayer(playerNextTurn);
+                    
                     nextRound();
                 }
             }
