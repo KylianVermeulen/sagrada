@@ -125,7 +125,7 @@ public class ToolCardView extends CardView {
         showImage(toolCard.getImagePath());
         showDescription();
         setOnMouseClicked(e -> {
-            playerController.setActiveToolCard(toolCard);
+            playerController.actionPayForToolCard(toolCard, this);
         });
     }
     
@@ -143,6 +143,7 @@ public class ToolCardView extends CardView {
      * @param favorTokens
      */
     public void setFavorTokens(ArrayList<FavorToken> favorTokens, Game game) {
+        tokenPane.getChildren().clear();
         for(int i = 0; i < game.getPlayers().size(); i++){
             for(int e = 0; e < favorTokens.size(); e++) {
                 if(favorTokens.get(e).getPlayer().getId() == game.getPlayers().get(i).getId()){
