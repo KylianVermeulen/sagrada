@@ -452,7 +452,7 @@ public class Game {
 
         for (int i = 0; i < players.size(); i++) {
             Player playerNextTurn = players.get(i);
-            if (oldSeqnr < (players.size() * 2)) { // This check 
+            if (oldSeqnr < (players.size() * 2)) {
                 if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
                     if (currentPlayer.getId() != playerNextTurn.getId()) {
                         System.out.println("SEQNR: " + playerNextTurn.getSeqnr());
@@ -462,6 +462,8 @@ public class Game {
             } else {
                 if (currentPlayer.getId() != playerNextTurn.getId()) {
                     updatePlayer(playerNextTurn, currentPlayer);
+                    // The player next turn contains seqnr 2
+                    // So we switch those 2
                     
                     nextRound();
                 }
