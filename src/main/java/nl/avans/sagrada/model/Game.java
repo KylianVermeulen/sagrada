@@ -547,7 +547,9 @@ public class Game {
         round = currentRound;
     }
 
-    // Finishes a game by changing the status of all players
+    /**
+     * Finishes a game by changing the status of all players
+     */
     public void finishGame() {
         ArrayList<Player> players = getPlayers();
         PlayerDao playerDao = new PlayerDao();
