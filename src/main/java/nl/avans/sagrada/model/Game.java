@@ -548,8 +548,10 @@ public class Game {
     // Finishes a game by changing the status of all players
     public void finishGame() {
         ArrayList<Player> players = getPlayers();
+        PlayerDao playerDao = new PlayerDao();
         for (Player player: players) {
             player.setPlayerStatus("uitgespeeld");
+            playerDao.updatePlayer(player);
         }
     }
 
