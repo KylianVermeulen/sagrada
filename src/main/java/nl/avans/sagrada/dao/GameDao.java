@@ -177,7 +177,7 @@ public class GameDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                         new Query(
-                                "SELECT DISTINCT(round) FROM gamedie WHERE roundtrack IS NOT NULL OR roundtrack = 0 AND idgame = ? ORDER BY round DESC LIMIT 1",
+                                "SELECT DISTINCT(round) FROM gamedie WHERE idgame = ? AND roundtrack IS NOT NULL ORDER BY round LIMIT 1",
                                 "query"),
                         new QueryParameter(QueryParameter.INT, game.getId())
                     );
