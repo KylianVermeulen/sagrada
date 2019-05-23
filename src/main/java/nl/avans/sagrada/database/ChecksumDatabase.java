@@ -12,14 +12,17 @@ public class ChecksumDatabase {
     private DBConnection dbConnection;
     private AccountController accountController;
     private PlayerController playerController;
+    private boolean refreshed;
     private String checksumPlayer;
     private String checksumChat;
+    private String checksumPlayerFrameField;
 
     public ChecksumDatabase(AccountController accountController,
             PlayerController playerController) {
         dbConnection = new DBConnection();
         this.accountController = accountController;
         this.playerController = playerController;
+        this.refreshed = false;
         createTimer();
         animationTimerExt.start();
     }
@@ -30,6 +33,8 @@ public class ChecksumDatabase {
             public void handle() {
                 checksumPlayer();
                 checksumChat();
+                checksumPlayerFrameField();
+                refreshed = false;
             }
         };
     }
@@ -52,6 +57,9 @@ public class ChecksumDatabase {
         }
     }
 
+    /**
+     * Generates a checksum for the player table, and checks if this checksum is different from the already existing checksum.
+     */
     private void checksumPlayer() {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("checksum table player;", "query"));
@@ -67,27 +75,70 @@ public class ChecksumDatabase {
         }
     }
 
+    /**
+     * Generates a checksum for the player frame field table, and checks if this checksum is different from the already existing checksum.
+     */
+    private void checksumPlayerFrameField() {
+        try {
+            ResultSet rs = dbConnection
+                    .executeQuery(new Query("checksum table playerframefield;", "query"));
+            if (rs.next()) {
+                String checksumPlayerFrameField = rs.getString("Checksum");
+                if (!checksumPlayerFrameField.equals(this.checksumPlayerFrameField)) {
+                    handlePlayerFrameField();
+                }
+                this.checksumPlayerFrameField = checksumPlayerFrameField;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Handles the player table checksum change
+     */
     private void handlePlayer() {
-        if (accountController.getAccount() != null) {
-            if (accountController.getAccount().getAccountStatus() == AccountStatus.LOBBY) {
-                accountController.viewLobby();
-            } else if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
-                if (playerController.getPlayer().getGame() != null) {
-                    if (playerController.getPlayer().getGame().everyoneSelectedPatternCard()) {
-                        playerController.viewGame();
+        if (!refreshed) {
+            if (accountController.getAccount() != null) {
+                if (accountController.getAccount().getAccountStatus() == AccountStatus.LOBBY) {
+                    accountController.viewLobby();
+                    refreshed = true;
+                } else if (accountController.getAccount().getAccountStatus()
+                        == AccountStatus.GAME) {
+                    if (playerController.getPlayer().getGame() != null) {
+                        if (playerController.getPlayer().getGame().everyoneSelectedPatternCard()) {
+                            playerController.viewGame();
+                        }
                     }
                 }
             }
         }
     }
-    
+
     /**
-     * Reloads the gameview when an account is in a game.
+     * Handles the chat table checksum change
      */
     private void handleChat() {
-        if (accountController.getAccount() != null) {
-            if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
-                playerController.viewGame();
+        if (!refreshed) {
+            if (accountController.getAccount() != null) {
+                if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
+                    playerController.viewGame();
+                    refreshed = true;
+                }
+            }
+        }
+    }
+
+    /**
+     * Handles the player frame field table checksum change
+     */
+    private void handlePlayerFrameField() {
+        if (!refreshed) {
+            if (accountController.getAccount() != null) {
+                if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
+                    playerController.viewGame();
+                    refreshed = true;
+                }
             }
         }
     }
