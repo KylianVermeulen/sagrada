@@ -8,6 +8,7 @@ import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.Player;
 
 public class GameDao {
@@ -27,21 +28,23 @@ public class GameDao {
      * @return A new game object.
      */
     public Game getGameById(int gameId) {
+        Game game = null;
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT * FROM game WHERE idgame=?", "query"),
                     new QueryParameter(QueryParameter.INT, gameId)
             );
             if (rs.next()) {
-                Game game = new Game(rs.getInt("idgame"));
-                return game;
+                game = new Game(rs.getInt("idgame"));
+                game.setRound(getCurrentRound(game));
             }
-            System.out.println("No record for game with gameid: " + gameId);
-            return null;
+            else {
+                System.out.println("No record for game with gameid: " + gameId);
+            }            
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return game;
     }
 
     /**
@@ -162,5 +165,28 @@ public class GameDao {
             e.printStackTrace();
         }
         return player;
+    }
+
+    /**
+     * Gets the current round of a game
+     * @param game
+     * @return int
+     */
+    public int getCurrentRound(Game game) {
+        int currentRound = 1;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                        new Query(
+                                "SELECT DISTINCT(round) FROM gamedie WHERE idgame = ? AND roundtrack IS NOT NULL ORDER BY round DESC LIMIT 1",
+                                "query"),
+                        new QueryParameter(QueryParameter.INT, game.getId())
+                    );
+            if (rs.next()) {
+                currentRound = rs.getInt("round") + 1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return currentRound;
     }
 }
