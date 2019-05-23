@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javafx.application.Platform;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -18,6 +19,7 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.enumerations.AccountStatus;
+import nl.avans.sagrada.task.InviteTask;
 import nl.avans.sagrada.view.GameSetupView;
 import nl.avans.sagrada.view.InviteView;
 import nl.avans.sagrada.view.LobbyView;
@@ -155,6 +157,7 @@ public class AccountController {
      * database.
      */
     public void viewLobby() {
+        System.out.println("Lobby view");
         AccountDao accountDao = new AccountDao();
         Pane pane = new Pane();
         account = accountDao.getAccountByUsername(account.getUsername());
@@ -225,9 +228,6 @@ public class AccountController {
      * @param game the game object for which the invites are.
      */
     public void actionSendInvites(ArrayList<InviteView> inviteViews, Game game) {
-        GameDao gameDao = new GameDao();
-        InviteDao inviteDao = new InviteDao();
-        ArrayList<Player> players = new ArrayList<>();
         ArrayList<Account> invitedAccounts = new ArrayList<>();
         for (InviteView inviteView : inviteViews) {
             if (inviteView.getCheckbox().isSelected()) {
@@ -258,19 +258,11 @@ public class AccountController {
                 return;
             }
         }
-
-        for (Account invitedAccount : invitedAccounts) {
-            Invite invite = new Invite();
-            invite.setGame(game);
-            invite.setInvitedAccount(invitedAccount);
-            inviteDao.addInvite(invite);
-        }
+        
+        InviteTask inviteTask = new InviteTask(this, game, invitedAccounts);
+        Platform.runLater(inviteTask);
         Alert alert = new Alert("Invites verstuurd", "Invites zijn verstuurd", AlertType.INFO);
         myScene.addAlertPane(alert);
-        players = gameDao.getPlayersOfGame(game);
-        game.setPlayers(players);
-        game.addRandomRoundsToGameDice();
-        game.setOptionPatternCardsForPlayers();
         viewLobby();
     }
 
