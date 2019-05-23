@@ -129,3 +129,7 @@ Button{
     -fx-background-color: lightgray;
     -fx-text-fill: black;
 }
+
+.DriePuntStangDie {
+    -fx-background-color: gray;
+}

@@ -224,8 +224,10 @@ public class DriePuntStang extends Popup {
         for (DieView dieView : dieViews){
             dieView.setOnMouseClicked(e -> {
                 dieView.getStylesheets().add(css);
+                dieView.getStyleClass().add("DriePuntStangDie");
                 for(DieView dieView1 : dieViews){
                     if(dieView.getGameDie() != dieView1.getGameDie()){
+                        dieView1.getStyleClass().clear();
                         dieView1.getStylesheets().clear();
                     }
                 }
