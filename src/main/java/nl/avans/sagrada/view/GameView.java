@@ -50,6 +50,10 @@ public class GameView extends VBox implements ViewInterface {
         setSpacing(SPACING_BETWEEN_CHILDS);
     }
 
+    public PatternCardView getPlayerPatternCardView() {
+        return playerPatternCardView;
+    }
+
     private void buildOtherPlayerPatternCards() {
         otherPlayerPatternCardViews = new HBox();
         otherPlayerPatternCardViews.setSpacing(SPACING_BETWEEN_CHILDS);
@@ -180,7 +184,7 @@ public class GameView extends VBox implements ViewInterface {
     }
 
     private void buildDieOffer() {
-        dieOfferView = new DieOfferView(this.game);
+        dieOfferView = new DieOfferView(this.game, playerPatternCardView, playerController);
         dieOfferView.render();
     }
 
