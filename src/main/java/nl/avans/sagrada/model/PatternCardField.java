@@ -236,7 +236,6 @@ public class PatternCardField {
         return false;
     }
 
-
     /**
      * Checks if the selected PatternCardField is next to a border
      *
