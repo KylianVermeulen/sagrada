@@ -70,7 +70,8 @@ public class Game {
                     GameDie randomGameDie = gameDice.get(new Random().nextInt(gameDice.size()));
                     GameDie checkDie = new GameDieDao().getDie(this, randomGameDie);
                     if (checkDie.getRound() == 0) {
-                        new GameDieDao().updateDie(this, randomGameDie, i);
+                        randomGameDie.setRound(i);
+                        new GameDieDao().updateDie(this, randomGameDie);
                         hasDie = true;
                     }
                 }
@@ -357,9 +358,9 @@ public class Game {
         int min = 1;
         int max = 12;
 
-        int randomNumber1 = random.nextInt((max - min) + 1) + min;
-        int randomNumber2 = random.nextInt((max - min) + 1) + min;
-        int randomNumber3 = random.nextInt((max - min) + 1) + min;
+        int randomNumber1 = 0;
+        int randomNumber2 = 0;
+        int randomNumber3 = 0;
 
         boolean foundThreeValues = false;
 
@@ -453,9 +454,9 @@ public class Game {
 
         for (int i = 0; i < players.size(); i++) {
             Player playerNextTurn = players.get(i);
-            if (oldSeqnr != (players.size() * 2)) {
+            if (oldSeqnr < (players.size() * 2)) {
                 if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
-                    if (currentPlayer != playerNextTurn) {
+                    if (currentPlayer.getId() != playerNextTurn.getId()) {
                         updatePlayer(currentPlayer, playerNextTurn);
                     }
                 } else if (this.getPlayers().size() != oldSeqnr + 1) {
@@ -466,8 +467,12 @@ public class Game {
                     }
                 }
             } else {
-                if (playerNextTurn.getSeqnr() == 1) {
-                    updatePlayer(currentPlayer, playerNextTurn);
+                if (currentPlayer.getId() != playerNextTurn.getId()) {
+                    updatePlayer(playerNextTurn, currentPlayer);
+                    // The player next turn contains seqnr 2
+                    // So we switch those 2
+                    
+                    nextRound();
                 }
             }
         }
@@ -505,6 +510,59 @@ public class Game {
      * @return int
      */
     public int getRound() {
-        return round;
+        GameDao gameDao = new GameDao();
+        return gameDao.getCurrentRound(this);
+    }
+    
+    /**
+     * Put the game in the second round by calling the placeDiceOfOfferTableOnRoundTrack
+     */
+    public void nextRound() {
+        GameDao gameDao = new GameDao();
+        placeDiceOfOfferTableOnRoundTrack();
+        round = gameDao.getCurrentRound(this);
+    }
+    
+    /**
+     * Places all dices that are left for offer on the roundTrack
+     */
+    private void placeDiceOfOfferTableOnRoundTrack() {
+        GameDieDao gameDieDao = new GameDieDao();
+        ArrayList<GameDie> dice = getRoundDice();
+        
+        for(GameDie die: dice) {
+            die.setOnRoundTrack(true);
+            die.setRound(round);
+            gameDieDao.updateDie(this, die);
+        }
+    }
+    
+    /**
+     * Gets all dices that are on the roundTrack
+     * @return ArrayList<GameDie>
+     */
+    public ArrayList<GameDie> getTrackDice() {
+        ArrayList<GameDie> dice = new GameDieDao().getDiceOnRoundTrackFromGame(this);
+        return dice;
+    }
+
+    /**
+     * Sets the current round of a game
+     * @param currentRound
+     */
+    public void setRound(int currentRound) {
+        round = currentRound;
+    }
+
+    /**
+     * Finishes a game by changing the status of all players
+     */
+    public void finishGame() {
+        ArrayList<Player> players = getPlayers();
+        PlayerDao playerDao = new PlayerDao();
+        for (Player player: players) {
+            player.setPlayerStatus("uitgespeeld");
+            playerDao.updatePlayer(player);
+        }
     }
 }

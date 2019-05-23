@@ -46,7 +46,7 @@ public class EndgameView extends BorderPane implements ViewInterface {
     public void render() {
         getChildren().clear();
         buildEndScore();
-        setLobbyAndStatisticsButton();
+        setLobbyButton();
     }
 
     private void buildEndScore() {
@@ -70,21 +70,17 @@ public class EndgameView extends BorderPane implements ViewInterface {
         setCenter(center);
     }
 
-    private void setLobbyAndStatisticsButton() {
+    private void setLobbyButton() {
         HBox buttonBar = new HBox();
         buttonBar.setSpacing(300);
         buttonBar.setMinHeight(200);
         buttonBar.setAlignment(Pos.CENTER);
-        statisticsButton = new Button("Show statistics");
-        statisticsButton.setPrefSize(button_width, button_height);
-        statisticsButton.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-                CornerRadii.EMPTY, new BorderWidths(5))));
         lobbyButton = new Button("Return to lobby");
         lobbyButton.setPrefSize(button_width, button_height);
         lobbyButton.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
                 CornerRadii.EMPTY, new BorderWidths(5))));
         lobbyButton.setOnAction(e -> playerController.actionBackToLobby());
-        buttonBar.getChildren().addAll(statisticsButton, lobbyButton);
+        buttonBar.getChildren().addAll(lobbyButton);
         setBottom(buttonBar);
     }
 }

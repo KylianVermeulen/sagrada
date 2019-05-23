@@ -4,9 +4,10 @@ import javafx.scene.paint.Color;
 
 public class GameDie extends Die {
     private int eyes;
-    private int roundTrack;
+    private boolean roundTrack;
     private int round;
     private boolean isOnOfferTable;
+    private boolean inFirstTurn;
     private PatternCardField patternCardField;
 
     /**
@@ -20,6 +21,8 @@ public class GameDie extends Die {
         super(number, color);
         this.eyes = eyes;
         isOnOfferTable = false;
+        inFirstTurn = false;
+        roundTrack = false;
     }
 
     /**
@@ -35,6 +38,8 @@ public class GameDie extends Die {
         this.eyes = eyes;
         this.round = round;
         isOnOfferTable = false;
+        inFirstTurn = false;
+        roundTrack = false;
     }
 
     /**
@@ -169,5 +174,44 @@ public class GameDie extends Die {
     public boolean getIsOnOfferTable() {
         return isOnOfferTable;
     }
+
+    /**
+     * Sets if the die is on the round track
+     * @param onRoundTrack
+     */
+    public void setOnRoundTrack(boolean onRoundTrack) {
+        roundTrack = onRoundTrack;
+    }
     
+    /**
+     * Returns is the die is on the roundtrack
+     * @return boolean
+     */
+    public boolean isOnRoundTrack() {
+        return roundTrack;
+    }
+    
+    /**
+     * Sets if the die was placed in the first turn of a player
+     * @param inFirstTurn
+     */
+    public void setInFirstTurn(boolean inFirstTurn) {
+        this.inFirstTurn = inFirstTurn;
+    }
+    
+    /**
+     * If the die was placed in the first turn we return true
+     * @return
+     */
+    public boolean isInFirstTurn() {
+        return inFirstTurn;
+    }
+
+    /**
+     * Sets the round of the die
+     * @param round
+     */
+    public void setRound(int round) {
+        this.round = round;
+    }
 }
