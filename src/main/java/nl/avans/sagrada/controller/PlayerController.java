@@ -2,13 +2,13 @@ package nl.avans.sagrada.controller;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
-import nl.avans.sagrada.dao.ChatlineDao;
-import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
@@ -241,7 +241,7 @@ public class PlayerController {
             myScene.addAlertPane(alert);
         }
     }
-    
+
     /**
      * Sets the active toolcard if there can be paid for
      */
