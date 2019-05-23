@@ -157,7 +157,6 @@ public class AccountController {
      * database.
      */
     public void viewLobby() {
-        System.out.println("Lobby view");
         AccountDao accountDao = new AccountDao();
         Pane pane = new Pane();
         account = accountDao.getAccountByUsername(account.getUsername());
@@ -236,7 +235,6 @@ public class AccountController {
         }
 
         if (invitedAccounts.size() == 0) {
-            System.out.println("Te weinig accounts ge-invite");
             Alert alert = new Alert("Invites niet verstuurd", "Te weinig accounts geselecteerd",
                     AlertType.ERROR);
             myScene.addAlertPane(alert);
@@ -260,9 +258,12 @@ public class AccountController {
         }
         
         InviteTask inviteTask = new InviteTask(this, game, invitedAccounts);
-        Platform.runLater(inviteTask);
+        Thread inviteThread = new Thread(inviteTask);
+        inviteThread.setName("Sending invites");
+        inviteThread.start();
         Alert alert = new Alert("Invites verstuurd", "Invites zijn verstuurd", AlertType.INFO);
         myScene.addAlertPane(alert);
+        System.out.println("Done in ctrl");
         viewLobby();
     }
 
