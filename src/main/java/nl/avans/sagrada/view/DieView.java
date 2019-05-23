@@ -57,7 +57,6 @@ public class DieView extends Pane implements ViewInterface {
             if (playerController.getPlayer().isCheatmode()) {
                 patternCardFieldView = playerController
                         .actionCalculateBestPlacementForGameDie(gameDie);
-                patternCardFieldView.addHighlight();
             }
         });
         setBorder(new Border(

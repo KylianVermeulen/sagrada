@@ -1,6 +1,7 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -140,7 +141,7 @@ public class PlayerController {
             viewEndgame();
         } else {
             Pane pane = new Pane();
-            GameView gameView = new GameView(this, game, player);
+            gameView = new GameView(this, game, player);
             gameView.render();
             pane.getChildren().add(gameView);
             myScene.setContentPane(pane);
@@ -342,14 +343,22 @@ public class PlayerController {
                 }
             }
         }
-        PatternCardField bestPatternCardField = treeMap.lastEntry().getValue();
+        SortedMap<Integer, PatternCardField> bestPatternCardFieldSortedMap = treeMap.tailMap(treeMap.lastEntry().getKey());
         PatternCardFieldView[][] patternCardFieldViews = gameView.getPlayerPatternCardView()
                 .getPatternCardFieldViews();
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
                 patternCardFieldViews[x][y].removeHighlight();
-                if (x == bestPatternCardField.getxPos() && y == bestPatternCardField.getyPos()) {
-                    PatternCardFieldView bestPatternCardFieldView = patternCardFieldViews[x][y];
+                System.out.println("DEBUG 1");
+                if (treeMap.containsValue(patternCardFieldViews[x][y].getPatternCardField())) {
+                    System.out.println("DEBUG 2");
+                    if (bestPatternCardFieldSortedMap.containsValue(patternCardFieldViews[x][y].getPatternCardField())) {
+                        System.out.println("DEBUG 3");
+                        patternCardFieldViews[x][y].addBestHighlight();
+                    } else {
+                        System.out.println("DEBUG 4");
+                        patternCardFieldViews[x][y].addHighlight();
+                    }
                 }
             }
         }
