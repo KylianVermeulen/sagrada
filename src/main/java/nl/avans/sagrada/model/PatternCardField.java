@@ -290,7 +290,6 @@ public class PatternCardField {
      */
     private boolean checkTurn(GameDie gameDie) {
         if (patternCard.isFirstTurn()) {
-            patternCard.setFirstTurn(false);
             return true;
         } else if (patternCard.isNextToDie(this)) {
             return true;
