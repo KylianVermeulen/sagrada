@@ -12,15 +12,14 @@ import nl.avans.sagrada.model.Player;
 
 public class PlayerFrameFieldDao {
     private DBConnection dbConnection;
-    
+
     public PlayerFrameFieldDao() {
         dbConnection = new DBConnection();
     }
-    
+
     /**
      * Gets the gameDie of a field
-     * @param patternCardField
-     * @param player
+     *
      * @return GameDie
      */
     public GameDie getGameDieOfField(PatternCardField patternCardField, Player player) {
@@ -38,29 +37,29 @@ public class PlayerFrameFieldDao {
             );
             if (rs.next()) {
                 die = new GameDie(
-                        rs.getInt("dienumber"), 
-                        rs.getString("diecolor"), 
+                        rs.getInt("dienumber"),
+                        rs.getString("diecolor"),
                         rs.getInt("eyes")
-                    );
+                );
                 die.setIsOnOfferTable(false);
             }
+            rs.close();
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
         }
         return die;
     }
-    
+
     /**
      * Updates the location of one die on the framefield
-     * @param die
-     * @param patterncardfield
-     * @param player
      */
     public void updateDieLocation(GameDie die, PatternCardField patterncardfield, Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=?", "update"),
+                    new Query(
+                            "UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=?",
+                            "update"),
                     new QueryParameter(QueryParameter.INT, die.getNumber()),
                     new QueryParameter(QueryParameter.STRING, die.getColor()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getId()),
@@ -72,45 +71,42 @@ public class PlayerFrameFieldDao {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Adds a die to a field
-     * @param die
-     * @param patternCardField
-     * @param player
      */
     public void addDieToField(GameDie die, PatternCardField patternCardField, Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
-                        "INSERT INTO playerframefield (player_idplayer, position_x, position_y, idgame, dienumber, diecolor) VALUES (?, ?, ?, ?, ?, ?)", "update",
-                        new QueryParameter(QueryParameter.INT, player.getId()),
-                        new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
-                        new QueryParameter(QueryParameter.INT, patternCardField.getyPos()),
-                        new QueryParameter(QueryParameter.INT, player.getGame().getId()),
-                        new QueryParameter(QueryParameter.INT, die.getNumber()),
-                        new QueryParameter(QueryParameter.STRING, die.getColor())
-                    ));
+                    "INSERT INTO playerframefield (player_idplayer, position_x, position_y, idgame, dienumber, diecolor) VALUES (?, ?, ?, ?, ?, ?)",
+                    "update",
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
+                    new QueryParameter(QueryParameter.INT, patternCardField.getyPos()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getId()),
+                    new QueryParameter(QueryParameter.INT, die.getNumber()),
+                    new QueryParameter(QueryParameter.STRING, die.getColor())
+            ));
         } catch (Exception e) {
             e.printStackTrace();
         }
         die.setIsOnOfferTable(false);
     }
-    
+
     /**
      * Removes a die from the field that it is of a player
-     * @param die
-     * @param patterncardfield
-     * @param player
      */
     public void removeDie(GameDie die, PatternCardField patternCardField, Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
-                        new Query("DELETE FROM playerframefield WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=?", "update"),
-                        new QueryParameter(QueryParameter.INT, player.getId()),
-                        new QueryParameter(QueryParameter.INT, patternCardField.getyPos()),
-                        new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
-                        new QueryParameter(QueryParameter.INT, player.getGame().getId())
-                    );
+                    new Query(
+                            "DELETE FROM playerframefield WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=?",
+                            "update"),
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, patternCardField.getyPos()),
+                    new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getId())
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
