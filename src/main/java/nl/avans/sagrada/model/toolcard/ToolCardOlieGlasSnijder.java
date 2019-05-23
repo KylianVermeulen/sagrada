@@ -77,7 +77,7 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
     public boolean hasRequirementsToRun(PlayerController playerController) {
         int countDice = 0;
         PatternCardField[][] patternCardFields = playerController.getPlayer().getPatternCard()
-                .getPatternCardFields();
+                .getPatternCardFields(playerController.getPlayer());
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
                 if (patternCardFields[x][y].hasDie()) {
