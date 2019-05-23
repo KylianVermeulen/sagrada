@@ -11,6 +11,10 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
+/**
+ * Verplaats tot 2 dobbelstenen van dezelfde kleur die overeenkomen met een steen op het Rondespoor.
+ * Je moet alle andere voorwaarden nog steeds repsecteren.
+ */
 public class ToolCardOlieGlasSnijder extends ToolCard {
     private int numberOfUses;
 

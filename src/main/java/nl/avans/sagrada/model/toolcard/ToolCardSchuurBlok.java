@@ -10,6 +10,10 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
+/**
+ * Nadat je een dobbelsteen kiest, mag je hem draaien naar de tegenovergestelde zijde. 6 naar 1, 5
+ * naar 2, 4 naar 3, enz.
+ */
 public class ToolCardSchuurBlok extends ToolCard {
 
     public ToolCardSchuurBlok(int id, String name, int seqnr, String description) {
@@ -29,11 +33,11 @@ public class ToolCardSchuurBlok extends ToolCard {
 
             if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
                     && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
-                    && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {               
+                    && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
                 int newEyes = (7 - die.getEyes());
-                
+
                 die.setEyes(newEyes);
-                gameDieDao.updateDieEyes(player.getGame(), die);   
+                gameDieDao.updateDieEyes(player.getGame(), die);
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
@@ -47,7 +51,6 @@ public class ToolCardSchuurBlok extends ToolCard {
 
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        // TODO Auto-generated method stub
         return true;
     }
 }

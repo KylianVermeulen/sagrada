@@ -54,6 +54,7 @@ public class PatternCardFieldDao {
                 }
                 list.add(patternCardField);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -63,8 +64,7 @@ public class PatternCardFieldDao {
     /**
      * Gets the PatternCard fields of a PatternCard without a assigned player for optional pattern cards.
      *
-     * @param PatternCard
-     * @param Player
+     * @param patternCard pt
      * @return ArrayList<PatternCardField>
      */
     public ArrayList<PatternCardField> getPatternCardFieldsOfPatterncard(PatternCard patternCard) {
@@ -86,6 +86,7 @@ public class PatternCardFieldDao {
                         patternCard);
                 list.add(patternCardField);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
