@@ -109,8 +109,6 @@ public class PlayerController {
                                         .addDieToField(gameDie, patternCardField, player);
 
                                 new GameDieDao().updateDie(player.getGame(), gameDie);
-                            } else {
-                                System.out.println("We can not run");
                             }
                         }
                     }
@@ -348,41 +346,5 @@ public class PlayerController {
 
     public void actionBackToLobby() {
         myScene.getAccountController().viewLobby();
-    }
-
-    public void viewClickPlacement() {
-        HBox mainPane = new HBox();
-        TilePane secondPane = new TilePane();
-        DieDao dieDao = new DieDao();
-        ArrayList<Die> dice = dieDao.getDice();
-        secondPane.setPrefRows(5);
-        secondPane.setPrefWidth(300);
-        int i = 0;
-        for (Die die : dice) {
-            if (die.getNumber() <= 6) {
-                i++;
-                GameDie gameDie = new GameDie(die, i);
-                DieView dieView = new DieView(gameDie);
-                dieView.render();
-                Pane paddingPane = new Pane();
-                paddingPane.setPadding(new Insets(5));
-                paddingPane.getChildren().add(dieView);
-                secondPane.getChildren().add(paddingPane);
-                if (i == 6) {
-                    i = 0;
-                }
-            }
-        }
-
-        PatternCard patternCard = new PatternCard(1, 0, false);
-        PatternCardView patternCardView = new PatternCardView(this);
-        patternCardView.setPatternCard(patternCard);
-        patternCardView.render();
-
-        Pane pane = new Pane();
-        pane.setPadding(new Insets(10));
-        pane.getChildren().add(patternCardView);
-        mainPane.getChildren().addAll(pane, secondPane);
-        myScene.setContentPane(mainPane);
     }
 }

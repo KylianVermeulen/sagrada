@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import nl.avans.sagrada.view.MyScene;
 
 public class Main extends Application {
-    public static final int SCREEN_HEIGHT = 840;
+    public static final int SCREEN_HEIGHT = 800;
     public static final int SCREEN_WIDTH = 1280;
     public static final Font SAGRADA_FONT = new Font("Segoe Script", 8);
     private MyScene rootScene;
