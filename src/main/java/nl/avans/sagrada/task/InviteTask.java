@@ -1,9 +1,6 @@
 package nl.avans.sagrada.task;
 
 import java.util.ArrayList;
-
-import javafx.concurrent.Task;
-import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.InviteDao;
 import nl.avans.sagrada.model.Account;
