@@ -35,7 +35,6 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
             PatternCardField removeDieField = die.getPatternCardField();
             Player player = patternCard.getPlayer();
 
-
             ArrayList<GameDie> dice = gameDieDao.getDiceOnRoundTrackFromGame(player.getGame());
             ArrayList<String> roundTrackDiceColors = new ArrayList<>();
             for (GameDie gameDie : dice) {
@@ -77,7 +76,8 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
         int countDice = 0;
-        PatternCardField[][] patternCardFields = playerController.getPlayer().getPatternCard().getPatternCardFields();
+        PatternCardField[][] patternCardFields = playerController.getPlayer().getPatternCard()
+                .getPatternCardFields();
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
                 if (patternCardFields[x][y].hasDie()) {
