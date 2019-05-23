@@ -71,7 +71,6 @@ public class GameDieDao {
      *
      * @param game Game
      * @param gameDie GameDie
-     * @param round int
      */
     public void updateDie(Game game, GameDie gameDie) {
         try {
@@ -145,6 +144,7 @@ public class GameDieDao {
                 );
                 gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -177,6 +177,7 @@ public class GameDieDao {
                 gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
                 gameDice.add(gameDie);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -216,6 +217,7 @@ public class GameDieDao {
                 gameDie.setIsOnOfferTable(true);
                 gameDice.add(gameDie);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -247,6 +249,7 @@ public class GameDieDao {
                 gameDie.setRound(rs.getInt("round"));
                 gameDice.add(gameDie);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -294,7 +297,7 @@ public class GameDieDao {
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, game.getRound()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber())
-            );   
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }

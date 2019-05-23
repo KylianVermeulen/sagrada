@@ -132,6 +132,7 @@ public class PlayerDao {
                 int playerId = rs.getInt("idplayer");
                 player = getPlayerById(playerId);
             }
+            rs.close();
         } catch (Exception e) {
             player = null;
             e.printStackTrace();
@@ -151,7 +152,8 @@ public class PlayerDao {
                     new Query("UPDATE player SET patterncard_idpatterncard=? WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, patternCard.getId()),
-                    new QueryParameter(QueryParameter.INT, player.getId()));
+                    new QueryParameter(QueryParameter.INT, player.getId())
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -189,6 +191,7 @@ public class PlayerDao {
             while (rs.next()) {
                 count++;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -213,8 +216,10 @@ public class PlayerDao {
                     new QueryParameter(QueryParameter.INT, player.getGame().getRound())
             );
             if (rs.next()) {
+                rs.close();
                 return true;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -31,6 +31,7 @@ public class DieDao {
                 Die die = new Die(rs.getInt("number"), rs.getString("color"));
                 dice.add(die);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
