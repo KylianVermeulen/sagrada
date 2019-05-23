@@ -105,7 +105,7 @@ public class PlayerController {
                                 PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                                 playerFrameFieldDao
                                         .addDieToField(gameDie, patternCardField, player);
-                                
+
                                 new GameDieDao().updateDie(player.getGame(), gameDie);
                             }
                         }
@@ -146,8 +146,7 @@ public class PlayerController {
         if (game.getRound() == 11) {
             game.finishGame();
             viewEndgame();
-        }
-        else {
+        } else {
             Pane pane = new Pane();
             GameView gameView = new GameView(this, game, player);
             gameView.render();
@@ -279,6 +278,12 @@ public class PlayerController {
                         !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
                     if (toolCard.hasRequirementsToRun(this)) {
                         activeToolCard = toolCard;
+                        if (toolCard.getId() == 6) {
+                            Fluxborstel fluxborstelPopup = new Fluxborstel(myScene,
+                                    getPlayer().getGame(),
+                                    this, activeToolCard);
+                            myScene.addPopupPane(fluxborstelPopup);
+                        }
                         Alert alert = new Alert("Active toolcard",
                                 "Je hebt een actieve toolcard: " + activeToolCard.getName(),
                                 AlertType.INFO);
@@ -289,10 +294,10 @@ public class PlayerController {
                         myScene.addAlertPane(alert);
                         myScene.addAlertPane(alertInfo);
                     } else {
-                    Alert alert = new Alert("ToolCard",
-                            "Je voldoet niet aan de eisen!",
-                            AlertType.ERROR);
-                    myScene.addAlertPane(alert);
+                        Alert alert = new Alert("ToolCard",
+                                "Je voldoet niet aan de eisen!",
+                                AlertType.ERROR);
+                        myScene.addAlertPane(alert);
                     }
                 } else {
                     Alert alert = new Alert("Te weinig betaalstenen",
