@@ -38,6 +38,7 @@ public class AccountDao {
                 String accountPassword = rs.getString("password");
                 account = new Account(accountUsername, accountPassword);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,6 +61,7 @@ public class AccountDao {
                 Account account = new Account(accountUsername, accountPassword);
                 list.add(account);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -129,6 +131,7 @@ public class AccountDao {
                     return false;
                 }
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -153,6 +156,7 @@ public class AccountDao {
             if (rs.next()) {
                 count = rs.getInt("count_wins");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -177,6 +181,7 @@ public class AccountDao {
             if (rs.next()) {
                 count = rs.getInt("count_loses");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -201,6 +206,7 @@ public class AccountDao {
             if (rs.next()) {
                 score = rs.getInt("hoogste_score");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -225,6 +231,7 @@ public class AccountDao {
             if (rs.next()) {
                 color = rs.getString("meest_gebruikte_kleur");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -255,6 +262,7 @@ public class AccountDao {
             if (rs.next()) {
                 value = rs.getInt("eyes");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -276,6 +284,7 @@ public class AccountDao {
                             "query"),
                     new QueryParameter(QueryParameter.STRING, account.getUsername())
             );
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

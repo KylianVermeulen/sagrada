@@ -37,8 +37,8 @@ public class ChatlineDao {
                             "update"),
                     new QueryParameter(QueryParameter.INT, player.getId()),
                     new QueryParameter(QueryParameter.TIMESTAMP, timeStamp),
-                    new QueryParameter(QueryParameter.STRING, message));
-
+                    new QueryParameter(QueryParameter.STRING, message)
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -55,16 +55,16 @@ public class ChatlineDao {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
                     "SELECT chatline.* FROM chatline JOIN player ON chatline.player_idplayer = player.idplayer WHERE game_idgame =? ORDER BY time ASC",
-                    "query"), new QueryParameter(QueryParameter.INT, game.getId()));
-
+                    "query"), new QueryParameter(QueryParameter.INT, game.getId())
+            );
             while (rs.next()) {
                 Chatline chatline = new Chatline();
                 chatline.setPlayer(new PlayerDao().getPlayerById(rs.getInt("player_idplayer")));
                 chatline.setTimestamp(rs.getTimestamp("time"));
                 chatline.setMessage(rs.getString("message"));
                 chatlines.add(chatline);
-
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,11 +79,10 @@ public class ChatlineDao {
     public void getTime(Chatline chatline) {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT NOW()", "query"));
-
             while (rs.next()) {
                 chatline.setTimestamp(rs.getTimestamp("NOW()"));
             }
-
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -100,7 +99,8 @@ public class ChatlineDao {
                     new Query("SELECT count(*) FROM chatline WHERE time =? AND player_idplayer =?",
                             "query"),
                     new QueryParameter(QueryParameter.TIMESTAMP, chatline.getTimestamp()),
-                    new QueryParameter(QueryParameter.INT, chatline.getPlayer().getId()));
+                    new QueryParameter(QueryParameter.INT, chatline.getPlayer().getId())
+            );
             if (rs.next()) {
                 int count = rs.getInt("count(*)");
                 if (count > 0) {
@@ -109,6 +109,7 @@ public class ChatlineDao {
                     return false;
                 }
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
