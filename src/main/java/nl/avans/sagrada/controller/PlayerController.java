@@ -3,8 +3,12 @@ package nl.avans.sagrada.controller;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.DieDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
+import javafx.scene.layout.HBox;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
@@ -15,6 +19,7 @@ import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.model.Die;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
@@ -120,7 +125,7 @@ public class PlayerController {
                                 PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                                 playerFrameFieldDao
                                         .addDieToField(gameDie, patternCardField, player);
-                                
+
                                 new GameDieDao().updateDie(player.getGame(), gameDie);
                             }
                         }
@@ -161,8 +166,7 @@ public class PlayerController {
         if (game.getRound() == 11) {
             game.finishGame();
             viewEndgame();
-        }
-        else {
+        } else {
             Pane pane = new Pane();
             GameView gameView = new GameView(this, game, player);
             gameView.render();
@@ -266,10 +270,9 @@ public class PlayerController {
             myScene.addAlertPane(alert);
         }
     }
-    
+
     /**
      * Sets the active toolcard if there can be paid for
-     * @param toolCard
      */
     public void setActiveToolCard(ToolCard toolCard) {
         if (player.isCurrentPlayer()) {
@@ -301,10 +304,10 @@ public class PlayerController {
                             myScene.addPopupPane(driePuntStang);
                         }
                     } else {
-                    Alert alert = new Alert("ToolCard",
-                            "Je voldoet niet aan de eisen!",
-                            AlertType.ERROR);
-                    myScene.addAlertPane(alert);
+                        Alert alert = new Alert("ToolCard",
+                                "Je voldoet niet aan de eisen!",
+                                AlertType.ERROR);
+                        myScene.addAlertPane(alert);
                     }
                 } else {
                     Alert alert = new Alert("Te weinig betaalstenen",
@@ -324,9 +327,10 @@ public class PlayerController {
             myScene.addAlertPane(alert);
         }
     }
-    
+
     /**
      * Controlls the amount of favor tokens that needs to be paid
+     *
      * @param toolCard The tool card.
      */
     public void actionPayForToolCard(ToolCard toolCard) {
@@ -339,8 +343,7 @@ public class PlayerController {
                     player.getGame());
             newFavorTokens.remove(0);
             newFavorTokens.remove(1);
-        }
-        else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
+        } else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
             favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
                     player.getGame());
             newFavorTokens.remove(0);
@@ -350,7 +353,7 @@ public class PlayerController {
     /**
      * Displays the view after a game is finished. The user can see their scores and then go or back
      * to the lobbyscreen or view the statistics.
-     */    
+     */
     public void viewEndgame() {
         GameDao gameDao = new GameDao();
         Game game = player.getGame();
@@ -361,7 +364,7 @@ public class PlayerController {
         pane.getChildren().add(endgameView);
         myScene.setContentPane(pane);
     }
-    
+
     public void actionBackToLobby() {
         myScene.getAccountController().viewLobby();
     }
