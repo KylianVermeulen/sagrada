@@ -3,7 +3,6 @@ package nl.avans.sagrada.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javafx.scene.paint.Color;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
@@ -113,14 +112,16 @@ public class FavorTokenDao {
         ToolCardDao toolCardDao = new ToolCardDao();
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
-                            "UPDATE gamefavortoken SET idfavortoken=?, idgame=?, idplayer=?, gametoolcard=? WHERE idfavortoken=?",
+                            "UPDATE gamefavortoken SET idfavortoken=?, idgame=?, idplayer=?, gametoolcard=?, round=? WHERE idfavortoken=?",
                             "update"), new QueryParameter(QueryParameter.INT, favorToken.getId()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, favorToken.getPlayer().getId()),
                     new QueryParameter(QueryParameter.INT,
                             toolCardDao.getGameToolCardForToolCardId(toolCard.getId(),
                                     game.getId())),
-                    new QueryParameter(QueryParameter.INT, favorToken.getId()));
+                    new QueryParameter(QueryParameter.INT, game.getRound()),
+                    new QueryParameter(QueryParameter.INT, favorToken.getId())
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
