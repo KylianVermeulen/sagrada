@@ -135,7 +135,7 @@ public class Fluxverwijderaar extends Popup {
      */
     private void chooseDie(GameDie gameDie) {
         GameDieDao gameDieDao = new GameDieDao();
-        gameDieDao.updateGameDieEyes(game, gameDie);
+        gameDieDao.updateDieEyes(game, gameDie);
         playerController.actionPayForToolCard(toolCard);
         myScene.removePopupPane();
         playerController.setActiveToolCardNull();
