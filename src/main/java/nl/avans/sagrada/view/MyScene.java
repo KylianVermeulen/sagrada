@@ -12,9 +12,10 @@ import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.database.ChecksumDatabase;
+import nl.avans.sagrada.runnables.AlertHandler;
 import nl.avans.sagrada.view.popups.Alert;
 
-public class MyScene extends Scene {
+public class MyScene extends Scene implements Runnable {
     private Pane rootPane;
     private Pane contentPane;
     private ArrayList<Pane> alerts;
@@ -22,6 +23,7 @@ public class MyScene extends Scene {
     private AccountController accountController;
     private PlayerController playerController;
     private ChecksumDatabase checksumDatabase;
+    private AlertHandler alertHandler;
 
     /**
      * Full Constructor
@@ -36,6 +38,7 @@ public class MyScene extends Scene {
         contentPane = new Pane();
         alerts = new ArrayList<Pane>();
         popups = new ArrayList<>();
+        alertHandler = new AlertHandler(rootPane);
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
@@ -131,5 +134,11 @@ public class MyScene extends Scene {
             rootPane.getChildren().remove(popups.get(0));
             popups.clear();
         }
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        
     }
 }

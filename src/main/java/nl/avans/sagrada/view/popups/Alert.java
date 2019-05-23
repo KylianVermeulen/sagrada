@@ -35,7 +35,6 @@ public class Alert extends Popup {
         // Max size is needed because a StackPane will resize children to own size.
         setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
         setBackground();
-        render();
     }
 
     /**
