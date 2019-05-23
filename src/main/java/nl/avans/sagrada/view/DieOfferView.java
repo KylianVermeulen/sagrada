@@ -17,7 +17,6 @@ public class DieOfferView extends TilePane implements ViewInterface {
      */
     public DieOfferView(Game game) {
         this.game = game;
-        
     }
 
     /**

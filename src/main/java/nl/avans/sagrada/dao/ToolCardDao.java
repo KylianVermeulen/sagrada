@@ -56,6 +56,7 @@ public class ToolCardDao {
                 toolCard.setHasBeenPaidForBefore(hasBeenPaidForBefore);
                 list.add(toolCard);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -80,6 +81,7 @@ public class ToolCardDao {
                     );
                 list.add(toolCard);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,6 +108,7 @@ public class ToolCardDao {
                         rs.getString("description")
                     );
             }
+            rs.close();
         } catch (Exception e) {
             toolCard = null;
             e.printStackTrace();
@@ -149,6 +152,7 @@ public class ToolCardDao {
             if (rs.next()) {
                 gameToolCardId = rs.getInt("highestGameToolcardId") + 1;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -174,6 +178,7 @@ public class ToolCardDao {
             if (rs.next()) {
                 gameToolCardId = rs.getInt("gametoolcard");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -198,11 +203,14 @@ public class ToolCardDao {
                     new QueryParameter(QueryParameter.INT, game.getId()));
             if (rs.next()) {
                 if (rs.getInt("gametoolcard") == 0) {
+                    rs.close();
                     return false;
                 } else {
+                    rs.close();
                     return true;
                 }
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -286,6 +294,7 @@ public class ToolCardDao {
                         rs.getString("description")
                 );
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
