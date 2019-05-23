@@ -102,3 +102,34 @@ Button{
     -fx-font-size: 20;
     -fx-font-family: "Bookman Old Style";
 }
+
+#ToolCardDriePuntTang {
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-background-color: white;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+}
+
+.DriePuntTangText {
+    -fx-font-weight: bold;
+    -fx-font-size: 11;
+    -fx-font-family: "Bookman Old Style";
+}
+
+.DriePuntTangButton {
+    -fx-font-weight: bold;
+    -fx-background-color: black;
+    -fx-font-family: "Bookman Old Style";
+    -fx-font-size: 14;
+    -fx-text-fill: lightgray;
+}
+
+.DriePuntTangButton:hover {
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+}
+
+.DriePuntStangDie {
+    -fx-background-color: gray;
+}

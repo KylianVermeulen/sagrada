@@ -38,6 +38,7 @@ public class AccountDao {
                 String accountPassword = rs.getString("password");
                 account = new Account(accountUsername, accountPassword);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,6 +61,7 @@ public class AccountDao {
                 Account account = new Account(accountUsername, accountPassword);
                 list.add(account);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -129,6 +131,7 @@ public class AccountDao {
                     return false;
                 }
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -153,6 +156,7 @@ public class AccountDao {
             if (rs.next()) {
                 count = rs.getInt("count_wins");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -177,6 +181,7 @@ public class AccountDao {
             if (rs.next()) {
                 count = rs.getInt("count_loses");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -201,6 +206,7 @@ public class AccountDao {
             if (rs.next()) {
                 score = rs.getInt("hoogste_score");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -225,6 +231,7 @@ public class AccountDao {
             if (rs.next()) {
                 color = rs.getString("meest_gebruikte_kleur");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -242,13 +249,20 @@ public class AccountDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT account.username AS playername, dienumber AS meest_gebruikte_waarde, COUNT(dienumber) AS aantal_keer_gebruikt FROM player JOIN account ON account.username = player.username JOIN playerframefield ON player.idplayer = playerframefield.player_idplayer WHERE account.username=? AND dienumber IS NOT NULL GROUP BY playername, dienumber ORDER BY aantal_keer_gebruikt LIMIT 1;",
+                            "SELECT eyes, COUNT(eyes) AS aantal_keer_gebruikt\n" +
+                                    "FROM playerframefield JOIN player ON player.idplayer = playerframefield.player_idplayer\n" +
+                                    "JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber\n" +
+                                    "WHERE player.username =?\n" +
+                                    "GROUP BY eyes\n" +
+                                    "ORDER BY aantal_keer_gebruikt DESC\n" +
+                                    "LIMIT 1",
                             "query"),
                     new QueryParameter(QueryParameter.STRING, account.getUsername())
             );
             if (rs.next()) {
-                value = rs.getInt("meest_gebruikte_waarde");
+                value = rs.getInt("eyes");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -270,6 +284,7 @@ public class AccountDao {
                             "query"),
                     new QueryParameter(QueryParameter.STRING, account.getUsername())
             );
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
