@@ -16,7 +16,7 @@ public class InviteTask implements Runnable {
     private ArrayList<Account> accounts;
     
     /**
-     * 
+     * Constructor for the task
      * @param accountController
      * @param game
      * @param accounts
@@ -26,6 +26,9 @@ public class InviteTask implements Runnable {
         this.accounts = accounts;
     }
 
+    /**
+     * Sends the invites to the accounts and set the optional patternCards
+     */
     @Override
     public void run() {
         InviteDao inviteDao = new InviteDao();
