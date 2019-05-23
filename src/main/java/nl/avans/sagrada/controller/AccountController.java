@@ -257,7 +257,7 @@ public class AccountController {
             }
         }
         
-        InviteTask inviteTask = new InviteTask(this, game, invitedAccounts);
+        InviteTask inviteTask = new InviteTask(game, invitedAccounts);
         Thread inviteThread = new Thread(inviteTask);
         inviteThread.setName("Sending invites");
         inviteThread.start();

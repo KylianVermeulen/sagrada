@@ -12,12 +12,16 @@ import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 
 public class InviteTask implements Runnable {
-    private AccountController accountController;
     private Game game;
     private ArrayList<Account> accounts;
     
-    public InviteTask(AccountController accountController, Game game, ArrayList<Account> accounts) {
-        this.accountController = accountController;
+    /**
+     * 
+     * @param accountController
+     * @param game
+     * @param accounts
+     */
+    public InviteTask(Game game, ArrayList<Account> accounts) {
         this.game = game;
         this.accounts = accounts;
     }
