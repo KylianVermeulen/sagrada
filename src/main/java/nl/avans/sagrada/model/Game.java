@@ -455,19 +455,15 @@ public class Game {
         for (int i = 0; i < players.size(); i++) {
             Player playerNextTurn = players.get(i);
             if (oldSeqnr < (players.size() * 2)) {
-                if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
-                    if (currentPlayer.getId() != playerNextTurn.getId()) {
-                        updatePlayer(currentPlayer, playerNextTurn);
-                    }
-                } else if (this.getPlayers().size() != oldSeqnr + 1) {
-                    if (playerNextTurn.getSeqnr() == oldSeqnr + 2) {
-                        if (currentPlayer != playerNextTurn) {
+                    if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
+                        if (currentPlayer.getId() != playerNextTurn.getId()) {
+                            System.out.println("(1st Check) CurrentPlayer " + currentPlayer.needsNewSeqnr() + ": " + currentPlayer.getSeqnr() + ", PlayerNextTurn: " + playerNextTurn.getSeqnr());
                             updatePlayer(currentPlayer, playerNextTurn);
                         }
-                    }
                 }
             } else {
                 if (currentPlayer.getId() != playerNextTurn.getId()) {
+                    System.out.println("3rd Check");
                     updatePlayer(playerNextTurn, currentPlayer);
                     // The player next turn contains seqnr 2
                     // So we switch those 2
