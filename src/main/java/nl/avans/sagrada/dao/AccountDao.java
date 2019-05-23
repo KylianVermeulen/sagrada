@@ -242,12 +242,18 @@ public class AccountDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT account.username AS playername, dienumber AS meest_gebruikte_waarde, COUNT(dienumber) AS aantal_keer_gebruikt FROM player JOIN account ON account.username = player.username JOIN playerframefield ON player.idplayer = playerframefield.player_idplayer WHERE account.username=? AND dienumber IS NOT NULL GROUP BY playername, dienumber ORDER BY aantal_keer_gebruikt LIMIT 1;",
+                            "SELECT eyes, COUNT(eyes) AS aantal_keer_gebruikt\n" +
+                                    "FROM playerframefield JOIN player ON player.idplayer = playerframefield.player_idplayer\n" +
+                                    "JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber\n" +
+                                    "WHERE player.username =?\n" +
+                                    "GROUP BY eyes\n" +
+                                    "ORDER BY aantal_keer_gebruikt DESC\n" +
+                                    "LIMIT 1",
                             "query"),
                     new QueryParameter(QueryParameter.STRING, account.getUsername())
             );
             if (rs.next()) {
-                value = rs.getInt("meest_gebruikte_waarde");
+                value = rs.getInt("eyes");
             }
         } catch (SQLException e) {
             e.printStackTrace();
