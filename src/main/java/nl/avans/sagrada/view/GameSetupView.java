@@ -159,7 +159,6 @@ public class GameSetupView extends VBox implements ViewInterface {
         startButton = new Button("Opslaan");
         startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         startButton.setOnAction(e -> {
-            backButton.setDisable(true);
             startButton.setDisable(true);
             accountController.actionSendInvites(inviteViews, game);
         });

@@ -19,6 +19,7 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
+import nl.avans.sagrada.task.FavorTokenPaymentTask;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.PatternCardSelectionView;
@@ -304,19 +305,17 @@ public class PlayerController {
      * @param toolCard The tool card.
      */
     public void actionPayForToolCard(ToolCard toolCard) {
-        FavorTokenDao favorTokenDao = new FavorTokenDao();
         ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+        Game game = player.getGame();
         if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)) {
-            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                    player.getGame());
-            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(1), toolCard,
-                    player.getGame());
-            newFavorTokens.remove(0);
-            newFavorTokens.remove(1);
+            FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, 2);
+            Thread favorTokenPayMentThread1 = new Thread(favorTokenPaymentTask1);
+            favorTokenPayMentThread1.start();
+            
         } else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
-            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                    player.getGame());
-            newFavorTokens.remove(0);
+            FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, 1);
+            Thread favorTokenPayMentThread1 = new Thread(favorTokenPaymentTask1);
+            favorTokenPayMentThread1.start();
         }
     }
 
