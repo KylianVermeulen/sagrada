@@ -28,7 +28,7 @@ public class Player {
 
     public Player() {
         chatlines = new ArrayList<>();
-        needsNewSeqnr = needsNewSeqnr();
+        needsNewSeqnr = true;
     }
 
     /**
