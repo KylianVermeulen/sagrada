@@ -1,31 +1,18 @@
 package nl.avans.sagrada.controller;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-=======
-import javafx.geometry.Insets;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
->>>>>>> 2c17aaf90ca1feb2e8fdf3f68f548db04e3fa952
 import nl.avans.sagrada.dao.ChatlineDao;
-import nl.avans.sagrada.dao.DieDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
-import javafx.scene.layout.HBox;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
-import nl.avans.sagrada.dao.ChatlineDao;
-import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
-import nl.avans.sagrada.model.Die;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
@@ -33,29 +20,9 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
-<<<<<<< HEAD
-=======
-import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
-import nl.avans.sagrada.view.DieView;
+import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DriePuntStang;
-import nl.avans.sagrada.view.GameView;
-import nl.avans.sagrada.view.PatternCardSelectionView;
-import nl.avans.sagrada.view.ChatLineView;
-import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.model.toolcard.ToolCardEglomiseBorstel;
-import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
-import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
-import nl.avans.sagrada.model.toolcard.ToolCardFolieAandrukker;
-import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
-import nl.avans.sagrada.model.toolcard.ToolCardLoodHamer;
-import nl.avans.sagrada.model.toolcard.ToolCardLoodOpenHaler;
-import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
-import nl.avans.sagrada.model.toolcard.ToolCardRondSnijder;
-import nl.avans.sagrada.model.toolcard.ToolCardSchuurBlok;
-import nl.avans.sagrada.model.toolcard.ToolCardSnijLiniaal;
->>>>>>> 2c17aaf90ca1feb2e8fdf3f68f548db04e3fa952
-import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
@@ -63,9 +30,6 @@ import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
-import nl.avans.sagrada.view.ToolCardView;
-import nl.avans.sagrada.view.PatternCardView;
-import java.util.ArrayList;
 
 public class PlayerController {
     private MyScene myScene;
@@ -90,7 +54,7 @@ public class PlayerController {
     /**
      * Sets the active toolcard to null
      */
-    public void setActiveToolCardNull(){
+    public void setActiveToolCardNull() {
         activeToolCard = null;
     }
 
@@ -294,7 +258,8 @@ public class PlayerController {
         myScene.addAlertPane(alert);
 
         if (activeToolCard instanceof ToolCardDriePuntStang) {
-            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(), activeToolCard);
+            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(),
+                    activeToolCard);
             myScene.addPopupPane(driePuntStang);
         }
     }
