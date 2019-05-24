@@ -457,19 +457,13 @@ public class Game {
                     if (currentPlayer.getId() != playerNextTurn.getId()) {
                         updatePlayer(currentPlayer, playerNextTurn);
                     }
-//                } else if (this.getPlayers().size() < oldSeqnr + 1) {
-//                    if (playerNextTurn.getSeqnr() == oldSeqnr + 2) {
-//                        if (currentPlayer != playerNextTurn) {
-//                            updatePlayer(currentPlayer, playerNextTurn);
-//                        }
-//                    }
                 }
             } else {
                 if (currentPlayer.getId() != playerNextTurn.getId()) {
                     updatePlayer(playerNextTurn, currentPlayer);
                     // The player next turn contains seqnr 2
                     // So we switch those 2
-                    
+                    System.out.println("SWITCH");
                     nextRound();
                 }
             }
