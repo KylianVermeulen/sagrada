@@ -9,6 +9,10 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
+/**
+ * Werp alle dobbelstenen in het Aanbod opnieuw. Je mag dit enkel doen tijdens je 2e beurt, voor je
+ * een steen kiest.
+ */
 public class ToolCardLoodHamer extends ToolCard {
 
     public ToolCardLoodHamer(int id, String name, int seqnr, String description) {

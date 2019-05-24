@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
-import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardEglomiseBorstel;
@@ -56,6 +56,7 @@ public class ToolCardDao {
                 toolCard.setHasBeenPaidForBefore(hasBeenPaidForBefore);
                 list.add(toolCard);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -80,6 +81,7 @@ public class ToolCardDao {
                     );
                 list.add(toolCard);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,6 +108,7 @@ public class ToolCardDao {
                         rs.getString("description")
                     );
             }
+            rs.close();
         } catch (Exception e) {
             toolCard = null;
             e.printStackTrace();
@@ -149,6 +152,7 @@ public class ToolCardDao {
             if (rs.next()) {
                 gameToolCardId = rs.getInt("highestGameToolcardId") + 1;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -174,6 +178,7 @@ public class ToolCardDao {
             if (rs.next()) {
                 gameToolCardId = rs.getInt("gametoolcard");
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -198,11 +203,14 @@ public class ToolCardDao {
                     new QueryParameter(QueryParameter.INT, game.getId()));
             if (rs.next()) {
                 if (rs.getInt("gametoolcard") == 0) {
+                    rs.close();
                     return false;
                 } else {
+                    rs.close();
                     return true;
                 }
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -259,5 +267,37 @@ public class ToolCardDao {
         default:
             return null;
         }
+    }
+
+    /**
+     * This method will return the used tool card of a player in a turn of round in a game.
+     *
+     * @param player The player
+     * @return The tool card.
+     */
+    public ToolCard getUsedToolCardOfPlayerInTurnOfRound(Player player) {
+        ToolCard toolCard = null;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN gametoolcard g2 on gamefavortoken.gametoolcard = g2.gametoolcard INNER JOIN game g on gamefavortoken.idgame = g.idgame INNER JOIN toolcard t on g2.idtoolcard = t.idtoolcard WHERE gamefavortoken.gametoolcard IS NOT NULL AND p.seqnr=? AND p.idplayer=? AND round=?",
+                            "query"),
+                    new QueryParameter(QueryParameter.INT, player.getSeqnr()),
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getRound())
+            );
+            if (rs.next()) {
+                toolCard = buildToolCard(
+                        rs.getInt("idtoolcard"),
+                        rs.getString("name"),
+                        rs.getInt("seqnr"),
+                        rs.getString("description")
+                );
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return toolCard;
     }
 }

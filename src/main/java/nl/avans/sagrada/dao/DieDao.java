@@ -1,10 +1,10 @@
 package nl.avans.sagrada.dao;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.model.Die;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 
 public class DieDao {
     private DBConnection dbConnection;
@@ -31,6 +31,7 @@ public class DieDao {
                 Die die = new Die(rs.getInt("number"), rs.getString("color"));
                 dice.add(die);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

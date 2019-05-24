@@ -9,6 +9,9 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
+/**
+ * Verplaats exact 2 dobbelstenen. Je moet hierbij alle voorwaarden van plaatsing respecteren.
+ */
 public class ToolCardLoodOpenHaler extends ToolCard {
     private int numberOfUses;
 
@@ -26,10 +29,13 @@ public class ToolCardLoodOpenHaler extends ToolCard {
         PatternCard patternCard = patternCardField.getPatternCard();
         Player player = patternCard.getPlayer();
 
-        PatternCardField removeDieField = patternCard.getPatternCardField(die.getPatternCardField().getxPos(), die.getPatternCardField().getyPos());
-        patternCardField = patternCard.getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
-        
-        if (patternCardField.placeDie(die) && die.getPatternCardField() != null) {
+        PatternCardField removeDieField = patternCard
+                .getPatternCardField(die.getPatternCardField().getxPos(),
+                        die.getPatternCardField().getyPos());
+        patternCardField = patternCard
+                .getPatternCardField(patternCardField.getxPos(), patternCardField.getyPos());
+
+        if (patternCardField.canPlaceDie(die) && die.getPatternCardField() != null) {
             // If the new location matches the new requirements we can make those changes
             removeDieField.setDie(null);
             playerFrameFieldDao.removeDie(die, removeDieField, player);
@@ -40,7 +46,7 @@ public class ToolCardLoodOpenHaler extends ToolCard {
             numberOfUses++;
             handleNumberOfUses();
             return patternCard;
-        }       
+        }
         return null;
     }
     private void handleNumberOfUses() {
@@ -52,29 +58,36 @@ public class ToolCardLoodOpenHaler extends ToolCard {
         }
     }
 
+    /**
+     * Checks if the toolcard is done
+     */
+    private void handleNumberOfUses() {
+        if (numberOfUses >= 2) {
+            setIsDone(true);
+        } else {
+            setIsDone(false);
+        }
+    }
+
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        // TODO Auto-generated method stub
         Player player = playerController.getPlayer();
         PatternCard patternCard = player.getPatternCard();
-        PatternCardField[][] patternCardFields = patternCard.getPatternCardFields();
-        
+
         int numberOfFoundDie = 0;
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
-                PatternCardField currentPatternCardField = patternCardFields[x][y];
+                PatternCardField currentPatternCardField = patternCard.getPatternCardField(x, y);
                 if (currentPatternCardField.getDie() != null) {
                     numberOfFoundDie++;
                 }
             }
         }
         if (numberOfFoundDie >= 2) {
+            // We need a minimum of 2 dice
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
-    
-    
 }
