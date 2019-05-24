@@ -225,14 +225,4 @@ public class PlayerDao {
         }
         return false;
     }
-    
-    /**
-     * Gets the count of placed die from a player in a turn of a round.
-     *
-     * @param player The player.
-     * @return Count of placed die.
-     */
-    public int getCountPlacedDieInTurnRound(Player player) {
-        return 0;
-    }
 }

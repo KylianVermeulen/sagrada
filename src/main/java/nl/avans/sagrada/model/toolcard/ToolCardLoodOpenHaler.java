@@ -49,14 +49,6 @@ public class ToolCardLoodOpenHaler extends ToolCard {
         }
         return null;
     }
-    private void handleNumberOfUses() {
-        if (numberOfUses >= 2) {
-            setIsDone(true);
-        }
-        else {
-            setIsDone(false);
-        }
-    }
 
     /**
      * Checks if the toolcard is done

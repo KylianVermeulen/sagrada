@@ -21,17 +21,6 @@ public class ToolCardLoodHamer extends ToolCard {
 
     @Override
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
-        try {
-            if (die.getIsOnOfferTable()) {
-                PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
-                PatternCardField patternCardField = patternCardView.getPatternCardField();
-                PatternCard patternCard = patternCardField.getPatternCard();
-                
-                return patternCard;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return null;
     }
 
@@ -52,6 +41,7 @@ public class ToolCardLoodHamer extends ToolCard {
         Player player = playerController.getPlayer();
         player.getGame().rerollRoundDice();
         playerController.viewGame();
+        playerController.actionPayForToolCard(this);
         this.setIsDone(true);
     }
 }
