@@ -1,21 +1,25 @@
 package nl.avans.sagrada.controller;
 
-import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.DieDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
+import javafx.scene.layout.HBox;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
+import nl.avans.sagrada.dao.ChatlineDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.model.Die;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
@@ -23,7 +27,14 @@ import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
+import nl.avans.sagrada.view.DieView;
+import nl.avans.sagrada.view.DriePuntStang;
+import nl.avans.sagrada.view.GameView;
+import nl.avans.sagrada.view.PatternCardSelectionView;
+import nl.avans.sagrada.view.ChatLineView;
+import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.model.toolcard.ToolCardEglomiseBorstel;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
@@ -45,6 +56,9 @@ import nl.avans.sagrada.view.PatternCardView;
 import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.view.ToolCardView;
+import nl.avans.sagrada.view.PatternCardView;
+import java.util.ArrayList;
 
 public class PlayerController {
     private MyScene myScene;
@@ -64,6 +78,13 @@ public class PlayerController {
      */
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    /**
+     * Sets the active toolcard to null
+     */
+    public void setActiveToolCardNull(){
+        activeToolCard = null;
     }
 
     /**
@@ -109,7 +130,7 @@ public class PlayerController {
                                 PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                                 playerFrameFieldDao
                                         .addDieToField(gameDie, patternCardField, player);
-                                
+
                                 new GameDieDao().updateDie(player.getGame(), gameDie);
                             }
                         }
@@ -150,8 +171,7 @@ public class PlayerController {
         if (game.getRound() == 11) {
             game.finishGame();
             viewEndgame();
-        }
-        else {
+        } else {
             Pane pane = new Pane();
             GameView gameView = new GameView(this, game, player);
             gameView.render();
@@ -178,7 +198,6 @@ public class PlayerController {
             } else {
                 viewGame();
             }
-
         }
     }
 
@@ -257,16 +276,20 @@ public class PlayerController {
             myScene.addAlertPane(alert);
         }
     }
-    
+
     /**
      * Sets the active toolcard if there can be paid for
-     * @param toolCard
      */
     public void setActiveToolCard(ToolCard toolCard) {
         activeToolCard = toolCard;
         Alert alert = new Alert("Active toolcard",
                 "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
         myScene.addAlertPane(alert);
+
+        if (activeToolCard instanceof ToolCardDriePuntStang) {
+            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(), activeToolCard);
+            myScene.addPopupPane(driePuntStang);
+        }
     }
     
     /**
@@ -344,14 +367,12 @@ public class PlayerController {
                     "Je hebt al een actieve toolcard: " + activeToolCard.getName(),
                     AlertType.ERROR);
             myScene.addAlertPane(alert);
-        }
-        
     }
 
     /**
      * Displays the view after a game is finished. The user can see their scores and then go or back
      * to the lobbyscreen or view the statistics.
-     */    
+     */
     public void viewEndgame() {
         GameDao gameDao = new GameDao();
         Game game = player.getGame();
@@ -362,7 +383,7 @@ public class PlayerController {
         pane.getChildren().add(endgameView);
         myScene.setContentPane(pane);
     }
-    
+
     public void actionBackToLobby() {
         myScene.getAccountController().viewLobby();
     }

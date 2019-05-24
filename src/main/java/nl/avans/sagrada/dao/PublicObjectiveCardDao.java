@@ -38,6 +38,7 @@ public class PublicObjectiveCardDao {
                 );
                 list.add(publicObjectiveCard);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,6 +66,7 @@ public class PublicObjectiveCardDao {
                 );
                 list.add(publicObjectiveCard);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,6 +88,7 @@ public class PublicObjectiveCardDao {
                 publicObjectiveCard.setDescription(rs.getString("description"));
                 publicObjectiveCard.setPoints(rs.getInt("points"));
             }
+            rs.close();
         } catch (Exception e) {
             publicObjectiveCard = null;
             e.printStackTrace();
@@ -105,7 +108,8 @@ public class PublicObjectiveCardDao {
             ResultSet rs = dbConnection.executeQuery(new Query(
                             "INSERT INTO sharedpublic_objectivecard (idgame, idpublic_objectivecard) VALUES (?, ?)",
                             "update"), new QueryParameter(QueryParameter.INT, game.getId()),
-                    new QueryParameter(QueryParameter.INT, publicObjectiveCard.getId()));
+                    new QueryParameter(QueryParameter.INT, publicObjectiveCard.getId())
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
