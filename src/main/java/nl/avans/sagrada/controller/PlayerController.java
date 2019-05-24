@@ -23,6 +23,7 @@ import nl.avans.sagrada.task.FavorTokenPaymentTask;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.PatternCardSelectionView;
+import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.EndgameView;
@@ -53,7 +54,7 @@ public class PlayerController {
     /**
      * Sets the active toolcard to null
      */
-    public void setActiveToolCardNull(){
+    public void setActiveToolCardNull() {
         activeToolCard = null;
     }
 
@@ -75,8 +76,12 @@ public class PlayerController {
                             new GameDieDao().updateDie(player.getGame(), gameDie);
                             if (activeToolCard.getIsDone()) {
                                 gameDie.setInFirstTurn(player.isFirstTurn());
-                                actionPayForToolCard(activeToolCard);
                                 activeToolCard = null;
+                                Alert alert = new Alert("ToolCard",
+                                        "Je hebt je toolcard gebruikt!",
+                                        AlertType.INFO
+                                );
+                                myScene.addAlertPane(alert);
                             }
                             player.setPatternCard(toolCardUseResult);
                             viewGame();
@@ -201,6 +206,7 @@ public class PlayerController {
     public void actionPass() {
         if (player.isCurrentPlayer()) {
             player.getGame().setNextPlayer();
+            activeToolCard = null;
         } else {
             Alert alert = new Alert("Nog even wachten", "Je bent nog niet aan de beurt.",
                     AlertType.INFO);
@@ -246,55 +252,77 @@ public class PlayerController {
      * Sets the active toolcard if there can be paid for
      */
     public void setActiveToolCard(ToolCard toolCard) {
-        if (player.isCurrentPlayer()) {
-            if (!new PlayerDao().hasUsedToolCardInTurnRound(player)) {
-                if (activeToolCard != null) {
-                    if (toolCard.getId() == activeToolCard.getId()) {
-                        activeToolCard = null;
-                        Alert alert = new Alert("Active toolcard",
-                                "Je hebt nu geen active toolcard meer",
-                                AlertType.INFO);
-                        myScene.addAlertPane(alert);
-                    }
-                } else if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)
-                        ||
-                        !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
-                    if (toolCard.hasRequirementsToRun(this)) {
-                        activeToolCard = toolCard;
-                        Alert alert = new Alert("Active toolcard",
-                                "Je hebt een actieve toolcard: " + activeToolCard.getName(),
-                                AlertType.INFO);
-                        Alert alertInfo = new Alert("ToolCard info",
-                                "wanneer je de toolcard succesvol hebt gebruikt, zal er pas betaald worden",
-                                AlertType.INFO
-                        );
-                        myScene.addAlertPane(alert);
-                        myScene.addAlertPane(alertInfo);
-                        if(activeToolCard instanceof ToolCardDriePuntStang){
-                            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(), activeToolCard);
-                            myScene.addPopupPane(driePuntStang);
-                        }
-                    } else {
-                        Alert alert = new Alert("ToolCard",
-                                "Je voldoet niet aan de eisen!",
-                                AlertType.ERROR);
-                        myScene.addAlertPane(alert);
-                    }
-                } else {
-                    Alert alert = new Alert("Te weinig betaalstenen",
-                            "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
-                            AlertType.ERROR);
-                    myScene.addAlertPane(alert);
+        activeToolCard = toolCard;
+        Alert alert = new Alert("Active toolcard",
+                "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
+        myScene.addAlertPane(alert);
+
+        if (activeToolCard instanceof ToolCardDriePuntStang) {
+            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(),
+                    activeToolCard);
+            myScene.addPopupPane(driePuntStang);
+        }
+    }
+
+    /**
+     * Controlls the amount of favor tokens that needs to be paid
+     *
+     * @param toolCard The tool card.
+     */
+    public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolcardview) {
+        if (!player.isCurrentPlayer()) {
+            Alert alert = new Alert("Active speler",
+                    "Je bent nu niet de active speler, even geduld!",
+                    AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+        if (!toolCard.hasRequirementsToRun(this)) {
+            Alert alert = new Alert("ToolCard",
+                    "Je hebt niet de minimale benodigdheden voor deze toolcard",
+                    AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+        if (player.hasUsedToolcardInCurrentRound()) {
+            Alert alert = new Alert("ToolCard",
+                    "Je hebt al een toolcard gebruikt!",
+                    AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+        if (activeToolCard == null) {
+
+            ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
+            for (int i = 0; i < player.getGame().getPlayers().size(); i++) {
+                if (player.getId() == player.getGame().getPlayers().get(i).getId()) {
+                    player.setPlayerColor(i);
                 }
+            }
+            if (newFavorTokens.size() > 0) {
+                Game game = player.getGame();
+                if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)) {
+                    FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, 2);
+                    Thread favorTokenPayMentThread1 = new Thread(favorTokenPaymentTask1);
+                    favorTokenPayMentThread1.start();
+                    setActiveToolCard(toolCard);
+                    
+                } else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
+                    FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, 1);
+                    Thread favorTokenPayMentThread1 = new Thread(favorTokenPaymentTask1);
+                    favorTokenPayMentThread1.start();
+                    setActiveToolCard(toolCard);
+               }
             } else {
-                Alert alert = new Alert("Helaas",
-                        "Je hebt deze beurt al een toolcard gebruikt.",
-                        AlertType.INFO);
+                Alert alert = new Alert("Te weinig betaalstenen",
+                        "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
+                        AlertType.ERROR);
                 myScene.addAlertPane(alert);
             }
         } else {
-            Alert alert = new Alert("Nog even wachten", "Je bent nog niet aan de beurt.",
-                    AlertType.INFO);
+            Alert alert = new Alert("Active toolcard",
+                    "Je hebt al een actieve toolcard: " + activeToolCard.getName(),
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
         }
     }
@@ -305,18 +333,7 @@ public class PlayerController {
      * @param toolCard The tool card.
      */
     public void actionPayForToolCard(ToolCard toolCard) {
-        ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
-        Game game = player.getGame();
-        if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)) {
-            FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, 2);
-            Thread favorTokenPayMentThread1 = new Thread(favorTokenPaymentTask1);
-            favorTokenPayMentThread1.start();
-            
-        } else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
-            FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, 1);
-            Thread favorTokenPayMentThread1 = new Thread(favorTokenPaymentTask1);
-            favorTokenPayMentThread1.start();
-        }
+
     }
 
     /**
