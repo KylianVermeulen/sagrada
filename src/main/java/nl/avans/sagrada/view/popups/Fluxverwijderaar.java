@@ -24,7 +24,7 @@ import nl.avans.sagrada.view.MyScene;
 
 public class Fluxverwijderaar extends Popup {
     public static final int WIDTH_FLUXBORSTEL = 630;
-    public static final int HEIGHT_FLUXBORSTEL = 340;
+    public static final int HEIGHT_FLUXBORSTEL = 200;
 
     private MyScene myScene;
     private HBox diePane;
@@ -85,6 +85,7 @@ public class Fluxverwijderaar extends Popup {
             dieView.setOnMouseClicked(e -> {
                 showChooseDie(i);
             });
+            dieView.disableDrag();
             paddingPane.getChildren().add(dieView);
             diePane.getChildren().add(paddingPane);
             index++;
@@ -119,6 +120,7 @@ public class Fluxverwijderaar extends Popup {
             dieView.setOnMouseClicked(e -> {
                 chooseDie(die);
             });
+            dieView.disableDrag();
             paddingPane.getChildren().add(dieView);
             diePane.getChildren().add(paddingPane);
         }
@@ -136,9 +138,22 @@ public class Fluxverwijderaar extends Popup {
     private void chooseDie(GameDie gameDie) {
         GameDieDao gameDieDao = new GameDieDao();
         gameDieDao.updateDieEyes(game, gameDie);
-        playerController.actionPayForToolCard(toolCard);
-        myScene.removePopupPane();
-        playerController.setActiveToolCardNull();
+        showDie(gameDie);
         playerController.viewGame();
+    }
+
+    private void showDie(GameDie gameDie) {
+        gameDie.enablePopupdie();
+        gameDie.setRound(playerController.getPlayer().getGame().getRound());
+        DieView dieView = new DieView(gameDie);
+        dieView.render();
+        textTop.setText("Dit is de enigste dobbelsteen die je kunt plaatsen.");
+        textBot.setText(
+                "Sleep de steen naar de plek waar je hem wil plaatsen anders klik je op de knop.");
+        diePane.getChildren().clear();
+        rootPane.getChildren().clear();
+        diePane.getChildren().add(dieView);
+        rootPane.getChildren().addAll(textTop, textBot, diePane);
+        //        playerController.actionPayForToolCard(toolCard);
     }
 }

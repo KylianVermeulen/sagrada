@@ -11,7 +11,10 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.AccountDao;
 import nl.avans.sagrada.database.ChecksumDatabase;
+import nl.avans.sagrada.model.Account;
+import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.view.popups.Alert;
 
 public class MyScene extends Scene {
@@ -22,7 +25,7 @@ public class MyScene extends Scene {
     private AccountController accountController;
     private PlayerController playerController;
     private ChecksumDatabase checksumDatabase;
-    
+
     private Thread checksumThreading;
 
     /**
@@ -42,9 +45,14 @@ public class MyScene extends Scene {
 
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
-        accountController.viewLogin();
+
+        AccountDao accountDao = new AccountDao();
+        Account account = accountDao.getAccountByUsername("jel");
+        accountController.setAccount(account);
+        Game game = new Game(4);
+        accountController.actionJoinGame(game);
     }
-    
+
     private void buildThreads() {
         checksumThreading = new Thread(checksumDatabase);
         checksumThreading.setName("Checksum database");

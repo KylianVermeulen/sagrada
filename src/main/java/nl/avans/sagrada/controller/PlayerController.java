@@ -53,7 +53,7 @@ public class PlayerController {
     /**
      * Sets the active toolcard to null
      */
-    public void setActiveToolCardNull(){
+    public void setActiveToolCardNull() {
         activeToolCard = null;
     }
 
@@ -277,8 +277,9 @@ public class PlayerController {
                         );
                         myScene.addAlertPane(alert);
                         myScene.addAlertPane(alertInfo);
-                        if(activeToolCard instanceof ToolCardDriePuntStang){
-                            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(), activeToolCard);
+                        if (activeToolCard instanceof ToolCardDriePuntStang) {
+                            DriePuntStang driePuntStang = new DriePuntStang(myScene, this,
+                                    player.getGame(), activeToolCard);
                             myScene.addPopupPane(driePuntStang);
                         }
                     } else {
@@ -345,5 +346,9 @@ public class PlayerController {
 
     public void actionBackToLobby() {
         myScene.getAccountController().viewLobby();
+    }
+
+    public void removePopupPane() {
+        myScene.removePopupPane();
     }
 }
