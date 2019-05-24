@@ -457,12 +457,12 @@ public class Game {
                     if (currentPlayer.getId() != playerNextTurn.getId()) {
                         updatePlayer(currentPlayer, playerNextTurn);
                     }
-                } else if (this.getPlayers().size() != oldSeqnr + 1) {
-                    if (playerNextTurn.getSeqnr() == oldSeqnr + 2) {
-                        if (currentPlayer != playerNextTurn) {
-                            updatePlayer(currentPlayer, playerNextTurn);
-                        }
-                    }
+//                } else if (this.getPlayers().size() < oldSeqnr + 1) {
+//                    if (playerNextTurn.getSeqnr() == oldSeqnr + 2) {
+//                        if (currentPlayer != playerNextTurn) {
+//                            updatePlayer(currentPlayer, playerNextTurn);
+//                        }
+//                    }
                 }
             } else {
                 if (currentPlayer.getId() != playerNextTurn.getId()) {
