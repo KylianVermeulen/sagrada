@@ -52,6 +52,7 @@ public class InviteDao {
                 // So we ignore that
                 invites.add(invite);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,6 +111,7 @@ public class InviteDao {
             if (rs.next()) {
                 nextSeqnr = rs.getInt("highestSeqnr") + 1;
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,7 +120,6 @@ public class InviteDao {
 
     public void updateInvite(Invite invite) {
         int playerId = invite.getPlayer().getId();
-
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("UPDATE player SET playstatus_playstatus=?  WHERE idplayer=?",

@@ -36,12 +36,13 @@ public class PatternCardDao {
             );
             if (rs.next()) {
                 patternCard = new PatternCard(
-                            rs.getInt("idpatterncard"),
-                            rs.getInt("difficulty"), 
-                            rs.getBoolean("standard"),
-                            player
-                        );
+                        rs.getInt("idpatterncard"),
+                        rs.getInt("difficulty"),
+                        rs.getBoolean("standard"),
+                        player
+                );
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,6 +51,7 @@ public class PatternCardDao {
 
     /**
      * Add a patterncard to the database.
+     *
      * @param patterncard The patterncard.
      */
     public void addPatterncard(PatternCard patterncard) {
@@ -85,12 +87,13 @@ public class PatternCardDao {
             while (rs.next()) {
                 PatternCard patternCard = new PatternCard(
                         rs.getInt("idpatterncard"),
-                        rs.getInt("difficulty"), 
+                        rs.getInt("difficulty"),
                         rs.getBoolean("standard"),
                         player
-                     );
+                );
                 list.add(patternCard);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -135,11 +138,12 @@ public class PatternCardDao {
             while (rs.next()) {
                 PatternCard patternCard = new PatternCard(
                         rs.getInt("idpatterncard"),
-                        rs.getInt("difficulty"), 
+                        rs.getInt("difficulty"),
                         rs.getBoolean("standard")
-                     );
+                );
                 list.add(patternCard);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -161,6 +165,7 @@ public class PatternCardDao {
             if (rs.next()) {
                 patternCardId = rs.getInt("highestPatternCardId") + 1;
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
