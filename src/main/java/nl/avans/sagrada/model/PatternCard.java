@@ -57,13 +57,6 @@ public class PatternCard {
         patternCardFields = getPatternCardFields(player);
     }
 
-    /**
-     * Constructor for id 0 pattern card to use in tool card with double place die.
-     */
-    public PatternCard(int id) {
-        this.id = id;
-    }
-
     public void setPlayer(Player player) {
         this.player = player;
     }

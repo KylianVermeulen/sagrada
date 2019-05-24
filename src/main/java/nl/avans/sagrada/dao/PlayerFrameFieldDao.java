@@ -42,7 +42,6 @@ public class PlayerFrameFieldDao {
                         rs.getInt("eyes")
                 );
                 die.setIsOnOfferTable(false);
-                patternCardField.setDie(die);
             }
             rs.close();
         } catch (Exception e) {
