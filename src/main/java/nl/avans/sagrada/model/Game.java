@@ -483,7 +483,7 @@ public class Game {
             
             for (int i = 0; i < players.size(); i++) {
                 Player playerNextTurn = players.get(i);
-                if (oldSeqnr < (players.size() * 2)) {
+                if (oldSeqnr <= players.size()) {
                     if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
                         if (currentPlayer.getId() != playerNextTurn.getId()) {
                             updatePlayer(currentPlayer, playerNextTurn);
