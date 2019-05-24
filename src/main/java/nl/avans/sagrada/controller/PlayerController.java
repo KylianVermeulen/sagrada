@@ -356,7 +356,7 @@ public class PlayerController {
     public void viewEndgame() {
         GameDao gameDao = new GameDao();
         Game game = player.getGame();
-        Player winPlayer = gameDao.bestFinalScore(game);
+        Player winPlayer = game.bestFinalScore();
         Pane pane = new Pane();
         EndgameView endgameView = new EndgameView(game, this, winPlayer);
         endgameView.render();

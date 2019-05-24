@@ -356,7 +356,7 @@ public class Player {
     public int calculateScore(boolean privateObjectiveCard) {
         int score = 0;
 
-        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields();
+        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
                 x++) { // Basic calculations for pattern card fields
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {

@@ -557,4 +557,22 @@ public class Game {
             playerDao.updatePlayer(player);
         }
     }
+
+    public Player bestFinalScore() {
+        Player player = null;
+        int playerScore = -21;
+        for (Player playerLoop : getPlayers()) {
+            int score = playerLoop.calculateScore(true);
+            if (player == null) {
+                player = playerLoop;
+                playerScore = score;
+            } else {
+                if (score > playerScore) {
+                    player = playerLoop;
+                    playerScore = score;
+                }
+            }
+        }
+        return player;
+    }
 }
