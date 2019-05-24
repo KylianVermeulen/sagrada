@@ -6,12 +6,14 @@ import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.view.ToolCardView;
 
 public class FavorTokenPaymentTask implements Runnable {
     private ArrayList<FavorToken> favorTokens;
     private ToolCard toolCard;
     private Game game;
     private int numberOfPayments;
+    private ToolCardView toolCardView;
     
     /**
      * Constructor for the toolcard payment
@@ -20,11 +22,12 @@ public class FavorTokenPaymentTask implements Runnable {
      * @param game
      * @param numberOfPayments
      */
-    public FavorTokenPaymentTask(ArrayList<FavorToken> favorTokens, ToolCard toolCard, Game game, int numberOfPayments) {
+    public FavorTokenPaymentTask(ArrayList<FavorToken> favorTokens, ToolCard toolCard, Game game, ToolCardView toolCardView, int numberOfPayments) {
         this.favorTokens = favorTokens;
         this.toolCard = toolCard;
         this.game = game;
         this.numberOfPayments = numberOfPayments;
+        this.toolCardView = toolCardView;
         Thread.currentThread().setName("ToolCard Payment");
     }
 
@@ -37,5 +40,7 @@ public class FavorTokenPaymentTask implements Runnable {
             favorTokens.remove(index);
             index++;
         }
+        toolCardView.setFavorTokens(favorTokens, game);
+        toolCardView.render();
     }
 }

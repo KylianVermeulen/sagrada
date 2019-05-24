@@ -269,7 +269,7 @@ public class PlayerController {
      *
      * @param toolCard The tool card.
      */
-    public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolcardview) {
+    public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolCardView) {
         if (!player.isCurrentPlayer()) {
             Alert alert = new Alert("Active speler",
                     "Je bent nu niet de active speler, even geduld!",
@@ -302,13 +302,13 @@ public class PlayerController {
             if (newFavorTokens.size() > 0) {
                 Game game = player.getGame();
                 if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)) {
-                    FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, 2);
+                    FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, toolCardView, 2);
                     Thread favorTokenPayMentThread1 = new Thread(favorTokenPaymentTask1);
                     favorTokenPayMentThread1.start();
                     setActiveToolCard(toolCard);
                     
                 } else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
-                    FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, 1);
+                    FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, toolCardView, 1);
                     Thread favorTokenPayMentThread1 = new Thread(favorTokenPaymentTask1);
                     favorTokenPayMentThread1.start();
                     setActiveToolCard(toolCard);
