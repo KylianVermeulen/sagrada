@@ -40,7 +40,7 @@ public class ToolCardEglomiseBorstel extends ToolCard {
             die.setPatternCardField(targetField);
             targetField.setDie(die);
             playerFrameFieldDao.addDieToField(die, targetField, player);
-
+            setIsDone(true);
             return patternCard;
         }
         return null;
