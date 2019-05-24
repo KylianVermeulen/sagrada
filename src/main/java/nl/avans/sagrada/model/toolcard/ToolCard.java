@@ -28,7 +28,7 @@ public abstract class ToolCard {
         this.id = id;
         this.seqnr = seqnr;
         this.description = description;
-        isDone= false;
+        isDone = false;
         this.name = name;
         favorTokens = new ArrayList<>();
     }

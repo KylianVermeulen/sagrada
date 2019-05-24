@@ -555,6 +555,9 @@ public class Game {
         round = currentRound;
     }
     
+    /**
+     * Rerolls the dice eyes from the dice in the dice offer for the current turn.
+     */
     public void rerollRoundDice() {
         GameDieDao gameDieDao = new GameDieDao();
         for (GameDie gameDie : gameDieDao.getAvailableDiceOfRound(this)) {

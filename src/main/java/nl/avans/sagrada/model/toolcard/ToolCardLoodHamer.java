@@ -40,8 +40,9 @@ public class ToolCardLoodHamer extends ToolCard {
     private void doToolCardAction(PlayerController playerController) {
         Player player = playerController.getPlayer();
         player.getGame().rerollRoundDice();
-        playerController.viewGame();
         playerController.actionPayForToolCard(this);
+        playerController.setActiveToolCardNull();
+        playerController.viewGame();
         this.setIsDone(true);
     }
 }
