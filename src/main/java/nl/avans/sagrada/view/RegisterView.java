@@ -103,9 +103,7 @@ public class RegisterView extends BorderPane implements ViewInterface {
 
         Button registerButton = new Button("Register");
         registerButton.setOnAction(
-                e -> accountController
-                        .actionRegister(usernameInput.getText(), passwordInput.getText())
-        );
+                e -> accountController.actionRegister(usernameInput.getText(), passwordInput.getText()));
         registerButton.setId("registerButton");
         registerButton.setPadding(new Insets(8, 12, 8, 12));
         registerButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -115,7 +113,7 @@ public class RegisterView extends BorderPane implements ViewInterface {
     /**
      * Method to build the backPane
      */
-    private void buildBackPane() {
+    private void buildBackPane(){
         backPane = new Pane();
         Button backButton = new Button();
         backButton.setPrefSize(BACK_BUTTON_WIDTH, BACK_BUTTON_HEIGHT);
@@ -129,7 +127,7 @@ public class RegisterView extends BorderPane implements ViewInterface {
     /**
      * Method to build the leftPane
      */
-    private void buildLeftPane() {
+    private void buildLeftPane(){
         BorderPane leftPane = new BorderPane();
         leftPane.setMaxWidth(LEFT_PANE_WIDTH);
         leftPane.setMinWidth(LEFT_PANE_WIDTH);

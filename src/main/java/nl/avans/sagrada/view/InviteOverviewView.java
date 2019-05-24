@@ -24,7 +24,7 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class InviteOverviewView extends ScrollPane implements ViewInterface {
     private static final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
-    private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2 + 20;
+    private static final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2;
     private final int BUTTON_WIDTH = 50;
     private ArrayList<Invite> invites;
     private AccountController accountController;

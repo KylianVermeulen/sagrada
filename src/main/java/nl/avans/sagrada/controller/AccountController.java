@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -109,16 +110,13 @@ public class AccountController {
 
         if (username.length() < 3) {
             Alert alert = new Alert(
-                    "Username ongeldig", "Username moet minstens 3 characters zijn.",
-                    AlertType.ERROR
-            );
+                    "Username ongeldig", "Username moet minstens 3 characters zijn.", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         if (password.length() < 3) {
             Alert alert = new Alert(
-                    "Password ongeldig", "Password moet minstens 3 characters zijn", AlertType.ERROR
-            );
+                    "Password ongeldig", "Password moet minstens 3 characters zijn", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
@@ -126,9 +124,7 @@ public class AccountController {
         Matcher match = pt.matcher(password);
         if (match.find()) {
             Alert alert = new Alert(
-                    "Password ongeldig", "Moet alleen letters en/of cijfers bevatten.",
-                    AlertType.ERROR
-            );
+                    "Password ongeldig", "Moet alleen letters en/of cijfers bevatten.", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
@@ -165,7 +161,6 @@ public class AccountController {
         ArrayList<Invite> pendingInvites = account.getPendingInvites();
         ArrayList<Game> games = account.getActiveGames();
         ArrayList<Game> allgames = new GameDao().getAllGames();
-
         ArrayList<Account> accounts = accountDao.getAllAccounts();
 
         LobbyView lobbyView = new LobbyView(this);
@@ -245,15 +240,13 @@ public class AccountController {
         if (invitedAccounts.size() == 0) {
             System.out.println("Te weinig accounts ge-invite");
             Alert alert = new Alert(
-                    "Invites niet verstuurd", "Te weinig accounts geselecteerd", AlertType.ERROR
-            );
+                    "Invites niet verstuurd", "Te weinig accounts geselecteerd", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         if (invitedAccounts.size() > 3) {
             Alert alert = new Alert(
-                    "Invites niet verstuurd", "Te veel accounts geselecteerd", AlertType.ERROR
-            );
+                    "Invites niet verstuurd", "Te veel accounts geselecteerd", AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }

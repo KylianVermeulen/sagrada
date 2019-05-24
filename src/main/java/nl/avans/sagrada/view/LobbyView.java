@@ -52,13 +52,8 @@ public class LobbyView extends BorderPane implements ViewInterface {
         getStylesheets().add(css);
 
         setBackground(
-                new Background(
-                        new BackgroundImage(
-                                LOBBY_BACKGROUND, BackgroundRepeat.NO_REPEAT,
-                                BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size
-                        )
-                )
-        );
+                new Background(new BackgroundImage(LOBBY_BACKGROUND, BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
     }
 
     /**
@@ -163,7 +158,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
         setLeft(vbox);
         vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview, allgamesLabel, allGamesOverview);
         vbox2.setAlignment(Pos.CENTER_RIGHT);
-        vbox2.setPadding(new Insets(0, 10, 0, 0));
+        vbox2.setPadding(new Insets(0, 0, 0, 0));
         setRight(vbox2);
     }
 
@@ -171,8 +166,6 @@ public class LobbyView extends BorderPane implements ViewInterface {
         allGamesOverview = new AllGamesOverView(accountController);
         allGamesOverview.setGames(allgames);
         allGamesOverview.render();
-
-
     }
 
     public void setAllGames(ArrayList<Game> allgames) {
