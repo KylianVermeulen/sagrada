@@ -261,7 +261,6 @@ public class AccountController {
         inviteThread.start();
         Alert alert = new Alert("Invites verstuurd", "Invites zijn verstuurd", AlertType.INFO);
         myScene.addAlertPane(alert);
-        System.out.println("Done in ctrl");
         viewLobby();
     }
 

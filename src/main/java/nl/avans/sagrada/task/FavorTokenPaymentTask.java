@@ -37,7 +37,5 @@ public class FavorTokenPaymentTask implements Runnable {
             favorTokens.remove(index);
             index++;
         }
-
     }
-
 }

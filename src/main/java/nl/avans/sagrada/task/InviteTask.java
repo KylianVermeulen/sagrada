@@ -14,7 +14,7 @@ public class InviteTask implements Runnable {
     
     /**
      * Constructor for the task
-     * @param accountController
+     * 
      * @param game
      * @param accounts
      */
@@ -40,7 +40,5 @@ public class InviteTask implements Runnable {
         game.setPlayers(players);
         game.addRandomRoundsToGameDice();
         game.setOptionPatternCardsForPlayers();
-        System.out.println("Done in task");
     }
-
 }
