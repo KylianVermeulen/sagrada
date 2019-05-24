@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -142,6 +143,11 @@ public class Fluxverwijderaar extends Popup {
         playerController.viewGame();
     }
 
+    /**
+     * Shows the chosen die on the popup so you can place it.
+     *
+     * @param gameDie GameDie
+     */
     private void showDie(GameDie gameDie) {
         gameDie.enablePopupdie();
         gameDie.setRound(playerController.getPlayer().getGame().getRound());
@@ -153,7 +159,12 @@ public class Fluxverwijderaar extends Popup {
         diePane.getChildren().clear();
         rootPane.getChildren().clear();
         diePane.getChildren().add(dieView);
-        rootPane.getChildren().addAll(textTop, textBot, diePane);
-        //        playerController.actionPayForToolCard(toolCard);
+        Button button = new Button("Pass");
+        button.setOnAction(e -> {
+            playerController.actionPayForToolCard(toolCard);
+            playerController.setActiveToolCardNull();
+            myScene.removePopupPane();
+        });
+        rootPane.getChildren().addAll(textTop, textBot, diePane, button);
     }
 }

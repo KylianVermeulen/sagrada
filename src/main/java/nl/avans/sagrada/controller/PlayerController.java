@@ -117,6 +117,14 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Gets the active toolcard
+     *
+     * @return ToolCard
+     */
+    public ToolCard getActiveToolCard() {
+        return this.activeToolCard;
+    }
 
     public void viewGame() {
         // Refresh game & player object

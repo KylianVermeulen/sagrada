@@ -34,6 +34,7 @@ public class ToolCardFluxVerwijderaar extends ToolCard {
                 Player player = patternCard.getPlayer();
 
                 if (targetField.placeDie(die)) {
+                    playerController.actionPayForToolCard(playerController.getActiveToolCard());
                     playerController.removePopupPane();
                     new PlayerFrameFieldDao().addDieToField(die, targetField, player);
                     die.setPatternCardField(targetField);
