@@ -3,9 +3,12 @@ package nl.avans.sagrada.model.toolcard;
 import javafx.scene.input.MouseEvent;
 import javax.swing.text.html.ImageView;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
+import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 /**
@@ -27,17 +30,17 @@ public class ToolCardFluxVerwijderaar extends ToolCard {
                 PatternCardFieldView patternCardFieldView = (PatternCardFieldView) event
                         .getTarget();
                 PatternCardField targetField = patternCardFieldView.getPatternCardField();
-
-                int num = die.getNumber();
-                String color = die.getColor();
-                int round = die.getRound();
-                int eyes = die.getEyes();
+                PatternCard patternCard = targetField.getPatternCard();
+                Player player = patternCard.getPlayer();
 
                 if (targetField.placeDie(die)) {
                     playerController.removePopupPane();
-
+                    new PlayerFrameFieldDao().addDieToField(die, targetField, player);
                     die.setPatternCardField(targetField);
-                    return die.getPatternCardField().getPatternCard();
+                    targetField.setDie(die);
+                    die.setIsOnOfferTable(false);
+                    setIsDone(true);
+                    return patternCard;
                 }
             }
             return null;
