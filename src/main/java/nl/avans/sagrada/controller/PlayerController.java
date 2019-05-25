@@ -1,7 +1,10 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
+<<<<<<< Updated upstream
 import java.util.SortedMap;
+=======
+>>>>>>> Stashed changes
 import java.util.TreeMap;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -14,6 +17,7 @@ import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.model.CheatmodeTask;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
@@ -37,6 +41,7 @@ public class PlayerController {
     private Player player;
     private ToolCard activeToolCard;
     private GameView gameView;
+    private TreeMap<Integer, PatternCardField> treeMapCheatmode;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -140,6 +145,12 @@ public class PlayerController {
             game.finishGame();
             viewEndgame();
         } else {
+            if (game.getRound() == 1) {
+                ArrayList<GameDie> dice = game.getRoundDice();
+                CheatmodeTask cheatmodeTask = new CheatmodeTask(dice);
+                Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
+                cheatmodeTaskThread.start();
+            }
             Pane pane = new Pane();
             gameView = new GameView(this, game, player);
             gameView.render();
@@ -382,5 +393,14 @@ public class PlayerController {
 
     public void actionBackToLobby() {
         myScene.getAccountController().viewLobby();
+    }
+
+    public TreeMap<Integer, PatternCardField> getTreeMapCheatmode() {
+        return treeMapCheatmode;
+    }
+
+    public void setTreeMapCheatmode(
+            TreeMap<Integer, PatternCardField> treeMapCheatmode) {
+        this.treeMapCheatmode = treeMapCheatmode;
     }
 }
