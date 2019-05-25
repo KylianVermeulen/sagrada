@@ -19,6 +19,7 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.PatternCardSelectionView;
@@ -271,7 +272,7 @@ public class PlayerController {
                         !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
                     if (toolCard.hasRequirementsToRun(this)) {
                         activeToolCard = toolCard;
-                        if (toolCard.getId() == 11) {
+                        if (toolCard instanceof ToolCardFluxVerwijderaar) {
                             Fluxverwijderaar fluxverwijderaar = new Fluxverwijderaar(myScene,
                                     getPlayer().getGame(), this, activeToolCard);
                             myScene.addPopupPane(fluxverwijderaar);
