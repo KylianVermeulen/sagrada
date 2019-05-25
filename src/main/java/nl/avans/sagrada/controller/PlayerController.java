@@ -344,15 +344,6 @@ public class PlayerController {
     }
 
     /**
-     * Controlls the amount of favor tokens that needs to be paid
-     *
-     * @param toolCard The tool card.
-     */
-    public void actionPayForToolCard(ToolCard toolCard) {
-
-    }
-
-    /**
      * Displays the view after a game is finished. The user can see their scores and then go or back
      * to the lobbyscreen or view the statistics.
      */
