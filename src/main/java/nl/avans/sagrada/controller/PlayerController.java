@@ -22,7 +22,6 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
-import nl.avans.sagrada.view.popups.Fluxverwijderaar;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.EndgameView;
@@ -32,6 +31,7 @@ import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.view.popups.Fluxverwijderaar;
 
 public class PlayerController {
     private MyScene myScene;
@@ -131,6 +131,29 @@ public class PlayerController {
      */
     public ToolCard getActiveToolCard() {
         return this.activeToolCard;
+    }
+
+    /**
+     * Sets the active toolcard if there can be paid for
+     *
+     * @param toolCard ToolCard
+     */
+    public void setActiveToolCard(ToolCard toolCard) {
+        activeToolCard = toolCard;
+        Alert alert = new Alert("Active toolcard",
+                "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
+        myScene.addAlertPane(alert);
+
+        if (activeToolCard instanceof ToolCardDriePuntStang) {
+            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(),
+                    activeToolCard);
+            myScene.addPopupPane(driePuntStang);
+        }
+        if (toolCard instanceof ToolCardFluxVerwijderaar) {
+            Fluxverwijderaar fluxverwijderaar = new Fluxverwijderaar(myScene,
+                    getPlayer().getGame(), this, activeToolCard);
+            myScene.addPopupPane(fluxverwijderaar);
+        }
     }
 
     public void viewGame() {
@@ -255,29 +278,6 @@ public class PlayerController {
             Alert alert =
                     new Alert("Waarschuwing", "Je bericht moet tekst bevatten", AlertType.ERROR);
             myScene.addAlertPane(alert);
-        }
-    }
-
-    /**
-     * Sets the active toolcard if there can be paid for
-     *
-     * @param toolCard ToolCard
-     */
-    public void setActiveToolCard(ToolCard toolCard) {
-        activeToolCard = toolCard;
-        Alert alert = new Alert("Active toolcard",
-                "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
-        myScene.addAlertPane(alert);
-
-        if (activeToolCard instanceof ToolCardDriePuntStang) {
-            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(),
-                    activeToolCard);
-            myScene.addPopupPane(driePuntStang);
-        }
-        if (toolCard instanceof ToolCardFluxVerwijderaar) {
-            Fluxverwijderaar fluxverwijderaar = new Fluxverwijderaar(myScene,
-                    getPlayer().getGame(), this, activeToolCard);
-            myScene.addPopupPane(fluxverwijderaar);
         }
     }
 
