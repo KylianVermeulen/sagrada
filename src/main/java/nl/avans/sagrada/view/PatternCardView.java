@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -20,14 +21,20 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public class PatternCardView extends BorderPane implements ViewInterface {
     public static final int PATTERNCARD_WIDTH = 260;
     public static final int PATTERNCARD_HEIGHT = 190;
+    private final int PLAYER_COLOR_SIZE = 7;
+    private final int PLAYER_NAME_PANE_SPACING = 5;
     private PatternCard patternCard;
     private PlayerController playerController;
     private PatternCardFieldView[][] patternCardFieldViews;
     private TilePane patternCardField;
     private HBox difficultyBar;
-    private BorderPane playerNamePane;
+    private HBox playerNamePane;
     private BorderPane bottomPane;
     private String playerName;
+
+
+
+    private Color playerColor;
     private boolean currentPlayer;
     private final Font PLAYER_NAME_FONT = new Font("Segoe Script", 20);
 
@@ -93,7 +100,7 @@ public class PatternCardView extends BorderPane implements ViewInterface {
     }
 
     private void showPlayerName() {
-        playerNamePane = new BorderPane();
+        playerNamePane = new HBox();
         Text name = new Text(playerName);
         if (!currentPlayer) {
             name.setFill(Color.WHITE);
@@ -101,12 +108,24 @@ public class PatternCardView extends BorderPane implements ViewInterface {
             name.setFill(Color.YELLOW);
         }
         name.setFont(PLAYER_NAME_FONT);
-        playerNamePane.setCenter(name);
+        Circle color = new Circle(PLAYER_COLOR_SIZE);
+        color.setFill(playerColor);
+        playerNamePane.getChildren().addAll(color, name);
+        playerNamePane.setAlignment(Pos.CENTER);
+        playerNamePane.setSpacing(PLAYER_NAME_PANE_SPACING);
         bottomPane.setLeft(playerNamePane);
     }
 
     public void setPlayerName(String name) {
         this.playerName = name;
+    }
+
+    /**
+     * Sets the color of the player on the patterncard
+     * @param playerColor
+     */
+    public void setPlayerColor(Color playerColor) {
+        this.playerColor = playerColor;
     }
 
     /**

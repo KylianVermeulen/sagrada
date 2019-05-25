@@ -50,6 +50,14 @@ public class GameView extends VBox implements ViewInterface {
         setSpacing(SPACING_BETWEEN_CHILDS);
     }
 
+    private void assignPlayerColors(){
+        for (int i = 0; i < player.getGame().getPlayers().size(); i++) {
+            if (player.getId() == player.getGame().getPlayers().get(i).getId()) {
+                player.setPlayerColor(i);
+            }
+        }
+    }
+
     private void buildOtherPlayerPatternCards() {
         otherPlayerPatternCardViews = new HBox();
         otherPlayerPatternCardViews.setSpacing(SPACING_BETWEEN_CHILDS);
@@ -67,6 +75,7 @@ public class GameView extends VBox implements ViewInterface {
                 PatternCardView patternCardView = new PatternCardView(playerController);
                 patternCardView.setCenterShape(true);
                 patternCardView.setPlayerName(otherPlayerUsername);
+                patternCardView.setPlayerColor(player.getPlayerColor());
                 if (player.isCurrentPlayer()) {
                     patternCardView.setCurrentPlayer(true);
                 } else {
@@ -147,6 +156,7 @@ public class GameView extends VBox implements ViewInterface {
         playerPatternCardView = new PatternCardView(playerController);
         playerPatternCardView.setPatternCard(playerPatternCard);
         playerPatternCardView.setPlayerName(player.getAccount().getUsername());
+        playerPatternCardView.setPlayerColor(player.getPlayerColor());
         if (player.isCurrentPlayer()) {
             playerPatternCardView.setCurrentPlayer(true);
         } else {
@@ -185,6 +195,7 @@ public class GameView extends VBox implements ViewInterface {
     public void render() {
         getChildren().clear();
 
+        assignPlayerColors();
         buildOtherPlayerPatternCards();
         buildScoreBoard();
         buildToolCards();
