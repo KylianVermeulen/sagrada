@@ -10,7 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -31,9 +30,6 @@ public class PatternCardView extends BorderPane implements ViewInterface {
     private HBox playerNamePane;
     private BorderPane bottomPane;
     private String playerName;
-
-
-
     private Color playerColor;
     private boolean currentPlayer;
     private final Font PLAYER_NAME_FONT = new Font("Segoe Script", 20);
