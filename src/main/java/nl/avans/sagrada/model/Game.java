@@ -447,15 +447,31 @@ public class Game {
      */
     public void setNextPlayer() {
         Player currentPlayer = turnPlayer;
+        Player playerNextTurn = null;
         int oldSeqnr = currentPlayer.getSeqnr();
-        currentPlayer.setNextSeqnr();
+//        currentPlayer.setNextSeqnr();
 
+        boolean allPlayersHasUsedSkipToolCard = currentPlayer.usedToolCardThatNeedsSkipNextTurn();
+        
         for (int i = 0; i < players.size(); i++) {
-            Player playerNextTurn = players.get(i);
+            playerNextTurn = players.get(i);
+            allPlayersHasUsedSkipToolCard = playerNextTurn.usedToolCardThatNeedsSkipNextTurn();
             if (oldSeqnr < (players.size() * 2)) {
-                if (playerNextTurn.getSeqnr() == oldSeqnr + 1 && !turnPlayer.usedToolCardThatNeedsSkipNextTurn()) {
+                if (playerNextTurn.getSeqnr() == oldSeqnr + 1 && !currentPlayer.usedToolCardThatNeedsSkipNextTurn()) {
                     if (currentPlayer.getId() != playerNextTurn.getId()) {
                         updatePlayer(currentPlayer, playerNextTurn);
+                    }
+                }
+                else {
+                    if (currentPlayer.usedToolCardThatNeedsSkipNextTurn()) {
+                        // If the player is the last one and we need to skip the player we can start
+                        // The next round
+                        if (currentPlayer.playerHasFinalSeqnrNumber()) {
+                            updatePlayer(playerNextTurn, currentPlayer);
+                            // The player next turn contains seqnr 2
+                            // So we switch those 2
+                            nextRound();
+                        }
                     }
                 }
             } else {
@@ -466,6 +482,11 @@ public class Game {
                     nextRound();
                 }
             }
+        }
+        
+        if (allPlayersHasUsedSkipToolCard) {
+            // If all players used a toolcard to skip a turn we can start the next round
+            nextRound();
         }
     }
     
@@ -484,6 +505,9 @@ public class Game {
                     }
                 }
             }
+        }
+        else {
+            setNextPlayer();
         }
     }
 

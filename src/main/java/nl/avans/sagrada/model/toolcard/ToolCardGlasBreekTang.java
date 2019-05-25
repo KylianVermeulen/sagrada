@@ -34,23 +34,15 @@ public class ToolCardGlasBreekTang extends ToolCard {
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
-                numberOfUses++;
-                handleNumberOfUses(player);
+                
+                player.getGame().setNextPlayer(true);
+                setIsDone(true);
                 return patternCard;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private void handleNumberOfUses(Player player) {
-        if (numberOfUses >= 2) {
-            setIsDone(true);
-            player.getGame().setNextPlayer(true);
-        } else {
-            setIsDone(false);
-        }
     }
 
     @Override

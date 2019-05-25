@@ -300,4 +300,29 @@ public class ToolCardDao {
         }
         return toolCard;
     }
+    
+    public ToolCard getUsedToolCardOfPlayerOfRound(Player player) {
+        ToolCard toolCard = null;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN gametoolcard g2 on gamefavortoken.gametoolcard = g2.gametoolcard INNER JOIN game g on gamefavortoken.idgame = g.idgame INNER JOIN toolcard t on g2.idtoolcard = t.idtoolcard WHERE gamefavortoken.gametoolcard IS NOT NULL AND p.idplayer=? AND round=?",
+                            "query"),
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getRound())
+            );
+            if (rs.next()) {
+                toolCard = buildToolCard(
+                        rs.getInt("idtoolcard"),
+                        rs.getString("name"),
+                        rs.getInt("seqnr"),
+                        rs.getString("description")
+                );
+            }
+            rs.close();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return toolCard;
+    }
 }
