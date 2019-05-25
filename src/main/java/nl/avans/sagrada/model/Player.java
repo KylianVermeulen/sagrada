@@ -369,6 +369,7 @@ public class Player {
             score += publicObjectiveCard.calculateScore(patternCard);
         }
         this.score = score;
+        playerDao.updateScore(this, game);
         return score;
     }
 
