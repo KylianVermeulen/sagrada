@@ -365,7 +365,7 @@ public class Game {
         boolean foundThreeValues = false;
 
         while (!foundThreeValues) {
-            randomNumber1 = random.nextInt((max - min) + 1) + min;
+            randomNumber1 = 8;
             randomNumber2 = random.nextInt((max - min) + 1) + min;
             randomNumber3 = random.nextInt((max - min) + 1) + min;
             if (randomNumber1 != randomNumber2 && randomNumber1 != randomNumber3
@@ -453,7 +453,7 @@ public class Game {
         for (int i = 0; i < players.size(); i++) {
             Player playerNextTurn = players.get(i);
             if (oldSeqnr < (players.size() * 2)) {
-                if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
+                if (playerNextTurn.getSeqnr() == oldSeqnr + 1 && !turnPlayer.usedToolCardThatNeedsSkipNextTurn()) {
                     if (currentPlayer.getId() != playerNextTurn.getId()) {
                         updatePlayer(currentPlayer, playerNextTurn);
                     }
@@ -463,7 +463,6 @@ public class Game {
                     updatePlayer(playerNextTurn, currentPlayer);
                     // The player next turn contains seqnr 2
                     // So we switch those 2
-                    System.out.println("SWITCH");
                     nextRound();
                 }
             }
@@ -485,8 +484,6 @@ public class Game {
                     }
                 }
             }
-        } else {
-            setNextPlayer();
         }
     }
 

@@ -5,6 +5,10 @@ import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.ToolCardDao;
+import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
+import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
 
 public class Player {
     public static final String STATUS_ABORT = "afgebroken";
@@ -458,5 +462,18 @@ public class Player {
         }
         setSeqnr(newSeqnr);
         new PlayerDao().updatePlayer(this);
+    }
+    
+    public boolean usedToolCardThatNeedsSkipNextTurn() {
+        ToolCardDao toolCardDao = new ToolCardDao();
+        ToolCard toolCard = toolCardDao.getUsedToolCardOfPlayerInTurnOfRound(this);
+        Game game = getGame();
+        
+        if (toolCard != null) {
+            if (toolCard instanceof ToolCardGlasBreekTang) {
+                return true;
+            }
+        }
+        return false;
     }
 }
