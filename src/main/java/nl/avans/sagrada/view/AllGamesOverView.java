@@ -65,14 +65,8 @@ public class AllGamesOverView extends ScrollPane implements ViewInterface {
         for (Game game : games) {
             HBox hBox = new HBox();
             hBox.setAlignment(Pos.CENTER_RIGHT);
-            hBox.setBorder(
-                    new Border(
-                            new BorderStroke(
-                                    Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
-                                    new BorderWidths(1)
-                            )
-                    )
-            );
+            hBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+                    CornerRadii.EMPTY, new BorderWidths(1))));
             hBox.setBackground(new Background(new BackgroundFill(Color.ROSYBROWN, null, null)));
 
             Label label = new Label("Game: " + game.getId());

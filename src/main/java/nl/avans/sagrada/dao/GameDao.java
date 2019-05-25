@@ -99,6 +99,7 @@ public class GameDao {
             while (rs.next()) {
                 Game game = new Game(rs.getInt("idgame"));
                 games.add(game);
+                rs.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
