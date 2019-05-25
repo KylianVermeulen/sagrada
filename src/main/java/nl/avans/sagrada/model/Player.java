@@ -340,6 +340,8 @@ public class Player {
      * score for each favor token. Gets rewardScore for each public objective card.
      */
     public int calculateScore(boolean privateObjectiveCard) {
+        int score = 0;
+
         PlayerDao playerDao = new PlayerDao();
         PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields();
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
@@ -366,7 +368,7 @@ public class Player {
         for (PublicObjectiveCard publicObjectiveCard : game.getPublicObjectiveCards()) {
             score += publicObjectiveCard.calculateScore(patternCard);
         }
-        playerDao.updateScore(this, game);
+        this.score = score;
         return score;
     }
 
