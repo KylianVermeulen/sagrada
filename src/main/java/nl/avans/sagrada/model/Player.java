@@ -26,7 +26,6 @@ public class Player {
     private int score;
     private boolean cheatmode = false;
     private Color playerColor;
-    private boolean usedToolcard;
     private boolean placedDie;
 
     public Player() {
@@ -277,24 +276,6 @@ public class Player {
     }
 
     /**
-     * Returns true when player has already used a tool card this turn.
-     *
-     * @return Boolean
-     */
-    public boolean hasUsedToolcard() {
-        return usedToolcard;
-    }
-
-    /**
-     * Sets true when player has already used a tool card this turn.
-     *
-     * @param usedToolcard Boolean
-     */
-    public void setUsedToolcard(boolean usedToolcard) {
-        this.usedToolcard = usedToolcard;
-    }
-
-    /**
      * Returns true when player has already placed a die this turn.
      *
      * @return Boolean
@@ -475,5 +456,19 @@ public class Player {
             }
         }
         return false;
+    }
+
+    /**
+     * Checks if a players has already used a toolcard
+     * @return boolean
+     */
+    public boolean hasUsedToolcardInCurrentRound() {
+        PlayerDao playerDao = new PlayerDao();
+        if (playerDao.hasUsedToolCardInTurnRound(this)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
