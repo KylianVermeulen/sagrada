@@ -1,10 +1,8 @@
 package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
-<<<<<<< Updated upstream
+import java.util.HashMap;
 import java.util.SortedMap;
-=======
->>>>>>> Stashed changes
 import java.util.TreeMap;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -41,7 +39,7 @@ public class PlayerController {
     private Player player;
     private ToolCard activeToolCard;
     private GameView gameView;
-    private TreeMap<Integer, PatternCardField> treeMapCheatmode;
+    private TreeMap<Integer, HashMap<GameDie, PatternCardField>> treeMapCheatmode;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -146,8 +144,7 @@ public class PlayerController {
             viewEndgame();
         } else {
             if (game.getRound() == 1) {
-                ArrayList<GameDie> dice = game.getRoundDice();
-                CheatmodeTask cheatmodeTask = new CheatmodeTask(dice);
+                CheatmodeTask cheatmodeTask = new CheatmodeTask(this);
                 Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
                 cheatmodeTaskThread.start();
             }
@@ -354,7 +351,8 @@ public class PlayerController {
                 }
             }
         }
-        SortedMap<Integer, PatternCardField> bestPatternCardFieldSortedMap = treeMap.tailMap(treeMap.lastEntry().getKey());
+        SortedMap<Integer, PatternCardField> bestPatternCardFieldSortedMap = treeMap
+                .tailMap(treeMap.lastEntry().getKey());
         PatternCardFieldView[][] patternCardFieldViews = gameView.getPlayerPatternCardView()
                 .getPatternCardFieldViews();
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
@@ -363,7 +361,8 @@ public class PlayerController {
                 System.out.println("DEBUG 1");
                 if (treeMap.containsValue(patternCardFieldViews[x][y].getPatternCardField())) {
                     System.out.println("DEBUG 2");
-                    if (bestPatternCardFieldSortedMap.containsValue(patternCardFieldViews[x][y].getPatternCardField())) {
+                    if (bestPatternCardFieldSortedMap
+                            .containsValue(patternCardFieldViews[x][y].getPatternCardField())) {
                         System.out.println("DEBUG 3");
                         patternCardFieldViews[x][y].addBestHighlight();
                     } else {
@@ -395,12 +394,12 @@ public class PlayerController {
         myScene.getAccountController().viewLobby();
     }
 
-    public TreeMap<Integer, PatternCardField> getTreeMapCheatmode() {
+    public TreeMap<Integer, HashMap<GameDie, PatternCardField>> getTreeMapCheatmode() {
         return treeMapCheatmode;
     }
 
     public void setTreeMapCheatmode(
-            TreeMap<Integer, PatternCardField> treeMapCheatmode) {
+            TreeMap<Integer, HashMap<GameDie, PatternCardField>> treeMapCheatmode) {
         this.treeMapCheatmode = treeMapCheatmode;
     }
 }
