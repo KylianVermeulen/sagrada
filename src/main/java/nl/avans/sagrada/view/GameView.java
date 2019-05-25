@@ -1,6 +1,8 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -41,6 +43,7 @@ public class GameView extends VBox implements ViewInterface {
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
     private DieOfferView dieOfferView;
+    private ListProperty<Chatline> listProperty = new SimpleListProperty<>();
 
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;

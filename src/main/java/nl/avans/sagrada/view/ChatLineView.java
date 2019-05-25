@@ -2,6 +2,10 @@ package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
