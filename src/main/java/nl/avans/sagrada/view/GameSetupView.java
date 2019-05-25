@@ -153,7 +153,10 @@ public class GameSetupView extends VBox implements ViewInterface {
 
         backButton = new Button("Back");
         backButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        backButton.setOnAction(e -> accountController.viewLobby());
+        backButton.setOnAction(e -> {
+            game.cancel();
+            accountController.viewLobby();
+        });
         backButton.setPadding(padding);
         
         startButton = new Button("Opslaan");

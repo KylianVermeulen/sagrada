@@ -9,6 +9,7 @@ import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
+import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
@@ -19,7 +20,6 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
-import nl.avans.sagrada.task.FavorTokenPaymentTask;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.PatternCardSelectionView;
@@ -292,6 +292,9 @@ public class PlayerController {
             return;
         }
         if (activeToolCard == null) {
+            FavorTokenDao favorTokenDao = new FavorTokenDao();
+            ToolCardDao toolCardDao = new ToolCardDao();
+            toolCardDao.toolCardHasPayment(toolCard, player.getGame());
 
             ArrayList<FavorToken> newFavorTokens = player.getFavorTokens();
             for (int i = 0; i < player.getGame().getPlayers().size(); i++) {
@@ -300,19 +303,32 @@ public class PlayerController {
                 }
             }
             if (newFavorTokens.size() > 0) {
-                Game game = player.getGame();
-                if ((toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 2)) {
-                    FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, toolCardView, 2);
-                    Thread favorTokenPayMentThread1 = new Thread(favorTokenPaymentTask1);
-                    favorTokenPayMentThread1.start();
+                if (!toolCard.hasBeenPaidForBefore()) {
+                    favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                            player.getGame());
+                    newFavorTokens.remove(0);
+                    player.setFavorTokens(newFavorTokens);
+                    toolCard.setHasBeenPaidForBefore(true);
+                    toolCardView.addFavorToken(player.getPlayerColor());
                     setActiveToolCard(toolCard);
-                    
-                } else if (!toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
-                    FavorTokenPaymentTask favorTokenPaymentTask1 = new FavorTokenPaymentTask(newFavorTokens, toolCard, game, toolCardView, 1);
-                    Thread favorTokenPayMentThread1 = new Thread(favorTokenPaymentTask1);
-                    favorTokenPayMentThread1.start();
-                    setActiveToolCard(toolCard);
-               }
+                } else {
+                    if (newFavorTokens.size() > 1) {
+                        for (int i = 1; i <= 2; i++) {
+                            favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
+                                    player.getGame());
+                            newFavorTokens.remove(0);
+                            toolCardView.addFavorToken(player.getPlayerColor());
+                            // Here is the favor token added
+                            setActiveToolCard(toolCard);
+                        }
+                        player.setFavorTokens(newFavorTokens);
+                    } else {
+                        Alert alert = new Alert("Te weinig betaalstenen",
+                                "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
+                                AlertType.ERROR);
+                        myScene.addAlertPane(alert);
+                    }
+                }
             } else {
                 Alert alert = new Alert("Te weinig betaalstenen",
                         "Je hebt niet genoeg betaalstenen om deze kaart te kopen!",
