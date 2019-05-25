@@ -50,6 +50,9 @@ public class GameView extends VBox implements ViewInterface {
         setSpacing(SPACING_BETWEEN_CHILDS);
     }
 
+    /**
+     * Gives all players a color
+     */
     private void assignPlayerColors(){
         for (int i = 0; i < player.getGame().getPlayers().size(); i++) {
             if (player.getId() == player.getGame().getPlayers().get(i).getId()) {
