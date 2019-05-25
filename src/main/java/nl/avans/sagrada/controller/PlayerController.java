@@ -19,6 +19,8 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.PatternCardSelectionView;
@@ -28,6 +30,7 @@ import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
 import nl.avans.sagrada.view.popups.Fluxborstel;
+import nl.avans.sagrada.view.popups.Fluxverwijderaar;
 import java.util.ArrayList;
 
 public class PlayerController {
@@ -53,7 +56,7 @@ public class PlayerController {
     /**
      * Sets the active toolcard to null
      */
-    public void setActiveToolCardNull(){
+    public void setActiveToolCardNull() {
         activeToolCard = null;
     }
 
@@ -117,6 +120,14 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Gets the active toolcard
+     *
+     * @return ToolCard
+     */
+    public ToolCard getActiveToolCard() {
+        return this.activeToolCard;
+    }
 
     public void viewGame() {
         // Refresh game & player object
@@ -244,6 +255,8 @@ public class PlayerController {
 
     /**
      * Sets the active toolcard if there can be paid for
+     *
+     * @param toolCard ToolCard
      */
     public void setActiveToolCard(ToolCard toolCard) {
         if (player.isCurrentPlayer()) {
@@ -261,11 +274,16 @@ public class PlayerController {
                         !toolCard.hasBeenPaidForBefore() && player.getFavorTokens().size() >= 1) {
                     if (toolCard.hasRequirementsToRun(this)) {
                         activeToolCard = toolCard;
-                        if (toolCard.getId() == 6) {
+                        if (toolCard instanceof ToolCardFluxBorstel) {
                             Fluxborstel fluxborstelPopup = new Fluxborstel(myScene,
                                     getPlayer().getGame(),
                                     this, activeToolCard);
                             myScene.addPopupPane(fluxborstelPopup);
+                        }
+                        if (toolCard instanceof ToolCardFluxVerwijderaar) {
+                            Fluxverwijderaar fluxverwijderaar = new Fluxverwijderaar(myScene,
+                                    getPlayer().getGame(), this, activeToolCard);
+                            myScene.addPopupPane(fluxverwijderaar);
                         }
                         Alert alert = new Alert("Active toolcard",
                                 "Je hebt een actieve toolcard: " + activeToolCard.getName(),
@@ -276,8 +294,9 @@ public class PlayerController {
                         );
                         myScene.addAlertPane(alert);
                         myScene.addAlertPane(alertInfo);
-                        if(activeToolCard instanceof ToolCardDriePuntStang){
-                            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(), activeToolCard);
+                        if (activeToolCard instanceof ToolCardDriePuntStang) {
+                            DriePuntStang driePuntStang = new DriePuntStang(myScene, this,
+                                    player.getGame(), activeToolCard);
                             myScene.addPopupPane(driePuntStang);
                         }
                     } else {
@@ -344,5 +363,9 @@ public class PlayerController {
 
     public void actionBackToLobby() {
         myScene.getAccountController().viewLobby();
+    }
+
+    public void removePopupPane() {
+        myScene.removePopupPane();
     }
 }
