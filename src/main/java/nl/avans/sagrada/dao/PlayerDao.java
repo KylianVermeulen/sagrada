@@ -132,6 +132,7 @@ public class PlayerDao {
                 int playerId = rs.getInt("idplayer");
                 player = getPlayerById(playerId);
             }
+            rs.close();
         } catch (Exception e) {
             player = null;
             e.printStackTrace();
@@ -151,7 +152,8 @@ public class PlayerDao {
                     new Query("UPDATE player SET patterncard_idpatterncard=? WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, patternCard.getId()),
-                    new QueryParameter(QueryParameter.INT, player.getId()));
+                    new QueryParameter(QueryParameter.INT, player.getId())
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -168,15 +170,28 @@ public class PlayerDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT * FROM playerframefield INNER JOIN player p on playerframefield.player_idplayer = p.idplayer INNER JOIN gamedie g on playerframefield.idgame = g.idgame and playerframefield.dienumber = g.dienumber and playerframefield.diecolor = g.diecolor WHERE seqnr=? AND player_idplayer=? AND round=?",
+                            "SELECT \n" + 
+                            "    *\n" + 
+                            "FROM\n" + 
+                            "    playerframefield\n" + 
+                            "        INNER JOIN\n" + 
+                            "    player p ON playerframefield.player_idplayer = p.idplayer\n" + 
+                            "        INNER JOIN\n" + 
+                            "    gamedie g ON playerframefield.idgame = g.idgame\n" + 
+                            "        AND playerframefield.dienumber = g.dienumber\n" + 
+                            "        AND playerframefield.diecolor = g.diecolor\n" + 
+                            "WHERE\n" + 
+                            "    player_idplayer = ? AND round = ?\n" + 
+                            "        AND inFirstTurn = ?",
                             "query"),
-                    new QueryParameter(QueryParameter.INT, player.getSeqnr()),
                     new QueryParameter(QueryParameter.INT, player.getId()),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getRound())
+                    new QueryParameter(QueryParameter.INT, player.getGame().getRound()),
+                    new QueryParameter(QueryParameter.BOOLEAN, player.isFirstTurn())
             );
             while (rs.next()) {
                 count++;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -201,8 +216,10 @@ public class PlayerDao {
                     new QueryParameter(QueryParameter.INT, player.getGame().getRound())
             );
             if (rs.next()) {
+                rs.close();
                 return true;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

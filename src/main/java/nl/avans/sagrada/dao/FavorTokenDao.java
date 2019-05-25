@@ -3,7 +3,6 @@ package nl.avans.sagrada.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javafx.scene.paint.Color;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
@@ -33,11 +32,13 @@ public class FavorTokenDao {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
                     "SELECT * FROM gamefavortoken WHERE idplayer=? AND gametoolcard IS NULL",
-                    "query", new QueryParameter(QueryParameter.INT, player.getId())));
+                    "query", new QueryParameter(QueryParameter.INT, player.getId()))
+            );
             while (rs.next()) {
                 FavorToken favorToken = new FavorToken(rs.getInt("idfavortoken"), player);
                 list.add(favorToken);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -55,10 +56,12 @@ public class FavorTokenDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("SELECT MAX(idfavortoken) AS highestFavorTokenId FROM gamefavortoken",
-                            "query"));
+                            "query")
+            );
             if (rs.next()) {
                 favorTokenId = rs.getInt("highestFavorTokenId") + 1;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -76,7 +79,8 @@ public class FavorTokenDao {
                             "INSERT INTO gamefavortoken (idfavortoken, idgame, idplayer) VALUES (?, ?, ?)",
                             "update"), new QueryParameter(QueryParameter.INT, favorToken.getId()),
                     new QueryParameter(QueryParameter.INT, favorToken.getGame().getId()),
-                    new QueryParameter(QueryParameter.INT, favorToken.getPlayer().getId()));
+                    new QueryParameter(QueryParameter.INT, favorToken.getPlayer().getId())
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,7 +100,8 @@ public class FavorTokenDao {
                             "update"), new QueryParameter(QueryParameter.INT, favorToken.getId()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, player.getId()),
-                    new QueryParameter(QueryParameter.INT, favorToken.getId()));
+                    new QueryParameter(QueryParameter.INT, favorToken.getId())
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -143,17 +148,17 @@ public class FavorTokenDao {
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, toolcarddao.getGameToolCardForToolCardId(toolcard.getId(), game.getId()))
             );
-            while(rs.next()) {
+            while (rs.next()) {
                 FavorToken token = new FavorToken();
                 token.setId(rs.getInt("idfavortoken"));
                 token.setPlayer(new PlayerDao().getPlayerById(rs.getInt("idplayer")));
                 token.setGame(new GameDao().getGameById(rs.getInt("idgame")));
                 tokens.add(token);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return tokens;
     }
 }

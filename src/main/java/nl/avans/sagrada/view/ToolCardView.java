@@ -125,7 +125,7 @@ public class ToolCardView extends CardView {
         showImage(toolCard.getImagePath());
         showDescription();
         setOnMouseClicked(e -> {
-            playerController.setActiveToolCard(toolCard);
+            playerController.actionPayForToolCard(toolCard, this);
         });
     }
     
@@ -151,6 +151,5 @@ public class ToolCardView extends CardView {
             }
 
         }
-
     }
 }

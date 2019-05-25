@@ -7,7 +7,6 @@ import java.util.List;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
-import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
@@ -55,6 +54,7 @@ public class PatternCardFieldDao {
                 }
                 list.add(patternCardField);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,8 +64,7 @@ public class PatternCardFieldDao {
     /**
      * Gets the PatternCard fields of a PatternCard without a assigned player for optional pattern cards.
      *
-     * @param PatternCard
-     * @param Player
+     * @param patternCard pt
      * @return ArrayList<PatternCardField>
      */
     public ArrayList<PatternCardField> getPatternCardFieldsOfPatterncard(PatternCard patternCard) {
@@ -87,6 +86,7 @@ public class PatternCardFieldDao {
                         patternCard);
                 list.add(patternCardField);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
