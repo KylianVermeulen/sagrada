@@ -1,6 +1,5 @@
 package nl.avans.sagrada.controller;
 
-import java.util.ArrayList;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ChatlineDao;
@@ -24,13 +23,15 @@ import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DriePuntStang;
-import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.GameView;
-import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.ToolCardView;
+import nl.avans.sagrada.view.ChatLineView;
+import nl.avans.sagrada.view.MyScene;
+import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import java.util.ArrayList;
 import nl.avans.sagrada.view.popups.Fluxverwijderaar;
 
 public class PlayerController {
@@ -286,7 +287,7 @@ public class PlayerController {
      *
      * @param toolCard The tool card.
      */
-    public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolcardview) {
+    public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolCardView) {
         if (!player.isCurrentPlayer()) {
             Alert alert = new Alert("Active speler",
                     "Je bent nu niet de active speler, even geduld!",
@@ -326,7 +327,7 @@ public class PlayerController {
                     newFavorTokens.remove(0);
                     player.setFavorTokens(newFavorTokens);
                     toolCard.setHasBeenPaidForBefore(true);
-                    toolcardview.addFavorToken(player.getPlayerColor());
+                    toolCardView.addFavorToken(player.getPlayerColor());
                     setActiveToolCard(toolCard);
                 } else {
                     if (newFavorTokens.size() > 1) {
@@ -334,7 +335,7 @@ public class PlayerController {
                             favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
                                     player.getGame());
                             newFavorTokens.remove(0);
-                            toolcardview.addFavorToken(player.getPlayerColor());
+                            toolCardView.addFavorToken(player.getPlayerColor());
                             // Here is the favor token added
                             setActiveToolCard(toolCard);
                         }
