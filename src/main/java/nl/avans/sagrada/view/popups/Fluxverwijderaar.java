@@ -161,7 +161,6 @@ public class Fluxverwijderaar extends Popup {
         diePane.getChildren().add(dieView);
         Button button = new Button("Pass");
         button.setOnAction(e -> {
-            playerController.actionPayForToolCard(toolCard);
             playerController.setActiveToolCardNull();
             myScene.removePopupPane();
         });
