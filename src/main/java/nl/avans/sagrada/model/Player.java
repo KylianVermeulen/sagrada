@@ -338,7 +338,7 @@ public class Player {
         int score = 0;
 
         PlayerDao playerDao = new PlayerDao();
-        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields();
+        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
                 x++) { // Basic calculations for pattern card fields
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
