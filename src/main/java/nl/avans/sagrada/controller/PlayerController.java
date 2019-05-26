@@ -1,6 +1,5 @@
 package nl.avans.sagrada.controller;
 
-import java.util.ArrayList;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ChatlineDao;
@@ -21,15 +20,19 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DriePuntStang;
-import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.GameView;
-import nl.avans.sagrada.view.MyScene;
 import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.ToolCardView;
+import nl.avans.sagrada.view.ChatLineView;
+import nl.avans.sagrada.view.MyScene;
+import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import java.util.ArrayList;
+import nl.avans.sagrada.view.popups.Fluxverwijderaar;
 
 public class PlayerController {
     private MyScene myScene;
@@ -122,6 +125,37 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Gets the active toolcard
+     *
+     * @return ToolCard
+     */
+    public ToolCard getActiveToolCard() {
+        return this.activeToolCard;
+    }
+
+    /**
+     * Sets the active toolcard if there can be paid for
+     *
+     * @param toolCard ToolCard
+     */
+    public void setActiveToolCard(ToolCard toolCard) {
+        activeToolCard = toolCard;
+        Alert alert = new Alert("Active toolcard",
+                "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
+        myScene.addAlertPane(alert);
+
+        if (activeToolCard instanceof ToolCardDriePuntStang) {
+            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(),
+                    activeToolCard);
+            myScene.addPopupPane(driePuntStang);
+        }
+        if (toolCard instanceof ToolCardFluxVerwijderaar) {
+            Fluxverwijderaar fluxverwijderaar = new Fluxverwijderaar(myScene,
+                    getPlayer().getGame(), this, activeToolCard);
+            myScene.addPopupPane(fluxverwijderaar);
+        }
+    }
 
     public void viewGame() {
         // Refresh game & player object
@@ -249,27 +283,11 @@ public class PlayerController {
     }
 
     /**
-     * Sets the active toolcard if there can be paid for
-     */
-    public void setActiveToolCard(ToolCard toolCard) {
-        activeToolCard = toolCard;
-        Alert alert = new Alert("Active toolcard",
-                "De toolcard, " + activeToolCard.getName() + " is nu actief", AlertType.INFO);
-        myScene.addAlertPane(alert);
-
-        if (activeToolCard instanceof ToolCardDriePuntStang) {
-            DriePuntStang driePuntStang = new DriePuntStang(myScene, this, player.getGame(),
-                    activeToolCard);
-            myScene.addPopupPane(driePuntStang);
-        }
-    }
-
-    /**
      * Controlls the amount of favor tokens that needs to be paid
      *
      * @param toolCard The tool card.
      */
-    public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolcardview) {
+    public void actionPayForToolCard(ToolCard toolCard, ToolCardView toolCardView) {
         if (!player.isCurrentPlayer()) {
             Alert alert = new Alert("Active speler",
                     "Je bent nu niet de active speler, even geduld!",
@@ -309,7 +327,7 @@ public class PlayerController {
                     newFavorTokens.remove(0);
                     player.setFavorTokens(newFavorTokens);
                     toolCard.setHasBeenPaidForBefore(true);
-                    toolcardview.addFavorToken(player.getPlayerColor());
+                    toolCardView.addFavorToken(player.getPlayerColor());
                     setActiveToolCard(toolCard);
                 } else {
                     if (newFavorTokens.size() > 1) {
@@ -317,7 +335,7 @@ public class PlayerController {
                             favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
                                     player.getGame());
                             newFavorTokens.remove(0);
-                            toolcardview.addFavorToken(player.getPlayerColor());
+                            toolCardView.addFavorToken(player.getPlayerColor());
                             // Here is the favor token added
                             setActiveToolCard(toolCard);
                         }
@@ -360,5 +378,9 @@ public class PlayerController {
 
     public void actionBackToLobby() {
         myScene.getAccountController().viewLobby();
+    }
+
+    public void removePopupPane() {
+        myScene.removePopupPane();
     }
 }
