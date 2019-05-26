@@ -237,7 +237,6 @@ public class PlayerDao {
                     new QueryParameter(QueryParameter.INT, player.getScore()),
                     new QueryParameter(QueryParameter.INT, player.getId())
             );
-
         } catch (Exception e) {
             e.printStackTrace();
         }
