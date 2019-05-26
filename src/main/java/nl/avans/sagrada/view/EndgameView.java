@@ -16,8 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.AccountDao;
-import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.interfaces.ViewInterface;

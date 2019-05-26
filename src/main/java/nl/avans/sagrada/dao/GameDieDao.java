@@ -153,6 +153,7 @@ public class GameDieDao {
 
     /**
      * Gets the dice for a round from a game
+     *
      * @param game Game
      * @return ArrayList<GameDie>
      */
@@ -168,7 +169,8 @@ public class GameDieDao {
                 GameDie gameDie = new GameDie(
                         rs.getInt("dienumber"),
                         rs.getString("diecolor"),
-                        rs.getInt("eyes")
+                        rs.getInt("eyes"),
+                        rs.getInt("round")
                 );
                 gameDie.setIsOnOfferTable(true);
                 gameDie.setRound(rs.getInt("round"));
@@ -181,10 +183,11 @@ public class GameDieDao {
         }
         return gameDice;
     }
-    
+
     /**
      * Gets all the available dice of a round
-     * @param game
+     *
+     * @param game Game
      * @return ArrayList<GameDie>
      */
     public ArrayList<GameDie> getAvailableDiceOfRound(Game game) {
