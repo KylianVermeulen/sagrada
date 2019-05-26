@@ -30,16 +30,13 @@ public class GameDao {
     public Game getGameById(int gameId) {
         Game game = null;
         try {
-            ResultSet rs =
-                    dbConnection.executeQuery(
-                            new Query("SELECT * FROM game WHERE idgame=?", "query"), 
-                            new QueryParameter(QueryParameter.INT, gameId)
-            );
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM game WHERE idgame=?", "query"),
+                    new QueryParameter(QueryParameter.INT, gameId));
             if (rs.next()) {
                 game = new Game(rs.getInt("idgame"));
                 game.setRound(getCurrentRound(game));
-            } 
-            else {
+            } else {
                 System.out.println("No record for game with gameid: " + gameId);
             }
         } catch (SQLException e) {
@@ -56,12 +53,10 @@ public class GameDao {
     public void updateGame(Game game) {
         try {
             int turnPlayerId = game.getTurnPlayer().getId();
-            ResultSet rs =
-                    dbConnection.executeQuery(
-                            new Query("UPDATE game SET turn_idplayer=? WHERE idgame=?", "update"), 
-                            new QueryParameter(QueryParameter.INT, turnPlayerId),
-                            new QueryParameter(QueryParameter.INT, game.getId())
-           );
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("UPDATE game SET turn_idplayer=? WHERE idgame=?", "update"),
+                    new QueryParameter(QueryParameter.INT, turnPlayerId),
+                    new QueryParameter(QueryParameter.INT, game.getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,12 +71,10 @@ public class GameDao {
         try {
             ResultSet rs =
                     dbConnection.executeQuery(
-                            new Query(
-                                    "INSERT INTO game (idgame, creationdate) VALUES (?, ?)",
-                                    "update"), 
+                            new Query("INSERT INTO game (idgame, creationdate) VALUES (?, ?)",
+                                    "update"),
                             new QueryParameter(QueryParameter.INT, game.getId()),
-                            new QueryParameter(QueryParameter.TIMESTAMP, game.getCreationDate())
-                    );
+                            new QueryParameter(QueryParameter.TIMESTAMP, game.getCreationDate()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -116,8 +109,7 @@ public class GameDao {
         int gameId = 0;
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT MAX(idgame) AS highestGameId FROM game", "query")
-            );
+                    new Query("SELECT MAX(idgame) AS highestGameId FROM game", "query"));
             if (rs.next()) {
                 gameId = rs.getInt("highestGameId") + 1;
             }
@@ -137,11 +129,9 @@ public class GameDao {
         PlayerDao playerDao = new PlayerDao();
         ArrayList<Player> players = new ArrayList<>();
         try {
-            ResultSet rs =
-                    dbConnection.executeQuery(
-                            new Query("SELECT idplayer FROM player WHERE game_idgame=?","query"), 
-                            new QueryParameter(QueryParameter.INT, game.getId())
-            );
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT idplayer FROM player WHERE game_idgame=?", "query"),
+                    new QueryParameter(QueryParameter.INT, game.getId()));
             while (rs.next()) {
                 int playerId = rs.getInt("idplayer");
                 Player player = playerDao.getPlayerById(playerId);
@@ -157,8 +147,7 @@ public class GameDao {
     public Timestamp getTime() {
         Timestamp timestamp = null;
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query("SELECT NOW()", "query")
-            );
+            ResultSet rs = dbConnection.executeQuery(new Query("SELECT NOW()", "query"));
             while (rs.next()) {
                 timestamp = rs.getTimestamp("NOW()");
             }
@@ -173,12 +162,9 @@ public class GameDao {
     public Player bestFinalScore(Game game) {
         Player player = null;
         try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query(
-                            "SELECT idplayer, max(score) FROM player WHERE game_idgame=? GROUP BY idplayer ORDER BY score desc LIMIT 1",
-                            "query"),
-                    new QueryParameter(QueryParameter.INT, game.getId())
-            );
+            ResultSet rs = dbConnection.executeQuery(new Query(
+                    "SELECT idplayer, max(score) FROM player WHERE game_idgame=? GROUP BY idplayer ORDER BY score desc LIMIT 1",
+                    "query"), new QueryParameter(QueryParameter.INT, game.getId()));
             if (rs.next()) {
                 int playerId = rs.getInt("idplayer");
                 player = new PlayerDao().getPlayerById(playerId);
@@ -198,12 +184,9 @@ public class GameDao {
     public int getCurrentRound(Game game) {
         int currentRound = 1;
         try {
-            ResultSet rs = dbConnection.executeQuery(
-                    new Query(
-                            "SELECT DISTINCT(round) FROM gamedie WHERE idgame = ? AND roundtrack IS NOT NULL ORDER BY round DESC LIMIT 1",
-                            "query"), 
-                    new QueryParameter(QueryParameter.INT, game.getId())
-            );
+            ResultSet rs = dbConnection.executeQuery(new Query(
+                    "SELECT DISTINCT(round) FROM gamedie WHERE idgame = ? AND roundtrack IS NOT NULL ORDER BY round DESC LIMIT 1",
+                    "query"), new QueryParameter(QueryParameter.INT, game.getId()));
             if (rs.next()) {
                 currentRound = rs.getInt("round") + 1;
             }

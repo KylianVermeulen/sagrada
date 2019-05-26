@@ -156,7 +156,8 @@ public class LobbyView extends BorderPane implements ViewInterface {
         gameOverviewLabel.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);
-        vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview, allgamesLabel, allGamesOverview);
+        vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview, allgamesLabel,
+                allGamesOverview);
         vbox2.setAlignment(Pos.CENTER_RIGHT);
         vbox2.setPadding(new Insets(0, 0, 0, 0));
         setRight(vbox2);

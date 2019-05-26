@@ -73,8 +73,7 @@ public class DBConnection {
     }
 
     /**
-     * Executes the given Query on this connection based on Query sql and Query first
-     * QueryParameter
+     * Executes the given Query on this connection based on Query sql and Query first QueryParameter
      *
      * @param query Query
      * @return ResultSet
