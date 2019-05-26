@@ -50,7 +50,7 @@ public class LoginView extends BorderPane implements ViewInterface {
         buildLeftPane();
     }
 
-    private void buildLoginPane() {
+    private void buildLoginPane(){
         loginPane = new VBox();
         loginPane.setId("loginPane");
         loginPane.setAlignment(Pos.CENTER);
@@ -96,8 +96,7 @@ public class LoginView extends BorderPane implements ViewInterface {
 
         Button loginButton = new Button("Login");
         loginButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        loginButton.setOnAction(e -> accountController.actionLogin(userTextField.getText(),
-                passwordTextField.getText()));
+        loginButton.setOnAction(e -> accountController.actionLogin(userTextField.getText(), passwordTextField.getText()));
         loginButton.setId("loginButton");
         loginButton.setPadding(new Insets(8, 12, 8, 12));
 
@@ -111,7 +110,7 @@ public class LoginView extends BorderPane implements ViewInterface {
         loginPane.getChildren().addAll(userHBox, passwordHBox, loginButton, registerLabel);
     }
 
-    private void buildLogoPane() {
+    private void buildLogoPane(){
         logoPane = new Pane();
         logoPane.setMaxHeight(LOGO_PANE_HEIGHT);
         logoPane.setMinHeight(LOGO_PANE_HEIGHT);
@@ -121,7 +120,7 @@ public class LoginView extends BorderPane implements ViewInterface {
         logoPane.setId("loginLogo");
     }
 
-    private void buildLeftPane() {
+    private void buildLeftPane(){
         leftPane = new BorderPane();
         leftPane.setMaxWidth(LEFTPANE_WIDTH);
         leftPane.setMinWidth(LEFTPANE_WIDTH);
