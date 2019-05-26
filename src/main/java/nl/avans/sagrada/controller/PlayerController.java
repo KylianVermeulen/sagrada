@@ -1,5 +1,7 @@
 package nl.avans.sagrada.controller;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -264,6 +266,11 @@ public class PlayerController {
                     new Alert("Waarschuwing", "Je bericht moet tekst bevatten", AlertType.ERROR);
             myScene.addAlertPane(alert);
         }
+    }
+
+    public void updateChat(){
+        ChatLineView chatLineView = new ChatLineView(this);
+        chatLineView.render();
     }
     
     /**
