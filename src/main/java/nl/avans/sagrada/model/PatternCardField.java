@@ -228,7 +228,9 @@ public class PatternCardField {
             }
         } else if (!hasDie()) {
             if (sideCheckPlaceDie(gameDie)) {
-                return true;
+                if (patternCard.isNextToDie(this)) {
+                    return true;
+                }
             }
         }
         return false;
