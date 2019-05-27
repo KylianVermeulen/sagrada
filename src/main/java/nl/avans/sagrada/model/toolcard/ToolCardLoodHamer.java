@@ -37,7 +37,7 @@ public class ToolCardLoodHamer extends ToolCard {
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
-
+                setIsDone(true);       
                 return patternCard;
             }
         } catch (Exception e) {
@@ -64,6 +64,5 @@ public class ToolCardLoodHamer extends ToolCard {
         player.getGame().rerollRoundDice();
         playerController.setActiveToolCardNull();
         playerController.viewGame();
-        this.setIsDone(true);
     }
 }
