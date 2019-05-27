@@ -63,6 +63,10 @@ public class GameSetupView extends VBox implements ViewInterface {
         setBackground(new Background(
                 new BackgroundImage(inviteview_background, BackgroundRepeat.NO_REPEAT,
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
+        
+        Main.getPrimaryStage().setOnCloseRequest(e -> {
+            game.cancel();
+        });
     }
 
     @Override
