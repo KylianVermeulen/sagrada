@@ -94,5 +94,4 @@ public class RoundTrackFieldView extends TilePane implements ViewInterface {
             }
         }
     }
-
 }

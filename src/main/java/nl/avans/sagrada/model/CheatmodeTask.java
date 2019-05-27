@@ -34,7 +34,6 @@ public class CheatmodeTask implements Runnable {
                         patternCardField.setDie(gameDie);
                         int score = player.calculateScore(true);
                         treeMap.put(score, patternCardField);
-                        System.out.println("DEBUG");
                         patternCardField.setDie(null);
                     }
                 }

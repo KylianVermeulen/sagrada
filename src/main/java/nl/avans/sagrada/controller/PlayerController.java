@@ -390,10 +390,8 @@ public class PlayerController {
             for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
                 for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
                     patternCardFieldViews[x][y].removeHighlight();
-                    System.out.println("DEBUG 2");
 
                     if (treeMap.lastEntry().getValue().getxPos() == x && treeMap.lastEntry().getValue().getyPos() == y) {
-                        System.out.println("DEBUG 3");
                         patternCardFieldViews[x][y].addBestHighlight();
                     }
                 }
