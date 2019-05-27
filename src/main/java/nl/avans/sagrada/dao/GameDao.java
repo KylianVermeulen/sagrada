@@ -55,12 +55,11 @@ public class GameDao {
     public void updateGame(Game game) {
         try {
             int turnPlayerId = game.getTurnPlayer().getId();
-            ResultSet rs = 
-                    dbConnection.executeQuery(
+            ResultSet rs = dbConnection.executeQuery(
                             new Query("UPDATE game SET turn_idplayer=? WHERE idgame=?", "update"),
                             new QueryParameter(QueryParameter.INT, turnPlayerId),
                             new QueryParameter(QueryParameter.INT, game.getId())
-        );
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,8 +96,8 @@ public class GameDao {
             while (rs.next()) {
                 Game game = new Game(rs.getInt("idgame"));
                 games.add(game);
-                rs.close();
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -154,12 +153,12 @@ public class GameDao {
     public Timestamp getTime() {
         Timestamp timestamp = null;
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query("SELECT NOW()", "query")
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT NOW()", "query")
             );
             while (rs.next()) {
                 timestamp = rs.getTimestamp("NOW()");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

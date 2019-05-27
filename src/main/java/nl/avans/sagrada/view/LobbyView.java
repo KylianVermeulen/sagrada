@@ -149,14 +149,14 @@ public class LobbyView extends BorderPane implements ViewInterface {
         VBox vbox = new VBox();
         VBox vbox2 = new VBox();
         Label playerLabel = new Label("Alle accounts");
-        Label allgamesLabel = new Label("Alle games");
+        Label allGamesLabel = new Label("Alle games");
         Label inviteLabel = new Label("Invites van spelers");
         inviteLabel.setTextFill(Color.WHITE);
         Label gameOverviewLabel = new Label("Je openstaande spellen");
         gameOverviewLabel.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);
-        vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview, allgamesLabel, allGamesOverview);
+        vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview, allGamesLabel, allGamesOverview);
         vbox2.setAlignment(Pos.CENTER_RIGHT);
         vbox2.setPadding(new Insets(0, 0, 0, 0));
         setRight(vbox2);
