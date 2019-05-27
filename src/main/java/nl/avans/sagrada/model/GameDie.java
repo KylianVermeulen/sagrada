@@ -4,6 +4,7 @@ import javafx.scene.paint.Color;
 
 public class GameDie extends Die {
     private int eyes;
+    private boolean popUpDie;
     private boolean roundTrack;
     private int round;
     private boolean isOnOfferTable;
@@ -23,6 +24,7 @@ public class GameDie extends Die {
         isOnOfferTable = false;
         inFirstTurn = false;
         roundTrack = false;
+        popUpDie = false;
     }
 
     /**
@@ -40,6 +42,7 @@ public class GameDie extends Die {
         isOnOfferTable = false;
         inFirstTurn = false;
         roundTrack = false;
+        popUpDie = false;
     }
 
     /**
@@ -52,6 +55,7 @@ public class GameDie extends Die {
         super(die);
         this.eyes = eyes;
         isOnOfferTable = false;
+        popUpDie = false;
     }
 
     /**
@@ -66,6 +70,7 @@ public class GameDie extends Die {
         this.eyes = eyes;
         this.round = round;
         isOnOfferTable = false;
+        popUpDie = false;
     }
 
     /**
@@ -88,8 +93,24 @@ public class GameDie extends Die {
     }
 
     /**
-     * Sets the eyes for a die.
-     * 
+     * Gets a boolean that shows if this die is used in a popup
+     *
+     * @return boolean
+     */
+    public boolean isPopUpDie() {
+        return this.popUpDie;
+    }
+
+    /**
+     * Makes the die a die that is used in a popup
+     */
+    public void enablePopupdie() {
+        this.popUpDie = true;
+    }
+
+    /**
+     * Sets the amount of eyes for a GameDie object.
+     *
      * @param eyes int
      */
     public void setEyes(int eyes) {
@@ -158,17 +179,17 @@ public class GameDie extends Die {
     public PatternCardField getPatternCardField() {
         return patternCardField;
     }
-    
+
     /**
      * Sets if the gamedie is on the offer table
-     * @param onTable
      */
     public void setIsOnOfferTable(boolean onTable) {
         isOnOfferTable = onTable;
     }
-    
+
     /**
      * Returns a boolean if the die is currently on the offer table
+     *
      * @return boolean
      */
     public boolean getIsOnOfferTable() {
@@ -177,31 +198,29 @@ public class GameDie extends Die {
 
     /**
      * Sets if the die is on the round track
-     * @param onRoundTrack
      */
     public void setOnRoundTrack(boolean onRoundTrack) {
         roundTrack = onRoundTrack;
     }
-    
+
     /**
      * Returns is the die is on the roundtrack
+     *
      * @return boolean
      */
     public boolean isOnRoundTrack() {
         return roundTrack;
     }
-    
+
     /**
      * Sets if the die was placed in the first turn of a player
-     * @param inFirstTurn
      */
     public void setInFirstTurn(boolean inFirstTurn) {
         this.inFirstTurn = inFirstTurn;
     }
-    
+
     /**
      * If the die was placed in the first turn we return true
-     * @return
      */
     public boolean isInFirstTurn() {
         return inFirstTurn;
@@ -209,7 +228,6 @@ public class GameDie extends Die {
 
     /**
      * Sets the round of the die
-     * @param round
      */
     public void setRound(int round) {
         this.round = round;

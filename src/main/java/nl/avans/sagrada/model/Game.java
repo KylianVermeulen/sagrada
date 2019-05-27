@@ -472,7 +472,7 @@ public class Game {
                     updatePlayer(playerNextTurn, currentPlayer);
                     // The player next turn contains seqnr 2
                     // So we switch those 2
-                    
+
                     nextRound();
                 }
             }
@@ -508,13 +508,14 @@ public class Game {
 
     /**
      * Gets the current round the game is on
+     *
      * @return int
      */
     public int getRound() {
         GameDao gameDao = new GameDao();
         return gameDao.getCurrentRound(this);
     }
-    
+
     /**
      * Put the game in the second round by calling the placeDiceOfOfferTableOnRoundTrack
      */
@@ -523,23 +524,24 @@ public class Game {
         placeDiceOfOfferTableOnRoundTrack();
         round = gameDao.getCurrentRound(this);
     }
-    
+
     /**
      * Places all dices that are left for offer on the roundTrack
      */
     private void placeDiceOfOfferTableOnRoundTrack() {
         GameDieDao gameDieDao = new GameDieDao();
         ArrayList<GameDie> dice = getRoundDice();
-        
-        for(GameDie die: dice) {
+
+        for (GameDie die : dice) {
             die.setOnRoundTrack(true);
             die.setRound(round);
             gameDieDao.updateDie(this, die);
         }
     }
-    
+
     /**
      * Gets all dices that are on the roundTrack
+     *
      * @return ArrayList<GameDie>
      */
     public ArrayList<GameDie> getTrackDice() {
@@ -549,7 +551,6 @@ public class Game {
 
     /**
      * Sets the current round of a game
-     * @param currentRound
      */
     public void setRound(int currentRound) {
         round = currentRound;
@@ -572,7 +573,7 @@ public class Game {
     public void finishGame() {
         ArrayList<Player> players = getPlayers();
         PlayerDao playerDao = new PlayerDao();
-        for (Player player: players) {
+        for (Player player : players) {
             player.setPlayerStatus("uitgespeeld");
             playerDao.updatePlayer(player);
         }
