@@ -2,7 +2,6 @@ package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.SortedMap;
 import java.util.TreeMap;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -43,7 +42,7 @@ public class PlayerController {
     private Player player;
     private ToolCard activeToolCard;
     private GameView gameView;
-    private TreeMap<Integer, HashMap<GameDie, PatternCardField>> treeMapCheatmode;
+    private HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -183,11 +182,9 @@ public class PlayerController {
             game.finishGame();
             viewEndgame();
         } else {
-            if (game.getRound() == 1) {
-                CheatmodeTask cheatmodeTask = new CheatmodeTask(this);
-                Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
-                cheatmodeTaskThread.start();
-            }
+            CheatmodeTask cheatmodeTask = new CheatmodeTask(this);
+            Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
+            cheatmodeTaskThread.start();
             Pane pane = new Pane();
             gameView = new GameView(this, game, player);
             gameView.render();
@@ -376,43 +373,36 @@ public class PlayerController {
         }
     }
 
-    public PatternCardFieldView actionCalculateBestPlacementForGameDie(GameDie die) {
-        TreeMap<Integer, PatternCardField> treeMap = new TreeMap<>();
-        ArrayList<GameDie> gameDice = player.getGame().getRoundDice();
-        PatternCard patternCard = player.getPatternCard();
-        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
-            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
-                PatternCardField patternCardField = patternCard.getPatternCardField(x, y);
-                if (patternCardField.canPlaceDie(die)) {
-                    patternCardField.setDie(die);
-                    int score = player.calculateScore(true);
-                    treeMap.put(score, patternCardField);
-                    patternCardField.setDie(null);
-                }
-            }
-        }
-        SortedMap<Integer, PatternCardField> bestPatternCardFieldSortedMap = treeMap
-                .tailMap(treeMap.lastEntry().getKey());
+    /**
+     * Hightlight the best placement for a gamedie. Only highlights when the treeMap has been set by
+     * the cheatmode task started in viewGame.
+     *
+     * @param gameDie The GameDie.
+     */
+    public void actionHighlightBestPlacementForGameDie(GameDie gameDie) {
         PatternCardFieldView[][] patternCardFieldViews = gameView.getPlayerPatternCardView()
                 .getPatternCardFieldViews();
-        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
-            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
-                patternCardFieldViews[x][y].removeHighlight();
-                System.out.println("DEBUG 1");
-                if (treeMap.containsValue(patternCardFieldViews[x][y].getPatternCardField())) {
+        if (treeMapHashMap != null) {
+            HashMap<Integer, String> hashMap = new HashMap<>();
+            hashMap.put(gameDie.getNumber(), gameDie.getColor());
+            TreeMap<Integer, PatternCardField> treeMap = treeMapHashMap.get(hashMap);
+
+            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
+                for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+                    patternCardFieldViews[x][y].removeHighlight();
                     System.out.println("DEBUG 2");
-                    if (bestPatternCardFieldSortedMap
-                            .containsValue(patternCardFieldViews[x][y].getPatternCardField())) {
+
+                    if (treeMap.lastEntry().getValue().getxPos() == x && treeMap.lastEntry().getValue().getyPos() == y) {
                         System.out.println("DEBUG 3");
                         patternCardFieldViews[x][y].addBestHighlight();
-                    } else {
-                        System.out.println("DEBUG 4");
-                        patternCardFieldViews[x][y].addHighlight();
                     }
                 }
             }
+        } else {
+            Alert alert = new Alert("Nog even wachten", "Cheatmode is nog aan het berekenen!",
+                    AlertType.INFO);
+            myScene.addAlertPane(alert);
         }
-        return null;
     }
 
     /**
@@ -434,13 +424,13 @@ public class PlayerController {
         myScene.getAccountController().viewLobby();
     }
 
-    public TreeMap<Integer, HashMap<GameDie, PatternCardField>> getTreeMapCheatmode() {
-        return treeMapCheatmode;
+    public HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> getTreeMapHashMap() {
+        return treeMapHashMap;
     }
 
-    public void setTreeMapCheatmode(
-            TreeMap<Integer, HashMap<GameDie, PatternCardField>> treeMapCheatmode) {
-        this.treeMapCheatmode = treeMapCheatmode;
+    public void setTreeMapHashMap(
+            HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap) {
+        this.treeMapHashMap = treeMapHashMap;
     }
 
     public void removePopupPane() {

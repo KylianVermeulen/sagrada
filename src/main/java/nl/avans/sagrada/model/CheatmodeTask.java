@@ -6,7 +6,6 @@ import java.util.TreeMap;
 import nl.avans.sagrada.controller.PlayerController;
 
 public class CheatmodeTask implements Runnable {
-    private TreeMap<Integer, HashMap<GameDie, PatternCardField>> treeMap;
     private PlayerController playerController;
     private Player player;
     private PatternCard patternCard;
@@ -25,21 +24,25 @@ public class CheatmodeTask implements Runnable {
 
     @Override
     public void run() {
+        HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap = new HashMap<>();
         for (GameDie gameDie : gameDice) {
+            TreeMap<Integer, PatternCardField> treeMap = new TreeMap<>();
             for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
                 for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
                     PatternCardField patternCardField = patternCardFields[x][y];
                     if (patternCardField.canPlaceDie(gameDie)) {
                         patternCardField.setDie(gameDie);
                         int score = player.calculateScore(true);
-                        HashMap<GameDie, PatternCardField> hashMap = new HashMap<>();
-                        hashMap.put(gameDie, patternCardField);
-                        treeMap.put(score, hashMap);
+                        treeMap.put(score, patternCardField);
+                        System.out.println("DEBUG");
                         patternCardField.setDie(null);
                     }
                 }
             }
+            HashMap<Integer, String> hashMap = new HashMap<>();
+            hashMap.put(gameDie.getNumber(), gameDie.getColor());
+            treeMapHashMap.put(hashMap, treeMap);
         }
-        playerController.setTreeMapCheatmode(treeMap);
+        playerController.setTreeMapHashMap(treeMapHashMap);
     }
 }

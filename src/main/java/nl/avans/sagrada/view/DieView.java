@@ -14,7 +14,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.GameDie;
-import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class DieView extends Pane implements ViewInterface {
@@ -36,6 +35,7 @@ public class DieView extends Pane implements ViewInterface {
 
     public DieView(GameDie gameDie) {
         this.gameDie = gameDie;
+        init();
     }
 
     public DieView(GameDie gameDie, PatternCardView patternCardView) {
@@ -67,8 +67,7 @@ public class DieView extends Pane implements ViewInterface {
         setOnDragDetected(e -> {
             startFullDrag();
             if (playerController.getPlayer().isCheatmode()) {
-                patternCardFieldView = playerController
-                        .actionCalculateBestPlacementForGameDie(gameDie);
+                playerController.actionHighlightBestPlacementForGameDie(gameDie);
             }
         });
         setBorder(new Border(
@@ -81,7 +80,7 @@ public class DieView extends Pane implements ViewInterface {
     /**
      * Disables the drag so you can't place this die
      */
-    public void disableDrag(){
+    public void disableDrag() {
         setOnDragDetected(e -> {
         });
     }
