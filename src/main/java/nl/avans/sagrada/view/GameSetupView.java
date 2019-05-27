@@ -162,7 +162,10 @@ public class GameSetupView extends VBox implements ViewInterface {
         backButton = new Button("Back");
         backButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         backButton.setOnAction(e -> {
-            game.cancel();
+            CancelGameTask cgt = new CancelGameTask(game);
+            Thread cancelGameThread = new Thread(cgt);
+            cancelGameThread.setName("Cancel game thread");
+            cancelGameThread.start();
             accountController.viewLobby();
         });
         backButton.setPadding(padding);
