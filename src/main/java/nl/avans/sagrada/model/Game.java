@@ -541,6 +541,13 @@ public class Game {
     }
 
     /**
+     * Sets the current round of a game
+     */
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    /**
      * Finishes a game by changing the status of all players
      */
     public void finishGame() {
