@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -24,7 +25,7 @@ import nl.avans.sagrada.view.MyScene;
 
 public class Fluxborstel extends Popup {
     public static final int WIDTH_FLUXBORSTEL = 630;
-    public static final int HEIGHT_FLUXBORSTEL = 340;
+    public static final int HEIGHT_FLUXBORSTEL = 200;
 
     private MyScene myScene;
     private HBox diePane;
@@ -83,6 +84,7 @@ public class Fluxborstel extends Popup {
             dieView.setOnMouseClicked(e -> {
                 rerollDice(i);
             });
+            dieView.disableDrag();
             paddingPane.getChildren().add(dieView);
             diePane.getChildren().add(paddingPane);
             index++;
@@ -106,8 +108,31 @@ public class Fluxborstel extends Popup {
         int newEyes = new Random().nextInt(6) + 1;
         gameDie.setEyes(newEyes);
         gameDieDao.updateDieEyes(game, gameDie);
-        myScene.removePopupPane();
-        playerController.setActiveToolCardNull();
+        showDie(gameDie);
         playerController.viewGame();
+    }
+
+    /**
+     * Shows the chosen die on the popup so you can place it.
+     *
+     * @param gameDie GameDie
+     */
+    private void showDie(GameDie gameDie) {
+        gameDie.enablePopupdie();
+        gameDie.setRound(playerController.getPlayer().getGame().getRound());
+        DieView dieView = new DieView(gameDie);
+        dieView.render();
+        textTop.setText("Dit is de enigste dobbelsteen die je kunt plaatsen.");
+        textBot.setText(
+                "Sleep de steen naar de plek waar je hem wil plaatsen anders klik je op de knop.");
+        diePane.getChildren().clear();
+        rootPane.getChildren().clear();
+        diePane.getChildren().add(dieView);
+        Button button = new Button("Pass");
+        button.setOnAction(e -> {
+            playerController.setActiveToolCardNull();
+            myScene.removePopupPane();
+        });
+        rootPane.getChildren().addAll(textTop, textBot, diePane, button);
     }
 }
