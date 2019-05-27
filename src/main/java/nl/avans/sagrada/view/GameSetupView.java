@@ -59,6 +59,10 @@ public class GameSetupView extends VBox implements ViewInterface {
         this.accountController = accountController;
         this.accounts = accounts;
         this.game = game;
+        
+        Main.getPrimaryStage().setOnCloseRequest(e -> {
+            game.cancel();
+        });
 
         setBackground(new Background(
                 new BackgroundImage(inviteview_background, BackgroundRepeat.NO_REPEAT,
