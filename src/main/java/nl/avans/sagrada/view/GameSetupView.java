@@ -27,6 +27,7 @@ import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.task.CancelGameTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameSetupView extends VBox implements ViewInterface {
@@ -61,7 +62,10 @@ public class GameSetupView extends VBox implements ViewInterface {
         this.game = game;
         
         Main.getPrimaryStage().setOnCloseRequest(e -> {
-            game.cancel();
+            CancelGameTask cgt = new CancelGameTask(game);
+            Thread cancelGameThread = new Thread(cgt);
+            cancelGameThread.setName("Cancel game thread");
+            cancelGameThread.start();
         });
 
         setBackground(new Background(
