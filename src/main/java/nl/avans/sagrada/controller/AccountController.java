@@ -166,6 +166,7 @@ public class AccountController {
         lobbyView.setInvites(pendingInvites);
         lobbyView.setGames(games);
         lobbyView.setAccounts(accounts);
+        lobbyView.buildComboBox();
         lobbyView.render();
 
         pane.getChildren().add(lobbyView);
@@ -202,7 +203,7 @@ public class AccountController {
         player.setGame(game);
         player.setPrivateObjectivecardColor(game.getRandomAvailablePrivateColor());
         playerDao.addPlayer(player);
-        
+
         game.setPlayers(gameDao.getPlayersOfGame(game));
 
         game.setTurnPlayer(player);
@@ -255,7 +256,7 @@ public class AccountController {
                 return;
             }
         }
-        
+
         InviteTask inviteTask = new InviteTask(game, invitedAccounts);
         Thread inviteThread = new Thread(inviteTask);
         inviteThread.setName("Sending invites");

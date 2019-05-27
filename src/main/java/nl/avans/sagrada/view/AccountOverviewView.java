@@ -21,7 +21,7 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
 
     /**
      * Filled Constructor
-     * 
+     *
      * @param accountController PlayerController
      */
     public AccountOverviewView(AccountController accountController) {
@@ -32,17 +32,18 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
         setMinWidth(PANE_WIDTH);
         setPannable(true);
     }
-    
+
     public void setAccounts(ArrayList<Account> accounts) {
         this.accounts = accounts;
     }
-    
+
     @Override
     public void render() {
         getChildren().clear();
         VBox vbox = new VBox();
         for (Account account : accounts) {
             HBox hBox = new HBox();
+            String test = account.getUsername();
             Label label = new Label("Account: " + account.getUsername());
             label.setPrefWidth(LABEL_WIDTH);
             label.setPadding(new Insets(0, 20, 0, 20));
@@ -58,7 +59,7 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
 
     /**
      * Builds a button to view the statistics of an account.
-     * 
+     *
      * @return Button
      */
     private Button buildButtonToViewStatsOfAccount(Account account) {

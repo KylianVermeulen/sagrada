@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
+import nl.avans.sagrada.dao.AccountDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
@@ -85,7 +86,6 @@ public class LobbyView extends BorderPane implements ViewInterface {
         buildAccountsOverview();
         buildNewGameBtn();
         buildLogout();
-        buildComboBox();
         buildOverview();
     }
 
@@ -162,21 +162,43 @@ public class LobbyView extends BorderPane implements ViewInterface {
         setRight(vbox2);
     }
 
-    private void buildComboBox() {
+    public void buildComboBox() {
+        comboBox = new ComboBox();
         String option1 = "Normaal";
         String option2 = "Gewonnen games";
-        comboBox = new ComboBox();
         comboBox.setPrefSize(COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
         comboBox.getItems().add(option1);
         comboBox.getItems().add(option2);
         comboBox.getSelectionModel().selectFirst();
         comboBox.setOnAction(e -> {
-
             if (comboBox.getValue().equals(option1)) {
-                return;
+                AccountDao accountDao = new AccountDao();
+                ArrayList<Account> accounts = accountDao.getAllAccounts();
+                accountOverview = new AccountOverviewView(accountController);
+                accountOverview.setAccounts(accounts);
+                accountOverview.render();
             }
             if (comboBox.getValue().equals(option2)) {
-                return;
+                AccountDao accountDao = new AccountDao();
+                ArrayList<Account> accountsToShowAtEnd = accountDao.getWinsPerAccount();
+                ArrayList<Account> allAccounts = accountDao.getAllAccounts();
+                ArrayList<Account> addAccounts = new ArrayList<Account>();
+                boolean hasAcc = false;
+                for (Account account : allAccounts) {
+                    for (Account checkAccounts : accountsToShowAtEnd) {
+                        if (account.getUsername().equals(checkAccounts.getUsername())) {
+                            hasAcc = true;
+                        }
+                    }
+                    if (!hasAcc) {
+                        addAccounts.add(account);
+                    }
+                    hasAcc = false;
+                }
+                accountsToShowAtEnd.addAll(addAccounts);
+                accountOverview = new AccountOverviewView(accountController);
+                accountOverview.setAccounts(accountsToShowAtEnd);
+                accountOverview.render();
             }
         });
     }

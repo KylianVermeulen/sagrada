@@ -149,7 +149,7 @@ public class AccountDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT account.username AS playername, COUNT(game_idgame) AS count_wins FROM player JOIN account ON player.username = account.username WHERE playstatus_playstatus = 'Finished' AND score = (SELECT MAX(score) FROM player GROUP BY game_idgame) AND account.username=? GROUP BY playername ORDER BY count_wins;",
+                            "SELECT account.username AS playername, COUNT(game_idgame) AS count_wins FROM player JOIN account ON player.username = account.username WHERE playstatus_playstatus = 'uitgespeeld' AND score = (SELECT MAX(score) FROM player GROUP BY game_idgame) AND account.username=? GROUP BY playername ORDER BY count_wins;",
                             "query"),
                     new QueryParameter(QueryParameter.STRING, account.getUsername())
             );
@@ -164,6 +164,30 @@ public class AccountDao {
     }
 
     /**
+     * Gets the list of wins from the database ordered by account.
+     *
+     * @return Count of wins per account in a list.
+     */
+    public ArrayList<Account> getWinsPerAccount() {
+        ArrayList<Account> accounts = new ArrayList<Account>();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT account.username AS playername, account.password, COUNT(game_idgame) AS count_wins FROM player JOIN account ON player.username = account.username WHERE playstatus_playstatus = 'uitgespeeld' AND score = (SELECT MAX(score) FROM player GROUP BY game_idgame) GROUP BY playername ORDER BY count_wins;",
+                            "query")
+            );
+            if (rs.next()) {
+                Account account = new Account(rs.getString("username"), rs.getString("password"));
+                accounts.add(account);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accounts;
+    }
+
+    /**
      * Gets the count of loses from the database by account.
      *
      * @param account The account.
@@ -174,7 +198,7 @@ public class AccountDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT account.username AS playername, COUNT(game_idgame) AS count_loses FROM player JOIN account ON player.username = account.username WHERE playstatus_playstatus = 'Finished' AND score = (SELECT MIN(score) FROM player GROUP BY game_idgame) AND account.username=? GROUP BY playername ORDER BY count_loses;",
+                            "SELECT account.username AS playername, COUNT(game_idgame) AS count_loses FROM player JOIN account ON player.username = account.username WHERE playstatus_playstatus = 'uitgespeeld' AND score = (SELECT MIN(score) FROM player GROUP BY game_idgame) AND account.username=? GROUP BY playername ORDER BY count_loses;",
                             "query"),
                     new QueryParameter(QueryParameter.STRING, account.getUsername())
             );
@@ -250,8 +274,10 @@ public class AccountDao {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
                             "SELECT eyes, COUNT(eyes) AS aantal_keer_gebruikt\n" +
-                                    "FROM playerframefield JOIN player ON player.idplayer = playerframefield.player_idplayer\n" +
-                                    "JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber\n" +
+                                    "FROM playerframefield JOIN player ON player.idplayer = playerframefield.player_idplayer\n"
+                                    +
+                                    "JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber\n"
+                                    +
                                     "WHERE player.username =?\n" +
                                     "GROUP BY eyes\n" +
                                     "ORDER BY aantal_keer_gebruikt DESC\n" +
