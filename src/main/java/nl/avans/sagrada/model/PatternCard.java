@@ -3,6 +3,7 @@ package nl.avans.sagrada.model;
 import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.PatternCardFieldDao;
+import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 public class PatternCard {
@@ -55,7 +56,7 @@ public class PatternCard {
         this.player = player;
         patternCardFields = getPatternCardFields(player);
     }
-    
+
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -70,16 +71,16 @@ public class PatternCard {
      * @return boolean
      */
     public boolean isFirstTurn() {
-        return this.firstTurn;
-    }
-
-    /**
-     * Sets the firstTurn value
-     *
-     * @param firstTurn boolean
-     */
-    public void setFirstTurn(boolean firstTurn) {
-        this.firstTurn = firstTurn;
+        for (int x = 1; x <= CARD_SQUARES_WIDTH; x++) {
+            for (int y = 1; y <= CARD_SQUARES_HEIGHT; y++) {
+                PatternCardField field = getPatternCardField(x, y);
+                GameDie die = field.getDie();
+                if (die != null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**

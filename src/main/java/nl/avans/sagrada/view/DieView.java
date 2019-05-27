@@ -52,6 +52,18 @@ public class DieView extends Pane implements ViewInterface {
         images = new ArrayList<>();
         setPrefSize(DIE_WIDTH, DIE_HEIGHT);
         setMaxSize(DIE_WIDTH, DIE_HEIGHT);
+        enableDrag();
+        setBorder(new Border(
+                new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
+                        new BorderWidths(3))));
+        diceEyesArray();
+        resizeImages();
+    }
+
+    /**
+     * Enables the drag so you can place the die on a patterncard
+     */
+    private void enableDrag() {
         setOnDragDetected(e -> {
             startFullDrag();
             if (playerController.getPlayer().isCheatmode()) {
@@ -64,6 +76,14 @@ public class DieView extends Pane implements ViewInterface {
                         new BorderWidths(3))));
         diceEyesArray();
         resizeImages();
+    }
+
+    /**
+     * Disables the drag so you can't place this die
+     */
+    public void disableDrag(){
+        setOnDragDetected(e -> {
+        });
     }
 
     /**

@@ -22,7 +22,7 @@ public class MyScene extends Scene {
     private AccountController accountController;
     private PlayerController playerController;
     private ChecksumDatabase checksumDatabase;
-    
+
     private Thread checksumThreading;
 
     /**
@@ -45,7 +45,7 @@ public class MyScene extends Scene {
         accountController.viewLogin();
 //        playerController.viewClickPlacement();
     }
-    
+
     private void buildThreads() {
         checksumThreading = new Thread(checksumDatabase);
         checksumThreading.setName("Checksum database");
