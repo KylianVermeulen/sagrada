@@ -6,13 +6,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
-import nl.avans.sagrada.model.Game;
-import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class AccountOverviewView extends ScrollPane implements ViewInterface {

@@ -71,7 +71,6 @@ public class GameDieDao {
      *
      * @param game Game
      * @param gameDie GameDie
-     * @param round int
      */
     public void updateDie(Game game, GameDie gameDie) {
         try {
@@ -145,6 +144,7 @@ public class GameDieDao {
                 );
                 gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,6 +153,7 @@ public class GameDieDao {
 
     /**
      * Gets the dice for a round from a game
+     *
      * @param game Game
      * @return ArrayList<GameDie>
      */
@@ -168,22 +169,25 @@ public class GameDieDao {
                 GameDie gameDie = new GameDie(
                         rs.getInt("dienumber"),
                         rs.getString("diecolor"),
-                        rs.getInt("eyes")
+                        rs.getInt("eyes"),
+                        rs.getInt("round")
                 );
                 gameDie.setIsOnOfferTable(true);
                 gameDie.setRound(rs.getInt("round"));
                 gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
                 gameDice.add(gameDie);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return gameDice;
     }
-    
+
     /**
      * Gets all the available dice of a round
-     * @param game
+     *
+     * @param game Game
      * @return ArrayList<GameDie>
      */
     public ArrayList<GameDie> getAvailableDiceOfRound(Game game) {
@@ -213,6 +217,7 @@ public class GameDieDao {
                 gameDie.setIsOnOfferTable(true);
                 gameDice.add(gameDie);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -244,6 +249,7 @@ public class GameDieDao {
                 gameDie.setRound(rs.getInt("round"));
                 gameDice.add(gameDie);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -291,7 +297,7 @@ public class GameDieDao {
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, game.getRound()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber())
-            );   
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
