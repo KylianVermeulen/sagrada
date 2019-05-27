@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -25,6 +26,8 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public class LobbyView extends BorderPane implements ViewInterface {
     private final int BUTTON_WIDTH = 150;
     private final int BUTTON_HEIGHT = 40;
+    private final int COMBOBOX_WIDTH = 250;
+    private final int COMBOBOX_HEIGHT = 5;
     private final Image LOBBY_BACKGROUND =
             new Image("/images/backgrounds/lobbybackground-goede-hoogte.png");
     private AccountController accountController;
@@ -36,6 +39,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private AccountOverviewView accountOverview;
     private Button newGameButton;
     private Button logoutButton;
+    private ComboBox comboBox;
     private BackgroundSize size =
             new BackgroundSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT, false, false, true, false);
 
@@ -47,7 +51,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
         String css = this.getClass().getResource("/css/lobbyview.css").toExternalForm();
         getStylesheets().add(css);
-        
+
         setBackground(
                 new Background(new BackgroundImage(LOBBY_BACKGROUND, BackgroundRepeat.NO_REPEAT,
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
@@ -81,13 +85,12 @@ public class LobbyView extends BorderPane implements ViewInterface {
         buildAccountsOverview();
         buildNewGameBtn();
         buildLogout();
+        buildComboBox();
         buildOverview();
     }
 
     /**
      * Build the button to make a new game
-     * 
-     * @param url
      */
     private void buildNewGameBtn() {
         BorderPane pane = new BorderPane();
@@ -153,9 +156,28 @@ public class LobbyView extends BorderPane implements ViewInterface {
         gameOverviewLabel.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);
-        vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview);
+        vbox2.getChildren().addAll(logoutButton, playerLabel, comboBox, accountOverview);
         vbox2.setAlignment(Pos.CENTER_RIGHT);
         vbox2.setPadding(new Insets(0, 20, 0, 0));
         setRight(vbox2);
+    }
+
+    private void buildComboBox() {
+        String option1 = "Normaal";
+        String option2 = "Gewonnen games";
+        comboBox = new ComboBox();
+        comboBox.setPrefSize(COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
+        comboBox.getItems().add(option1);
+        comboBox.getItems().add(option2);
+        comboBox.getSelectionModel().selectFirst();
+        comboBox.setOnAction(e -> {
+
+            if (comboBox.getValue().equals(option1)) {
+                return;
+            }
+            if (comboBox.getValue().equals(option2)) {
+                return;
+            }
+        });
     }
 }
