@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -18,6 +17,7 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.enumerations.AccountStatus;
+import nl.avans.sagrada.task.InviteTask;
 import nl.avans.sagrada.view.GameSetupView;
 import nl.avans.sagrada.view.InviteView;
 import nl.avans.sagrada.view.LobbyView;
@@ -191,7 +191,6 @@ public class AccountController {
         game.assignRandomToolCards();
         game.assignRandomPublicObjectiveCards();
         game.addDice();
-        game.setPlayers(gameDao.getPlayersOfGame(game));
 
         int playerId = playerDao.getNextPlayerId();
         Player player = new Player();
@@ -203,6 +202,8 @@ public class AccountController {
         player.setGame(game);
         player.setPrivateObjectivecardColor(game.getRandomAvailablePrivateColor());
         playerDao.addPlayer(player);
+        
+        game.setPlayers(gameDao.getPlayersOfGame(game));
 
         game.setTurnPlayer(player);
         gameDao.updateGame(game);
@@ -225,9 +226,6 @@ public class AccountController {
      * @param game the game object for which the invites are.
      */
     public void actionSendInvites(ArrayList<InviteView> inviteViews, Game game) {
-        GameDao gameDao = new GameDao();
-        InviteDao inviteDao = new InviteDao();
-        ArrayList<Player> players = new ArrayList<>();
         ArrayList<Account> invitedAccounts = new ArrayList<>();
         for (InviteView inviteView : inviteViews) {
             if (inviteView.getCheckbox().isSelected()) {
@@ -236,7 +234,6 @@ public class AccountController {
         }
 
         if (invitedAccounts.size() == 0) {
-            System.out.println("Te weinig accounts ge-invite");
             Alert alert = new Alert("Invites niet verstuurd", "Te weinig accounts geselecteerd",
                     AlertType.ERROR);
             myScene.addAlertPane(alert);
@@ -258,19 +255,13 @@ public class AccountController {
                 return;
             }
         }
-
-        for (Account invitedAccount : invitedAccounts) {
-            Invite invite = new Invite();
-            invite.setGame(game);
-            invite.setInvitedAccount(invitedAccount);
-            inviteDao.addInvite(invite);
-        }
+        
+        InviteTask inviteTask = new InviteTask(game, invitedAccounts);
+        Thread inviteThread = new Thread(inviteTask);
+        inviteThread.setName("Sending invites");
+        inviteThread.start();
         Alert alert = new Alert("Invites verstuurd", "Invites zijn verstuurd", AlertType.INFO);
         myScene.addAlertPane(alert);
-        players = gameDao.getPlayersOfGame(game);
-        game.setPlayers(players);
-        game.addRandomRoundsToGameDice();
-        game.setOptionPatternCardsForPlayers();
         viewLobby();
     }
 

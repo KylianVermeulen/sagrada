@@ -508,13 +508,6 @@ public class Game {
     }
 
     /**
-     * Sets the current round of a game
-     */
-    public void setRound(int currentRound) {
-        round = currentRound;
-    }
-
-    /**
      * Put the game in the second round by calling the placeDiceOfOfferTableOnRoundTrack
      */
     public void nextRound() {

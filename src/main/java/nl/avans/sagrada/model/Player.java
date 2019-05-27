@@ -22,7 +22,6 @@ public class Player {
     private int score;
     private boolean cheatmode = false;
     private Color playerColor;
-    private boolean usedToolcard;
     private boolean placedDie;
 
     public Player() {
@@ -273,24 +272,6 @@ public class Player {
     }
 
     /**
-     * Returns true when player has already used a tool card this turn.
-     *
-     * @return Boolean
-     */
-    public boolean hasUsedToolcard() {
-        return usedToolcard;
-    }
-
-    /**
-     * Sets true when player has already used a tool card this turn.
-     *
-     * @param usedToolcard Boolean
-     */
-    public void setUsedToolcard(boolean usedToolcard) {
-        this.usedToolcard = usedToolcard;
-    }
-
-    /**
      * Returns true when player has already placed a die this turn.
      *
      * @return Boolean
@@ -355,7 +336,7 @@ public class Player {
      */
     public int calculateScore(boolean privateObjectiveCard) {
         int score = 0;
-
+        PlayerDao playerDao = new PlayerDao();
         PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
                 x++) { // Basic calculations for pattern card fields
@@ -381,6 +362,8 @@ public class Player {
         for (PublicObjectiveCard publicObjectiveCard : game.getPublicObjectiveCards()) {
             score += publicObjectiveCard.calculateScore(patternCard);
         }
+        this.score = score;
+        playerDao.updateScore(this);
         return score;
     }
 
@@ -458,5 +441,19 @@ public class Player {
         }
         setSeqnr(newSeqnr);
         new PlayerDao().updatePlayer(this);
+    }
+    
+    /**
+     * Checks if a players has already used a toolcard
+     * @return boolean
+     */
+    public boolean hasUsedToolcardInCurrentRound() {
+        PlayerDao playerDao = new PlayerDao();
+        if (playerDao.hasUsedToolCardInTurnRound(this)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
