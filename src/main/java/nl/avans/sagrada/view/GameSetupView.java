@@ -150,14 +150,21 @@ public class GameSetupView extends VBox implements ViewInterface {
         bottomButtonPane.setMinHeight(80);
         bottomButtonPane.setAlignment(Pos.CENTER);
 
-        startButton = new Button("Opslaan");
-        startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        startButton.setOnAction(e -> accountController.actionSendInvites(inviteViews, game));
 
         backButton = new Button("Back");
         backButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        backButton.setOnAction(e -> accountController.viewLobby());
+        backButton.setOnAction(e -> {
+            game.cancel();
+            accountController.viewLobby();
+        });
         backButton.setPadding(padding);
+        
+        startButton = new Button("Opslaan");
+        startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        startButton.setOnAction(e -> {
+            startButton.setDisable(true);
+            accountController.actionSendInvites(inviteViews, game);
+        });
 
         bottomButtonPane.getChildren().addAll(startButton, backButton);
     }
