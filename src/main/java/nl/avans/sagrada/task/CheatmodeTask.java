@@ -1,9 +1,14 @@
-package nl.avans.sagrada.model;
+package nl.avans.sagrada.task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.PatternCard;
+import nl.avans.sagrada.model.PatternCardField;
+import nl.avans.sagrada.model.Player;
 
 public class CheatmodeTask implements Runnable {
     private PlayerController playerController;

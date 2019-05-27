@@ -15,7 +15,7 @@ import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
-import nl.avans.sagrada.model.CheatmodeTask;
+import nl.avans.sagrada.task.CheatmodeTask;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
