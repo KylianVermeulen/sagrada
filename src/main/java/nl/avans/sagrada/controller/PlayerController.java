@@ -25,7 +25,6 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
-import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.GameView;
@@ -416,7 +415,7 @@ public class PlayerController {
     public void viewEndgame() {
         GameDao gameDao = new GameDao();
         Game game = player.getGame();
-        Player winPlayer = gameDao.bestFinalScore(game);
+        Player winPlayer = game.getPlayerWithBestScore();
         Pane pane = new Pane();
         EndgameView endgameView = new EndgameView(game, this, winPlayer);
         endgameView.render();
