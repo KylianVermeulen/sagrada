@@ -555,6 +555,7 @@ public class Game {
         PlayerDao playerDao = new PlayerDao();
         for (Player player : players) {
             player.setPlayerStatus("uitgespeeld");
+            player.setScore(player.calculateScore(true));
             playerDao.updatePlayer(player);
         }
     }
