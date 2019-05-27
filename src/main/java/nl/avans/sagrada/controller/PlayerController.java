@@ -392,6 +392,11 @@ public class PlayerController {
                 for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
                     patternCardFieldViews[x][y].removeHighlight();
 
+                    if (treeMap.isEmpty()) {
+                        Alert alert = new Alert("Helaas", "Deze die kan je niet plaatsen!", AlertType.INFO);
+                        myScene.addAlertPane(alert);
+                        return;
+                    }
                     if (treeMap.lastEntry().getValue().getxPos() == x && treeMap.lastEntry().getValue().getyPos() == y) {
                         patternCardFieldViews[x][y].addBestHighlight();
                     }

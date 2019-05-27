@@ -5,9 +5,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
@@ -182,7 +185,19 @@ public class GameView extends VBox implements ViewInterface {
         actionButtons = new HBox();
 
         Button cheatmodeButton = new Button("Cheatmode");
-        cheatmodeButton.setOnAction(e -> playerController.actionToggleCheatmode());
+        if (player.isCheatmode()) {
+            cheatmodeButton.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
+        } else {
+            cheatmodeButton.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+        }
+        cheatmodeButton.setOnAction(e -> {
+            playerController.actionToggleCheatmode();
+            if (player.isCheatmode()) {
+                cheatmodeButton.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
+            } else {
+                cheatmodeButton.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+            }
+        });
 
         Button passButton = new Button("Beurt beeindigen");
         passButton.setOnAction(e -> playerController.actionPass());
