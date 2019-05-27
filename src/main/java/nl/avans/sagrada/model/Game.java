@@ -410,7 +410,7 @@ public class Game {
             }
         }
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
-                publicObjectiveCardDao.getPublicObjectiveCardById(6), this);
+                publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber1), this);
         publicObjectiveCardDao.addPublicObjectiveCardToGame(
                 publicObjectiveCardDao.getPublicObjectiveCardById(randomNumber2), this);
         publicObjectiveCardDao.addPublicObjectiveCardToGame(

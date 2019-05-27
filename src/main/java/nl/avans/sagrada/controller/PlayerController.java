@@ -1,11 +1,8 @@
 package nl.avans.sagrada.controller;
 
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
->>>>>>> origin/develop
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ChatlineDao;
@@ -15,15 +12,9 @@ import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
-<<<<<<< HEAD
-import nl.avans.sagrada.model.Account;
-import nl.avans.sagrada.model.Chatline;
-=======
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
-import nl.avans.sagrada.task.CheatmodeTask;
->>>>>>> origin/develop
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
@@ -32,22 +23,9 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
-<<<<<<< HEAD
 import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
-import nl.avans.sagrada.view.DriePuntStang;
-import nl.avans.sagrada.view.GameView;
-import nl.avans.sagrada.view.PatternCardSelectionView;
-import nl.avans.sagrada.view.ChatLineView;
-import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.EndgameView;
-import nl.avans.sagrada.view.popups.Alert;
-import nl.avans.sagrada.view.popups.AlertType;
-import nl.avans.sagrada.view.popups.Fluxborstel;
-import nl.avans.sagrada.view.popups.Fluxverwijderaar;
-import java.util.ArrayList;
-=======
-import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
+import nl.avans.sagrada.task.CheatmodeTask;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.EndgameView;
@@ -58,8 +36,8 @@ import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.view.popups.Fluxborstel;
 import nl.avans.sagrada.view.popups.Fluxverwijderaar;
->>>>>>> origin/develop
 
 public class PlayerController {
     private MyScene myScene;
@@ -423,11 +401,13 @@ public class PlayerController {
                     patternCardFieldViews[x][y].removeHighlight();
 
                     if (treeMap.isEmpty()) {
-                        Alert alert = new Alert("Helaas", "Deze die kan je niet plaatsen!", AlertType.INFO);
+                        Alert alert = new Alert("Helaas", "Deze die kan je niet plaatsen!",
+                                AlertType.INFO);
                         myScene.addAlertPane(alert);
                         return;
                     }
-                    if (treeMap.lastEntry().getValue().getxPos() == x && treeMap.lastEntry().getValue().getyPos() == y) {
+                    if (treeMap.lastEntry().getValue().getxPos() == x
+                            && treeMap.lastEntry().getValue().getyPos() == y) {
                         patternCardFieldViews[x][y].addBestHighlight();
                     }
                 }
