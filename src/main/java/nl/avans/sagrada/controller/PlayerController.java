@@ -25,6 +25,7 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
+import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.GameView;
