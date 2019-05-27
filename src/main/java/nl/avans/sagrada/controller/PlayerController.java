@@ -3,6 +3,8 @@ package nl.avans.sagrada.controller;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.geometry.Insets;
+import java.util.HashMap;
+import java.util.TreeMap;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ChatlineDao;
@@ -15,6 +17,7 @@ import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.task.CheatmodeTask;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
@@ -26,12 +29,12 @@ import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DriePuntStang;
+import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.GameView;
+import nl.avans.sagrada.view.MyScene;
+import nl.avans.sagrada.view.PatternCardFieldView;
 import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.ToolCardView;
-import nl.avans.sagrada.view.ChatLineView;
-import nl.avans.sagrada.view.MyScene;
-import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
 import nl.avans.sagrada.view.popups.Fluxverwijderaar;
@@ -40,6 +43,8 @@ public class PlayerController {
     private MyScene myScene;
     private Player player;
     private ToolCard activeToolCard;
+    private GameView gameView;
+    private HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -179,8 +184,12 @@ public class PlayerController {
             game.finishGame();
             viewEndgame();
         } else {
+            CheatmodeTask cheatmodeTask = new CheatmodeTask(this);
+            Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
+            cheatmodeTaskThread.setName("Cheatmode placement options thread");
+            cheatmodeTaskThread.start();
             Pane pane = new Pane();
-            GameView gameView = new GameView(this, game, player);
+            gameView = new GameView(this, game, player);
             gameView.render();
             pane.getChildren().add(gameView);
             myScene.setContentPane(pane);
@@ -255,6 +264,10 @@ public class PlayerController {
      */
     public void actionExit() {
         myScene.getAccountController().viewLobby();
+    }
+
+    public void actionToggleCheatmode() {
+        player.setCheatmode(!player.isCheatmode());
     }
 
     /**
@@ -364,13 +377,48 @@ public class PlayerController {
     }
 
     /**
+     * Hightlight the best placement for a gamedie. Only highlights when the treeMap has been set by
+     * the cheatmode task started in viewGame.
+     *
+     * @param gameDie The GameDie.
+     */
+    public void actionHighlightBestPlacementForGameDie(GameDie gameDie) {
+        PatternCardFieldView[][] patternCardFieldViews = gameView.getPlayerPatternCardView()
+                .getPatternCardFieldViews();
+        if (treeMapHashMap != null) {
+            HashMap<Integer, String> hashMap = new HashMap<>();
+            hashMap.put(gameDie.getNumber(), gameDie.getColor());
+            TreeMap<Integer, PatternCardField> treeMap = treeMapHashMap.get(hashMap);
+
+            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
+                for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+                    patternCardFieldViews[x][y].removeHighlight();
+
+                    if (treeMap.isEmpty()) {
+                        Alert alert = new Alert("Helaas", "Deze die kan je niet plaatsen!", AlertType.INFO);
+                        myScene.addAlertPane(alert);
+                        return;
+                    }
+                    if (treeMap.lastEntry().getValue().getxPos() == x && treeMap.lastEntry().getValue().getyPos() == y) {
+                        patternCardFieldViews[x][y].addBestHighlight();
+                    }
+                }
+            }
+        } else {
+            Alert alert = new Alert("Nog even wachten", "Cheatmode is nog aan het berekenen!",
+                    AlertType.INFO);
+            myScene.addAlertPane(alert);
+        }
+    }
+
+    /**
      * Displays the view after a game is finished. The user can see their scores and then go or back
      * to the lobbyscreen or view the statistics.
      */
     public void viewEndgame() {
         GameDao gameDao = new GameDao();
         Game game = player.getGame();
-        Player winPlayer = gameDao.bestFinalScore(game);
+        Player winPlayer = game.getPlayerWithBestScore();
         Pane pane = new Pane();
         EndgameView endgameView = new EndgameView(game, this, winPlayer);
         endgameView.render();
@@ -380,6 +428,15 @@ public class PlayerController {
 
     public void actionBackToLobby() {
         myScene.getAccountController().viewLobby();
+    }
+
+    public HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> getTreeMapHashMap() {
+        return treeMapHashMap;
+    }
+
+    public void setTreeMapHashMap(
+            HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap) {
+        this.treeMapHashMap = treeMapHashMap;
     }
 
     public void removePopupPane() {

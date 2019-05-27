@@ -552,8 +552,8 @@ public class Game {
     /**
      * Sets the current round of a game
      */
-    public void setRound(int currentRound) {
-        round = currentRound;
+    public void setRound(int round) {
+        this.round = round;
     }
     
     /**
@@ -577,5 +577,34 @@ public class Game {
             player.setPlayerStatus("uitgespeeld");
             playerDao.updatePlayer(player);
         }
+    }
+
+    /**
+     * The method will return the player with the best score by calculating each players score with
+     * private objective card.
+     *
+     * @return The player.
+     */
+    public Player getPlayerWithBestScore() {
+        Player player = null;
+        int playerScore = -21;
+        for (Player playerLoop : getPlayers()) {
+            int loopScore = playerLoop.calculateScore(true);
+            if (player == null) {
+                player = playerLoop;
+                playerScore = loopScore;
+            } else {
+                if (loopScore > playerScore) {
+                    player = playerLoop;
+                    playerScore = loopScore;
+                } else if (loopScore == playerScore) {
+                    if (player.getId() < playerLoop.getId()) {
+                        player = playerLoop;
+                        playerScore = loopScore;
+                    }
+                }
+            }
+        }
+        return player;
     }
 }

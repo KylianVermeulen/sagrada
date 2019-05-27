@@ -336,7 +336,6 @@ public class Player {
      */
     public int calculateScore(boolean privateObjectiveCard) {
         int score = 0;
-
         PlayerDao playerDao = new PlayerDao();
         PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
