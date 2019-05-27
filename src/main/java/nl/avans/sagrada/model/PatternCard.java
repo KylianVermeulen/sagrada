@@ -56,7 +56,7 @@ public class PatternCard {
         this.player = player;
         patternCardFields = getPatternCardFields(player);
     }
-    
+
     public void setPlayer(Player player) {
         this.player = player;
     }

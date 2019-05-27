@@ -5,14 +5,17 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
+import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
@@ -50,6 +53,21 @@ public class GameView extends VBox implements ViewInterface {
         setSpacing(SPACING_BETWEEN_CHILDS);
     }
 
+    public PatternCardView getPlayerPatternCardView() {
+        return playerPatternCardView;
+    }
+
+    /**
+     * Gives all players a color
+     */
+    private void assignPlayerColors() {
+        for (int i = 0; i < player.getGame().getPlayers().size(); i++) {
+            if (player.getId() == player.getGame().getPlayers().get(i).getId()) {
+                player.setPlayerColor(i);
+            }
+        }
+    }
+
     private void buildOtherPlayerPatternCards() {
         otherPlayerPatternCardViews = new HBox();
         otherPlayerPatternCardViews.setSpacing(SPACING_BETWEEN_CHILDS);
@@ -67,6 +85,7 @@ public class GameView extends VBox implements ViewInterface {
                 PatternCardView patternCardView = new PatternCardView(playerController);
                 patternCardView.setCenterShape(true);
                 patternCardView.setPlayerName(otherPlayerUsername);
+                patternCardView.setPlayerColor(player.getPlayerColor());
                 if (player.isCurrentPlayer()) {
                     patternCardView.setCurrentPlayer(true);
                 } else {
@@ -99,10 +118,10 @@ public class GameView extends VBox implements ViewInterface {
 
     private void buildRoundTrack() {
         RoundTrack roundTrack = new RoundTrack();
-        for (GameDie gameDie: game.getTrackDice()) {
+        for (GameDie gameDie : game.getTrackDice()) {
             roundTrack.addGameDie(gameDie);
         }
-        
+
         roundTrackView = new RoundTrackView(roundTrack);
         roundTrackView.render();
     }
@@ -147,6 +166,7 @@ public class GameView extends VBox implements ViewInterface {
         playerPatternCardView = new PatternCardView(playerController);
         playerPatternCardView.setPatternCard(playerPatternCard);
         playerPatternCardView.setPlayerName(player.getAccount().getUsername());
+        playerPatternCardView.setPlayerColor(player.getPlayerColor());
         if (player.isCurrentPlayer()) {
             playerPatternCardView.setCurrentPlayer(true);
         } else {
@@ -164,20 +184,35 @@ public class GameView extends VBox implements ViewInterface {
     private void buildActionButtons() {
         actionButtons = new HBox();
 
+        Button cheatmodeButton = new Button("Cheatmode");
+        if (player.isCheatmode()) {
+            cheatmodeButton.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
+        } else {
+            cheatmodeButton.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+        }
+        cheatmodeButton.setOnAction(e -> {
+            playerController.actionToggleCheatmode();
+            if (player.isCheatmode()) {
+                cheatmodeButton.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
+            } else {
+                cheatmodeButton.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+            }
+        });
+
         Button passButton = new Button("Beurt beeindigen");
         passButton.setOnAction(e -> playerController.actionPass());
 
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(e -> playerController.actionExit());
 
-        actionButtons.getChildren().addAll(passButton, exitButton);
+        actionButtons.getChildren().addAll(cheatmodeButton, passButton, exitButton);
         actionButtons.setAlignment(Pos.BOTTOM_CENTER);
         actionButtons.setSpacing(SPACING_BETWEEN_CHILDS);
         actionButtons.setPadding(new Insets(40, 0, 0, 0));
     }
-    
+
     private void buildDieOffer() {
-        dieOfferView = new DieOfferView(this.game);
+        dieOfferView = new DieOfferView(this.game, playerPatternCardView, playerController);
         dieOfferView.render();
     }
 
@@ -185,6 +220,7 @@ public class GameView extends VBox implements ViewInterface {
     public void render() {
         getChildren().clear();
 
+        assignPlayerColors();
         buildOtherPlayerPatternCards();
         buildScoreBoard();
         buildToolCards();
