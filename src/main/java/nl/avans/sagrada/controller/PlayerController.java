@@ -184,6 +184,7 @@ public class PlayerController {
         } else {
             CheatmodeTask cheatmodeTask = new CheatmodeTask(this);
             Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
+            cheatmodeTaskThread.setName("Cheatmode placement options thread");
             cheatmodeTaskThread.start();
             Pane pane = new Pane();
             gameView = new GameView(this, game, player);
