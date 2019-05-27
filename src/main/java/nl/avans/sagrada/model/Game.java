@@ -569,14 +569,19 @@ public class Game {
         Player player = null;
         int playerScore = -21;
         for (Player playerLoop : getPlayers()) {
-            int score = playerLoop.calculateScore(true);
+            int loopScore = playerLoop.calculateScore(true);
             if (player == null) {
                 player = playerLoop;
-                playerScore = score;
+                playerScore = loopScore;
             } else {
-                if (score > playerScore) {
+                if (loopScore > playerScore) {
                     player = playerLoop;
-                    playerScore = score;
+                    playerScore = loopScore;
+                } else if (loopScore == playerScore) {
+                    if (player.getId() < playerLoop.getId()) {
+                        player = playerLoop;
+                        playerScore = loopScore;
+                    }
                 }
             }
         }
