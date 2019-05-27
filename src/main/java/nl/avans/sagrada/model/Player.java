@@ -337,7 +337,8 @@ public class Player {
     public int calculateScore(boolean privateObjectiveCard) {
         int score = 0;
 
-        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields();
+        PlayerDao playerDao = new PlayerDao();
+        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
                 x++) { // Basic calculations for pattern card fields
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
@@ -362,6 +363,8 @@ public class Player {
         for (PublicObjectiveCard publicObjectiveCard : game.getPublicObjectiveCards()) {
             score += publicObjectiveCard.calculateScore(patternCard);
         }
+        this.score = score;
+        playerDao.updateScore(this);
         return score;
     }
 
