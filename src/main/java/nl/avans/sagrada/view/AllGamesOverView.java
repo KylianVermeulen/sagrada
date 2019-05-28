@@ -58,7 +58,6 @@ public class AllGamesOverView extends ScrollPane implements ViewInterface {
      */
     @Override
     public void render() {
-        getChildren().clear();
         VBox vbox = new VBox();
         vbox.setMinHeight(PANE_HEIGHT - 2);
         vbox.setMinWidth(PANE_WIDTH - 2);
