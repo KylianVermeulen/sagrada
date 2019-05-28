@@ -551,11 +551,15 @@ public class Game {
      * Finishes a game by changing the status of all players
      */
     public void finishGame() {
-        ArrayList<Player> players = getPlayers();
-        PlayerDao playerDao = new PlayerDao();
-        for (Player player : players) {
-            player.setPlayerStatus("uitgespeeld");
-            playerDao.updatePlayer(player);
+        Player startPlayer = getPlayers().get(0);
+        if (startPlayer.getId() == turnPlayer.getId()) {
+            ArrayList<Player> players = getPlayers();
+            PlayerDao playerDao = new PlayerDao();
+            for (Player player : players) {
+                player.setPlayerStatus("uitgespeeld");
+                player.setScore(player.calculateScore(true));
+                playerDao.updatePlayer(player);
+            }   
         }
     }
 
