@@ -20,6 +20,7 @@ import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
+import nl.avans.sagrada.task.ActiveGameTask;
 import nl.avans.sagrada.task.AllAccountsTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -114,8 +115,15 @@ public class LobbyView extends BorderPane implements ViewInterface {
      */
     private void buildGamesOverview() {
         gameOverview = new GameOverviewView(accountController);
-        gameOverview.setGames(games);
-        gameOverview.render();
+        ActiveGameTask agt = new ActiveGameTask(accountController.getAccount());
+        agt.setOnSucceeded(e -> {
+            games = agt.getValue();
+            gameOverview.setGames(games);
+            gameOverview.render();
+        });
+        Thread th = new Thread(agt);
+        th.setDaemon(true);
+        th.start();
     }
 
     /**
