@@ -20,6 +20,7 @@ import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
+import nl.avans.sagrada.task.AllAccountsTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class LobbyView extends BorderPane implements ViewInterface {
@@ -51,6 +52,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
         setBackground(
                 new Background(new BackgroundImage(LOBBY_BACKGROUND, BackgroundRepeat.NO_REPEAT,
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
+        accounts = new ArrayList<>();
     }
 
     /**
@@ -121,8 +123,11 @@ public class LobbyView extends BorderPane implements ViewInterface {
      */
     private void buildAccountsOverview() {
         accountOverview = new AccountOverviewView(accountController);
-        accountOverview.setAccounts(accounts);
         accountOverview.render();
+        AllAccountsTask act = new AllAccountsTask(accountOverview);
+        Thread th = new Thread(act);
+        th.setDaemon(true);
+        th.start();
     }
 
     /**
