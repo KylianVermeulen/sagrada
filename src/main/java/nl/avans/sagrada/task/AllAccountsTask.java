@@ -19,8 +19,12 @@ public class AllAccountsTask extends Task<ArrayList<Account>> {
     protected ArrayList<Account> call() throws Exception {
         AccountDao accountDao = new AccountDao();
         ArrayList<Account> accounts = accountDao.getAllAccounts();
-        accountOverview.setAccounts(accounts);
-        Platform.runLater(() -> accountOverview.render());
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                accountOverview.setAccounts(accounts);
+                accountOverview.render();
+            }
+          });
         return accounts;
     }
 
