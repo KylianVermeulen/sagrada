@@ -30,10 +30,7 @@ public class ToolCardLoodHamer extends ToolCard {
             PatternCard patternCard = patternCardField.getPatternCard();
             Player player = patternCard.getPlayer();
 
-            if (patternCardField.hasDie() == false && patternCardField
-                    .canPlaceDieByAttributes(die)
-                    && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
-                    && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
+            if (patternCardField.canPlaceDie(die)) {
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
