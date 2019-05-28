@@ -61,6 +61,24 @@ public class Game {
     }
 
     /**
+     * Returns the gamedice for this game.
+     *
+     * @return ArrayList GameDie
+     */
+    public ArrayList<GameDie> getGameDice() {
+        return gameDice;
+    }
+
+    /**
+     * Set gameDice to Game
+     *
+     * @param gameDice GameDie[]
+     */
+    public void setGameDice(ArrayList<GameDie> gameDice) {
+        this.gameDice = gameDice;
+    }
+
+    /**
      * Adds random rounds to the gameDice
      */
     public void addRandomRoundsToGameDice() {
@@ -175,15 +193,6 @@ public class Game {
      */
     public ArrayList<GameDie> gameDice() {
         return gameDice;
-    }
-
-    /**
-     * Set gameDice to Game
-     *
-     * @param gameDice GameDie[]
-     */
-    public void setGameDice(ArrayList<GameDie> gameDice) {
-        this.gameDice = gameDice;
     }
 
     /**
@@ -509,6 +518,13 @@ public class Game {
     }
 
     /**
+     * Sets the current round of a game
+     */
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    /**
      * Put the game in the second round by calling the placeDiceOfOfferTableOnRoundTrack
      */
     public void nextRound() {
@@ -542,10 +558,14 @@ public class Game {
     }
 
     /**
-     * Sets the current round of a game
+     * Rerolls the dice eyes from the dice in the dice offer for the current turn.
      */
-    public void setRound(int round) {
-        this.round = round;
+    public void rerollRoundDice() {
+        GameDieDao gameDieDao = new GameDieDao();
+        for (GameDie gameDie : gameDieDao.getAvailableDiceOfRound(this)) {
+            gameDie.setEyes(new Random().nextInt(6) + 1);
+            gameDieDao.updateDieEyes(this, gameDie);
+        }
     }
 
     /**
@@ -560,7 +580,7 @@ public class Game {
                 player.setPlayerStatus("uitgespeeld");
                 player.setScore(player.calculateScore(true));
                 playerDao.updatePlayer(player);
-            }   
+            }
         }
     }
 
