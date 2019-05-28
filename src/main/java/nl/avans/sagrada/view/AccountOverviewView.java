@@ -29,11 +29,6 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
      */
     public AccountOverviewView(AccountController accountController) {
         this.accountController = accountController;
-        setMaxHeight(PANE_HEIGHT);
-        setMinHeight(PANE_HEIGHT);
-        setMaxWidth(PANE_WIDTH);
-        setMinWidth(PANE_WIDTH);
-        setPannable(true);
         accounts = new ArrayList<>();
     }
     
@@ -43,9 +38,12 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
     
     @Override
     public void render() {
+        setMaxHeight(PANE_HEIGHT);
+        setMinHeight(PANE_HEIGHT);
+        setMaxWidth(PANE_WIDTH);
+        setMinWidth(PANE_WIDTH);
+        setPannable(true);
         
-        getChildren().clear();
-        setContent(null);
         VBox vbox = new VBox();
         for (Account account : accounts) {
             HBox hBox = new HBox();

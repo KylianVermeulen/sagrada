@@ -123,11 +123,10 @@ public class LobbyView extends BorderPane implements ViewInterface {
      */
     private void buildAccountsOverview() {
         accountOverview = new AccountOverviewView(accountController);
-        accountOverview.render();
         AllAccountsTask act = new AllAccountsTask(accountOverview);
         act.setOnSucceeded(e -> {
-           accountOverview.setAccounts(act.getValue());
            accounts = act.getValue();
+           accountOverview.setAccounts(accounts);
            accountOverview.render();
         });
         Thread th = new Thread(act);
