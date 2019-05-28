@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.DieDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
@@ -590,5 +591,18 @@ public class Game {
             }
         }
         return player;
+    }
+
+    /**
+     * Assign 24 favor tokens to a game in the database.
+     */
+    public void assignFavorTokens() {
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        for (int i = 0; i < 24; i++) {
+            FavorToken favorToken = new FavorToken();
+            favorToken.setId(favorTokenDao.getNextFavorTokenId());
+            favorToken.setGame(this);
+            favorTokenDao.addFavorToken(favorToken);
+        }
     }
 }
