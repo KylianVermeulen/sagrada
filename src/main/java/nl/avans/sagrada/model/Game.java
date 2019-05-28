@@ -358,14 +358,14 @@ public class Game {
         int min = 1;
         int max = 12;
 
-        int randomNumber1 = 6;
+        int randomNumber1 = 0;
         int randomNumber2 = 0;
         int randomNumber3 = 0;
 
         boolean foundThreeValues = false;
 
         while (!foundThreeValues) {
-//            randomNumber1 = random.nextInt((max - min) + 1) + min;
+            randomNumber1 = random.nextInt((max - min) + 1) + min;
             randomNumber2 = random.nextInt((max - min) + 1) + min;
             randomNumber3 = random.nextInt((max - min) + 1) + min;
             if (randomNumber1 != randomNumber2 && randomNumber1 != randomNumber3
