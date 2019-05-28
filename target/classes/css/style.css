@@ -1,0 +1,135 @@
+#backButton {
+    -fx-background-image: url("/images/ARROW_LEFT.png"); 
+    -fx-background-size: 75 35;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#CardView {
+    -fx-border-color: #C4923B;
+    -fx-border-width: 3;
+}
+
+#registerLabel {
+    -fx-underline: true;
+    -fx-font-size: 14;
+    -fx-font-family: "Bookman Old Style";
+}
+
+#ObjectiveCardDescription {
+    -fx-background-color: #bfbfbf;
+}
+
+#publicObjectiveCard {
+    -fx-border-color: #6c6c6d;
+    -fx-border-width: 3;
+}
+
+#toolcardBackground {
+    -fx-background-color: #ffe599;
+    -fx-border-color: #C4923B;
+    -fx-border-width: 3;
+}
+Button{
+	-fx-cursor: hand;
+}
+
+.loginTextfield {
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 1;
+    -fx-border-color: Black;
+}
+
+.loginLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-font-family: "Bookman Old Style";
+}
+
+#loginButton {
+    -fx-font-weight: bold;
+    -fx-background-color: black;
+    -fx-font-family: "Bookman Old Style";
+    -fx-font-size: 14;
+    -fx-text-fill: lightgray;
+}
+#loginButton:hover{
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+}
+
+#loginBackground {
+    -fx-background-image: url("/images/Logo/sagrada.png")
+}
+
+#loginLogo {
+    -fx-background-image: url("/images/Logo/Sagrada-logo.gif");
+}
+
+#leftPane {
+    -fx-background-color: #FFFFFF;
+}
+
+#registerBackground {
+    -fx-background-image: url("/images/background/sagrada.png");
+}
+
+#registerButton {
+    -fx-font-weight: bold;
+    -fx-background-color: black;
+    -fx-font-family: "Bookman Old Style";
+    -fx-font-size: 14;
+    -fx-text-fill: lightgray;
+}
+
+#registerButton:hover {
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+}
+
+#registerLeftPane {
+    -fx-background-color: #FFFFFF;
+}
+
+.registerTextField {
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 1;
+    -fx-border-color: Black;
+}
+
+.registerLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-font-family: "Bookman Old Style";
+}
+
+#ToolCardDriePuntTang {
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-background-color: white;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+}
+
+.DriePuntTangText {
+    -fx-font-weight: bold;
+    -fx-font-size: 11;
+    -fx-font-family: "Bookman Old Style";
+}
+
+.DriePuntTangButton {
+    -fx-font-weight: bold;
+    -fx-background-color: black;
+    -fx-font-family: "Bookman Old Style";
+    -fx-font-size: 14;
+    -fx-text-fill: lightgray;
+}
+
+.DriePuntTangButton:hover {
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+}
+
+.DriePuntStangDie {
+    -fx-background-color: gray;
+}
