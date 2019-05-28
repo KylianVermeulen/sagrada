@@ -63,20 +63,6 @@ public class LobbyView extends BorderPane implements ViewInterface {
         this.invites = invites;
     }
 
-    /**
-     * Set all the game the current account has
-     */
-    public void setGames(ArrayList<Game> games) {
-        this.games = games;
-    }
-
-    /**
-     * Set all the accounts that have been registered.
-     */
-    public void setAccounts(ArrayList<Account> accounts) {
-        this.accounts = accounts;
-    }
-
     @Override
     public void render() {
         buildInviteOverview();
