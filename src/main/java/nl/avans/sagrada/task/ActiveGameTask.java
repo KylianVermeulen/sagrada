@@ -9,6 +9,10 @@ import nl.avans.sagrada.model.Game;
 public class ActiveGameTask extends Task<ArrayList<Game>> {
     private Account account;
     
+    /**
+     * Constructor for the task to get all active games
+     * @param account
+     */
     public ActiveGameTask(Account account) {
         this.account = account;
     }

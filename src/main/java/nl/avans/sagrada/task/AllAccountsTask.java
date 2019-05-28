@@ -11,6 +11,10 @@ import nl.avans.sagrada.view.AccountOverviewView;
 public class AllAccountsTask extends Task<ArrayList<Account>> {
     private AccountOverviewView accountOverview;
 
+    /**
+     * Constructor for the task to get all accounts
+     * @param accountOverview
+     */
     public AllAccountsTask(AccountOverviewView accountOverview) {
         this.accountOverview = accountOverview;
     }
@@ -19,12 +23,6 @@ public class AllAccountsTask extends Task<ArrayList<Account>> {
     protected ArrayList<Account> call() throws Exception {
         AccountDao accountDao = new AccountDao();
         ArrayList<Account> accounts = accountDao.getAllAccounts();
-        Platform.runLater(new Runnable() {
-            @Override public void run() {
-                accountOverview.setAccounts(accounts);
-                accountOverview.render();
-            }
-          });
         return accounts;
     }
 

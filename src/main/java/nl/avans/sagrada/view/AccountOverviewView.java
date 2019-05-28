@@ -1,9 +1,6 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
-import java.util.Observable;
-
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
