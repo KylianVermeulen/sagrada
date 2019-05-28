@@ -71,11 +71,13 @@ public class Fluxborstel extends Popup {
         rootPane = new VBox();
         rootPane.setAlignment(Pos.CENTER);
         rootPane.setPrefSize(super.getwidth(), super.getheight());
+        
         int index = 0;
         for (GameDie gameDie : game.getRoundDice()) {
+            gameDie.setInFirstTurn(playerController.getPlayer().isFirstTurn());
             int i = index;
             Pane paddingPane = new Pane();
-            DieView dieView = new DieView(gameDie);
+            DieView dieView = new DieView(gameDie, playerController);
             dieViews.add(dieView);
             gameDice.add(gameDie);
             dieView.resize(25, 25);
@@ -109,7 +111,6 @@ public class Fluxborstel extends Popup {
         gameDie.setEyes(newEyes);
         gameDieDao.updateDieEyes(game, gameDie);
         showDie(gameDie);
-        playerController.viewGame();
     }
 
     /**
@@ -120,7 +121,7 @@ public class Fluxborstel extends Popup {
     private void showDie(GameDie gameDie) {
         gameDie.enablePopupdie();
         gameDie.setRound(playerController.getPlayer().getGame().getRound());
-        DieView dieView = new DieView(gameDie);
+        DieView dieView = new DieView(gameDie, playerController);
         dieView.render();
         textTop.setText("Dit is de enigste dobbelsteen die je kunt plaatsen.");
         textBot.setText(
@@ -129,9 +130,10 @@ public class Fluxborstel extends Popup {
         rootPane.getChildren().clear();
         diePane.getChildren().add(dieView);
         Button button = new Button("Pass");
+        
         button.setOnAction(e -> {
-            playerController.setActiveToolCardNull();
             myScene.removePopupPane();
+            playerController.actionPass();
         });
         rootPane.getChildren().addAll(textTop, textBot, diePane, button);
     }

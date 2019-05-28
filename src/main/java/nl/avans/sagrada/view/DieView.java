@@ -33,13 +33,15 @@ public class DieView extends Pane implements ViewInterface {
         init();
     }
 
-    public DieView(GameDie gameDie) {
+    public DieView(GameDie gameDie, PlayerController playerController) {
         this.gameDie = gameDie;
+        this.playerController = playerController;
         init();
     }
 
-    public DieView(GameDie gameDie, PatternCardView patternCardView) {
+    public DieView(GameDie gameDie, PlayerController playerController, PatternCardView patternCardView) {
         this.gameDie = gameDie;
+        this.playerController = playerController;
         this.patternCardView = patternCardView;
         init();
     }
@@ -66,10 +68,8 @@ public class DieView extends Pane implements ViewInterface {
     private void enableDrag() {
         setOnDragDetected(e -> {
             startFullDrag();
-            if (playerController != null) {
-                if (playerController.getPlayer().isCheatmode()) {
-                    playerController.actionHighlightBestPlacementForGameDie(gameDie);
-                }
+            if (playerController.getPlayer().isCheatmode()) {
+                playerController.actionHighlightBestPlacementForGameDie(gameDie);
             }
         });
         setBorder(new Border(
