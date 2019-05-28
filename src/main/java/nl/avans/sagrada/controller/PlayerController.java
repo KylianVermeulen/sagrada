@@ -414,7 +414,6 @@ public class PlayerController {
      * to the lobbyscreen or view the statistics.
      */
     public void viewEndgame() {
-        GameDao gameDao = new GameDao();
         Game game = player.getGame();
         Player winPlayer = game.getPlayerWithBestScore();
         Pane pane = new Pane();
