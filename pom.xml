@@ -6,7 +6,7 @@
 
     <groupId>42IN04SOp</groupId>
     <artifactId>sagrada</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-beta</version>
 
     <build>
         <resources>
@@ -76,7 +76,7 @@
     </build>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <!-- https://mvnreposit ory.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
