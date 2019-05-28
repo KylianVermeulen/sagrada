@@ -234,7 +234,7 @@ public class PlayerController {
         PlayerDao playerDao = new PlayerDao();
         player.setPatternCard(patternCard);
         playerDao.updateSelectedPatternCard(player, patternCard);
-        player.generateFavorTokens();
+        player.assignFavorTokens();
         Game game = player.getGame();
         if (!game.everyoneSelectedPatternCard()) {
             // We don't allow anyone to the game view until everyone has a patterncard
