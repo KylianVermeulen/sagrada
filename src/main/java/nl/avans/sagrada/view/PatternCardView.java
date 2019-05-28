@@ -48,6 +48,10 @@ public class PatternCardView extends BorderPane implements ViewInterface {
         setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
     }
 
+    public PatternCardFieldView[][] getPatternCardFieldViews() {
+        return patternCardFieldViews;
+    }
+
     /**
      * Set PatternCard to view
      *

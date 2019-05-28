@@ -61,6 +61,19 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         });
     }
 
+    public void addBestHighlight() {
+        setBackground(new Background(new BackgroundFill(Color.ORANGERED, null, null)));
+    }
+
+    public void addHighlight() {
+        setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null)));
+    }
+
+    public void removeHighlight() {
+        setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        render();
+    }
+
     /**
      * Set PatternCard to PatternCardFieldView
      *
@@ -68,15 +81,6 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      */
     public void setPatternCard(PatternCard patternCard) {
         this.patternCard = patternCard;
-    }
-
-    /**
-     * Set PatternCardField to PatternCardFieldView
-     *
-     * @param patternCardField PatternCardField
-     */
-    public void setPatternCardField(PatternCardField patternCardField) {
-        this.patternCardField = patternCardField;
     }
 
     /**
@@ -92,7 +96,7 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
             addEyes();
         }
         if (patternCardField.hasDie()) {
-            DieView dieView = new DieView();
+            DieView dieView = new DieView(playerController);
             dieView.resize(35, 35);
             dieView.setGameDie(patternCardField.getDie());
             dieView.render();
@@ -146,9 +150,19 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
 
     /**
      * Returns the patterncardfield that the view contains
+     *
      * @return PatternCardField
      */
     public PatternCardField getPatternCardField() {
         return patternCardField;
+    }
+
+    /**
+     * Set PatternCardField to PatternCardFieldView
+     *
+     * @param patternCardField PatternCardField
+     */
+    public void setPatternCardField(PatternCardField patternCardField) {
+        this.patternCardField = patternCardField;
     }
 }

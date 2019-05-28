@@ -204,7 +204,7 @@ public class PatternCardField {
                 }
             }
         }
-        if (hasDie() == false) {
+        if (!hasDie()) {
             if (sideCheckPlaceDie(gameDie)) {
                 gameDie.setPatternCardField(this);
                 setDie(gameDie);
@@ -223,12 +223,10 @@ public class PatternCardField {
         if (patternCard.isFirstTurn()) {
             if (nextToBorder()) {
                 if (sideCheckPlaceDie(gameDie)) {
-                    if (checkTurn(gameDie)) {
-                        return true;
-                    }
+                    return checkTurn(gameDie);
                 }
             }
-        } else if (hasDie() == false) {
+        } else if (!hasDie()) {
             if (sideCheckPlaceDie(gameDie)) {
                 if (patternCard.isNextToDie(this)) {
                     return true;
