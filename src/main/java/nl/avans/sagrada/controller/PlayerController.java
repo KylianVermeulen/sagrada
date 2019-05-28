@@ -16,6 +16,7 @@ import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.task.CheatmodeTask;
+import nl.avans.sagrada.task.UpdateDieTask;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
@@ -110,7 +111,10 @@ public class PlayerController {
                                 playerFrameFieldDao
                                         .addDieToField(gameDie, patternCardField, player);
 
-                                new GameDieDao().updateDie(player.getGame(), gameDie);
+                                UpdateDieTask udt = new UpdateDieTask(player.getGame(), gameDie);
+                                Thread updateGameTread = new Thread(udt);
+                                updateGameTread.setName("Update gamedie thread");
+                                updateGameTread.start();
                             }
                         }
                     }
