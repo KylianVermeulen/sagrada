@@ -39,6 +39,11 @@ public class GameOverviewView extends ScrollPane implements ViewInterface {
     public GameOverviewView(AccountController accountController) {
         this.accountController = accountController;
         games = new ArrayList<>();
+        setPrefSize(PANE_WIDTH, PANE_HEIGHT);
+        setMaxHeight(PANE_HEIGHT);
+        setMinHeight(PANE_HEIGHT);
+        setMaxWidth(PANE_WIDTH);
+        setMinWidth(PANE_WIDTH);
     }
 
     /**
@@ -57,11 +62,6 @@ public class GameOverviewView extends ScrollPane implements ViewInterface {
     public void render() {
         String css = this.getClass().getResource("/css/lobbyview.css").toExternalForm();
         getStylesheets().add(css);
-        setPrefSize(PANE_WIDTH, PANE_HEIGHT);
-        setMaxHeight(PANE_HEIGHT);
-        setMinHeight(PANE_HEIGHT);
-        setMaxWidth(PANE_WIDTH);
-        setMinWidth(PANE_WIDTH);
         setPannable(true);
 
         VBox vbox = new VBox();       
