@@ -22,5 +22,4 @@ public class UpdateDieTask implements Runnable {
     public void run() {
         new GameDieDao().updateDie(game, gameDie);
     }
-
 }
