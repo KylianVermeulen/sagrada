@@ -15,7 +15,6 @@ import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
-import nl.avans.sagrada.task.CheatmodeTask;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
@@ -25,6 +24,8 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
+import nl.avans.sagrada.task.CheatmodeTask;
+import nl.avans.sagrada.task.UpdateDieTask;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.EndgameView;
@@ -110,7 +111,10 @@ public class PlayerController {
                                 playerFrameFieldDao
                                         .addDieToField(gameDie, patternCardField, player);
 
-                                new GameDieDao().updateDie(player.getGame(), gameDie);
+                                UpdateDieTask udt = new UpdateDieTask(player.getGame(), gameDie);
+                                Thread updateGameTread = new Thread(udt);
+                                updateGameTread.setName("Update gamedie thread");
+                                updateGameTread.start();
                             }
                         }
                     }
@@ -230,7 +234,7 @@ public class PlayerController {
         PlayerDao playerDao = new PlayerDao();
         player.setPatternCard(patternCard);
         playerDao.updateSelectedPatternCard(player, patternCard);
-        player.generateFavorTokens();
+        player.assignFavorTokens();
         Game game = player.getGame();
         if (!game.everyoneSelectedPatternCard()) {
             // We don't allow anyone to the game view until everyone has a patterncard
@@ -393,11 +397,13 @@ public class PlayerController {
                     patternCardFieldViews[x][y].removeHighlight();
 
                     if (treeMap.isEmpty()) {
-                        Alert alert = new Alert("Helaas", "Deze die kan je niet plaatsen!", AlertType.INFO);
+                        Alert alert = new Alert("Helaas", "Deze die kan je niet plaatsen!",
+                                AlertType.INFO);
                         myScene.addAlertPane(alert);
                         return;
                     }
-                    if (treeMap.lastEntry().getValue().getxPos() == x && treeMap.lastEntry().getValue().getyPos() == y) {
+                    if (treeMap.lastEntry().getValue().getxPos() == x
+                            && treeMap.lastEntry().getValue().getyPos() == y) {
                         patternCardFieldViews[x][y].addBestHighlight();
                     }
                 }
@@ -414,7 +420,6 @@ public class PlayerController {
      * to the lobbyscreen or view the statistics.
      */
     public void viewEndgame() {
-        GameDao gameDao = new GameDao();
         Game game = player.getGame();
         Player winPlayer = game.getPlayerWithBestScore();
         Pane pane = new Pane();
