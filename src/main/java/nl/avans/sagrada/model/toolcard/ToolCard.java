@@ -154,7 +154,7 @@ public abstract class ToolCard {
     /**
      * Returns the payment status for the toolcard. If true, this toolcard has already been paid for
      * before.
-     * 
+     *
      * @return the payment status for the toolcard
      */
     public boolean hasBeenPaidForBefore() {
@@ -163,40 +163,38 @@ public abstract class ToolCard {
 
     /**
      * Sets the payment status for the toolcard.
-     * 
+     *
      * @param hasBeenPaidForBefore boolean
      */
     public void setHasBeenPaidForBefore(boolean hasBeenPaidForBefore) {
         this.hasBeenPaidForBefore = hasBeenPaidForBefore;
     }
-    
+
     /**
-     * Handels the drag event
-     * So we can handle the toolcard ability
+     * Handels the drag event So we can handle the toolcard ability
      * <p>
-     * The event.getSource or event.getTaget contains the field that we are going to drop the die on
-     * @param event
-     * @param die
+     * The event.getSource or event.getTaget contains the field that we are going to drop the die
+     * on
+     *
      * @return PatternCard
      */
     public abstract PatternCard handleDrag(MouseEvent event, GameDie die);
-    
+
     /**
      * Checks if the toolcard can run
-     * @param playerController
+     *
      * @return boolean
      */
     public abstract boolean hasRequirementsToRun(PlayerController playerController);
-    
-    public void setIsDone(boolean isDone) {
-        this.isDone = isDone;
-    }
-    
+
     /**
      * If the toolcard has been used and has no more things to do, we return true
-     * @return
      */
     public boolean getIsDone() {
         return isDone;
+    }
+
+    public void setIsDone(boolean isDone) {
+        this.isDone = isDone;
     }
 }
