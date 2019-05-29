@@ -2,7 +2,12 @@ package nl.avans.sagrada.model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.DieDao;
 import nl.avans.sagrada.dao.GameDao;
@@ -29,12 +34,13 @@ public class Game {
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
     private Timestamp creationDate;
+    private ArrayList<Chatline> chatlines;
 
     public Game(int id) {
         this.id = id;
         GameDao gameDao = new GameDao();
         ToolCardDao toolCardDao = new ToolCardDao();
-
+        chatlines = new ChatlineDao().getChatlinesOfGame(this);
         players = gameDao.getPlayersOfGame(this);
         toolCards = toolCardDao.getToolCardsOfGame(this);
     }
@@ -248,7 +254,6 @@ public class Game {
      * @return ArrayList<Chatline>
      */
     public ArrayList<Chatline> getChatlines() {
-        ArrayList<Chatline> chatlines = new ChatlineDao().getChatlinesOfGame(this);
         return chatlines;
     }
 
@@ -556,5 +561,9 @@ public class Game {
             player.setPlayerStatus("uitgespeeld");
             playerDao.updatePlayer(player);
         }
+    }
+
+    public void setChatlines(ArrayList<Chatline> chatlines) {
+        this.chatlines = chatlines;
     }
 }

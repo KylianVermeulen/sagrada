@@ -7,13 +7,17 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javax.swing.text.html.ListView;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.model.Chatline;
@@ -27,7 +31,8 @@ public class ChatLineView extends VBox implements ViewInterface {
     private PlayerController playercontroller;
     private VBox messagebox;
     private ArrayList<Chatline> chatlines;
-    private ListProperty<Chatline> listProperty = new SimpleListProperty<>();
+    private ObservableList<Chatline> chatList = FXCollections.observableList(chatlines);
+
     /**
      * Constructor
      * 
@@ -35,7 +40,8 @@ public class ChatLineView extends VBox implements ViewInterface {
      */
     public ChatLineView(PlayerController playercontroller) {
         this.playercontroller = playercontroller;
-        chatlines = new ArrayList<>();
+        chatlines = playercontroller.getPlayer().getGame().getChatlines();
+        chatList.addListener(new ChatlineListener());
         messagebox = new VBox();
     }
     
@@ -71,7 +77,6 @@ public class ChatLineView extends VBox implements ViewInterface {
         textfield.setMinWidth(TEXTFIELD_WIDTH);
         textfield.setOnAction(e -> {
             playercontroller.actionSendMessage(textfield.getText(), this);
-            listProperty.set(FXCollections.observableArrayList(chatlines));
         });
 
         downpane.getChildren().add(textfield);
@@ -93,17 +98,12 @@ public class ChatLineView extends VBox implements ViewInterface {
 
         Label label = new Label(
                 "[" + hour + ":" + minute + ":" + second + "] " + playername + ": " + message);
-        messagebox.getChildren().add(label);
     }
 
     /**
      * Method that adds a array of existing messages to the view
-     * 
-     * @param chatlines Chatline
      */
     public void addExistingMessages() {
-        ChatlineDao chatlineDao = new ChatlineDao();
-        chatlines = chatlineDao.getChatlinesOfGame(playercontroller.getPlayer().getGame());
         for (int i = 0; i < chatlines.size(); i++) {
             addMessage(chatlines.get(i));
         }
@@ -115,6 +115,12 @@ public class ChatLineView extends VBox implements ViewInterface {
         messagebox.getChildren().clear();
         addExistingMessages();
         buildChat();
-        listProperty.set(FXCollections.observableArrayList(chatlines));
+    }
+
+    private class ChatlineListener implements ChangeListener {
+        @Override
+        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+
+        }
     }
 }

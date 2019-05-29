@@ -120,7 +120,7 @@ public class ChecksumDatabase implements Runnable {
         if (!refreshed) {
             if (accountController.getAccount() != null) {
                 if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
-                    playerController.updateChat();
+                    playerController.viewGame();
                     refreshed = true;
                 }
             }
