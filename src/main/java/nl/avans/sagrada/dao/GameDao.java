@@ -59,7 +59,6 @@ public class GameDao {
                             new QueryParameter(QueryParameter.INT, turnPlayerId),
                             new QueryParameter(QueryParameter.INT, game.getId())
             );
-            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,7 +78,6 @@ public class GameDao {
                             new QueryParameter(QueryParameter.INT, game.getId()),
                             new QueryParameter(QueryParameter.TIMESTAMP, game.getCreationDate())
             );
-            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
