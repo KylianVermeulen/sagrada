@@ -140,7 +140,6 @@ public class GameView extends VBox implements ViewInterface {
     
             roundTrackView.setRoundTrack(roundTrack);
             roundTrackView.render();
-            System.out.println("Done");
         });
         Thread thread = new Thread(grtdt);
         thread.setDaemon(true);
