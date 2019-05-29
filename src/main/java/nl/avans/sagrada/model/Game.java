@@ -13,6 +13,8 @@ import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.task.GetPublicObjectiveCardTask;
+import nl.avans.sagrada.task.GetRoundTrackDiceTask;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
@@ -205,6 +207,11 @@ public class Game {
         publicObjectiveCards = publicObjectiveCardDao.getAllPublicObjectiveCardsOfGame(this)
                 .toArray(new PublicObjectiveCard[3]);
         return publicObjectiveCards;
+    }
+    
+    public GetPublicObjectiveCardTask getPublicObjectiveCardTask() {
+        GetPublicObjectiveCardTask getPublicObjectiveCardTask = new GetPublicObjectiveCardTask(this);
+        return getPublicObjectiveCardTask;
     }
 
     /**
@@ -552,9 +559,8 @@ public class Game {
      *
      * @return ArrayList<GameDie>
      */
-    public ArrayList<GameDie> getTrackDice() {
-        ArrayList<GameDie> dice = new GameDieDao().getDiceOnRoundTrackFromGame(this);
-        return dice;
+    public GetRoundTrackDiceTask getTrackDiceTask() {
+        return new GetRoundTrackDiceTask(this);
     }
 
     /**

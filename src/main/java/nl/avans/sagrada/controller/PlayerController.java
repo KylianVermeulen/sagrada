@@ -27,6 +27,7 @@ import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
 import nl.avans.sagrada.task.CheatmodeTask;
 import nl.avans.sagrada.task.UpdateDieTask;
+import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.EndgameView;
@@ -109,14 +110,17 @@ public class PlayerController {
                                 gameDie.setPatternCardField(patternCardField);
                                 patternCardField.setDie(gameDie);
 
-                                PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-                                playerFrameFieldDao
-                                        .addDieToField(gameDie, patternCardField, player);
-
-                                UpdateDieTask udt = new UpdateDieTask(player.getGame(), gameDie);
-                                Thread updateGameTread = new Thread(udt);
-                                updateGameTread.setName("Update gamedie thread");
-                                updateGameTread.start();
+                                UpdatePlayerFrameFieldTask upfft = new UpdatePlayerFrameFieldTask(gameDie, patternCardField, playerEvent);
+                                upfft.setOnSucceeded(e -> {
+                                    UpdateDieTask udt = new UpdateDieTask(player.getGame(), gameDie);
+                                    Thread updateGameTread = new Thread(udt);
+                                    updateGameTread.setDaemon(true);
+                                    updateGameTread.setName("Update gamedie thread");
+                                    updateGameTread.start(); 
+                                });
+                                Thread thread = new Thread(upfft);
+                                thread.setDaemon(true);
+                                thread.start();
                             }
                         }
                     }
