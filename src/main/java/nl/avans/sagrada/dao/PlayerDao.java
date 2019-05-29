@@ -106,6 +106,31 @@ public class PlayerDao {
         return player;
     }
 
+    public Player getPlayerBySeqnrByGame(Game game, int seqnr) {
+        Player player = null;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM player WHERE seqnr=? AND game_idgame=?", "query"),
+                    new QueryParameter(QueryParameter.INT, seqnr),
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
+            if (rs.next()) {
+                AccountDao accountDao = new AccountDao();
+                Account account = accountDao.getAccountByUsername(rs.getString("username"));
+                player = new Player();
+                player.setId(rs.getInt("idplayer"));
+                player.setPlayerStatus(rs.getString("playstatus_playstatus"));
+                player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));
+                player.setSeqnr(rs.getInt("seqnr"));
+                player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
+                player.setAccount(account);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return player;
+    }
+
     public int getNextPlayerId() {
         try {
             ResultSet rs = dbConnection.executeQuery(

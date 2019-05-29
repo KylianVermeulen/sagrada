@@ -35,7 +35,6 @@ public class ToolCardGlasBreekTang extends ToolCard {
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
                 
-                player.getGame().setNextPlayer(true);
                 setIsDone(true);
                 return patternCard;
             }

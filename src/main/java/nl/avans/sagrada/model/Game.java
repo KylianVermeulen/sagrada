@@ -446,68 +446,28 @@ public class Game {
      * database.
      */
     public void setNextPlayer() {
+        PlayerDao playerDao = new PlayerDao();
         Player currentPlayer = turnPlayer;
-        Player playerNextTurn = null;
         int oldSeqnr = currentPlayer.getSeqnr();
-//        currentPlayer.setNextSeqnr();
+        if (!currentPlayer.usedToolCardThatNeedsSkipNextTurn()) {
+            currentPlayer.setNextSeqnr();
+        }
 
-        boolean allPlayersHasUsedSkipToolCard = currentPlayer.usedToolCardThatNeedsSkipNextTurn();
-        
-        for (int i = 0; i < players.size(); i++) {
-            playerNextTurn = players.get(i);
-            allPlayersHasUsedSkipToolCard = playerNextTurn.usedToolCardThatNeedsSkipNextTurn();
+        for (int seqnr = oldSeqnr; seqnr < (players.size() * 2); ) {
+            seqnr++;
             if (oldSeqnr < (players.size() * 2)) {
-                if (playerNextTurn.getSeqnr() == oldSeqnr + 1 && !currentPlayer.usedToolCardThatNeedsSkipNextTurn()) {
-                    if (currentPlayer.getId() != playerNextTurn.getId()) {
-                        updatePlayer(currentPlayer, playerNextTurn);
-                    }
-                }
-                else {
-                    if (currentPlayer.usedToolCardThatNeedsSkipNextTurn()) {
-                        // If the player is the last one and we need to skip the player we can start
-                        // The next round
-                        if (currentPlayer.playerHasFinalSeqnrNumber()) {
-                            updatePlayer(playerNextTurn, currentPlayer);
-                            // The player next turn contains seqnr 2
-                            // So we switch those 2
-                            nextRound();
-                        }
-                    }
+                Player playerNextTurn = playerDao.getPlayerBySeqnrByGame(this, oldSeqnr);
+                if (playerNextTurn != null) {
+                    updatePlayer(currentPlayer, playerNextTurn);
                 }
             } else {
-                if (currentPlayer.getId() != playerNextTurn.getId()) {
-                    updatePlayer(playerNextTurn, currentPlayer);
-                    // The player next turn contains seqnr 2
-                    // So we switch those 2
-                    nextRound();
+                seqnr = 1;
+                Player playerNextTurn = playerDao.getPlayerBySeqnrByGame(this, oldSeqnr);
+                if (playerNextTurn != null) {
+                    updatePlayer(currentPlayer, playerNextTurn);
                 }
+                nextRound();
             }
-        }
-        
-        if (allPlayersHasUsedSkipToolCard) {
-            // If all players used a toolcard to skip a turn we can start the next round
-            nextRound();
-        }
-    }
-    
-    public void setNextPlayer(boolean needsToBeFirstTurn) {
-        if (needsToBeFirstTurn) {
-            Player currentPlayer = turnPlayer;
-            int oldSeqnr = currentPlayer.getSeqnr();
-            
-            for (int i = 0; i < players.size(); i++) {
-                Player playerNextTurn = players.get(i);
-                if (oldSeqnr <= players.size()) {
-                    if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
-                        if (currentPlayer.getId() != playerNextTurn.getId()) {
-                            updatePlayer(currentPlayer, playerNextTurn);
-                        }
-                    }
-                }
-            }
-        }
-        else {
-            setNextPlayer();
         }
     }
 
@@ -549,6 +509,13 @@ public class Game {
     }
 
     /**
+     * Sets the current round of a game
+     */
+    public void setRound(int currentRound) {
+        round = currentRound;
+    }
+
+    /**
      * Put the game in the second round by calling the placeDiceOfOfferTableOnRoundTrack
      */
     public void nextRound() {
@@ -579,13 +546,6 @@ public class Game {
     public ArrayList<GameDie> getTrackDice() {
         ArrayList<GameDie> dice = new GameDieDao().getDiceOnRoundTrackFromGame(this);
         return dice;
-    }
-
-    /**
-     * Sets the current round of a game
-     */
-    public void setRound(int currentRound) {
-        round = currentRound;
     }
 
     /**
