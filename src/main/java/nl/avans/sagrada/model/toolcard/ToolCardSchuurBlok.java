@@ -31,9 +31,7 @@ public class ToolCardSchuurBlok extends ToolCard {
             PatternCard patternCard = patternCardField.getPatternCard();
             Player player = patternCard.getPlayer();
 
-            if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
-                    && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
-                    && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
+            if (patternCardField.canPlaceDie(die)) {
                 int newEyes = (7 - die.getEyes());
 
                 die.setEyes(newEyes);
@@ -41,6 +39,7 @@ public class ToolCardSchuurBlok extends ToolCard {
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
+                setIsDone(true);
                 return patternCard;
             }
         } catch (Exception e) {
