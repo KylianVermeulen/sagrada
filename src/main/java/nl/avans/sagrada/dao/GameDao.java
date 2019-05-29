@@ -79,7 +79,6 @@ public class GameDao {
                             new QueryParameter(QueryParameter.INT, game.getId()),
                             new QueryParameter(QueryParameter.TIMESTAMP, game.getCreationDate())
             );
-            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
