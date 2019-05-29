@@ -40,6 +40,7 @@ public class PlayerDao {
                 player.setScore(rs.getInt("score"));
                 list.add(player);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -98,6 +99,7 @@ public class PlayerDao {
                 player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
                 player.setAccount(account);
             }
+            rs.close();
         } catch (Exception e) {
             player = null;
             e.printStackTrace();
@@ -124,6 +126,7 @@ public class PlayerDao {
                 player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
                 player.setAccount(account);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -138,6 +141,7 @@ public class PlayerDao {
                 int nextId = rs.getInt("highestId") + 1;
                 return nextId;
             }
+            rs.close();
         } catch (Exception e) {
             e.getStackTrace();
         }
