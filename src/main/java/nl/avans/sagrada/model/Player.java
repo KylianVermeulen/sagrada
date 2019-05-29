@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.task.CalculateScoreTask;
 import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
 import nl.avans.sagrada.task.UpdateDieTask;
 import nl.avans.sagrada.task.UpdateScoreTask;
@@ -340,14 +341,22 @@ public class Player {
         }
         return imagePath;
     }
+    
+    public CalculateScoreTask calculateScoreTask() {
+        CalculateScoreTask cst = new CalculateScoreTask(this);
+        return cst;
+    }
 
     /**
      * Calculate the score for this player. Gets -1 score for each empty pattern card field. Gets +1
      * score for each favor token. Gets rewardScore for each public objective card.
      */
     public int calculateScore(boolean privateObjectiveCard) {
+        if (patternCard == null) {
+            patternCard = getPatternCard();
+        }
         int score = 0;        
-        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields(this);
+        PatternCardField[][] patternCardFields = patternCard.getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
                 x++) { // Basic calculations for pattern card fields
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
@@ -376,7 +385,6 @@ public class Player {
         
         UpdateScoreTask ust = new UpdateScoreTask(this);
         Thread thread = new Thread(ust);
-        thread.setDaemon(true);
         thread.start();
         return score;
     }

@@ -14,6 +14,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.task.CalculateScoreTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class ScoreBoardView extends BorderPane implements ViewInterface {
@@ -63,6 +65,7 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
         scoreTitlePane.setAlignment(Pos.CENTER);
 
         for (int i = 0; i < game.getPlayers().size(); i++) {
+            Player player = game.getPlayers().get(i);
             HBox playerLine = new HBox();
             Label playerScore;
             playerLine.setSpacing(SCORE_LINE_SPACING);
@@ -70,18 +73,22 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
                     new Label(game.getPlayers().get(i).getAccount().getUsername() + ": ");
             playerName.setFont(SCORE_LINE_FONT);
             playerName.setTextAlignment(TextAlignment.CENTER);
-
-            if (endGame) {
-                playerScore =
-                        new Label(Integer.toString(game.getPlayers().get(i).calculateScore(true)));
-            } else {
-                playerScore =
-                        new Label(Integer.toString(game.getPlayers().get(i).calculateScore(false)));
-            }
-            playerScore.setFont(SCORE_LINE_FONT);
-            playerScore.setTextAlignment(TextAlignment.CENTER);
-            playerLine.getChildren().addAll(playerName, playerScore);
-            playerLine.setAlignment(Pos.CENTER);
+            
+            playerScore = new Label();
+            
+            CalculateScoreTask cst = new CalculateScoreTask(player);
+            cst.setWithPrivateScore(endGame);
+            
+            cst.setOnSucceeded(e -> {
+                playerScore.setText("" + cst.getValue());
+                playerScore.setFont(SCORE_LINE_FONT);
+                playerScore.setTextAlignment(TextAlignment.CENTER);
+                playerLine.getChildren().addAll(playerName, playerScore);
+                playerLine.setAlignment(Pos.CENTER);
+            });
+            Thread thread = new Thread(cst);
+            thread.setDaemon(true);
+            thread.start();
             scoreLines.add(i, playerLine);
         }
         scoreBoardContent.getChildren().addAll(scoreLines);
