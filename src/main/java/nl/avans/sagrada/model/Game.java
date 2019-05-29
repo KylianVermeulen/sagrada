@@ -375,7 +375,7 @@ public class Game {
         boolean foundThreeValues = false;
 
         while (!foundThreeValues) {
-            randomNumber1 = 8;
+            randomNumber1 = random.nextInt((max - min) + 1) + min;
             randomNumber2 = random.nextInt((max - min) + 1) + min;
             randomNumber3 = random.nextInt((max - min) + 1) + min;
             if (randomNumber1 != randomNumber2 && randomNumber1 != randomNumber3
@@ -524,8 +524,8 @@ public class Game {
     /**
      * Sets the current round of a game
      */
-    public void setRound(int currentRound) {
-        round = currentRound;
+    public void setRound(int round) {
+        this.round = round;
     }
 
     /**

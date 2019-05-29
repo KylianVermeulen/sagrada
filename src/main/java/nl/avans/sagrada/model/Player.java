@@ -8,7 +8,6 @@ import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
-import nl.avans.sagrada.model.toolcard.ToolCardOlieGlasSnijder;
 
 public class Player {
     public static final String STATUS_ABORT = "afgebroken";
@@ -178,6 +177,7 @@ public class Player {
 
     /**
      * Get the selected patterncard of the player
+     *
      * @return PatternCard
      */
     public PatternCard getPatternCard() {
@@ -217,7 +217,8 @@ public class Player {
     public void assignFavorTokens() {
         FavorTokenDao favorTokenDao = new FavorTokenDao();
         ArrayList<FavorToken> favorTokens = new ArrayList<>();
-        ArrayList<FavorToken> allUnusedGameFavorTokens = favorTokenDao.getUnusedFavorTokensOfGame(game);
+        ArrayList<FavorToken> allUnusedGameFavorTokens = favorTokenDao
+                .getUnusedFavorTokensOfGame(game);
         for (int i = 0; i < patternCard.getDifficulty(); i++) {
             FavorToken favorToken = allUnusedGameFavorTokens.get(0);
             allUnusedGameFavorTokens.remove(0);
@@ -295,17 +296,17 @@ public class Player {
     public void setPlacedDie(boolean placedDie) {
         this.placedDie = placedDie;
     }
-    
+
     /**
      * Checks if it is the first turn of the player
+     *
      * @return boolean
      */
     public boolean isFirstTurn() {
         int numberOfPlayers = game.getPlayers().size();
         if (seqnr <= numberOfPlayers) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -381,7 +382,7 @@ public class Player {
         return playerColor;
     }
 
-    public void setPlayerColor(int i){
+    public void setPlayerColor(int i) {
         switch (i) {
             case 0:
                 playerColor = Color.YELLOW;
@@ -397,6 +398,7 @@ public class Player {
                 break;
         }
     }
+
     /**
      * Sets the next seqnr for this player bases on the current seqnr and the size of the game.
      */
@@ -449,11 +451,11 @@ public class Player {
         setSeqnr(newSeqnr);
         new PlayerDao().updatePlayer(this);
     }
-    
+
     public boolean usedToolCardThatNeedsSkipNextTurn() {
         ToolCardDao toolCardDao = new ToolCardDao();
         ToolCard toolCard = toolCardDao.getUsedToolCardOfPlayerOfRound(this);
-        
+
         if (toolCard != null) {
             return (toolCard instanceof ToolCardGlasBreekTang);
         }
@@ -462,14 +464,14 @@ public class Player {
 
     /**
      * Checks if a players has already used a toolcard
+     *
      * @return boolean
      */
     public boolean hasUsedToolcardInCurrentRound() {
         PlayerDao playerDao = new PlayerDao();
         if (playerDao.hasUsedToolCardInTurnRound(this)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
