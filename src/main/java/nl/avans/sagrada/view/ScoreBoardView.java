@@ -22,7 +22,6 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
     private final Font SCORE_LINE_FONT = new Font("Segoe Script", 20);
     private final int SCOREBOARD_SIZE = 300;
     private Game game;
-    private PlayerController playerController;
     private boolean endGame;
 
     /**
@@ -30,9 +29,8 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
      * 
      * @param game Game
      */
-    public ScoreBoardView(Game game, PlayerController playerController) {
+    public ScoreBoardView(Game game) {
         this.game = game;
-        this.playerController = playerController;
         this.endGame = false;
         setPrefSize(SCOREBOARD_SIZE, SCOREBOARD_SIZE);
         setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
@@ -43,9 +41,8 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
      *
      * @param game Game
      */
-    public ScoreBoardView(Game game, PlayerController playerController, boolean endGame) {
+    public ScoreBoardView(Game game, boolean endGame) {
         this.game = game;
-        this.playerController = playerController;
         this.endGame = endGame;
         setPrefSize(SCOREBOARD_SIZE, SCOREBOARD_SIZE);
         setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));

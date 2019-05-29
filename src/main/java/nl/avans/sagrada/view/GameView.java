@@ -180,7 +180,7 @@ public class GameView extends VBox implements ViewInterface {
      * Builds the scoreboard inside of the game view.
      */
     private void buildScoreBoard() {
-        scoreBoard = new ScoreBoardView(game, playerController);
+        scoreBoard = new ScoreBoardView(game);
         scoreBoard.render();
     }
 
