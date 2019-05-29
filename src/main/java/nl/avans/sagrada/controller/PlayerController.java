@@ -10,6 +10,7 @@ import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PatternCardFieldDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.ToolCardDao;
@@ -111,7 +112,7 @@ public class PlayerController {
 
                                 PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
                                 playerFrameFieldDao
-                                        .addDieToField(gameDie, patternCardField, player);
+                                        .updateDieLocation(gameDie, patternCardField, player);
 
                                 UpdateDieTask udt = new UpdateDieTask(player.getGame(), gameDie);
                                 Thread updateGameTread = new Thread(udt);
@@ -240,7 +241,11 @@ public class PlayerController {
 
     public void actionSelectPatternCard(PatternCard patternCard) {
         PlayerDao playerDao = new PlayerDao();
+        PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+        PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
+        
         player.setPatternCard(patternCard);
+        playerFrameFieldDao.addPatternCardFields(patternCardFieldDao.getPatternCardFieldsOfPatterncard(patternCard), patternCard, player);
         playerDao.updateSelectedPatternCard(player, patternCard);
         player.assignFavorTokens();
         Game game = player.getGame();

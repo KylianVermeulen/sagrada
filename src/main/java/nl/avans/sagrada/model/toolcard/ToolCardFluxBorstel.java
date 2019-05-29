@@ -33,7 +33,7 @@ public class ToolCardFluxBorstel extends ToolCard {
 
                 if (targetField.placeDie(die)) {
                     playerController.removePopupPane();
-                    new PlayerFrameFieldDao().addDieToField(die, targetField, player);
+                    new PlayerFrameFieldDao().updateDieLocation(die, targetField, player);
                     die.setPatternCardField(targetField);
                     targetField.setDie(die);
                     die.setIsOnOfferTable(false);

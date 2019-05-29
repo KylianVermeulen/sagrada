@@ -42,7 +42,7 @@ public class ToolCardLoodOpenHaler extends ToolCard {
 
             die.setPatternCardField(patternCardField);
             patternCardField.setDie(die);
-            playerFrameFieldDao.addDieToField(die, patternCardField, player);
+            playerFrameFieldDao.updateDieLocation(die, patternCardField, player);
             numberOfUses++;
             handleNumberOfUses();
             return patternCard;

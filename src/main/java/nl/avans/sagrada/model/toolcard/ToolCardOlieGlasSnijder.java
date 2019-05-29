@@ -58,7 +58,7 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
 
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
-                playerFrameFieldDao.addDieToField(die, patternCardField, player);
+                playerFrameFieldDao.updateDieLocation(die, patternCardField, player);
 
                 numberOfUses++;
                 if (numberOfUses >= 2) {

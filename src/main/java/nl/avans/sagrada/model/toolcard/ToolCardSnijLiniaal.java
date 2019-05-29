@@ -42,7 +42,7 @@ public class ToolCardSnijLiniaal extends ToolCard {
                     die.setIsOnOfferTable(false);
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
-                    playerFrameFieldDao.addDieToField(die, patternCardField, player);
+                    playerFrameFieldDao.updateDieLocation(die, patternCardField, player);
                     setIsDone(true);
                     return patternCard;
                 }
