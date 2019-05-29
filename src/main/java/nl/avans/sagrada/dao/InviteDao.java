@@ -30,7 +30,7 @@ public class InviteDao {
         ArrayList<Invite> invites = new ArrayList<>();
         try {
             ResultSet rs = dbConnection
-                    .executeQuery(new Query("SELECT * FROM player WHERE username=? AND COUNT(SELECT * FR)", "query",
+                    .executeQuery(new Query("SELECT * FROM player WHERE username=?", "query",
                             new QueryParameter(QueryParameter.STRING, account.getUsername()))
             );
             while (rs.next()) {
@@ -64,7 +64,7 @@ public class InviteDao {
     /**
      * Checks if a player has 4 optional patternCards
      * @param player
-     * @return
+     * @return boolean
      */
     private boolean hasFourOptionalPatternCards(Player player) {
         try {
