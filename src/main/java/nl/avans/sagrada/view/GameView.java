@@ -25,6 +25,8 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.RoundTrack;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.task.GetFavorTokensOfToolCardTask;
+import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameView extends VBox implements ViewInterface {
@@ -44,6 +46,7 @@ public class GameView extends VBox implements ViewInterface {
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
     private DieOfferView dieOfferView;
+    private HBox toolCardsView;
 
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
@@ -76,43 +79,54 @@ public class GameView extends VBox implements ViewInterface {
         for (Player player : players) {
             String currentPlayerUsername = this.player.getAccount().getUsername();
             String otherPlayerUsername = player.getAccount().getUsername();
-            PatternCardDao PatternCardDao = new PatternCardDao();
-            PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
-            player.setPatternCard(patternCard);
-            if (!currentPlayerUsername.equals(otherPlayerUsername)) {
-                PatternCard playerPatternCard = player.getPatternCard();
+            
+            GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(player);
+            gpcopt.setOnSucceeded(e -> {
+                PatternCard patternCard = gpcopt.getValue();
+                player.setPatternCard(patternCard);
+                if (!currentPlayerUsername.equals(otherPlayerUsername)) {
+                    PatternCard playerPatternCard = player.getPatternCard();
 
-                PatternCardView patternCardView = new PatternCardView(playerController);
-                patternCardView.setCenterShape(true);
-                patternCardView.setPlayerName(otherPlayerUsername);
-                patternCardView.setPlayerColor(player.getPlayerColor());
-                if (player.isCurrentPlayer()) {
-                    patternCardView.setCurrentPlayer(true);
-                } else {
-                    patternCardView.setCurrentPlayer(false);
-                }
-                patternCardView.setPatternCard(playerPatternCard);
-                patternCardView.render();
-                otherPlayerPatternCardViews.getChildren().add(patternCardView);
-            }
+                    PatternCardView patternCardView = new PatternCardView(playerController);
+                    patternCardView.setCenterShape(true);
+                    patternCardView.setPlayerName(otherPlayerUsername);
+                    patternCardView.setPlayerColor(player.getPlayerColor());
+                    if (player.isCurrentPlayer()) {
+                        patternCardView.setCurrentPlayer(true);
+                    } else {
+                        patternCardView.setCurrentPlayer(false);
+                    }
+                    patternCardView.setPatternCard(playerPatternCard);
+                    patternCardView.render();
+                    otherPlayerPatternCardViews.getChildren().add(patternCardView);
+                } 
+            });
+            Thread thread = new Thread(gpcopt);
+            thread.setDaemon(true);
+            thread.start();
         }
     }
 
     private void buildToolCards() {
-        toolCardViews = new ArrayList<>();
-        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        toolCardsView = new HBox();
 
         ArrayList<ToolCard> gameToolCards = new ArrayList<>();
         gameToolCards = game.getToolCards();
 
         for (ToolCard toolCard : gameToolCards) {
-            ArrayList<FavorToken> favorTokens = favorTokenDao.getToolCardTokens(toolCard, game);
-            ToolCardView toolCardView = new ToolCardView(playerController);
-            toolCardView.setToolCard(toolCard);
-            toolCardView.setFavorTokens(favorTokens, game);
-            toolCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
-            toolCardView.render();
-            toolCardViews.add(toolCardView);
+            GetFavorTokensOfToolCardTask gftotct = new GetFavorTokensOfToolCardTask(toolCard, game);
+            gftotct.setOnSucceeded(e -> {
+                ArrayList<FavorToken> favorTokens = gftotct.getValue();
+                ToolCardView toolCardView = new ToolCardView(playerController);
+                toolCardView.setToolCard(toolCard);
+                toolCardView.setFavorTokens(favorTokens, game);
+                toolCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
+                toolCardView.render();
+                toolCardsView.getChildren().add(toolCardView);
+            });
+            Thread thread = new Thread(gftotct);
+            thread.setDaemon(true);
+            thread.start();
         }
     }
 
@@ -248,7 +262,7 @@ public class GameView extends VBox implements ViewInterface {
         firstView.setCenter(otherPlayerPatternCardViews);
         firstView.setRight(scoreBoard);
 
-        secondView.getChildren().addAll(toolCardViews);
+        secondView.getChildren().add(toolCardsView);
         secondView.getChildren().addAll(publicObjectiveCardViews);
         secondView.getChildren().add(roundTrackView);
 
