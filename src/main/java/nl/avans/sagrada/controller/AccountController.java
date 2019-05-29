@@ -159,15 +159,10 @@ public class AccountController {
         Pane pane = new Pane();
         account = accountDao.getAccountByUsername(account.getUsername());
         ArrayList<Invite> pendingInvites = account.getPendingInvites();
-        ArrayList<Game> games = account.getActiveGames();
-        ArrayList<Game> allGames = new GameDao().getAllGames();
-        ArrayList<Account> accounts = accountDao.getAllAccounts();
 
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);
-        lobbyView.setGames(games);
-        lobbyView.setAllGames(allGames);
-        lobbyView.setAccounts(accounts);
+        
         lobbyView.render();
 
         pane.getChildren().add(lobbyView);
