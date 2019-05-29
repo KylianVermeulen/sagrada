@@ -5,6 +5,9 @@ import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
+import nl.avans.sagrada.task.UpdateDieTask;
+import nl.avans.sagrada.task.UpdateScoreTask;
 
 public class Player {
     public static final String STATUS_ABORT = "afgebroken";
@@ -181,6 +184,11 @@ public class Player {
         patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(this);
         return patternCard;
     }
+    
+    public GetPatternCardOfPlayerTask getPatternCardTask() {
+        GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(this);
+        return gpcopt;
+    }
 
     /**
      * @param patterncard The patterncard of this player.
@@ -338,8 +346,7 @@ public class Player {
      * score for each favor token. Gets rewardScore for each public objective card.
      */
     public int calculateScore(boolean privateObjectiveCard) {
-        int score = 0;
-        PlayerDao playerDao = new PlayerDao();
+        int score = 0;        
         PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
                 x++) { // Basic calculations for pattern card fields
@@ -366,7 +373,11 @@ public class Player {
             score += publicObjectiveCard.calculateScore(patternCard);
         }
         this.score = score;
-        playerDao.updateScore(this);
+        
+        UpdateScoreTask ust = new UpdateScoreTask(this);
+        Thread thread = new Thread(ust);
+        thread.setDaemon(true);
+        thread.start();
         return score;
     }
 

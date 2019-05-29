@@ -216,6 +216,7 @@ public class PatternCard {
      * @return PatternCardField[]
      */
     public PatternCardField[][] getPatternCardFields(Player player) {
+        // Here we can get more speed
         PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
         ArrayList<PatternCardField> patternCardFieldsList = patternCardFieldDao.getPatternCardFieldsOfPatterncard(this, player);
         return makePatternCardFields(patternCardFieldsList);

@@ -22,8 +22,7 @@ public class RoundTrackView extends TilePane implements ViewInterface {
      *
      * @param roundTrack RoundTrack
      */
-    public RoundTrackView(RoundTrack roundTrack, PlayerController playerController) {
-        this.roundTrack = roundTrack;
+    public RoundTrackView(PlayerController playerController) {
         this.playerController = playerController;
         setPadding(new Insets(5, 0, 0, 5));
 
@@ -31,6 +30,10 @@ public class RoundTrackView extends TilePane implements ViewInterface {
         roundTrackFieldViews = new RoundTrackFieldView[10];
         setPrefSize(ROUNDTRACK_WIDTH, ROUNDTRACK_HEIGHT);
         setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
+    }
+    
+    public void setRoundTrack(RoundTrack roundTrack) {
+        this.roundTrack = roundTrack;
     }
 
     /**
