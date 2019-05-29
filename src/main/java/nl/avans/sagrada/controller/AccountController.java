@@ -162,8 +162,7 @@ public class AccountController {
 
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);
-        ArrayList<Game> allGames = new GameDao().getAllGames();
-        lobbyView.setAllGames(allGames);
+        
         lobbyView.render();
 
         pane.getChildren().add(lobbyView);

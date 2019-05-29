@@ -22,6 +22,7 @@ import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.task.ActiveGameTask;
 import nl.avans.sagrada.task.AllAccountsTask;
+import nl.avans.sagrada.task.AllGamesTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class LobbyView extends BorderPane implements ViewInterface {
@@ -41,7 +42,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private Button logoutButton;
     private BackgroundSize size =
             new BackgroundSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT, false, false, true, false);
-    private ArrayList<Game> allgames;
+    private ArrayList<Game> allGames;
 
     /**
      * Constructor
@@ -166,11 +167,18 @@ public class LobbyView extends BorderPane implements ViewInterface {
 
     private void buildAllGamesOverview() {
         allGamesOverview = new AllGamesOverView(accountController);
-        allGamesOverview.setGames(allgames);
-        allGamesOverview.render();
+        AllGamesTask agt = new AllGamesTask();
+        agt.setOnSucceeded(e -> {
+            allGames = agt.getValue();
+            allGamesOverview.setGames(allGames);
+            allGamesOverview.render();
+        });
+        Thread th = new Thread(agt);
+        th.setDaemon(true);
+        th.start();
     }
 
     public void setAllGames(ArrayList<Game> allgames) {
-        this.allgames = allgames;
+        this.allGames = allgames;
     }
 }
