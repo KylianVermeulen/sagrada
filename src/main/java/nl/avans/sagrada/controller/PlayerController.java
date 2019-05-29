@@ -23,6 +23,7 @@ import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
+import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
 import nl.avans.sagrada.task.CheatmodeTask;
 import nl.avans.sagrada.task.UpdateDieTask;
@@ -36,6 +37,7 @@ import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.view.popups.Fluxborstel;
 import nl.avans.sagrada.view.popups.Fluxverwijderaar;
 
 public class PlayerController {
@@ -163,6 +165,12 @@ public class PlayerController {
             Fluxverwijderaar fluxverwijderaar = new Fluxverwijderaar(myScene,
                     getPlayer().getGame(), this, activeToolCard);
             myScene.addPopupPane(fluxverwijderaar);
+        }
+        if (toolCard instanceof ToolCardFluxBorstel) {
+            Fluxborstel fluxborstelPopup = new Fluxborstel(myScene,
+                    getPlayer().getGame(),
+                    this, activeToolCard);
+            myScene.addPopupPane(fluxborstelPopup);
         }
     }
 

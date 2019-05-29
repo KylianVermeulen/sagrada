@@ -30,7 +30,7 @@ public class DieOfferView extends TilePane implements ViewInterface {
     private void buildDice() {
         for (GameDie gameDie : game.getRoundDice()) {
             Pane paddingPane = new Pane();
-            DieView dieView = new DieView(gameDie, patternCardView);
+            DieView dieView = new DieView(gameDie, playerController, patternCardView);
             dieView.setPlayerController(playerController);
             dieView.resize(25, 25);
             paddingPane.setPadding(new Insets(2));
