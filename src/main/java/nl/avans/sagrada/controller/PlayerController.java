@@ -24,6 +24,8 @@ import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
+import nl.avans.sagrada.task.AddChatlineTask;
+import nl.avans.sagrada.task.ChatlineTimeTask;
 import nl.avans.sagrada.task.CheatmodeTask;
 import nl.avans.sagrada.task.UpdateDieTask;
 import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
@@ -115,7 +117,7 @@ public class PlayerController {
                                     Thread updateGameTread = new Thread(udt);
                                     updateGameTread.setDaemon(true);
                                     updateGameTread.setName("Update gamedie thread");
-                                    updateGameTread.start(); 
+                                    updateGameTread.start();
                                 });
                                 Thread thread = new Thread(upfft);
                                 thread.setDaemon(true);
@@ -294,14 +296,20 @@ public class PlayerController {
         chatlineDao.getTime(chatline);
 
         if (!text.matches("")) {
-            if (chatlineDao.timeExistsOfPlayer(chatline) == false) {
-                chatlineDao.addChatline(chatline);
-                chatlineView.addChatline(chatline);
-            } else {
-                Alert alert = new Alert("Waarschuwing",
-                        "Je mag maar 1 keer per seconde een bericht versturen!", AlertType.ERROR);
-                myScene.addAlertPane(alert);
-            }
+            ChatlineTimeTask chatlineTimeTask = new ChatlineTimeTask(chatline);
+            chatlineTimeTask.setOnSucceeded(e -> {
+                if(chatlineTimeTask.getValue() == false) {
+                    AddChatlineTask addChatlineTask = new AddChatlineTask(chatline);
+                    Thread thread = new Thread(addChatlineTask);
+                    thread.start();
+                    chatlineView.addMessage(chatline);
+                } else {
+                    Alert alert = new Alert("Waarschuwing", "Je kan maar 1 bericht per seconde sturen!", AlertType.ERROR);
+                    myScene.addAlertPane(alert);
+                }
+            });
+            Thread thread = new Thread(chatlineTimeTask);
+            thread.start();
         } else {
             Alert alert =
                     new Alert("Waarschuwing", "Je bericht moet tekst bevatten", AlertType.ERROR);
