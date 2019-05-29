@@ -49,10 +49,9 @@ public class PlayerDao {
     public void updatePlayer(Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(new Query(
-                            "UPDATE player SET username=?, game_idgame=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
+                            "UPDATE player SET username=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                     new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
                     new QueryParameter(QueryParameter.INT, player.getSeqnr()),
                     new QueryParameter(QueryParameter.BOOLEAN, player.isCurrentPlayer()),

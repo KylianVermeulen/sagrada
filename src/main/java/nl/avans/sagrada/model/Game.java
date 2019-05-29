@@ -463,18 +463,21 @@ public class Game {
             currentPlayer.setNextSeqnr();
         }
 
-        for (int seqnr = oldSeqnr; seqnr < (players.size() * 2); ) {
-            seqnr++;
-            if (oldSeqnr < (players.size() * 2)) {
+        boolean finished = false;
+        while (!finished) {
+            oldSeqnr++;
+            if (oldSeqnr <= (players.size() * 2)) {
                 Player playerNextTurn = playerDao.getPlayerBySeqnrByGame(this, oldSeqnr);
                 if (playerNextTurn != null) {
                     updatePlayer(currentPlayer, playerNextTurn);
+                    finished = true;
                 }
             } else {
-                seqnr = 1;
+                oldSeqnr = 1;
                 Player playerNextTurn = playerDao.getPlayerBySeqnrByGame(this, oldSeqnr);
                 if (playerNextTurn != null) {
                     updatePlayer(currentPlayer, playerNextTurn);
+                    finished = true;
                 }
                 nextRound();
             }
