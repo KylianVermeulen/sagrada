@@ -28,6 +28,7 @@ public class DieOfferView extends TilePane implements ViewInterface {
      * Builds the panes with the dice
      */
     private void buildDice() {
+        // Here we can get more speed!
         for (GameDie gameDie : game.getRoundDice()) {
             Pane paddingPane = new Pane();
             DieView dieView = new DieView(gameDie, playerController, patternCardView);
