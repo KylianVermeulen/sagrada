@@ -255,7 +255,13 @@ public class PlayerController {
 
     public void actionSelectPatternCard(PatternCard patternCard) {
         player.setPatternCard(patternCard);
-        SetSelectedPatternCardOfPlayerTask sspcopt = new SetSelectedPatternCardOfPlayerTask(player);
+        SetSelectedPatternCardOfPlayerTask sspcopt = new SetSelectedPatternCardOfPlayerTask(player, patternCard);
+        sspcopt.exceptionProperty().addListener((observable, oldValue, newValue) ->  {
+            if(newValue != null) {
+              Exception ex = (Exception) newValue;
+              ex.printStackTrace();
+            }
+          });
         sspcopt.setOnSucceeded(e -> {
             Game game = player.getGame();
             if (!game.everyoneSelectedPatternCard()) {
