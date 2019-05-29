@@ -23,6 +23,7 @@ import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.RoundTrack;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.task.GetFavorTokensOfToolCardTask;
+import nl.avans.sagrada.task.GetFavorTokensTask;
 import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
 import nl.avans.sagrada.task.GetPublicObjectiveCardTask;
 import nl.avans.sagrada.task.GetRoundTrackDiceTask;
@@ -185,7 +186,15 @@ public class GameView extends VBox implements ViewInterface {
     }
 
     private void buildBalance() {
-        balance = new Label("Betaalstenen: " + player.getFavorTokens().size());
+        balance = new Label();
+        GetFavorTokensTask gftt = new GetFavorTokensTask(player);
+        gftt.setOnSucceeded(e -> {
+            ArrayList<FavorToken> favorTokens = gftt.getValue();
+            balance.setText("Betaalstenen: " + favorTokens.size());
+        });
+        Thread thread = new Thread(gftt);
+        thread.setDaemon(true);
+        thread.start();
         balance.setPadding(new Insets(0, 0, 0, 5));
     }
 
