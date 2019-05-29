@@ -27,6 +27,7 @@ import nl.avans.sagrada.model.RoundTrack;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.task.GetFavorTokensOfToolCardTask;
 import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
+import nl.avans.sagrada.task.GetRoundTrackDiceTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameView extends VBox implements ViewInterface {
@@ -131,13 +132,23 @@ public class GameView extends VBox implements ViewInterface {
     }
 
     private void buildRoundTrack() {
+        roundTrackView = new RoundTrackView(playerController);
         RoundTrack roundTrack = new RoundTrack();
-        for (GameDie gameDie : game.getTrackDice()) {
-            roundTrack.addGameDie(gameDie);
-        }
-
-        roundTrackView = new RoundTrackView(roundTrack, playerController);
-        roundTrackView.render();
+        GetRoundTrackDiceTask grtdt = game.getTrackDiceTask();
+        grtdt.setOnSucceeded(e -> {
+            
+            ArrayList<GameDie> trackDie = grtdt.getValue();
+            for (GameDie gameDie : trackDie) {
+                roundTrack.addGameDie(gameDie);
+            }
+    
+            roundTrackView.setRoundTrack(roundTrack);
+            roundTrackView.render();
+            System.out.println("Done");
+        });
+        Thread thread = new Thread(grtdt);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void buildPublicObjectiveCards() {
