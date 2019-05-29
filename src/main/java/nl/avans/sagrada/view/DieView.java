@@ -12,19 +12,24 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class DieView extends Pane implements ViewInterface {
     private final int DIE_WIDTH = 40;
     private final int DIE_HEIGHT = 40;
+    private PlayerController playerController;
     private ArrayList<ImageView> images;
     private GameDie gameDie;
+    private PatternCardView patternCardView;
+    private PatternCardFieldView patternCardFieldView;
 
     /**
      * Full constructor
      */
-    public DieView() {
+    public DieView(PlayerController playerController) {
+        this.playerController = playerController;
         init();
     }
 
@@ -33,8 +38,18 @@ public class DieView extends Pane implements ViewInterface {
         init();
     }
 
+    public DieView(GameDie gameDie, PatternCardView patternCardView) {
+        this.gameDie = gameDie;
+        this.patternCardView = patternCardView;
+        init();
+    }
+
+    public void setPlayerController(PlayerController playerController) {
+        this.playerController = playerController;
+    }
+
     private void init() {
-        images = new ArrayList<ImageView>();
+        images = new ArrayList<>();
         setPrefSize(DIE_WIDTH, DIE_HEIGHT);
         setMaxSize(DIE_WIDTH, DIE_HEIGHT);
         enableDrag();
@@ -51,13 +66,21 @@ public class DieView extends Pane implements ViewInterface {
     private void enableDrag() {
         setOnDragDetected(e -> {
             startFullDrag();
+            if (playerController.getPlayer().isCheatmode()) {
+                playerController.actionHighlightBestPlacementForGameDie(gameDie);
+            }
         });
+        setBorder(new Border(
+                new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
+                        new BorderWidths(3))));
+        diceEyesArray();
+        resizeImages();
     }
 
     /**
      * Disables the drag so you can't place this die
      */
-    public void disableDrag(){
+    public void disableDrag() {
         setOnDragDetected(e -> {
         });
     }

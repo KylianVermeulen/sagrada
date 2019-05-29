@@ -211,14 +211,17 @@ public class Player {
         patternCardDao.saveOptionalPatternCardsOfPlayer(optionalPatterncards, this);
     }
 
-    public void generateFavorTokens() {
+    /**
+     * Assign favor tokens of a game to the player.
+     */
+    public void assignFavorTokens() {
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
         ArrayList<FavorToken> favorTokens = new ArrayList<>();
+        ArrayList<FavorToken> allUnusedGameFavorTokens = favorTokenDao.getUnusedFavorTokensOfGame(game);
         for (int i = 0; i < patternCard.getDifficulty(); i++) {
-            FavorTokenDao favorTokenDao = new FavorTokenDao();
-            int favorTokenId = favorTokenDao.getNextFavorTokenId();
-
-            FavorToken favorToken = new FavorToken(favorTokenId, this);
-            favorTokenDao.addFavorToken(favorToken);
+            FavorToken favorToken = allUnusedGameFavorTokens.get(0);
+            allUnusedGameFavorTokens.remove(0);
+            favorTokenDao.setFavortokenForPlayer(favorToken, this);
             favorTokens.add(favorToken);
         }
         this.favorTokens = favorTokens;
@@ -340,7 +343,6 @@ public class Player {
      */
     public int calculateScore(boolean privateObjectiveCard) {
         int score = 0;
-
         PlayerDao playerDao = new PlayerDao();
         PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;

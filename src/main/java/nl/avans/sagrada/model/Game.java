@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.DieDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
@@ -57,6 +58,24 @@ public class Game {
             gameDice.add(gameDie);
             gameDieDao.addDie(this, gameDie);
         }
+    }
+
+    /**
+     * Returns the gamedice for this game.
+     *
+     * @return ArrayList GameDie
+     */
+    public ArrayList<GameDie> getGameDice() {
+        return gameDice;
+    }
+
+    /**
+     * Set gameDice to Game
+     *
+     * @param gameDice GameDie[]
+     */
+    public void setGameDice(ArrayList<GameDie> gameDice) {
+        this.gameDice = gameDice;
     }
 
     /**
@@ -174,15 +193,6 @@ public class Game {
      */
     public ArrayList<GameDie> gameDice() {
         return gameDice;
-    }
-
-    /**
-     * Set gameDice to Game
-     *
-     * @param gameDice GameDie[]
-     */
-    public void setGameDice(ArrayList<GameDie> gameDice) {
-        this.gameDice = gameDice;
     }
 
     /**
@@ -549,14 +559,71 @@ public class Game {
     }
 
     /**
+     * Rerolls the dice eyes from the dice in the dice offer for the current turn.
+     */
+    public void rerollRoundDice() {
+        GameDieDao gameDieDao = new GameDieDao();
+        for (GameDie gameDie : gameDieDao.getAvailableDiceOfRound(this)) {
+            gameDie.setEyes(new Random().nextInt(6) + 1);
+            gameDieDao.updateDieEyes(this, gameDie);
+        }
+    }
+
+    /**
      * Finishes a game by changing the status of all players
      */
     public void finishGame() {
-        ArrayList<Player> players = getPlayers();
-        PlayerDao playerDao = new PlayerDao();
-        for (Player player : players) {
-            player.setPlayerStatus("uitgespeeld");
-            playerDao.updatePlayer(player);
+        Player startPlayer = getPlayers().get(0);
+        if (startPlayer.getId() == turnPlayer.getId()) {
+            ArrayList<Player> players = getPlayers();
+            PlayerDao playerDao = new PlayerDao();
+            for (Player player : players) {
+                player.setPlayerStatus("uitgespeeld");
+                player.setScore(player.calculateScore(true));
+                playerDao.updatePlayer(player);
+            }
+        }
+    }
+
+    /**
+     * The method will return the player with the best score by calculating each players score with
+     * private objective card.
+     *
+     * @return The player.
+     */
+    public Player getPlayerWithBestScore() {
+        Player player = null;
+        int playerScore = -21;
+        for (Player playerLoop : getPlayers()) {
+            int loopScore = playerLoop.calculateScore(true);
+            if (player == null) {
+                player = playerLoop;
+                playerScore = loopScore;
+            } else {
+                if (loopScore > playerScore) {
+                    player = playerLoop;
+                    playerScore = loopScore;
+                } else if (loopScore == playerScore) {
+                    if (player.getId() < playerLoop.getId()) {
+                        player = playerLoop;
+                        playerScore = loopScore;
+                    }
+                }
+            }
+        }
+        return player;
+    }
+
+    /**
+     * Assign 24 favor tokens to a game in the database.
+     */
+    public void assignFavorTokens() {
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        for (int i = 0; i < 24; i++) {
+            FavorToken favorToken = new FavorToken();
+            favorToken.setId(favorTokenDao.getNextFavorTokenId());
+            favorToken.setGame(this);
+            favorTokenDao.addFavorToken(favorToken);
         }
     }
 }
