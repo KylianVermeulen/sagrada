@@ -64,6 +64,7 @@ public class ChatLineView extends VBox implements ViewInterface {
         textfield.setMinWidth(TEXTFIELD_WIDTH);
         textfield.setOnAction(e -> {
             playercontroller.actionSendMessage(textfield.getText(), this);
+            textfield.clear();
         });
 
         downpane.getChildren().add(textfield);
