@@ -39,6 +39,10 @@ public class ChecksumDatabase implements Runnable {
         };
     }
 
+    /**
+     * Sets the chatLineView for the checksum
+     * @param chatLineView
+     */
     public static void setChatLineView(ChatLineView chatLineView) {
         ChecksumDatabase.chatLineView = chatLineView;
     }
