@@ -101,6 +101,7 @@ public class ChecksumDatabase {
      * Handles the player table checksum change
      */
     private void handlePlayer() {
+        System.out.println("Detected change");
         if (!refreshed) {
             if (accountController.getAccount() != null) {
                 if (accountController.getAccount().getAccountStatus() == AccountStatus.LOBBY) {

@@ -20,6 +20,7 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.model.enumerations.AccountStatus;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
@@ -182,6 +183,7 @@ public class PlayerController {
 
     public void viewGame() {
         // Refresh game & player object
+        player.getAccount().setAccountStatus(AccountStatus.GAME);
         int gameId = player.getGame().getId();        
         Game game = new GameDao().getGameById(gameId);
         player.setGame(game);
