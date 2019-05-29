@@ -346,9 +346,7 @@ public class Player {
      * score for each favor token. Gets rewardScore for each public objective card.
      */
     public int calculateScore(boolean privateObjectiveCard) {
-        int score = 0;
-        // Here speed improbements can be get
-        
+        int score = 0;        
         PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
                 x++) { // Basic calculations for pattern card fields
