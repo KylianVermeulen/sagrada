@@ -19,14 +19,12 @@ public class Player {
     private PatternCard patternCard;
     private ArrayList<PatternCard> optionalPatternCards;
     private ArrayList<FavorToken> favorTokens;
-    private ArrayList<Chatline> chatlines;
     private int score;
     private boolean cheatmode = false;
     private Color playerColor;
     private boolean placedDie;
 
     public Player() {
-        chatlines = new ArrayList<>();
     }
 
     /**
@@ -257,27 +255,6 @@ public class Player {
      */
     public void setCheatmode(boolean cheatmode) {
         this.cheatmode = cheatmode;
-    }
-
-    /**
-     * addChatline to player
-     */
-    public void addChatline(Chatline chatline) {
-        chatlines.add(chatline);
-    }
-
-    /**
-     * get chatlines from player
-     */
-    public ArrayList<Chatline> getChatlines() {
-        return chatlines;
-    }
-
-    /**
-     * set chatlines for player
-     */
-    public void setChatlines(ArrayList<Chatline> chatlines) {
-        this.chatlines = chatlines;
     }
 
     /**

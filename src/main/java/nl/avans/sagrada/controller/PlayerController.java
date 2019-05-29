@@ -1,8 +1,5 @@
 package nl.avans.sagrada.controller;
 
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.geometry.Insets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -14,7 +11,6 @@ import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
-import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;

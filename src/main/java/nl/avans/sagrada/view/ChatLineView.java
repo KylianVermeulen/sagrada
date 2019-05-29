@@ -1,26 +1,12 @@
 package nl.avans.sagrada.view;
 
-import java.awt.Paint;
-import java.awt.event.ItemListener;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.task.GetGameChatLinesTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
@@ -33,6 +19,7 @@ public class ChatLineView extends VBox implements ViewInterface {
     private PlayerController playercontroller;
     private VBox messagebox;
     private ArrayList<Chatline> chatlines;
+    private ScrollPane chatpane;
 
     /**
      * Constructor
@@ -41,7 +28,7 @@ public class ChatLineView extends VBox implements ViewInterface {
      */
     public ChatLineView(PlayerController playercontroller) {
         this.playercontroller = playercontroller;
-        chatlines = playercontroller.getPlayer().getGame().getChatlines();
+        chatlines = new ArrayList<>();
         messagebox = new VBox();
     }
     
@@ -61,7 +48,7 @@ public class ChatLineView extends VBox implements ViewInterface {
      * Method that builds the view for the chat
      */
     private void buildChat() {
-        ScrollPane chatpane = new ScrollPane();
+        chatpane = new ScrollPane();
         chatpane.setContent(messagebox);
         chatpane.setMaxHeight(CHATPANE_HEIGHT);
         chatpane.setMinHeight(CHATPANE_HEIGHT);
@@ -119,6 +106,7 @@ public class ChatLineView extends VBox implements ViewInterface {
         ggclt.setOnSucceeded(e -> {
             setChatLines(ggclt.getValue());
             addExistingMessages();
+            chatpane.setVvalue(1.0);
         });
         Thread thread = new Thread(ggclt);
         thread.setDaemon(true);

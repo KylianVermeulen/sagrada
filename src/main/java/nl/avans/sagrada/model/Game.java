@@ -37,13 +37,11 @@ public class Game {
     private PublicObjectiveCard[] publicObjectiveCards;
     private ArrayList<ToolCard> toolCards;
     private Timestamp creationDate;
-    private ArrayList<Chatline> chatlines;
 
     public Game(int id) {
         this.id = id;
         GameDao gameDao = new GameDao();
         ToolCardDao toolCardDao = new ToolCardDao();
-        chatlines = new ChatlineDao().getChatlinesOfGame(this);
         players = gameDao.getPlayersOfGame(this);
         toolCards = toolCardDao.getToolCardsOfGame(this);
     }
@@ -263,15 +261,6 @@ public class Game {
             return privateColor;
         }
         return "";
-    }
-
-    /**
-     * Get all the chatlines of a game trough the chatline dao And returns them
-     *
-     * @return ArrayList<Chatline>
-     */
-    public ArrayList<Chatline> getChatlines() {
-        return chatlines;
     }
 
     /**
@@ -635,9 +624,5 @@ public class Game {
             favorToken.setGame(this);
             favorTokenDao.addFavorToken(favorToken);
         }
-    }
-
-    public void setChatlines(ArrayList<Chatline> chatlines) {
-        this.chatlines = chatlines;
     }
 }
