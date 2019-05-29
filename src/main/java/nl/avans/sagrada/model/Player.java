@@ -7,7 +7,6 @@ import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.task.CalculateScoreTask;
 import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
-import nl.avans.sagrada.task.UpdateDieTask;
 import nl.avans.sagrada.task.UpdateScoreTask;
 
 public class Player {

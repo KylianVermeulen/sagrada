@@ -75,7 +75,7 @@ public class FavorTokenDao {
      */
     public void addFavorToken(FavorToken favorToken) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "INSERT INTO gamefavortoken (idfavortoken, idgame) VALUES (?, ?)",
                             "update"), new QueryParameter(QueryParameter.INT, favorToken.getId()),
                     new QueryParameter(QueryParameter.INT, favorToken.getGame().getId())
@@ -93,7 +93,7 @@ public class FavorTokenDao {
      */
     public void setFavortokenForPlayer(FavorToken favorToken, Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "UPDATE gamefavortoken SET idplayer=? WHERE idfavortoken=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, player.getId()),
@@ -134,7 +134,7 @@ public class FavorTokenDao {
     public void setFavortokensForToolCard(FavorToken favorToken, ToolCard toolCard, Game game) {
         ToolCardDao toolCardDao = new ToolCardDao();
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "UPDATE gamefavortoken SET idfavortoken=?, idgame=?, idplayer=?, gametoolcard=?, round=? WHERE idfavortoken=?",
                             "update"), new QueryParameter(QueryParameter.INT, favorToken.getId()),
                     new QueryParameter(QueryParameter.INT, game.getId()),

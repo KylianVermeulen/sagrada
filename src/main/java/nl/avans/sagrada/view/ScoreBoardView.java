@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.task.CalculateScoreTask;

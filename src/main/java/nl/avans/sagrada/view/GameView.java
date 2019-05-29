@@ -156,7 +156,7 @@ public class GameView extends VBox implements ViewInterface {
             game.setPublicObjectiveCards(gamePublicObjectiveCards);
             for (PublicObjectiveCard publicObjectiveCard : gamePublicObjectiveCards) {
                 PublicObjectiveCardView publicObjectiveCardView =
-                        new PublicObjectiveCardView(playerController);
+                        new PublicObjectiveCardView();
                 publicObjectiveCardView.setPublicObjectiveCard(publicObjectiveCard);
                 publicObjectiveCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
                 publicObjectiveCardView.render();

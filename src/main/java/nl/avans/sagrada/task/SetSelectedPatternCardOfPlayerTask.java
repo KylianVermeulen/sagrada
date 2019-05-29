@@ -2,7 +2,6 @@ package nl.avans.sagrada.task;
 
 import javafx.concurrent.Task;
 import nl.avans.sagrada.dao.PlayerDao;
-import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
 
 public class SetSelectedPatternCardOfPlayerTask extends Task<Void> {

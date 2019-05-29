@@ -48,7 +48,7 @@ public class PlayerDao {
 
     public void updatePlayer(Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "UPDATE player SET username=?, game_idgame=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
@@ -67,7 +67,7 @@ public class PlayerDao {
 
     public void addPlayer(Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?,?, ?, ?, ?, ?, ?, ?)",
                             "update"), new QueryParameter(QueryParameter.INT, player.getId()),
                     new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
@@ -148,7 +148,7 @@ public class PlayerDao {
      */
     public void updateSelectedPatternCard(Player player, PatternCard patternCard) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query("UPDATE player SET patterncard_idpatterncard=? WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, patternCard.getId()),
@@ -232,7 +232,7 @@ public class PlayerDao {
      */
     public void updateScore(Player player){
         try{
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query("UPDATE player SET score=? WHERE idplayer=?", "update"),
                     new QueryParameter(QueryParameter.INT, player.getScore()),
                     new QueryParameter(QueryParameter.INT, player.getId())

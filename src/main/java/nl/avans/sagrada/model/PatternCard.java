@@ -9,7 +9,6 @@ import nl.avans.sagrada.view.PatternCardFieldView;
 public class PatternCard {
     public static final int CARD_SQUARES_WIDTH = 5;
     public static final int CARD_SQUARES_HEIGHT = 4;
-    private boolean firstTurn = true;
     private Random rnd;
     private int id;
     private int difficulty;
