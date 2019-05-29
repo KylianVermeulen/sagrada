@@ -122,7 +122,7 @@ public class GameView extends VBox implements ViewInterface {
             roundTrack.addGameDie(gameDie);
         }
 
-        roundTrackView = new RoundTrackView(roundTrack);
+        roundTrackView = new RoundTrackView(roundTrack, playerController);
         roundTrackView.render();
     }
 

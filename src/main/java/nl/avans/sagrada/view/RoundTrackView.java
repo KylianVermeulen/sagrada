@@ -6,6 +6,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
+import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.RoundTrack;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -14,14 +15,16 @@ public class RoundTrackView extends TilePane implements ViewInterface {
     private RoundTrackFieldView[] roundTrackFieldViews;
     private final int ROUNDTRACK_WIDTH = 350;
     private final int ROUNDTRACK_HEIGHT = 66;
+    private PlayerController playerController;
 
     /**
      * Full constructor
      *
      * @param roundTrack RoundTrack
      */
-    public RoundTrackView(RoundTrack roundTrack) {
+    public RoundTrackView(RoundTrack roundTrack, PlayerController playerController) {
         this.roundTrack = roundTrack;
+        this.playerController = playerController;
         setPadding(new Insets(5, 0, 0, 5));
 
         // ADD FINAL INT 10
@@ -47,7 +50,7 @@ public class RoundTrackView extends TilePane implements ViewInterface {
      */
     private void makeRoundTrackFieldViews() {
         for (int i = 0; i < roundTrackFieldViews.length; i++) {
-            roundTrackFieldViews[i] = new RoundTrackFieldView();
+            roundTrackFieldViews[i] = new RoundTrackFieldView(playerController);
             roundTrackFieldViews[i].setRoundTrack(roundTrack);
             roundTrackFieldViews[i].setRoundTrackField(roundTrack.getRoundTrackField(i));
             Pane paddingPane = new Pane();

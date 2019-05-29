@@ -147,7 +147,7 @@ public class DriePuntStang extends Popup {
         rootPane.setPrefSize(super.getWidth(), super.getHeight());
         for (GameDie gameDie : game.getRoundDice()) {
             Pane paddingPane = new Pane();
-            DieView dieView = new DieView(gameDie);
+            DieView dieView = new DieView(gameDie, playerController);
             dieViews.add(dieView);
             gameDice.add(gameDie);
             dieView.resize(25, 25);
