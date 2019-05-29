@@ -20,6 +20,9 @@ import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
+import nl.avans.sagrada.task.ActiveGameTask;
+import nl.avans.sagrada.task.AllAccountsTask;
+import nl.avans.sagrada.task.AllGamesTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class LobbyView extends BorderPane implements ViewInterface {
@@ -39,7 +42,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private Button logoutButton;
     private BackgroundSize size =
             new BackgroundSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT, false, false, true, false);
-    private ArrayList<Game> allgames;
+    private ArrayList<Game> allGames;
 
     /**
      * Constructor
@@ -53,6 +56,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
         setBackground(
                 new Background(new BackgroundImage(LOBBY_BACKGROUND, BackgroundRepeat.NO_REPEAT,
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
+        accounts = new ArrayList<>();
     }
 
     /**
@@ -60,20 +64,6 @@ public class LobbyView extends BorderPane implements ViewInterface {
      */
     public void setInvites(ArrayList<Invite> invites) {
         this.invites = invites;
-    }
-
-    /**
-     * Set all the game the current account has
-     */
-    public void setGames(ArrayList<Game> games) {
-        this.games = games;
-    }
-
-    /**
-     * Set all the accounts that have been registered.
-     */
-    public void setAccounts(ArrayList<Account> accounts) {
-        this.accounts = accounts;
     }
 
     @Override
@@ -113,8 +103,15 @@ public class LobbyView extends BorderPane implements ViewInterface {
      */
     private void buildGamesOverview() {
         gameOverview = new GameOverviewView(accountController);
-        gameOverview.setGames(games);
-        gameOverview.render();
+        ActiveGameTask agt = new ActiveGameTask(accountController.getAccount());
+        agt.setOnSucceeded(e -> {
+            games = agt.getValue();
+            gameOverview.setGames(games);
+            gameOverview.render();
+        });
+        Thread th = new Thread(agt);
+        th.setDaemon(true);
+        th.start();
     }
 
     /**
@@ -122,8 +119,15 @@ public class LobbyView extends BorderPane implements ViewInterface {
      */
     private void buildAccountsOverview() {
         accountOverview = new AccountOverviewView(accountController);
-        accountOverview.setAccounts(accounts);
-        accountOverview.render();
+        AllAccountsTask act = new AllAccountsTask(accountOverview);
+        act.setOnSucceeded(e -> {
+           accounts = act.getValue();
+           accountOverview.setAccounts(accounts);
+           accountOverview.render();
+        });
+        Thread th = new Thread(act);
+        th.setDaemon(true);
+        th.start();
     }
 
     /**
@@ -163,11 +167,18 @@ public class LobbyView extends BorderPane implements ViewInterface {
 
     private void buildAllGamesOverview() {
         allGamesOverview = new AllGamesOverView(accountController);
-        allGamesOverview.setGames(allgames);
-        allGamesOverview.render();
+        AllGamesTask agt = new AllGamesTask();
+        agt.setOnSucceeded(e -> {
+            allGames = agt.getValue();
+            allGamesOverview.setGames(allGames);
+            allGamesOverview.render();
+        });
+        Thread th = new Thread(agt);
+        th.setDaemon(true);
+        th.start();
     }
 
     public void setAllGames(ArrayList<Game> allgames) {
-        this.allgames = allgames;
+        this.allGames = allgames;
     }
 }
