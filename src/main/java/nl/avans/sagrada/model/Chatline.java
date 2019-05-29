@@ -1,7 +1,6 @@
 package nl.avans.sagrada.model;
 
 import java.sql.Timestamp;
-import javafx.beans.property.StringProperty;
 
 public class Chatline {
     private Player player;

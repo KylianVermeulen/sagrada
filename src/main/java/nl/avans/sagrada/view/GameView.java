@@ -16,8 +16,6 @@ import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.FavorTokenDao;
-import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.database.ChecksumDatabase;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
@@ -39,7 +37,6 @@ public class GameView extends VBox implements ViewInterface {
     private Game game;
     private Player player;
     private PlayerController playerController;
-    private AccountController accountController;
     private HBox otherPlayerPatternCardViews;
     private HBox actionButtons;
     private Label balance;
@@ -49,7 +46,6 @@ public class GameView extends VBox implements ViewInterface {
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
     private DieOfferView dieOfferView;
-    private ListProperty<Chatline> listProperty = new SimpleListProperty<>();
     private HBox toolCardsView;
     private HBox publicObjectiveCardView;
 
