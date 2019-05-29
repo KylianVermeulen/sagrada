@@ -50,6 +50,7 @@ public class ChecksumDatabase implements Runnable {
                 }
                 this.checksumChat = checksumChat;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -68,6 +69,7 @@ public class ChecksumDatabase implements Runnable {
                 }
                 this.checksumPlayer = checksumPlayer;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -87,6 +89,7 @@ public class ChecksumDatabase implements Runnable {
                 }
                 this.checksumPlayerFrameField = checksumPlayerFrameField;
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

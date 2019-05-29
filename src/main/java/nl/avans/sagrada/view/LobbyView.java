@@ -20,7 +20,9 @@ import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
-import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.task.ActiveGameTask;
+import nl.avans.sagrada.task.AllAccountsTask;
+import nl.avans.sagrada.task.AllGamesTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class LobbyView extends BorderPane implements ViewInterface {
@@ -34,11 +36,13 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private ArrayList<Account> accounts;
     private InviteOverviewView inviteOverview;
     private GameOverviewView gameOverview;
+    private AllGamesOverView allGamesOverview;
     private AccountOverviewView accountOverview;
     private Button newGameButton;
     private Button logoutButton;
     private BackgroundSize size =
             new BackgroundSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT, false, false, true, false);
+    private ArrayList<Game> allGames;
 
     /**
      * Constructor
@@ -48,10 +52,11 @@ public class LobbyView extends BorderPane implements ViewInterface {
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
         String css = this.getClass().getResource("/css/lobbyview.css").toExternalForm();
         getStylesheets().add(css);
-        
+
         setBackground(
                 new Background(new BackgroundImage(LOBBY_BACKGROUND, BackgroundRepeat.NO_REPEAT,
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
+        accounts = new ArrayList<>();
     }
 
     /**
@@ -61,24 +66,11 @@ public class LobbyView extends BorderPane implements ViewInterface {
         this.invites = invites;
     }
 
-    /**
-     * Set all the game the current account has
-     */
-    public void setGames(ArrayList<Game> games) {
-        this.games = games;
-    }
-
-    /**
-     * Set all the accounts that have been registered.
-     */
-    public void setAccounts(ArrayList<Account> accounts) {
-        this.accounts = accounts;
-    }
-
     @Override
     public void render() {
         buildInviteOverview();
         buildGamesOverview();
+        buildAllGamesOverview();
         buildAccountsOverview();
         buildNewGameBtn();
         buildLogout();
@@ -87,8 +79,6 @@ public class LobbyView extends BorderPane implements ViewInterface {
 
     /**
      * Build the button to make a new game
-     * 
-     * @param url
      */
     private void buildNewGameBtn() {
         BorderPane pane = new BorderPane();
@@ -113,8 +103,15 @@ public class LobbyView extends BorderPane implements ViewInterface {
      */
     private void buildGamesOverview() {
         gameOverview = new GameOverviewView(accountController);
-        gameOverview.setGames(games);
-        gameOverview.render();
+        ActiveGameTask agt = new ActiveGameTask(accountController.getAccount());
+        agt.setOnSucceeded(e -> {
+            games = agt.getValue();
+            gameOverview.setGames(games);
+            gameOverview.render();
+        });
+        Thread th = new Thread(agt);
+        th.setDaemon(true);
+        th.start();
     }
 
     /**
@@ -122,8 +119,15 @@ public class LobbyView extends BorderPane implements ViewInterface {
      */
     private void buildAccountsOverview() {
         accountOverview = new AccountOverviewView(accountController);
-        accountOverview.setAccounts(accounts);
-        accountOverview.render();
+        AllAccountsTask act = new AllAccountsTask(accountOverview);
+        act.setOnSucceeded(e -> {
+           accounts = act.getValue();
+           accountOverview.setAccounts(accounts);
+           accountOverview.render();
+        });
+        Thread th = new Thread(act);
+        th.setDaemon(true);
+        th.start();
     }
 
     /**
@@ -148,15 +152,33 @@ public class LobbyView extends BorderPane implements ViewInterface {
         VBox vbox = new VBox();
         VBox vbox2 = new VBox();
         Label playerLabel = new Label("Alle accounts");
+        Label allGamesLabel = new Label("Alle games");
         Label inviteLabel = new Label("Invites van spelers");
         inviteLabel.setTextFill(Color.WHITE);
         Label gameOverviewLabel = new Label("Je openstaande spellen");
         gameOverviewLabel.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);
-        vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview);
+        vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview, allGamesLabel, allGamesOverview);
         vbox2.setAlignment(Pos.CENTER_RIGHT);
-        vbox2.setPadding(new Insets(0, 20, 0, 0));
+        vbox2.setPadding(new Insets(0, 0, 0, 0));
         setRight(vbox2);
+    }
+
+    private void buildAllGamesOverview() {
+        allGamesOverview = new AllGamesOverView(accountController);
+        AllGamesTask agt = new AllGamesTask();
+        agt.setOnSucceeded(e -> {
+            allGames = agt.getValue();
+            allGamesOverview.setGames(allGames);
+            allGamesOverview.render();
+        });
+        Thread th = new Thread(agt);
+        th.setDaemon(true);
+        th.start();
+    }
+
+    public void setAllGames(ArrayList<Game> allgames) {
+        this.allGames = allgames;
     }
 }

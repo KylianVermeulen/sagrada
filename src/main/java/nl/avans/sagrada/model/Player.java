@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
 
 public class Player {
     public static final String STATUS_ABORT = "afgebroken";
@@ -22,7 +23,6 @@ public class Player {
     private int score;
     private boolean cheatmode = false;
     private Color playerColor;
-    private boolean usedToolcard;
     private boolean placedDie;
 
     public Player() {
@@ -182,6 +182,11 @@ public class Player {
         patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(this);
         return patternCard;
     }
+    
+    public GetPatternCardOfPlayerTask getPatternCardTask() {
+        GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(this);
+        return gpcopt;
+    }
 
     /**
      * @param patterncard The patterncard of this player.
@@ -208,14 +213,17 @@ public class Player {
         patternCardDao.saveOptionalPatternCardsOfPlayer(optionalPatterncards, this);
     }
 
-    public void generateFavorTokens() {
+    /**
+     * Assign favor tokens of a game to the player.
+     */
+    public void assignFavorTokens() {
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
         ArrayList<FavorToken> favorTokens = new ArrayList<>();
+        ArrayList<FavorToken> allUnusedGameFavorTokens = favorTokenDao.getUnusedFavorTokensOfGame(game);
         for (int i = 0; i < patternCard.getDifficulty(); i++) {
-            FavorTokenDao favorTokenDao = new FavorTokenDao();
-            int favorTokenId = favorTokenDao.getNextFavorTokenId();
-
-            FavorToken favorToken = new FavorToken(favorTokenId, this);
-            favorTokenDao.addFavorToken(favorToken);
+            FavorToken favorToken = allUnusedGameFavorTokens.get(0);
+            allUnusedGameFavorTokens.remove(0);
+            favorTokenDao.setFavortokenForPlayer(favorToken, this);
             favorTokens.add(favorToken);
         }
         this.favorTokens = favorTokens;
@@ -270,24 +278,6 @@ public class Player {
      */
     public void setChatlines(ArrayList<Chatline> chatlines) {
         this.chatlines = chatlines;
-    }
-
-    /**
-     * Returns true when player has already used a tool card this turn.
-     *
-     * @return Boolean
-     */
-    public boolean hasUsedToolcard() {
-        return usedToolcard;
-    }
-
-    /**
-     * Sets true when player has already used a tool card this turn.
-     *
-     * @param usedToolcard Boolean
-     */
-    public void setUsedToolcard(boolean usedToolcard) {
-        this.usedToolcard = usedToolcard;
     }
 
     /**
@@ -355,8 +345,8 @@ public class Player {
      */
     public int calculateScore(boolean privateObjectiveCard) {
         int score = 0;
-
-        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields();
+        PlayerDao playerDao = new PlayerDao();
+        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
                 x++) { // Basic calculations for pattern card fields
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
@@ -381,6 +371,8 @@ public class Player {
         for (PublicObjectiveCard publicObjectiveCard : game.getPublicObjectiveCards()) {
             score += publicObjectiveCard.calculateScore(patternCard);
         }
+        this.score = score;
+        playerDao.updateScore(this);
         return score;
     }
 
@@ -458,5 +450,19 @@ public class Player {
         }
         setSeqnr(newSeqnr);
         new PlayerDao().updatePlayer(this);
+    }
+    
+    /**
+     * Checks if a players has already used a toolcard
+     * @return boolean
+     */
+    public boolean hasUsedToolcardInCurrentRound() {
+        PlayerDao playerDao = new PlayerDao();
+        if (playerDao.hasUsedToolCardInTurnRound(this)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

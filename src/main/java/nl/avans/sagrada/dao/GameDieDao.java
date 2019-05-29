@@ -71,7 +71,6 @@ public class GameDieDao {
      *
      * @param game Game
      * @param gameDie GameDie
-     * @param round int
      */
     public void updateDie(Game game, GameDie gameDie) {
         try {
@@ -80,7 +79,8 @@ public class GameDieDao {
                             "UPDATE gamedie SET round=?, roundtrack=?, inFirstTurn=? WHERE idgame=? AND dienumber=? AND diecolor=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, gameDie.getRound()),
-                    new QueryParameter(QueryParameter.INT, gameDie.isOnRoundTrack() ? gameDie.getRound() : null),
+                    new QueryParameter(QueryParameter.INT,
+                            gameDie.isOnRoundTrack() ? gameDie.getRound() : null),
                     new QueryParameter(QueryParameter.BOOLEAN, gameDie.isInFirstTurn()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber()),
@@ -145,6 +145,7 @@ public class GameDieDao {
                 );
                 gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,6 +154,7 @@ public class GameDieDao {
 
     /**
      * Gets the dice for a round from a game
+     *
      * @param game Game
      * @return ArrayList<GameDie>
      */
@@ -168,36 +170,41 @@ public class GameDieDao {
                 GameDie gameDie = new GameDie(
                         rs.getInt("dienumber"),
                         rs.getString("diecolor"),
-                        rs.getInt("eyes")
+                        rs.getInt("eyes"),
+                        rs.getInt("round")
                 );
                 gameDie.setIsOnOfferTable(true);
                 gameDie.setRound(rs.getInt("round"));
                 gameDie.setInFirstTurn(rs.getBoolean("inFirstTurn"));
                 gameDice.add(gameDie);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return gameDice;
     }
-    
+
     /**
      * Gets all the available dice of a round
-     * @param game
+     *
+     * @param game Game
      * @return ArrayList<GameDie>
      */
     public ArrayList<GameDie> getAvailableDiceOfRound(Game game) {
         ArrayList<GameDie> gameDice = new ArrayList<GameDie>();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT gamedie.* \n" + 
-                            "FROM gamedie \n" + 
-                            "LEFT JOIN \n" + 
-                            "playerframefield ON gamedie.dienumber = playerframefield.dienumber \n" + 
-                            "AND gamedie.idgame = playerframefield.idgame \n" + 
-                            "AND gamedie.diecolor = playerframefield.diecolor \n" + 
-                            "WHERE \n" + 
-                            "(playerframefield.dienumber IS NULL AND playerframefield.diecolor IS NULL AND playerframefield.idgame IS NULL) \n" + 
+                    new Query("SELECT gamedie.* \n" +
+                            "FROM gamedie \n" +
+                            "LEFT JOIN \n" +
+                            "playerframefield ON gamedie.dienumber = playerframefield.dienumber \n"
+                            +
+                            "AND gamedie.idgame = playerframefield.idgame \n" +
+                            "AND gamedie.diecolor = playerframefield.diecolor \n" +
+                            "WHERE \n" +
+                            "(playerframefield.dienumber IS NULL AND playerframefield.diecolor IS NULL AND playerframefield.idgame IS NULL) \n"
+                            +
                             "AND gamedie.idgame=? AND round=?", "query"),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, game.getRound())
@@ -213,12 +220,13 @@ public class GameDieDao {
                 gameDie.setIsOnOfferTable(true);
                 gameDice.add(gameDie);
             }
+            rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return gameDice;
     }
-    
+
     /**
      * Gets the dice from the round track in game.
      *
@@ -229,7 +237,9 @@ public class GameDieDao {
         ArrayList<GameDie> gameDice = new ArrayList<>();
         try {
             ResultSet rs = dbConnection.executeQuery(
-                    new Query("SELECT * FROM gamedie WHERE idgame=? AND roundtrack IS NOT NULL AND round < ?", "query"),
+                    new Query(
+                            "SELECT * FROM gamedie WHERE idgame=? AND roundtrack IS NOT NULL AND round < ?",
+                            "query"),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, game.getRound())
             );
@@ -244,6 +254,7 @@ public class GameDieDao {
                 gameDie.setRound(rs.getInt("round"));
                 gameDice.add(gameDie);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -252,10 +263,6 @@ public class GameDieDao {
 
     /**
      * Places a die on the patterncardfield in the db
-     * 
-     * @param die
-     * @param patterncardfield
-     * @param player
      */
     public void placeDie(GameDie die, PatternCardField patterncardfield, Player player) {
         try {
@@ -274,10 +281,10 @@ public class GameDieDao {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Updates the amount of eyes for a certain die.
-     * 
+     *
      * @param game Game
      * @param gameDie GameDie
      */
@@ -291,7 +298,7 @@ public class GameDieDao {
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, game.getRound()),
                     new QueryParameter(QueryParameter.INT, gameDie.getNumber())
-            );   
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -27,6 +27,7 @@ import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
+import nl.avans.sagrada.task.CancelGameTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameSetupView extends VBox implements ViewInterface {
@@ -59,6 +60,13 @@ public class GameSetupView extends VBox implements ViewInterface {
         this.accountController = accountController;
         this.accounts = accounts;
         this.game = game;
+        
+        Main.getPrimaryStage().setOnCloseRequest(e -> {
+            CancelGameTask cgt = new CancelGameTask(game);
+            Thread cancelGameThread = new Thread(cgt);
+            cancelGameThread.setName("Cancel game thread");
+            cancelGameThread.start();
+        });
 
         setBackground(new Background(
                 new BackgroundImage(inviteview_background, BackgroundRepeat.NO_REPEAT,
@@ -150,14 +158,24 @@ public class GameSetupView extends VBox implements ViewInterface {
         bottomButtonPane.setMinHeight(80);
         bottomButtonPane.setAlignment(Pos.CENTER);
 
-        startButton = new Button("Opslaan");
-        startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        startButton.setOnAction(e -> accountController.actionSendInvites(inviteViews, game));
 
         backButton = new Button("Back");
         backButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        backButton.setOnAction(e -> accountController.viewLobby());
+        backButton.setOnAction(e -> {
+            CancelGameTask cgt = new CancelGameTask(game);
+            Thread cancelGameThread = new Thread(cgt);
+            cancelGameThread.setName("Cancel game thread");
+            cancelGameThread.start();
+            accountController.viewLobby();
+        });
         backButton.setPadding(padding);
+        
+        startButton = new Button("Opslaan");
+        startButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        startButton.setOnAction(e -> {
+            startButton.setDisable(true);
+            accountController.actionSendInvites(inviteViews, game);
+        });
 
         bottomButtonPane.getChildren().addAll(startButton, backButton);
     }

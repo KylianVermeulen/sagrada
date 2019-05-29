@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.DieDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
@@ -17,6 +18,8 @@ import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.task.GetPublicObjectiveCardTask;
+import nl.avans.sagrada.task.GetRoundTrackDiceTask;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
@@ -63,6 +66,24 @@ public class Game {
             gameDice.add(gameDie);
             gameDieDao.addDie(this, gameDie);
         }
+    }
+
+    /**
+     * Returns the gamedice for this game.
+     *
+     * @return ArrayList GameDie
+     */
+    public ArrayList<GameDie> getGameDice() {
+        return gameDice;
+    }
+
+    /**
+     * Set gameDice to Game
+     *
+     * @param gameDice GameDie[]
+     */
+    public void setGameDice(ArrayList<GameDie> gameDice) {
+        this.gameDice = gameDice;
     }
 
     /**
@@ -183,15 +204,6 @@ public class Game {
     }
 
     /**
-     * Set gameDice to Game
-     *
-     * @param gameDice GameDie[]
-     */
-    public void setGameDice(ArrayList<GameDie> gameDice) {
-        this.gameDice = gameDice;
-    }
-
-    /**
      * Get publicObjectiveCards from Game
      *
      * @return PublicObjectiveCard[]
@@ -201,6 +213,11 @@ public class Game {
         publicObjectiveCards = publicObjectiveCardDao.getAllPublicObjectiveCardsOfGame(this)
                 .toArray(new PublicObjectiveCard[3]);
         return publicObjectiveCards;
+    }
+    
+    public GetPublicObjectiveCardTask getPublicObjectiveCardTask() {
+        GetPublicObjectiveCardTask getPublicObjectiveCardTask = new GetPublicObjectiveCardTask(this);
+        return getPublicObjectiveCardTask;
     }
 
     /**
@@ -468,7 +485,7 @@ public class Game {
                     updatePlayer(playerNextTurn, currentPlayer);
                     // The player next turn contains seqnr 2
                     // So we switch those 2
-                    
+
                     nextRound();
                 }
             }
@@ -504,13 +521,21 @@ public class Game {
 
     /**
      * Gets the current round the game is on
+     *
      * @return int
      */
     public int getRound() {
         GameDao gameDao = new GameDao();
         return gameDao.getCurrentRound(this);
     }
-    
+
+    /**
+     * Sets the current round of a game
+     */
+    public void setRound(int round) {
+        this.round = round;
+    }
+
     /**
      * Put the game in the second round by calling the placeDiceOfOfferTableOnRoundTrack
      */
@@ -519,47 +544,96 @@ public class Game {
         placeDiceOfOfferTableOnRoundTrack();
         round = gameDao.getCurrentRound(this);
     }
-    
+
     /**
      * Places all dices that are left for offer on the roundTrack
      */
     private void placeDiceOfOfferTableOnRoundTrack() {
         GameDieDao gameDieDao = new GameDieDao();
         ArrayList<GameDie> dice = getRoundDice();
-        
-        for(GameDie die: dice) {
+
+        for (GameDie die : dice) {
             die.setOnRoundTrack(true);
             die.setRound(round);
             gameDieDao.updateDie(this, die);
         }
     }
-    
+
     /**
      * Gets all dices that are on the roundTrack
+     *
      * @return ArrayList<GameDie>
      */
-    public ArrayList<GameDie> getTrackDice() {
-        ArrayList<GameDie> dice = new GameDieDao().getDiceOnRoundTrackFromGame(this);
-        return dice;
+    public GetRoundTrackDiceTask getTrackDiceTask() {
+        return new GetRoundTrackDiceTask(this);
     }
 
     /**
-     * Sets the current round of a game
-     * @param currentRound
+     * Rerolls the dice eyes from the dice in the dice offer for the current turn.
      */
-    public void setRound(int currentRound) {
-        round = currentRound;
+    public void rerollRoundDice() {
+        GameDieDao gameDieDao = new GameDieDao();
+        for (GameDie gameDie : gameDieDao.getAvailableDiceOfRound(this)) {
+            gameDie.setEyes(new Random().nextInt(6) + 1);
+            gameDieDao.updateDieEyes(this, gameDie);
+        }
     }
 
     /**
      * Finishes a game by changing the status of all players
      */
     public void finishGame() {
-        ArrayList<Player> players = getPlayers();
-        PlayerDao playerDao = new PlayerDao();
-        for (Player player: players) {
-            player.setPlayerStatus("uitgespeeld");
-            playerDao.updatePlayer(player);
+        Player startPlayer = getPlayers().get(0);
+        if (startPlayer.getId() == turnPlayer.getId()) {
+            ArrayList<Player> players = getPlayers();
+            PlayerDao playerDao = new PlayerDao();
+            for (Player player : players) {
+                player.setPlayerStatus("uitgespeeld");
+                player.setScore(player.calculateScore(true));
+                playerDao.updatePlayer(player);
+            }
+        }
+    }
+
+    /**
+     * The method will return the player with the best score by calculating each players score with
+     * private objective card.
+     *
+     * @return The player.
+     */
+    public Player getPlayerWithBestScore() {
+        Player player = null;
+        int playerScore = -21;
+        for (Player playerLoop : getPlayers()) {
+            int loopScore = playerLoop.calculateScore(true);
+            if (player == null) {
+                player = playerLoop;
+                playerScore = loopScore;
+            } else {
+                if (loopScore > playerScore) {
+                    player = playerLoop;
+                    playerScore = loopScore;
+                } else if (loopScore == playerScore) {
+                    if (player.getId() < playerLoop.getId()) {
+                        player = playerLoop;
+                        playerScore = loopScore;
+                    }
+                }
+            }
+        }
+        return player;
+    }
+
+    /**
+     * Assign 24 favor tokens to a game in the database.
+     */
+    public void assignFavorTokens() {
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        for (int i = 0; i < 24; i++) {
+            FavorToken favorToken = new FavorToken();
+            favorToken.setId(favorTokenDao.getNextFavorTokenId());
+            favorToken.setGame(this);
+            favorTokenDao.addFavorToken(favorToken);
         }
     }
 

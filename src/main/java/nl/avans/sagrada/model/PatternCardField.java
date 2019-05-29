@@ -147,23 +147,20 @@ public class PatternCardField {
         }
         return hasValue();
     }
-    
+
     /**
-     * Checks if the die can be placed based on the attributes that are
-     * On the patterncardfield
-     * @param die
+     * Checks if the die can be placed based on the attributes that are On the patterncardfield
+     *
      * @return boolean
      */
     public boolean canPlaceDieByAttributes(GameDie die) {
         if (hasFieldAttributes() == false) {
             return true;
-        }
-        else if (hasColor()) {
+        } else if (hasColor()) {
             if (getColor().equals(die.getColor())) {
                 return true;
             }
-        }
-        else if (hasValue()) {
+        } else if (hasValue()) {
             if (getValue() == die.getEyes()) {
                 return true;
             }
@@ -190,8 +187,7 @@ public class PatternCardField {
     }
 
     /**
-     * Places die on the selected PatternCardField
-     * Returns a boolean if the die is placed
+     * Places die on the selected PatternCardField Returns a boolean if the die is placed
      *
      * @param gameDie GameDie
      * @return boolean
@@ -208,7 +204,7 @@ public class PatternCardField {
                 }
             }
         }
-        if (hasDie() == false) {
+        if (!hasDie()) {
             if (sideCheckPlaceDie(gameDie)) {
                 gameDie.setPatternCardField(this);
                 setDie(gameDie);
@@ -217,30 +213,28 @@ public class PatternCardField {
         }
         return false;
     }
-    
+
     /**
      * Checks if we can place a die on the current patterncard field
-     * @param gameDie
+     *
      * @return boolean
      */
     public boolean canPlaceDie(GameDie gameDie) {
         if (patternCard.isFirstTurn()) {
             if (nextToBorder()) {
                 if (sideCheckPlaceDie(gameDie)) {
-                    if (checkTurn(gameDie)) {
-                        return true;
-                    }
+                    return checkTurn(gameDie);
                 }
             }
-        }
-        else if (hasDie() == false) {
+        } else if (!hasDie()) {
             if (sideCheckPlaceDie(gameDie)) {
-                return true;
+                if (patternCard.isNextToDie(this)) {
+                    return true;
+                }
             }
         }
         return false;
     }
-    
 
     /**
      * Checks if the selected PatternCardField is next to a border
@@ -255,8 +249,7 @@ public class PatternCardField {
     }
 
     /**
-     * Checks if the placement is valid
-     * Based on the side check
+     * Checks if the placement is valid Based on the side check
      *
      * @param gameDie GameDie
      * @return boolean
@@ -264,7 +257,8 @@ public class PatternCardField {
     private boolean sideCheckPlaceDie(GameDie gameDie) {
         int dieEyes = gameDie.getEyes();
         String dieStringColor = gameDie.getColor();
-        if (patternCard.checkSidesColor(this, dieStringColor, true) && patternCard.checkSidesValue(this, dieEyes, true)) {
+        if (patternCard.checkSidesColor(this, dieStringColor, true) && patternCard
+                .checkSidesValue(this, dieEyes, true)) {
             if (hasColor()) {
                 if (gameDie.getColor().equals(this.color)) {
                     return true;
@@ -280,7 +274,7 @@ public class PatternCardField {
             return true;
         }
         return false;
-    }   
+    }
 
     /**
      * Checks if it's the first turn if not does a normal turn
@@ -290,12 +284,10 @@ public class PatternCardField {
      */
     private boolean checkTurn(GameDie gameDie) {
         if (patternCard.isFirstTurn()) {
-            patternCard.setFirstTurn(false);
             return true;
         } else if (patternCard.isNextToDie(this)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -323,6 +315,7 @@ public class PatternCardField {
 
     /**
      * Gets the patterncard that the PatternCardField is a child of
+     *
      * @return PatternCard
      */
     public PatternCard getPatternCard() {
