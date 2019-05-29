@@ -18,7 +18,7 @@ public class CalculateScoreTask extends Task<Integer> {
 
     @Override
     protected Integer call() throws Exception {
-        int score = player.calculateScore(withPrivateScore);
+        int score = player.calculateScore(withPrivateScore, false);
         return new Integer(score);
     }
 

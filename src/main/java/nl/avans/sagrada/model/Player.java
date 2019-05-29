@@ -350,7 +350,7 @@ public class Player {
      * Calculate the score for this player. Gets -1 score for each empty pattern card field. Gets +1
      * score for each favor token. Gets rewardScore for each public objective card.
      */
-    public int calculateScore(boolean privateObjectiveCard) {
+    public int calculateScore(boolean privateObjectiveCard, boolean updateInDatabase) {
         if (patternCard == null) {
             patternCard = getPatternCard();
         }
@@ -382,9 +382,11 @@ public class Player {
         }
         this.score = score;
         
-        UpdateScoreTask ust = new UpdateScoreTask(this);
-        Thread thread = new Thread(ust);
-        thread.start();
+        if (updateInDatabase) {
+            UpdateScoreTask ust = new UpdateScoreTask(this);
+            Thread thread = new Thread(ust);
+            thread.start();   
+        }
         return score;
     }
 

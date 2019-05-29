@@ -99,7 +99,6 @@ public class PlayerController {
                                 myScene.addAlertPane(alert);
                             }
                             player.setPatternCard(toolCardUseResult);
-                            viewGame();
                         } else {
                             Alert alert = new Alert("Helaas",
                                     "Dit kan niet wat je probeert met de toolcard",

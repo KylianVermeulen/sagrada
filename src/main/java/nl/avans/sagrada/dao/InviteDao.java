@@ -30,33 +30,59 @@ public class InviteDao {
         ArrayList<Invite> invites = new ArrayList<>();
         try {
             ResultSet rs = dbConnection
-                    .executeQuery(new Query("SELECT * FROM player WHERE username=?", "query",
+                    .executeQuery(new Query("SELECT * FROM player WHERE username=? AND COUNT(SELECT * FR)", "query",
                             new QueryParameter(QueryParameter.STRING, account.getUsername()))
             );
             while (rs.next()) {
                 GameDao gameDao = new GameDao();
                 PlayerDao playerDao = new PlayerDao();
                 Player player = playerDao.getPlayerById(rs.getInt("idplayer"));
-                Game game = gameDao.getGameById(rs.getInt("game_idgame"));
-                Invite invite = new Invite();
-                invite.setInvitedAccount(account);
-                invite.setPlayer(player);
-                invite.setGame(game);
-                String inviteStatus = rs.getString("playstatus_playstatus");
-                if (inviteStatus.equals("geaccepteerd")) {
-                    invite.acceptInvite();
-                } else if (inviteStatus.equals("geweigerd")) {
-                    invite.denyInvite();
+                if (hasFourOptionalPatternCards(player)) {
+                    Game game = gameDao.getGameById(rs.getInt("game_idgame"));
+                    Invite invite = new Invite();
+                    invite.setInvitedAccount(account);
+                    invite.setPlayer(player);
+                    invite.setGame(game);
+                    String inviteStatus = rs.getString("playstatus_playstatus");
+                    if (inviteStatus.equals("geaccepteerd")) {
+                        invite.acceptInvite();
+                    } else if (inviteStatus.equals("geweigerd")) {
+                        invite.denyInvite();
+                    }
+                    // When they do not have accepted or rejected, this is not important for a invite
+                    // So we ignore that
+                    invites.add(invite);
                 }
-                // When they do not have accepted or rejected, this is not important for a invite
-                // So we ignore that
-                invites.add(invite);
             }
             rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return invites;
+    }
+    
+    /**
+     * Checks if a player has 4 optional patternCards
+     * @param player
+     * @return
+     */
+    private boolean hasFourOptionalPatternCards(Player player) {
+        try {
+            ResultSet rs = dbConnection
+                    .executeQuery(new Query("SELECT COUNT(*) AS number_of_patterncard WHERE player_idplayer=?", "query",
+                            new QueryParameter(QueryParameter.INT, player.getId()))
+            );
+            if (rs.next()) {
+                int numberOfPatternCards = rs.getInt("number_of_patterncard");
+                if (numberOfPatternCards == 4) {
+                    return true;
+                }
+            }
+            rs.close();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return false;
     }
 
     /**

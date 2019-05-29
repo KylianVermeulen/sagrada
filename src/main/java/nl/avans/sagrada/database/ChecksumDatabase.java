@@ -7,7 +7,7 @@ import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.enumerations.AccountStatus;
 
-public class ChecksumDatabase implements Runnable {
+public class ChecksumDatabase {
     private AnimationTimerExt animationTimerExt;
     private DBConnection dbConnection;
     private AccountController accountController;
@@ -23,6 +23,8 @@ public class ChecksumDatabase implements Runnable {
         this.accountController = accountController;
         this.playerController = playerController;
         this.refreshed = false;
+        createTimer();
+        animationTimerExt.start();
     }
 
     private void createTimer() {
@@ -142,11 +144,5 @@ public class ChecksumDatabase implements Runnable {
                 }
             }
         }
-    }
-
-    @Override
-    public void run() {
-        createTimer();
-        animationTimerExt.start();
     }
 }

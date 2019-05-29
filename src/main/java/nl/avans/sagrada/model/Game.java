@@ -584,7 +584,7 @@ public class Game {
             PlayerDao playerDao = new PlayerDao();
             for (Player player : players) {
                 player.setPlayerStatus("uitgespeeld");
-                player.setScore(player.calculateScore(true));
+                player.setScore(player.calculateScore(true, true));
                 playerDao.updatePlayer(player);
             }
         }
@@ -600,7 +600,7 @@ public class Game {
         Player player = null;
         int playerScore = -21;
         for (Player playerLoop : getPlayers()) {
-            int loopScore = playerLoop.calculateScore(true);
+            int loopScore = playerLoop.calculateScore(true, false);
             if (player == null) {
                 player = playerLoop;
                 playerScore = loopScore;
