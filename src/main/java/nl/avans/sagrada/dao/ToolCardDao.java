@@ -47,11 +47,11 @@ public class ToolCardDao {
                     "query"), new QueryParameter(QueryParameter.INT, game.getId()));
             while (rs.next()) {
                 ToolCard toolCard = buildToolCard(
-                        rs.getInt("idtoolcard"), 
-                        rs.getString("name"), 
-                        rs.getInt("seqnr"), 
+                        rs.getInt("idtoolcard"),
+                        rs.getString("name"),
+                        rs.getInt("seqnr"),
                         rs.getString("description")
-                    );
+                );
                 boolean hasBeenPaidForBefore = toolCardHasPayment(toolCard, game);
                 toolCard.setHasBeenPaidForBefore(hasBeenPaidForBefore);
                 list.add(toolCard);
@@ -74,11 +74,11 @@ public class ToolCardDao {
             ResultSet rs = dbConnection.executeQuery(new Query("SELECT * FROM toolcard", "query"));
             while (rs.next()) {
                 ToolCard toolCard = buildToolCard(
-                        rs.getInt("idtoolcard"), 
-                        rs.getString("name"), 
-                        rs.getInt("seqnr"), 
+                        rs.getInt("idtoolcard"),
+                        rs.getString("name"),
+                        rs.getInt("seqnr"),
                         rs.getString("description")
-                    );
+                );
                 list.add(toolCard);
             }
             rs.close();
@@ -102,11 +102,11 @@ public class ToolCardDao {
                             "query", new QueryParameter(QueryParameter.INT, id)));
             if (rs.next()) {
                 toolCard = buildToolCard(
-                        rs.getInt("idtoolcard"), 
-                        rs.getString("name"), 
-                        rs.getInt("seqnr"), 
+                        rs.getInt("idtoolcard"),
+                        rs.getString("name"),
+                        rs.getInt("seqnr"),
                         rs.getString("description")
-                    );
+                );
             }
             rs.close();
         } catch (Exception e) {
@@ -216,56 +216,65 @@ public class ToolCardDao {
         }
         return false;
     }
-    
+
     /**
-     * Builds to toolcard based on the id
-     * This is so the toolcard will contains the correct handleDrag method
-     * @param id
-     * @param name
-     * @param seqnr
-     * @param description
+     * Builds to toolcard based on the id This is so the toolcard will contains the correct
+     * handleDrag method
+     *
      * @return ToolCard
      */
     private ToolCard buildToolCard(int id, String name, int seqnr, String description) {
         switch (id) {
-        case 1:
-            ToolCardDriePuntStang toolCardDirPunt = new ToolCardDriePuntStang(id, name, seqnr, description);
-            return toolCardDirPunt;
-        case 2:
-            ToolCardEglomiseBorstel toolCardEglo = new ToolCardEglomiseBorstel(id, name, seqnr, description);
-            return toolCardEglo;
-        case 3:
-            ToolCardFolieAandrukker toolCardFolie = new ToolCardFolieAandrukker(id, name, seqnr, description);
-            return toolCardFolie;
-        case 4:
-            ToolCardLoodOpenHaler toolCardLood = new ToolCardLoodOpenHaler(id, name, seqnr, description);
-            return toolCardLood;
-        case 5:
-            ToolCardRondSnijder toolCardSnij = new ToolCardRondSnijder(id, name, seqnr, description);
-            return toolCardSnij;
-        case 6:
-            ToolCardFluxBorstel toolCardFlux = new ToolCardFluxBorstel(id, name, seqnr, description);
-            return toolCardFlux;
-        case 7:
-            ToolCardLoodHamer toolCardLoodHamer = new ToolCardLoodHamer(id, name, seqnr, description);
-            return toolCardLoodHamer;
-        case 8:
-            ToolCardGlasBreekTang toolCardGlas = new ToolCardGlasBreekTang(id, name, seqnr, description);
-            return toolCardGlas;
-        case 9:
-            ToolCardSnijLiniaal toolCardLini = new ToolCardSnijLiniaal(id, name, seqnr, description);
-            return toolCardLini;
-        case 10:
-            ToolCardSchuurBlok toolCardSchuur = new ToolCardSchuurBlok(id, name, seqnr, description);
-            return toolCardSchuur;
-        case 11:
-            ToolCardFluxVerwijderaar toolCardFluxVerwijderaar = new ToolCardFluxVerwijderaar(id, name, seqnr, description);
-            return toolCardFluxVerwijderaar;
-        case 12:
-            ToolCardOlieGlasSnijder toolCardOlieGlasSnijder = new ToolCardOlieGlasSnijder(id, name, seqnr, description);
-            return toolCardOlieGlasSnijder;
-        default:
-            return null;
+            case 1:
+                ToolCardDriePuntStang toolCardDirPunt = new ToolCardDriePuntStang(id, name, seqnr,
+                        description);
+                return toolCardDirPunt;
+            case 2:
+                ToolCardEglomiseBorstel toolCardEglo = new ToolCardEglomiseBorstel(id, name, seqnr,
+                        description);
+                return toolCardEglo;
+            case 3:
+                ToolCardFolieAandrukker toolCardFolie = new ToolCardFolieAandrukker(id, name, seqnr,
+                        description);
+                return toolCardFolie;
+            case 4:
+                ToolCardLoodOpenHaler toolCardLood = new ToolCardLoodOpenHaler(id, name, seqnr,
+                        description);
+                return toolCardLood;
+            case 5:
+                ToolCardRondSnijder toolCardSnij = new ToolCardRondSnijder(id, name, seqnr,
+                        description);
+                return toolCardSnij;
+            case 6:
+                ToolCardFluxBorstel toolCardFlux = new ToolCardFluxBorstel(id, name, seqnr,
+                        description);
+                return toolCardFlux;
+            case 7:
+                ToolCardLoodHamer toolCardLoodHamer = new ToolCardLoodHamer(id, name, seqnr,
+                        description);
+                return toolCardLoodHamer;
+            case 8:
+                ToolCardGlasBreekTang toolCardGlas = new ToolCardGlasBreekTang(id, name, seqnr,
+                        description);
+                return toolCardGlas;
+            case 9:
+                ToolCardSnijLiniaal toolCardLini = new ToolCardSnijLiniaal(id, name, seqnr,
+                        description);
+                return toolCardLini;
+            case 10:
+                ToolCardSchuurBlok toolCardSchuur = new ToolCardSchuurBlok(id, name, seqnr,
+                        description);
+                return toolCardSchuur;
+            case 11:
+                ToolCardFluxVerwijderaar toolCardFluxVerwijderaar = new ToolCardFluxVerwijderaar(id,
+                        name, seqnr, description);
+                return toolCardFluxVerwijderaar;
+            case 12:
+                ToolCardOlieGlasSnijder toolCardOlieGlasSnijder = new ToolCardOlieGlasSnijder(id,
+                        name, seqnr, description);
+                return toolCardOlieGlasSnijder;
+            default:
+                return null;
         }
     }
 
@@ -300,7 +309,13 @@ public class ToolCardDao {
         }
         return toolCard;
     }
-    
+
+    /**
+     * This method will return the used toolcard of a player in round.
+     *
+     * @param player The player.
+     * @return The toolcard.
+     */
     public ToolCard getUsedToolCardOfPlayerOfRound(Player player) {
         ToolCard toolCard = null;
         try {
@@ -321,7 +336,7 @@ public class ToolCardDao {
             }
             rs.close();
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         return toolCard;
     }

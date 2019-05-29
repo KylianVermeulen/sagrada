@@ -107,6 +107,13 @@ public class PlayerDao {
         return player;
     }
 
+    /**
+     * This method will return a Player from the database by seqnr and gameid.
+     *
+     * @param game The game.
+     * @param seqnr The seqnr.
+     * @return The player.
+     */
     public Player getPlayerBySeqnrByGame(Game game, int seqnr) {
         Player player = null;
         try {
@@ -198,19 +205,20 @@ public class PlayerDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT \n" + 
-                            "    *\n" + 
-                            "FROM\n" + 
-                            "    playerframefield\n" + 
-                            "        INNER JOIN\n" + 
-                            "    player p ON playerframefield.player_idplayer = p.idplayer\n" + 
-                            "        INNER JOIN\n" + 
-                            "    gamedie g ON playerframefield.idgame = g.idgame\n" + 
-                            "        AND playerframefield.dienumber = g.dienumber\n" + 
-                            "        AND playerframefield.diecolor = g.diecolor\n" + 
-                            "WHERE\n" + 
-                            "    player_idplayer = ? AND round = ?\n" + 
-                            "        AND inFirstTurn = ?",
+                            "SELECT \n" +
+                                    "    *\n" +
+                                    "FROM\n" +
+                                    "    playerframefield\n" +
+                                    "        INNER JOIN\n" +
+                                    "    player p ON playerframefield.player_idplayer = p.idplayer\n"
+                                    +
+                                    "        INNER JOIN\n" +
+                                    "    gamedie g ON playerframefield.idgame = g.idgame\n" +
+                                    "        AND playerframefield.dienumber = g.dienumber\n" +
+                                    "        AND playerframefield.diecolor = g.diecolor\n" +
+                                    "WHERE\n" +
+                                    "    player_idplayer = ? AND round = ?\n" +
+                                    "        AND inFirstTurn = ?",
                             "query"),
                     new QueryParameter(QueryParameter.INT, player.getId()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getRound()),
@@ -256,10 +264,11 @@ public class PlayerDao {
 
     /**
      * updates the score of the player in the database
+     *
      * @param player Player
      */
-    public void updateScore(Player player){
-        try{
+    public void updateScore(Player player) {
+        try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query("UPDATE player SET score=? WHERE idplayer=?", "update"),
                     new QueryParameter(QueryParameter.INT, player.getScore()),

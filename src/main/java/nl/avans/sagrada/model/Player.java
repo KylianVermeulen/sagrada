@@ -452,6 +452,12 @@ public class Player {
         new PlayerDao().updatePlayer(this);
     }
 
+    /**
+     * This method will return a boolean of when a player has used a toolcard that needs a turn
+     * skip.
+     *
+     * @return Boolean
+     */
     public boolean usedToolCardThatNeedsSkipNextTurn() {
         ToolCardDao toolCardDao = new ToolCardDao();
         ToolCard toolCard = toolCardDao.getUsedToolCardOfPlayerOfRound(this);
