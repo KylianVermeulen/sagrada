@@ -1,5 +1,6 @@
 package nl.avans.sagrada.view;
 
+import java.awt.Paint;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import javafx.scene.layout.VBox;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.task.GetGameChatLinesTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class ChatLineView extends VBox implements ViewInterface {
@@ -31,7 +33,6 @@ public class ChatLineView extends VBox implements ViewInterface {
     private PlayerController playercontroller;
     private VBox messagebox;
     private ArrayList<Chatline> chatlines;
-    private ObservableList<Chatline> chatList = FXCollections.observableList(chatlines);
 
     /**
      * Constructor
@@ -41,7 +42,6 @@ public class ChatLineView extends VBox implements ViewInterface {
     public ChatLineView(PlayerController playercontroller) {
         this.playercontroller = playercontroller;
         chatlines = playercontroller.getPlayer().getGame().getChatlines();
-        chatList.addListener(new ChatlineListener());
         messagebox = new VBox();
     }
     
@@ -113,14 +113,12 @@ public class ChatLineView extends VBox implements ViewInterface {
     public void render() {
         getChildren().clear();
         messagebox.getChildren().clear();
-        addExistingMessages();
-        buildChat();
-    }
-
-    private class ChatlineListener implements ChangeListener {
-        @Override
-        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-
-        }
+        GetGameChatLinesTask ggclt = new GetGameChatLinesTask(game);
+        ggclt.setOnSuccesed(e -> {
+            setChatLines(e.getValue());buildChat();
+        });
+        Thread thread = new Thread(ggclt);
+        thread.setDaemon(true);
+        thread.start();
     }
 }

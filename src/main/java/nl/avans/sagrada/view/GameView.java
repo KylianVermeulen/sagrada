@@ -18,6 +18,7 @@ import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.database.ChecksumDatabase;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
@@ -176,10 +177,8 @@ public class GameView extends VBox implements ViewInterface {
     }
 
     private void buildChatLine() {
-        ArrayList<Chatline> chatLines = game.getChatlines();
         chatLineView = new ChatLineView(playerController);
-
-        chatLineView.setChatLines(chatLines);
+        ChecksumDatabase.setChatLineView(chatLineView);
         chatLineView.render();
     }
 

@@ -6,6 +6,7 @@ import nl.avans.sagrada.AnimationTimerExt;
 import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.enumerations.AccountStatus;
+import nl.avans.sagrada.view.ChatLineView;
 
 public class ChecksumDatabase implements Runnable {
     private AnimationTimerExt animationTimerExt;
@@ -16,6 +17,7 @@ public class ChecksumDatabase implements Runnable {
     private String checksumPlayer;
     private String checksumChat;
     private String checksumPlayerFrameField;
+    private static ChatLineView chatLineView;
 
     public ChecksumDatabase(AccountController accountController,
             PlayerController playerController) {
@@ -35,6 +37,10 @@ public class ChecksumDatabase implements Runnable {
                 refreshed = false;
             }
         };
+    }
+
+    public static void setChatLineView(ChatLineView chatLineView) {
+        ChecksumDatabase.chatLineView = chatLineView;
     }
     
     /**
@@ -123,8 +129,9 @@ public class ChecksumDatabase implements Runnable {
         if (!refreshed) {
             if (accountController.getAccount() != null) {
                 if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
-                    playerController.viewGame();
-                    refreshed = true;
+                    if (chatLineView != null) {
+                        chatLineView.render();
+                    }
                 }
             }
         }
