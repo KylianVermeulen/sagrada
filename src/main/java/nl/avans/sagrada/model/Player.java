@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
 
 public class Player {
     public static final String STATUS_ABORT = "afgebroken";
@@ -180,6 +181,11 @@ public class Player {
         PatternCardDao PatternCardDao = new PatternCardDao();
         patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(this);
         return patternCard;
+    }
+    
+    public GetPatternCardOfPlayerTask getPatternCardTask() {
+        GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(this);
+        return gpcopt;
     }
 
     /**

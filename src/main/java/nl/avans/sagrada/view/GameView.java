@@ -187,17 +187,23 @@ public class GameView extends VBox implements ViewInterface {
     }
 
     private void buildPlayerPatternCard() {
-        PatternCard playerPatternCard = player.getPatternCard();
         playerPatternCardView = new PatternCardView(playerController);
-        playerPatternCardView.setPatternCard(playerPatternCard);
-        playerPatternCardView.setPlayerName(player.getAccount().getUsername());
-        playerPatternCardView.setPlayerColor(player.getPlayerColor());
-        if (player.isCurrentPlayer()) {
-            playerPatternCardView.setCurrentPlayer(true);
-        } else {
-            playerPatternCardView.setCurrentPlayer(false);
-        }
-        playerPatternCardView.render();
+        GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(player);
+        gpcopt.setOnSucceeded(e -> {
+            PatternCard patternCard = gpcopt.getValue();
+            playerPatternCardView.setPatternCard(patternCard);
+            playerPatternCardView.setPlayerName(player.getAccount().getUsername());
+            playerPatternCardView.setPlayerColor(player.getPlayerColor());
+            if (player.isCurrentPlayer()) {
+                playerPatternCardView.setCurrentPlayer(true);
+            } else {
+                playerPatternCardView.setCurrentPlayer(false);
+            }
+            playerPatternCardView.render();
+        });
+        Thread thread = new Thread(gpcopt);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void buildPlayerPrivateObjectiveCard() {
