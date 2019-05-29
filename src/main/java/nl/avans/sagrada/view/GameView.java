@@ -152,6 +152,7 @@ public class GameView extends VBox implements ViewInterface {
         GetPublicObjectiveCardTask gpoct = new GetPublicObjectiveCardTask(game);
         gpoct.setOnSucceeded(e -> {
             PublicObjectiveCard[] gamePublicObjectiveCards = gpoct.getValue();
+            game.setPublicObjectiveCards(gamePublicObjectiveCards);
             for (PublicObjectiveCard publicObjectiveCard : gamePublicObjectiveCards) {
                 PublicObjectiveCardView publicObjectiveCardView =
                         new PublicObjectiveCardView(playerController);

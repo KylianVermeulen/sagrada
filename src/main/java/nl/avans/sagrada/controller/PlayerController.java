@@ -201,7 +201,6 @@ public class PlayerController {
             viewEndgame();
         } else {
             if (cheatmodeTask == null) {
-                System.out.println("HERE");
                 cheatmodeTask = new CheatmodeTask(this);
                 Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
                 cheatmodeTaskThread.setName("Cheatmode placement options thread");

@@ -265,7 +265,8 @@ public class Game {
      * @return ArrayList<Chatline>
      */
     public ArrayList<Chatline> getChatlines() {
-        ArrayList<Chatline> chatlines = new ChatlineDao().getChatlinesOfGame(this);
+//        ArrayList<Chatline> chatlines = new ChatlineDao().getChatlinesOfGame(this);
+        ArrayList<Chatline> chatlines = new ArrayList<>();
         return chatlines;
     }
 
