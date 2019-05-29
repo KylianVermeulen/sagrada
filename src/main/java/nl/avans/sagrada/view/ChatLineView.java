@@ -98,6 +98,7 @@ public class ChatLineView extends VBox implements ViewInterface {
 
         Label label = new Label(
                 "[" + hour + ":" + minute + ":" + second + "] " + playername + ": " + message);
+        messagebox.getChildren().add(label);
     }
 
     /**
@@ -113,9 +114,11 @@ public class ChatLineView extends VBox implements ViewInterface {
     public void render() {
         getChildren().clear();
         messagebox.getChildren().clear();
-        GetGameChatLinesTask ggclt = new GetGameChatLinesTask(game);
-        ggclt.setOnSuccesed(e -> {
-            setChatLines(e.getValue());buildChat();
+        buildChat();
+        GetGameChatLinesTask ggclt = new GetGameChatLinesTask(playercontroller.getPlayer().getGame());
+        ggclt.setOnSucceeded(e -> {
+            setChatLines(ggclt.getValue());
+            addExistingMessages();
         });
         Thread thread = new Thread(ggclt);
         thread.setDaemon(true);

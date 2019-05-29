@@ -301,7 +301,6 @@ public class PlayerController {
             if (chatlineDao.timeExistsOfPlayer(chatline) == false) {
                 chatlineDao.addChatline(chatline);
                 chatlineView.addChatline(chatline);
-                chatlineView.render();
             } else {
                 Alert alert = new Alert("Waarschuwing",
                         "Je mag maar 1 keer per seconde een bericht versturen!", AlertType.ERROR);
@@ -314,10 +313,6 @@ public class PlayerController {
         }
     }
 
-    public void updateChat(){
-        ChatLineView chatLineView = new ChatLineView(this);
-        chatLineView.render();
-    }
     /**
      * Controlls the amount of favor tokens that needs to be paid
      *
