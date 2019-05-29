@@ -27,6 +27,7 @@ import nl.avans.sagrada.model.RoundTrack;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.task.GetFavorTokensOfToolCardTask;
 import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
+import nl.avans.sagrada.task.GetPublicObjectiveCardTask;
 import nl.avans.sagrada.task.GetRoundTrackDiceTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -38,8 +39,6 @@ public class GameView extends VBox implements ViewInterface {
     private AccountController accountController;
     private HBox otherPlayerPatternCardViews;
     private HBox actionButtons;
-    private ArrayList<ToolCardView> toolCardViews;
-    private ArrayList<PublicObjectiveCardView> publicObjectiveCardViews;
     private Label balance;
     private PatternCardView playerPatternCardView;
     private ScoreBoardView scoreBoard;
@@ -48,6 +47,7 @@ public class GameView extends VBox implements ViewInterface {
     private PrivateObjectiveCardView privateObjectiveCardView;
     private DieOfferView dieOfferView;
     private HBox toolCardsView;
+    private HBox publicObjectiveCardView;
 
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
@@ -152,17 +152,24 @@ public class GameView extends VBox implements ViewInterface {
     }
 
     private void buildPublicObjectiveCards() {
-        publicObjectiveCardViews = new ArrayList<>();
+        publicObjectiveCardView = new HBox();
         PublicObjectiveCard[] gamePublicObjectiveCards = game.getPublicObjectiveCards();
-
-        for (PublicObjectiveCard publicObjectiveCard : gamePublicObjectiveCards) {
-            PublicObjectiveCardView publicObjectiveCardView =
-                    new PublicObjectiveCardView(playerController);
-            publicObjectiveCardView.setPublicObjectiveCard(publicObjectiveCard);
-            publicObjectiveCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
-            publicObjectiveCardView.render();
-            publicObjectiveCardViews.add(publicObjectiveCardView);
-        }
+        
+        GetPublicObjectiveCardTask gpoct = new GetPublicObjectiveCardTask(game);
+        gpoct.setOnSucceeded(e -> {
+            for (PublicObjectiveCard publicObjectiveCard : gamePublicObjectiveCards) {
+                PublicObjectiveCardView publicObjectiveCardView =
+                        new PublicObjectiveCardView(playerController);
+                publicObjectiveCardView.setPublicObjectiveCard(publicObjectiveCard);
+                publicObjectiveCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
+                publicObjectiveCardView.render();
+                this.publicObjectiveCardView.getChildren().add(publicObjectiveCardView);
+            } 
+        });
+        
+        Thread thread = new Thread(gpoct);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void buildChatLine() {
@@ -280,7 +287,7 @@ public class GameView extends VBox implements ViewInterface {
         firstView.setRight(scoreBoard);
 
         secondView.getChildren().add(toolCardsView);
-        secondView.getChildren().addAll(publicObjectiveCardViews);
+        secondView.getChildren().add(publicObjectiveCardView);
         secondView.getChildren().add(roundTrackView);
 
         HBox rightThirdView = new HBox();

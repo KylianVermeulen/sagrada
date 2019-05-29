@@ -13,6 +13,7 @@ import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.task.GetPublicObjectiveCardTask;
 import nl.avans.sagrada.task.GetRoundTrackDiceTask;
 
 public class Game {
@@ -206,6 +207,11 @@ public class Game {
         publicObjectiveCards = publicObjectiveCardDao.getAllPublicObjectiveCardsOfGame(this)
                 .toArray(new PublicObjectiveCard[3]);
         return publicObjectiveCards;
+    }
+    
+    public GetPublicObjectiveCardTask getPublicObjectiveCardTask() {
+        GetPublicObjectiveCardTask getPublicObjectiveCardTask = new GetPublicObjectiveCardTask(this);
+        return getPublicObjectiveCardTask;
     }
 
     /**
