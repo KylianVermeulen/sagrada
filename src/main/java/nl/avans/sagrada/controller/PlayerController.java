@@ -26,6 +26,8 @@ import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
 import nl.avans.sagrada.task.CheatmodeTask;
+import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
+import nl.avans.sagrada.task.SetSelectedPatternCardOfPlayerTask;
 import nl.avans.sagrada.task.UpdateDieTask;
 import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.ChatLineView;
@@ -213,22 +215,28 @@ public class PlayerController {
     public void actionJoinGame(Account account, Game game) {
         player = new PlayerDao().getPlayerByAccountAndGame(account, game);
         player.setGame(game);
-        PatternCardDao PatternCardDao = new PatternCardDao();
-        PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
-        player.setPatternCard(patternCard);
+        
+        GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(player);
+        gpcopt.setOnSucceeded(e -> {
+            PatternCard patternCard = gpcopt.getValue();
+            player.setPatternCard(patternCard);
 
-        if (player.getPatternCard() == null) {
-            viewOptionalPatternCards();
-        } else {
-            if (!game.everyoneSelectedPatternCard()) {
-                // We don't allow anyone to the game view until everyone has a patterncard
-                Alert alert = new Alert("Nog even wachten",
-                        "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
-                myScene.addAlertPane(alert);
+            if (player.getPatternCard() == null) {
+                viewOptionalPatternCards();
             } else {
-                viewGame();
+                if (!game.everyoneSelectedPatternCard()) {
+                    // We don't allow anyone to the game view until everyone has a patterncard
+                    Alert alert = new Alert("Nog even wachten",
+                            "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
+                    myScene.addAlertPane(alert);
+                } else {
+                    viewGame();
+                }
             }
-        }
+        });
+        Thread thread = new Thread(gpcopt);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public void viewOptionalPatternCards() {
@@ -243,20 +251,23 @@ public class PlayerController {
     }
 
     public void actionSelectPatternCard(PatternCard patternCard) {
-        PlayerDao playerDao = new PlayerDao();
         player.setPatternCard(patternCard);
-        playerDao.updateSelectedPatternCard(player, patternCard);
-        player.assignFavorTokens();
-        Game game = player.getGame();
-        if (!game.everyoneSelectedPatternCard()) {
-            // We don't allow anyone to the game view until everyone has a patterncard
-            Alert alert = new Alert("Nog even wachten",
-                    "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
-            myScene.addAlertPane(alert);
-            myScene.getAccountController().viewLobby();
-        } else {
-            viewGame();
-        }
+        SetSelectedPatternCardOfPlayerTask sspcopt = new SetSelectedPatternCardOfPlayerTask(player);
+        sspcopt.setOnSucceeded(e -> {
+            Game game = player.getGame();
+            if (!game.everyoneSelectedPatternCard()) {
+                // We don't allow anyone to the game view until everyone has a patterncard
+                Alert alert = new Alert("Nog even wachten",
+                        "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
+                myScene.addAlertPane(alert);
+                myScene.getAccountController().viewLobby();
+            } else {
+                viewGame();
+            } 
+        });
+        Thread thread = new Thread(sspcopt);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**

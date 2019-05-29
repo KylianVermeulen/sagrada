@@ -1,7 +1,6 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
-
 import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
