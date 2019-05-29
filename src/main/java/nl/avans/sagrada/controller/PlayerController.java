@@ -49,6 +49,7 @@ public class PlayerController {
     private ToolCard activeToolCard;
     private GameView gameView;
     private HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap;
+    private CheatmodeTask cheatmodeTask;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -182,8 +183,7 @@ public class PlayerController {
 
     public void viewGame() {
         // Refresh game & player object
-        int gameId = player.getGame().getId();
-        player = new PlayerDao().getPlayerById(player.getId());
+        int gameId = player.getGame().getId();        
         Game game = new GameDao().getGameById(gameId);
         player.setGame(game);
 
@@ -200,10 +200,15 @@ public class PlayerController {
             game.finishGame();
             viewEndgame();
         } else {
-            CheatmodeTask cheatmodeTask = new CheatmodeTask(this);
-            Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
-            cheatmodeTaskThread.setName("Cheatmode placement options thread");
-            cheatmodeTaskThread.start();
+            if (cheatmodeTask == null) {
+                System.out.println("HERE");
+                cheatmodeTask = new CheatmodeTask(this);
+                Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
+                cheatmodeTaskThread.setName("Cheatmode placement options thread");
+                cheatmodeTaskThread.setDaemon(true);
+                cheatmodeTaskThread.start();
+            }
+            
             Pane pane = new Pane();
             gameView = new GameView(this, game, player);
             gameView.render();
