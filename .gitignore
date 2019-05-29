@@ -1,6 +1,5 @@
-
-# Created by https://www.gitignore.io/api/java,linux,macos,windows,eclipse,intellij+all
-# Edit at https://www.gitignore.io/?templates=java,linux,macos,windows,eclipse,intellij+all
+# Created by https://www.gitignore.io/api/java,linux,macos,maven,windows,eclipse,intellij+all
+# Edit at https://www.gitignore.io/?templates=java,linux,macos,maven,windows,eclipse,intellij+all
 
 ### Eclipse ###
 .metadata
@@ -226,6 +225,18 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
@@ -251,4 +262,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/java,linux,macos,windows,eclipse,intellij+all
+# End of https://www.gitignore.io/api/java,linux,macos,maven,windows,eclipse,intellij+all

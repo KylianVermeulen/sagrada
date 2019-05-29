@@ -3,7 +3,6 @@ package nl.avans.sagrada.view;
 import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Background;
@@ -18,32 +17,31 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
-import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class GameOverviewView extends ScrollPane implements ViewInterface {
+public class AllGamesOverView extends ScrollPane implements ViewInterface {
     private final int PANE_WIDTH = Main.SCREEN_WIDTH / 5;
     private final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2 - 70;
-    private final int BUTTON_WIDTH = 50;
     private final int LABEL_WIDTH = 90;
     private ArrayList<Game> games;
     private AccountController accountController;
-    private PlayerController playerController;
 
     /**
      * Partial constructor
      *
      * @param accountController AccountController
      */
-    public GameOverviewView(AccountController accountController) {
+    public AllGamesOverView(AccountController accountController) {
         this.accountController = accountController;
-        games = new ArrayList<>();
+        String css = this.getClass().getResource("/css/lobbyview.css").toExternalForm();
+        getStylesheets().add(css);
         setPrefSize(PANE_WIDTH, PANE_HEIGHT);
         setMaxHeight(PANE_HEIGHT);
         setMinHeight(PANE_HEIGHT);
         setMaxWidth(PANE_WIDTH);
         setMinWidth(PANE_WIDTH);
+        setPannable(true);
     }
 
     /**
@@ -60,11 +58,7 @@ public class GameOverviewView extends ScrollPane implements ViewInterface {
      */
     @Override
     public void render() {
-        String css = this.getClass().getResource("/css/lobbyview.css").toExternalForm();
-        getStylesheets().add(css);
-        setPannable(true);
-
-        VBox vbox = new VBox();       
+        VBox vbox = new VBox();
         vbox.setMinHeight(PANE_HEIGHT - 2);
         vbox.setMinWidth(PANE_WIDTH - 2);
         for (Game game : games) {
@@ -78,25 +72,9 @@ public class GameOverviewView extends ScrollPane implements ViewInterface {
             label.setPadding(new Insets(5, 4, 5, 4));
             label.setPrefWidth(LABEL_WIDTH);
 
-            Button joinButton = buildButtonToJoin(game);
-
             hBox.getChildren().add(label);
-            hBox.getChildren().add(joinButton);
             vbox.getChildren().add(hBox);
         }
         setContent(vbox);
-    }
-
-    /**
-     * Builds a button to join a game
-     *
-     * @param game Game
-     * @return Button
-     */
-    private Button buildButtonToJoin(Game game) {
-        Button button = new Button("->");
-        button.setOnAction(e -> accountController.actionJoinGame(game));
-        button.setMinWidth(BUTTON_WIDTH);
-        return button;
     }
 }

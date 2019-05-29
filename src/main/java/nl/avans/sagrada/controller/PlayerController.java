@@ -26,6 +26,7 @@ import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
 import nl.avans.sagrada.task.CheatmodeTask;
+import nl.avans.sagrada.task.UpdateDieTask;
 import nl.avans.sagrada.view.ChatLineView;
 import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.EndgameView;
@@ -112,7 +113,10 @@ public class PlayerController {
                                 playerFrameFieldDao
                                         .addDieToField(gameDie, patternCardField, player);
 
-                                new GameDieDao().updateDie(player.getGame(), gameDie);
+                                UpdateDieTask udt = new UpdateDieTask(player.getGame(), gameDie);
+                                Thread updateGameTread = new Thread(udt);
+                                updateGameTread.setName("Update gamedie thread");
+                                updateGameTread.start();
                             }
                         }
                     }
@@ -238,7 +242,7 @@ public class PlayerController {
         PlayerDao playerDao = new PlayerDao();
         player.setPatternCard(patternCard);
         playerDao.updateSelectedPatternCard(player, patternCard);
-        player.generateFavorTokens();
+        player.assignFavorTokens();
         Game game = player.getGame();
         if (!game.everyoneSelectedPatternCard()) {
             // We don't allow anyone to the game view until everyone has a patterncard
@@ -424,7 +428,6 @@ public class PlayerController {
      * to the lobbyscreen or view the statistics.
      */
     public void viewEndgame() {
-        GameDao gameDao = new GameDao();
         Game game = player.getGame();
         Player winPlayer = game.getPlayerWithBestScore();
         Pane pane = new Pane();
