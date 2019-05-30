@@ -258,11 +258,18 @@ public class PlayerController {
         Pane pane = new Pane();
         ArrayList<PatternCard> patternCards =
                 new PatternCardDao().getOptionalPatternCardsOfPlayer(player);
-        PatternCardSelectionView patternCardSelectionView = new PatternCardSelectionView(this);
-        patternCardSelectionView.setOptionalPatternCards(patternCards);
-        patternCardSelectionView.render();
-        pane.getChildren().add(patternCardSelectionView);
-        myScene.setContentPane(pane);
+        if (patternCards.size() == 4) {
+            PatternCardSelectionView patternCardSelectionView = new PatternCardSelectionView(this);
+            patternCardSelectionView.setOptionalPatternCards(patternCards);
+            patternCardSelectionView.render();
+            pane.getChildren().add(patternCardSelectionView);
+            myScene.setContentPane(pane);
+        }
+        else {
+            Alert alert = new Alert("Invite",
+                    "Nog een moment voordat je patterncard klaar is!", AlertType.INFO);
+            myScene.addAlertPane(alert);
+        }
     }
 
     public void actionSelectPatternCard(PatternCard patternCard) {
@@ -276,7 +283,9 @@ public class PlayerController {
                         "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
                 myScene.addAlertPane(alert);
             } else {
-                viewGame(false);
+                Alert alert = new Alert("Je kan starten!",
+                        "Iedereen heeft een patterncard gestart!", AlertType.INFO);
+                myScene.addAlertPane(alert);
             } 
         });
         Thread thread = new Thread(sspcopt);
