@@ -268,12 +268,6 @@ public class PlayerController {
     public void actionSelectPatternCard(PatternCard patternCard) {
         player.setPatternCard(patternCard);
         SetSelectedPatternCardOfPlayerTask sspcopt = new SetSelectedPatternCardOfPlayerTask(player, patternCard);
-        sspcopt.exceptionProperty().addListener((observable, oldValue, newValue) ->  {
-            if(newValue != null) {
-              Exception ex = (Exception) newValue;
-              ex.printStackTrace();
-            }
-          });
         sspcopt.setOnSucceeded(e -> {
             Game game = player.getGame();
             if (!game.everyoneSelectedPatternCard()) {
@@ -281,7 +275,6 @@ public class PlayerController {
                 Alert alert = new Alert("Nog even wachten",
                         "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
                 myScene.addAlertPane(alert);
-                myScene.getAccountController().viewLobby();
             } else {
                 viewGame(false);
             } 
@@ -289,6 +282,7 @@ public class PlayerController {
         Thread thread = new Thread(sspcopt);
         thread.setDaemon(true);
         thread.start();
+        myScene.getAccountController().viewLobby();
     }
 
     /**
