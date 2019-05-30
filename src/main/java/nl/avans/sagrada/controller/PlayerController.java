@@ -118,7 +118,8 @@ public class PlayerController {
                                     Thread updateGameTread = new Thread(udt);
                                     updateGameTread.setDaemon(true);
                                     updateGameTread.setName("Update gamedie thread");
-                                    updateGameTread.start(); 
+                                    updateGameTread.start();
+                                    gameView.renderDieOfferView();
                                 });
                                 Thread thread = new Thread(upfft);
                                 thread.setDaemon(true);

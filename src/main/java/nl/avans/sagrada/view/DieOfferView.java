@@ -51,6 +51,7 @@ public class DieOfferView extends TilePane implements ViewInterface {
 
     @Override
     public void render() {
+        getChildren().clear();
         buildDice();
     }
 }

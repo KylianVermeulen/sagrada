@@ -258,6 +258,17 @@ public class GameView extends VBox implements ViewInterface {
         dieOfferView = new DieOfferView(this.game, playerPatternCardView, playerController);
         dieOfferView.render();
     }
+    
+    /**
+     * Method the render the die view
+     * For when a die is placed on the patterncard from the
+     * Offer
+     */
+    public void renderDieOfferView() {
+        if (dieOfferView != null) {
+            dieOfferView.render();
+        }
+    }
 
     @Override
     public void render() {
