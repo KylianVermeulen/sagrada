@@ -33,7 +33,7 @@ public class ToolCardLoodHamer extends ToolCard {
             if (patternCardField.canPlaceDie(die)) {
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
-                playerFrameFieldDao.addDieToField(die, patternCardField, player);
+                playerFrameFieldDao.updateDieLocation(die, patternCardField, player);
                 setIsDone(true);
                 return patternCard;
             }
