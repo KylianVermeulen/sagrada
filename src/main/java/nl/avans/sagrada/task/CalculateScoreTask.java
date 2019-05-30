@@ -7,11 +7,20 @@ public class CalculateScoreTask extends Task<Integer> {
     private Player player;
     private boolean withPrivateScore;
     
+    /**
+     * Constructor for the calculate score task
+     * @param player
+     */
     public CalculateScoreTask(Player player) {
         withPrivateScore = false;
         this.player = player;
     }
     
+    /**
+     * If you want to calculate the score with the private score
+     * You need to set it to true
+     * @param withPrivateScore
+     */
     public void setWithPrivateScore(boolean withPrivateScore) {
         this.withPrivateScore = withPrivateScore;
     }

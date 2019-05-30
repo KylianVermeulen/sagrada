@@ -8,6 +8,11 @@ import nl.avans.sagrada.model.PublicObjectiveCard;
 public class GetPublicObjectiveCardTask extends Task<PublicObjectiveCard[]> {
     private Game game;
     
+    /**
+     * Constructor for the task to get all public objective cards
+     * of a game
+     * @param game
+     */
     public GetPublicObjectiveCardTask(Game game) {
         this.game = game;
     }

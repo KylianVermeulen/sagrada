@@ -12,6 +12,11 @@ public class GetFavorTokensOfToolCardTask extends Task<ArrayList<FavorToken>> {
     private ToolCard toolCard;
     private Game game;
     
+    /**
+     * Constructor for the task to get all favortokens of a toolcard by game
+     * @param toolCard
+     * @param game
+     */
     public GetFavorTokensOfToolCardTask(ToolCard toolCard, Game game) {
         this.toolCard = toolCard;
         this.game = game;

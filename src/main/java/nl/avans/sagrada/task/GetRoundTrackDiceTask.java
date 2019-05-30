@@ -10,6 +10,10 @@ import nl.avans.sagrada.model.GameDie;
 public class GetRoundTrackDiceTask extends Task<ArrayList<GameDie>> {
     private Game game;
     
+    /**
+     * Constructor for the task to get all dice that are on the roundtrack
+     * @param game
+     */
     public GetRoundTrackDiceTask(Game game) {
         this.game = game;
     }

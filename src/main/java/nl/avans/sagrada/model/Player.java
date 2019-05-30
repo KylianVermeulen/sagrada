@@ -341,6 +341,10 @@ public class Player {
         return imagePath;
     }
     
+    /**
+     * Returns the task to calculate the score of a player
+     * @return CalculateScoreTask
+     */
     public CalculateScoreTask calculateScoreTask() {
         CalculateScoreTask cst = new CalculateScoreTask(this);
         return cst;

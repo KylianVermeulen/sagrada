@@ -7,6 +7,10 @@ import nl.avans.sagrada.model.Player;
 public class GetPlayerByIdTask extends Task<Player> {
     private int playerId;
     
+    /**
+     * Constructor to get a player by id task
+     * @param playerId
+     */
     public GetPlayerByIdTask(int playerId) {
         this.playerId = playerId;
     }
