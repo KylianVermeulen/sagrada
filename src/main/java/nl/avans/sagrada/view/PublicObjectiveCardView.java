@@ -15,16 +15,14 @@ import nl.avans.sagrada.model.PublicObjectiveCard;
 
 public class PublicObjectiveCardView extends CardView {
     private PublicObjectiveCard publicObjectiveCard;
-    private PlayerController playerController;
 
     /**
      * Filled constructor
      *
      * @param playerController PlayerController
      */
-    public PublicObjectiveCardView(PlayerController playerController) {
+    public PublicObjectiveCardView() {
         super();
-        this.playerController = playerController;
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null)));
         getStylesheets().add(css);

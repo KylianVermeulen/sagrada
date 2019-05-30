@@ -33,7 +33,7 @@ public class ToolCardSchuurBlok extends ToolCard {
 
             if (patternCardField.canPlaceDie(die)) {
                 int newEyes = (7 - die.getEyes());
-
+                die.setInFirstTurn(player.isFirstTurn());
                 die.setEyes(newEyes);
                 gameDieDao.updateDieEyes(player.getGame(), die);
                 die.setPatternCardField(patternCardField);

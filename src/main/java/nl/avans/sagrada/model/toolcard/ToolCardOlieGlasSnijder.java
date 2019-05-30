@@ -52,6 +52,7 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
             if (!patternCardField.hasDie() && patternCardField.canPlaceDieByAttributes(die)
                     && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
                     && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
+                die.setInFirstTurn(player.isFirstTurn());
 
                 removeDieField.setDie(null);
                 playerFrameFieldDao.removeDie(die, removeDieField, player);

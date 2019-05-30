@@ -8,11 +8,9 @@ import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
-import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PatternCardFieldDao;
 import nl.avans.sagrada.dao.PlayerDao;
-import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Chatline;
@@ -22,15 +20,17 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.model.enumerations.AccountStatus;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
 import nl.avans.sagrada.task.CheatmodeTask;
+import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
+import nl.avans.sagrada.task.SetSelectedPatternCardOfPlayerTask;
 import nl.avans.sagrada.task.UpdateDieTask;
 import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.ChatLineView;
-import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
@@ -39,6 +39,7 @@ import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.view.popups.DriePuntStang;
 import nl.avans.sagrada.view.popups.Fluxborstel;
 import nl.avans.sagrada.view.popups.Fluxverwijderaar;
 
@@ -48,6 +49,7 @@ public class PlayerController {
     private ToolCard activeToolCard;
     private GameView gameView;
     private HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap;
+    private CheatmodeTask cheatmodeTask;
 
     public PlayerController(MyScene myScene) {
         this.myScene = myScene;
@@ -75,7 +77,7 @@ public class PlayerController {
      * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
      */
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
-            GameDie gameDie, MouseEvent event) {
+        GameDie gameDie, MouseEvent event) {
         PlayerDao playerDao = new PlayerDao();
         Player playerEvent = patternCard.getPlayer();
 
@@ -86,7 +88,7 @@ public class PlayerController {
                         PatternCard toolCardUseResult = activeToolCard
                                 .handleDrag(event, gameDie);
                         if (toolCardUseResult != null) {
-                            new GameDieDao().updateDie(player.getGame(), gameDie);
+                            viewGame(false);
                             if (activeToolCard.getIsDone()) {
                                 gameDie.setInFirstTurn(player.isFirstTurn());
                                 activeToolCard = null;
@@ -97,7 +99,6 @@ public class PlayerController {
                                 myScene.addAlertPane(alert);
                             }
                             player.setPatternCard(toolCardUseResult);
-                            viewGame();
                         } else {
                             Alert alert = new Alert("Helaas",
                                     "Dit kan niet wat je probeert met de toolcard",
@@ -113,13 +114,16 @@ public class PlayerController {
 
                                 UpdatePlayerFrameFieldTask upfft = new UpdatePlayerFrameFieldTask(gameDie, patternCardField, playerEvent);
                                 upfft.setOnSucceeded(e -> {
+                                    gameView.renderDieOfferView();
+                                    player.calculateScore(false, false);
                                     UpdateDieTask udt = new UpdateDieTask(player.getGame(), gameDie);
                                     Thread updateGameTread = new Thread(udt);
                                     updateGameTread.setDaemon(true);
                                     updateGameTread.setName("Update gamedie thread");
-                                    updateGameTread.start(); 
+                                    updateGameTread.start();
                                 });
                                 Thread thread = new Thread(upfft);
+                                thread.setName("Update PlayerFrameField thread");
                                 thread.setDaemon(true);
                                 thread.start();
                             }
@@ -179,18 +183,29 @@ public class PlayerController {
         }
     }
 
-    public void viewGame() {
+    /**
+     * Views the game
+     * If this method is called by the checksum class we need to add true
+     * To the db
+     * @param cameHereByRefresh
+     */
+    public void viewGame(boolean cameHereByRefresh) {
         // Refresh game & player object
         int gameId = player.getGame().getId();
-        player = new PlayerDao().getPlayerById(player.getId());
-        Game game = new GameDao().getGameById(gameId);
-        player.setGame(game);
+        if (cameHereByRefresh) {
+            player = new PlayerDao().getPlayerById(player.getId());
+            Game game = new GameDao().getGameById(gameId);
+            player.setGame(game);
+        }
+        Game game = player.getGame();
+        player.getAccount().setAccountStatus(AccountStatus.GAME);
+
 
         for (int i = 0; i < game.getPlayers().size(); i++) {
             game.getPlayers().get(i).setPlayerColor(i);
         }
 
-        if (player.isCurrentPlayer()) {
+        if (player.isCurrentPlayer() && cameHereByRefresh) {
             game.setTurnPlayer(player);
             Alert alert = new Alert("Speel je beurt", "Je bent nu aan de beurt!", AlertType.SUCCES);
             myScene.addAlertPane(alert);
@@ -199,10 +214,14 @@ public class PlayerController {
             game.finishGame();
             viewEndgame();
         } else {
-            CheatmodeTask cheatmodeTask = new CheatmodeTask(this);
-            Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
-            cheatmodeTaskThread.setName("Cheatmode placement options thread");
-            cheatmodeTaskThread.start();
+            if (cheatmodeTask == null) {
+                cheatmodeTask = new CheatmodeTask(this);
+                Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
+                cheatmodeTaskThread.setName("Cheatmode placement options thread");
+                cheatmodeTaskThread.setDaemon(true);
+                cheatmodeTaskThread.start();
+            }
+            
             Pane pane = new Pane();
             gameView = new GameView(this, game, player);
             gameView.render();
@@ -214,50 +233,70 @@ public class PlayerController {
     public void actionJoinGame(Account account, Game game) {
         player = new PlayerDao().getPlayerByAccountAndGame(account, game);
         player.setGame(game);
-        PatternCardDao PatternCardDao = new PatternCardDao();
-        PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
-        player.setPatternCard(patternCard);
+        
+        GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(player);
+        gpcopt.setOnSucceeded(e -> {
+            PatternCard patternCard = gpcopt.getValue();
+            player.setPatternCard(patternCard);
 
-        if (player.getPatternCard() == null) {
-            viewOptionalPatternCards();
-        } else {
-            if (!game.everyoneSelectedPatternCard()) {
-                // We don't allow anyone to the game view until everyone has a patterncard
-                Alert alert = new Alert("Nog even wachten",
-                        "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
-                myScene.addAlertPane(alert);
+            if (player.getPatternCard() == null) {
+                viewOptionalPatternCards();
             } else {
-                viewGame();
+                if (!game.everyoneSelectedPatternCard()) {
+                    // We don't allow anyone to the game view until everyone has a patterncard
+                    Alert alert = new Alert("Nog even wachten",
+                            "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
+                    myScene.addAlertPane(alert);
+                } else {
+                    viewGame(false);
+                }
             }
-        }
+        });
+        Thread thread = new Thread(gpcopt);
+        thread.setName("Get patternCard of player");
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public void viewOptionalPatternCards() {
         Pane pane = new Pane();
         ArrayList<PatternCard> patternCards =
                 new PatternCardDao().getOptionalPatternCardsOfPlayer(player);
-        PatternCardSelectionView patternCardSelectionView = new PatternCardSelectionView(this);
-        patternCardSelectionView.setOptionalPatternCards(patternCards);
-        patternCardSelectionView.render();
-        pane.getChildren().add(patternCardSelectionView);
-        myScene.setContentPane(pane);
+        if (patternCards.size() == 4) {
+            PatternCardSelectionView patternCardSelectionView = new PatternCardSelectionView(this);
+            patternCardSelectionView.setOptionalPatternCards(patternCards);
+            patternCardSelectionView.render();
+            pane.getChildren().add(patternCardSelectionView);
+            myScene.setContentPane(pane);
+        }
+        else {
+            Alert alert = new Alert("Invite",
+                    "Nog een moment voordat je patterncard klaar is!", AlertType.INFO);
+            myScene.addAlertPane(alert);
+        }
     }
 
     public void actionSelectPatternCard(PatternCard patternCard) {
-        PlayerDao playerDao = new PlayerDao();
         player.setPatternCard(patternCard);
-        playerDao.updateSelectedPatternCard(player, patternCard);
-        player.assignFavorTokens();
-        Game game = player.getGame();
-        if (!game.everyoneSelectedPatternCard()) {
-            // We don't allow anyone to the game view until everyone has a patterncard
-            Alert alert = new Alert("Nog even wachten",
-                    "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
-            myScene.addAlertPane(alert);
-            myScene.getAccountController().viewLobby();
-        } else {
-            viewGame();
-        }
+        SetSelectedPatternCardOfPlayerTask sspcopt = new SetSelectedPatternCardOfPlayerTask(player, patternCard);
+        sspcopt.setOnSucceeded(e -> {
+            Game game = player.getGame();
+            if (!game.everyoneSelectedPatternCard()) {
+                // We don't allow anyone to the game view until everyone has a patterncard
+                Alert alert = new Alert("Nog even wachten",
+                        "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
+                myScene.addAlertPane(alert);
+            } else {
+                Alert alert = new Alert("Je kan starten!",
+                        "Iedereen heeft een patterncard gestart!", AlertType.INFO);
+                myScene.addAlertPane(alert);
+            } 
+        });
+        Thread thread = new Thread(sspcopt);
+        thread.setName("Set selected patternCard of player");
+        thread.setDaemon(true);
+        thread.start();
+        myScene.getAccountController().viewLobby();
     }
 
     /**
@@ -265,6 +304,10 @@ public class PlayerController {
      */
     public void actionPass() {
         if (player.isCurrentPlayer()) {
+            player.calculateScore(false, true);
+            if (player.getGame().getTurnPlayer() == null) {
+                player.getGame().setTurnPlayer(player);
+            }
             player.getGame().setNextPlayer();
             activeToolCard = null;
         } else {
@@ -332,7 +375,7 @@ public class PlayerController {
             myScene.addAlertPane(alert);
             return;
         }
-        if (player.hasUsedToolcardInCurrentRound()) {
+        if (player.hasUsedToolcardInCurrentTurn()) {
             Alert alert = new Alert("ToolCard",
                     "Je hebt al een toolcard gebruikt!",
                     AlertType.ERROR);
@@ -353,7 +396,7 @@ public class PlayerController {
             if (newFavorTokens.size() > 0) {
                 if (!toolCard.hasBeenPaidForBefore()) {
                     favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                            player.getGame());
+                            player.getGame(), player);
                     newFavorTokens.remove(0);
                     player.setFavorTokens(newFavorTokens);
                     toolCard.setHasBeenPaidForBefore(true);
@@ -363,7 +406,7 @@ public class PlayerController {
                     if (newFavorTokens.size() > 1) {
                         for (int i = 1; i <= 2; i++) {
                             favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                                    player.getGame());
+                                    player.getGame(), player);
                             newFavorTokens.remove(0);
                             toolCardView.addFavorToken(player.getPlayerColor());
                             // Here is the favor token added
@@ -435,6 +478,7 @@ public class PlayerController {
     public void viewEndgame() {
         Game game = player.getGame();
         Player winPlayer = game.getPlayerWithBestScore();
+        
         Pane pane = new Pane();
         EndgameView endgameView = new EndgameView(game, this, winPlayer);
         endgameView.render();

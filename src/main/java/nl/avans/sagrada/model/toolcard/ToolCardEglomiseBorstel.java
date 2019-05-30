@@ -35,6 +35,7 @@ public class ToolCardEglomiseBorstel extends ToolCard {
                     return null;
                 }
             }
+            die.setInFirstTurn(player.isFirstTurn());
             playerFrameFieldDao.removeDie(die, removeDieField, player);
             removeDieField.setDie(null);
             die.setPatternCardField(targetField);
