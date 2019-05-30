@@ -1,7 +1,6 @@
 package nl.avans.sagrada.task;
 
 import java.util.ArrayList;
-
 import javafx.concurrent.Task;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.model.Game;

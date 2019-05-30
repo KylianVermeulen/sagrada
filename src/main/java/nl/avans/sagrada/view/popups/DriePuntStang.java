@@ -18,7 +18,6 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.view.DieView;
 import nl.avans.sagrada.view.MyScene;
-
 import java.util.ArrayList;
 
 public class DriePuntStang extends Popup {

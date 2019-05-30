@@ -77,7 +77,6 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
             
             CalculateScoreTask cst = new CalculateScoreTask(player);
             cst.setWithPrivateScore(endGame);
-            
             cst.setOnSucceeded(e -> {
                 playerScore.setText("" + cst.getValue());
                 playerScore.setFont(SCORE_LINE_FONT);
