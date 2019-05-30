@@ -8,6 +8,7 @@ import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
+import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
 
 public class Player {
     public static final String STATUS_ABORT = "afgebroken";
@@ -184,6 +185,11 @@ public class Player {
         PatternCardDao PatternCardDao = new PatternCardDao();
         patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(this);
         return patternCard;
+    }
+    
+    public GetPatternCardOfPlayerTask getPatternCardTask() {
+        GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(this);
+        return gpcopt;
     }
 
     /**
