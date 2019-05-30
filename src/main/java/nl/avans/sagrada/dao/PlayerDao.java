@@ -204,16 +204,17 @@ public class PlayerDao {
      * @param player The player.
      * @return Boolean
      */
-    public boolean hasUsedToolCardInTurnRound(Player player) {
+    public boolean hasUsedToolCardInTurn(Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN game g on gamefavortoken.idgame = g.idgame WHERE gametoolcard IS NOT NULL AND seqnr=? AND p.idplayer=? AND round=?",
+                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN game g on gamefavortoken.idgame = g.idgame WHERE gametoolcard IS NOT NULL AND seqnr=? AND p.idplayer=? AND round=? AND inFirstTurn=?",
                             "query"
                     ),
                     new QueryParameter(QueryParameter.INT, player.getSeqnr()),
                     new QueryParameter(QueryParameter.INT, player.getId()),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getRound())
+                    new QueryParameter(QueryParameter.INT, player.getGame().getRound()),
+                    new QueryParameter(QueryParameter.BOOLEAN, player.isFirstTurn())
             );
             if (rs.next()) {
                 rs.close();

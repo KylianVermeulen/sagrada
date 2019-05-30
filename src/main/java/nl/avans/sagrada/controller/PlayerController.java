@@ -365,7 +365,7 @@ public class PlayerController {
             myScene.addAlertPane(alert);
             return;
         }
-        if (player.hasUsedToolcardInCurrentRound()) {
+        if (player.hasUsedToolcardInCurrentTurn()) {
             Alert alert = new Alert("ToolCard",
                     "Je hebt al een toolcard gebruikt!",
                     AlertType.ERROR);
@@ -386,7 +386,7 @@ public class PlayerController {
             if (newFavorTokens.size() > 0) {
                 if (!toolCard.hasBeenPaidForBefore()) {
                     favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                            player.getGame());
+                            player.getGame(), player);
                     newFavorTokens.remove(0);
                     player.setFavorTokens(newFavorTokens);
                     toolCard.setHasBeenPaidForBefore(true);
@@ -396,7 +396,7 @@ public class PlayerController {
                     if (newFavorTokens.size() > 1) {
                         for (int i = 1; i <= 2; i++) {
                             favorTokenDao.setFavortokensForToolCard(newFavorTokens.get(0), toolCard,
-                                    player.getGame());
+                                    player.getGame(), player);
                             newFavorTokens.remove(0);
                             toolCardView.addFavorToken(player.getPlayerColor());
                             // Here is the favor token added

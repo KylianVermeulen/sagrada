@@ -475,11 +475,12 @@ public class Player {
     
     /**
      * Checks if a players has already used a toolcard
+     * In the turn
      * @return boolean
      */
-    public boolean hasUsedToolcardInCurrentRound() {
+    public boolean hasUsedToolcardInCurrentTurn() {
         PlayerDao playerDao = new PlayerDao();
-        if (playerDao.hasUsedToolCardInTurnRound(this)) {
+        if (playerDao.hasUsedToolCardInTurn(this)) {
             return true;
         }
         else {
