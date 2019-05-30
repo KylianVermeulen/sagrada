@@ -69,7 +69,7 @@ public class InviteDao {
     private boolean hasFourOptionalPatternCards(Player player) {
         try {
             ResultSet rs = dbConnection
-                    .executeQuery(new Query("SELECT COUNT(*) AS number_of_patterncard WHERE player_idplayer=?", "query",
+                    .executeQuery(new Query("SELECT COUNT(*) AS number_of_patterncard FROM patterncardoption WHERE player_idplayer=?", "query",
                             new QueryParameter(QueryParameter.INT, player.getId()))
             );
             if (rs.next()) {
@@ -80,7 +80,7 @@ public class InviteDao {
             }
             rs.close();
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         return false;
     }

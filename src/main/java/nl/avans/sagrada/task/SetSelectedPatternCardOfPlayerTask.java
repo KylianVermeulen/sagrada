@@ -18,6 +18,7 @@ public class SetSelectedPatternCardOfPlayerTask extends Task<Void> {
     protected Void call() throws Exception {
         PlayerDao playerDao = new PlayerDao();
         playerDao.updateSelectedPatternCard(player, patternCard);
+        player.assignFavorTokens();
         return null;
     }
 
