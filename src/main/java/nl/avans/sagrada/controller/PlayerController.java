@@ -77,7 +77,7 @@ public class PlayerController {
      * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
      */
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
-            GameDie gameDie, MouseEvent event) {
+        GameDie gameDie, MouseEvent event) {
         PlayerDao playerDao = new PlayerDao();
         Player playerEvent = patternCard.getPlayer();
 
@@ -114,7 +114,7 @@ public class PlayerController {
 
                                 UpdatePlayerFrameFieldTask upfft = new UpdatePlayerFrameFieldTask(gameDie, patternCardField, playerEvent);
                                 upfft.setOnSucceeded(e -> {
-                                    player.calculateScore(false, true);
+                                    player.calculateScore(false, false);
                                     UpdateDieTask udt = new UpdateDieTask(player.getGame(), gameDie);
                                     Thread updateGameTread = new Thread(udt);
                                     updateGameTread.setDaemon(true);
@@ -297,6 +297,7 @@ public class PlayerController {
      */
     public void actionPass() {
         if (player.isCurrentPlayer()) {
+            player.calculateScore(false, true);
             player.getGame().setNextPlayer();
             activeToolCard = null;
         } else {
