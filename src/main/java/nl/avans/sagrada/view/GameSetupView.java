@@ -179,5 +179,11 @@ public class GameSetupView extends VBox implements ViewInterface {
 
         bottomButtonPane.getChildren().addAll(startButton, backButton);
     }
-
+    
+    /**
+     * Enables the start button inside the Setup View.
+     */
+    public void enableStartButton() {
+        startButton.setDisable(false);
+    }
 }

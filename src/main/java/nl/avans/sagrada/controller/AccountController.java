@@ -31,6 +31,7 @@ import nl.avans.sagrada.view.popups.Stats;
 public class AccountController {
     private Account account;
     private MyScene myScene;
+    private GameSetupView gameSetupView;
 
     public AccountController(MyScene myScene) {
         this.myScene = myScene;
@@ -209,6 +210,7 @@ public class AccountController {
 
         Pane pane = new Pane();
         GameSetupView gameSetupView = new GameSetupView(this, accounts, game);
+        this.gameSetupView = gameSetupView;
         gameSetupView.render();
 
         pane.getChildren().add(gameSetupView);
@@ -235,12 +237,14 @@ public class AccountController {
             Alert alert = new Alert("Invites niet verstuurd", "Te weinig accounts geselecteerd",
                     AlertType.ERROR);
             myScene.addAlertPane(alert);
+            gameSetupView.enableStartButton();
             return;
         }
         if (invitedAccounts.size() > 3) {
             Alert alert = new Alert(
                     "Invites niet verstuurd", "Te veel accounts geselecteerd", AlertType.ERROR);
             myScene.addAlertPane(alert);
+            gameSetupView.enableStartButton();
             return;
         }
 
@@ -250,6 +254,7 @@ public class AccountController {
                         "Account: " + invitedAccount.getUsername() + " heeft al een invite";
                 Alert alert = new Alert("Al een active invite", subMessage, AlertType.ERROR);
                 myScene.addAlertPane(alert);
+                gameSetupView.enableStartButton();
                 return;
             }
         }
