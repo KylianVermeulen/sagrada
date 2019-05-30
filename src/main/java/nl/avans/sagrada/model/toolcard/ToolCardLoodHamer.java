@@ -31,6 +31,7 @@ public class ToolCardLoodHamer extends ToolCard {
             Player player = patternCard.getPlayer();
 
             if (patternCardField.canPlaceDie(die)) {
+                die.setInFirstTurn(player.isFirstTurn());
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
                 playerFrameFieldDao.addDieToField(die, patternCardField, player);
