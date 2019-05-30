@@ -165,8 +165,7 @@ public class GameView extends VBox implements ViewInterface {
                 publicObjectiveCardView.render();
                 this.publicObjectiveCardView.getChildren().add(publicObjectiveCardView);
             } 
-        });
-        
+        }); 
         Thread thread = new Thread(gpoct);
         thread.setName("Get public objective card");
         thread.setDaemon(true);
@@ -176,7 +175,6 @@ public class GameView extends VBox implements ViewInterface {
     private void buildChatLine() {
         ArrayList<Chatline> chatLines = game.getChatlines();
         chatLineView = new ChatLineView(playerController);
-
         chatLineView.setChatLines(chatLines);
         chatLineView.render();
     }
