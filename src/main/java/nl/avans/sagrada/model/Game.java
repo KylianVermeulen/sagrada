@@ -9,7 +9,9 @@ import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PatternCardFieldDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.toolcard.ToolCard;
@@ -316,6 +318,9 @@ public class Game {
                 optionalPatternCards.remove(randomInt);
             }
             player.setOptionalPatternCards(optionalPatternCardsPlayer);
+            PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+            PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
+            playerFrameFieldDao.addPatternCardFields(patternCardFieldDao.getPatternCardFieldsOfPatterncard(optionalPatternCardsPlayer.get(0)), optionalPatternCardsPlayer.get(0), player);
         }
     }
 

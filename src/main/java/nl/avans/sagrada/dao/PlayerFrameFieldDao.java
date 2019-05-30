@@ -65,7 +65,7 @@ public class PlayerFrameFieldDao {
                             "update"),
                     new QueryParameter(QueryParameter.INT, die.getNumber()),
                     new QueryParameter(QueryParameter.STRING, die.getColor()),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getId()),
+                    new QueryParameter(QueryParameter.INT, player.getId()),
                     new QueryParameter(QueryParameter.INT, patterncardfield.getyPos()),
                     new QueryParameter(QueryParameter.INT, patterncardfield.getxPos()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getId())
@@ -115,6 +115,13 @@ public class PlayerFrameFieldDao {
         }
     }
 
+    /**
+     * Generates all empty playerframefields for a player. 
+     * 
+     * @param patternCardFields ArrayList
+     * @param patternCard PatternCard
+     * @param player Player
+     */
     public void addPatternCardFields(ArrayList<PatternCardField> patternCardFields,
             PatternCard patternCard, Player player) {
         List<QueryParameter[]> queryParametersList = new ArrayList<>();

@@ -245,10 +245,7 @@ public class PlayerController {
 
     public void actionSelectPatternCard(PatternCard patternCard) {
         PlayerDao playerDao = new PlayerDao();
-        PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-        PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
         player.setPatternCard(patternCard);
-        playerFrameFieldDao.addPatternCardFields(patternCardFieldDao.getPatternCardFieldsOfPatterncard(patternCard), patternCard, player);
         playerDao.updateSelectedPatternCard(player, patternCard);
         player.assignFavorTokens();
         Game game = player.getGame();
