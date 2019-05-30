@@ -88,7 +88,7 @@ public class PlayerController {
                         PatternCard toolCardUseResult = activeToolCard
                                 .handleDrag(event, gameDie);
                         if (toolCardUseResult != null) {
-                            new GameDieDao().updateDie(player.getGame(), gameDie);
+                            viewGame(false);
                             if (activeToolCard.getIsDone()) {
                                 gameDie.setInFirstTurn(player.isFirstTurn());
                                 activeToolCard = null;
@@ -203,7 +203,7 @@ public class PlayerController {
             game.getPlayers().get(i).setPlayerColor(i);
         }
 
-        if (player.isCurrentPlayer()) {
+        if (player.isCurrentPlayer() && cameHereByRefresh) {
             game.setTurnPlayer(player);
             Alert alert = new Alert("Speel je beurt", "Je bent nu aan de beurt!", AlertType.SUCCES);
             myScene.addAlertPane(alert);
