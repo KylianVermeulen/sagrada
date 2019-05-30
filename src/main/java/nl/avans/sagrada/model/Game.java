@@ -583,7 +583,6 @@ public class Game {
      * Finishes a game by changing the status of all players
      */
     public void finishGame() {
-        Player startPlayer = getPlayers().get(0);
         ArrayList<Player> players = getPlayers();
         PlayerDao playerDao = new PlayerDao();
         for (Player player : players) {
