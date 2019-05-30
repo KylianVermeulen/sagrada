@@ -29,5 +29,4 @@ public class UpdatePlayerFrameFieldTask extends Task<Void> {
         playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
         return null;
     }
-
 }

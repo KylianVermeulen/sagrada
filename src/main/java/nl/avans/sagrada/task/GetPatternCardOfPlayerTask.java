@@ -22,5 +22,4 @@ public class GetPatternCardOfPlayerTask extends Task<PatternCard> {
         PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
         return patternCard;
     }
-
 }

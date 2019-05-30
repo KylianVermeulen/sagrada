@@ -28,5 +28,4 @@ public class GetFavorTokensOfToolCardTask extends Task<ArrayList<FavorToken>> {
         ArrayList<FavorToken> favorTokens = favorTokenDao.getToolCardTokens(toolCard, game);
         return favorTokens;
     }
-
 }

@@ -30,5 +30,4 @@ public class CalculateScoreTask extends Task<Integer> {
         int score = player.calculateScore(withPrivateScore, false);
         return new Integer(score);
     }
-
 }

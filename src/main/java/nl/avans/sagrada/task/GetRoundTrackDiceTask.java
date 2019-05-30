@@ -23,5 +23,4 @@ public class GetRoundTrackDiceTask extends Task<ArrayList<GameDie>> {
         ArrayList<GameDie> dice = new GameDieDao().getDiceOnRoundTrackFromGame(game);
         return dice;
     }
-
 }

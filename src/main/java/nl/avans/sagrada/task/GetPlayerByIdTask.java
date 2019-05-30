@@ -19,5 +19,4 @@ public class GetPlayerByIdTask extends Task<Player> {
     protected Player call() throws Exception {
         return new PlayerDao().getPlayerById(playerId);
     }
-
 }

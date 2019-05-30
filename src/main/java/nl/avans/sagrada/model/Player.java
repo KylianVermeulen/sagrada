@@ -353,6 +353,9 @@ public class Player {
     /**
      * Calculate the score for this player. Gets -1 score for each empty pattern card field. Gets +1
      * score for each favor token. Gets rewardScore for each public objective card.
+     * @param privateObjectiveCard
+     * @param updateInDatabase
+     * @return int score
      */
     public int calculateScore(boolean privateObjectiveCard, boolean updateInDatabase) {
         if (patternCard == null) {

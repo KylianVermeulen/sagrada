@@ -14,5 +14,4 @@ public class AllAccountsTask extends Task<ArrayList<Account>> {
         ArrayList<Account> accounts = accountDao.getAllAccounts();
         return accounts;
     }
-
 }

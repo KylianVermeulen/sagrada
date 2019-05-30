@@ -24,5 +24,4 @@ public class GetPublicObjectiveCardTask extends Task<PublicObjectiveCard[]> {
                 .toArray(new PublicObjectiveCard[3]);
         return publicObjectiveCards;
     }
-
 }

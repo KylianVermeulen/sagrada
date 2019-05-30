@@ -21,5 +21,4 @@ public class GetFavorTokensTask extends Task<ArrayList<FavorToken>> {
     protected ArrayList<FavorToken> call() throws Exception {
         return player.getFavorTokens();
     }
-
 }

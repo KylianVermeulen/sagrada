@@ -26,5 +26,4 @@ public class SetSelectedPatternCardOfPlayerTask extends Task<Void> {
         player.assignFavorTokens();
         return null;
     }
-
 }

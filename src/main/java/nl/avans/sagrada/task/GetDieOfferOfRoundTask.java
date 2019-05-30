@@ -23,5 +23,4 @@ public class GetDieOfferOfRoundTask extends Task<ArrayList<GameDie>> {
     protected ArrayList<GameDie> call() throws Exception {
         return new GameDieDao().getAvailableDiceOfRound(game);
     }
-
 }
