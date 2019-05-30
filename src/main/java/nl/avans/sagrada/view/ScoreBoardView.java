@@ -85,6 +85,7 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
                 playerLine.setAlignment(Pos.CENTER);
             });
             Thread thread = new Thread(cst);
+            thread.setName("Calculate score");
             thread.setDaemon(true);
             thread.start();
             scoreLines.add(i, playerLine);

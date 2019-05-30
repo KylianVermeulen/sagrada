@@ -392,6 +392,7 @@ public class Player {
         if (updateInDatabase) {
             UpdateScoreTask ust = new UpdateScoreTask(this);
             Thread thread = new Thread(ust);
+            thread.setName("Update player score");
             thread.start();   
         }
         return score;

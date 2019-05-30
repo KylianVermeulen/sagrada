@@ -122,6 +122,7 @@ public class PlayerController {
                                     updateGameTread.start();
                                 });
                                 Thread thread = new Thread(upfft);
+                                thread.setName("Update PlayerFrameField thread");
                                 thread.setDaemon(true);
                                 thread.start();
                             }
@@ -251,6 +252,7 @@ public class PlayerController {
             }
         });
         Thread thread = new Thread(gpcopt);
+        thread.setName("Get patternCard of player");
         thread.setDaemon(true);
         thread.start();
     }
@@ -290,6 +292,7 @@ public class PlayerController {
             } 
         });
         Thread thread = new Thread(sspcopt);
+        thread.setName("Set selected patternCard of player");
         thread.setDaemon(true);
         thread.start();
         myScene.getAccountController().viewLobby();

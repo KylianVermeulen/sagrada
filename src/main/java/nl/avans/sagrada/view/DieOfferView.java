@@ -45,6 +45,7 @@ public class DieOfferView extends TilePane implements ViewInterface {
             } 
         });
         Thread thread = new Thread(gdoort);
+        thread.setName("Get die offer of round");
         thread.setDaemon(true);
         thread.start();
     }

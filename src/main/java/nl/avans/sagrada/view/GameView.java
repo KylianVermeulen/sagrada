@@ -100,6 +100,7 @@ public class GameView extends VBox implements ViewInterface {
                 } 
             });
             Thread thread = new Thread(gpcopt);
+            thread.setName("Get patternCard of Player");
             thread.setDaemon(true);
             thread.start();
         }
@@ -123,6 +124,7 @@ public class GameView extends VBox implements ViewInterface {
                 toolCardsView.getChildren().add(toolCardView);
             });
             Thread thread = new Thread(gftotct);
+            thread.setName("Get favortokens of ToolCard");
             thread.setDaemon(true);
             thread.start();
         }
@@ -143,6 +145,7 @@ public class GameView extends VBox implements ViewInterface {
             roundTrackView.render();
         });
         Thread thread = new Thread(grtdt);
+        thread.setName("Get roundtrack dice");
         thread.setDaemon(true);
         thread.start();
     }
@@ -165,6 +168,7 @@ public class GameView extends VBox implements ViewInterface {
         });
         
         Thread thread = new Thread(gpoct);
+        thread.setName("Get public objective card");
         thread.setDaemon(true);
         thread.start();
     }
@@ -193,6 +197,7 @@ public class GameView extends VBox implements ViewInterface {
             balance.setText("Betaalstenen: " + favorTokens.size());
         });
         Thread thread = new Thread(gftt);
+        thread.setName("Get favortokens");
         thread.setDaemon(true);
         thread.start();
         balance.setPadding(new Insets(0, 0, 0, 5));
@@ -214,6 +219,7 @@ public class GameView extends VBox implements ViewInterface {
             playerPatternCardView.render();
         });
         Thread thread = new Thread(gpcopt);
+        thread.setName("Get patternCard of player");
         thread.setDaemon(true);
         thread.start();
     }
