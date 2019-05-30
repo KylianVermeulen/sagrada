@@ -113,13 +113,13 @@ public class PlayerController {
 
                                 UpdatePlayerFrameFieldTask upfft = new UpdatePlayerFrameFieldTask(gameDie, patternCardField, playerEvent);
                                 upfft.setOnSucceeded(e -> {
+                                    gameView.renderDieOfferView();
                                     player.calculateScore(false, false);
                                     UpdateDieTask udt = new UpdateDieTask(player.getGame(), gameDie);
                                     Thread updateGameTread = new Thread(udt);
                                     updateGameTread.setDaemon(true);
                                     updateGameTread.setName("Update gamedie thread");
                                     updateGameTread.start();
-                                    gameView.renderDieOfferView();
                                 });
                                 Thread thread = new Thread(upfft);
                                 thread.setDaemon(true);
