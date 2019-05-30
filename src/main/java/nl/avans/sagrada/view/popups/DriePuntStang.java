@@ -1,4 +1,4 @@
-package nl.avans.sagrada.view;
+package nl.avans.sagrada.view.popups;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,9 +16,9 @@ import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.toolcard.ToolCard;
-import nl.avans.sagrada.view.popups.Alert;
-import nl.avans.sagrada.view.popups.AlertType;
-import nl.avans.sagrada.view.popups.Popup;
+import nl.avans.sagrada.view.DieView;
+import nl.avans.sagrada.view.MyScene;
+
 import java.util.ArrayList;
 
 public class DriePuntStang extends Popup {
@@ -176,7 +176,7 @@ public class DriePuntStang extends Popup {
                         activeToolCard.setIsDone(true);
                         activeToolCard = null;
                         playerController.setActiveToolCardNull();
-                        playerController.viewGame();
+                        playerController.viewGame(false);
                         return;
                     } else {
                         Alert alert = new Alert("Helaas", "Deze dobbelsteen kan niet in waarde verhoogd worden", AlertType.ERROR);
@@ -203,7 +203,7 @@ public class DriePuntStang extends Popup {
                         myScene.removePopupPane();
                         activeToolCard.setIsDone(true);
                         playerController.setActiveToolCardNull();
-                        playerController.viewGame();
+                        playerController.viewGame(false);
                         return;
                     } else {
                         Alert alert = new Alert("Helaas", "Deze dobbelsteen kan niet in waarde verlaagd worden", AlertType.ERROR);

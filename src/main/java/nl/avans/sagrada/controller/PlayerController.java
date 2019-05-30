@@ -31,7 +31,6 @@ import nl.avans.sagrada.task.SetSelectedPatternCardOfPlayerTask;
 import nl.avans.sagrada.task.UpdateDieTask;
 import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.ChatLineView;
-import nl.avans.sagrada.view.DriePuntStang;
 import nl.avans.sagrada.view.EndgameView;
 import nl.avans.sagrada.view.GameView;
 import nl.avans.sagrada.view.MyScene;
@@ -40,6 +39,7 @@ import nl.avans.sagrada.view.PatternCardSelectionView;
 import nl.avans.sagrada.view.ToolCardView;
 import nl.avans.sagrada.view.popups.Alert;
 import nl.avans.sagrada.view.popups.AlertType;
+import nl.avans.sagrada.view.popups.DriePuntStang;
 import nl.avans.sagrada.view.popups.Fluxborstel;
 import nl.avans.sagrada.view.popups.Fluxverwijderaar;
 
@@ -181,10 +181,19 @@ public class PlayerController {
         }
     }
 
-    public void viewGame() {
+    /**
+     * Views the game
+     * If this method is called by the checksum class we need to add true
+     * To the db
+     * @param cameHereByRefresh
+     */
+    public void viewGame(boolean cameHereByRefresh) {
         // Refresh game & player object
+        int gameId = player.getGame().getId();
+        if (cameHereByRefresh) {
+            player = new PlayerDao().getPlayerById(player.getId());
+        }
         player.getAccount().setAccountStatus(AccountStatus.GAME);
-        int gameId = player.getGame().getId();        
         Game game = new GameDao().getGameById(gameId);
         player.setGame(game);
 
@@ -235,7 +244,7 @@ public class PlayerController {
                             "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
                     myScene.addAlertPane(alert);
                 } else {
-                    viewGame();
+                    viewGame(false);
                 }
             }
         });
@@ -273,7 +282,7 @@ public class PlayerController {
                 myScene.addAlertPane(alert);
                 myScene.getAccountController().viewLobby();
             } else {
-                viewGame();
+                viewGame(false);
             } 
         });
         Thread thread = new Thread(sspcopt);

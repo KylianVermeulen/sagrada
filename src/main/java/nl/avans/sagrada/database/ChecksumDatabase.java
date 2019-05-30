@@ -15,7 +15,6 @@ public class ChecksumDatabase {
     private boolean refreshed;
     private String checksumPlayer;
     private String checksumChat;
-    private String checksumPlayerFrameField;
 
     public ChecksumDatabase(AccountController accountController,
             PlayerController playerController) {
@@ -90,14 +89,11 @@ public class ChecksumDatabase {
                         == AccountStatus.GAME) {
                     if (playerController.getPlayer().getGame() != null) {
                         if (playerController.getPlayer().getGame().everyoneSelectedPatternCard()) {
-                            playerController.viewGame();
+                            playerController.viewGame(true);
                         }
                     }
                 }
             }
-        }
-        else {
-            System.out.println("We already did our refresh!");
         }
     }
 
@@ -108,7 +104,7 @@ public class ChecksumDatabase {
         if (!refreshed) {
             if (accountController.getAccount() != null) {
                 if (accountController.getAccount().getAccountStatus() == AccountStatus.GAME) {
-                    playerController.viewGame();
+                    playerController.viewGame(true);
                     refreshed = true;
                 }
             }
