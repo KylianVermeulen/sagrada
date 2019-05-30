@@ -209,8 +209,7 @@ public class AccountController {
         ArrayList<Account> accounts = accountDao.getAllInviteableAccounts(account);
 
         Pane pane = new Pane();
-        GameSetupView gameSetupView = new GameSetupView(this, accounts, game);
-        this.gameSetupView = gameSetupView;
+        gameSetupView = new GameSetupView(this, accounts, game);
         gameSetupView.render();
 
         pane.getChildren().add(gameSetupView);
