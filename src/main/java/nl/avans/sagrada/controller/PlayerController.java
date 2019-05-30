@@ -300,6 +300,9 @@ public class PlayerController {
     public void actionPass() {
         if (player.isCurrentPlayer()) {
             player.calculateScore(false, true);
+            if (player.getGame().getTurnPlayer() == null) {
+                player.getGame().setTurnPlayer(player);
+            }
             player.getGame().setNextPlayer();
             activeToolCard = null;
         } else {
