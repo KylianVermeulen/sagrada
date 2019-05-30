@@ -56,7 +56,7 @@ public class PatternCardDao {
      */
     public void addPatterncard(PatternCard patterncard) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query(
                             "INSERT INTO patterncard (idpatterncard, difficulty, standard) VALUES (?, ?, ?)",
                             "update"),
@@ -110,7 +110,7 @@ public class PatternCardDao {
             Player player) {
         for (PatternCard patternCard : optionalPatterncards) {
             try {
-                ResultSet rs = dbConnection.executeQuery(
+                dbConnection.executeQuery(
                         new Query(
                                 "INSERT INTO patterncardoption (patterncard_idpatterncard, player_idplayer) VALUES (?, ?)",
                                 "update"),

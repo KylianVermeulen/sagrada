@@ -34,6 +34,7 @@ public class ToolCardFolieAandrukker extends ToolCard {
             if (!patternCardField.hasDie() && patternCard
                     .checkSidesColor(patternCardField, die.getColor(), true) && patternCard
                     .isNextToDie(patternCardField)) {
+                die.setInFirstTurn(player.isFirstTurn());
                 removeDieField.setDie(null);
                 playerFrameFieldDao.removeDie(die, removeDieField, player);
 

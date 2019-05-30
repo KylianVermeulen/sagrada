@@ -45,7 +45,6 @@ public class PlayerFrameFieldDao {
             }
             rs.close();
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
         return die;
@@ -56,7 +55,7 @@ public class PlayerFrameFieldDao {
      */
     public void updateDieLocation(GameDie die, PatternCardField patterncardfield, Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query(
                             "UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=?",
                             "update"),
@@ -77,7 +76,7 @@ public class PlayerFrameFieldDao {
      */
     public void addDieToField(GameDie die, PatternCardField patternCardField, Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                     "INSERT INTO playerframefield (player_idplayer, position_x, position_y, idgame, dienumber, diecolor) VALUES (?, ?, ?, ?, ?, ?)",
                     "update",
                     new QueryParameter(QueryParameter.INT, player.getId()),
@@ -98,7 +97,7 @@ public class PlayerFrameFieldDao {
      */
     public void removeDie(GameDie die, PatternCardField patternCardField, Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query(
                             "DELETE FROM playerframefield WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=?",
                             "update"),
