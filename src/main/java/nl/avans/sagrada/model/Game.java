@@ -584,14 +584,12 @@ public class Game {
      */
     public void finishGame() {
         Player startPlayer = getPlayers().get(0);
-        if (startPlayer.getId() == turnPlayer.getId()) {
-            ArrayList<Player> players = getPlayers();
-            PlayerDao playerDao = new PlayerDao();
-            for (Player player : players) {
-                player.setPlayerStatus("uitgespeeld");
-                player.setScore(player.calculateScore(true, true));
-                playerDao.updatePlayer(player);
-            }
+        ArrayList<Player> players = getPlayers();
+        PlayerDao playerDao = new PlayerDao();
+        for (Player player : players) {
+            player.setPlayerStatus("uitgespeeld");
+            player.setScore(player.calculateScore(true, true));
+            playerDao.updatePlayer(player);
         }
     }
 
