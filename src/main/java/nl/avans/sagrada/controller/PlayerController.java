@@ -114,6 +114,7 @@ public class PlayerController {
                                 UpdatePlayerFrameFieldTask upfft = new UpdatePlayerFrameFieldTask(gameDie, patternCardField, playerEvent);
                                 upfft.setOnSucceeded(e -> {
                                     UpdateDieTask udt = new UpdateDieTask(player.getGame(), gameDie);
+                                    System.out.println("new TASK");
                                     Thread updateGameTread = new Thread(udt);
                                     updateGameTread.setDaemon(true);
                                     updateGameTread.setName("Update gamedie thread");

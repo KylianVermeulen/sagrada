@@ -70,6 +70,7 @@ public class PlayerFrameFieldDao {
                     new QueryParameter(QueryParameter.INT, patterncardfield.getxPos()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getId())
             );
+            System.out.println("update in DAO");
         } catch (SQLException e) {
             e.printStackTrace();
         }

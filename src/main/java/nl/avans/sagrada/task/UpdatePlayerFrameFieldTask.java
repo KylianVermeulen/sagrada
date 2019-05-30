@@ -20,7 +20,8 @@ public class UpdatePlayerFrameFieldTask extends Task<Void> {
     @Override
     protected Void call() throws Exception {
         PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
-        playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
+        playerFrameFieldDao.updateDieLocation(gameDie, patternCardField, player);
+        System.out.println("update in TASK");
         return null;
     }
 
