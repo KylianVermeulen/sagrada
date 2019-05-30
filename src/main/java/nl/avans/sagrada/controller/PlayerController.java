@@ -192,10 +192,12 @@ public class PlayerController {
         int gameId = player.getGame().getId();
         if (cameHereByRefresh) {
             player = new PlayerDao().getPlayerById(player.getId());
+            Game game = new GameDao().getGameById(gameId);
+            player.setGame(game);
         }
+        Game game = player.getGame();
         player.getAccount().setAccountStatus(AccountStatus.GAME);
-        Game game = new GameDao().getGameById(gameId);
-        player.setGame(game);
+
 
         for (int i = 0; i < game.getPlayers().size(); i++) {
             game.getPlayers().get(i).setPlayerColor(i);
