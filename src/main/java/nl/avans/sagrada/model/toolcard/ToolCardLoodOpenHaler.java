@@ -37,6 +37,7 @@ public class ToolCardLoodOpenHaler extends ToolCard {
 
         if (patternCardField.canPlaceDie(die) && die.getPatternCardField() != null) {
             // If the new location matches the new requirements we can make those changes
+            die.setInFirstTurn(player.isFirstTurn());
             removeDieField.setDie(null);
             playerFrameFieldDao.removeDie(die, removeDieField, player);
 

@@ -1,7 +1,5 @@
 package nl.avans.sagrada.model;
 
-import java.util.ArrayList;
-
 public class RoundTrackField {
     private GameDie[] gameDies;
 
