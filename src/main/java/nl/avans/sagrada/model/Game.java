@@ -451,31 +451,30 @@ public class Game {
      * database.
      */
     public void setNextPlayer() {
-        if (turnPlayer == null) {
-            GameDao gameDao = new GameDao();
-            Game game = gameDao.getGameById(getId());
-            turnPlayer = game.getTurnPlayer();
-        }
+        PlayerDao playerDao = new PlayerDao();
         Player currentPlayer = turnPlayer;
         int oldSeqnr = currentPlayer.getSeqnr();
-        currentPlayer.setNextSeqnr();
+        if (!currentPlayer.usedToolCardThatNeedsSkipNextTurn()) {
+            currentPlayer.setNextSeqnr();
+        }
 
-        for (int i = 0; i < players.size(); i++) {
-            Player playerNextTurn = players.get(i);
-            if (oldSeqnr < (players.size() * 2)) {
-                if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
-                    if (currentPlayer.getId() != playerNextTurn.getId()) {
-                        updatePlayer(currentPlayer, playerNextTurn);
-                    }
+        boolean finished = false;
+        while (!finished) {
+            oldSeqnr++;
+            if (oldSeqnr <= (players.size() * 2)) {
+                Player playerNextTurn = playerDao.getPlayerBySeqnrByGame(this, oldSeqnr);
+                if (playerNextTurn != null) {
+                    updatePlayer(currentPlayer, playerNextTurn);
+                    finished = true;
                 }
             } else {
-                if (currentPlayer.getId() != playerNextTurn.getId()) {
-                    updatePlayer(playerNextTurn, currentPlayer);
-                    // The player next turn contains seqnr 2
-                    // So we switch those 2
-
-                    nextRound();
+                oldSeqnr = 1;
+                Player playerNextTurn = playerDao.getPlayerBySeqnrByGame(this, oldSeqnr);
+                if (playerNextTurn != null) {
+                    updatePlayer(currentPlayer, playerNextTurn);
+                    finished = true;
                 }
+                nextRound();
             }
         }
     }
