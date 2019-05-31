@@ -86,7 +86,8 @@ public class InviteDao {
             game.setPlayers(gameDao.getPlayersOfGame(game));
             String privateObjectiveColor = game.getRandomAvailablePrivateColor();
             int seqNr = this.getSeqNrForNextPlayer(game);
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            
+            dbConnection.executeQuery(new Query(
                     "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, patterncard_idpatterncard, score) VALUES (?, ?, ?, ?, ?, '0', ?, NULL, NULL);",
                     "update"), new QueryParameter(QueryParameter.INT, nextPlayerId),
                     new QueryParameter(QueryParameter.STRING, username),
@@ -121,7 +122,7 @@ public class InviteDao {
     public void updateInvite(Invite invite) {
         int playerId = invite.getPlayer().getId();
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query("UPDATE player SET playstatus_playstatus=?  WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.STRING, invite.getStatus()),

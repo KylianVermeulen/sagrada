@@ -140,7 +140,7 @@ public class Fluxverwijderaar extends Popup {
         GameDieDao gameDieDao = new GameDieDao();
         gameDieDao.updateDieEyes(game, gameDie);
         showDie(gameDie);
-        playerController.viewGame();
+        playerController.viewGame(false);
     }
 
     /**

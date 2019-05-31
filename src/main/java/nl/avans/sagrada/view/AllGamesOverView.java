@@ -16,7 +16,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
-import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
@@ -25,15 +24,13 @@ public class AllGamesOverView extends ScrollPane implements ViewInterface {
     private final int PANE_HEIGHT = Main.SCREEN_HEIGHT / 2 - 70;
     private final int LABEL_WIDTH = 90;
     private ArrayList<Game> games;
-    private AccountController accountController;
 
     /**
      * Partial constructor
      *
      * @param accountController AccountController
      */
-    public AllGamesOverView(AccountController accountController) {
-        this.accountController = accountController;
+    public AllGamesOverView() {
         String css = this.getClass().getResource("/css/lobbyview.css").toExternalForm();
         getStylesheets().add(css);
         setPrefSize(PANE_WIDTH, PANE_HEIGHT);

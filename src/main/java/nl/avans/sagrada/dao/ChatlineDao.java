@@ -31,7 +31,7 @@ public class ChatlineDao {
         Timestamp timeStamp = chatline.getTimestamp();
         String message = chatline.getMessage();
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query(
                             "INSERT INTO chatline(player_idplayer, time, message) VALUES (?, ?, ?)",
                             "update"),

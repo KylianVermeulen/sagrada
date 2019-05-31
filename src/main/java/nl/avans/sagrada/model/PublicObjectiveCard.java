@@ -1,8 +1,6 @@
 package nl.avans.sagrada.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PublicObjectiveCard {
     private int id;

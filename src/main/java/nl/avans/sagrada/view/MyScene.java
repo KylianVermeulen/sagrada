@@ -33,7 +33,6 @@ public class MyScene extends Scene {
         accountController = new AccountController(this);
         playerController = new PlayerController(this);
         checksumDatabase = new ChecksumDatabase(accountController, playerController);
-        buildThreads();
 
         rootPane = new StackPane();
         contentPane = new Pane();
@@ -43,12 +42,6 @@ public class MyScene extends Scene {
         rootPane.getChildren().add(contentPane);
         setRoot(rootPane);
         accountController.viewLogin();
-    }
-
-    private void buildThreads() {
-        checksumThreading = new Thread(checksumDatabase);
-        checksumThreading.setName("Checksum database");
-        checksumThreading.start();
     }
 
     public AccountController getAccountController() {
