@@ -115,7 +115,7 @@ public class PlayerFrameFieldDao {
     }
 
     /**
-     * Generates all empty playerframefields for a player. 
+     * Generates all empty playerframefields for a patterncard. 
      * 
      * @param patternCardFields ArrayList
      * @param player Player

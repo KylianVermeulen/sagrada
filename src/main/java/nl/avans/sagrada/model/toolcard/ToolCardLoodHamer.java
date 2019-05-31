@@ -8,6 +8,7 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 /**
@@ -23,7 +24,6 @@ public class ToolCardLoodHamer extends ToolCard {
     @Override
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
         try {
-            PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
             PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
 
             PatternCardField patternCardField = patternCardView.getPatternCardField();
@@ -34,7 +34,11 @@ public class ToolCardLoodHamer extends ToolCard {
                 die.setInFirstTurn(player.isFirstTurn());
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
-                playerFrameFieldDao.updateDieLocation(die, patternCardField, player);
+                UpdatePlayerFrameFieldTask upfft = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
+                Thread thread = new Thread(upfft);
+                thread.setName("Update PlayerFrameField thread");
+                thread.setDaemon(true);
+                thread.start();
                 setIsDone(true);
                 return patternCard;
             }
