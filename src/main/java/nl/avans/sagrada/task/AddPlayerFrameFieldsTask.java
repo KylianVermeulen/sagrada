@@ -1,14 +1,13 @@
 package nl.avans.sagrada.task;
 
 import java.util.ArrayList;
-import javafx.concurrent.Task;
 import nl.avans.sagrada.dao.PatternCardFieldDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 
-public class AddPlayerFrameFieldsTask extends Task<Void> {
+public class AddPlayerFrameFieldsTask implements Runnable {
     private PatternCard patternCard;
     private Player player;
 
@@ -24,9 +23,8 @@ public class AddPlayerFrameFieldsTask extends Task<Void> {
     }
 
     @Override
-    protected Void call() throws Exception {
+    public void run() {
         ArrayList<PatternCardField> patternCardFields = new PatternCardFieldDao().getPatternCardFieldsOfPatterncard(patternCard);
         new PlayerFrameFieldDao().addPlayerFrameFields(patternCardFields, player);
-        return null;
     }
 }
