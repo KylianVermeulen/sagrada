@@ -159,6 +159,7 @@ public class AccountController {
      * Logs the user out of the game. Will display the login view.
      */
     public void actionLogout() {
+        myScene.removePopupPane();
         account = null;
         viewLogin();
     }
@@ -225,6 +226,7 @@ public class AccountController {
         gameSetupView.render();
 
         pane.getChildren().add(gameSetupView);
+        myScene.removePopupPane();
         myScene.setContentPane(pane);
         account.setAccountStatus(AccountStatus.SETUP);
     }
