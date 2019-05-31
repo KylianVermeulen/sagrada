@@ -250,6 +250,9 @@ public class Game {
         while (!hasFoundPrivateColor) {
             int randomArrayPostition = random.nextInt(amountOfColors);
             String privateColor = privateObjectiveCardColors[randomArrayPostition];
+            if (players.size() == 0) {
+                return privateColor;
+            }
             for (Player player : players) {
                 if (player.getPrivateObjectivecardColor().equals(privateColor)) {
                     hasFoundPrivateColor = false;
