@@ -150,8 +150,7 @@ public class AccountDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT MAX(score) AS hoogste_score FROM player\n" +
-                                    "WHERE username =?",
+                            "SELECT MAX(score) AS hoogste_score FROM player WHERE username=?",
                             "query"),
                     new QueryParameter(QueryParameter.STRING, account.getUsername())
             );
