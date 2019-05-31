@@ -114,7 +114,7 @@ public class FavorTokenDao {
             while (rs.next()) {
                 FavorToken favorToken = new FavorToken();
                 favorToken.setId(rs.getInt("idfavortoken"));
-                favorToken.setGame(new GameDao().getGameById(rs.getInt("idgame")));
+                favorToken.setGame(game);
                 favorTokens.add(favorToken);
             }
             rs.close();
