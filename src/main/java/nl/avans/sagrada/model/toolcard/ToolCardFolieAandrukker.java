@@ -7,6 +7,7 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 /**
@@ -40,7 +41,11 @@ public class ToolCardFolieAandrukker extends ToolCard {
 
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
-                playerFrameFieldDao.addDieToField(die, patternCardField, player);
+                UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
+                Thread thread = new Thread(updatePlayerFrameFieldTask);
+                thread.setName("Update Player Frame Field");
+                thread.setDaemon(true);
+                thread.start();
                 setIsDone(true);
                 return patternCard;
             }
