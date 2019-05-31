@@ -241,18 +241,28 @@ public class Game {
      * @return String
      */
     public String getRandomAvailablePrivateColor() {
-        boolean hasNotChooseRandomCard = false;
+        boolean hasFoundPrivateColor = false;
         Random random = new Random();
         int amountOfColors = privateObjectiveCardColors.length;
-        while (!hasNotChooseRandomCard) {
+        while (!hasFoundPrivateColor) {
             int randomArrayPostition = random.nextInt(amountOfColors);
             String privateColor = privateObjectiveCardColors[randomArrayPostition];
             for (Player player : players) {
                 if (player.getPrivateObjectivecardColor().equals(privateColor)) {
+                    hasFoundPrivateColor = false;
+                    privateColor = "";
                     continue;
                 }
+                else {
+                    if (!privateColor.equals("")) {
+                        hasFoundPrivateColor = true;
+                        break;
+                    }
+                }
             }
-            return privateColor;
+            if (hasFoundPrivateColor) {
+                return privateColor;
+            }
         }
         return "";
     }
