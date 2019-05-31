@@ -99,7 +99,6 @@ public class PlayerDao {
                 player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
                 player.setAccount(account);
             }
-            rs.close();
         } catch (Exception e) {
             player = null;
             e.printStackTrace();
