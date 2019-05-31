@@ -105,7 +105,7 @@ public class PublicObjectiveCardDao {
      */
     public void addPublicObjectiveCardToGame(PublicObjectiveCard publicObjectiveCard, Game game) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "INSERT INTO sharedpublic_objectivecard (idgame, idpublic_objectivecard) VALUES (?, ?)",
                             "update"), new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, publicObjectiveCard.getId())

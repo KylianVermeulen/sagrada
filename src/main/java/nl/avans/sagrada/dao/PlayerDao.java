@@ -49,7 +49,7 @@ public class PlayerDao {
 
     public void updatePlayer(Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "UPDATE player SET username=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
@@ -67,7 +67,7 @@ public class PlayerDao {
 
     public void addPlayer(Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?,?, ?, ?, ?, ?, ?, ?)",
                             "update"), new QueryParameter(QueryParameter.INT, player.getId()),
                     new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
@@ -183,7 +183,7 @@ public class PlayerDao {
      */
     public void updateSelectedPatternCard(Player player, PatternCard patternCard) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query("UPDATE player SET patterncard_idpatterncard=? WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, patternCard.getId()),
@@ -240,16 +240,17 @@ public class PlayerDao {
      * @param player The player.
      * @return Boolean
      */
-    public boolean hasUsedToolCardInTurnRound(Player player) {
+    public boolean hasUsedToolCardInTurn(Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN game g on gamefavortoken.idgame = g.idgame WHERE gametoolcard IS NOT NULL AND seqnr=? AND p.idplayer=? AND round=?",
+                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN game g on gamefavortoken.idgame = g.idgame WHERE gametoolcard IS NOT NULL AND seqnr=? AND p.idplayer=? AND round=? AND inFirstTurn=?",
                             "query"
                     ),
                     new QueryParameter(QueryParameter.INT, player.getSeqnr()),
                     new QueryParameter(QueryParameter.INT, player.getId()),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getRound())
+                    new QueryParameter(QueryParameter.INT, player.getGame().getRound()),
+                    new QueryParameter(QueryParameter.BOOLEAN, player.isFirstTurn())
             );
             if (rs.next()) {
                 rs.close();
@@ -267,9 +268,9 @@ public class PlayerDao {
      *
      * @param player Player
      */
-    public void updateScore(Player player) {
-        try {
-            ResultSet rs = dbConnection.executeQuery(
+    public void updateScore(Player player){
+        try{
+            dbConnection.executeQuery(
                     new Query("UPDATE player SET score=? WHERE idplayer=?", "update"),
                     new QueryParameter(QueryParameter.INT, player.getScore()),
                     new QueryParameter(QueryParameter.INT, player.getId())

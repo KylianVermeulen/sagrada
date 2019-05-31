@@ -1,15 +1,14 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.task.GetGameChatLinesTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class ChatLineView extends VBox implements ViewInterface {
@@ -20,6 +19,7 @@ public class ChatLineView extends VBox implements ViewInterface {
     private PlayerController playercontroller;
     private VBox messagebox;
     private ArrayList<Chatline> chatlines;
+    private ScrollPane chatpane;
 
     /**
      * Constructor
@@ -48,7 +48,7 @@ public class ChatLineView extends VBox implements ViewInterface {
      * Method that builds the view for the chat
      */
     private void buildChat() {
-        ScrollPane chatpane = new ScrollPane();
+        chatpane = new ScrollPane();
         chatpane.setContent(messagebox);
         chatpane.setMaxHeight(CHATPANE_HEIGHT);
         chatpane.setMinHeight(CHATPANE_HEIGHT);
@@ -62,7 +62,10 @@ public class ChatLineView extends VBox implements ViewInterface {
         textfield.setMinHeight(TEXTFIELD_HEIGHT);
         textfield.setMaxWidth(TEXTFIELD_WIDTH);
         textfield.setMinWidth(TEXTFIELD_WIDTH);
-        textfield.setOnAction(e -> playercontroller.actionSendMessage(textfield.getText(), this));
+        textfield.setOnAction(e -> {
+            playercontroller.actionSendMessage(textfield.getText(), this);
+            textfield.clear();
+        });
 
         downpane.getChildren().add(textfield);
         getChildren().addAll(chatpane, downpane);
@@ -88,12 +91,8 @@ public class ChatLineView extends VBox implements ViewInterface {
 
     /**
      * Method that adds a array of existing messages to the view
-     * 
-     * @param chatlines Chatline
      */
     public void addExistingMessages() {
-        ChatlineDao chatlineDao = new ChatlineDao();
-        chatlines = chatlineDao.getChatlinesOfGame(playercontroller.getPlayer().getGame());
         for (int i = 0; i < chatlines.size(); i++) {
             addMessage(chatlines.get(i));
         }
@@ -103,7 +102,15 @@ public class ChatLineView extends VBox implements ViewInterface {
     public void render() {
         getChildren().clear();
         messagebox.getChildren().clear();
-        addExistingMessages();
         buildChat();
+        GetGameChatLinesTask ggclt = new GetGameChatLinesTask(playercontroller.getPlayer().getGame());
+        ggclt.setOnSucceeded(e -> {
+            setChatLines(ggclt.getValue());
+            addExistingMessages();
+            chatpane.setVvalue(1.0);
+        });
+        Thread thread = new Thread(ggclt);
+        thread.setDaemon(true);
+        thread.start();
     }
 }

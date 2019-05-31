@@ -11,6 +11,12 @@ public class UpdatePlayerFrameFieldTask extends Task<Void> {
     private PatternCardField patternCardField;
     private Player player;
     
+    /**
+     * Constuctor for the task to update a player frame field
+     * @param gameDie
+     * @param patternCardField
+     * @param player
+     */
     public UpdatePlayerFrameFieldTask(GameDie gameDie, PatternCardField patternCardField, Player player) {
         this.gameDie = gameDie;
         this.patternCardField = patternCardField;
@@ -23,5 +29,4 @@ public class UpdatePlayerFrameFieldTask extends Task<Void> {
         playerFrameFieldDao.addDieToField(gameDie, patternCardField, player);
         return null;
     }
-
 }

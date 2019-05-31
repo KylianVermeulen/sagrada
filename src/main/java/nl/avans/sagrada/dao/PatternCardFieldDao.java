@@ -113,7 +113,7 @@ public class PatternCardFieldDao {
             queryParametersList.add(queryParameters);
         }
         try {
-            int[] ints = dbConnection.executeBatchQuery(
+            dbConnection.executeBatchQuery(
                     new Query("INSERT INTO patterncardfield VALUES (?, ?, ?, ?, ?)", "update",
                             queryParametersList));
         } catch (SQLException e) {

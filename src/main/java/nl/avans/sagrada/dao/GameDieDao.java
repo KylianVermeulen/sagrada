@@ -29,7 +29,7 @@ public class GameDieDao {
      */
     public void addDie(Game game, GameDie gameDie) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query(
                             "INSERT INTO gamedie (idgame, dienumber, diecolor, eyes) VALUES (?, ?, ?, ?)",
                             "update"),
@@ -51,7 +51,7 @@ public class GameDieDao {
      */
     public void addDie(Game game, GameDie gameDie, int round) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query(
                             "INSERT INTO gamedie (idgame, dienumber, diecolor, eyes, round) VALUES (?, ?, ?, ?, ?)",
                             "update"),
@@ -74,7 +74,7 @@ public class GameDieDao {
      */
     public void updateDie(Game game, GameDie gameDie) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query(
                             "UPDATE gamedie SET round=?, roundtrack=?, inFirstTurn=? WHERE idgame=? AND dienumber=? AND diecolor=?",
                             "update"),
@@ -266,7 +266,7 @@ public class GameDieDao {
      */
     public void placeDie(GameDie die, PatternCardField patterncardfield, Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query(
                             "UPDATE playerframefield SET dienumber=?, diecolor=? WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=?",
                             "update"),
@@ -290,7 +290,7 @@ public class GameDieDao {
      */
     public void updateDieEyes(Game game, GameDie gameDie) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query(
                             "UPDATE gamedie SET eyes=? WHERE idgame=? AND round=? AND dienumber=?",
                             "update"),

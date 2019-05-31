@@ -60,13 +60,6 @@ public class GameSetupView extends VBox implements ViewInterface {
         this.accountController = accountController;
         this.accounts = accounts;
         this.game = game;
-        
-        Main.getPrimaryStage().setOnCloseRequest(e -> {
-            CancelGameTask cgt = new CancelGameTask(game);
-            Thread cancelGameThread = new Thread(cgt);
-            cancelGameThread.setName("Cancel game thread");
-            cancelGameThread.start();
-        });
 
         setBackground(new Background(
                 new BackgroundImage(inviteview_background, BackgroundRepeat.NO_REPEAT,
@@ -179,5 +172,11 @@ public class GameSetupView extends VBox implements ViewInterface {
 
         bottomButtonPane.getChildren().addAll(startButton, backButton);
     }
-
+    
+    /**
+     * Enables the start button inside the Setup View.
+     */
+    public void enableStartButton() {
+        startButton.setDisable(false);
+    }
 }

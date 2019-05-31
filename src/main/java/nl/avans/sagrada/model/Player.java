@@ -8,7 +8,9 @@ import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
+import nl.avans.sagrada.task.CalculateScoreTask;
 import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
+import nl.avans.sagrada.task.UpdateScoreTask;
 
 public class Player {
     public static final String STATUS_ABORT = "afgebroken";
@@ -22,14 +24,12 @@ public class Player {
     private PatternCard patternCard;
     private ArrayList<PatternCard> optionalPatternCards;
     private ArrayList<FavorToken> favorTokens;
-    private ArrayList<Chatline> chatlines;
     private int score;
     private boolean cheatmode = false;
     private Color playerColor;
     private boolean placedDie;
 
     public Player() {
-        chatlines = new ArrayList<>();
     }
 
     /**
@@ -265,27 +265,6 @@ public class Player {
     }
 
     /**
-     * addChatline to player
-     */
-    public void addChatline(Chatline chatline) {
-        chatlines.add(chatline);
-    }
-
-    /**
-     * get chatlines from player
-     */
-    public ArrayList<Chatline> getChatlines() {
-        return chatlines;
-    }
-
-    /**
-     * set chatlines for player
-     */
-    public void setChatlines(ArrayList<Chatline> chatlines) {
-        this.chatlines = chatlines;
-    }
-
-    /**
      * Returns true when player has already placed a die this turn.
      *
      * @return Boolean
@@ -343,15 +322,29 @@ public class Player {
         }
         return imagePath;
     }
+    
+    /**
+     * Returns the task to calculate the score of a player
+     * @return CalculateScoreTask
+     */
+    public CalculateScoreTask calculateScoreTask() {
+        CalculateScoreTask cst = new CalculateScoreTask(this);
+        return cst;
+    }
 
     /**
      * Calculate the score for this player. Gets -1 score for each empty pattern card field. Gets +1
      * score for each favor token. Gets rewardScore for each public objective card.
+     * @param privateObjectiveCard
+     * @param updateInDatabase
+     * @return int score
      */
-    public int calculateScore(boolean privateObjectiveCard) {
-        int score = 0;
-        PlayerDao playerDao = new PlayerDao();
-        PatternCardField[][] patternCardFields = getPatternCard().getPatternCardFields(this);
+    public int calculateScore(boolean privateObjectiveCard, boolean updateInDatabase) {
+        if (patternCard == null) {
+            patternCard = getPatternCard();
+        }
+        int score = 0;        
+        PatternCardField[][] patternCardFields = patternCard.getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
                 x++) { // Basic calculations for pattern card fields
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
@@ -377,7 +370,13 @@ public class Player {
             score += publicObjectiveCard.calculateScore(patternCard);
         }
         this.score = score;
-        playerDao.updateScore(this);
+        
+        if (updateInDatabase) {
+            UpdateScoreTask ust = new UpdateScoreTask(this);
+            Thread thread = new Thread(ust);
+            thread.setName("Update player score");
+            thread.start();   
+        }
         return score;
     }
 
@@ -476,12 +475,13 @@ public class Player {
 
     /**
      * Checks if a players has already used a toolcard
+     * In the turn
      *
      * @return boolean
      */
-    public boolean hasUsedToolcardInCurrentRound() {
+    public boolean hasUsedToolcardInCurrentTurn() {
         PlayerDao playerDao = new PlayerDao();
-        if (playerDao.hasUsedToolCardInTurnRound(this)) {
+        if (playerDao.hasUsedToolCardInTurn(this)) {
             return true;
         } else {
             return false;

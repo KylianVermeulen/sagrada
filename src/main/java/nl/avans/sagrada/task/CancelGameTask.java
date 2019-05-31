@@ -17,5 +17,4 @@ public class CancelGameTask implements Runnable {
     public void run() {
         game.cancel();
     }
-
 }
