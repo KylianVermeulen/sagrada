@@ -3,7 +3,6 @@ package nl.avans.sagrada.model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
-import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.DieDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
@@ -40,7 +39,6 @@ public class Game {
         this.id = id;
         GameDao gameDao = new GameDao();
         ToolCardDao toolCardDao = new ToolCardDao();
-
         players = gameDao.getPlayersOfGame(this);
         toolCards = toolCardDao.getToolCardsOfGame(this);
     }
@@ -260,16 +258,6 @@ public class Game {
             return privateColor;
         }
         return "";
-    }
-
-    /**
-     * Get all the chatlines of a game trough the chatline dao And returns them
-     *
-     * @return ArrayList<Chatline>
-     */
-    public ArrayList<Chatline> getChatlines() {
-        ArrayList<Chatline> chatlines = new ChatlineDao().getChatlinesOfGame(this);
-        return chatlines;
     }
 
     /**
