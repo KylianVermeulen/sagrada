@@ -78,7 +78,7 @@ public class PlayerController {
      * Handels the placement of a die on the patterncard Also handels the toolcard drag handle
      */
     public void actionPlaceDie(PatternCard patternCard, PatternCardField patternCardField,
-        GameDie gameDie, MouseEvent event) {
+            GameDie gameDie, MouseEvent event) {
         PlayerDao playerDao = new PlayerDao();
         Player playerEvent = patternCard.getPlayer();
 
@@ -113,11 +113,13 @@ public class PlayerController {
                                 gameDie.setPatternCardField(patternCardField);
                                 patternCardField.setDie(gameDie);
 
-                                UpdatePlayerFrameFieldTask upfft = new UpdatePlayerFrameFieldTask(gameDie, patternCardField, playerEvent);
+                                UpdatePlayerFrameFieldTask upfft = new UpdatePlayerFrameFieldTask(
+                                        gameDie, patternCardField, playerEvent);
                                 upfft.setOnSucceeded(e -> {
                                     gameView.renderDieOfferView();
                                     player.calculateScore(false, false);
-                                    UpdateDieTask udt = new UpdateDieTask(player.getGame(), gameDie);
+                                    UpdateDieTask udt = new UpdateDieTask(player.getGame(),
+                                            gameDie);
                                     Thread updateGameTread = new Thread(udt);
                                     updateGameTread.setDaemon(true);
                                     updateGameTread.setName("Update gamedie thread");
@@ -185,10 +187,7 @@ public class PlayerController {
     }
 
     /**
-     * Views the game
-     * If this method is called by the checksum class we need to add true
-     * To the db
-     * @param cameHereByRefresh
+     * Views the game If this method is called by the checksum class we need to add true To the db
      */
     public void viewGame(boolean cameHereByRefresh) {
         // Refresh game & player object
@@ -200,7 +199,6 @@ public class PlayerController {
         }
         Game game = player.getGame();
         player.getAccount().setAccountStatus(AccountStatus.GAME);
-
 
         for (int i = 0; i < game.getPlayers().size(); i++) {
             game.getPlayers().get(i).setPlayerColor(i);
@@ -222,7 +220,7 @@ public class PlayerController {
                 cheatmodeTaskThread.setDaemon(true);
                 cheatmodeTaskThread.start();
             }
-            
+
             Pane pane = new Pane();
             gameView = new GameView(this, game, player);
             gameView.render();
@@ -234,7 +232,7 @@ public class PlayerController {
     public void actionJoinGame(Account account, Game game) {
         player = new PlayerDao().getPlayerByAccountAndGame(account, game);
         player.setGame(game);
-        
+
         GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(player);
         gpcopt.setOnSucceeded(e -> {
             PatternCard patternCard = gpcopt.getValue();
@@ -246,7 +244,8 @@ public class PlayerController {
                 if (!game.everyoneSelectedPatternCard()) {
                     // We don't allow anyone to the game view until everyone has a patterncard
                     Alert alert = new Alert("Nog even wachten",
-                            "Nog niet alle spelers hebben een patroonkaart gekozen!", AlertType.INFO);
+                            "Nog niet alle spelers hebben een patroonkaart gekozen!",
+                            AlertType.INFO);
                     myScene.addAlertPane(alert);
                 } else {
                     viewGame(false);
@@ -269,8 +268,7 @@ public class PlayerController {
             patternCardSelectionView.render();
             pane.getChildren().add(patternCardSelectionView);
             myScene.setContentPane(pane);
-        }
-        else {
+        } else {
             Alert alert = new Alert("Invite",
                     "Nog een moment voordat je patterncard klaar is!", AlertType.INFO);
             myScene.addAlertPane(alert);
@@ -279,7 +277,8 @@ public class PlayerController {
 
     public void actionSelectPatternCard(PatternCard patternCard) {
         player.setPatternCard(patternCard);
-        SetSelectedPatternCardOfPlayerTask sspcopt = new SetSelectedPatternCardOfPlayerTask(player, patternCard);
+        SetSelectedPatternCardOfPlayerTask sspcopt = new SetSelectedPatternCardOfPlayerTask(player,
+                patternCard);
         sspcopt.setOnSucceeded(e -> {
             Game game = player.getGame();
             if (!game.everyoneSelectedPatternCard()) {
@@ -291,7 +290,7 @@ public class PlayerController {
                 Alert alert = new Alert("Je kan starten!",
                         "Iedereen heeft een patterncard gestart!", AlertType.INFO);
                 myScene.addAlertPane(alert);
-            } 
+            }
         });
         Thread thread = new Thread(sspcopt);
         thread.setName("Set selected patternCard of player");
@@ -322,6 +321,7 @@ public class PlayerController {
      * Players wants to go back to the lobby
      */
     public void actionExit() {
+        myScene.removePopupPane();
         myScene.getAccountController().viewLobby();
     }
 
@@ -342,13 +342,14 @@ public class PlayerController {
         if (!text.matches("")) {
             ChatlineTimeTask chatlineTimeTask = new ChatlineTimeTask(chatline);
             chatlineTimeTask.setOnSucceeded(e -> {
-                if(chatlineTimeTask.getValue() == false) {
+                if (chatlineTimeTask.getValue() == false) {
                     AddChatlineTask addChatlineTask = new AddChatlineTask(chatline);
                     Thread thread = new Thread(addChatlineTask);
                     thread.start();
                     chatlineView.addMessage(chatline);
                 } else {
-                    Alert alert = new Alert("Waarschuwing", "Je kan maar 1 bericht per seconde sturen!", AlertType.ERROR);
+                    Alert alert = new Alert("Waarschuwing",
+                            "Je kan maar 1 bericht per seconde sturen!", AlertType.ERROR);
                     myScene.addAlertPane(alert);
                 }
             });
@@ -484,7 +485,7 @@ public class PlayerController {
     public void viewEndgame() {
         Game game = player.getGame();
         Player winPlayer = game.getPlayerWithBestScore();
-        
+
         Pane pane = new Pane();
         EndgameView endgameView = new EndgameView(game, this, winPlayer);
         endgameView.render();
