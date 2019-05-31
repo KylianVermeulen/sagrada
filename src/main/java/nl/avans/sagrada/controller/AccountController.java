@@ -283,7 +283,6 @@ public class AccountController {
      * Accept an invite and will set the lobby view as content pane.
      */
     public void actionAcceptInvite(Invite invite) {
-        myScene.removePopupPane();
         InviteDao inviteDao = new InviteDao();
 
         invite.acceptInvite();
@@ -291,6 +290,7 @@ public class AccountController {
         Player player = invite.getPlayer();
         player.setGame(invite.getGame());
         account.setAccountStatus(AccountStatus.GAME);
+        myScene.removePopupPane();
         myScene.getPlayerController().setPlayer(player);
         myScene.getPlayerController().viewOptionalPatternCards();
     }
