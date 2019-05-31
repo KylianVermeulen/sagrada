@@ -8,6 +8,10 @@ import nl.avans.sagrada.model.Player;
 public class GetPatternCardOfPlayerTask extends Task<PatternCard> {
     private Player player;
     
+    /**
+     * Constructor for the task to get the favortokens of a player
+     * @param player
+     */
     public GetPatternCardOfPlayerTask(Player player) {
         this.player = player;
     }
@@ -18,5 +22,4 @@ public class GetPatternCardOfPlayerTask extends Task<PatternCard> {
         PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
         return patternCard;
     }
-
 }

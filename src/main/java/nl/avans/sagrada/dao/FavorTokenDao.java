@@ -75,7 +75,7 @@ public class FavorTokenDao {
      */
     public void addFavorToken(FavorToken favorToken) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "INSERT INTO gamefavortoken (idfavortoken, idgame) VALUES (?, ?)",
                             "update"), new QueryParameter(QueryParameter.INT, favorToken.getId()),
                     new QueryParameter(QueryParameter.INT, favorToken.getGame().getId())
@@ -93,7 +93,7 @@ public class FavorTokenDao {
      */
     public void setFavortokenForPlayer(FavorToken favorToken, Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "UPDATE gamefavortoken SET idplayer=? WHERE idfavortoken=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, player.getId()),
@@ -131,11 +131,11 @@ public class FavorTokenDao {
      * @param toolCard Toolcard
      * @param game Game
      */
-    public void setFavortokensForToolCard(FavorToken favorToken, ToolCard toolCard, Game game) {
+    public void setFavortokensForToolCard(FavorToken favorToken, ToolCard toolCard, Game game, Player player) {
         ToolCardDao toolCardDao = new ToolCardDao();
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
-                            "UPDATE gamefavortoken SET idfavortoken=?, idgame=?, idplayer=?, gametoolcard=?, round=? WHERE idfavortoken=?",
+            dbConnection.executeQuery(new Query(
+                            "UPDATE gamefavortoken SET idfavortoken=?, idgame=?, idplayer=?, gametoolcard=?, round=?, inFirstTurn=? WHERE idfavortoken=?",
                             "update"), new QueryParameter(QueryParameter.INT, favorToken.getId()),
                     new QueryParameter(QueryParameter.INT, game.getId()),
                     new QueryParameter(QueryParameter.INT, favorToken.getPlayer().getId()),
@@ -143,6 +143,7 @@ public class FavorTokenDao {
                             toolCardDao.getGameToolCardForToolCardId(toolCard.getId(),
                                     game.getId())),
                     new QueryParameter(QueryParameter.INT, game.getRound()),
+                    new QueryParameter(QueryParameter.BOOLEAN, player.isFirstTurn()),
                     new QueryParameter(QueryParameter.INT, favorToken.getId())
             );
         } catch (SQLException e) {

@@ -125,7 +125,7 @@ public class ToolCardDao {
      */
     public void addToolCardToGame(ToolCard toolCard, Game game) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "INSERT INTO gametoolcard (gametoolcard, idtoolcard, idgame) VALUES (?, ?, ?)",
                             "update"), new QueryParameter(QueryParameter.INT, getNextGameToolCardId()),
                     new QueryParameter(QueryParameter.INT, toolCard.getId()),
