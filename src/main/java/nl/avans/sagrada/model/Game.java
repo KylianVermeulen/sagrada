@@ -308,11 +308,10 @@ public class Game {
             }
             player.setOptionalPatternCards(optionalPatternCardsPlayer);
             
-            PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
-            AddPlayerFrameFieldsTask addPlayerFrameFieldsTask = new AddPlayerFrameFieldsTask(
-                    patternCardFieldDao.getPatternCardFieldsOfPatterncard(optionalPatternCardsPlayer.get(0)), player);
+            AddPlayerFrameFieldsTask addPlayerFrameFieldsTask = new AddPlayerFrameFieldsTask(optionalPatternCardsPlayer.get(0), player);
             Thread playerFrameFieldsThread = new Thread(addPlayerFrameFieldsTask);
             playerFrameFieldsThread.setName("Adding PlayerFrameFields");
+            playerFrameFieldsThread.setDaemon(false);
             playerFrameFieldsThread.start();
             
         }
