@@ -1,6 +1,8 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -13,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.database.ChecksumDatabase;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
@@ -173,9 +176,8 @@ public class GameView extends VBox implements ViewInterface {
     }
 
     private void buildChatLine() {
-        ArrayList<Chatline> chatLines = game.getChatlines();
         chatLineView = new ChatLineView(playerController);
-        chatLineView.setChatLines(chatLines);
+        ChecksumDatabase.setChatLineView(chatLineView);
         chatLineView.render();
     }
 
