@@ -150,7 +150,8 @@ public class AccountDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT account.username AS playername, MAX(score) AS hoogste_score FROM player JOIN account ON account.username = player.username WHERE account.username=? GROUP BY playername;",
+                            "SELECT MAX(score) AS hoogste_score FROM player\n" +
+                                    "WHERE username =?",
                             "query"),
                     new QueryParameter(QueryParameter.STRING, account.getUsername())
             );
