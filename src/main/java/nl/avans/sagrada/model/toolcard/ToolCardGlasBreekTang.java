@@ -13,11 +13,9 @@ import nl.avans.sagrada.view.PatternCardFieldView;
  * Na je eerste beurt mag je meteen een tweede dobbelsteen kiezen. Sla deze ronde je 2e beurt over.
  */
 public class ToolCardGlasBreekTang extends ToolCard {
-    private int numberOfUses;
 
     public ToolCardGlasBreekTang(int id, String name, int seqnr, String description) {
         super(id, name, seqnr, description);
-        numberOfUses = 0;
     }
 
     @Override
