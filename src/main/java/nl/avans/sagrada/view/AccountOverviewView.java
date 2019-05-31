@@ -40,11 +40,10 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
         setMaxWidth(PANE_WIDTH);
         setMinWidth(PANE_WIDTH);
         setPannable(true);
-        
+
         VBox vbox = new VBox();
         for (Account account : accounts) {
             HBox hBox = new HBox();
-            String test = account.getUsername();
             Label label = new Label("Account: " + account.getUsername());
             label.setPrefWidth(LABEL_WIDTH);
             label.setPadding(new Insets(0, 20, 0, 20));
