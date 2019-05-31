@@ -255,7 +255,6 @@ public class GameView extends VBox implements ViewInterface {
         actionButtons.getChildren().addAll(cheatmodeButton, passButton, exitButton);
         actionButtons.setAlignment(Pos.CENTER);
         actionButtons.setSpacing(SPACING_BETWEEN_CHILDS);
-        actionButtons.setPadding(new Insets(0, 0, 0, 0));
         actionButtons.setMaxHeight(BUTTON_PANE_HEIGHT);
         actionButtons.setMinHeight(BUTTON_PANE_HEIGHT);
     }
