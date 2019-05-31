@@ -126,9 +126,9 @@ public class LobbyView extends BorderPane implements ViewInterface {
         accountOverview = new AccountOverviewView(accountController);
         AllAccountsTask act = new AllAccountsTask();
         act.setOnSucceeded(e -> {
-           accounts = act.getValue();
-           accountOverview.setAccounts(accounts);
-           accountOverview.render();
+            accounts = act.getValue();
+            accountOverview.setAccounts(accounts);
+            accountOverview.render();
         });
         Thread th = new Thread(act);
         th.setDaemon(true);
@@ -164,12 +164,17 @@ public class LobbyView extends BorderPane implements ViewInterface {
         gameOverviewLabel.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);
-        vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview, comboBox,allGamesLabel, allGamesOverview);
+        vbox2.getChildren()
+                .addAll(logoutButton, playerLabel, accountOverview, comboBox, allGamesLabel,
+                        allGamesOverview);
         vbox2.setAlignment(Pos.CENTER_RIGHT);
         vbox2.setPadding(new Insets(0, 0, 0, 0));
         setRight(vbox2);
     }
 
+    /**
+     * Builds the ComboBox that you use to filter the games on wins or set it back to normal
+     */
     public void buildComboBox() {
         comboBox = new ComboBox();
         String option1 = "Normaal";
@@ -182,18 +187,17 @@ public class LobbyView extends BorderPane implements ViewInterface {
             if (comboBox.getValue().equals(option1)) {
                 AccountDao accountDao = new AccountDao();
                 ArrayList<Account> accounts = accountDao.getAllAccounts();
-                accountOverview = new AccountOverviewView(accountController);
                 accountOverview.setAccounts(accounts);
                 accountOverview.render();
             }
             if (comboBox.getValue().equals(option2)) {
                 AccountDao accountDao = new AccountDao();
-                ArrayList<Account> accountsToShowAtEnd = accountDao.getWinsPerAccount();
+                ArrayList<Account> winsPerAccount = accountDao.getWinsPerAccount();
                 ArrayList<Account> allAccounts = accountDao.getAllAccounts();
                 ArrayList<Account> addAccounts = new ArrayList<Account>();
                 boolean hasAcc = false;
                 for (Account account : allAccounts) {
-                    for (Account checkAccounts : accountsToShowAtEnd) {
+                    for (Account checkAccounts : winsPerAccount) {
                         if (account.getUsername().equals(checkAccounts.getUsername())) {
                             hasAcc = true;
                         }
@@ -203,12 +207,13 @@ public class LobbyView extends BorderPane implements ViewInterface {
                     }
                     hasAcc = false;
                 }
-                accountsToShowAtEnd.addAll(addAccounts);
-                accountOverview = new AccountOverviewView(accountController);
-                accountOverview.setAccounts(accountsToShowAtEnd);
+
+                winsPerAccount.addAll(addAccounts);
+                accountOverview.setAccounts(winsPerAccount);
                 accountOverview.render();
             }
         });
+    }
 
     private void buildAllGamesOverview() {
         allGamesOverview = new AllGamesOverView();
