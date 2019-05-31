@@ -60,7 +60,7 @@ public class GameSetupView extends VBox implements ViewInterface {
         this.accountController = accountController;
         this.accounts = accounts;
         this.game = game;
-        
+
         setBackground(new Background(
                 new BackgroundImage(inviteview_background, BackgroundRepeat.NO_REPEAT,
                         BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
@@ -172,5 +172,11 @@ public class GameSetupView extends VBox implements ViewInterface {
 
         bottomButtonPane.getChildren().addAll(startButton, backButton);
     }
-
+    
+    /**
+     * Enables the start button inside the Setup View.
+     */
+    public void enableStartButton() {
+        startButton.setDisable(false);
+    }
 }

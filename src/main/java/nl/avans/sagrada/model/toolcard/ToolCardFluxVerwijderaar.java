@@ -35,6 +35,7 @@ public class ToolCardFluxVerwijderaar extends ToolCard {
 
                 if (targetField.placeDie(die)) {
                     playerController.removePopupPane();
+                    die.setInFirstTurn(player.isFirstTurn());
                     new PlayerFrameFieldDao().updateDieLocation(die, targetField, player);
                     die.setPatternCardField(targetField);
                     targetField.setDie(die);

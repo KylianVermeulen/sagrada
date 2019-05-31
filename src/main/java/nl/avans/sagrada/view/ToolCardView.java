@@ -21,6 +21,7 @@ public class ToolCardView extends CardView {
     private PlayerController playerController;
     private TilePane tokenPane;
     
+    private final int DESCRIPTION_HEIGHT = 100;
     private final int TOKEN_PANE_WIDTH = 45;
     private final int TOKEN_PANE_HEIGHT = 10;
     private final int TOKEN_PANE_GAP = 1;
@@ -67,6 +68,7 @@ public class ToolCardView extends CardView {
         description.setTextAlignment(TextAlignment.CENTER);
         description.wrappingWidthProperty().set(CardView.CARD_WIDTH);
         StackPane descriptionPane = new StackPane();
+        descriptionPane.setMinHeight(DESCRIPTION_HEIGHT);
         descriptionPane.getChildren().add(description);
         descriptionPane.setAlignment(Pos.CENTER);
         descriptionPane.setPrefSize(CardView.CARD_WIDTH, (CardView.CARD_HEIGHT / 3));

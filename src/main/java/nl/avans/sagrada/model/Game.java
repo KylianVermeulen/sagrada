@@ -474,6 +474,11 @@ public class Game {
      * database.
      */
     public void setNextPlayer() {
+        if (turnPlayer == null) {
+            GameDao gameDao = new GameDao();
+            Game game = gameDao.getGameById(getId());
+            turnPlayer = game.getTurnPlayer();
+        }
         Player currentPlayer = turnPlayer;
         int oldSeqnr = currentPlayer.getSeqnr();
         currentPlayer.setNextSeqnr();
@@ -589,15 +594,12 @@ public class Game {
      * Finishes a game by changing the status of all players
      */
     public void finishGame() {
-        Player startPlayer = getPlayers().get(0);
-        if (startPlayer.getId() == turnPlayer.getId()) {
-            ArrayList<Player> players = getPlayers();
-            PlayerDao playerDao = new PlayerDao();
-            for (Player player : players) {
-                player.setPlayerStatus("uitgespeeld");
-                player.setScore(player.calculateScore(true));
-                playerDao.updatePlayer(player);
-            }
+        ArrayList<Player> players = getPlayers();
+        PlayerDao playerDao = new PlayerDao();
+        for (Player player : players) {
+            player.setPlayerStatus("uitgespeeld");
+            player.setScore(player.calculateScore(true, true));
+            playerDao.updatePlayer(player);
         }
     }
 
@@ -611,7 +613,7 @@ public class Game {
         Player player = null;
         int playerScore = -21;
         for (Player playerLoop : getPlayers()) {
-            int loopScore = playerLoop.calculateScore(true);
+            int loopScore = playerLoop.calculateScore(true, false);
             if (player == null) {
                 player = playerLoop;
                 playerScore = loopScore;

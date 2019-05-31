@@ -20,15 +20,15 @@ public class CheatmodeTask implements Runnable {
 
     public CheatmodeTask(PlayerController playerController) {
         this.playerController = playerController;
-        this.player = this.playerController.getPlayer();
-        this.patternCard = this.player.getPatternCard();
-        this.patternCardFields = this.patternCard.getPatternCardFields(player);
-        this.game = this.player.getGame();
-        this.gameDice = this.game.getRoundDice();
     }
 
     @Override
     public void run() {
+        player = playerController.getPlayer();
+        patternCard = player.getPatternCard();
+        patternCardFields = patternCard.getPatternCardFields(player);
+        game = player.getGame();
+        gameDice = game.getRoundDice();
         HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap = new HashMap<>();
         for (GameDie gameDie : gameDice) {
             TreeMap<Integer, PatternCardField> treeMap = new TreeMap<>();
@@ -37,7 +37,7 @@ public class CheatmodeTask implements Runnable {
                     PatternCardField patternCardField = patternCardFields[x][y];
                     if (patternCardField.canPlaceDie(gameDie)) {
                         patternCardField.setDie(gameDie);
-                        int score = player.calculateScore(true);
+                        int score = player.calculateScore(true, false);
                         treeMap.put(score, patternCardField);
                         patternCardField.setDie(null);
                     }

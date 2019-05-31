@@ -97,7 +97,7 @@ public class AccountDao {
     public void addAccount(Account account) {
         if (!accountExists(account)) {
             try {
-                ResultSet rs = dbConnection.executeQuery(
+                dbConnection.executeQuery(
                         new Query("INSERT INTO account (username, password) VALUES (?, ?)",
                                 "update"),
                         new QueryParameter(QueryParameter.STRING, account.getUsername()),

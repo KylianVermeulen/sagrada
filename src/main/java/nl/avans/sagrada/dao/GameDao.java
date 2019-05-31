@@ -54,7 +54,7 @@ public class GameDao {
     public void updateGame(Game game) {
         try {
             int turnPlayerId = game.getTurnPlayer().getId();
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                             new Query("UPDATE game SET turn_idplayer=? WHERE idgame=?", "update"),
                             new QueryParameter(QueryParameter.INT, turnPlayerId),
                             new QueryParameter(QueryParameter.INT, game.getId())
@@ -71,7 +71,7 @@ public class GameDao {
      */
     public void addGame(Game game) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                             new Query(
                                     "INSERT INTO game (idgame, creationdate) VALUES (?, ?)",
                                     "update"),
