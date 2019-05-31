@@ -1,7 +1,6 @@
 package nl.avans.sagrada.view;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;

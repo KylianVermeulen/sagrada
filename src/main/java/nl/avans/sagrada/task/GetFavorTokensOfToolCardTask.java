@@ -1,7 +1,6 @@
 package nl.avans.sagrada.task;
 
 import java.util.ArrayList;
-
 import javafx.concurrent.Task;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.model.FavorToken;
@@ -12,6 +11,11 @@ public class GetFavorTokensOfToolCardTask extends Task<ArrayList<FavorToken>> {
     private ToolCard toolCard;
     private Game game;
     
+    /**
+     * Constructor for the task to get all favortokens of a toolcard by game
+     * @param toolCard
+     * @param game
+     */
     public GetFavorTokensOfToolCardTask(ToolCard toolCard, Game game) {
         this.toolCard = toolCard;
         this.game = game;
@@ -23,5 +27,4 @@ public class GetFavorTokensOfToolCardTask extends Task<ArrayList<FavorToken>> {
         ArrayList<FavorToken> favorTokens = favorTokenDao.getToolCardTokens(toolCard, game);
         return favorTokens;
     }
-
 }

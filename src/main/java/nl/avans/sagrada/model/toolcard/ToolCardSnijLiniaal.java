@@ -37,6 +37,7 @@ public class ToolCardSnijLiniaal extends ToolCard {
                         && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
                         && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
                     // If the new location meats the new requirements we can make those changes
+                    die.setInFirstTurn(player.isFirstTurn());
                     PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
 
                     die.setIsOnOfferTable(false);

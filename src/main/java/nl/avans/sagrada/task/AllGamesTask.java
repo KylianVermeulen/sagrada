@@ -20,5 +20,4 @@ public class AllGamesTask extends Task<ArrayList<Game>> {
         ArrayList<Game> allGames = new GameDao().getAllGames();
         return allGames;
     }
-
 }

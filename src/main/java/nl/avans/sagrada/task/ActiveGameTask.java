@@ -22,5 +22,4 @@ public class ActiveGameTask extends Task<ArrayList<Game>> {
         ArrayList<Game> activeGames = account.getActiveGames();
         return activeGames;
     }
-
 }

@@ -119,7 +119,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
      */
     private void buildAccountsOverview() {
         accountOverview = new AccountOverviewView(accountController);
-        AllAccountsTask act = new AllAccountsTask(accountOverview);
+        AllAccountsTask act = new AllAccountsTask();
         act.setOnSucceeded(e -> {
            accounts = act.getValue();
            accountOverview.setAccounts(accounts);
@@ -166,7 +166,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
     }
 
     private void buildAllGamesOverview() {
-        allGamesOverview = new AllGamesOverView(accountController);
+        allGamesOverview = new AllGamesOverView();
         AllGamesTask agt = new AllGamesTask();
         agt.setOnSucceeded(e -> {
             allGames = agt.getValue();
