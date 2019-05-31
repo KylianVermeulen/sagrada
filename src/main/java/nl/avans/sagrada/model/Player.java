@@ -5,6 +5,9 @@ import javafx.scene.paint.Color;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.PatternCardDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.ToolCardDao;
+import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.model.toolcard.ToolCardGlasBreekTang;
 import nl.avans.sagrada.task.CalculateScoreTask;
 import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
 import nl.avans.sagrada.task.UpdateScoreTask;
@@ -21,14 +24,12 @@ public class Player {
     private PatternCard patternCard;
     private ArrayList<PatternCard> optionalPatternCards;
     private ArrayList<FavorToken> favorTokens;
-    private ArrayList<Chatline> chatlines;
     private int score;
     private boolean cheatmode = false;
     private Color playerColor;
     private boolean placedDie;
 
     public Player() {
-        chatlines = new ArrayList<>();
     }
 
     /**
@@ -177,6 +178,7 @@ public class Player {
 
     /**
      * Get the selected patterncard of the player
+     *
      * @return PatternCard
      */
     public PatternCard getPatternCard() {
@@ -221,7 +223,8 @@ public class Player {
     public void assignFavorTokens() {
         FavorTokenDao favorTokenDao = new FavorTokenDao();
         ArrayList<FavorToken> favorTokens = new ArrayList<>();
-        ArrayList<FavorToken> allUnusedGameFavorTokens = favorTokenDao.getUnusedFavorTokensOfGame(game);
+        ArrayList<FavorToken> allUnusedGameFavorTokens = favorTokenDao
+                .getUnusedFavorTokensOfGame(game);
         for (int i = 0; i < patternCard.getDifficulty(); i++) {
             FavorToken favorToken = allUnusedGameFavorTokens.get(0);
             allUnusedGameFavorTokens.remove(0);
@@ -262,27 +265,6 @@ public class Player {
     }
 
     /**
-     * addChatline to player
-     */
-    public void addChatline(Chatline chatline) {
-        chatlines.add(chatline);
-    }
-
-    /**
-     * get chatlines from player
-     */
-    public ArrayList<Chatline> getChatlines() {
-        return chatlines;
-    }
-
-    /**
-     * set chatlines for player
-     */
-    public void setChatlines(ArrayList<Chatline> chatlines) {
-        this.chatlines = chatlines;
-    }
-
-    /**
      * Returns true when player has already placed a die this turn.
      *
      * @return Boolean
@@ -299,17 +281,17 @@ public class Player {
     public void setPlacedDie(boolean placedDie) {
         this.placedDie = placedDie;
     }
-    
+
     /**
      * Checks if it is the first turn of the player
+     *
      * @return boolean
      */
     public boolean isFirstTurn() {
         int numberOfPlayers = game.getPlayers().size();
         if (seqnr <= numberOfPlayers) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -405,7 +387,7 @@ public class Player {
         return playerColor;
     }
 
-    public void setPlayerColor(int i){
+    public void setPlayerColor(int i) {
         switch (i) {
             case 0:
                 playerColor = Color.YELLOW;
@@ -421,6 +403,7 @@ public class Player {
                 break;
         }
     }
+
     /**
      * Sets the next seqnr for this player bases on the current seqnr and the size of the game.
      */
@@ -473,18 +456,34 @@ public class Player {
         setSeqnr(newSeqnr);
         new PlayerDao().updatePlayer(this);
     }
-    
+
+    /**
+     * This method will return a boolean of when a player has used a toolcard that needs a turn
+     * skip.
+     *
+     * @return Boolean
+     */
+    public boolean usedToolCardThatNeedsSkipNextTurn() {
+        ToolCardDao toolCardDao = new ToolCardDao();
+        ToolCard toolCard = toolCardDao.getUsedToolCardOfPlayerOfRound(this);
+
+        if (toolCard != null) {
+            return (toolCard instanceof ToolCardGlasBreekTang);
+        }
+        return false;
+    }
+
     /**
      * Checks if a players has already used a toolcard
      * In the turn
+     *
      * @return boolean
      */
     public boolean hasUsedToolcardInCurrentTurn() {
         PlayerDao playerDao = new PlayerDao();
         if (playerDao.hasUsedToolCardInTurn(this)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

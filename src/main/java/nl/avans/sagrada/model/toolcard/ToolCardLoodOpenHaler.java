@@ -44,9 +44,9 @@ public class ToolCardLoodOpenHaler extends ToolCard {
 
             die.setPatternCardField(patternCardField);
             patternCardField.setDie(die);
-            UpdatePlayerFrameFieldTask upfft = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
-            Thread thread = new Thread(upfft);
-            thread.setName("Update PlayerFrameField thread");
+            UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
+            Thread thread = new Thread(updatePlayerFrameFieldTask);
+            thread.setName("Update Player Frame Field");
             thread.setDaemon(true);
             thread.start();
             numberOfUses++;
@@ -82,7 +82,6 @@ public class ToolCardLoodOpenHaler extends ToolCard {
             }
         }
         if (numberOfFoundDie >= 2) {
-            // We need a minimum of 2 dice
             return true;
         } else {
             return false;

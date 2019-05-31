@@ -34,9 +34,9 @@ public class ToolCardLoodHamer extends ToolCard {
                 die.setInFirstTurn(player.isFirstTurn());
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
-                UpdatePlayerFrameFieldTask upfft = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
-                Thread thread = new Thread(upfft);
-                thread.setName("Update PlayerFrameField thread");
+                UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
+                Thread thread = new Thread(updatePlayerFrameFieldTask);
+                thread.setName("Update Player Frame Field");
                 thread.setDaemon(true);
                 thread.start();
                 setIsDone(true);

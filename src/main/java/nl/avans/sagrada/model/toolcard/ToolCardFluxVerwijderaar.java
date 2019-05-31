@@ -37,9 +37,9 @@ public class ToolCardFluxVerwijderaar extends ToolCard {
                 if (targetField.placeDie(die)) {
                     playerController.removePopupPane();
                     die.setInFirstTurn(player.isFirstTurn());
-                    UpdatePlayerFrameFieldTask upfft = new UpdatePlayerFrameFieldTask(die, targetField, player);
-                    Thread thread = new Thread(upfft);
-                    thread.setName("Update PlayerFrameField thread");
+                    UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, targetField, player);
+                    Thread thread = new Thread(updatePlayerFrameFieldTask);
+                    thread.setName("Update Player Frame Field");
                     thread.setDaemon(true);
                     thread.start();
                     die.setPatternCardField(targetField);
