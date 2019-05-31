@@ -2,11 +2,13 @@ package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.task.UpdateDieTask;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 /**
@@ -44,6 +46,12 @@ public class ToolCardSnijLiniaal extends ToolCard {
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
                     playerFrameFieldDao.addDieToField(die, patternCardField, player);
+                    
+                    UpdateDieTask udt = new UpdateDieTask(player.getGame(), die);
+                    Thread updateGameTread = new Thread(udt);
+                    updateGameTread.setDaemon(true);
+                    updateGameTread.setName("Update gamedie thread");
+                    updateGameTread.start();
                     setIsDone(true);
                     return patternCard;
                 }
@@ -56,6 +64,13 @@ public class ToolCardSnijLiniaal extends ToolCard {
 
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        return true;
+        Player player = playerController.getPlayer();
+        PlayerDao playerDao = new PlayerDao();
+        if (playerDao.getCountPlacedDieInTurnRound(player) == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
