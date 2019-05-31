@@ -213,8 +213,8 @@ public class Account {
      */
     public int[] getWinLoseCount() {
         AccountDao accountDao = new AccountDao();
-        int wins = accountDao.getCountWins(this);
-        int loses = accountDao.getCountLoses(this);
+        int wins = accountDao.getWins(this);
+        int loses = accountDao.getLoses(this);
         int[] winsLoses = {wins, loses};
         return winsLoses;
     }

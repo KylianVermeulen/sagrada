@@ -9,6 +9,7 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 /**
@@ -52,13 +53,18 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
             if (!patternCardField.hasDie() && patternCardField.canPlaceDieByAttributes(die)
                     && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
                     && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
+                die.setInFirstTurn(player.isFirstTurn());
 
                 removeDieField.setDie(null);
                 playerFrameFieldDao.removeDie(die, removeDieField, player);
 
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
-                playerFrameFieldDao.addDieToField(die, patternCardField, player);
+                UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
+                Thread thread = new Thread(updatePlayerFrameFieldTask);
+                thread.setName("Update Player Frame Field");
+                thread.setDaemon(true);
+                thread.start();
 
                 numberOfUses++;
                 if (numberOfUses >= 2) {

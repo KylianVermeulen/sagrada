@@ -2,11 +2,14 @@ package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.task.UpdateDieTask;
+import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 /**
@@ -37,12 +40,21 @@ public class ToolCardSnijLiniaal extends ToolCard {
                         && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
                         && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
                     // If the new location meats the new requirements we can make those changes
-                    PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+                    die.setInFirstTurn(player.isFirstTurn());
 
                     die.setIsOnOfferTable(false);
                     die.setPatternCardField(patternCardField);
                     patternCardField.setDie(die);
-                    playerFrameFieldDao.addDieToField(die, patternCardField, player);
+                    UpdateDieTask udt = new UpdateDieTask(player.getGame(), die);
+                    Thread updateGameTread = new Thread(udt);
+                    updateGameTread.setDaemon(true);
+                    updateGameTread.setName("Update gamedie thread");
+                    updateGameTread.start();
+                    UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
+                    Thread thread = new Thread(updatePlayerFrameFieldTask);
+                    thread.setName("Update Player Frame Field");
+                    thread.setDaemon(true);
+                    thread.start();
                     setIsDone(true);
                     return patternCard;
                 }
@@ -55,6 +67,13 @@ public class ToolCardSnijLiniaal extends ToolCard {
 
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        return true;
+        Player player = playerController.getPlayer();
+        PlayerDao playerDao = new PlayerDao();
+        if (playerDao.getCountPlacedDieInTurnRound(player) == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

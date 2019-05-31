@@ -8,6 +8,7 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 /**
@@ -24,23 +25,25 @@ public class ToolCardSchuurBlok extends ToolCard {
     public PatternCard handleDrag(MouseEvent event, GameDie die) {
         try {
             GameDieDao gameDieDao = new GameDieDao();
-            PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
             PatternCardFieldView patternCardView = (PatternCardFieldView) event.getTarget();
 
             PatternCardField patternCardField = patternCardView.getPatternCardField();
             PatternCard patternCard = patternCardField.getPatternCard();
             Player player = patternCard.getPlayer();
 
-            if (patternCardField.hasDie() == false && patternCardField.canPlaceDieByAttributes(die)
-                    && patternCard.checkSidesColor(patternCardField, die.getColor(), true)
-                    && patternCard.checkSidesValue(patternCardField, die.getEyes(), true)) {
+            if (patternCardField.canPlaceDie(die)) {
                 int newEyes = (7 - die.getEyes());
-
+                die.setInFirstTurn(player.isFirstTurn());
                 die.setEyes(newEyes);
                 gameDieDao.updateDieEyes(player.getGame(), die);
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
-                playerFrameFieldDao.addDieToField(die, patternCardField, player);
+                UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
+                Thread thread = new Thread(updatePlayerFrameFieldTask);
+                thread.setName("Update Player Frame Field");
+                thread.setDaemon(true);
+                thread.start();
+                setIsDone(true);
                 return patternCard;
             }
         } catch (Exception e) {

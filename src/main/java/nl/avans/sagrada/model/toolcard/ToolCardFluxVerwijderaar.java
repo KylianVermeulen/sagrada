@@ -9,6 +9,7 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 /**
@@ -35,7 +36,12 @@ public class ToolCardFluxVerwijderaar extends ToolCard {
 
                 if (targetField.placeDie(die)) {
                     playerController.removePopupPane();
-                    new PlayerFrameFieldDao().addDieToField(die, targetField, player);
+                    die.setInFirstTurn(player.isFirstTurn());
+                    UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, targetField, player);
+                    Thread thread = new Thread(updatePlayerFrameFieldTask);
+                    thread.setName("Update Player Frame Field");
+                    thread.setDaemon(true);
+                    thread.start();
                     die.setPatternCardField(targetField);
                     targetField.setDie(die);
                     die.setIsOnOfferTable(false);

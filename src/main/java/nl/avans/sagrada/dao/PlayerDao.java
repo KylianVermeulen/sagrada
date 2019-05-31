@@ -40,6 +40,7 @@ public class PlayerDao {
                 player.setScore(rs.getInt("score"));
                 list.add(player);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,11 +49,10 @@ public class PlayerDao {
 
     public void updatePlayer(Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
-                            "UPDATE player SET username=?, game_idgame=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
+            dbConnection.executeQuery(new Query(
+                            "UPDATE player SET username=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                     new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
                     new QueryParameter(QueryParameter.INT, player.getSeqnr()),
                     new QueryParameter(QueryParameter.BOOLEAN, player.isCurrentPlayer()),
@@ -67,7 +67,7 @@ public class PlayerDao {
 
     public void addPlayer(Player player) {
         try {
-            ResultSet rs = dbConnection.executeQuery(new Query(
+            dbConnection.executeQuery(new Query(
                             "INSERT INTO player (idplayer, username, game_idgame, playstatus_playstatus, seqnr, isCurrentPlayer, private_objectivecard_color, score) VALUES (?,?, ?, ?, ?, ?, ?, ?)",
                             "update"), new QueryParameter(QueryParameter.INT, player.getId()),
                     new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
@@ -106,6 +106,39 @@ public class PlayerDao {
         return player;
     }
 
+    /**
+     * This method will return a Player from the database by seqnr and gameid.
+     *
+     * @param game The game.
+     * @param seqnr The seqnr.
+     * @return The player.
+     */
+    public Player getPlayerBySeqnrByGame(Game game, int seqnr) {
+        Player player = null;
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query("SELECT * FROM player WHERE seqnr=? AND game_idgame=?", "query"),
+                    new QueryParameter(QueryParameter.INT, seqnr),
+                    new QueryParameter(QueryParameter.INT, game.getId())
+            );
+            if (rs.next()) {
+                AccountDao accountDao = new AccountDao();
+                Account account = accountDao.getAccountByUsername(rs.getString("username"));
+                player = new Player();
+                player.setId(rs.getInt("idplayer"));
+                player.setPlayerStatus(rs.getString("playstatus_playstatus"));
+                player.setPrivateObjectivecardColor(rs.getString("private_objectivecard_color"));
+                player.setSeqnr(rs.getInt("seqnr"));
+                player.setIsCurrentPlayer(rs.getBoolean("isCurrentPlayer"));
+                player.setAccount(account);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return player;
+    }
+
     public int getNextPlayerId() {
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -114,6 +147,7 @@ public class PlayerDao {
                 int nextId = rs.getInt("highestId") + 1;
                 return nextId;
             }
+            rs.close();
         } catch (Exception e) {
             e.getStackTrace();
         }
@@ -148,7 +182,7 @@ public class PlayerDao {
      */
     public void updateSelectedPatternCard(Player player, PatternCard patternCard) {
         try {
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query("UPDATE player SET patterncard_idpatterncard=? WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, patternCard.getId()),
@@ -170,19 +204,20 @@ public class PlayerDao {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT \n" + 
-                            "    *\n" + 
-                            "FROM\n" + 
-                            "    playerframefield\n" + 
-                            "        INNER JOIN\n" + 
-                            "    player p ON playerframefield.player_idplayer = p.idplayer\n" + 
-                            "        INNER JOIN\n" + 
-                            "    gamedie g ON playerframefield.idgame = g.idgame\n" + 
-                            "        AND playerframefield.dienumber = g.dienumber\n" + 
-                            "        AND playerframefield.diecolor = g.diecolor\n" + 
-                            "WHERE\n" + 
-                            "    player_idplayer = ? AND round = ?\n" + 
-                            "        AND inFirstTurn = ?",
+                            "SELECT \n" +
+                                    "    *\n" +
+                                    "FROM\n" +
+                                    "    playerframefield\n" +
+                                    "        INNER JOIN\n" +
+                                    "    player p ON playerframefield.player_idplayer = p.idplayer\n"
+                                    +
+                                    "        INNER JOIN\n" +
+                                    "    gamedie g ON playerframefield.idgame = g.idgame\n" +
+                                    "        AND playerframefield.dienumber = g.dienumber\n" +
+                                    "        AND playerframefield.diecolor = g.diecolor\n" +
+                                    "WHERE\n" +
+                                    "    player_idplayer = ? AND round = ?\n" +
+                                    "        AND inFirstTurn = ?",
                             "query"),
                     new QueryParameter(QueryParameter.INT, player.getId()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getRound()),
@@ -204,16 +239,17 @@ public class PlayerDao {
      * @param player The player.
      * @return Boolean
      */
-    public boolean hasUsedToolCardInTurnRound(Player player) {
+    public boolean hasUsedToolCardInTurn(Player player) {
         try {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
-                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN game g on gamefavortoken.idgame = g.idgame WHERE gametoolcard IS NOT NULL AND seqnr=? AND p.idplayer=? AND round=?",
+                            "SELECT * FROM gamefavortoken INNER JOIN player p on gamefavortoken.idplayer = p.idplayer INNER JOIN game g on gamefavortoken.idgame = g.idgame WHERE gametoolcard IS NOT NULL AND seqnr=? AND p.idplayer=? AND round=? AND inFirstTurn=?",
                             "query"
                     ),
                     new QueryParameter(QueryParameter.INT, player.getSeqnr()),
                     new QueryParameter(QueryParameter.INT, player.getId()),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getRound())
+                    new QueryParameter(QueryParameter.INT, player.getGame().getRound()),
+                    new QueryParameter(QueryParameter.BOOLEAN, player.isFirstTurn())
             );
             if (rs.next()) {
                 rs.close();
@@ -228,11 +264,12 @@ public class PlayerDao {
 
     /**
      * updates the score of the player in the database
+     *
      * @param player Player
      */
     public void updateScore(Player player){
         try{
-            ResultSet rs = dbConnection.executeQuery(
+            dbConnection.executeQuery(
                     new Query("UPDATE player SET score=? WHERE idplayer=?", "update"),
                     new QueryParameter(QueryParameter.INT, player.getScore()),
                     new QueryParameter(QueryParameter.INT, player.getId())

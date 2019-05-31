@@ -1,11 +1,14 @@
 package nl.avans.sagrada.view;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -56,7 +59,7 @@ public class RegisterView extends BorderPane implements ViewInterface {
     /**
      * Method to build the registerPane
      */
-    private void buildRegisterPane(){
+    private void buildRegisterPane() {
         registerPane = new VBox();
         registerPane.setAlignment(Pos.CENTER);
         registerPane.setPadding(new Insets(10, 10, 100, 20));
@@ -85,6 +88,14 @@ public class RegisterView extends BorderPane implements ViewInterface {
         passwordInput.setMaxWidth(TEXTFIELD_WIDTH);
         passwordInput.setMinWidth(TEXTFIELD_WIDTH);
         passwordInput.getStyleClass().add("registerTextField");
+        passwordInput.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+                    accountController.actionRegister(usernameInput.getText(), passwordInput.getText());
+                }
+            }
+        });
         passwordPane.setAlignment(passwordText, Pos.CENTER);
         passwordPane.setTop(passwordText);
         passwordPane.setCenter(passwordInput);

@@ -7,6 +7,7 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 /**
@@ -35,11 +36,16 @@ public class ToolCardEglomiseBorstel extends ToolCard {
                     return null;
                 }
             }
+            die.setInFirstTurn(player.isFirstTurn());
             playerFrameFieldDao.removeDie(die, removeDieField, player);
             removeDieField.setDie(null);
             die.setPatternCardField(targetField);
             targetField.setDie(die);
-            playerFrameFieldDao.addDieToField(die, targetField, player);
+            UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, targetField, player);
+            Thread thread = new Thread(updatePlayerFrameFieldTask);
+            thread.setName("Update Player Frame Field");
+            thread.setDaemon(true);
+            thread.start();
             setIsDone(true);
             return patternCard;
         }

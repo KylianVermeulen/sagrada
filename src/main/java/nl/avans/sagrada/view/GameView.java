@@ -12,11 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
-import nl.avans.sagrada.controller.AccountController;
 import nl.avans.sagrada.controller.PlayerController;
-import nl.avans.sagrada.dao.FavorTokenDao;
-import nl.avans.sagrada.dao.PatternCardDao;
-import nl.avans.sagrada.model.Chatline;
+import nl.avans.sagrada.database.ChecksumDatabase;
 import nl.avans.sagrada.model.FavorToken;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
@@ -25,6 +22,11 @@ import nl.avans.sagrada.model.Player;
 import nl.avans.sagrada.model.PublicObjectiveCard;
 import nl.avans.sagrada.model.RoundTrack;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.task.GetFavorTokensOfToolCardTask;
+import nl.avans.sagrada.task.GetFavorTokensTask;
+import nl.avans.sagrada.task.GetPatternCardOfPlayerTask;
+import nl.avans.sagrada.task.GetPublicObjectiveCardTask;
+import nl.avans.sagrada.task.GetRoundTrackDiceTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameView extends VBox implements ViewInterface {
@@ -32,11 +34,8 @@ public class GameView extends VBox implements ViewInterface {
     private Game game;
     private Player player;
     private PlayerController playerController;
-    private AccountController accountController;
     private HBox otherPlayerPatternCardViews;
     private HBox actionButtons;
-    private ArrayList<ToolCardView> toolCardViews;
-    private ArrayList<PublicObjectiveCardView> publicObjectiveCardViews;
     private Label balance;
     private PatternCardView playerPatternCardView;
     private ScoreBoardView scoreBoard;
@@ -44,6 +43,8 @@ public class GameView extends VBox implements ViewInterface {
     private ChatLineView chatLineView;
     private PrivateObjectiveCardView privateObjectiveCardView;
     private DieOfferView dieOfferView;
+    private HBox toolCardsView;
+    private HBox publicObjectiveCardView;
 
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
@@ -76,75 +77,104 @@ public class GameView extends VBox implements ViewInterface {
         for (Player player : players) {
             String currentPlayerUsername = this.player.getAccount().getUsername();
             String otherPlayerUsername = player.getAccount().getUsername();
-            PatternCardDao PatternCardDao = new PatternCardDao();
-            PatternCard patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(player);
-            player.setPatternCard(patternCard);
-            if (!currentPlayerUsername.equals(otherPlayerUsername)) {
-                PatternCard playerPatternCard = player.getPatternCard();
+            
+            GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(player);
+            gpcopt.setOnSucceeded(e -> {
+                PatternCard patternCard = gpcopt.getValue();
+                player.setPatternCard(patternCard);
+                if (!currentPlayerUsername.equals(otherPlayerUsername)) {
+                    PatternCard playerPatternCard = player.getPatternCard();
 
-                PatternCardView patternCardView = new PatternCardView(playerController);
-                patternCardView.setCenterShape(true);
-                patternCardView.setPlayerName(otherPlayerUsername);
-                patternCardView.setPlayerColor(player.getPlayerColor());
-                if (player.isCurrentPlayer()) {
-                    patternCardView.setCurrentPlayer(true);
-                } else {
-                    patternCardView.setCurrentPlayer(false);
-                }
-                patternCardView.setPatternCard(playerPatternCard);
-                patternCardView.render();
-                otherPlayerPatternCardViews.getChildren().add(patternCardView);
-            }
+                    PatternCardView patternCardView = new PatternCardView(playerController);
+                    patternCardView.setCenterShape(true);
+                    patternCardView.setPlayerName(otherPlayerUsername);
+                    patternCardView.setPlayerColor(player.getPlayerColor());
+                    if (player.isCurrentPlayer()) {
+                        patternCardView.setCurrentPlayer(true);
+                    } else {
+                        patternCardView.setCurrentPlayer(false);
+                    }
+                    patternCardView.setPatternCard(playerPatternCard);
+                    patternCardView.render();
+                    otherPlayerPatternCardViews.getChildren().add(patternCardView);
+                } 
+            });
+            Thread thread = new Thread(gpcopt);
+            thread.setName("Get patternCard of Player");
+            thread.setDaemon(true);
+            thread.start();
         }
     }
 
     private void buildToolCards() {
-        toolCardViews = new ArrayList<>();
-        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        toolCardsView = new HBox();
 
         ArrayList<ToolCard> gameToolCards = new ArrayList<>();
         gameToolCards = game.getToolCards();
 
         for (ToolCard toolCard : gameToolCards) {
-            ArrayList<FavorToken> favorTokens = favorTokenDao.getToolCardTokens(toolCard, game);
-            ToolCardView toolCardView = new ToolCardView(playerController);
-            toolCardView.setToolCard(toolCard);
-            toolCardView.setFavorTokens(favorTokens, game);
-            toolCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
-            toolCardView.render();
-            toolCardViews.add(toolCardView);
+            GetFavorTokensOfToolCardTask gftotct = new GetFavorTokensOfToolCardTask(toolCard, game);
+            gftotct.setOnSucceeded(e -> {
+                ArrayList<FavorToken> favorTokens = gftotct.getValue();
+                ToolCardView toolCardView = new ToolCardView(playerController);
+                toolCardView.setToolCard(toolCard);
+                toolCardView.setFavorTokens(favorTokens, game);
+                toolCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
+                toolCardView.render();
+                toolCardsView.getChildren().add(toolCardView);
+            });
+            Thread thread = new Thread(gftotct);
+            thread.setName("Get favortokens of ToolCard");
+            thread.setDaemon(true);
+            thread.start();
         }
     }
 
     private void buildRoundTrack() {
+        roundTrackView = new RoundTrackView(playerController);
         RoundTrack roundTrack = new RoundTrack();
-        for (GameDie gameDie : game.getTrackDice()) {
-            roundTrack.addGameDie(gameDie);
-        }
-
-        roundTrackView = new RoundTrackView(roundTrack);
-        roundTrackView.render();
+        GetRoundTrackDiceTask grtdt = game.getTrackDiceTask();
+        grtdt.setOnSucceeded(e -> {
+            
+            ArrayList<GameDie> trackDie = grtdt.getValue();
+            for (GameDie gameDie : trackDie) {
+                roundTrack.addGameDie(gameDie);
+            }
+    
+            roundTrackView.setRoundTrack(roundTrack);
+            roundTrackView.render();
+        });
+        Thread thread = new Thread(grtdt);
+        thread.setName("Get roundtrack dice");
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void buildPublicObjectiveCards() {
-        publicObjectiveCardViews = new ArrayList<>();
-        PublicObjectiveCard[] gamePublicObjectiveCards = game.getPublicObjectiveCards();
-
-        for (PublicObjectiveCard publicObjectiveCard : gamePublicObjectiveCards) {
-            PublicObjectiveCardView publicObjectiveCardView =
-                    new PublicObjectiveCardView(playerController);
-            publicObjectiveCardView.setPublicObjectiveCard(publicObjectiveCard);
-            publicObjectiveCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
-            publicObjectiveCardView.render();
-            publicObjectiveCardViews.add(publicObjectiveCardView);
-        }
+        publicObjectiveCardView = new HBox();
+        
+        GetPublicObjectiveCardTask gpoct = new GetPublicObjectiveCardTask(game);
+        gpoct.setOnSucceeded(e -> {
+            PublicObjectiveCard[] gamePublicObjectiveCards = gpoct.getValue();
+            game.setPublicObjectiveCards(gamePublicObjectiveCards);
+            for (PublicObjectiveCard publicObjectiveCard : gamePublicObjectiveCards) {
+                PublicObjectiveCardView publicObjectiveCardView =
+                        new PublicObjectiveCardView();
+                publicObjectiveCardView.setPublicObjectiveCard(publicObjectiveCard);
+                publicObjectiveCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
+                publicObjectiveCardView.render();
+                this.publicObjectiveCardView.getChildren().add(publicObjectiveCardView);
+            } 
+        }); 
+        Thread thread = new Thread(gpoct);
+        thread.setName("Get public objective card");
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void buildChatLine() {
-        ArrayList<Chatline> chatLines = game.getChatlines();
         chatLineView = new ChatLineView(playerController);
-
-        chatLineView.setChatLines(chatLines);
+        ChecksumDatabase.setChatLineView(chatLineView);
         chatLineView.render();
     }
 
@@ -152,27 +182,43 @@ public class GameView extends VBox implements ViewInterface {
      * Builds the scoreboard inside of the game view.
      */
     private void buildScoreBoard() {
-        scoreBoard = new ScoreBoardView(game, playerController);
+        scoreBoard = new ScoreBoardView(game);
         scoreBoard.render();
     }
 
     private void buildBalance() {
-        balance = new Label("Betaalstenen: " + player.getFavorTokens().size());
+        balance = new Label();
+        GetFavorTokensTask gftt = new GetFavorTokensTask(player);
+        gftt.setOnSucceeded(e -> {
+            ArrayList<FavorToken> favorTokens = gftt.getValue();
+            balance.setText("Betaalstenen: " + favorTokens.size());
+        });
+        Thread thread = new Thread(gftt);
+        thread.setName("Get favortokens");
+        thread.setDaemon(true);
+        thread.start();
         balance.setPadding(new Insets(0, 0, 0, 5));
     }
 
     private void buildPlayerPatternCard() {
-        PatternCard playerPatternCard = player.getPatternCard();
         playerPatternCardView = new PatternCardView(playerController);
-        playerPatternCardView.setPatternCard(playerPatternCard);
-        playerPatternCardView.setPlayerName(player.getAccount().getUsername());
-        playerPatternCardView.setPlayerColor(player.getPlayerColor());
-        if (player.isCurrentPlayer()) {
-            playerPatternCardView.setCurrentPlayer(true);
-        } else {
-            playerPatternCardView.setCurrentPlayer(false);
-        }
-        playerPatternCardView.render();
+        GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(player);
+        gpcopt.setOnSucceeded(e -> {
+            PatternCard patternCard = gpcopt.getValue();
+            playerPatternCardView.setPatternCard(patternCard);
+            playerPatternCardView.setPlayerName(player.getAccount().getUsername());
+            playerPatternCardView.setPlayerColor(player.getPlayerColor());
+            if (player.isCurrentPlayer()) {
+                playerPatternCardView.setCurrentPlayer(true);
+            } else {
+                playerPatternCardView.setCurrentPlayer(false);
+            }
+            playerPatternCardView.render();
+        });
+        Thread thread = new Thread(gpcopt);
+        thread.setName("Get patternCard of player");
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void buildPlayerPrivateObjectiveCard() {
@@ -215,6 +261,17 @@ public class GameView extends VBox implements ViewInterface {
         dieOfferView = new DieOfferView(this.game, playerPatternCardView, playerController);
         dieOfferView.render();
     }
+    
+    /**
+     * Method the render the die view
+     * For when a die is placed on the patterncard from the
+     * Offer
+     */
+    public void renderDieOfferView() {
+        if (dieOfferView != null) {
+            dieOfferView.render();
+        }
+    }
 
     @Override
     public void render() {
@@ -248,8 +305,8 @@ public class GameView extends VBox implements ViewInterface {
         firstView.setCenter(otherPlayerPatternCardViews);
         firstView.setRight(scoreBoard);
 
-        secondView.getChildren().addAll(toolCardViews);
-        secondView.getChildren().addAll(publicObjectiveCardViews);
+        secondView.getChildren().add(toolCardsView);
+        secondView.getChildren().add(publicObjectiveCardView);
         secondView.getChildren().add(roundTrackView);
 
         HBox rightThirdView = new HBox();

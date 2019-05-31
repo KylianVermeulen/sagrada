@@ -31,6 +31,7 @@ import nl.avans.sagrada.view.popups.Stats;
 public class AccountController {
     private Account account;
     private MyScene myScene;
+    private GameSetupView gameSetupView;
 
     public AccountController(MyScene myScene) {
         this.myScene = myScene;
@@ -109,22 +110,34 @@ public class AccountController {
         Account account = new Account();
 
         if (username.length() < 3) {
-            Alert alert = new Alert("Username ongeldig",
-                    "Username moet minstens 3 characters zijn.", AlertType.ERROR);
+            Alert alert = new Alert(
+                    "Username ongeldig", "Username moet minstens 3 characters zijn.",
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         if (password.length() < 3) {
-            Alert alert = new Alert("Password ongeldig", "Password moet minstens 3 characters zijn",
+            Alert alert = new Alert(
+                    "Password ongeldig", "Password moet minstens 3 characters zijn",
                     AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
-        Matcher match = pt.matcher(password);
-        if (match.find()) {
-            Alert alert = new Alert("Password ongeldig",
-                    "Moet alleen letters en/of cijfers bevatten.", AlertType.ERROR);
+        Matcher usernameMatch = pt.matcher(username);
+        Matcher passwordMatch = pt.matcher(password);
+        if (usernameMatch.find()) {
+            Alert alert = new Alert(
+                    "Gebruikersnaam ongeldig", "Moet alleen letters en/of cijfers bevatten.",
+                    AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+
+        if (passwordMatch.find()) {
+            Alert alert = new Alert(
+                    "Password ongeldig", "Moet alleen letters en/of cijfers bevatten.",
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
@@ -146,6 +159,7 @@ public class AccountController {
      * Logs the user out of the game. Will display the login view.
      */
     public void actionLogout() {
+        myScene.removePopupPane();
         account = null;
         viewLogin();
     }
@@ -159,14 +173,11 @@ public class AccountController {
         Pane pane = new Pane();
         account = accountDao.getAccountByUsername(account.getUsername());
         ArrayList<Invite> pendingInvites = account.getPendingInvites();
-        ArrayList<Game> games = account.getActiveGames();
-        ArrayList<Account> accounts = accountDao.getAllAccounts();
 
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);
-        lobbyView.setGames(games);
-        lobbyView.setAccounts(accounts);
         lobbyView.buildComboBox();
+
         lobbyView.render();
 
         pane.getChildren().add(lobbyView);
@@ -192,6 +203,7 @@ public class AccountController {
         game.assignRandomToolCards();
         game.assignRandomPublicObjectiveCards();
         game.addDice();
+        game.assignFavorTokens();
 
         int playerId = playerDao.getNextPlayerId();
         Player player = new Player();
@@ -211,10 +223,11 @@ public class AccountController {
         ArrayList<Account> accounts = accountDao.getAllInviteableAccounts(account);
 
         Pane pane = new Pane();
-        GameSetupView gameSetupView = new GameSetupView(this, accounts, game);
+        gameSetupView = new GameSetupView(this, accounts, game);
         gameSetupView.render();
 
         pane.getChildren().add(gameSetupView);
+        myScene.removePopupPane();
         myScene.setContentPane(pane);
         account.setAccountStatus(AccountStatus.SETUP);
     }
@@ -238,12 +251,14 @@ public class AccountController {
             Alert alert = new Alert("Invites niet verstuurd", "Te weinig accounts geselecteerd",
                     AlertType.ERROR);
             myScene.addAlertPane(alert);
+            gameSetupView.enableStartButton();
             return;
         }
         if (invitedAccounts.size() > 3) {
-            Alert alert = new Alert("Invites niet verstuurd", "Te veel accounts geselecteerd",
-                    AlertType.ERROR);
+            Alert alert = new Alert(
+                    "Invites niet verstuurd", "Te veel accounts geselecteerd", AlertType.ERROR);
             myScene.addAlertPane(alert);
+            gameSetupView.enableStartButton();
             return;
         }
 
@@ -253,6 +268,7 @@ public class AccountController {
                         "Account: " + invitedAccount.getUsername() + " heeft al een invite";
                 Alert alert = new Alert("Al een active invite", subMessage, AlertType.ERROR);
                 myScene.addAlertPane(alert);
+                gameSetupView.enableStartButton();
                 return;
             }
         }
@@ -277,6 +293,7 @@ public class AccountController {
         Player player = invite.getPlayer();
         player.setGame(invite.getGame());
         account.setAccountStatus(AccountStatus.GAME);
+        myScene.removePopupPane();
         myScene.getPlayerController().setPlayer(player);
         myScene.getPlayerController().viewOptionalPatternCards();
     }
@@ -299,6 +316,7 @@ public class AccountController {
      * @param game the game to join
      */
     public void actionJoinGame(Game game) {
+        myScene.removePopupPane();
         myScene.getPlayerController().actionJoinGame(account, game);
         account.setAccountStatus(AccountStatus.GAME);
     }

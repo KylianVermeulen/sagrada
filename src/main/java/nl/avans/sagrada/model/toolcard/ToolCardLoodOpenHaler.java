@@ -7,6 +7,7 @@ import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
+import nl.avans.sagrada.task.UpdatePlayerFrameFieldTask;
 import nl.avans.sagrada.view.PatternCardFieldView;
 
 /**
@@ -37,12 +38,17 @@ public class ToolCardLoodOpenHaler extends ToolCard {
 
         if (patternCardField.canPlaceDie(die) && die.getPatternCardField() != null) {
             // If the new location matches the new requirements we can make those changes
+            die.setInFirstTurn(player.isFirstTurn());
             removeDieField.setDie(null);
             playerFrameFieldDao.removeDie(die, removeDieField, player);
 
             die.setPatternCardField(patternCardField);
             patternCardField.setDie(die);
-            playerFrameFieldDao.addDieToField(die, patternCardField, player);
+            UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
+            Thread thread = new Thread(updatePlayerFrameFieldTask);
+            thread.setName("Update Player Frame Field");
+            thread.setDaemon(true);
+            thread.start();
             numberOfUses++;
             handleNumberOfUses();
             return patternCard;
@@ -76,7 +82,6 @@ public class ToolCardLoodOpenHaler extends ToolCard {
             }
         }
         if (numberOfFoundDie >= 2) {
-            // We need a minimum of 2 dice
             return true;
         } else {
             return false;

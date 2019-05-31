@@ -77,7 +77,7 @@ public class Fluxverwijderaar extends Popup {
         for (GameDie gameDie : game.getRoundDice()) {
             int i = index;
             Pane paddingPane = new Pane();
-            DieView dieView = new DieView(gameDie);
+            DieView dieView = new DieView(gameDie, playerController);
             dieViews.add(dieView);
             gameDice.add(gameDie);
             dieView.resize(25, 25);
@@ -113,7 +113,7 @@ public class Fluxverwijderaar extends Popup {
         for (int i = 0; i < 6; i++) {
             GameDie die = new GameDie(dieNumber, dieColor, i + 1);
             Pane paddingPane = new Pane();
-            DieView dieView = new DieView(die);
+            DieView dieView = new DieView(die, playerController);
             chooseDieViews.add(dieView);
             dieView.resize(25, 25);
             paddingPane.setPadding(new Insets(20));
@@ -140,7 +140,7 @@ public class Fluxverwijderaar extends Popup {
         GameDieDao gameDieDao = new GameDieDao();
         gameDieDao.updateDieEyes(game, gameDie);
         showDie(gameDie);
-        playerController.viewGame();
+        playerController.viewGame(false);
     }
 
     /**
@@ -151,7 +151,7 @@ public class Fluxverwijderaar extends Popup {
     private void showDie(GameDie gameDie) {
         gameDie.enablePopupdie();
         gameDie.setRound(playerController.getPlayer().getGame().getRound());
-        DieView dieView = new DieView(gameDie);
+        DieView dieView = new DieView(gameDie, playerController);
         dieView.render();
         textTop.setText("Dit is de enigste dobbelsteen die je kunt plaatsen.");
         textBot.setText(

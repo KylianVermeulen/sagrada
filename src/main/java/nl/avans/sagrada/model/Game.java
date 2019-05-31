@@ -3,8 +3,8 @@ package nl.avans.sagrada.model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
-import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.DieDao;
+import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
@@ -12,6 +12,8 @@ import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.task.GetPublicObjectiveCardTask;
+import nl.avans.sagrada.task.GetRoundTrackDiceTask;
 
 public class Game {
     public static final String GAMEMODE_NORMAL = "normal";
@@ -34,7 +36,6 @@ public class Game {
         this.id = id;
         GameDao gameDao = new GameDao();
         ToolCardDao toolCardDao = new ToolCardDao();
-
         players = gameDao.getPlayersOfGame(this);
         toolCards = toolCardDao.getToolCardsOfGame(this);
     }
@@ -57,6 +58,24 @@ public class Game {
             gameDice.add(gameDie);
             gameDieDao.addDie(this, gameDie);
         }
+    }
+
+    /**
+     * Returns the gamedice for this game.
+     *
+     * @return ArrayList GameDie
+     */
+    public ArrayList<GameDie> getGameDice() {
+        return gameDice;
+    }
+
+    /**
+     * Set gameDice to Game
+     *
+     * @param gameDice GameDie[]
+     */
+    public void setGameDice(ArrayList<GameDie> gameDice) {
+        this.gameDice = gameDice;
     }
 
     /**
@@ -177,15 +196,6 @@ public class Game {
     }
 
     /**
-     * Set gameDice to Game
-     *
-     * @param gameDice GameDie[]
-     */
-    public void setGameDice(ArrayList<GameDie> gameDice) {
-        this.gameDice = gameDice;
-    }
-
-    /**
      * Get publicObjectiveCards from Game
      *
      * @return PublicObjectiveCard[]
@@ -195,6 +205,11 @@ public class Game {
         publicObjectiveCards = publicObjectiveCardDao.getAllPublicObjectiveCardsOfGame(this)
                 .toArray(new PublicObjectiveCard[3]);
         return publicObjectiveCards;
+    }
+    
+    public GetPublicObjectiveCardTask getPublicObjectiveCardTask() {
+        GetPublicObjectiveCardTask getPublicObjectiveCardTask = new GetPublicObjectiveCardTask(this);
+        return getPublicObjectiveCardTask;
     }
 
     /**
@@ -226,30 +241,33 @@ public class Game {
      * @return String
      */
     public String getRandomAvailablePrivateColor() {
-        boolean hasNotChooseRandomCard = false;
+        boolean hasFoundPrivateColor = false;
         Random random = new Random();
         int amountOfColors = privateObjectiveCardColors.length;
-        while (!hasNotChooseRandomCard) {
+        while (!hasFoundPrivateColor) {
             int randomArrayPostition = random.nextInt(amountOfColors);
             String privateColor = privateObjectiveCardColors[randomArrayPostition];
+            if (players.size() == 0) {
+                return privateColor;
+            }
             for (Player player : players) {
                 if (player.getPrivateObjectivecardColor().equals(privateColor)) {
+                    hasFoundPrivateColor = false;
+                    privateColor = "";
                     continue;
                 }
+                else {
+                    if (!privateColor.equals("")) {
+                        hasFoundPrivateColor = true;
+                        break;
+                    }
+                }
             }
-            return privateColor;
+            if (hasFoundPrivateColor) {
+                return privateColor;
+            }
         }
         return "";
-    }
-
-    /**
-     * Get all the chatlines of a game trough the chatline dao And returns them
-     *
-     * @return ArrayList<Chatline>
-     */
-    public ArrayList<Chatline> getChatlines() {
-        ArrayList<Chatline> chatlines = new ChatlineDao().getChatlinesOfGame(this);
-        return chatlines;
     }
 
     /**
@@ -446,26 +464,30 @@ public class Game {
      * database.
      */
     public void setNextPlayer() {
+        PlayerDao playerDao = new PlayerDao();
         Player currentPlayer = turnPlayer;
         int oldSeqnr = currentPlayer.getSeqnr();
-        currentPlayer.setNextSeqnr();
+        if (!currentPlayer.usedToolCardThatNeedsSkipNextTurn()) {
+            currentPlayer.setNextSeqnr();
+        }
 
-        for (int i = 0; i < players.size(); i++) {
-            Player playerNextTurn = players.get(i);
-            if (oldSeqnr < (players.size() * 2)) {
-                if (playerNextTurn.getSeqnr() == oldSeqnr + 1) {
-                    if (currentPlayer.getId() != playerNextTurn.getId()) {
-                        updatePlayer(currentPlayer, playerNextTurn);
-                    }
+        boolean finished = false;
+        while (!finished) {
+            oldSeqnr++;
+            if (oldSeqnr <= (players.size() * 2)) {
+                Player playerNextTurn = playerDao.getPlayerBySeqnrByGame(this, oldSeqnr);
+                if (playerNextTurn != null) {
+                    updatePlayer(currentPlayer, playerNextTurn);
+                    finished = true;
                 }
             } else {
-                if (currentPlayer.getId() != playerNextTurn.getId()) {
-                    updatePlayer(playerNextTurn, currentPlayer);
-                    // The player next turn contains seqnr 2
-                    // So we switch those 2
-
-                    nextRound();
+                oldSeqnr = 1;
+                Player playerNextTurn = playerDao.getPlayerBySeqnrByGame(this, oldSeqnr);
+                if (playerNextTurn != null) {
+                    updatePlayer(currentPlayer, playerNextTurn);
+                    finished = true;
                 }
+                nextRound();
             }
         }
     }
@@ -508,6 +530,13 @@ public class Game {
     }
 
     /**
+     * Sets the current round of a game
+     */
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    /**
      * Put the game in the second round by calling the placeDiceOfOfferTableOnRoundTrack
      */
     public void nextRound() {
@@ -535,16 +564,19 @@ public class Game {
      *
      * @return ArrayList<GameDie>
      */
-    public ArrayList<GameDie> getTrackDice() {
-        ArrayList<GameDie> dice = new GameDieDao().getDiceOnRoundTrackFromGame(this);
-        return dice;
+    public GetRoundTrackDiceTask getTrackDiceTask() {
+        return new GetRoundTrackDiceTask(this);
     }
 
     /**
-     * Sets the current round of a game
+     * Rerolls the dice eyes from the dice in the dice offer for the current turn.
      */
-    public void setRound(int round) {
-        this.round = round;
+    public void rerollRoundDice() {
+        GameDieDao gameDieDao = new GameDieDao();
+        for (GameDie gameDie : gameDieDao.getAvailableDiceOfRound(this)) {
+            gameDie.setEyes(new Random().nextInt(6) + 1);
+            gameDieDao.updateDieEyes(this, gameDie);
+        }
     }
 
     /**
@@ -555,6 +587,7 @@ public class Game {
         PlayerDao playerDao = new PlayerDao();
         for (Player player : players) {
             player.setPlayerStatus("uitgespeeld");
+            player.setScore(player.calculateScore(true, true));
             playerDao.updatePlayer(player);
         }
     }
@@ -569,7 +602,7 @@ public class Game {
         Player player = null;
         int playerScore = -21;
         for (Player playerLoop : getPlayers()) {
-            int loopScore = playerLoop.calculateScore(true);
+            int loopScore = playerLoop.calculateScore(true, false);
             if (player == null) {
                 player = playerLoop;
                 playerScore = loopScore;
@@ -586,5 +619,18 @@ public class Game {
             }
         }
         return player;
+    }
+
+    /**
+     * Assign 24 favor tokens to a game in the database.
+     */
+    public void assignFavorTokens() {
+        FavorTokenDao favorTokenDao = new FavorTokenDao();
+        for (int i = 0; i < 24; i++) {
+            FavorToken favorToken = new FavorToken();
+            favorToken.setId(favorTokenDao.getNextFavorTokenId());
+            favorToken.setGame(this);
+            favorTokenDao.addFavorToken(favorToken);
+        }
     }
 }

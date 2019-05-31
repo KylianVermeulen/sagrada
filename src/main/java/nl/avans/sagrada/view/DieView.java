@@ -33,13 +33,15 @@ public class DieView extends Pane implements ViewInterface {
         init();
     }
 
-    public DieView(GameDie gameDie) {
+    public DieView(GameDie gameDie, PlayerController playerController) {
         this.gameDie = gameDie;
+        this.playerController = playerController;
         init();
     }
 
-    public DieView(GameDie gameDie, PatternCardView patternCardView) {
+    public DieView(GameDie gameDie, PlayerController playerController, PatternCardView patternCardView) {
         this.gameDie = gameDie;
+        this.playerController = playerController;
         this.patternCardView = patternCardView;
         init();
     }
