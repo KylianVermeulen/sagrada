@@ -122,8 +122,16 @@ public class AccountController {
             return;
         }
         Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
-        Matcher match = pt.matcher(password);
-        if (match.find()) {
+        Matcher usernameMatch = pt.matcher(username);
+        Matcher passwordMatch = pt.matcher(password);
+        if (usernameMatch.find()) {
+            Alert alert = new Alert(
+                    "Gebruikersnaam ongeldig", "Moet alleen letters en/of cijfers bevatten.", AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+        
+        if (passwordMatch.find()) {
             Alert alert = new Alert(
                     "Password ongeldig", "Moet alleen letters en/of cijfers bevatten.", AlertType.ERROR);
             myScene.addAlertPane(alert);
