@@ -119,11 +119,9 @@ public class PlayerFrameFieldDao {
      * Generates all empty playerframefields for a player. 
      * 
      * @param patternCardFields ArrayList
-     * @param patternCard PatternCard
      * @param player Player
      */
-    public void addPatternCardFields(ArrayList<PatternCardField> patternCardFields,
-            PatternCard patternCard, Player player) {
+    public void addPlayerFrameFields(ArrayList<PatternCardField> patternCardFields, Player player) {
         List<QueryParameter[]> queryParametersList = new ArrayList<>();
         for (int i = 0; i < 20; i++) { // 20 fields
             QueryParameter[] queryParameters = {

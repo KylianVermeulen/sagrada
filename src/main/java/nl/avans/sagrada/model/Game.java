@@ -15,6 +15,7 @@ import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.task.AddPlayerFrameFieldsTask;
 import nl.avans.sagrada.task.GetPublicObjectiveCardTask;
 import nl.avans.sagrada.task.GetRoundTrackDiceTask;
 
@@ -318,9 +319,14 @@ public class Game {
                 optionalPatternCards.remove(randomInt);
             }
             player.setOptionalPatternCards(optionalPatternCardsPlayer);
-            PlayerFrameFieldDao playerFrameFieldDao = new PlayerFrameFieldDao();
+            
             PatternCardFieldDao patternCardFieldDao = new PatternCardFieldDao();
-            playerFrameFieldDao.addPatternCardFields(patternCardFieldDao.getPatternCardFieldsOfPatterncard(optionalPatternCardsPlayer.get(0)), optionalPatternCardsPlayer.get(0), player);
+            AddPlayerFrameFieldsTask addPlayerFrameFieldsTask = new AddPlayerFrameFieldsTask(
+                    patternCardFieldDao.getPatternCardFieldsOfPatterncard(optionalPatternCardsPlayer.get(0)), player);
+            Thread playerFrameFieldsThread = new Thread(addPlayerFrameFieldsTask);
+            playerFrameFieldsThread.setName("Adding PlayerFrameFields");
+            playerFrameFieldsThread.start();
+            
         }
     }
 
