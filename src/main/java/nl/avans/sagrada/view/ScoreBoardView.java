@@ -49,7 +49,7 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
         setBackground(new Background(new BackgroundFill(Color.AQUA, null, null)));
     }
 
-    /**
+    /**0
      * Builds the content for the scoreboard view.
      */
     private void buildContent() {
