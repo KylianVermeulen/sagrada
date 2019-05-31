@@ -111,13 +111,15 @@ public class AccountController {
 
         if (username.length() < 3) {
             Alert alert = new Alert(
-                    "Username ongeldig", "Username moet minstens 3 characters zijn.", AlertType.ERROR);
+                    "Username ongeldig", "Username moet minstens 3 characters zijn.",
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
         if (password.length() < 3) {
             Alert alert = new Alert(
-                    "Password ongeldig", "Password moet minstens 3 characters zijn", AlertType.ERROR);
+                    "Password ongeldig", "Password moet minstens 3 characters zijn",
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
@@ -126,14 +128,16 @@ public class AccountController {
         Matcher passwordMatch = pt.matcher(password);
         if (usernameMatch.find()) {
             Alert alert = new Alert(
-                    "Gebruikersnaam ongeldig", "Moet alleen letters en/of cijfers bevatten.", AlertType.ERROR);
+                    "Gebruikersnaam ongeldig", "Moet alleen letters en/of cijfers bevatten.",
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
-        
+
         if (passwordMatch.find()) {
             Alert alert = new Alert(
-                    "Password ongeldig", "Moet alleen letters en/of cijfers bevatten.", AlertType.ERROR);
+                    "Password ongeldig", "Moet alleen letters en/of cijfers bevatten.",
+                    AlertType.ERROR);
             myScene.addAlertPane(alert);
             return;
         }
@@ -155,6 +159,7 @@ public class AccountController {
      * Logs the user out of the game. Will display the login view.
      */
     public void actionLogout() {
+        myScene.removePopupPane();
         account = null;
         viewLogin();
     }
@@ -171,7 +176,7 @@ public class AccountController {
 
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);
-        
+
         lobbyView.render();
 
         pane.getChildren().add(lobbyView);
@@ -209,7 +214,7 @@ public class AccountController {
         player.setGame(game);
         player.setPrivateObjectivecardColor(game.getRandomAvailablePrivateColor());
         playerDao.addPlayer(player);
-        
+
         game.setPlayers(gameDao.getPlayersOfGame(game));
 
         game.setTurnPlayer(player);
@@ -221,6 +226,7 @@ public class AccountController {
         gameSetupView.render();
 
         pane.getChildren().add(gameSetupView);
+        myScene.removePopupPane();
         myScene.setContentPane(pane);
         account.setAccountStatus(AccountStatus.SETUP);
     }
@@ -265,7 +271,7 @@ public class AccountController {
                 return;
             }
         }
-        
+
         InviteTask inviteTask = new InviteTask(game, invitedAccounts);
         Thread inviteThread = new Thread(inviteTask);
         inviteThread.setName("Sending invites");
@@ -286,6 +292,7 @@ public class AccountController {
         Player player = invite.getPlayer();
         player.setGame(invite.getGame());
         account.setAccountStatus(AccountStatus.GAME);
+        myScene.removePopupPane();
         myScene.getPlayerController().setPlayer(player);
         myScene.getPlayerController().viewOptionalPatternCards();
     }
@@ -308,6 +315,7 @@ public class AccountController {
      * @param game the game to join
      */
     public void actionJoinGame(Game game) {
+        myScene.removePopupPane();
         myScene.getPlayerController().actionJoinGame(account, game);
         account.setAccountStatus(AccountStatus.GAME);
     }
