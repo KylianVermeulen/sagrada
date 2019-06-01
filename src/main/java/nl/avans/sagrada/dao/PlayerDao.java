@@ -50,7 +50,7 @@ public class PlayerDao {
     public void updatePlayer(Player player) {
         try {
             dbConnection.executeQuery(new Query(
-                            "UPDATE player SET username=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=?, score=? WHERE idplayer=?",
+                            "UPDATE player SET username=?, playstatus_playstatus=?, seqnr=?, isCurrentPlayer=?, private_objectivecard_color=? WHERE idplayer=?",
                             "update"),
                     new QueryParameter(QueryParameter.STRING, player.getAccount().getUsername()),
                     new QueryParameter(QueryParameter.STRING, player.getPlayerStatus()),
@@ -58,7 +58,6 @@ public class PlayerDao {
                     new QueryParameter(QueryParameter.BOOLEAN, player.isCurrentPlayer()),
                     new QueryParameter(QueryParameter.STRING,
                             player.getPrivateObjectivecardColor()),
-                    new QueryParameter(QueryParameter.INT, player.getScore()),
                     new QueryParameter(QueryParameter.INT, player.getId()));
         } catch (SQLException e) {
             e.printStackTrace();
