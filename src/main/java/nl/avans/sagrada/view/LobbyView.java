@@ -25,7 +25,6 @@ import nl.avans.sagrada.model.Invite;
 import nl.avans.sagrada.task.ActiveGameTask;
 import nl.avans.sagrada.task.AllAccountsTask;
 import nl.avans.sagrada.task.AllGamesTask;
-import nl.avans.sagrada.task.WinsPerAccountTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class LobbyView extends BorderPane implements ViewInterface {
@@ -45,7 +44,6 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private AccountOverviewView accountOverview;
     private Button newGameButton;
     private Button logoutButton;
-    private ArrayList<Account> winsPerAccount;
     private ComboBox comboBox;
     private BackgroundSize size =
             new BackgroundSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT, false, false, true, false);
@@ -195,37 +193,33 @@ public class LobbyView extends BorderPane implements ViewInterface {
                 new Thread(allAccountsTask).start();
             }
             if (comboBox.getValue().equals(option2)) {
-                ArrayList<Account> addAccounts = new ArrayList<Account>();
 
                 AllAccountsTask allAccountsTask = new AllAccountsTask();
                 allAccountsTask.setOnSucceeded(event -> {
                     accounts = allAccountsTask.getValue();
-                    accountOverview.setAccounts(allAccountsTask.getValue());
                 });
                 new Thread(allAccountsTask).start();
 
-                WinsPerAccountTask winsPerAccountTask = new WinsPerAccountTask();
-                allAccountsTask.setOnSucceeded(event -> {
-                    winsPerAccount = winsPerAccountTask.getValue();
-                    boolean hasAcc = false;
-                    for (Account account : accounts) {
-                        for (Account checkAccounts : winsPerAccount) {
-                            if (account.getUsername().equals(checkAccounts.getUsername())) {
-                                hasAcc = true;
-                            }
+                AccountDao accountDao = new AccountDao();
+                ArrayList<Account> winsPerAccount = accountDao.getWinsPerAccount();
+                ArrayList<Account> addAccounts = new ArrayList<Account>();
+
+                boolean hasAcc = false;
+                for (Account account : accounts) {
+                    for (Account checkAccounts : winsPerAccount) {
+                        if (account.getUsername().equals(checkAccounts.getUsername())) {
+                            hasAcc = true;
                         }
-                        if (!hasAcc) {
-                            addAccounts.add(account);
-                        }
-                        hasAcc = false;
                     }
-                    winsPerAccount.addAll(addAccounts);
-                    accountOverview.setAccounts(winsPerAccount);
-                    accountOverview.render();
-                });
-                new Thread(winsPerAccountTask).start();
+                    if (!hasAcc) {
+                        addAccounts.add(account);
+                    }
+                    hasAcc = false;
+                }
 
-
+                winsPerAccount.addAll(addAccounts);
+                accountOverview.setAccounts(winsPerAccount);
+                accountOverview.render();
             }
         });
     }
