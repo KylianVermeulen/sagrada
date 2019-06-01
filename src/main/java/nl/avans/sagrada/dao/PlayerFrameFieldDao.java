@@ -2,11 +2,14 @@ package nl.avans.sagrada.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import nl.avans.sagrada.database.DBConnection;
 import nl.avans.sagrada.database.Query;
 import nl.avans.sagrada.database.QueryParameter;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
+import nl.avans.sagrada.model.PatternCard;
 import nl.avans.sagrada.model.PatternCardField;
 import nl.avans.sagrada.model.Player;
 
@@ -61,7 +64,7 @@ public class PlayerFrameFieldDao {
                             "update"),
                     new QueryParameter(QueryParameter.INT, die.getNumber()),
                     new QueryParameter(QueryParameter.STRING, die.getColor()),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getId()),
+                    new QueryParameter(QueryParameter.INT, player.getId()),
                     new QueryParameter(QueryParameter.INT, patterncardfield.getyPos()),
                     new QueryParameter(QueryParameter.INT, patterncardfield.getxPos()),
                     new QueryParameter(QueryParameter.INT, player.getGame().getId())
@@ -111,4 +114,29 @@ public class PlayerFrameFieldDao {
         }
     }
 
+    /**
+     * Generates all empty playerframefields for a patterncard. 
+     * 
+     * @param patternCardFields ArrayList
+     * @param player Player
+     */
+    public void addPlayerFrameFields(ArrayList<PatternCardField> patternCardFields, Player player) {
+        List<QueryParameter[]> queryParametersList = new ArrayList<>();
+        for (int i = 0; i < 20; i++) { // 20 fields
+            QueryParameter[] queryParameters = {
+                    new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, patternCardFields.get(i).getxPos()),
+                    new QueryParameter(QueryParameter.INT, patternCardFields.get(i).getyPos()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getId())
+            };
+            queryParametersList.add(queryParameters);
+        }
+        try {
+            int[] ints = dbConnection.executeBatchQuery(
+                    new Query("INSERT INTO playerframefield (player_idplayer, position_x, position_y, idgame) VALUES (?, ?, ?, ?)", "update",
+                            queryParametersList));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

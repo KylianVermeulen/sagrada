@@ -49,8 +49,8 @@ public class EndgameView extends BorderPane implements ViewInterface {
 
     private void buildEndScore() {
         BorderPane center = new BorderPane();
-        victoryLabel = new Label(winplayer.getAccount().getUsername() + " has won the game!");
-        endScore = new ScoreBoardView(game);
+        victoryLabel = new Label(winplayer.getAccount().getUsername() + " heeft gewonnen!");
+        endScore = new ScoreBoardView(game, true);
         victoryLabel.setMinHeight(100);
         victoryLabel.setMaxHeight(75);
         victoryLabel.setMinWidth(Main.SCREEN_WIDTH);
@@ -73,7 +73,7 @@ public class EndgameView extends BorderPane implements ViewInterface {
         buttonBar.setSpacing(300);
         buttonBar.setMinHeight(200);
         buttonBar.setAlignment(Pos.CENTER);
-        lobbyButton = new Button("Return to lobby");
+        lobbyButton = new Button("Terug naar lobby");
         lobbyButton.setPrefSize(button_width, button_height);
         lobbyButton.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
                 CornerRadii.EMPTY, new BorderWidths(5))));
