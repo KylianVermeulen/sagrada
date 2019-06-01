@@ -50,7 +50,7 @@ public class EndgameView extends BorderPane implements ViewInterface {
     private void buildEndScore() {
         BorderPane center = new BorderPane();
         victoryLabel = new Label(winplayer.getAccount().getUsername() + " has won the game!");
-        endScore = new ScoreBoardView(game);
+        endScore = new ScoreBoardView(game, true);
         victoryLabel.setMinHeight(100);
         victoryLabel.setMaxHeight(75);
         victoryLabel.setMinWidth(Main.SCREEN_WIDTH);
