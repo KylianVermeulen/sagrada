@@ -231,7 +231,7 @@ public class GameView extends VBox implements ViewInterface {
     private void buildActionButtons() {
         actionButtons = new HBox();
 
-        Button cheatmodeButton = new Button("Cheatmode");
+        Button cheatmodeButton = new Button("Cheatmodus");
         if (player.isCheatmode()) {
             cheatmodeButton.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
         } else {

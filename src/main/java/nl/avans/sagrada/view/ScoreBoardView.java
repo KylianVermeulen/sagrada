@@ -57,7 +57,7 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
         ArrayList<HBox> scoreLines = new ArrayList<HBox>();
 
         StackPane scoreTitlePane = new StackPane();
-        Label scoreTitle = new Label("Public Scorebord");
+        Label scoreTitle = new Label("Publieke Scorebord");
         scoreTitle.setFont(SCORE_TITLE_FONT);
         scoreTitle.setTextAlignment(TextAlignment.CENTER);
         scoreTitlePane.getChildren().add(scoreTitle);
