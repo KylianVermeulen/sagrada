@@ -57,7 +57,7 @@ public class LoginView extends BorderPane implements ViewInterface {
         loginPane.setPadding(new Insets(10, 10, 100, 20));
 
         BorderPane userHBox = new BorderPane();
-        Label userName = new Label("Username");
+        Label userName = new Label("Gebruikersnaam");
         userName.setPadding(new Insets(10, 20, 10, 20));
         userName.getStyleClass().add("loginLabel");
         TextField userTextField = new TextField();
@@ -71,7 +71,7 @@ public class LoginView extends BorderPane implements ViewInterface {
         userHBox.setCenter(userTextField);
 
         BorderPane passwordHBox = new BorderPane();
-        Label password = new Label("Password");
+        Label password = new Label("Wachtwoord");
         PasswordField passwordTextField = new PasswordField();
         password.getStyleClass().add("loginLabel");
         password.setPadding(new Insets(10, 20, 10, 20));
@@ -94,13 +94,13 @@ public class LoginView extends BorderPane implements ViewInterface {
         passwordHBox.setCenter(passwordTextField);
         passwordHBox.setPadding(new Insets(12, 12, 20, 12));
 
-        Button loginButton = new Button("Login");
+        Button loginButton = new Button("Inloggen");
         loginButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         loginButton.setOnAction(e -> accountController.actionLogin(userTextField.getText(), passwordTextField.getText()));
         loginButton.setId("loginButton");
         loginButton.setPadding(new Insets(8, 12, 8, 12));
 
-        Label registerLabel = new Label("If you don't have an account click here");
+        Label registerLabel = new Label("Klik hier als je nog geen account heb");
         String css = this.getClass().getResource("/css/style.css").toExternalForm();
         registerLabel.getStylesheets().add(css);
         registerLabel.setId("registerLabel");
