@@ -31,6 +31,7 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 
 public class GameView extends VBox implements ViewInterface {
     private final int SPACING_BETWEEN_CHILDS = 5;
+    private final int BUTTON_PANE_HEIGHT = 40;
     private Game game;
     private Player player;
     private PlayerController playerController;
@@ -252,9 +253,10 @@ public class GameView extends VBox implements ViewInterface {
         exitButton.setOnAction(e -> playerController.actionExit());
 
         actionButtons.getChildren().addAll(cheatmodeButton, passButton, exitButton);
-        actionButtons.setAlignment(Pos.BOTTOM_CENTER);
+        actionButtons.setAlignment(Pos.CENTER);
         actionButtons.setSpacing(SPACING_BETWEEN_CHILDS);
-        actionButtons.setPadding(new Insets(40, 0, 0, 0));
+        actionButtons.setMaxHeight(BUTTON_PANE_HEIGHT);
+        actionButtons.setMinHeight(BUTTON_PANE_HEIGHT);
     }
 
     private void buildDieOffer() {
