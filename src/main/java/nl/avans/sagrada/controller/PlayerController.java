@@ -9,6 +9,7 @@ import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PatternCardFieldDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
@@ -288,7 +289,7 @@ public class PlayerController {
                 myScene.addAlertPane(alert);
             } else {
                 Alert alert = new Alert("Je kan starten!",
-                        "Iedereen heeft een patterncard gestart!", AlertType.INFO);
+                        "Iedereen heeft een patroonkaart gekozen!", AlertType.INFO);
                 myScene.addAlertPane(alert);
             }
         });

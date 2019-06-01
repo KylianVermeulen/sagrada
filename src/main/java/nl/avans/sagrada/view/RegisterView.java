@@ -65,7 +65,7 @@ public class RegisterView extends BorderPane implements ViewInterface {
         registerPane.setPadding(new Insets(10, 10, 100, 20));
 
         BorderPane userPane = new BorderPane();
-        Label usernameText = new Label("Username:");
+        Label usernameText = new Label("Gebruikersnaam:");
         usernameText.setPadding(new Insets(10, 20, 10, 20));
         usernameText.getStyleClass().add("registerLabel");
         TextField usernameInput = new TextField();
@@ -79,7 +79,7 @@ public class RegisterView extends BorderPane implements ViewInterface {
         userPane.setCenter(usernameInput);
 
         BorderPane passwordPane = new BorderPane();
-        Label passwordText = new Label("Password:");
+        Label passwordText = new Label("Wachtwoord:");
         passwordText.setPadding(new Insets(10, 20, 10, 20));
         passwordText.getStyleClass().add("registerLabel");
         PasswordField passwordInput = new PasswordField();
@@ -101,7 +101,7 @@ public class RegisterView extends BorderPane implements ViewInterface {
         passwordPane.setCenter(passwordInput);
         passwordPane.setPadding(new Insets(12, 12, 20, 12));
 
-        Button registerButton = new Button("Register");
+        Button registerButton = new Button("Registreren");
         registerButton.setOnAction(
                 e -> accountController.actionRegister(usernameInput.getText(), passwordInput.getText()));
         registerButton.setId("registerButton");

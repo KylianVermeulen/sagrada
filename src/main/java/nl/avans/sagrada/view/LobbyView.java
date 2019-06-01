@@ -143,7 +143,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
         pane.setMaxWidth(100);
         pane.setMinWidth(100);
 
-        logoutButton = new Button("Logout");
+        logoutButton = new Button("Uitloggen");
         logoutButton.setOnAction(e -> accountController.actionLogout());
 
         pane.setAlignment(Pos.TOP_CENTER);
