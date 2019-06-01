@@ -193,33 +193,29 @@ public class LobbyView extends BorderPane implements ViewInterface {
                 new Thread(allAccountsTask).start();
             }
             if (comboBox.getValue().equals(option2)) {
-
                 AllAccountsTask allAccountsTask = new AllAccountsTask();
                 allAccountsTask.setOnSucceeded(event -> {
                     accounts = allAccountsTask.getValue();
+                    AccountDao accountDao = new AccountDao();
+                    ArrayList<Account> winsPerAccount = accountDao.getWinsPerAccount();
+                    ArrayList<Account> addAccounts = new ArrayList<Account>();
+                    boolean hasAcc = false;
+                    for (Account account : accounts) {
+                        for (Account checkAccounts : winsPerAccount) {
+                            if (account.getUsername().equals(checkAccounts.getUsername())) {
+                                hasAcc = true;
+                            }
+                        }
+                        if (!hasAcc) {
+                            addAccounts.add(account);
+                        }
+                        hasAcc = false;
+                    }
+                    winsPerAccount.addAll(addAccounts);
+                    accountOverview.setAccounts(winsPerAccount);
+                    accountOverview.render();
                 });
                 new Thread(allAccountsTask).start();
-
-                AccountDao accountDao = new AccountDao();
-                ArrayList<Account> winsPerAccount = accountDao.getWinsPerAccount();
-                ArrayList<Account> addAccounts = new ArrayList<Account>();
-
-                boolean hasAcc = false;
-                for (Account account : accounts) {
-                    for (Account checkAccounts : winsPerAccount) {
-                        if (account.getUsername().equals(checkAccounts.getUsername())) {
-                            hasAcc = true;
-                        }
-                    }
-                    if (!hasAcc) {
-                        addAccounts.add(account);
-                    }
-                    hasAcc = false;
-                }
-
-                winsPerAccount.addAll(addAccounts);
-                accountOverview.setAccounts(winsPerAccount);
-                accountOverview.render();
             }
         });
     }
