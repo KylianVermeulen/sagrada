@@ -8,10 +8,13 @@ import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
+import nl.avans.sagrada.dao.PatternCardFieldDao;
 import nl.avans.sagrada.dao.PlayerDao;
+import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.toolcard.ToolCard;
+import nl.avans.sagrada.task.AddPlayerFrameFieldsTask;
 import nl.avans.sagrada.task.GetPublicObjectiveCardTask;
 import nl.avans.sagrada.task.GetRoundTrackDiceTask;
 
@@ -317,6 +320,13 @@ public class Game {
                 optionalPatternCards.remove(randomInt);
             }
             player.setOptionalPatternCards(optionalPatternCardsPlayer);
+            
+            AddPlayerFrameFieldsTask addPlayerFrameFieldsTask = new AddPlayerFrameFieldsTask(optionalPatternCardsPlayer.get(0), player);
+            Thread playerFrameFieldsThread = new Thread(addPlayerFrameFieldsTask);
+            playerFrameFieldsThread.setName("Adding PlayerFrameFields");
+            playerFrameFieldsThread.setDaemon(false);
+            playerFrameFieldsThread.start();
+            
         }
     }
 
