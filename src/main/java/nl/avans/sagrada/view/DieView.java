@@ -68,7 +68,7 @@ public class DieView extends Pane implements ViewInterface {
     private void enableDrag() {
         setOnDragDetected(e -> {
             startFullDrag();
-            if (playerController.getPlayer().isCheatmode()) {
+            if (playerController.isCheatmodeActive()) {
                 playerController.actionHighlightBestPlacementForGameDie(gameDie);
             }
         });

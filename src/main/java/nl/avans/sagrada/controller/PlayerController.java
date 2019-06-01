@@ -9,7 +9,6 @@ import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
-import nl.avans.sagrada.dao.PatternCardFieldDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
@@ -50,6 +49,7 @@ public class PlayerController {
     private Player player;
     private ToolCard activeToolCard;
     private GameView gameView;
+    private boolean cheatmodeActive;
     private HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap;
     private CheatmodeTask cheatmodeTask;
 
@@ -214,13 +214,11 @@ public class PlayerController {
             game.finishGame();
             viewEndgame();
         } else {
-            if (cheatmodeTask == null) {
-                cheatmodeTask = new CheatmodeTask(this);
-                Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
-                cheatmodeTaskThread.setName("Cheatmode placement options thread");
-                cheatmodeTaskThread.setDaemon(true);
-                cheatmodeTaskThread.start();
-            }
+            cheatmodeTask = new CheatmodeTask(this);
+            Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
+            cheatmodeTaskThread.setName("Cheatmode placement options thread");
+            cheatmodeTaskThread.setDaemon(true);
+            cheatmodeTaskThread.start();
 
             Pane pane = new Pane();
             gameView = new GameView(this, game, player);
@@ -328,6 +326,7 @@ public class PlayerController {
 
     public void actionToggleCheatmode() {
         player.setCheatmode(!player.isCheatmode());
+        setCheatmodeActive(!this.cheatmodeActive);
     }
 
     /**
@@ -455,6 +454,7 @@ public class PlayerController {
             HashMap<Integer, String> hashMap = new HashMap<>();
             hashMap.put(gameDie.getNumber(), gameDie.getColor());
             TreeMap<Integer, PatternCardField> treeMap = treeMapHashMap.get(hashMap);
+            ArrayList<PatternCardField> patternCardFields = new ArrayList<>(treeMap.values());
 
             for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
                 for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
@@ -469,6 +469,13 @@ public class PlayerController {
                     if (treeMap.lastEntry().getValue().getxPos() == x
                             && treeMap.lastEntry().getValue().getyPos() == y) {
                         patternCardFieldViews[x][y].addBestHighlight();
+                    } else {
+                        for (PatternCardField patternCardField : patternCardFields) {
+                            if (patternCardField.getxPos() == x
+                                    && patternCardField.getyPos() == y) {
+                                patternCardFieldViews[x][y].addHighlight();
+                            }
+                        }
                     }
                 }
             }
@@ -509,5 +516,13 @@ public class PlayerController {
 
     public void removePopupPane() {
         myScene.removePopupPane();
+    }
+
+    public boolean isCheatmodeActive() {
+        return cheatmodeActive;
+    }
+
+    public void setCheatmodeActive(boolean cheatmodeActive) {
+        this.cheatmodeActive = cheatmodeActive;
     }
 }
