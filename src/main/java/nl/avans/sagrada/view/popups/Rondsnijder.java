@@ -81,8 +81,8 @@ public class Rondsnijder extends Popup {
         showRoundDice();
         showTrackDice();
 
-        textTop.setText("Kies een dobbelsteen die je wil omruilen.");
-        textBot.setText("Als je klikt heb je gekozen dus denk eerst na voordat je klikt!\n");
+        textTop.setText("Kies 2 dobbelsteen die je wil omruilen.");
+        textBot.setText("1 op de eerste rij en 1 op de laatse rij!\n");
         textTop.setFont(Font.font("sans-serif", FontWeight.MEDIUM, 18));
         textBot.setFont(Font.font("sans-serif", FontWeight.MEDIUM, 18));
         rootPane.getChildren().addAll(textTop, textBot, diePane, dieTrackPane);
