@@ -37,7 +37,6 @@ public class Rondsnijder extends Popup {
     private ToolCard toolCard;
     private PlayerController playerController;
     private ArrayList<DieView> dieViews;
-    private ArrayList<DieView> dieTrackViews;
     private ArrayList<GameDie> gameDice;
     private ArrayList<GameDie> gameTrackDice;
     private GameDie die1;
