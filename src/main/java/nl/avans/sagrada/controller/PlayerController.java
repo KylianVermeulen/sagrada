@@ -3,8 +3,6 @@ package nl.avans.sagrada.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.TreeMap;
-import javafx.collections.ObservableList;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ChatlineDao;
@@ -101,6 +99,7 @@ public class PlayerController {
                                         AlertType.INFO
                                 );
                                 myScene.addAlertPane(alert);
+                                actionRemoveHighlight();
                             }
                             player.setPatternCard(toolCardUseResult);
                         } else {
@@ -132,6 +131,7 @@ public class PlayerController {
                                 thread.setName("Update PlayerFrameField thread");
                                 thread.setDaemon(true);
                                 thread.start();
+                                actionRemoveHighlight();
                             }
                         }
                     }
@@ -327,7 +327,7 @@ public class PlayerController {
     }
 
     public void actionToggleCheatmode() {
-        player.setCheatmode(!player.isCheatmode());
+        actionRemoveHighlight();
         setCheatmodeActive(!this.cheatmodeActive);
     }
 
@@ -457,16 +457,19 @@ public class PlayerController {
             hashMapDie.put(gameDie.getNumber(), gameDie.getColor());
 
             // Oef lekker mooi Kappa123
-            LinkedHashMap<PatternCardField, ArrayList<PatternCardField>> listLinkedHashMap = treeMapHashMap.get(hashMapDie);
+            LinkedHashMap<PatternCardField, ArrayList<PatternCardField>> listLinkedHashMap = treeMapHashMap
+                    .get(hashMapDie);
             Object[] bestPlacementArr = listLinkedHashMap.keySet().toArray();
             PatternCardField bestPlacement = (PatternCardField) bestPlacementArr[0];
             Object[] allPlacementArr = listLinkedHashMap.values().toArray();
             ArrayList<PatternCardField> allPlacement = (ArrayList<PatternCardField>) allPlacementArr[0];
 
+            actionRemoveHighlight();
+
             for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
                 for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
-                    patternCardFieldViews[x][y].removeHighlight();
-                    PatternCardField patternCardField = patternCardFieldViews[x][y].getPatternCardField();
+                    PatternCardField patternCardField = patternCardFieldViews[x][y]
+                            .getPatternCardField();
 
                     if (allPlacement.isEmpty()) {
                         Alert alert = new Alert("Helaas", "Deze die kan je niet plaatsen!",
@@ -490,6 +493,16 @@ public class PlayerController {
             Alert alert = new Alert("Nog even wachten", "Cheatmode is nog aan het berekenen!",
                     AlertType.INFO);
             myScene.addAlertPane(alert);
+        }
+    }
+
+    private void actionRemoveHighlight() {
+        PatternCardFieldView[][] patternCardFieldViews = gameView.getPlayerPatternCardView()
+                .getPatternCardFieldViews();
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+                patternCardFieldViews[x][y].removeHighlight();
+            }
         }
     }
 

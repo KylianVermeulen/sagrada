@@ -239,7 +239,7 @@ public class GameView extends VBox implements ViewInterface {
         }
         cheatmodeButton.setOnAction(e -> {
             playerController.actionToggleCheatmode();
-            if (player.isCheatmode()) {
+            if (playerController.isCheatmodeActive()) {
                 cheatmodeButton.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
             } else {
                 cheatmodeButton.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));

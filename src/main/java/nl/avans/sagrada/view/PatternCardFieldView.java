@@ -9,7 +9,9 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.controller.PlayerController;
@@ -25,6 +27,8 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
     private PatternCardField patternCardField;
     private PlayerController playerController;
     private ArrayList<ImageView> images;
+    private boolean hasBestHighlight;
+    private boolean hasHighlight;
 
     /**
      * Partial constructor
@@ -33,6 +37,8 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
      */
     public PatternCardFieldView(PlayerController playerController) {
         this.playerController = playerController;
+        hasBestHighlight = false;
+        hasHighlight = false;
         setPrefSize(FIELD_WIDTH, FIELD_HEIGHT);
         setMaxSize(FIELD_WIDTH, FIELD_HEIGHT);
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
@@ -66,15 +72,22 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
     }
 
     public void addBestHighlight() {
-        setBorder(new Border(new BorderStroke(Color.ORANGERED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THICK)));
+        hasBestHighlight = true;
+        Pane pane = new Pane();
+        pane.setBorder(new Border(new BorderStroke(Color.ORANGERED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THICK)));
+        getChildren().add(pane);
     }
 
     public void addHighlight() {
-        setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THICK)));
+        hasHighlight = true;
+        Pane pane = new Pane();
+        pane.setBorder(new Border(new BorderStroke(Color.SLATEGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THICK)));
+        getChildren().add(pane);
     }
 
     public void removeHighlight() {
-        setBorder(null);
+        hasBestHighlight = false;
+        hasHighlight = false;
         render();
     }
 
@@ -106,6 +119,12 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
             dieView.render();
             getChildren().clear();
             getChildren().add(dieView);
+        }
+        if (hasHighlight) {
+            addHighlight();
+        }
+        if (hasBestHighlight) {
+            addBestHighlight();
         }
     }
 
