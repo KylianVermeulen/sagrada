@@ -56,6 +56,6 @@ public class CheatmodeTask implements Runnable {
             f.put(bestPlacement.lastEntry().getValue(), allPlacement);
             cheatmodeHashMap.put(dieHashMap, f);
         }
-        playerController.setTreeMapHashMap(cheatmodeHashMap);
+        playerController.setCheatmodeMap(cheatmodeHashMap);
     }
 }

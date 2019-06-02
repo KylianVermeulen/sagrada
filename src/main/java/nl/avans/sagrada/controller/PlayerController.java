@@ -50,7 +50,7 @@ public class PlayerController {
     private ToolCard activeToolCard;
     private GameView gameView;
     private boolean cheatmodeActive;
-    private HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> treeMapHashMap;
+    private HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> cheatmodeMap;
     private CheatmodeTask cheatmodeTask;
 
     public PlayerController(MyScene myScene) {
@@ -444,20 +444,20 @@ public class PlayerController {
     }
 
     /**
-     * Hightlight the best placement for a gamedie. Only highlights when the treeMap has been set by
-     * the cheatmode task started in viewGame.
+     * Hightlight the best placement for a gamedie and all possible placaement. Only highlights when
+     * the cheatmode hashmap has been set by the cheatmode task started in viewGame.
      *
      * @param gameDie The GameDie.
      */
     public void actionHighlightBestPlacementForGameDie(GameDie gameDie) {
         PatternCardFieldView[][] patternCardFieldViews = gameView.getPlayerPatternCardView()
                 .getPatternCardFieldViews();
-        if (treeMapHashMap != null) {
+        if (cheatmodeMap != null) {
             HashMap<Integer, String> hashMapDie = new HashMap<>();
             hashMapDie.put(gameDie.getNumber(), gameDie.getColor());
 
-            // Oef lekker mooi Kappa123
-            LinkedHashMap<PatternCardField, ArrayList<PatternCardField>> listLinkedHashMap = treeMapHashMap
+            // Oef lekker mooi kappa123
+            LinkedHashMap<PatternCardField, ArrayList<PatternCardField>> listLinkedHashMap = cheatmodeMap
                     .get(hashMapDie);
             Object[] bestPlacementArr = listLinkedHashMap.keySet().toArray();
             PatternCardField bestPlacement = (PatternCardField) bestPlacementArr[0];
@@ -472,7 +472,7 @@ public class PlayerController {
                             .getPatternCardField();
 
                     if (allPlacement.isEmpty()) {
-                        Alert alert = new Alert("Helaas", "Deze die kan je niet plaatsen!",
+                        Alert alert = new Alert("Helaas", "Deze dobbelsteen kan je niet plaatsen!",
                                 AlertType.INFO);
                         myScene.addAlertPane(alert);
                         return;
@@ -496,6 +496,9 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Remove highlights from all pattern card field views
+     */
     private void actionRemoveHighlight() {
         PatternCardFieldView[][] patternCardFieldViews = gameView.getPlayerPatternCardView()
                 .getPatternCardFieldViews();
@@ -525,23 +528,33 @@ public class PlayerController {
         myScene.getAccountController().viewLobby();
     }
 
-    public HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> getTreeMapHashMap() {
-        return treeMapHashMap;
+    public HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> getCheatmodeMap() {
+        return cheatmodeMap;
     }
 
-    public void setTreeMapHashMap(
-            HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> treeMapHashMap) {
-        this.treeMapHashMap = treeMapHashMap;
+    public void setCheatmodeMap(
+            HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> cheatmodeMap) {
+        this.cheatmodeMap = cheatmodeMap;
     }
 
     public void removePopupPane() {
         myScene.removePopupPane();
     }
 
+    /**
+     * This method will return true when cheatmode is active.
+     *
+     * @return Boolean
+     */
     public boolean isCheatmodeActive() {
         return cheatmodeActive;
     }
 
+    /**
+     * This method will set the cheatmode status.
+     *
+     * @param cheatmodeActive Boolean
+     */
     public void setCheatmodeActive(boolean cheatmodeActive) {
         this.cheatmodeActive = cheatmodeActive;
     }

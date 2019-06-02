@@ -25,7 +25,6 @@ public class Player {
     private ArrayList<PatternCard> optionalPatternCards;
     private ArrayList<FavorToken> favorTokens;
     private int score;
-    private boolean cheatmode = false;
     private Color playerColor;
     private boolean placedDie;
 
@@ -251,20 +250,6 @@ public class Player {
     }
 
     /**
-     * @return True when cheatmode is enabled.
-     */
-    public boolean isCheatmode() {
-        return cheatmode;
-    }
-
-    /**
-     * @param cheatmode Enable or disable cheatmode.
-     */
-    public void setCheatmode(boolean cheatmode) {
-        this.cheatmode = cheatmode;
-    }
-
-    /**
      * Returns true when player has already placed a die this turn.
      *
      * @return Boolean
@@ -334,7 +319,7 @@ public class Player {
     }
 
     /**
-     * Cheatmode Task: Calculate the score for this player. Gets -1 score for each empty pattern
+     * Calculate the score for this player. Gets -1 score for each empty pattern
      * card field. Gets +1 score for each favor token. Gets rewardScore for each public objective
      * card.
      *
