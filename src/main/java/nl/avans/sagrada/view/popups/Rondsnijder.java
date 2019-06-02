@@ -26,7 +26,6 @@ import nl.avans.sagrada.view.MyScene;
 public class Rondsnijder extends Popup {
     public static final int WIDTH_FLUXBORSTEL = 630;
     public static final int HEIGHT_FLUXBORSTEL = 170;
-
     private MyScene myScene;
     private HBox diePane;
     private HBox dieTrackPane;
@@ -90,6 +89,9 @@ public class Rondsnijder extends Popup {
         this.getChildren().add(rootPane);
     }
 
+    /**
+     * Shows the dice of the current round in the popup.
+     */
     private void showRoundDice() {
         int index = 0;
         for (GameDie gameDie : game.getRoundDice()) {
@@ -112,6 +114,9 @@ public class Rondsnijder extends Popup {
         }
     }
 
+    /**
+     * Shows the dice of the current round track in the game.
+     */
     private void showTrackDice() {
         int index = 0;
         for (GameDie gameDie : game.getRoundTrackDice()) {
@@ -135,7 +140,7 @@ public class Rondsnijder extends Popup {
     }
 
     /**
-     * Rerolls the dice that is clicked.
+     * Select round dice, continue if track dice is selected.
      *
      * @param index int
      */
@@ -147,6 +152,11 @@ public class Rondsnijder extends Popup {
         }
     }
 
+    /**
+     * Select track dice, continue if round dice is selected.
+     *
+     * @param index int
+     */
     private void selectTrackDice(int index) {
         GameDie gameDie = gameTrackDice.get(index);
         die2 = gameDie;
@@ -155,6 +165,9 @@ public class Rondsnijder extends Popup {
         }
     }
 
+    /**
+     * Handle the dice swap.
+     */
     private void handle() {
         GameDieDao gameDieDao = new GameDieDao();
         final int die1Round = die1.getRound();
