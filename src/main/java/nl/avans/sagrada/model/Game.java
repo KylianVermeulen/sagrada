@@ -530,6 +530,15 @@ public class Game {
     }
 
     /**
+     * This method return the dice on the round of a game.
+     *
+     * @return GameDice
+     */
+    public ArrayList<GameDie> getRoundTrackDice() {
+        return new GameDieDao().getDiceOnRoundTrackFromGame(this);
+    }
+
+    /**
      * Gets the current round the game is on
      *
      * @return int
