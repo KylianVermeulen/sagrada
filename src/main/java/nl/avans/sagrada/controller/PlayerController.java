@@ -2,7 +2,9 @@ package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.TreeMap;
+import javafx.collections.ObservableList;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ChatlineDao;
@@ -50,7 +52,7 @@ public class PlayerController {
     private ToolCard activeToolCard;
     private GameView gameView;
     private boolean cheatmodeActive;
-    private HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap;
+    private HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> treeMapHashMap;
     private CheatmodeTask cheatmodeTask;
 
     public PlayerController(MyScene myScene) {
@@ -451,30 +453,35 @@ public class PlayerController {
         PatternCardFieldView[][] patternCardFieldViews = gameView.getPlayerPatternCardView()
                 .getPatternCardFieldViews();
         if (treeMapHashMap != null) {
-            HashMap<Integer, String> hashMap = new HashMap<>();
-            hashMap.put(gameDie.getNumber(), gameDie.getColor());
-            TreeMap<Integer, PatternCardField> treeMap = treeMapHashMap.get(hashMap);
-            ArrayList<PatternCardField> patternCardFields = new ArrayList<>(treeMap.values());
+            HashMap<Integer, String> hashMapDie = new HashMap<>();
+            hashMapDie.put(gameDie.getNumber(), gameDie.getColor());
+
+            // Oef lekker mooi Kappa123
+            LinkedHashMap<PatternCardField, ArrayList<PatternCardField>> listLinkedHashMap = treeMapHashMap.get(hashMapDie);
+            Object[] bestPlacementArr = listLinkedHashMap.keySet().toArray();
+            PatternCardField bestPlacement = (PatternCardField) bestPlacementArr[0];
+            Object[] allPlacementArr = listLinkedHashMap.values().toArray();
+            ArrayList<PatternCardField> allPlacement = (ArrayList<PatternCardField>) allPlacementArr[0];
 
             for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
                 for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
                     patternCardFieldViews[x][y].removeHighlight();
+                    PatternCardField patternCardField = patternCardFieldViews[x][y].getPatternCardField();
 
-                    if (treeMap.isEmpty()) {
+                    if (allPlacement.isEmpty()) {
                         Alert alert = new Alert("Helaas", "Deze die kan je niet plaatsen!",
                                 AlertType.INFO);
                         myScene.addAlertPane(alert);
                         return;
                     }
-                    if (treeMap.lastEntry().getValue().getxPos() == x
-                            && treeMap.lastEntry().getValue().getyPos() == y) {
+                    if (bestPlacement.getxPos() == x && bestPlacement.getyPos() == y) {
                         patternCardFieldViews[x][y].addBestHighlight();
-                    } else {
-                        for (PatternCardField patternCardField : patternCardFields) {
-                            if (patternCardField.getxPos() == x
-                                    && patternCardField.getyPos() == y) {
-                                patternCardFieldViews[x][y].addHighlight();
-                            }
+                        break;
+                    }
+                    for (PatternCardField oneOfAllPlacement : allPlacement) {
+                        if (oneOfAllPlacement.getxPos() == x && oneOfAllPlacement.getyPos() == y) {
+                            patternCardFieldViews[x][y].addHighlight();
+                            break;
                         }
                     }
                 }
@@ -505,12 +512,12 @@ public class PlayerController {
         myScene.getAccountController().viewLobby();
     }
 
-    public HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> getTreeMapHashMap() {
+    public HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> getTreeMapHashMap() {
         return treeMapHashMap;
     }
 
     public void setTreeMapHashMap(
-            HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap) {
+            HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> treeMapHashMap) {
         this.treeMapHashMap = treeMapHashMap;
     }
 

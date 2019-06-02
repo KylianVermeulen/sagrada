@@ -6,6 +6,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.controller.PlayerController;
@@ -62,15 +66,15 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
     }
 
     public void addBestHighlight() {
-        setBackground(new Background(new BackgroundFill(Color.ORANGERED, null, null)));
+        setBorder(new Border(new BorderStroke(Color.ORANGERED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THICK)));
     }
 
     public void addHighlight() {
-        setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null)));
+        setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THICK)));
     }
 
     public void removeHighlight() {
-        setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        setBorder(null);
         render();
     }
 

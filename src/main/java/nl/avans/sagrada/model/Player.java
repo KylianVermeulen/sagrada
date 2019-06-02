@@ -186,17 +186,17 @@ public class Player {
         patternCard = PatternCardDao.getSelectedPatterncardOfPlayer(this);
         return patternCard;
     }
-    
-    public GetPatternCardOfPlayerTask getPatternCardTask() {
-        GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(this);
-        return gpcopt;
-    }
 
     /**
      * @param patterncard The patterncard of this player.
      */
     public void setPatternCard(PatternCard patterncard) {
         this.patternCard = patterncard;
+    }
+
+    public GetPatternCardOfPlayerTask getPatternCardTask() {
+        GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(this);
+        return gpcopt;
     }
 
     /**
@@ -322,9 +322,10 @@ public class Player {
         }
         return imagePath;
     }
-    
+
     /**
      * Returns the task to calculate the score of a player
+     *
      * @return CalculateScoreTask
      */
     public CalculateScoreTask calculateScoreTask() {
@@ -333,17 +334,17 @@ public class Player {
     }
 
     /**
-     * Calculate the score for this player. Gets -1 score for each empty pattern card field. Gets +1
-     * score for each favor token. Gets rewardScore for each public objective card.
-     * @param privateObjectiveCard
-     * @param updateInDatabase
+     * Cheatmode Task: Calculate the score for this player. Gets -1 score for each empty pattern
+     * card field. Gets +1 score for each favor token. Gets rewardScore for each public objective
+     * card.
+     *
      * @return int score
      */
     public int calculateScore(boolean privateObjectiveCard, boolean updateInDatabase) {
         if (patternCard == null) {
             patternCard = getPatternCard();
         }
-        int score = 0;        
+        int score = 0;
         PatternCardField[][] patternCardFields = patternCard.getPatternCardFields(this);
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
                 x++) { // Basic calculations for pattern card fields
@@ -370,12 +371,56 @@ public class Player {
             score += publicObjectiveCard.calculateScore(patternCard);
         }
         this.score = score;
-        
+
         if (updateInDatabase) {
             UpdateScoreTask ust = new UpdateScoreTask(this);
             Thread thread = new Thread(ust);
             thread.setName("Update player score");
-            thread.start();   
+            thread.start();
+        }
+        return score;
+    }
+
+    /**
+     * Cheatmode Task: Calculate the score for this player. Gets -1 score for each empty pattern
+     * card field. Gets +1 score for each favor token. Gets rewardScore for each public objective
+     * card.
+     *
+     * @return int score
+     */
+    public int calculateScore(boolean privateObjectiveCard, boolean updateInDatabase, PatternCardField[][] patternCardFields) {
+        int score = 0;
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH;
+                x++) { // Basic calculations for pattern card fields
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+                if (!patternCardFields[x][y]
+                        .hasDie()) { // for each empty pattern card field -1 score
+                    score -= 1;
+                } else { // pattern card field has die
+                    if (patternCardFields[x][y].getDie().getColor()
+                            .equals(privateObjectivecardColor)) { // for each die that has private objective card color +1 score
+                        if (privateObjectiveCard) {
+                            score += 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (FavorToken favorToken : getFavorTokens()) { // for each favor token +1 score
+            score += 1;
+        }
+
+        for (PublicObjectiveCard publicObjectiveCard : game.getPublicObjectiveCards()) {
+            score += publicObjectiveCard.calculateScore(patternCard);
+        }
+        this.score = score;
+
+        if (updateInDatabase) {
+            UpdateScoreTask ust = new UpdateScoreTask(this);
+            Thread thread = new Thread(ust);
+            thread.setName("Update player score");
+            thread.start();
         }
         return score;
     }
@@ -474,8 +519,7 @@ public class Player {
     }
 
     /**
-     * Checks if a players has already used a toolcard
-     * In the turn
+     * Checks if a players has already used a toolcard In the turn
      *
      * @return boolean
      */
