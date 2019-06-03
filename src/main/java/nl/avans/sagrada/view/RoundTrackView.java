@@ -18,9 +18,9 @@ public class RoundTrackView extends TilePane implements ViewInterface {
     private PlayerController playerController;
 
     /**
-     * Full constructor
+     * Constructor
      *
-     * @param roundTrack RoundTrack
+     * @param playerController Controller
      */
     public RoundTrackView(PlayerController playerController) {
         this.playerController = playerController;

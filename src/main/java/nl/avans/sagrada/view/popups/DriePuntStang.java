@@ -43,6 +43,13 @@ public class DriePuntStang extends Popup {
     private HBox buttonPane;
     private Text uitlegText;
 
+    /**
+     * Constructor
+     * @param myScene Scene
+     * @param playerController Controller
+     * @param game Game
+     * @param activeToolCard ToolCard
+     */
     public DriePuntStang(MyScene myScene, PlayerController playerController, Game game, ToolCard activeToolCard) {
         super(POPUP_WIDTH, POPUP_HEIGHT);
         this.myScene = myScene;

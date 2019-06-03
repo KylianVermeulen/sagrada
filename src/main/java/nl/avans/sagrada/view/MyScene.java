@@ -116,6 +116,11 @@ public class MyScene extends Scene {
         renderAlertPanes();
     }
 
+    /**
+     * Add a popup to the StackPane.
+     *
+     * @param pane Popup
+     */
     public void addPopupPane(Pane pane) {
         StackPane.setAlignment(pane, Pos.CENTER);
         if (popups.size() == 0) {
@@ -128,6 +133,9 @@ public class MyScene extends Scene {
         }
     }
 
+    /**
+     * Remove a popup from the StackPane.
+     */
     public void removePopupPane() {
         if (popups.size() == 1) {
             rootPane.getChildren().remove(popups.get(0));

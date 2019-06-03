@@ -220,6 +220,9 @@ public class LobbyView extends BorderPane implements ViewInterface {
         });
     }
 
+    /**
+     * Build the all games overview.
+     */
     private void buildAllGamesOverview() {
         allGamesOverview = new AllGamesOverView();
         AllGamesTask agt = new AllGamesTask();

@@ -31,6 +31,9 @@ public class EndgameView extends BorderPane implements ViewInterface {
     private Label victoryLabel;
     private ScoreBoardView endScore;
 
+    /**
+     * Constructor
+     */
     public EndgameView(Game game, PlayerController playercontroller, Player winplayer) {
         this.game = game;
         this.playerController = playercontroller;
@@ -41,12 +44,16 @@ public class EndgameView extends BorderPane implements ViewInterface {
         getStylesheets().add(css);
     }
 
+    @Override
     public void render() {
         getChildren().clear();
         buildEndScore();
         setLobbyButton();
     }
 
+    /**
+     * Build end score view
+     */
     private void buildEndScore() {
         BorderPane center = new BorderPane();
         victoryLabel = new Label(winplayer.getAccount().getUsername() + " heeft gewonnen!");
@@ -68,6 +75,9 @@ public class EndgameView extends BorderPane implements ViewInterface {
         setCenter(center);
     }
 
+    /**
+     * Build lobby button
+     */
     private void setLobbyButton() {
         HBox buttonBar = new HBox();
         buttonBar.setSpacing(300);

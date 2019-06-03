@@ -29,6 +29,9 @@ public class InviteOverviewView extends ScrollPane implements ViewInterface {
     private ArrayList<Invite> invites;
     private AccountController accountController;
 
+    /**
+     * Constructor
+     */
     public InviteOverviewView(AccountController accountController) {
         this.accountController = accountController;
         String css = this.getClass().getResource("/css/lobbyview.css").toExternalForm();
