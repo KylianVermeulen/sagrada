@@ -98,7 +98,7 @@ public class PlayerFrameFieldDao {
     /**
      * Removes a die from the field that it is of a player
      */
-    public void removeDie(GameDie die, PatternCardField patternCardField, Player player) {
+    public void removeDie(PatternCardField patternCardField, Player player) {
         try {
             dbConnection.executeQuery(
                     new Query(
