@@ -6,7 +6,7 @@
 
     <groupId>42IN04SOp</groupId>
     <artifactId>sagrada</artifactId>
-    <version>1</version>
+    <version>2</version>
 
     <build>
         <resources>
