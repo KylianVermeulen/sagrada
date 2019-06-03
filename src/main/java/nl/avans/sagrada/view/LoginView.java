@@ -29,6 +29,9 @@ public class LoginView extends BorderPane implements ViewInterface {
     private BorderPane leftPane;
     private AccountController accountController;
 
+    /**
+     * Constructor
+     */
     public LoginView(AccountController accountController) {
         this.accountController = accountController;
         setPrefSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
@@ -110,6 +113,9 @@ public class LoginView extends BorderPane implements ViewInterface {
         loginPane.getChildren().addAll(userHBox, passwordHBox, loginButton, registerLabel);
     }
 
+    /**
+     * Build the login logo pane.
+     */
     private void buildLogoPane(){
         logoPane = new Pane();
         logoPane.setMaxHeight(LOGO_PANE_HEIGHT);
@@ -120,6 +126,9 @@ public class LoginView extends BorderPane implements ViewInterface {
         logoPane.setId("loginLogo");
     }
 
+    /**
+     * Build the left side pane.
+     */
     private void buildLeftPane(){
         leftPane = new BorderPane();
         leftPane.setMaxWidth(LEFTPANE_WIDTH);

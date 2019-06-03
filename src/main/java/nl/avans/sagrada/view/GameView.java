@@ -47,6 +47,9 @@ public class GameView extends VBox implements ViewInterface {
     private HBox toolCardsView;
     private HBox publicObjectiveCardView;
 
+    /**
+     * Constructor
+     */
     public GameView(PlayerController playerController, Game game, Player player) {
         this.game = game;
         this.playerController = playerController;
@@ -70,6 +73,9 @@ public class GameView extends VBox implements ViewInterface {
         }
     }
 
+    /**
+     * Build other players patterncards.
+     */
     private void buildOtherPlayerPatternCards() {
         otherPlayerPatternCardViews = new HBox();
         otherPlayerPatternCardViews.setSpacing(SPACING_BETWEEN_CHILDS);
@@ -107,6 +113,9 @@ public class GameView extends VBox implements ViewInterface {
         }
     }
 
+    /**
+     * Build the toolcards.
+     */
     private void buildToolCards() {
         toolCardsView = new HBox();
 
@@ -131,6 +140,9 @@ public class GameView extends VBox implements ViewInterface {
         }
     }
 
+    /**
+     * Build the roundtrack.
+     */
     private void buildRoundTrack() {
         roundTrackView = new RoundTrackView(playerController);
         RoundTrack roundTrack = new RoundTrack();
@@ -151,6 +163,9 @@ public class GameView extends VBox implements ViewInterface {
         thread.start();
     }
 
+    /**
+     * Build the public objective cards.
+     */
     private void buildPublicObjectiveCards() {
         publicObjectiveCardView = new HBox();
         
@@ -173,6 +188,9 @@ public class GameView extends VBox implements ViewInterface {
         thread.start();
     }
 
+    /**
+     * Build the chatlines.
+     */
     private void buildChatLine() {
         chatLineView = new ChatLineView(playerController);
         ChecksumDatabase.setChatLineView(chatLineView);
@@ -187,6 +205,9 @@ public class GameView extends VBox implements ViewInterface {
         scoreBoard.render();
     }
 
+    /**
+     * Build the players favor token balance.
+     */
     private void buildBalance() {
         balance = new Label();
         GetFavorTokensTask gftt = new GetFavorTokensTask(player);
@@ -201,6 +222,9 @@ public class GameView extends VBox implements ViewInterface {
         balance.setPadding(new Insets(0, 0, 0, 5));
     }
 
+    /**
+     * Build the players patterncard.
+     */
     private void buildPlayerPatternCard() {
         playerPatternCardView = new PatternCardView(playerController);
         GetPatternCardOfPlayerTask gpcopt = new GetPatternCardOfPlayerTask(player);
@@ -222,12 +246,18 @@ public class GameView extends VBox implements ViewInterface {
         thread.start();
     }
 
+    /**
+     * xBuild the player private objective card.
+     */
     private void buildPlayerPrivateObjectiveCard() {
         privateObjectiveCardView = new PrivateObjectiveCardView(player);
         privateObjectiveCardView.render();
         privateObjectiveCardView.setMaxSize(CardView.CARD_WIDTH, CardView.CARD_HEIGHT);
     }
 
+    /**
+     * Build the action buttons.
+     */
     private void buildActionButtons() {
         actionButtons = new HBox();
 
@@ -259,6 +289,9 @@ public class GameView extends VBox implements ViewInterface {
         actionButtons.setMinHeight(BUTTON_PANE_HEIGHT);
     }
 
+    /**
+     * Build the round dice.
+     */
     private void buildDieOffer() {
         dieOfferView = new DieOfferView(this.game, playerPatternCardView, playerController);
         dieOfferView.render();

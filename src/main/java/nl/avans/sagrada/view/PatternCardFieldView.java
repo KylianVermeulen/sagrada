@@ -71,6 +71,9 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         });
     }
 
+    /**
+     * Add a pane with orange red border to the StackPane.
+     */
     public void addBestHighlight() {
         hasBestHighlight = true;
         Pane pane = new Pane();
@@ -78,6 +81,9 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         getChildren().add(pane);
     }
 
+    /**
+     * Add a pane with gray border to the StackPane.
+     */
     public void addHighlight() {
         hasHighlight = true;
         Pane pane = new Pane();
@@ -85,6 +91,9 @@ public class PatternCardFieldView extends StackPane implements ViewInterface {
         getChildren().add(pane);
     }
 
+    /**
+     * Remove the pane with border from the StackPane.
+     */
     public void removeHighlight() {
         hasBestHighlight = false;
         hasHighlight = false;

@@ -1,7 +1,6 @@
 package nl.avans.sagrada.view.popups;
 
 import java.util.ArrayList;
-import java.util.Random;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -26,7 +25,6 @@ import nl.avans.sagrada.view.MyScene;
 public class Fluxverwijderaar extends Popup {
     public static final int WIDTH_FLUXBORSTEL = 630;
     public static final int HEIGHT_FLUXBORSTEL = 140;
-
     private MyScene myScene;
     private HBox diePane;
     private VBox rootPane;

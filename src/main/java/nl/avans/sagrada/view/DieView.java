@@ -26,19 +26,25 @@ public class DieView extends Pane implements ViewInterface {
     private PatternCardFieldView patternCardFieldView;
 
     /**
-     * Full constructor
+     * Constructor
      */
     public DieView(PlayerController playerController) {
         this.playerController = playerController;
         init();
     }
 
+    /**
+     * Constructor
+     */
     public DieView(GameDie gameDie, PlayerController playerController) {
         this.gameDie = gameDie;
         this.playerController = playerController;
         init();
     }
 
+    /**
+     * Constructor
+     */
     public DieView(GameDie gameDie, PlayerController playerController, PatternCardView patternCardView) {
         this.gameDie = gameDie;
         this.playerController = playerController;
@@ -50,6 +56,9 @@ public class DieView extends Pane implements ViewInterface {
         this.playerController = playerController;
     }
 
+    /**
+     * Initialize view
+     */
     private void init() {
         images = new ArrayList<>();
         setPrefSize(DIE_WIDTH, DIE_HEIGHT);

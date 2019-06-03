@@ -26,7 +26,6 @@ import nl.avans.sagrada.view.MyScene;
 public class Fluxborstel extends Popup {
     public static final int WIDTH_FLUXBORSTEL = 630;
     public static final int HEIGHT_FLUXBORSTEL = 170;
-
     private MyScene myScene;
     private HBox diePane;
     private VBox rootPane;
