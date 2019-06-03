@@ -28,6 +28,9 @@ public class Player {
     private Color playerColor;
     private boolean placedDie;
 
+    /**
+     * Empty player constructor
+     */
     public Player() {
     }
 

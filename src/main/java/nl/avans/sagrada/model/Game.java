@@ -8,9 +8,7 @@ import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.GameDieDao;
 import nl.avans.sagrada.dao.PatternCardDao;
-import nl.avans.sagrada.dao.PatternCardFieldDao;
 import nl.avans.sagrada.dao.PlayerDao;
-import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.dao.PublicObjectiveCardDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.toolcard.ToolCard;
@@ -35,6 +33,11 @@ public class Game {
     private ArrayList<ToolCard> toolCards;
     private Timestamp creationDate;
 
+    /**
+     * Constructor with id.
+     *
+     * @param id int
+     */
     public Game(int id) {
         this.id = id;
         GameDao gameDao = new GameDao();
@@ -43,6 +46,9 @@ public class Game {
         toolCards = toolCardDao.getToolCardsOfGame(this);
     }
 
+    /**
+     * Empty constructor
+     */
     public Game() {
         players = new ArrayList<>();
         gameDice = new ArrayList<>();
@@ -209,11 +215,6 @@ public class Game {
                 .toArray(new PublicObjectiveCard[3]);
         return publicObjectiveCards;
     }
-    
-    public GetPublicObjectiveCardTask getPublicObjectiveCardTask() {
-        GetPublicObjectiveCardTask getPublicObjectiveCardTask = new GetPublicObjectiveCardTask(this);
-        return getPublicObjectiveCardTask;
-    }
 
     /**
      * Set publicObjectiveCards to Game
@@ -222,6 +223,12 @@ public class Game {
      */
     public void setPublicObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
         this.publicObjectiveCards = publicObjectiveCards;
+    }
+
+    public GetPublicObjectiveCardTask getPublicObjectiveCardTask() {
+        GetPublicObjectiveCardTask getPublicObjectiveCardTask = new GetPublicObjectiveCardTask(
+                this);
+        return getPublicObjectiveCardTask;
     }
 
     /**
@@ -258,8 +265,7 @@ public class Game {
                     hasFoundPrivateColor = false;
                     privateColor = "";
                     continue;
-                }
-                else {
+                } else {
                     if (!privateColor.equals("")) {
                         hasFoundPrivateColor = true;
                         break;
@@ -320,13 +326,14 @@ public class Game {
                 optionalPatternCards.remove(randomInt);
             }
             player.setOptionalPatternCards(optionalPatternCardsPlayer);
-            
-            AddPlayerFrameFieldsTask addPlayerFrameFieldsTask = new AddPlayerFrameFieldsTask(optionalPatternCardsPlayer.get(0), player);
+
+            AddPlayerFrameFieldsTask addPlayerFrameFieldsTask = new AddPlayerFrameFieldsTask(
+                    optionalPatternCardsPlayer.get(0), player);
             Thread playerFrameFieldsThread = new Thread(addPlayerFrameFieldsTask);
             playerFrameFieldsThread.setName("Adding PlayerFrameFields");
             playerFrameFieldsThread.setDaemon(false);
             playerFrameFieldsThread.start();
-            
+
         }
     }
 
