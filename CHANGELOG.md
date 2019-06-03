@@ -1,10 +1,34 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
-
-<a name="1.0.0-beta"></a>
-## 1.0.0-beta - 2019-05-29
 ### Chore
+- docs ([#223](https://github.com/KylianVermeulen/sagrada/issues/223))
+- docs ([#222](https://github.com/KylianVermeulen/sagrada/issues/222))
+- docs ([#221](https://github.com/KylianVermeulen/sagrada/issues/221))
+
+
+<a name="v2"></a>
+## [v2] - 2019-06-03
+### Fix
+- handle long name ([#219](https://github.com/KylianVermeulen/sagrada/issues/219))
+- null value stats ([#218](https://github.com/KylianVermeulen/sagrada/issues/218))
+- seqnr turn order ([#213](https://github.com/KylianVermeulen/sagrada/issues/213))
+- toolcard schuurblok ([#217](https://github.com/KylianVermeulen/sagrada/issues/217))
+- toolcard loodopenhaler ([#216](https://github.com/KylianVermeulen/sagrada/issues/216))
+- olieglassnijder second die ([#212](https://github.com/KylianVermeulen/sagrada/issues/212))
+- double placement and tool card requirements ([#201](https://github.com/KylianVermeulen/sagrada/issues/201))
+- reset player controller on exit ([#197](https://github.com/KylianVermeulen/sagrada/issues/197))
+- fluxverwijderaar popup size ([#199](https://github.com/KylianVermeulen/sagrada/issues/199))
+- toolcard 2 requirement ([#200](https://github.com/KylianVermeulen/sagrada/issues/200))
+
+### Release
+- 2
+
+
+<a name="v1"></a>
+## v1 - 2019-06-03
+### Chore
+- 1.0.0-beta CHANGELOG.md
 - maven installed ([#130](https://github.com/KylianVermeulen/sagrada/issues/130))
 - typo readme
 - add travis file
@@ -12,6 +36,12 @@
 - Initial project
 
 ### Feat
+- req 15 ([#166](https://github.com/KylianVermeulen/sagrada/issues/166))
+- toolcard rondsnijder ([#185](https://github.com/KylianVermeulen/sagrada/issues/185))
+- toolcard glasbreektang ([#132](https://github.com/KylianVermeulen/sagrada/issues/132))
+- chatline binding ([#119](https://github.com/KylianVermeulen/sagrada/issues/119))
+- threading game ([#145](https://github.com/KylianVermeulen/sagrada/issues/145))
+- threading game ([#134](https://github.com/KylianVermeulen/sagrada/issues/134))
 - toolcard fluxborstel ([#91](https://github.com/KylianVermeulen/sagrada/issues/91))
 - lobby tasks ([#129](https://github.com/KylianVermeulen/sagrada/issues/129))
 - toolcard loodhamer ([#94](https://github.com/KylianVermeulen/sagrada/issues/94))
@@ -73,6 +103,27 @@
 - add database classes
 
 ### Fix
+- folieaandrukker requirement ([#194](https://github.com/KylianVermeulen/sagrada/issues/194))
+- chat ([#187](https://github.com/KylianVermeulen/sagrada/issues/187))
+- lobbyview buttons ([#170](https://github.com/KylianVermeulen/sagrada/issues/170))
+- translate to dutch ([#182](https://github.com/KylianVermeulen/sagrada/issues/182))
+- patterncard selection alert ([#183](https://github.com/KylianVermeulen/sagrada/issues/183))
+- score reset in database  ([#184](https://github.com/KylianVermeulen/sagrada/issues/184))
+- toolcard images naming ([#176](https://github.com/KylianVermeulen/sagrada/issues/176))
+- gameview buttons ([#169](https://github.com/KylianVermeulen/sagrada/issues/169))
+- playerframefield initialisation in database ([#148](https://github.com/KylianVermeulen/sagrada/issues/148))
+- toolcard fluxverwijderaar ([#171](https://github.com/KylianVermeulen/sagrada/issues/171))
+- score calculation endgame ([#172](https://github.com/KylianVermeulen/sagrada/issues/172))
+- stats ([#163](https://github.com/KylianVermeulen/sagrada/issues/163))
+- close popup when client ui state changes ([#162](https://github.com/KylianVermeulen/sagrada/issues/162))
+- infinite loop ([#164](https://github.com/KylianVermeulen/sagrada/issues/164))
+- duplicated private objective card ([#160](https://github.com/KylianVermeulen/sagrada/issues/160))
+- username cannnot contain more than letters and numbers ([#158](https://github.com/KylianVermeulen/sagrada/issues/158))
+- toolcard snijliniaal save gamedie and add requirements ([#157](https://github.com/KylianVermeulen/sagrada/issues/157))
+- favor token linking would take long ([#159](https://github.com/KylianVermeulen/sagrada/issues/159))
+- toolcard height consistent ([#149](https://github.com/KylianVermeulen/sagrada/issues/149))
+- save button doesn't remain disabled ([#150](https://github.com/KylianVermeulen/sagrada/issues/150))
+- schuurblok setisdone ([#133](https://github.com/KylianVermeulen/sagrada/issues/133))
 - assign 24 favor tokens to game ([#128](https://github.com/KylianVermeulen/sagrada/issues/128))
 - cancel game on close application ([#123](https://github.com/KylianVermeulen/sagrada/issues/123))
 - calculate score ([#115](https://github.com/KylianVermeulen/sagrada/issues/115))
@@ -110,6 +161,7 @@
 - rs close on update statements ([#131](https://github.com/KylianVermeulen/sagrada/issues/131))
 
 ### Refactor
+- cheatmode ([#186](https://github.com/KylianVermeulen/sagrada/issues/186))
 - gameoverview ([#116](https://github.com/KylianVermeulen/sagrada/issues/116))
 - calculate final score endplayer ([#125](https://github.com/KylianVermeulen/sagrada/issues/125))
 - add thread for sending invites ([#113](https://github.com/KylianVermeulen/sagrada/issues/113))
@@ -126,8 +178,12 @@
 - code style ([#29](https://github.com/KylianVermeulen/sagrada/issues/29))
 - change dburl and password ([#24](https://github.com/KylianVermeulen/sagrada/issues/24))
 
+### Release
+- 1
+
 ### Style
 - tool card formatting and javadocs ([#106](https://github.com/KylianVermeulen/sagrada/issues/106))
 
 
-[Unreleased]: https://github.com/KylianVermeulen/sagrada/compare/1.0.0-beta...HEAD
+[Unreleased]: https://github.com/KylianVermeulen/sagrada/compare/v2...HEAD
+[v2]: https://github.com/KylianVermeulen/sagrada/compare/v1...v2
