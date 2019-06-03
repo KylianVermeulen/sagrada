@@ -101,6 +101,16 @@ public class PatternCardView extends BorderPane implements ViewInterface {
 
     private void showPlayerName() {
         playerNamePane = new HBox();
+        String[] playerNameArray = playerName.split("");
+        if (playerNameArray.length > 7) {
+            playerName = "";
+            for (int i = 0; i < playerNameArray.length; i++) {
+                playerName = playerName + playerNameArray[i];
+                if (i == 7) {
+                    break;
+                }
+            }
+        }
         Text name = new Text(playerName);
         if (!currentPlayer) {
             name.setFill(Color.WHITE);

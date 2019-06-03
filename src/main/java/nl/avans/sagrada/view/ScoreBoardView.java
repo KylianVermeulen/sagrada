@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Player;
@@ -68,10 +69,22 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
             HBox playerLine = new HBox();
             Label playerScore;
             playerLine.setSpacing(SCORE_LINE_SPACING);
-            Label playerName =
-                    new Label(game.getPlayers().get(i).getAccount().getUsername() + ": ");
-            playerName.setFont(SCORE_LINE_FONT);
-            playerName.setTextAlignment(TextAlignment.CENTER);
+            String playerName = game.getPlayers().get(i).getAccount().getUsername();
+            String[] playerNameArray = playerName.split("");
+            if (playerNameArray.length > 7) {
+                playerName = "";
+                for (int x = 0; x < playerNameArray.length; x++) {
+                    playerName = playerName + playerNameArray[x];
+                    if (x == 7) {
+                        break;
+                    }
+                }
+            }
+//            Text name = new Text(playerName);
+            Label playerNameLabel =
+                    new Label(playerName + ": ");
+            playerNameLabel.setFont(SCORE_LINE_FONT);
+            playerNameLabel.setTextAlignment(TextAlignment.CENTER);
             
             playerScore = new Label();
             
@@ -81,7 +94,7 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
                 playerScore.setText("" + cst.getValue());
                 playerScore.setFont(SCORE_LINE_FONT);
                 playerScore.setTextAlignment(TextAlignment.CENTER);
-                playerLine.getChildren().addAll(playerName, playerScore);
+                playerLine.getChildren().addAll(playerNameLabel, playerScore);
                 playerLine.setAlignment(Pos.CENTER);
             });
             Thread thread = new Thread(cst);
