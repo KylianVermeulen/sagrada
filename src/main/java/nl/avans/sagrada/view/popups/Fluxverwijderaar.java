@@ -25,7 +25,7 @@ import nl.avans.sagrada.view.MyScene;
 
 public class Fluxverwijderaar extends Popup {
     public static final int WIDTH_FLUXBORSTEL = 630;
-    public static final int HEIGHT_FLUXBORSTEL = 200;
+    public static final int HEIGHT_FLUXBORSTEL = 140;
 
     private MyScene myScene;
     private HBox diePane;
