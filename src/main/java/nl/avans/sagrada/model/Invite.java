@@ -7,6 +7,9 @@ public class Invite {
     private boolean denied;
     private Player player;
 
+    /**
+     * Constructor
+     */
     public Invite() {
         accepted = false;
         denied = false;

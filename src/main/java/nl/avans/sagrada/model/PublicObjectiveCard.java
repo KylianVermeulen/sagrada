@@ -9,6 +9,9 @@ public class PublicObjectiveCard {
     private int points;
     private String imagePath;
 
+    /**
+     * Empty public objective card constructor
+     */
     public PublicObjectiveCard() {
     }
 
