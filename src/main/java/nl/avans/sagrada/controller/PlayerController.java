@@ -456,7 +456,6 @@ public class PlayerController {
             HashMap<Integer, String> hashMapDie = new HashMap<>();
             hashMapDie.put(gameDie.getNumber(), gameDie.getColor());
 
-            // Oef lekker mooi kappa123
             LinkedHashMap<PatternCardField, ArrayList<PatternCardField>> listLinkedHashMap = cheatmodeMap
                     .get(hashMapDie);
             Object[] bestPlacementArr = listLinkedHashMap.keySet().toArray();
