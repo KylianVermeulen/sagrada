@@ -57,6 +57,6 @@ public class ToolCardFluxVerwijderaar extends ToolCard {
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
         this.playerController = playerController;
-        return true;
+        return (new PlayerDao().getCountPlacedDieInTurnRound(playerController.getPlayer()) < 1);
     }
 }
