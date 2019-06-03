@@ -329,6 +329,12 @@ public class PlayerController {
      */
     public void actionExit() {
         myScene.removePopupPane();
+        this.activeToolCard = null;
+        this.player = null;
+        this.cheatmodeActive = false;
+        this.gameView = null;
+        this.cheatmodeMap  = null;
+        this.cheatmodeTask = null;
         myScene.getAccountController().viewLobby();
     }
 
