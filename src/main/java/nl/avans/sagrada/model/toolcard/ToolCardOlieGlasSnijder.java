@@ -56,15 +56,11 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
                 die.setInFirstTurn(player.isFirstTurn());
 
                 removeDieField.setDie(null);
-                playerFrameFieldDao.removeDie(die, removeDieField, player);
+                playerFrameFieldDao.removeDie(removeDieField, player);
 
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
-                UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
-                Thread thread = new Thread(updatePlayerFrameFieldTask);
-                thread.setName("Update Player Frame Field");
-                thread.setDaemon(true);
-                thread.start();
+                new PlayerFrameFieldDao().updateDieLocation(die, patternCardField, player);
 
                 numberOfUses++;
                 if (numberOfUses >= 2) {
