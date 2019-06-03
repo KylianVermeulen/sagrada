@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Chatline;
 import nl.avans.sagrada.task.GetGameChatLinesTask;
 import nl.avans.sagrada.view.interfaces.ViewInterface;
 
-public class ChatLineView extends VBox implements ViewInterface {
-    private final int CHATPANE_HEIGHT = 200;
+public class ChatLineView extends BorderPane implements ViewInterface {
+    private final int CHATPANE_HEIGHT = 220;
     private final int CHATPANE_WIDTH = 300;
     private final int TEXTFIELD_HEIGHT = 25;
     private final int TEXTFIELD_WIDTH = 300;
@@ -20,6 +20,7 @@ public class ChatLineView extends VBox implements ViewInterface {
     private VBox messagebox;
     private ArrayList<Chatline> chatlines;
     private ScrollPane chatpane;
+    private TextField textfield;
 
     /**
      * Constructor
@@ -48,6 +49,20 @@ public class ChatLineView extends VBox implements ViewInterface {
      * Method that builds the view for the chat
      */
     private void buildChat() {
+
+        if(textfield == null){
+            textfield = new TextField();
+            textfield.setMaxHeight(TEXTFIELD_HEIGHT);
+            textfield.setMinHeight(TEXTFIELD_HEIGHT);
+            textfield.setMaxWidth(TEXTFIELD_WIDTH);
+            textfield.setMinWidth(TEXTFIELD_WIDTH);
+            textfield.setOnAction(e -> {
+                playercontroller.actionSendMessage(textfield.getText(), this);
+                textfield.clear();
+            });
+            setBottom(textfield);
+        }
+
         chatpane = new ScrollPane();
         chatpane.setContent(messagebox);
         chatpane.setMaxHeight(CHATPANE_HEIGHT);
@@ -55,20 +70,7 @@ public class ChatLineView extends VBox implements ViewInterface {
         chatpane.setMaxWidth(CHATPANE_WIDTH);
         chatpane.setMinWidth(CHATPANE_WIDTH);
         chatpane.setVvalue(1.0);
-
-        HBox downpane = new HBox();
-        TextField textfield = new TextField();
-        textfield.setMaxHeight(TEXTFIELD_HEIGHT);
-        textfield.setMinHeight(TEXTFIELD_HEIGHT);
-        textfield.setMaxWidth(TEXTFIELD_WIDTH);
-        textfield.setMinWidth(TEXTFIELD_WIDTH);
-        textfield.setOnAction(e -> {
-            playercontroller.actionSendMessage(textfield.getText(), this);
-            textfield.clear();
-        });
-
-        downpane.getChildren().add(textfield);
-        getChildren().addAll(chatpane, downpane);
+        setTop(chatpane);
     }
 
     /**
@@ -100,7 +102,7 @@ public class ChatLineView extends VBox implements ViewInterface {
 
     @Override
     public void render() {
-        getChildren().clear();
+        getChildren().remove(chatpane);
         messagebox.getChildren().clear();
         buildChat();
         GetGameChatLinesTask ggclt = new GetGameChatLinesTask(playercontroller.getPlayer().getGame());
