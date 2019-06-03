@@ -56,7 +56,7 @@ public class ToolCardOlieGlasSnijder extends ToolCard {
                 die.setInFirstTurn(player.isFirstTurn());
 
                 removeDieField.setDie(null);
-                playerFrameFieldDao.removeDie(die, removeDieField, player);
+                playerFrameFieldDao.removeDie(removeDieField, player);
 
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
