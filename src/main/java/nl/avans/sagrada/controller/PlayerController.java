@@ -24,6 +24,7 @@ import nl.avans.sagrada.model.toolcard.ToolCard;
 import nl.avans.sagrada.model.toolcard.ToolCardDriePuntStang;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxBorstel;
 import nl.avans.sagrada.model.toolcard.ToolCardFluxVerwijderaar;
+import nl.avans.sagrada.model.toolcard.ToolCardRondSnijder;
 import nl.avans.sagrada.task.AddChatlineTask;
 import nl.avans.sagrada.task.ChatlineTimeTask;
 import nl.avans.sagrada.task.CheatmodeTask;
@@ -43,6 +44,7 @@ import nl.avans.sagrada.view.popups.AlertType;
 import nl.avans.sagrada.view.popups.DriePuntStang;
 import nl.avans.sagrada.view.popups.Fluxborstel;
 import nl.avans.sagrada.view.popups.Fluxverwijderaar;
+import nl.avans.sagrada.view.popups.Rondsnijder;
 
 public class PlayerController {
     private MyScene myScene;
@@ -186,6 +188,10 @@ public class PlayerController {
                     getPlayer().getGame(),
                     this, activeToolCard);
             myScene.addPopupPane(fluxborstelPopup);
+        }
+        if (toolCard instanceof ToolCardRondSnijder) {
+            Rondsnijder rondsnijderPopup = new Rondsnijder(myScene, this.player.getGame(), this, activeToolCard);
+            myScene.addPopupPane(rondsnijderPopup);
         }
     }
 
