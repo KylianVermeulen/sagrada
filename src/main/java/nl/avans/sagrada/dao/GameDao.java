@@ -151,6 +151,10 @@ public class GameDao {
         return players;
     }
 
+    /**
+     * Gets the timestamp of the server
+     * @return Timestamp
+     */
     public Timestamp getTime() {
         Timestamp timestamp = null;
         try {
@@ -167,6 +171,11 @@ public class GameDao {
         return timestamp;
     }
 
+    /**
+     * Gets the player who has best score of a game
+     * @param game
+     * @return Player
+     */
     public Player bestFinalScore(Game game) {
         Player player = null;
         try {

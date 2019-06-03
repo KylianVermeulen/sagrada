@@ -104,6 +104,11 @@ public class FavorTokenDao {
         }
     }
 
+    /**
+     * Get all unused favortokens of a game
+     * @param game
+     * @return ArrayList<FavorToken>
+     */
     public ArrayList<FavorToken> getUnusedFavorTokensOfGame(Game game) {
         ArrayList<FavorToken> favorTokens = new ArrayList<>();
         try {
@@ -155,7 +160,7 @@ public class FavorTokenDao {
      * Method to get all the paid favortokens from a toolcard
      * @param toolcard ToolCard
      * @param game Game
-     * @return
+     * @return ArrayList<FavorToken>
      */
     public ArrayList<FavorToken> getToolCardTokens(ToolCard toolcard, Game game) {
         ArrayList<FavorToken> tokens = new ArrayList<>();
