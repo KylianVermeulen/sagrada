@@ -54,6 +54,15 @@ public class ToolCardEglomiseBorstel extends ToolCard {
 
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        return true;
+        PatternCard patternCard = playerController.getPlayer().getPatternCard();
+        for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+            for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
+                GameDie die = patternCard.getPatternCardField(x, y).getDie();
+                if (die != null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
