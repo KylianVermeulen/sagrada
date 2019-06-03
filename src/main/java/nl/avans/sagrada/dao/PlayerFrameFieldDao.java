@@ -102,12 +102,12 @@ public class PlayerFrameFieldDao {
         try {
             dbConnection.executeQuery(
                     new Query(
-                            "DELETE FROM playerframefield WHERE player_idplayer=? AND position_y=? AND position_x=? AND idgame=?",
+                            "UPDATE playerframefield SET dienumber=NULL, diecolor=NULL  WHERE player_idplayer=? AND idgame=? AND position_y=? AND position_x=?",
                             "update"),
                     new QueryParameter(QueryParameter.INT, player.getId()),
+                    new QueryParameter(QueryParameter.INT, player.getGame().getId()),
                     new QueryParameter(QueryParameter.INT, patternCardField.getyPos()),
-                    new QueryParameter(QueryParameter.INT, patternCardField.getxPos()),
-                    new QueryParameter(QueryParameter.INT, player.getGame().getId())
+                    new QueryParameter(QueryParameter.INT, patternCardField.getxPos())
             );
         } catch (Exception e) {
             e.printStackTrace();

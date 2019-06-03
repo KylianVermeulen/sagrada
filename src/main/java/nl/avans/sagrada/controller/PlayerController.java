@@ -87,12 +87,11 @@ public class PlayerController {
 
         if (playerEvent.getId() == player.getId()) {
             if (player.isCurrentPlayer()) {
-                if (activeToolCard != null || playerDao.getCountPlacedDieInTurnRound(player) < 1) {
+                if (playerDao.getCountPlacedDieInTurnRound(player) < 1) {
                     if (activeToolCard != null) {
                         PatternCard toolCardUseResult = activeToolCard
                                 .handleDrag(event, gameDie);
                         if (toolCardUseResult != null) {
-                            viewGame(false);
                             if (activeToolCard.getIsDone()) {
                                 gameDie.setInFirstTurn(player.isFirstTurn());
                                 activeToolCard = null;
@@ -104,6 +103,7 @@ public class PlayerController {
                                 actionRemoveHighlight();
                             }
                             player.setPatternCard(toolCardUseResult);
+                            viewGame(false);
                         } else {
                             Alert alert = new Alert("Helaas",
                                     "Dit kan niet wat je probeert met de toolcard",
