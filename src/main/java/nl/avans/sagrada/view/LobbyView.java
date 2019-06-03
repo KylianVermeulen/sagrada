@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import nl.avans.sagrada.Main;
 import nl.avans.sagrada.controller.AccountController;
+import nl.avans.sagrada.dao.AccountDao;
 import nl.avans.sagrada.model.Account;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.Invite;
@@ -28,6 +30,8 @@ import nl.avans.sagrada.view.interfaces.ViewInterface;
 public class LobbyView extends BorderPane implements ViewInterface {
     private final int BUTTON_WIDTH = 150;
     private final int BUTTON_HEIGHT = 40;
+    private final int COMBOBOX_WIDTH = 250;
+    private final int COMBOBOX_HEIGHT = 5;
     private final Image LOBBY_BACKGROUND =
             new Image("/images/backgrounds/lobbybackground-goede-hoogte.png");
     private AccountController accountController;
@@ -40,6 +44,7 @@ public class LobbyView extends BorderPane implements ViewInterface {
     private AccountOverviewView accountOverview;
     private Button newGameButton;
     private Button logoutButton;
+    private ComboBox comboBox;
     private BackgroundSize size =
             new BackgroundSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT, false, false, true, false);
     private ArrayList<Game> allGames;
@@ -121,9 +126,9 @@ public class LobbyView extends BorderPane implements ViewInterface {
         accountOverview = new AccountOverviewView(accountController);
         AllAccountsTask act = new AllAccountsTask();
         act.setOnSucceeded(e -> {
-           accounts = act.getValue();
-           accountOverview.setAccounts(accounts);
-           accountOverview.render();
+            accounts = act.getValue();
+            accountOverview.setAccounts(accounts);
+            accountOverview.render();
         });
         Thread th = new Thread(act);
         th.setDaemon(true);
@@ -159,10 +164,60 @@ public class LobbyView extends BorderPane implements ViewInterface {
         gameOverviewLabel.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(inviteLabel, inviteOverview, gameOverviewLabel, gameOverview);
         setLeft(vbox);
-        vbox2.getChildren().addAll(logoutButton, playerLabel, accountOverview, allGamesLabel, allGamesOverview);
+        vbox2.getChildren()
+                .addAll(logoutButton, playerLabel, accountOverview, comboBox, allGamesLabel,
+                        allGamesOverview);
         vbox2.setAlignment(Pos.CENTER_RIGHT);
         vbox2.setPadding(new Insets(0, 17, 0, 0));
         setRight(vbox2);
+    }
+
+    /**
+     * Builds the ComboBox that you use to filter the games on wins or set it back to normal
+     */
+    public void buildComboBox() {
+        comboBox = new ComboBox();
+        String option1 = "Normaal";
+        String option2 = "Gewonnen games";
+        comboBox.setPrefSize(COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
+        comboBox.getItems().add(option1);
+        comboBox.getItems().add(option2);
+        comboBox.getSelectionModel().selectFirst();
+        comboBox.setOnAction(e -> {
+            if (comboBox.getValue().equals(option1)) {
+                AllAccountsTask allAccountsTask = new AllAccountsTask();
+                allAccountsTask.setOnSucceeded(event -> {
+                    accountOverview.setAccounts(allAccountsTask.getValue());
+                    accountOverview.render();
+                });
+                new Thread(allAccountsTask).start();
+            }
+            if (comboBox.getValue().equals(option2)) {
+                AllAccountsTask allAccountsTask = new AllAccountsTask();
+                allAccountsTask.setOnSucceeded(event -> {
+                    accounts = allAccountsTask.getValue();
+                    AccountDao accountDao = new AccountDao();
+                    ArrayList<Account> winsPerAccount = accountDao.getWinsPerAccount();
+                    ArrayList<Account> addAccounts = new ArrayList<Account>();
+                    boolean hasAcc = false;
+                    for (Account account : accounts) {
+                        for (Account checkAccounts : winsPerAccount) {
+                            if (account.getUsername().equals(checkAccounts.getUsername())) {
+                                hasAcc = true;
+                            }
+                        }
+                        if (!hasAcc) {
+                            addAccounts.add(account);
+                        }
+                        hasAcc = false;
+                    }
+                    winsPerAccount.addAll(addAccounts);
+                    accountOverview.setAccounts(winsPerAccount);
+                    accountOverview.render();
+                });
+                new Thread(allAccountsTask).start();
+            }
+        });
     }
 
     private void buildAllGamesOverview() {

@@ -21,18 +21,18 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
 
     /**
      * Filled Constructor
-     * 
+     *
      * @param accountController PlayerController
      */
     public AccountOverviewView(AccountController accountController) {
         this.accountController = accountController;
         accounts = new ArrayList<>();
     }
-    
+
     public void setAccounts(ArrayList<Account> accounts) {
         this.accounts = accounts;
     }
-    
+
     @Override
     public void render() {
         setMaxHeight(PANE_HEIGHT);
@@ -40,7 +40,7 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
         setMaxWidth(PANE_WIDTH);
         setMinWidth(PANE_WIDTH);
         setPannable(true);
-        
+
         VBox vbox = new VBox();
         for (Account account : accounts) {
             HBox hBox = new HBox();
@@ -59,7 +59,7 @@ public class AccountOverviewView extends ScrollPane implements ViewInterface {
 
     /**
      * Builds a button to view the statistics of an account.
-     * 
+     *
      * @return Button
      */
     private Button buildButtonToViewStatsOfAccount(Account account) {

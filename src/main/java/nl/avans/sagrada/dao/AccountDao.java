@@ -185,21 +185,22 @@ public class AccountDao {
 
     /**
      * Gets the amount of wins from the account
+     *
      * @param account Account
-     * @return
      */
-    public int getWins(Account account){
+    public int getWins(Account account) {
         ArrayList<Game> games = new GameDao().getAllGames();
         int wins = 0;
-        for(int i = 0; i < games.size(); i++){
+        for (int i = 0; i < games.size(); i++) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
                         new Query(
-                                "SELECT username, MAX(score) AS winscore FROM player WHERE game_idgame=? AND playstatus_playstatus = 'uitgespeeld' GROUP BY username, game_idgame ORDER BY winscore DESC LIMIT 1", "query"),
+                                "SELECT username, MAX(score) AS winscore FROM player WHERE game_idgame=? AND playstatus_playstatus = 'uitgespeeld' GROUP BY username, game_idgame ORDER BY winscore DESC LIMIT 1",
+                                "query"),
                         new QueryParameter(QueryParameter.INT, games.get(i).getId())
                 );
-                if (rs.next()){
-                    if(rs.getString("username").equals(account.getUsername())){
+                if (rs.next()) {
+                    if (rs.getString("username").equals(account.getUsername())) {
                         wins++;
                     }
                 }
@@ -213,24 +214,25 @@ public class AccountDao {
 
     /**
      * Gets the amount of loses from the account
+     *
      * @param account Account
-     * @return
      */
-    public int getLoses(Account account){
+    public int getLoses(Account account) {
         ArrayList<Game> games = new GameDao().getAllGames();
         int loses = 0;
-        for(int i = 0; i < games.size(); i++){
+        for (int i = 0; i < games.size(); i++) {
             try {
                 ResultSet rs = dbConnection.executeQuery(
                         new Query(
                                 "SELECT username FROM player \n" +
-                                        "WHERE game_idgame=? AND playstatus_playstatus = 'uitgespeeld' AND score < (SELECT MAX(score) FROM player WHERE game_idgame=?)\n" +
+                                        "WHERE game_idgame=? AND playstatus_playstatus = 'uitgespeeld' AND score < (SELECT MAX(score) FROM player WHERE game_idgame=?)\n"
+                                        +
                                         "GROUP BY username, game_idgame", "query"),
                         new QueryParameter(QueryParameter.INT, games.get(i).getId()),
                         new QueryParameter(QueryParameter.INT, games.get(i).getId())
                 );
-                while (rs.next()){
-                    if(rs.getString("username").equals(account.getUsername())){
+                while (rs.next()) {
+                    if (rs.getString("username").equals(account.getUsername())) {
                         loses++;
                     }
                 }
@@ -254,8 +256,10 @@ public class AccountDao {
             ResultSet rs = dbConnection.executeQuery(
                     new Query(
                             "SELECT eyes, COUNT(eyes) AS aantal_keer_gebruikt\n" +
-                                    "FROM playerframefield JOIN player ON player.idplayer = playerframefield.player_idplayer\n" +
-                                    "JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber\n" +
+                                    "FROM playerframefield JOIN player ON player.idplayer = playerframefield.player_idplayer\n"
+                                    +
+                                    "JOIN gamedie ON gamedie.dienumber = playerframefield.dienumber\n"
+                                    +
                                     "WHERE player.username =?\n" +
                                     "GROUP BY eyes\n" +
                                     "ORDER BY aantal_keer_gebruikt DESC\n" +
@@ -289,7 +293,7 @@ public class AccountDao {
                     new QueryParameter(QueryParameter.STRING, account.getUsername()),
                     new QueryParameter(QueryParameter.STRING, account.getUsername())
             );
-            if(rs.next()){
+            if (rs.next()) {
                 count = rs.getInt("count");
             }
             rs.close();
@@ -297,5 +301,29 @@ public class AccountDao {
             e.printStackTrace();
         }
         return count;
+    }
+
+    /**
+     * Gets the list of wins from the database ordered by account.
+     *
+     * @return Count of wins per account in a list.
+     */
+    public ArrayList<Account> getWinsPerAccount() {
+        ArrayList<Account> accounts = new ArrayList<Account>();
+        try {
+            ResultSet rs = dbConnection.executeQuery(
+                    new Query(
+                            "SELECT username, count(username) AS amountofwins FROM player WHERE playstatus_playstatus = 'uitgespeeld' GROUP BY username ORDER BY amountofwins DESC",
+                            "query")
+            );
+            if (rs.next()) {
+                Account account = new Account(rs.getString("username"), "password");
+                accounts.add(account);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accounts;
     }
 }

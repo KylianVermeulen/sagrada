@@ -176,6 +176,7 @@ public class AccountController {
 
         LobbyView lobbyView = new LobbyView(this);
         lobbyView.setInvites(pendingInvites);
+        lobbyView.buildComboBox();
 
         lobbyView.render();
 
