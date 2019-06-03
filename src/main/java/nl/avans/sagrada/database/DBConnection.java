@@ -35,26 +35,50 @@ public class DBConnection {
         connectionProperties.put("password", dbPassword);
     }
 
+    /**
+     * Returns the datbase url
+     * @return String
+     */
     public static String getDevDatabaseUrl() {
         return devDatabaseUrl;
     }
 
+    /**
+     * Sets the database url
+     * @param devDatabaseUrl
+     */
     public static void setDevDatabaseUrl(String devDatabaseUrl) {
         DBConnection.devDatabaseUrl = devDatabaseUrl;
     }
 
+    /**
+     * Returns the password of the database
+     * @return String
+     */
     public static String getDbPassword() {
         return dbPassword;
     }
 
+    /**
+     * Sets the password of the database
+     * @param dbPassword
+     */
     public static void setDbPassword(String dbPassword) {
         DBConnection.dbPassword = dbPassword;
     }
 
+    /**
+     * Returns the db username
+     * @return String
+     */
     public static String getDbUser() {
         return dbUser;
     }
 
+    /**
+     * Sets the user of the database
+     * @param dbUser
+     */
     public static void setDbUser(String dbUser) {
         DBConnection.dbUser = dbUser;
     }
@@ -275,6 +299,10 @@ public class DBConnection {
         queuedQueries.add(query);
     }
 
+    /**
+     * Gets the list of all queued queries
+     * @return List<Query>
+     */
     public List<Query> getQueuedQueries() {
         return queuedQueries;
     }
