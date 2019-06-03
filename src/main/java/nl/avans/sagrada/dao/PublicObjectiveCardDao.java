@@ -75,6 +75,8 @@ public class PublicObjectiveCardDao {
 
     /**
      * returns the id from a public objectivecard.
+     * @param id
+     * @return PublicObjectiveCard
      */
     public PublicObjectiveCard getPublicObjectiveCardById(int id) {
         PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard();

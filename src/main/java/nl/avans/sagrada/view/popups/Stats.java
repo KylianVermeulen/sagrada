@@ -26,6 +26,12 @@ public class Stats extends Popup {
     private int mostUsedValue;
     private int countAccounts;
 
+    /**
+     * Constructor to show the stats popup
+     * Of someones stats
+     * @param myScene
+     * @param account
+     */
     public Stats(MyScene myScene, Account account) {
         super(WIDTH_STATS, HEIGHT_STATS);
         this.myScene = myScene;

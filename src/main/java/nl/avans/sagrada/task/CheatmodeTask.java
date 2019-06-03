@@ -20,6 +20,10 @@ public class CheatmodeTask implements Runnable {
     private Game game;
     private ArrayList<GameDie> gameDice;
 
+    /**
+     * Task to run the cheatmode in the background
+     * @param playerController
+     */
     public CheatmodeTask(PlayerController playerController) {
         this.playerController = playerController;
     }

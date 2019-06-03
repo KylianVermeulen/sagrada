@@ -21,6 +21,11 @@ public class PlayerDao {
         dbConnection = new DBConnection();
     }
 
+    /**
+     * Get all players of a account
+     * @param account
+     * @return ArrayList<Player>
+     */
     public ArrayList<Player> getPlayersOfAccount(Account account) {
         ArrayList<Player> list = new ArrayList<>();
         try {
@@ -47,6 +52,10 @@ public class PlayerDao {
         return list;
     }
 
+    /**
+     * Updates a player in the database
+     * @param player
+     */
     public void updatePlayer(Player player) {
         try {
             dbConnection.executeQuery(new Query(
@@ -64,6 +73,10 @@ public class PlayerDao {
         }
     }
 
+    /**
+     * Adds a player to the database
+     * @param player
+     */
     public void addPlayer(Player player) {
         try {
             dbConnection.executeQuery(new Query(
@@ -82,6 +95,11 @@ public class PlayerDao {
         }
     }
 
+    /**
+     * Gets a player by id
+     * @param id
+     * @return Player
+     */
     public Player getPlayerById(int id) {
         Player player = new Player();
         try {
@@ -138,6 +156,10 @@ public class PlayerDao {
         return player;
     }
 
+    /**
+     * Gets the next id of a new player
+     * @return int
+     */
     public int getNextPlayerId() {
         try {
             ResultSet rs = dbConnection.executeQuery(
@@ -153,6 +175,12 @@ public class PlayerDao {
         return 0;
     }
 
+    /**
+     * Gets a player by account and game
+     * @param account
+     * @param game
+     * @return Player
+     */
     public Player getPlayerByAccountAndGame(Account account, Game game) {
         Player player = new Player();
         try {

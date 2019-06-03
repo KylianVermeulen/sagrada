@@ -22,7 +22,8 @@ public class PlayerFrameFieldDao {
 
     /**
      * Gets the gameDie of a field
-     *
+     * @param patternCardField
+     * @param player
      * @return GameDie
      */
     public GameDie getGameDieOfField(PatternCardField patternCardField, Player player) {
@@ -76,6 +77,9 @@ public class PlayerFrameFieldDao {
 
     /**
      * Adds a die to a field
+     * @param die
+     * @param patternCardField
+     * @param player
      */
     public void addDieToField(GameDie die, PatternCardField patternCardField, Player player) {
         try {
@@ -97,6 +101,8 @@ public class PlayerFrameFieldDao {
 
     /**
      * Removes a die from the field that it is of a player
+     * @param patternCardField
+     * @param player
      */
     public void removeDie(PatternCardField patternCardField, Player player) {
         try {

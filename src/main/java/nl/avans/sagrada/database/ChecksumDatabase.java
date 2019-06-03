@@ -18,6 +18,11 @@ public class ChecksumDatabase {
     private String checksumChat;
     private static ChatLineView chatLineView;
 
+    /**
+     * Constructor for the checksum check
+     * @param accountController
+     * @param playerController
+     */
     public ChecksumDatabase(AccountController accountController,
             PlayerController playerController) {
         dbConnection = new DBConnection();
@@ -28,6 +33,9 @@ public class ChecksumDatabase {
         animationTimerExt.start();
     }
 
+    /**
+     * Builds the timer that will trigger the checksum check
+     */
     private void createTimer() {
         animationTimerExt = new AnimationTimerExt(6000) {
             @Override

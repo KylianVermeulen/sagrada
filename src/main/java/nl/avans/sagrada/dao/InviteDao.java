@@ -60,9 +60,9 @@ public class InviteDao {
     }
 
     /**
-     *
+     * Get all pending invites of a account
      * @param account
-     * @return
+     * @return ArrayList<Invite>
      */
     public ArrayList<Invite> getAllPendingInvitesOfAccount(Account account) {
         ArrayList<Invite> inviteList = getInvitesOfAccount(account);
@@ -76,6 +76,10 @@ public class InviteDao {
         return pendingInvites;
     }
 
+    /**
+     * Adds a invite to the database
+     * @param invite
+     */
     public void addInvite(Invite invite) {
         try {
             PlayerDao playerDao = new PlayerDao();
@@ -101,6 +105,11 @@ public class InviteDao {
         }
     }
 
+    /**
+     * Gets the next seqnr for the next player
+     * @param game
+     * @return int
+     */
     public int getSeqNrForNextPlayer(Game game) {
         int nextSeqnr = 1;
         try {
@@ -119,6 +128,10 @@ public class InviteDao {
         return nextSeqnr;
     }
 
+    /**
+     * Update a invite in the database
+     * @param invite
+     */
     public void updateInvite(Invite invite) {
         int playerId = invite.getPlayer().getId();
         try {

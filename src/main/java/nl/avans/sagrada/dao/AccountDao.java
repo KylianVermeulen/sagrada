@@ -164,6 +164,11 @@ public class AccountDao {
         return score;
     }
 
+    /**
+     * Gets the mose used color of a account
+     * @param account
+     * @return String
+     */
     public String getMoseUsedColor(Account account) {
         String color = "";
         try {
