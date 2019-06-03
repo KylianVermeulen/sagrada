@@ -39,11 +39,9 @@ public class ToolCardSchuurBlok extends ToolCard {
                 gameDieDao.updateDieEyes(player.getGame(), die);
                 die.setPatternCardField(patternCardField);
                 patternCardField.setDie(die);
-                UpdatePlayerFrameFieldTask updatePlayerFrameFieldTask = new UpdatePlayerFrameFieldTask(die, patternCardField, player);
-                Thread thread = new Thread(updatePlayerFrameFieldTask);
-                thread.setName("Update Player Frame Field");
-                thread.setDaemon(true);
-                thread.start();
+                
+                new PlayerFrameFieldDao().updateDieLocation(die, patternCardField, player);
+                
                 setIsDone(true);
                 return patternCard;
             }
