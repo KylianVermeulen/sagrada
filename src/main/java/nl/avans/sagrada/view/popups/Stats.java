@@ -19,12 +19,12 @@ public class Stats extends Popup {
     public static final int HEIGHT_STATS = 340;
     private MyScene myScene;
     private Account account;
-    private final int wins;
-    private final int loses;
-    private final int highestScore;
-    private final String mostUsedColor;
-    private final int mostUsedValue;
-    private final int countAccounts;
+    private int wins;
+    private int loses;
+    private int highestScore;
+    private String mostUsedColor;
+    private int mostUsedValue;
+    private int countAccounts;
 
     public Stats(MyScene myScene, Account account) {
         super(WIDTH_STATS, HEIGHT_STATS);
@@ -36,7 +36,10 @@ public class Stats extends Popup {
         this.loses = winsLoses[1];
         this.highestScore = account.getHighestScore();
         this.mostUsedColor = account.getMostUsedColor();
-        this.mostUsedValue= account.getMostUsedValue();
+        if (mostUsedColor == null) {
+            mostUsedColor = "";
+        }
+        this.mostUsedValue = account.getMostUsedValue();
         this.countAccounts = account.getCountDifferentPlayedAccounts();
 
         setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
