@@ -200,8 +200,6 @@ public class DriePuntStang extends Popup {
                         gameDie.setEyes(gameDie.getEyes() - 1);
                         gameDieDao.updateDieEyes(game, gameDie);
                         myScene.removePopupPane();
-                        activeToolCard.setIsDone(true);
-                        playerController.setActiveToolCardNull();
                         playerController.viewGame(false);
                         return;
                     } else {

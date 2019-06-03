@@ -2,6 +2,7 @@ package nl.avans.sagrada.model.toolcard;
 
 import javafx.scene.input.MouseEvent;
 import nl.avans.sagrada.controller.PlayerController;
+import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.Game;
 import nl.avans.sagrada.model.GameDie;
@@ -55,6 +56,6 @@ public class ToolCardFluxBorstel extends ToolCard {
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
         this.playerController = playerController;
-        return true;
+        return (new PlayerDao().getCountPlacedDieInTurnRound(playerController.getPlayer()) < 1);
     }
 }

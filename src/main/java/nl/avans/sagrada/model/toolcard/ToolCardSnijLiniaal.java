@@ -67,13 +67,6 @@ public class ToolCardSnijLiniaal extends ToolCard {
 
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        Player player = playerController.getPlayer();
-        PlayerDao playerDao = new PlayerDao();
-        if (playerDao.getCountPlacedDieInTurnRound(player) == 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return (new PlayerDao().getCountPlacedDieInTurnRound(playerController.getPlayer()) < 1);
     }
 }
