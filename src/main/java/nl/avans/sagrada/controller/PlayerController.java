@@ -515,7 +515,9 @@ public class PlayerController {
                 .getPatternCardFieldViews();
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
-                patternCardFieldViews[x][y].removeHighlight();
+                if (patternCardFieldViews[x][y] != null) {
+                    patternCardFieldViews[x][y].removeHighlight();
+                }
             }
         }
     }
