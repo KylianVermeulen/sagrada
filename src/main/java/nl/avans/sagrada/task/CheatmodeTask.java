@@ -52,9 +52,13 @@ public class CheatmodeTask implements Runnable {
                 }
             }
 
-            LinkedHashMap<PatternCardField, ArrayList<PatternCardField>> f = new LinkedHashMap<>();
-            f.put(bestPlacement.lastEntry().getValue(), allPlacement);
-            cheatmodeHashMap.put(dieHashMap, f);
+            try {
+                LinkedHashMap<PatternCardField, ArrayList<PatternCardField>> f = new LinkedHashMap<>();
+                f.put(bestPlacement.lastEntry().getValue(), allPlacement);
+                cheatmodeHashMap.put(dieHashMap, f);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         playerController.setCheatmodeMap(cheatmodeHashMap);
     }
