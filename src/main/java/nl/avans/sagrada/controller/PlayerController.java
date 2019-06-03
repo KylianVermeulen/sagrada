@@ -92,7 +92,6 @@ public class PlayerController {
                         PatternCard toolCardUseResult = activeToolCard
                                 .handleDrag(event, gameDie);
                         if (toolCardUseResult != null) {
-                            viewGame(false);
                             if (activeToolCard.getIsDone()) {
                                 gameDie.setInFirstTurn(player.isFirstTurn());
                                 activeToolCard = null;
@@ -104,6 +103,7 @@ public class PlayerController {
                                 actionRemoveHighlight();
                             }
                             player.setPatternCard(toolCardUseResult);
+                            viewGame(false);
                         } else {
                             Alert alert = new Alert("Helaas",
                                     "Dit kan niet wat je probeert met de toolcard",
@@ -509,7 +509,9 @@ public class PlayerController {
                 .getPatternCardFieldViews();
         for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
             for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
-                patternCardFieldViews[x][y].removeHighlight();
+                if (patternCardFieldViews[x][y] != null) {
+                    patternCardFieldViews[x][y].removeHighlight();
+                }
             }
         }
     }
