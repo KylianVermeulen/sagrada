@@ -123,6 +123,20 @@ public class AccountController {
             myScene.addAlertPane(alert);
             return;
         }
+        if (username.length() > 25) {
+            Alert alert = new Alert(
+                    "Username ongeldig", "Username mag maar 25 characters zijn.",
+                    AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
+        if (password.length() > 25) {
+            Alert alert = new Alert(
+                    "Password ongeldig", "Password mag maar 25 characters zijn",
+                    AlertType.ERROR);
+            myScene.addAlertPane(alert);
+            return;
+        }
         Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
         Matcher usernameMatch = pt.matcher(username);
         Matcher passwordMatch = pt.matcher(password);
