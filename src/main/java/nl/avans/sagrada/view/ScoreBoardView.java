@@ -80,7 +80,6 @@ public class ScoreBoardView extends BorderPane implements ViewInterface {
                     }
                 }
             }
-//            Text name = new Text(playerName);
             Label playerNameLabel =
                     new Label(playerName + ": ");
             playerNameLabel.setFont(SCORE_LINE_FONT);

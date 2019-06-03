@@ -9,6 +9,11 @@ import nl.avans.sagrada.model.Game;
 public class GetGameChatLinesTask extends Task<ArrayList<Chatline>> {
     private Game game;
 
+    /**
+     * Constructor for the task to get all chatlines
+     * Of a game
+     * @param game
+     */
     public GetGameChatLinesTask(Game game) {
         this.game = game;
     }

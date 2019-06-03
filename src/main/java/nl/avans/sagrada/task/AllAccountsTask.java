@@ -6,6 +6,11 @@ import javafx.concurrent.Task;
 import nl.avans.sagrada.dao.AccountDao;
 import nl.avans.sagrada.model.Account;
 
+/**
+ * Returns all accounts from the db
+ * @author Peter
+ *
+ */
 public class AllAccountsTask extends Task<ArrayList<Account>> {
 
     @Override
