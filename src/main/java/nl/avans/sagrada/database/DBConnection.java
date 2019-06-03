@@ -18,9 +18,9 @@ import java.util.logging.Logger;
 public class DBConnection {
     private static Connection connection = null;
     private static String devDatabaseUrl =
-            "jdbc:mysql://134.209.204.60:3306/sagrada_v70?serverTimezone=Europe/Amsterdam";
-    private static String dbPassword = "Sagrada1!";
-    private static String dbUser = "sagrada";
+            "jdbc:mysql://databases.aii.avans.nl:3306/2019_soprj4_sagrada_mnopqr?serverTimezone=Europe/Amsterdam";
+    private static String dbPassword = "parelketting";
+    private static String dbUser = "42IN04SOp";
     private Properties connectionProperties;
     private List<Query> queuedQueries = new ArrayList<>();
     private List<Query> errorQueries = new ArrayList<>();
