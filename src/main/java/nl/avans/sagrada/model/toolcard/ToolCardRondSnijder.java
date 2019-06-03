@@ -53,6 +53,6 @@ public class ToolCardRondSnijder extends ToolCard {
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
         this.playerController = playerController;
-        return true;
+        return playerController.getPlayer().getGame().getRound() > 1;
     }
 }
