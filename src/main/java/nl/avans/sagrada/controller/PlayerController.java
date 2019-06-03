@@ -2,14 +2,13 @@ package nl.avans.sagrada.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import nl.avans.sagrada.dao.ChatlineDao;
 import nl.avans.sagrada.dao.FavorTokenDao;
 import nl.avans.sagrada.dao.GameDao;
 import nl.avans.sagrada.dao.PatternCardDao;
-import nl.avans.sagrada.dao.PatternCardFieldDao;
 import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.ToolCardDao;
 import nl.avans.sagrada.model.Account;
@@ -50,7 +49,8 @@ public class PlayerController {
     private Player player;
     private ToolCard activeToolCard;
     private GameView gameView;
-    private HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap;
+    private boolean cheatmodeActive;
+    private HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> cheatmodeMap;
     private CheatmodeTask cheatmodeTask;
 
     public PlayerController(MyScene myScene) {
@@ -99,6 +99,7 @@ public class PlayerController {
                                         AlertType.INFO
                                 );
                                 myScene.addAlertPane(alert);
+                                actionRemoveHighlight();
                             }
                             player.setPatternCard(toolCardUseResult);
                         } else {
@@ -130,6 +131,7 @@ public class PlayerController {
                                 thread.setName("Update PlayerFrameField thread");
                                 thread.setDaemon(true);
                                 thread.start();
+                                actionRemoveHighlight();
                             }
                         }
                     }
@@ -214,13 +216,11 @@ public class PlayerController {
             game.finishGame();
             viewEndgame();
         } else {
-            if (cheatmodeTask == null) {
-                cheatmodeTask = new CheatmodeTask(this);
-                Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
-                cheatmodeTaskThread.setName("Cheatmode placement options thread");
-                cheatmodeTaskThread.setDaemon(true);
-                cheatmodeTaskThread.start();
-            }
+            cheatmodeTask = new CheatmodeTask(this);
+            Thread cheatmodeTaskThread = new Thread(cheatmodeTask);
+            cheatmodeTaskThread.setName("Cheatmode placement options thread");
+            cheatmodeTaskThread.setDaemon(true);
+            cheatmodeTaskThread.start();
 
             Pane pane = new Pane();
             gameView = new GameView(this, game, player);
@@ -327,7 +327,8 @@ public class PlayerController {
     }
 
     public void actionToggleCheatmode() {
-        player.setCheatmode(!player.isCheatmode());
+        actionRemoveHighlight();
+        setCheatmodeActive(!this.cheatmodeActive);
     }
 
     /**
@@ -443,32 +444,47 @@ public class PlayerController {
     }
 
     /**
-     * Hightlight the best placement for a gamedie. Only highlights when the treeMap has been set by
-     * the cheatmode task started in viewGame.
+     * Hightlight the best placement for a gamedie and all possible placaement. Only highlights when
+     * the cheatmode hashmap has been set by the cheatmode task started in viewGame.
      *
      * @param gameDie The GameDie.
      */
     public void actionHighlightBestPlacementForGameDie(GameDie gameDie) {
         PatternCardFieldView[][] patternCardFieldViews = gameView.getPlayerPatternCardView()
                 .getPatternCardFieldViews();
-        if (treeMapHashMap != null) {
-            HashMap<Integer, String> hashMap = new HashMap<>();
-            hashMap.put(gameDie.getNumber(), gameDie.getColor());
-            TreeMap<Integer, PatternCardField> treeMap = treeMapHashMap.get(hashMap);
+        if (cheatmodeMap != null) {
+            HashMap<Integer, String> hashMapDie = new HashMap<>();
+            hashMapDie.put(gameDie.getNumber(), gameDie.getColor());
+
+            LinkedHashMap<PatternCardField, ArrayList<PatternCardField>> listLinkedHashMap = cheatmodeMap
+                    .get(hashMapDie);
+            Object[] bestPlacementArr = listLinkedHashMap.keySet().toArray();
+            PatternCardField bestPlacement = (PatternCardField) bestPlacementArr[0];
+            Object[] allPlacementArr = listLinkedHashMap.values().toArray();
+            ArrayList<PatternCardField> allPlacement = (ArrayList<PatternCardField>) allPlacementArr[0];
+
+            actionRemoveHighlight();
 
             for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
                 for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
-                    patternCardFieldViews[x][y].removeHighlight();
+                    PatternCardField patternCardField = patternCardFieldViews[x][y]
+                            .getPatternCardField();
 
-                    if (treeMap.isEmpty()) {
-                        Alert alert = new Alert("Helaas", "Deze die kan je niet plaatsen!",
+                    if (allPlacement.isEmpty()) {
+                        Alert alert = new Alert("Helaas", "Deze dobbelsteen kan je niet plaatsen!",
                                 AlertType.INFO);
                         myScene.addAlertPane(alert);
                         return;
                     }
-                    if (treeMap.lastEntry().getValue().getxPos() == x
-                            && treeMap.lastEntry().getValue().getyPos() == y) {
+                    if (bestPlacement.getxPos() == x && bestPlacement.getyPos() == y) {
                         patternCardFieldViews[x][y].addBestHighlight();
+                        break;
+                    }
+                    for (PatternCardField oneOfAllPlacement : allPlacement) {
+                        if (oneOfAllPlacement.getxPos() == x && oneOfAllPlacement.getyPos() == y) {
+                            patternCardFieldViews[x][y].addHighlight();
+                            break;
+                        }
                     }
                 }
             }
@@ -476,6 +492,19 @@ public class PlayerController {
             Alert alert = new Alert("Nog even wachten", "Cheatmode is nog aan het berekenen!",
                     AlertType.INFO);
             myScene.addAlertPane(alert);
+        }
+    }
+
+    /**
+     * Remove highlights from all pattern card field views
+     */
+    private void actionRemoveHighlight() {
+        PatternCardFieldView[][] patternCardFieldViews = gameView.getPlayerPatternCardView()
+                .getPatternCardFieldViews();
+        for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
+            for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
+                patternCardFieldViews[x][y].removeHighlight();
+            }
         }
     }
 
@@ -498,16 +527,34 @@ public class PlayerController {
         myScene.getAccountController().viewLobby();
     }
 
-    public HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> getTreeMapHashMap() {
-        return treeMapHashMap;
+    public HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> getCheatmodeMap() {
+        return cheatmodeMap;
     }
 
-    public void setTreeMapHashMap(
-            HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap) {
-        this.treeMapHashMap = treeMapHashMap;
+    public void setCheatmodeMap(
+            HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> cheatmodeMap) {
+        this.cheatmodeMap = cheatmodeMap;
     }
 
     public void removePopupPane() {
         myScene.removePopupPane();
+    }
+
+    /**
+     * This method will return true when cheatmode is active.
+     *
+     * @return Boolean
+     */
+    public boolean isCheatmodeActive() {
+        return cheatmodeActive;
+    }
+
+    /**
+     * This method will set the cheatmode status.
+     *
+     * @param cheatmodeActive Boolean
+     */
+    public void setCheatmodeActive(boolean cheatmodeActive) {
+        this.cheatmodeActive = cheatmodeActive;
     }
 }

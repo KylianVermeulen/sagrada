@@ -1,7 +1,9 @@
 package nl.avans.sagrada.task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.TreeMap;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.model.Game;
@@ -29,24 +31,31 @@ public class CheatmodeTask implements Runnable {
         patternCardFields = patternCard.getPatternCardFields(player);
         game = player.getGame();
         gameDice = game.getRoundDice();
-        HashMap<HashMap<Integer, String>, TreeMap<Integer, PatternCardField>> treeMapHashMap = new HashMap<>();
+
+        HashMap<HashMap<Integer, String>, LinkedHashMap<PatternCardField, ArrayList<PatternCardField>>> cheatmodeHashMap = new HashMap<>();
         for (GameDie gameDie : gameDice) {
-            TreeMap<Integer, PatternCardField> treeMap = new TreeMap<>();
+            TreeMap<Integer, PatternCardField> bestPlacement = new TreeMap<>();
+            ArrayList<PatternCardField> allPlacement = new ArrayList<>();
+            HashMap<Integer, String> dieHashMap = new HashMap<>();
+            dieHashMap.put(gameDie.getNumber(), gameDie.getColor());
+
             for (int x = 1; x <= PatternCard.CARD_SQUARES_WIDTH; x++) {
                 for (int y = 1; y <= PatternCard.CARD_SQUARES_HEIGHT; y++) {
                     PatternCardField patternCardField = patternCardFields[x][y];
                     if (patternCardField.canPlaceDie(gameDie)) {
                         patternCardField.setDie(gameDie);
-                        int score = player.calculateScore(true, false);
-                        treeMap.put(score, patternCardField);
+                        int score = player.calculateScore(true, false, patternCardFields);
+                        bestPlacement.put(score, patternCardField);
+                        allPlacement.add(patternCardField);
                         patternCardField.setDie(null);
                     }
                 }
             }
-            HashMap<Integer, String> hashMap = new HashMap<>();
-            hashMap.put(gameDie.getNumber(), gameDie.getColor());
-            treeMapHashMap.put(hashMap, treeMap);
+
+            LinkedHashMap<PatternCardField, ArrayList<PatternCardField>> f = new LinkedHashMap<>();
+            f.put(bestPlacement.lastEntry().getValue(), allPlacement);
+            cheatmodeHashMap.put(dieHashMap, f);
         }
-        playerController.setTreeMapHashMap(treeMapHashMap);
+        playerController.setCheatmodeMap(cheatmodeHashMap);
     }
 }
