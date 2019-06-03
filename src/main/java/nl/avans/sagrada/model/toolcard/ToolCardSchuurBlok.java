@@ -3,6 +3,7 @@ package nl.avans.sagrada.model.toolcard;
 import javafx.scene.input.MouseEvent;
 import nl.avans.sagrada.controller.PlayerController;
 import nl.avans.sagrada.dao.GameDieDao;
+import nl.avans.sagrada.dao.PlayerDao;
 import nl.avans.sagrada.dao.PlayerFrameFieldDao;
 import nl.avans.sagrada.model.GameDie;
 import nl.avans.sagrada.model.PatternCard;
@@ -54,6 +55,6 @@ public class ToolCardSchuurBlok extends ToolCard {
 
     @Override
     public boolean hasRequirementsToRun(PlayerController playerController) {
-        return true;
+        return (new PlayerDao().getCountPlacedDieInTurnRound(playerController.getPlayer()) < 1);
     }
 }
